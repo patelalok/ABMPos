@@ -35,6 +35,7 @@ public class ProductController {
         return productManager.getProduct();
     }
 
+
     @RequestMapping(value = "/deleteProduct", method = RequestMethod.DELETE, consumes = "application/json")
     public ResponseEntity deleteProduct(@RequestParam int productNo)
     {

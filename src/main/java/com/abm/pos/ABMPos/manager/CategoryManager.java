@@ -15,7 +15,7 @@ import java.util.List;
 public class CategoryManager {
 
     @Autowired
-   private CategoryRepository categoryRepository;
+    private CategoryRepository categoryRepository;
 
     public void addCategory(CategoryDao categoryDao)
     {

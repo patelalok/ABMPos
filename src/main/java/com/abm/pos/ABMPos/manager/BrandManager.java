@@ -14,7 +14,7 @@ import java.util.List;
 public class BrandManager {
 
     @Autowired
-   private BrandRepository brandRepository;
+    private BrandRepository brandRepository;
 
 
     public void addBrand(BrandDao brandDao) {
