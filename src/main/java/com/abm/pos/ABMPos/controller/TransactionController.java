@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
 
 
 /**
@@ -28,5 +29,11 @@ public class TransactionController {
     {
         transactionManager.addTransaction(transactionDao);
         return new ResponseEntity(HttpStatus.CREATED);
+    }
+
+    @RequestMapping(value = "/getTransaction", method = RequestMethod.GET, produces = "application/json")
+    public List<TransactionDao> getTransaction()
+    {
+        return transactionManager.getTransaction();
     }
 }

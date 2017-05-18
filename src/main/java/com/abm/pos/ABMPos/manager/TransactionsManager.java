@@ -5,6 +5,8 @@ import com.abm.pos.ABMPos.repository.TransactionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 /**
  * Created by apatel2 on 5/18/17.
  */
@@ -18,5 +20,10 @@ public class TransactionsManager {
     public void addTransaction(TransactionDao transactionDao) {
 
         transactionRepository.save(transactionDao);
+    }
+
+    public List<TransactionDao> getTransaction() {
+
+        return transactionRepository.findAll();
     }
 }
