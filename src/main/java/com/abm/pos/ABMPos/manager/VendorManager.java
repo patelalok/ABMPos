@@ -1,5 +1,6 @@
 package com.abm.pos.ABMPos.manager;
 
+import com.abm.pos.ABMPos.dao.ProductDao;
 import com.abm.pos.ABMPos.dao.VendorDao;
 import com.abm.pos.ABMPos.repository.VendorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,5 +32,10 @@ public class VendorManager {
     public List<VendorDao> getVendor() {
 
         return vendorRepository.findAll();
+    }
+
+    public VendorDao getVendorById(String name) {
+
+        return vendorRepository.findOne(name);
     }
 }

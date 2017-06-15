@@ -26,4 +26,9 @@ public class TransactionsManager {
 
         return transactionRepository.findAll();
     }
+
+    public TransactionDao getTransactionById(int transactionCompId) {
+
+        return transactionRepository.findOne(transactionCompId);
+    }
 }

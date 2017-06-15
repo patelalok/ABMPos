@@ -16,6 +16,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("*")
+@CrossOrigin(origins = {"*"})
 public class VendorController {
 
     @Autowired
@@ -32,6 +33,12 @@ public class VendorController {
     public List<VendorDao> getVendor()
     {
         return vendorManager.getVendor();
+    }
+
+    @RequestMapping(value = "/getVendorById", method = RequestMethod.GET, produces = "application/json")
+    public VendorDao getVendorById(@RequestParam String name)
+    {
+        return vendorManager.getVendorById(name);
     }
 
 

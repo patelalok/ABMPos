@@ -6,10 +6,7 @@ import com.abm.pos.ABMPos.manager.TransactionsManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -35,5 +32,12 @@ public class TransactionController {
     public List<TransactionDao> getTransaction()
     {
         return transactionManager.getTransaction();
+    }
+
+    @RequestMapping(value = "/getTransactionById", method = RequestMethod.GET, produces = "application/json")
+    public TransactionDao getTransactionById(@RequestParam int transactionCompId)
+    {
+
+        return transactionManager.getTransactionById(transactionCompId);
     }
 }

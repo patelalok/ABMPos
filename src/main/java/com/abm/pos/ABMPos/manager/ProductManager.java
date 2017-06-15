@@ -37,6 +37,11 @@ public class ProductManager{
         return productRepository.findAll();
     }
 
+    public ProductDao getProductById(int productNo) {
+
+        return productRepository.findOne(productNo);
+    }
+
     public void addProductVariant(ProductVariantDao productVariantDao) {
 
         productVariantRepository.save(productVariantDao);
@@ -49,12 +54,17 @@ public class ProductManager{
 
     public void addProductVariantDetails(ProductVariantDetailDao productVariantDetailDao) {
 
-        productVariantDetailsRepository.save(productVariantDetailDao);
+       // productVariantDetailsRepository.save(productVariantDetailDao);
     }
 
     public List<ProductVariantDetailDao> getProductVariantDetails() {
 
         return productVariantDetailsRepository.findAll();
+    }
+
+    public List<ProductVariantDetailDao> getProductVariantDetailsByVariantName(String variantName) {
+
+        return productVariantDetailsRepository.findDistinctByName(variantName);
     }
 
     public void deleteProduct(int productNo) {
@@ -69,7 +79,7 @@ public class ProductManager{
 
     public void deleteProductVariantDetails(ProductVariantDetailDao productVariantDetailDao) {
 
-        productVariantDetailsRepository.delete(productVariantDetailDao);
+        //productVariantDetailsRepository.delete(productVariantDetailDao);
     }
 
 

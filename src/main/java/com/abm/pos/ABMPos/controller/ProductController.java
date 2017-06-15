@@ -17,6 +17,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("*")
+@CrossOrigin(origins = {"*"})
 public class ProductController {
 
     @Autowired
@@ -26,6 +27,7 @@ public class ProductController {
     public ResponseEntity addProduct(@RequestBody ProductDao productDao)
     {
         productManager.addProduct(productDao);
+        System.out.println("Product added successfully ");
         return new ResponseEntity(HttpStatus.CREATED);
     }
 
@@ -35,6 +37,11 @@ public class ProductController {
         return productManager.getProduct();
     }
 
+    @RequestMapping(value = "/getProductById", method = RequestMethod.GET, produces = "application/json")
+    public ProductDao getProductById(@RequestParam int productNo)
+    {
+        return productManager.getProductById(productNo);
+    }
 
     @RequestMapping(value = "/deleteProduct", method = RequestMethod.DELETE, consumes = "application/json")
     public ResponseEntity deleteProduct(@RequestParam int productNo)
@@ -84,6 +91,14 @@ public class ProductController {
     {
         return productManager.getProductVariantDetails();
     }
+
+
+    @RequestMapping(value = "/getProductVariantDetailsByName", method = RequestMethod.GET, produces = "application/json")
+    public List<ProductVariantDetailDao> getProductVariantDetailsByVariantName(@RequestParam String variantName)
+    {
+        return productManager.getProductVariantDetailsByVariantName(variantName);
+    }
+
 
     @RequestMapping(value = "/deleteProductVariantDetails", method = RequestMethod.DELETE, consumes = "application/json")
     public ResponseEntity deleteProductVariantDetails(@RequestBody ProductVariantDetailDao productVariantDetailDao)

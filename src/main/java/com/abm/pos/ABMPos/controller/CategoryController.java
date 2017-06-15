@@ -15,6 +15,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("*")
+@CrossOrigin(origins = {"*"})
 public class CategoryController {
 
     @Autowired
@@ -27,7 +28,7 @@ public class CategoryController {
         return new ResponseEntity(HttpStatus.CREATED);
     }
 
-    @RequestMapping(value = "/getCategory", method = RequestMethod.GET, produces = "application/json")
+    @RequestMapping(value = "/getCategory", method = RequestMethod.GET)
     public List<CategoryDao> getCategory()
     {
         return categoryManager.getCategory();

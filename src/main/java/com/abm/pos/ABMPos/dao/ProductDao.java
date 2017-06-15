@@ -5,6 +5,7 @@ import org.hibernate.validator.constraints.NotEmpty;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import java.io.Serializable;
 
 /**
@@ -36,15 +37,37 @@ public class ProductDao implements Serializable {
     private int quantity;
     private int minQuantity;
 
+
+    //this is just to send as 1 when we sell the product default
+    @Transient
+    private int defaultQuantity = 1;
+
     private String image;
 
-    private int isTax;
-    private int isVarient;
-    private int isActive;
-    private int isEcomerce;
-    private int isRelatedProduct;
+    private Boolean isTax;
+    private Boolean isVarient;
+    private Boolean isActive;
+    private Boolean isEcomerce;
+    private Boolean isRelatedProduct;
 
     private String returnRule;
+
+    @Transient
+    private String transactionComId;
+    @Transient
+    private String date;
+    @Transient
+    private String status;
+    @Transient
+    private double discount;
+    @Transient
+    private double retailDiscount;
+    @Transient
+    private double totalProductPrice;
+    @Transient
+    private double totalProductPriceWithTax;
+    @Transient
+    private String imeiNo;
 
     public int getProductNo() {
         return productNo;
@@ -150,44 +173,44 @@ public class ProductDao implements Serializable {
         this.image = image;
     }
 
-    public int getIsTax() {
+    public Boolean getTax() {
         return isTax;
     }
 
-    public void setIsTax(int isTax) {
-        this.isTax = isTax;
+    public void setTax(Boolean tax) {
+        isTax = tax;
     }
 
-    public int getIsVarient() {
+    public Boolean getVarient() {
         return isVarient;
     }
 
-    public void setIsVarient(int isVarient) {
-        this.isVarient = isVarient;
+    public void setVarient(Boolean varient) {
+        isVarient = varient;
     }
 
-    public int getIsActive() {
+    public Boolean getActive() {
         return isActive;
     }
 
-    public void setIsActive(int isActive) {
-        this.isActive = isActive;
+    public void setActive(Boolean active) {
+        isActive = active;
     }
 
-    public int getIsEcomerce() {
+    public Boolean getEcomerce() {
         return isEcomerce;
     }
 
-    public void setIsEcomerce(int isEcomerce) {
-        this.isEcomerce = isEcomerce;
+    public void setEcomerce(Boolean ecomerce) {
+        isEcomerce = ecomerce;
     }
 
-    public int getIsRelatedProduct() {
+    public Boolean getRelatedProduct() {
         return isRelatedProduct;
     }
 
-    public void setIsRelatedProduct(int isRelatedProduct) {
-        this.isRelatedProduct = isRelatedProduct;
+    public void setRelatedProduct(Boolean relatedProduct) {
+        isRelatedProduct = relatedProduct;
     }
 
     public String getReturnRule() {
@@ -196,5 +219,77 @@ public class ProductDao implements Serializable {
 
     public void setReturnRule(String returnRule) {
         this.returnRule = returnRule;
+    }
+
+    public double getDiscount() {
+        return discount;
+    }
+
+    public void setDiscount(double discount) {
+        this.discount = discount;
+    }
+
+    public double getRetailDiscount() {
+        return retailDiscount;
+    }
+
+    public void setRetailDiscount(double retailDiscount) {
+        this.retailDiscount = retailDiscount;
+    }
+
+    public double getTotalProductPrice() {
+        return totalProductPrice;
+    }
+
+    public void setTotalProductPrice(double totalProductPrice) {
+        this.totalProductPrice = totalProductPrice;
+    }
+
+    public double getTotalProductPriceWithTax() {
+        return totalProductPriceWithTax;
+    }
+
+    public void setTotalProductPriceWithTax(double totalProductPriceWithTax) {
+        this.totalProductPriceWithTax = totalProductPriceWithTax;
+    }
+
+    public String getImeiNo() {
+        return imeiNo;
+    }
+
+    public void setImeiNo(String imeiNo) {
+        this.imeiNo = imeiNo;
+    }
+
+    public String getTransactionComId() {
+        return transactionComId;
+    }
+
+    public void setTransactionComId(String transactionComId) {
+        this.transactionComId = transactionComId;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public int getDefaultQuantity() {
+        return defaultQuantity;
+    }
+
+    public void setDefaultQuantity(int defaultQuantity) {
+        this.defaultQuantity = defaultQuantity;
     }
 }
