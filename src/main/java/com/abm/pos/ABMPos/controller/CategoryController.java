@@ -25,6 +25,7 @@ public class CategoryController {
     public ResponseEntity addCategory(@RequestBody CategoryDao categoryDao)
     {
         categoryManager.addCategory(categoryDao);
+        System.out.println("Category Added Successfully!!");
         return new ResponseEntity(HttpStatus.CREATED);
     }
 
@@ -34,10 +35,11 @@ public class CategoryController {
         return categoryManager.getCategory();
     }
 
-    @RequestMapping(value = "/deleteCategory", method = RequestMethod.DELETE, consumes = "application/json")
+    @RequestMapping(value = "/deleteCategory", method = RequestMethod.DELETE)
     public ResponseEntity deleteCategory(@RequestParam String name)
     {
         categoryManager.deleteCategory(name);
+        System.out.println("Category Deleted Successfully!!");
         return new ResponseEntity(HttpStatus.OK);
     }
 }

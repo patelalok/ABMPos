@@ -30,8 +30,8 @@ public class CustomerManager {
         return customerRepository.findAll();
     }
 
-    public void deleteCustomer(CustomerDao customerDao) {
-        customerRepository.delete(customerDao);
+    public void deleteCustomer(Long phonoNo) {
+        customerRepository.delete(phonoNo);
     }
 
 

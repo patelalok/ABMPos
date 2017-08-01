@@ -1,6 +1,8 @@
 package com.abm.pos.ABMPos.manager;
 
+import com.abm.pos.ABMPos.dao.ClockInDao;
 import com.abm.pos.ABMPos.dao.EmployeeDao;
+import com.abm.pos.ABMPos.repository.ClockInRepository;
 import com.abm.pos.ABMPos.repository.EmployeeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -17,6 +19,9 @@ public class EmployeeManager {
     @Autowired
     private EmployeeRepository employeeRepository;
 
+    @Autowired
+    private ClockInRepository clockInRepository;
+
 
     public void addEmployee(EmployeeDao employeeDao) {
 
@@ -28,10 +33,20 @@ public class EmployeeManager {
         return employeeRepository.findAll();
     }
 
-    public void deleteEmployee(EmployeeDao employeeDao) {
+    public void deleteEmployee(String username) {
 
-        employeeRepository.delete(employeeDao);
+        employeeRepository.delete(username);
     }
 
+//All Methods to handle clock in
 
+    public void addClockIn(ClockInDao clockInDao) {
+
+        clockInRepository.save(clockInDao);
+    }
+
+    public List<ClockInDao> getClockIn(String username, String startDate, String endDate) {
+
+        return clockInRepository.findByUsernameAndClockIn(username, startDate, endDate);
+    }
 }

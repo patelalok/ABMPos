@@ -1,15 +1,13 @@
 package com.abm.pos.ABMPos.controller;
 
+import com.abm.pos.ABMPos.dao.ClockInDao;
 import com.abm.pos.ABMPos.dao.EmployeeDao;
 import com.abm.pos.ABMPos.dao.ProductDao;
 import com.abm.pos.ABMPos.manager.EmployeeManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -19,6 +17,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("*")
+@CrossOrigin(origins = {"*"})
 public class EmployeeController {
 
     @Autowired
@@ -28,6 +27,8 @@ public class EmployeeController {
     public ResponseEntity addProduct(@RequestBody EmployeeDao employeeDao)
     {
         employeeManager.addEmployee(employeeDao);
+        System.out.println("Employee Added Or Updated Successfully!!");
+
         return new ResponseEntity(HttpStatus.CREATED);
     }
 
@@ -38,9 +39,25 @@ public class EmployeeController {
     }
 
     @RequestMapping(value = "/deleteEmployee", method = RequestMethod.DELETE, consumes = "application/json")
-    public ResponseEntity deleteEmployee(@RequestBody EmployeeDao employeeDao)
+    public ResponseEntity deleteEmployee(@RequestParam String username)
     {
-        employeeManager.deleteEmployee(employeeDao);
+        employeeManager.deleteEmployee(username);
+        System.out.println("Employee Deleted Successfully!!");
         return new ResponseEntity(HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/addClockIn", method = RequestMethod.POST, consumes = "application/json")
+    public ResponseEntity addClockIn(@RequestBody ClockInDao clockInDao)
+    {
+        employeeManager.addClockIn(clockInDao);
+        System.out.println("Employee Clock In Add Or Updated Successfully!!");
+
+        return new ResponseEntity(HttpStatus.CREATED);
+    }
+    @RequestMapping(value = "/getClockIn", method = RequestMethod.GET, produces = "application/json")
+    public List<ClockInDao> getClockIn(@RequestParam String username,@RequestParam String startDate,@RequestParam String endDate ) {
+
+        return employeeManager.getClockIn(username,startDate, endDate);
+
     }
 }

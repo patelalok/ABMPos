@@ -6,10 +6,7 @@ import com.abm.pos.ABMPos.manager.CustomerManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -19,6 +16,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("*")
+@CrossOrigin(origins = {"*"})
 public class CustomerController {
 
     @Autowired
@@ -29,6 +27,7 @@ public class CustomerController {
     public ResponseEntity addCustomer(@RequestBody CustomerDao customerDao)
     {
         customerManager.addCustomer(customerDao);
+        System.out.println("Customer Added or Updated Successfully!!");
         return new ResponseEntity(HttpStatus.CREATED);
     }
 
@@ -38,10 +37,12 @@ public class CustomerController {
         return customerManager.getCustomer();
     }
 
-    @RequestMapping(value = "/deleteCustomer", method = RequestMethod.DELETE, consumes = "application/json")
-    public ResponseEntity deleteCustomer(@RequestBody CustomerDao customerDao)
+    @RequestMapping(value = "/deleteCustomer", method = RequestMethod.DELETE)
+    public ResponseEntity deleteCustomer(@RequestParam Long phoneNo)
     {
-        customerManager.deleteCustomer(customerDao);
+        customerManager.deleteCustomer(phoneNo);
+        System.out.println("Customer Deleted Successfully!!");
+
         return new ResponseEntity(HttpStatus.OK);
     }
 }
