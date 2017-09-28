@@ -65,7 +65,7 @@ public class ProductDao implements Serializable {
     @Transient
     private double totalProductPrice;
     @Transient
-    private double totalProductPriceWithTax;
+    private double taxAmountOnProduct;
     @Transient
     private String imeiNo;
 
@@ -245,12 +245,12 @@ public class ProductDao implements Serializable {
         this.totalProductPrice = totalProductPrice;
     }
 
-    public double getTotalProductPriceWithTax() {
-        return totalProductPriceWithTax;
+    public double getTaxAmountOnProduct() {
+        return taxAmountOnProduct;
     }
 
-    public void setTotalProductPriceWithTax(double totalProductPriceWithTax) {
-        this.totalProductPriceWithTax = totalProductPriceWithTax;
+    public void setTaxAmountOnProduct(double taxAmountOnProduct) {
+        this.taxAmountOnProduct = taxAmountOnProduct;
     }
 
     public String getImeiNo() {

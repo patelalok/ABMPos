@@ -1,5 +1,6 @@
 package com.abm.pos.ABMPos.controller;
 
+import com.abm.pos.ABMPos.dao.PaymentDao;
 import com.abm.pos.ABMPos.dao.ProductDao;
 import com.abm.pos.ABMPos.dao.TransactionDao;
 import com.abm.pos.ABMPos.manager.TransactionsManager;
@@ -22,9 +23,9 @@ public class TransactionController {
     private TransactionsManager transactionManager;
 
     @RequestMapping(value = "/addTransaction", method = RequestMethod.POST, consumes = "application/json")
-    public ResponseEntity addTransaction(@RequestBody TransactionDao transactionDao)
+    public ResponseEntity addTransaction(@RequestBody TransactionDao transactionDao, @RequestBody PaymentDao paymentDao)
     {
-        transactionManager.addTransaction(transactionDao);
+        transactionManager.addTransaction(transactionDao, paymentDao);
         return new ResponseEntity(HttpStatus.CREATED);
     }
 

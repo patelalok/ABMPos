@@ -5,6 +5,7 @@ import com.abm.pos.ABMPos.repository.CategoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -17,6 +18,7 @@ public class CategoryManager {
     @Autowired
     private CategoryRepository categoryRepository;
 
+
     public void addCategory(CategoryDao categoryDao)
     {
         categoryRepository.save(categoryDao);
@@ -28,6 +30,19 @@ public class CategoryManager {
 
     public List<CategoryDao> getCategory() {
 
-        return categoryRepository.findAll();
+
+        List<Object[]> categoryObject =  categoryRepository.getNoOfProducts();
+        List<CategoryDao> categoryDaoList = new ArrayList<>();
+        CategoryDao categoryDao = new CategoryDao();
+
+
+        for(Object[] i:categoryObject)
+        {
+            categoryDao.setName(i[0].toString());
+            categoryDao.setNoOfProducts(Integer.parseInt(i[2].toString()));
+
+        }
+        categoryDaoList.add(categoryDao);
+        return categoryDaoList;
     }
 }

@@ -12,8 +12,8 @@ public class TransactionLineItemDao {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private int transactionLineItemId;
 
+    private int transactionLineItemId;
     private int transactionComId;
     private String date;
     private String status;

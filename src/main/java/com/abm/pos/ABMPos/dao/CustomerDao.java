@@ -13,7 +13,7 @@ import javax.persistence.Table;
 public class CustomerDao {
 
     @Id
-    private Long phoneNo;
+    private String phoneNo;
 
     private String name;
     private String companyName;
@@ -28,15 +28,16 @@ public class CustomerDao {
     private String country;
     private Integer zipCode;
     private double storeCredit;
+    private double balance;
     private String lastUpdatedStoreCreditDate;
     private String password;
     private String createdDate;
 
-    public Long getPhoneNo() {
+    public String getPhoneNo() {
         return phoneNo;
     }
 
-    public void setPhoneNo(Long phoneNo) {
+    public void setPhoneNo(String phoneNo) {
         this.phoneNo = phoneNo;
     }
 
@@ -166,5 +167,13 @@ public class CustomerDao {
 
     public void setCreatedDate(String createdDate) {
         this.createdDate = createdDate;
+    }
+
+    public double getBalance() {
+        return balance;
+    }
+
+    public void setBalance(double balance) {
+        this.balance = balance;
     }
 }

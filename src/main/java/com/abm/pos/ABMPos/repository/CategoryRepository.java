@@ -14,7 +14,9 @@ import java.util.List;
 @Transactional
 public interface CategoryRepository extends JpaRepository<CategoryDao, String>{
 
-    //@Query("select c.name, count(p.category_name) as no_of_products from CategoryDao c inner join c. p on p.categoryName = c.name group by c.name")
+    @Query("select c.name, c.description, count(p.categoryName) as noOfProducts from CategoryDao c join c.productDaoSet p group by c.name,c.description")
+    List<Object[]> getNoOfProducts();
+
     List<CategoryDao> findAll();
 
 }

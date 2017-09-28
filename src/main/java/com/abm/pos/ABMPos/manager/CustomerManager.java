@@ -30,7 +30,7 @@ public class CustomerManager {
         return customerRepository.findAll();
     }
 
-    public void deleteCustomer(Long phonoNo) {
+    public void deleteCustomer(String phonoNo) {
         customerRepository.delete(phonoNo);
     }
 

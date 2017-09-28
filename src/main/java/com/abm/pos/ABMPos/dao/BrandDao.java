@@ -1,8 +1,6 @@
 package com.abm.pos.ABMPos.dao;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 /**
  * Created by apatel2 on 5/16/17.
@@ -14,6 +12,7 @@ public class BrandDao {
     @Id
     private String name;
     private String description;
+
 
 
     public String getName() {
@@ -31,4 +30,6 @@ public class BrandDao {
     public void setDescription(String description) {
         this.description = description;
     }
+
+
 }

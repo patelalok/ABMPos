@@ -38,7 +38,7 @@ public class CustomerController {
     }
 
     @RequestMapping(value = "/deleteCustomer", method = RequestMethod.DELETE)
-    public ResponseEntity deleteCustomer(@RequestParam Long phoneNo)
+    public ResponseEntity deleteCustomer(@RequestParam String phoneNo)
     {
         customerManager.deleteCustomer(phoneNo);
         System.out.println("Customer Deleted Successfully!!");
