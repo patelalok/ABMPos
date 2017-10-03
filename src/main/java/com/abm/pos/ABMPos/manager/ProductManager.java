@@ -4,13 +4,11 @@ import com.abm.pos.ABMPos.dao.LastProductNo;
 import com.abm.pos.ABMPos.dao.ProductDao;
 import com.abm.pos.ABMPos.dao.ProductVariantDao;
 import com.abm.pos.ABMPos.dao.ProductVariantDetailDao;
-import com.abm.pos.ABMPos.repository.LastProductNoRepository;
-import com.abm.pos.ABMPos.repository.ProductRepository;
-import com.abm.pos.ABMPos.repository.ProductVariantDetailRepository;
-import com.abm.pos.ABMPos.repository.ProductVariantRepository;
+import com.abm.pos.ABMPos.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -32,6 +30,9 @@ public class ProductManager{
     @Autowired
     private LastProductNoRepository lastProductNoRepository;
 
+    @Autowired
+    private ProductInventoryRepository productInventoryRepository;
+
     public void addProduct(ProductDao productDao)
     {
         productRepository.save(productDao);
@@ -39,7 +40,11 @@ public class ProductManager{
 
     public List<ProductDao> getProduct() {
 
+        List<ProductDao> productDaoList = new ArrayList<>();
+
         return productRepository.findAll();
+
+       // return productDaoList;
     }
 
     public ProductDao getProductById(int productNo) {

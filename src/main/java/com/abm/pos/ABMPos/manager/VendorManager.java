@@ -24,9 +24,9 @@ public class VendorManager {
         vendorRepository.save(vendorDao);
     }
 
-    public void deleteVendor(String name) {
+    public void deleteVendor(int vendorId) {
 
-        vendorRepository.delete(name);
+        vendorRepository.delete(vendorId);
     }
 
     public List<VendorDao> getVendor() {
@@ -34,8 +34,8 @@ public class VendorManager {
         return vendorRepository.findAll();
     }
 
-    public VendorDao getVendorById(String name) {
+    public VendorDao getVendorById(int vendorId) {
 
-        return vendorRepository.findOne(name);
+        return vendorRepository.findOne(vendorId);
     }
 }

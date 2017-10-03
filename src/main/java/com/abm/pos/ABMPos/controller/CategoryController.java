@@ -32,13 +32,13 @@ public class CategoryController {
     @RequestMapping(value = "/getCategory", method = RequestMethod.GET)
     public List<CategoryDao> getCategory()
     {
-        return categoryManager.getCategory();
+        return categoryManager.getCategoryForAddProductPage();
     }
 
     @RequestMapping(value = "/deleteCategory", method = RequestMethod.DELETE)
-    public ResponseEntity deleteCategory(@RequestParam String name)
+    public ResponseEntity deleteCategory(@RequestParam int categosryId)
     {
-        categoryManager.deleteCategory(name);
+        categoryManager.deleteCategory(categosryId);
         System.out.println("Category Deleted Successfully!!");
         return new ResponseEntity(HttpStatus.OK);
     }

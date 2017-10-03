@@ -2,11 +2,9 @@ package com.abm.pos.ABMPos.dao;
 
 import org.hibernate.validator.constraints.NotEmpty;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
-import javax.persistence.Transient;
+import javax.persistence.*;
 import java.io.Serializable;
+import java.util.Set;
 
 /**
  * Created by apatel2 on 5/16/17.
@@ -22,19 +20,19 @@ public class ProductDao implements Serializable {
     @NotEmpty
     private String description;
     @NotEmpty
-    private String categoryName;
+    private String categoryId;
     @NotEmpty
-    private String brandName;
+    private String brandId;
     @NotEmpty
-    private String vendorName;
-    private String modelName;
+    private String vendorId;
+    private String modelId;
     private String alternetNo;
 
     private double cost;
     private double retail;
     private double markup;
+    private double quantity;
 
-    private int quantity;
     private int minQuantity;
 
 
@@ -69,6 +67,10 @@ public class ProductDao implements Serializable {
     @Transient
     private String imeiNo;
 
+//    @OneToMany
+//    @JoinColumn(name="product_no_fk")
+//    private Set<ProductInventoryDao> productInventoryDaoSet;
+
     public int getProductNo() {
         return productNo;
     }
@@ -85,36 +87,36 @@ public class ProductDao implements Serializable {
         this.description = description;
     }
 
-    public String getCategoryName() {
-        return categoryName;
+    public String getCategoryId() {
+        return categoryId;
     }
 
-    public void setCategoryName(String categoryName) {
-        this.categoryName = categoryName;
+    public void setCategoryId(String categoryId) {
+        this.categoryId = categoryId;
     }
 
-    public String getBrandName() {
-        return brandName;
+    public String getBrandId() {
+        return brandId;
     }
 
-    public void setBrandName(String brandName) {
-        this.brandName = brandName;
+    public void setBrandId(String brandId) {
+        this.brandId = brandId;
     }
 
-    public String getVendorName() {
-        return vendorName;
+    public String getVendorId() {
+        return vendorId;
     }
 
-    public void setVendorName(String vendorName) {
-        this.vendorName = vendorName;
+    public void setVendorId(String vendorId) {
+        this.vendorId = vendorId;
     }
 
-    public String getModelName() {
-        return modelName;
+    public String getModelId() {
+        return modelId;
     }
 
-    public void setModelName(String modelName) {
-        this.modelName = modelName;
+    public void setModelId(String modelId) {
+        this.modelId = modelId;
     }
 
     public String getAlternetNo() {
@@ -149,11 +151,11 @@ public class ProductDao implements Serializable {
         this.markup = markup;
     }
 
-    public int getQuantity() {
+    public double getQuantity() {
         return quantity;
     }
 
-    public void setQuantity(int quantity) {
+    public void setQuantity(double quantity) {
         this.quantity = quantity;
     }
 
@@ -163,6 +165,14 @@ public class ProductDao implements Serializable {
 
     public void setMinQuantity(int minQuantity) {
         this.minQuantity = minQuantity;
+    }
+
+    public int getDefaultQuantity() {
+        return defaultQuantity;
+    }
+
+    public void setDefaultQuantity(int defaultQuantity) {
+        this.defaultQuantity = defaultQuantity;
     }
 
     public String getImage() {
@@ -221,6 +231,30 @@ public class ProductDao implements Serializable {
         this.returnRule = returnRule;
     }
 
+    public String getTransactionComId() {
+        return transactionComId;
+    }
+
+    public void setTransactionComId(String transactionComId) {
+        this.transactionComId = transactionComId;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
     public double getDiscount() {
         return discount;
     }
@@ -261,35 +295,4 @@ public class ProductDao implements Serializable {
         this.imeiNo = imeiNo;
     }
 
-    public String getTransactionComId() {
-        return transactionComId;
-    }
-
-    public void setTransactionComId(String transactionComId) {
-        this.transactionComId = transactionComId;
-    }
-
-    public String getDate() {
-        return date;
-    }
-
-    public void setDate(String date) {
-        this.date = date;
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
-    public int getDefaultQuantity() {
-        return defaultQuantity;
-    }
-
-    public void setDefaultQuantity(int defaultQuantity) {
-        this.defaultQuantity = defaultQuantity;
-    }
 }

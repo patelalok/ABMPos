@@ -12,9 +12,11 @@ import java.util.List;
  */
 
 @Transactional
-public interface CategoryRepository extends JpaRepository<CategoryDao, String>{
+public interface CategoryRepository extends JpaRepository<CategoryDao, Integer>{
 
-    @Query("select c.name, c.description, count(p.categoryName) as noOfProducts from CategoryDao c join c.productDaoSet p group by c.name,c.description")
+   // @Query("select c.categoryId,c.name,count(p.categoryId) as noOfProducts from CategoryDao c join c.productDaoSet p group by c.name,c.categoryId")
+    @Query("select c.categoryId,c.name from CategoryDao c join c.productDaoSet p")
+
     List<Object[]> getNoOfProducts();
 
     List<CategoryDao> findAll();

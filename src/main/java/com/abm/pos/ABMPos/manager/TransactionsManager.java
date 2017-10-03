@@ -4,6 +4,8 @@ import com.abm.pos.ABMPos.dao.PaymentDao;
 import com.abm.pos.ABMPos.dao.TransactionDao;
 import com.abm.pos.ABMPos.repository.PaymentRepository;
 import com.abm.pos.ABMPos.repository.TransactionRepository;
+import com.abm.pos.ABMPos.util.TimeIntervalDto;
+import com.abm.pos.ABMPos.util.Utility;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import sun.dc.pr.PRError;
@@ -20,6 +22,8 @@ public class TransactionsManager {
     private TransactionRepository transactionRepository;
     @Autowired
     private PaymentRepository paymentRepository;
+    @Autowired
+    private Utility utility;
 
 
     public void addTransaction(TransactionDao transactionDao, PaymentDao paymentDao) {
@@ -37,5 +41,10 @@ public class TransactionsManager {
     public TransactionDao getTransactionById(int transactionCompId) {
 
         return transactionRepository.findOne(transactionCompId);
+    }
+
+    public TimeIntervalDto getTransactionByDate(String date) {
+
+       return utility.getDateByInputString(date);
     }
 }

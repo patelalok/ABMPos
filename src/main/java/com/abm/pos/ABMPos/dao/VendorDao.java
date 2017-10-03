@@ -1,8 +1,6 @@
 package com.abm.pos.ABMPos.dao;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 /**
  * Created by apatel2 on 5/16/17.
@@ -13,11 +11,21 @@ import javax.persistence.Table;
 public class VendorDao {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private int vendorId;
     private String name;
     private Integer phoneNo;
     private String companyName;
     private String companyAddress;
     private String email;
+
+    public int getVendorId() {
+        return vendorId;
+    }
+
+    public void setVendorId(int vendorId) {
+        this.vendorId = vendorId;
+    }
 
     public String getName() {
         return name;

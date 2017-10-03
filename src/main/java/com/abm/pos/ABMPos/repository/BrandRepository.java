@@ -9,7 +9,7 @@ import java.util.List;
 /**
  * Created by apatel2 on 5/16/17.
  */
-public interface BrandRepository extends JpaRepository<BrandDao, String>{
+public interface BrandRepository extends JpaRepository<BrandDao, Integer>{
 
     //@Query("SELECT  b.name, b.description FROM BrandDao b join ProductDao p where p.brandName = b.name")
     List<BrandDao> findAll();

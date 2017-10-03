@@ -21,8 +21,8 @@ public class BrandManager {
         brandRepository.save(brandDao);
     }
 
-    public void deleteBrand(String name) {
-        brandRepository.delete(name);
+    public void deleteBrand(int brandId) {
+        brandRepository.delete(brandId);
     }
 
     public List<BrandDao> getBrand() {

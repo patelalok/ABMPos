@@ -4,6 +4,7 @@ import com.abm.pos.ABMPos.dao.PaymentDao;
 import com.abm.pos.ABMPos.dao.ProductDao;
 import com.abm.pos.ABMPos.dao.TransactionDao;
 import com.abm.pos.ABMPos.manager.TransactionsManager;
+import com.abm.pos.ABMPos.util.TimeIntervalDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,6 +18,7 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("*")
+@CrossOrigin(origins = {"*"})
 public class TransactionController {
 
     @Autowired
@@ -40,5 +42,12 @@ public class TransactionController {
     {
 
         return transactionManager.getTransactionById(transactionCompId);
+    }
+
+    @RequestMapping(value = "/getTransactionByDate", method = RequestMethod.GET, produces = "application/json")
+    public TimeIntervalDto getTransactionByDate(@RequestParam String date)
+    {
+
+        return transactionManager.getTransactionByDate(date);
     }
 }

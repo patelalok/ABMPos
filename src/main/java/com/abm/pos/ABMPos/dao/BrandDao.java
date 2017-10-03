@@ -10,10 +10,18 @@ import javax.persistence.*;
 public class BrandDao {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private int brandId;
     private String name;
     private String description;
 
+    public int getBrandId() {
+        return brandId;
+    }
 
+    public void setBrandId(int brandId) {
+        this.brandId = brandId;
+    }
 
     public String getName() {
         return name;

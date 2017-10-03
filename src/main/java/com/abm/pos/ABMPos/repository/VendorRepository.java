@@ -11,7 +11,7 @@ import java.util.List;
  */
 
 @Transactional
-public interface VendorRepository extends JpaRepository<VendorDao, String>{
+public interface VendorRepository extends JpaRepository<VendorDao, Integer>{
 
     List<VendorDao> findAll();
 }

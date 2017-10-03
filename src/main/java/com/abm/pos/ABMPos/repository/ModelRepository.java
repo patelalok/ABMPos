@@ -11,7 +11,7 @@ import java.util.List;
  */
 
 @Transactional
-public interface ModelRepository extends JpaRepository<ModelDao, String> {
+public interface ModelRepository extends JpaRepository<ModelDao, Integer> {
 
     List<ModelDao> findAll();
 }

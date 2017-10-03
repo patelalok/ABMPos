@@ -25,7 +25,6 @@ public class TransactionLineItemDao {
     private double discount;
     private double retailDiscount;
     private double totalProductPrice;
-    private double totalProductPriceWithTax;
     private String imeiNo;
 
     public int getTransactionLineItemId() {
@@ -124,13 +123,6 @@ public class TransactionLineItemDao {
         this.totalProductPrice = totalProductPrice;
     }
 
-    public double getTotalProductPriceWithTax() {
-        return totalProductPriceWithTax;
-    }
-
-    public void setTotalProductPriceWithTax(double totalProductPriceWithTax) {
-        this.totalProductPriceWithTax = totalProductPriceWithTax;
-    }
 
     public String getImeiNo() {
         return imeiNo;

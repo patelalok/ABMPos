@@ -36,16 +36,16 @@ public class VendorController {
     }
 
     @RequestMapping(value = "/getVendorById", method = RequestMethod.GET, produces = "application/json")
-    public VendorDao getVendorById(@RequestParam String name)
+    public VendorDao getVendorById(@RequestParam int vendorId)
     {
-        return vendorManager.getVendorById(name);
+        return vendorManager.getVendorById(vendorId);
     }
 
 
     @RequestMapping(value = "/deleteVendor", method = RequestMethod.DELETE, consumes = "application/json")
-    public ResponseEntity deleteVendor(@RequestParam String name)
+    public ResponseEntity deleteVendor(@RequestParam int vendorId)
     {
-        vendorManager.deleteVendor(name);
+        vendorManager.deleteVendor(vendorId);
         return new ResponseEntity(HttpStatus.OK);
     }
 }

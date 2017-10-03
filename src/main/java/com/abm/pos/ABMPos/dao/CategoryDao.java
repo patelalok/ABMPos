@@ -12,6 +12,8 @@ import java.util.Set;
 public class CategoryDao {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private int categoryId;
     private String name;
     private String description;
 
@@ -19,11 +21,19 @@ public class CategoryDao {
     private int noOfProducts;
 
     @OneToMany
-    @JoinColumn(name="categoryName")
+    @JoinColumn(name="categoryId")
     private Set<ProductDao> productDaoSet;
 
     public Set<ProductDao> getProductDaoSet() {
         return productDaoSet;
+    }
+
+    public int getCategoryId() {
+        return categoryId;
+    }
+
+    public void setCategoryId(int categoryId) {
+        this.categoryId = categoryId;
     }
 
     public void setProductDaoSet(Set<ProductDao> productDaoSet) {

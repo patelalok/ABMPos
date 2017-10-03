@@ -22,4 +22,9 @@ public class TransactionLineItemManager {
 
         transactionLineItemRepository.save(transactionLineItemDaoList);
     }
+
+    public List<TransactionLineItemDao> getTransactionLineItemById(int transactionCompId) {
+
+        return transactionLineItemRepository.findAllByTransactionComId(transactionCompId);
+    }
 }

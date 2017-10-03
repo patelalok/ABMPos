@@ -34,9 +34,9 @@ public class ModelController {
     }
 
     @RequestMapping(value = "/deleteModel", method = RequestMethod.DELETE, consumes = "application/json")
-    public ResponseEntity deleteModel(@RequestParam String name)
+    public ResponseEntity deleteModel(@RequestParam int modelId)
     {
-        modelManager.deleteModel(name);
+        modelManager.deleteModel(modelId);
         return new ResponseEntity(HttpStatus.OK);
     }
 }

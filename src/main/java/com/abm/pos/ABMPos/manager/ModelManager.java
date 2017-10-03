@@ -24,9 +24,9 @@ public class ModelManager {
         modelRepository.save(modelDao);
     }
 
-    public void deleteModel(String name) {
+    public void deleteModel(int modelId) {
 
-        modelRepository.delete(name);
+        modelRepository.delete(modelId);
     }
 
 

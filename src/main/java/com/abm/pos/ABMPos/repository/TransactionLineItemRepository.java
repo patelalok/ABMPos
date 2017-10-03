@@ -15,5 +15,7 @@ public interface TransactionLineItemRepository extends JpaRepository<Transaction
 
     List<TransactionLineItemDao> findAll();
 
+    List<TransactionLineItemDao> findAllByTransactionComId(int transactionId);
+
 
 }

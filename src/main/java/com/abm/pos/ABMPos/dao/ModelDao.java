@@ -1,8 +1,6 @@
 package com.abm.pos.ABMPos.dao;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import javax.transaction.Transactional;
 
 /**
@@ -13,6 +11,8 @@ import javax.transaction.Transactional;
 public class ModelDao {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private int modelId;
     private String name;
     private String description;
 
@@ -30,5 +30,13 @@ public class ModelDao {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public int getModelId() {
+        return modelId;
+    }
+
+    public void setModelId(int modelId) {
+        this.modelId = modelId;
     }
 }

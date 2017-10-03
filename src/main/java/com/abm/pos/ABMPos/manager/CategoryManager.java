@@ -24,25 +24,34 @@ public class CategoryManager {
         categoryRepository.save(categoryDao);
     }
 
-    public void deleteCategory(String name) {
-        categoryRepository.delete(name);
+    public void deleteCategory(int categoryId) {
+        categoryRepository.delete(categoryId);
     }
 
-    public List<CategoryDao> getCategory() {
+    public List<CategoryDao> getCategoryForAddProductPage() {
+
+        return categoryRepository.findAll();
 
 
-        List<Object[]> categoryObject =  categoryRepository.getNoOfProducts();
-        List<CategoryDao> categoryDaoList = new ArrayList<>();
-        CategoryDao categoryDao = new CategoryDao();
+//        List<Object[]> categoryObject =  categoryRepository.getNoOfProducts();
+//
+//        List<CategoryDao> categoryDaoList = new ArrayList<>();
+//        CategoryDao categoryDao = new CategoryDao();
 
 
-        for(Object[] i:categoryObject)
-        {
-            categoryDao.setName(i[0].toString());
-            categoryDao.setNoOfProducts(Integer.parseInt(i[2].toString()));
+//        for(Object[] i:categoryObject)
+//        {
+//            for(int i = 0; i <= categoryObject.size(); i ++)
+//            {
+//                categoryDao.setCategoryId(Integer.parseInt(categoryDaoList[i].toString()));
+//                categoryDao.setName(i[0].toString());
+//                categoryDao.setNoOfProducts(Integer.parseInt(i[2].toString()));
 
-        }
-        categoryDaoList.add(categoryDao);
-        return categoryDaoList;
+//                System.out.println(categoryObject);
+//            }
+//
+////        }
+//        categoryDaoList.add(categoryDao);
+//        return categoryDaoList;
     }
 }

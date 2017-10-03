@@ -1,14 +1,12 @@
 package com.abm.pos.ABMPos.controller;
 
+import com.abm.pos.ABMPos.dao.TransactionDao;
 import com.abm.pos.ABMPos.dao.TransactionLineItemDao;
 import com.abm.pos.ABMPos.manager.TransactionLineItemManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -17,6 +15,7 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("*")
+@CrossOrigin(origins = {"*"})
 public class TransactionLineItemController {
 
     @Autowired
@@ -28,4 +27,11 @@ public class TransactionLineItemController {
         transactionLineItemManager.addTransactionLineItem(transactionLineItemDaoList);
         return new ResponseEntity(HttpStatus.CREATED);
     }
+    @RequestMapping(value = "/getTransactionLineItemById", method = RequestMethod.GET, produces = "application/json")
+    public List<TransactionLineItemDao> getTransactionLineItemById(@RequestParam int transactionCompId)
+    {
+
+        return transactionLineItemManager.getTransactionLineItemById(transactionCompId);
+    }
+
 }
