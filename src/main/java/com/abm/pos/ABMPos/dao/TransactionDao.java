@@ -33,7 +33,9 @@ public class TransactionDao {
     @JoinColumn(name = "transaction_com_id")
     private List<TransactionLineItemDao> transactionLineItemDaoList;
 
-    @Transient
+
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "transaction_com_id")
     private PaymentDao paymentDao;
 
     public int getTransactionComId() {

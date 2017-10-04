@@ -14,7 +14,6 @@ public class PaymentDao {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int transactionPaymentId;
 
-    private int transactionComIdFk;
     private double cash;
     private double credit;
     private double debit;
@@ -36,14 +35,6 @@ public class PaymentDao {
 
     public void setTransactionPaymentId(int transactionPaymentId) {
         this.transactionPaymentId = transactionPaymentId;
-    }
-
-    public int getTransactionComIdFk() {
-        return transactionComIdFk;
-    }
-
-    public void setTransactionComIdFk(int transactionComIdFk) {
-        this.transactionComIdFk = transactionComIdFk;
     }
 
     public double getCash() {
