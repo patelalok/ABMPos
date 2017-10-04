@@ -34,9 +34,9 @@ public class TransactionDao {
     private List<TransactionLineItemDao> transactionLineItemDaoList;
 
 
-    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "transaction_com_id")
-    private PaymentDao paymentDao;
+    private List<PaymentDao> paymentDao;
 
     public int getTransactionComId() {
         return transactionComId;
@@ -150,11 +150,12 @@ public class TransactionDao {
         this.transactionLineItemDaoList = transactionLineItemDaoList;
     }
 
-    public PaymentDao getPaymentDao() {
+
+    public List<PaymentDao> getPaymentDao() {
         return paymentDao;
     }
 
-    public void setPaymentDao(PaymentDao paymentDao) {
+    public void setPaymentDao(List<PaymentDao> paymentDao) {
         this.paymentDao = paymentDao;
     }
 }
