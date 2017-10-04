@@ -30,8 +30,8 @@ public class TransactionLineItemController {
     @RequestMapping(value = "/getTransactionLineItemById", method = RequestMethod.GET, produces = "application/json")
     public List<TransactionLineItemDao> getTransactionLineItemById(@RequestParam int transactionCompId)
     {
-
         return transactionLineItemManager.getTransactionLineItemById(transactionCompId);
     }
+
 
 }

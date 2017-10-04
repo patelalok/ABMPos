@@ -3,6 +3,7 @@ package com.abm.pos.ABMPos.dao;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 /**
  * Created by apatel2 on 5/18/17.
@@ -27,6 +28,9 @@ public class TransactionDao {
     private double transactionBalance;
     private String username;
     private String customerFirstLastName;
+
+    @Transient
+    private PaymentDao paymentDao;
 
     public int getTransactionComId() {
         return transactionComId;
@@ -130,5 +134,13 @@ public class TransactionDao {
 
     public void setCustomerFirstLastName(String customerFirstLastName) {
         this.customerFirstLastName = customerFirstLastName;
+    }
+
+    public PaymentDao getPaymentDao() {
+        return paymentDao;
+    }
+
+    public void setPaymentDao(PaymentDao paymentDao) {
+        this.paymentDao = paymentDao;
     }
 }

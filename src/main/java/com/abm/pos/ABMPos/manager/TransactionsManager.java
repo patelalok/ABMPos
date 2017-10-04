@@ -26,11 +26,16 @@ public class TransactionsManager {
     private Utility utility;
 
 
-    public void addTransaction(TransactionDao transactionDao, PaymentDao paymentDao) {
+    public void addTransaction(TransactionDao transactionDao) {
 
         // Here adding transaction details and payment detail together.
         transactionRepository.save(transactionDao);
-        paymentRepository.save(paymentDao);
+
+        if(null != transactionDao && null != transactionDao.getPaymentDao())
+        {
+            paymentRepository.save(transactionDao.getPaymentDao());
+        }
+
     }
 
     public List<TransactionDao> getTransaction() {
@@ -46,5 +51,9 @@ public class TransactionsManager {
     public TimeIntervalDto getTransactionByDate(String date) {
 
        return utility.getDateByInputString(date);
+    }
+
+    public int getLastTransactionId() {
+        return transactionRepository.getMaxTransactionId();
     }
 }

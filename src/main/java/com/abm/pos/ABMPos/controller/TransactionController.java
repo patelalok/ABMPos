@@ -25,9 +25,9 @@ public class TransactionController {
     private TransactionsManager transactionManager;
 
     @RequestMapping(value = "/addTransaction", method = RequestMethod.POST, consumes = "application/json")
-    public ResponseEntity addTransaction(@RequestBody TransactionDao transactionDao, @RequestBody PaymentDao paymentDao)
+    public ResponseEntity addTransaction(@RequestBody TransactionDao transactionDao)
     {
-        transactionManager.addTransaction(transactionDao, paymentDao);
+        transactionManager.addTransaction(transactionDao);
         return new ResponseEntity(HttpStatus.CREATED);
     }
 
@@ -49,5 +49,11 @@ public class TransactionController {
     {
 
         return transactionManager.getTransactionByDate(date);
+    }
+
+    @RequestMapping(method = RequestMethod.GET, value = "/getLastTransactionId", produces = "application/json")
+    public int getTransactionLineItem()
+    {
+        return transactionManager.getLastTransactionId() + 1;
     }
 }

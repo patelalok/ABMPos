@@ -13,19 +13,22 @@ public class PaymentDao {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int transactionPaymentId;
+
     private int transactionComIdFk;
     private double cash;
     private double credit;
     private double debit;
-    private double check;
+
+    // Because JPA is creating problem with only check.
+    private double checkAmount;
     private double storeCredit;
     private double onAccount;
     private double loyalty;
     private double layby;
     private double changeForCash;
     private double creditCardLast4;
-    private double receiptNote;
-    private double transactionNote;
+    private String receiptNote;
+    private String transactionNote;
 
     public int getTransactionPaymentId() {
         return transactionPaymentId;
@@ -67,12 +70,12 @@ public class PaymentDao {
         this.debit = debit;
     }
 
-    public double getCheck() {
-        return check;
+    public double getCheckAmount() {
+        return checkAmount;
     }
 
-    public void setCheck(double check) {
-        this.check = check;
+    public void setCheckAmount(double checkAmount) {
+        this.checkAmount = checkAmount;
     }
 
     public double getStoreCredit() {
@@ -123,19 +126,19 @@ public class PaymentDao {
         this.creditCardLast4 = creditCardLast4;
     }
 
-    public double getReceiptNote() {
+    public String getReceiptNote() {
         return receiptNote;
     }
 
-    public void setReceiptNote(double receiptNote) {
+    public void setReceiptNote(String receiptNote) {
         this.receiptNote = receiptNote;
     }
 
-    public double getTransactionNote() {
+    public String getTransactionNote() {
         return transactionNote;
     }
 
-    public void setTransactionNote(double transactionNote) {
+    public void setTransactionNote(String transactionNote) {
         this.transactionNote = transactionNote;
     }
 }
