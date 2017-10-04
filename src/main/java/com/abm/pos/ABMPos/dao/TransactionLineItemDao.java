@@ -12,9 +12,8 @@ public class TransactionLineItemDao {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-
     private int transactionLineItemId;
-    private int transactionComId;
+
     private String date;
     private String status;
     private int productNo;
@@ -27,6 +26,7 @@ public class TransactionLineItemDao {
     private double totalProductPrice;
     private String imeiNo;
 
+
     public int getTransactionLineItemId() {
         return transactionLineItemId;
     }
@@ -35,13 +35,6 @@ public class TransactionLineItemDao {
         this.transactionLineItemId = transactionLineItemId;
     }
 
-    public int getTransactionComId() {
-        return transactionComId;
-    }
-
-    public void setTransactionComId(int transactionComId) {
-        this.transactionComId = transactionComId;
-    }
 
     public String getDate() {
         return date;
@@ -131,4 +124,5 @@ public class TransactionLineItemDao {
     public void setImeiNo(String imeiNo) {
         this.imeiNo = imeiNo;
     }
+
 }

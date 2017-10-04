@@ -1,9 +1,7 @@
 package com.abm.pos.ABMPos.dao;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
-import javax.persistence.Transient;
+import javax.persistence.*;
+import java.util.List;
 
 /**
  * Created by apatel2 on 5/18/17.
@@ -14,6 +12,8 @@ import javax.persistence.Transient;
 public class TransactionDao {
 
     @Id
+    @Column(name = "transaction_com_id")
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private int transactionComId;
 
     private String date;
@@ -28,6 +28,10 @@ public class TransactionDao {
     private double transactionBalance;
     private String username;
     private String customerFirstLastName;
+
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "transaction_com_id")
+    private List<TransactionLineItemDao> transactionLineItemDaoList;
 
     @Transient
     private PaymentDao paymentDao;
@@ -134,6 +138,14 @@ public class TransactionDao {
 
     public void setCustomerFirstLastName(String customerFirstLastName) {
         this.customerFirstLastName = customerFirstLastName;
+    }
+
+    public List<TransactionLineItemDao> getTransactionLineItemDaoList() {
+        return transactionLineItemDaoList;
+    }
+
+    public void setTransactionLineItemDaoList(List<TransactionLineItemDao> transactionLineItemDaoList) {
+        this.transactionLineItemDaoList = transactionLineItemDaoList;
     }
 
     public PaymentDao getPaymentDao() {

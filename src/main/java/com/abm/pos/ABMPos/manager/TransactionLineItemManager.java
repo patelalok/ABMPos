@@ -25,6 +25,8 @@ public class TransactionLineItemManager {
 
     public List<TransactionLineItemDao> getTransactionLineItemById(int transactionCompId) {
 
-        return transactionLineItemRepository.findAllByTransactionComId(transactionCompId);
+       // return transactionLineItemRepository.findAllByTransactionComId(transactionCompId);
+
+        return null;
     }
 }

@@ -31,10 +31,10 @@ public class TransactionsManager {
         // Here adding transaction details and payment detail together.
         transactionRepository.save(transactionDao);
 
-        if(null != transactionDao && null != transactionDao.getPaymentDao())
-        {
-            paymentRepository.save(transactionDao.getPaymentDao());
-        }
+//        if(null != transactionDao && null != transactionDao.getPaymentDao())
+//        {
+//            paymentRepository.save(transactionDao.getPaymentDao());
+//        }
 
     }
 
