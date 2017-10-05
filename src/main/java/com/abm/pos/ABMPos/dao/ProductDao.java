@@ -15,7 +15,7 @@ import java.util.Set;
 public class ProductDao implements Serializable {
 
     @Id
-    private int productNo;
+    private String productNo;
 
     @NotEmpty
     private String description;
@@ -71,11 +71,12 @@ public class ProductDao implements Serializable {
 //    @JoinColumn(name="product_no_fk")
 //    private Set<ProductInventoryDao> productInventoryDaoSet;
 
-    public int getProductNo() {
+
+    public String getProductNo() {
         return productNo;
     }
 
-    public void setProductNo(int productNo) {
+    public void setProductNo(String productNo) {
         this.productNo = productNo;
     }
 

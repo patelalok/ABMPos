@@ -16,7 +16,7 @@ public class TransactionLineItemDao {
 
     private String date;
     private String status;
-    private int productNo;
+    private String productNo;
     private int productVariantNo;
     private int quantity;
     private double cost;
@@ -52,11 +52,11 @@ public class TransactionLineItemDao {
         this.status = status;
     }
 
-    public int getProductNo() {
+    public String getProductNo() {
         return productNo;
     }
 
-    public void setProductNo(int productNo) {
+    public void setProductNo(String productNo) {
         this.productNo = productNo;
     }
 

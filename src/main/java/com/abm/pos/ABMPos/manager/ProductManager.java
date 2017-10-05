@@ -5,6 +5,8 @@ import com.abm.pos.ABMPos.dao.ProductDao;
 import com.abm.pos.ABMPos.dao.ProductVariantDao;
 import com.abm.pos.ABMPos.dao.ProductVariantDetailDao;
 import com.abm.pos.ABMPos.repository.*;
+import com.abm.pos.ABMPos.util.TimeIntervalDto;
+import com.abm.pos.ABMPos.util.Utility;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -33,6 +35,9 @@ public class ProductManager{
     @Autowired
     private ProductInventoryRepository productInventoryRepository;
 
+    @Autowired
+    private Utility utility;
+
     public void addProduct(ProductDao productDao)
     {
         productRepository.save(productDao);
@@ -47,7 +52,7 @@ public class ProductManager{
        // return productDaoList;
     }
 
-    public ProductDao getProductById(int productNo) {
+    public ProductDao getProductById(String productNo) {
 
         return productRepository.findOne(productNo);
     }
@@ -77,7 +82,7 @@ public class ProductManager{
         return productVariantDetailsRepository.findDistinctByName(variantName);
     }
 
-    public void deleteProduct(int productNo) {
+    public void deleteProduct(String productNo) {
 
         productRepository.delete(productNo);
     }
@@ -168,4 +173,7 @@ public class ProductManager{
             result[i] = Long.parseLong(numbers[i]);
         return result;
     }
+
+
+
 }
