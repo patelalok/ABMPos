@@ -48,10 +48,10 @@ public class ProductController {
         return productManager.getProductById(productNo);
     }
 
-    @RequestMapping(value = "/deleteProduct", method = RequestMethod.DELETE, consumes = "application/json")
-    public ResponseEntity deleteProduct(@RequestParam String productNo)
+    @RequestMapping(value = "/deleteProduct", method = RequestMethod.PUT, consumes = "application/json")
+    public ResponseEntity deleteProduct(@RequestBody ProductDao productDao)
     {
-        productManager.deleteProduct(productNo);
+        productManager.deleteProduct(productDao);
         return new ResponseEntity(HttpStatus.OK);
     }
 

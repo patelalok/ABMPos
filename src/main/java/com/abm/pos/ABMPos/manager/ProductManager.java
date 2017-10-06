@@ -45,11 +45,7 @@ public class ProductManager{
 
     public List<ProductDao> getProduct() {
 
-        List<ProductDao> productDaoList = new ArrayList<>();
-
-        return productRepository.findAll();
-
-       // return productDaoList;
+        return productRepository.getAllActiveProduct();
     }
 
     public ProductDao getProductById(String productNo) {
@@ -82,9 +78,10 @@ public class ProductManager{
         return productVariantDetailsRepository.findDistinctByName(variantName);
     }
 
-    public void deleteProduct(String productNo) {
+    public void deleteProduct(ProductDao productDao) {
 
-        productRepository.delete(productNo);
+        // This will only INACTIVE THE PRODUCT
+        productRepository.deleteProduct(productDao.getProductNo());
     }
 
     public void deleteProductVariant(ProductVariantDao productVariantDao) {
