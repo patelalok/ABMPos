@@ -22,7 +22,7 @@ public class TransactionDao {
     private double totalDiscount;
     private double  subtotal;
     private int quantity;
-    private Long customerPhoneno;
+    private String customerPhoneno;
     private String status;
     private double previousBalance;
     private double transactionBalance;
@@ -94,11 +94,11 @@ public class TransactionDao {
         this.quantity = quantity;
     }
 
-    public Long getCustomerPhoneno() {
+    public String getCustomerPhoneno() {
         return customerPhoneno;
     }
 
-    public void setCustomerPhoneno(Long customerPhoneno) {
+    public void setCustomerPhoneno(String customerPhoneno) {
         this.customerPhoneno = customerPhoneno;
     }
 

@@ -2,6 +2,7 @@ package com.abm.pos.ABMPos.repository;
 
 import com.abm.pos.ABMPos.dao.ProductDao;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 
@@ -16,5 +17,12 @@ import java.util.List;
 public interface ProductRepository extends JpaRepository<ProductDao, String> {
 
     List<ProductDao> findAll();
+
+    @Query("SELECT p.quantity FROM ProductDao p WHERE p.productNo = ?1")
+    int getProductQuantity(String productNo);
+
+    @Modifying
+    @Query("UPDATE ProductDao SET quantity = ?2 WHERE productNo = ?1")
+    void updateProductQuantity(String productNo, int quantity);
 
 }

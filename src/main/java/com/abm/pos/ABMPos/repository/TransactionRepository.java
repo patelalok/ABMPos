@@ -16,6 +16,6 @@ public interface TransactionRepository extends JpaRepository<TransactionDao, Int
 
     List<TransactionDao> findAll();
 
-    @Query("select max(t.transactionComId) from TransactionDao t")
-    int getMaxTransactionId();
+    @Query("SELECT t FROM TransactionDao t WHERE t.date BETWEEN ?1 AND ?2")
+    List<TransactionDao> getTransactionByDate(String startDate, String endDate);
 }

@@ -45,15 +45,9 @@ public class TransactionController {
     }
 
     @RequestMapping(value = "/getTransactionByDate", method = RequestMethod.GET, produces = "application/json")
-    public TimeIntervalDto getTransactionByDate(@RequestParam String date)
+    public List<TransactionDao> getTransactionByDate(@RequestParam String date)
     {
 
         return transactionManager.getTransactionByDate(date);
-    }
-
-    @RequestMapping(method = RequestMethod.GET, value = "/getLastTransactionId", produces = "application/json")
-    public int getTransactionLineItem()
-    {
-        return transactionManager.getLastTransactionId() + 1;
     }
 }
