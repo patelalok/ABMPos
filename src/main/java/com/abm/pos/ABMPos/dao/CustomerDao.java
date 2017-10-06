@@ -32,6 +32,7 @@ public class CustomerDao {
     private String lastUpdatedStoreCreditDate;
     private String password;
     private String createdDate;
+    private String customerNote;
 
     public String getPhoneNo() {
         return phoneNo;
@@ -175,5 +176,13 @@ public class CustomerDao {
 
     public void setBalance(double balance) {
         this.balance = balance;
+    }
+
+    public String getCustomerNote() {
+        return customerNote;
+    }
+
+    public void setCustomerNote(String customerNote) {
+        this.customerNote = customerNote;
     }
 }

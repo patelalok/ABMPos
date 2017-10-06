@@ -32,8 +32,6 @@ public class ProductManager{
     @Autowired
     private LastProductNoRepository lastProductNoRepository;
 
-    @Autowired
-    private ProductInventoryRepository productInventoryRepository;
 
     @Autowired
     private Utility utility;

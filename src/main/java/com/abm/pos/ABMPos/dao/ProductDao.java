@@ -42,11 +42,11 @@ public class ProductDao implements Serializable {
 
     private String image;
 
-    private Boolean isTax;
-    private Boolean isVarient;
-    private Boolean isActive;
-    private Boolean isEcomerce;
-    private Boolean isRelatedProduct;
+    private boolean tax;
+    private boolean varaint;
+    private boolean active;
+    private boolean ecomerce;
+    private boolean relatedProduct;
 
     private String returnRule;
 
@@ -66,11 +66,6 @@ public class ProductDao implements Serializable {
     private double taxAmountOnProduct;
     @Transient
     private String imeiNo;
-
-//    @OneToMany
-//    @JoinColumn(name="product_no_fk")
-//    private Set<ProductInventoryDao> productInventoryDaoSet;
-
 
     public String getProductNo() {
         return productNo;
@@ -185,43 +180,43 @@ public class ProductDao implements Serializable {
     }
 
     public Boolean getTax() {
-        return isTax;
+        return tax;
     }
 
     public void setTax(Boolean tax) {
-        isTax = tax;
+        this.tax = tax;
     }
 
-    public Boolean getVarient() {
-        return isVarient;
+    public Boolean getVaraint() {
+        return varaint;
     }
 
-    public void setVarient(Boolean varient) {
-        isVarient = varient;
+    public void setVaraint(Boolean varaint) {
+        this.varaint = varaint;
     }
 
     public Boolean getActive() {
-        return isActive;
+        return active;
     }
 
     public void setActive(Boolean active) {
-        isActive = active;
+        this.active = active;
     }
 
     public Boolean getEcomerce() {
-        return isEcomerce;
+        return ecomerce;
     }
 
     public void setEcomerce(Boolean ecomerce) {
-        isEcomerce = ecomerce;
+        this.ecomerce = ecomerce;
     }
 
     public Boolean getRelatedProduct() {
-        return isRelatedProduct;
+        return relatedProduct;
     }
 
     public void setRelatedProduct(Boolean relatedProduct) {
-        isRelatedProduct = relatedProduct;
+        this.relatedProduct = relatedProduct;
     }
 
     public String getReturnRule() {
@@ -295,5 +290,4 @@ public class ProductDao implements Serializable {
     public void setImeiNo(String imeiNo) {
         this.imeiNo = imeiNo;
     }
-
 }
