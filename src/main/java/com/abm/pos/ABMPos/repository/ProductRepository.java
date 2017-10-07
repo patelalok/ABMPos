@@ -21,6 +21,18 @@ public interface ProductRepository extends JpaRepository<ProductDao, String> {
     @Query("SELECT p FROM ProductDao p WHERE p.active = true")
     List<ProductDao> getAllActiveProduct();
 
+    @Query("SELECT p FROM ProductDao p WHERE p.active = true AND p.brandId = ?1")
+    List<ProductDao> getAllActivePrductByBrandId(int brandId);
+
+    @Query("SELECT p FROM ProductDao p WHERE p.active = true AND p.categoryId = ?1")
+    List<ProductDao> getAllActivePrductByCategoryId(int categoryId);
+
+    @Query("SELECT p FROM ProductDao p WHERE p.active = true AND p.vendorId = ?1")
+    List<ProductDao> getAllActivePrductByVendorId(int vendorId);
+
+    @Query("SELECT p FROM ProductDao p WHERE p.active = true AND p.modelId = ?1")
+    List<ProductDao> getAllActivePrductByModelId(int modelId);
+
     @Query("SELECT p.quantity FROM ProductDao p WHERE p.productNo = ?1")
     int getProductQuantity(String productNo);
 

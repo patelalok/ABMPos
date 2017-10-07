@@ -41,12 +41,42 @@ public class ProductManager{
         productRepository.save(productDao);
     }
 
+    public List<ProductDao> getProductTest(String getProductBy, int searchValue) {
+
+        if(getProductBy.equalsIgnoreCase("All") && searchValue == 0)
+        {
+            return productRepository.getAllActiveProduct();
+        }
+        else if(getProductBy.equalsIgnoreCase("Brand"))
+        {
+            return productRepository.getAllActivePrductByBrandId(searchValue);
+        }
+        else if(getProductBy.equalsIgnoreCase("Category"))
+        {
+            return productRepository.getAllActivePrductByCategoryId(searchValue);
+        }
+        else if(getProductBy.equalsIgnoreCase("Vendor"))
+        {
+            return productRepository.getAllActivePrductByVendorId(searchValue);
+        }
+        else if(getProductBy.equalsIgnoreCase("Model"))
+        {
+            return productRepository.getAllActivePrductByModelId(searchValue);
+        }
+
+        else {
+            return null;
+        }
+
+    }
     public List<ProductDao> getProduct() {
 
         return productRepository.getAllActiveProduct();
     }
 
-    public ProductDao getProductById(String productNo) {
+
+
+        public ProductDao getProductById(String productNo) {
 
         return productRepository.findOne(productNo);
     }
