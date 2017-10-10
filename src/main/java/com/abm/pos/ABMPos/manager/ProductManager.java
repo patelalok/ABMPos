@@ -1,9 +1,6 @@
 package com.abm.pos.ABMPos.manager;
 
-import com.abm.pos.ABMPos.dao.LastProductNo;
-import com.abm.pos.ABMPos.dao.ProductDao;
-import com.abm.pos.ABMPos.dao.ProductVariantDao;
-import com.abm.pos.ABMPos.dao.ProductVariantDetailDao;
+import com.abm.pos.ABMPos.dao.*;
 import com.abm.pos.ABMPos.repository.*;
 import com.abm.pos.ABMPos.util.TimeIntervalDto;
 import com.abm.pos.ABMPos.util.Utility;
@@ -32,6 +29,9 @@ public class ProductManager{
     @Autowired
     private LastProductNoRepository lastProductNoRepository;
 
+    @Autowired
+    private ProductInventoryRepository productInventoryRepository;
+
 
     @Autowired
     private Utility utility;
@@ -39,6 +39,12 @@ public class ProductManager{
     public void addProduct(ProductDao productDao)
     {
         productRepository.save(productDao);
+    }
+
+
+    public void addProductInventory(List<ProductInventoryDao> productInventoryDao) {
+
+        productInventoryRepository.save(productInventoryDao);
     }
 
     public List<ProductDao> getProductTest(String getProductBy, int searchValue) {
@@ -198,7 +204,6 @@ public class ProductManager{
             result[i] = Long.parseLong(numbers[i]);
         return result;
     }
-
 
 
 }

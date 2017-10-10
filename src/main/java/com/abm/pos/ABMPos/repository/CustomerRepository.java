@@ -15,4 +15,6 @@ public interface CustomerRepository extends JpaRepository<CustomerDao, String>{
 
     List<CustomerDao> findAll();
 
+    CustomerDao findByPhoneNo(String phoneNo);
+
 }

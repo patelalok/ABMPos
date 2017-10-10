@@ -33,6 +33,7 @@ public class CustomerDao {
     private String password;
     private String createdDate;
     private String customerNote;
+    private String keytag;
 
     public String getPhoneNo() {
         return phoneNo;
@@ -184,5 +185,13 @@ public class CustomerDao {
 
     public void setCustomerNote(String customerNote) {
         this.customerNote = customerNote;
+    }
+
+    public String getKeytag() {
+        return keytag;
+    }
+
+    public void setKeytag(String keytag) {
+        this.keytag = keytag;
     }
 }

@@ -21,6 +21,8 @@ public class StoreSetupDao {
     private byte[] logo;
     private String receiptFooter;
     private Integer receiptType;
+    private boolean loyaltyEnabled;
+    private double loyaltyAmountForDollar;
 
 
     public Integer getId() {
@@ -85,5 +87,21 @@ public class StoreSetupDao {
 
     public void setReceiptType(Integer receiptType) {
         this.receiptType = receiptType;
+    }
+
+    public boolean isLoyaltyEnabled() {
+        return loyaltyEnabled;
+    }
+
+    public void setLoyaltyEnabled(boolean loyaltyEnabled) {
+        this.loyaltyEnabled = loyaltyEnabled;
+    }
+
+    public double getLoyaltyAmountForDollar() {
+        return loyaltyAmountForDollar;
+    }
+
+    public void setLoyaltyAmountForDollar(double loyaltyAmountForDollar) {
+        this.loyaltyAmountForDollar = loyaltyAmountForDollar;
     }
 }

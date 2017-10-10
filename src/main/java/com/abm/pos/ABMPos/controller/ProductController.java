@@ -1,11 +1,9 @@
 package com.abm.pos.ABMPos.controller;
 
-import com.abm.pos.ABMPos.dao.ProductDao;
-import com.abm.pos.ABMPos.dao.ProductVariantDao;
-import com.abm.pos.ABMPos.dao.ProductVariantDetailDao;
-import com.abm.pos.ABMPos.dao.TransactionLineItemDao;
+import com.abm.pos.ABMPos.dao.*;
 import com.abm.pos.ABMPos.manager.ProductManager;
 import com.abm.pos.ABMPos.manager.TransactionLineItemManager;
+import com.abm.pos.ABMPos.repository.ProductInventoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -27,6 +25,15 @@ public class ProductController {
 
     @Autowired
     private TransactionLineItemManager transactionLineItemManager;
+//
+//    @Autowired
+//    ProductInventoryRepository productInventoryRepository;
+//
+//    @RequestMapping(value = "/getProductInventory", method = RequestMethod.GET, produces = "application/json")
+//    public ProductInventoryDao getProductInventory()
+//    {
+//        return productInventoryRepository.test();
+//    }
 
     @RequestMapping(value = "/addProduct", method = RequestMethod.POST, consumes = "application/json")
     public ResponseEntity addProduct(@RequestBody ProductDao productDao)
@@ -35,6 +42,16 @@ public class ProductController {
         System.out.println("Product added successfully ");
         return new ResponseEntity(HttpStatus.CREATED);
     }
+
+    @RequestMapping(value = "/addProductInventory", method = RequestMethod.POST, consumes = "application/json")
+    public ResponseEntity addProductInventory(@RequestBody List<ProductInventoryDao> productInventoryDao)
+    {
+        productManager.addProductInventory(productInventoryDao);
+        System.out.println("Product Inventory list added successfully ");
+        return new ResponseEntity(HttpStatus.CREATED);
+    }
+
+
 
     @RequestMapping(value = "/getProductTest", method = RequestMethod.GET, produces = "application/json")
     public List<ProductDao> getProductTest(String getProductBy, int searchValue)

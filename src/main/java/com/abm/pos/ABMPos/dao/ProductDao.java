@@ -49,6 +49,8 @@ public class ProductDao implements Serializable {
     private boolean relatedProduct;
 
     private String returnRule;
+    private double customLoyaltyAmount;
+    private String createdTimestamp;
 
     @Transient
     private String transactionComId;
@@ -179,43 +181,43 @@ public class ProductDao implements Serializable {
         this.image = image;
     }
 
-    public Boolean getTax() {
+    public boolean isTax() {
         return tax;
     }
 
-    public void setTax(Boolean tax) {
+    public void setTax(boolean tax) {
         this.tax = tax;
     }
 
-    public Boolean getVaraint() {
+    public boolean isVaraint() {
         return varaint;
     }
 
-    public void setVaraint(Boolean varaint) {
+    public void setVaraint(boolean varaint) {
         this.varaint = varaint;
     }
 
-    public Boolean getActive() {
+    public boolean isActive() {
         return active;
     }
 
-    public void setActive(Boolean active) {
+    public void setActive(boolean active) {
         this.active = active;
     }
 
-    public Boolean getEcomerce() {
+    public boolean isEcomerce() {
         return ecomerce;
     }
 
-    public void setEcomerce(Boolean ecomerce) {
+    public void setEcomerce(boolean ecomerce) {
         this.ecomerce = ecomerce;
     }
 
-    public Boolean getRelatedProduct() {
+    public boolean isRelatedProduct() {
         return relatedProduct;
     }
 
-    public void setRelatedProduct(Boolean relatedProduct) {
+    public void setRelatedProduct(boolean relatedProduct) {
         this.relatedProduct = relatedProduct;
     }
 
@@ -225,6 +227,14 @@ public class ProductDao implements Serializable {
 
     public void setReturnRule(String returnRule) {
         this.returnRule = returnRule;
+    }
+
+    public double getCustomLoyaltyAmount() {
+        return customLoyaltyAmount;
+    }
+
+    public void setCustomLoyaltyAmount(double customLoyaltyAmount) {
+        this.customLoyaltyAmount = customLoyaltyAmount;
     }
 
     public String getTransactionComId() {
@@ -289,5 +299,13 @@ public class ProductDao implements Serializable {
 
     public void setImeiNo(String imeiNo) {
         this.imeiNo = imeiNo;
+    }
+
+    public String getCreatedTimestamp() {
+        return createdTimestamp;
+    }
+
+    public void setCreatedTimestamp(String createdTimestamp) {
+        this.createdTimestamp = createdTimestamp;
     }
 }
