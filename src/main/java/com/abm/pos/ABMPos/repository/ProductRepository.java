@@ -41,7 +41,7 @@ public interface ProductRepository extends JpaRepository<ProductDao, String> {
     void updateProductQuantity(String productNo, int quantity);
 
     @Modifying
-    @Query("UPDATE ProductDao SET isActive = false WHERE productNo = ?1")
+    @Query("UPDATE ProductDao SET active = false WHERE productNo = ?1")
     void deleteProduct(String productNo);
 
 }

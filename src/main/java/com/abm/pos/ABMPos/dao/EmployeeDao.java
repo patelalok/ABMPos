@@ -1,8 +1,6 @@
 package com.abm.pos.ABMPos.dao;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 /**
  * Created by apatel2 on 5/17/17.
@@ -13,10 +11,13 @@ import javax.persistence.Table;
 public class EmployeeDao {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private int id;
     private String username;
 
     private String name;
-    private int phoneNo;
+    private String phoneNo;
+    private String email;
     private String password;
     private String role;
     private double commissionPercentage;
@@ -29,6 +30,14 @@ public class EmployeeDao {
     private String zipCode;
     private String gender;
     private String updatedTimestamp;
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public String getUsername() {
         return username;
@@ -46,12 +55,20 @@ public class EmployeeDao {
         this.name = name;
     }
 
-    public int getPhoneNo() {
+    public String getPhoneNo() {
         return phoneNo;
     }
 
-    public void setPhoneNo(int phoneNo) {
+    public void setPhoneNo(String phoneNo) {
         this.phoneNo = phoneNo;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public String getPassword() {

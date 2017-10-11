@@ -2,6 +2,7 @@ package com.abm.pos.ABMPos.controller;
 
 import com.abm.pos.ABMPos.dao.PaymentDao;
 import com.abm.pos.ABMPos.dao.ProductDao;
+import com.abm.pos.ABMPos.dao.ProductInventoryDao;
 import com.abm.pos.ABMPos.dao.TransactionDao;
 import com.abm.pos.ABMPos.manager.TransactionsManager;
 import com.abm.pos.ABMPos.util.TimeIntervalDto;

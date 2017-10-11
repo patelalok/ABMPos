@@ -38,6 +38,18 @@ public class ProductManager{
 
     public void addProduct(ProductDao productDao)
     {
+
+        ProductDao productDao1 = new ProductDao();
+
+        productDao1 = productRepository.getOne(productDao.getProductNo());
+
+        // I need to do this cause i need to maintain retail price of the product in both product and product inventory Table.
+        // So this is really important.
+        if(productDao.getRetail() != productDao1.getRetail())
+        {
+            productInventoryRepository.updateProductRetailPrice(productDao.getRetail(), productDao.getProductNo());
+        }
+        // Then update the product.
         productRepository.save(productDao);
     }
 
@@ -112,10 +124,36 @@ public class ProductManager{
         return productVariantDetailsRepository.findDistinctByName(variantName);
     }
 
-    public void deleteProduct(ProductDao productDao) {
+    public String deleteProduct(ProductDao productDao) {
 
-        // This will only INACTIVE THE PRODUCT
-        productRepository.deleteProduct(productDao.getProductNo());
+        boolean isDeletableProduct = true;
+
+        // Before in active the product we need check if that product has any data or quantity more then 0 in inventory table,
+        // If yes then need to show error that can not delete product cause it has data in inventory table,
+        // If no then we can in active the product and delete the entry in product inventory table.
+
+        List<ProductInventoryDao> productInventoryDaoList = new ArrayList<>();
+        productInventoryDaoList = productInventoryRepository.findAllByProductNo(productDao.getProductNo());
+
+        for(ProductInventoryDao productInventoryDao: productInventoryDaoList)
+        {
+            if(productInventoryDao.getQuantity() > 0)
+            {
+                isDeletableProduct = false;
+                break;
+            }
+        }
+        if(isDeletableProduct)
+        {
+            // This will only INACTIVE THE PRODUCT
+            productRepository.deleteProduct(productDao.getProductNo());
+            return "Success";
+        }
+        else
+        {
+            return "Can not Delete this product, cause it has data in Product Inventory Table.";
+        }
+
     }
 
     public void deleteProductVariant(ProductVariantDao productVariantDao) {
