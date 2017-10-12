@@ -29,8 +29,7 @@ public class CloseRegisterController {
     }
 
     @RequestMapping(value = "/getCloseRegisterDetailsByDate", method = RequestMethod.GET)
-    public CloseRegisterDao getCloseRegisterDetailsByDate(@RequestParam String date)
-    {
+    public CloseRegisterDao getCloseRegisterDetailsByDate(@RequestParam String date) throws NoSuchFieldException, IllegalAccessException {
         return closeRegisterManager.getCloseRegisterDetailsByDate(date);
     }
 

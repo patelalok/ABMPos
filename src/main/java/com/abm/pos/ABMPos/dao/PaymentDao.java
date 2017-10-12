@@ -14,6 +14,8 @@ public class PaymentDao {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int transactionPaymentId;
 
+    private String date;
+
     private double cash;
     private double credit;
     private double debit;
@@ -35,6 +37,14 @@ public class PaymentDao {
 
     public void setTransactionPaymentId(int transactionPaymentId) {
         this.transactionPaymentId = transactionPaymentId;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
     }
 
     public double getCash() {

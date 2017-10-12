@@ -33,7 +33,9 @@ public class CloseRegisterDao {
     private double profit;
     private double markup;
     private double bankDeposit;
-    private double customerBalance;
+    private double onAccount;
+    private double storeCredit;
+    private double loyalty;
     private double inHandCash;
     private String note;
 
@@ -229,12 +231,28 @@ public class CloseRegisterDao {
         this.bankDeposit = bankDeposit;
     }
 
-    public double getCustomerBalance() {
-        return customerBalance;
+    public double getOnAccount() {
+        return onAccount;
     }
 
-    public void setCustomerBalance(double customerBalance) {
-        this.customerBalance = customerBalance;
+    public void setOnAccount(double onAccount) {
+        this.onAccount = onAccount;
+    }
+
+    public double getStoreCredit() {
+        return storeCredit;
+    }
+
+    public void setStoreCredit(double storeCredit) {
+        this.storeCredit = storeCredit;
+    }
+
+    public double getLoyalty() {
+        return loyalty;
+    }
+
+    public void setLoyalty(double loyalty) {
+        this.loyalty = loyalty;
     }
 
     public double getInHandCash() {
