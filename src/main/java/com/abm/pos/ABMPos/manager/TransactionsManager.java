@@ -1,13 +1,7 @@
 package com.abm.pos.ABMPos.manager;
 
-import com.abm.pos.ABMPos.dao.PaymentDao;
-import com.abm.pos.ABMPos.dao.ProductInventoryDao;
-import com.abm.pos.ABMPos.dao.TransactionDao;
-import com.abm.pos.ABMPos.dao.TransactionLineItemDao;
-import com.abm.pos.ABMPos.repository.PaymentRepository;
-import com.abm.pos.ABMPos.repository.ProductInventoryRepository;
-import com.abm.pos.ABMPos.repository.ProductRepository;
-import com.abm.pos.ABMPos.repository.TransactionRepository;
+import com.abm.pos.ABMPos.dao.*;
+import com.abm.pos.ABMPos.repository.*;
 import com.abm.pos.ABMPos.util.TimeIntervalDto;
 import com.abm.pos.ABMPos.util.Utility;
 import org.apache.tomcat.jni.Time;
@@ -36,6 +30,9 @@ public class TransactionsManager {
 
     @Autowired
     private ProductInventoryRepository productInventoryRepository;
+
+    @Autowired
+    private CustomerRepository customerRepository;
 
 
     public void addTransaction(TransactionDao transactionDao) {
@@ -119,7 +116,28 @@ public class TransactionsManager {
 
         transactionDao.setTransactionLineItemDaoList(transactionLineItemDaoListNew);
 
+//        Here i need to handle the scenario where customer is doing partial payment, or not paying right now and will pay later so
+//        Here i need to maintain his balance by just adding transaction balance to that customers account
+
+        setCustomerBalance(transactionDao);
+
         transactionRepository.save(transactionDao);
+    }
+    //    Here i need to handle the scenario where customer is doing partial payment, or not paying right now and will pay later so
+    //    Here i need to maintain his balance by just adding transaction balance to that customers account
+
+    private void setCustomerBalance(TransactionDao transactionDao) {
+        if(null != transactionDao.getCustomerPhoneno() && transactionDao.getTransactionBalance() > 0)
+        {
+            CustomerDao customerDao = customerRepository.findByPhoneNo(transactionDao.getCustomerPhoneno());
+
+            if(null != customerDao)
+            {
+                customerDao.setBalance(transactionDao.getTransactionBalance());
+
+                customerRepository.save(customerDao);
+            }
+        }
     }
 
     private void deleteProductInventoryRow(ProductInventoryDao productInventoryDao) {
