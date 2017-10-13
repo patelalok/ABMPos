@@ -28,6 +28,7 @@ public class TransactionDao {
     private double transactionBalance;
     private String username;
     private String customerFirstLastName;
+    private String note;
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "transaction_com_id")
@@ -140,6 +141,14 @@ public class TransactionDao {
 
     public void setCustomerFirstLastName(String customerFirstLastName) {
         this.customerFirstLastName = customerFirstLastName;
+    }
+
+    public String getNote() {
+        return note;
+    }
+
+    public void setNote(String note) {
+        this.note = note;
     }
 
     public List<TransactionLineItemDao> getTransactionLineItemDaoList() {

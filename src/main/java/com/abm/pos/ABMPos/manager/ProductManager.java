@@ -7,6 +7,7 @@ import com.abm.pos.ABMPos.util.Utility;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import javax.jws.Oneway;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -54,7 +55,7 @@ public class ProductManager{
     }
 
 
-    public void addProductInventory(List<ProductInventoryDao> productInventoryDao) {
+    public void addProductInventory(ProductInventoryDao productInventoryDao) {
 
         productInventoryRepository.save(productInventoryDao);
     }
@@ -63,7 +64,28 @@ public class ProductManager{
 
         if(getProductBy.equalsIgnoreCase("All") && searchValue == 0)
         {
-            return productRepository.getAllActiveProduct();
+            List<ProductDao> productDaoArrayList = new ArrayList<>();
+            List<ProductDao> productDaoArrayListNew = new ArrayList<>();
+
+            productDaoArrayList = productRepository.getAllActiveProduct();
+
+
+            for(ProductDao p :productDaoArrayList)
+            {
+                int quantity = 0;
+                for(ProductInventoryDao i : p.getProductInventoryDaoList())
+                {
+
+                    quantity = quantity + i.getQuantity();
+                }
+
+                p.setQuantity(quantity);
+
+                productDaoArrayListNew.add(p);
+
+            }
+            return productDaoArrayListNew;
+
         }
         else if(getProductBy.equalsIgnoreCase("Brand"))
         {
@@ -244,4 +266,10 @@ public class ProductManager{
     }
 
 
+    public List<ProductDao> getProductForProductTable() {
+
+//        List<Object[]> result = productRepository.getProductWithInventory();
+
+        return null;
+    }
 }

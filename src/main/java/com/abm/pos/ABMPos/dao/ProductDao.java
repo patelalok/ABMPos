@@ -4,6 +4,7 @@ import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -52,6 +53,11 @@ public class ProductDao implements Serializable {
     private double customLoyaltyAmount;
     private String createdTimestamp;
 
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "productNo")
+    private List<ProductInventoryDao> productInventoryDaoList;
+
+
     @Transient
     private String transactionComId;
     @Transient
@@ -69,12 +75,22 @@ public class ProductDao implements Serializable {
     @Transient
     private String imeiNo;
 
+
+
     public String getProductNo() {
         return productNo;
     }
 
     public void setProductNo(String productNo) {
         this.productNo = productNo;
+    }
+
+    public List<ProductInventoryDao> getProductInventoryDaoList() {
+        return productInventoryDaoList;
+    }
+
+    public void setProductInventoryDaoList(List<ProductInventoryDao> productInventoryDaoList) {
+        this.productInventoryDaoList = productInventoryDaoList;
     }
 
     public String getDescription() {

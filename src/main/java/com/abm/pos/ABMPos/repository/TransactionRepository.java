@@ -17,7 +17,7 @@ public interface TransactionRepository extends JpaRepository<TransactionDao, Int
 
     List<TransactionDao> findAll();
 
-    @Query("SELECT t FROM TransactionDao t WHERE t.date BETWEEN ?1 AND ?2")
+    @Query("SELECT t FROM TransactionDao t WHERE t.date BETWEEN ?1 AND ?2 ORDER BY t.date DESC")
     List<TransactionDao> getTransactionByDate(String startDate, String endDate);
 
     @Query("SELECT SUM(totalAmount), SUM(tax), SUM(totalDiscount)  FROM TransactionDao  WHERE date BETWEEN ?1 AND ?2")

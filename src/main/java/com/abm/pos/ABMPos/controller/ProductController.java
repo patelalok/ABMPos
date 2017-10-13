@@ -43,7 +43,7 @@ public class ProductController {
     }
 
     @RequestMapping(value = "/addProductInventory", method = RequestMethod.POST, consumes = "application/json")
-    public ResponseEntity addProductInventory(@RequestBody List<ProductInventoryDao> productInventoryDao)
+    public ResponseEntity addProductInventory(@RequestBody ProductInventoryDao productInventoryDao)
     {
         productManager.addProductInventory(productInventoryDao);
         System.out.println("Product Inventory list added successfully ");
@@ -55,6 +55,12 @@ public class ProductController {
     {
         return productManager.getProductTest(getProductBy, searchValue);
     }
+
+//    @RequestMapping(value = "/getProductForProductTable", method = RequestMethod.GET, produces = "application/json")
+//    public List<ProductDao> getProductForProductTable()
+//    {
+//        return productManager.getProductForProductTable();
+//    }
 
     @RequestMapping(value = "/getProduct", method = RequestMethod.GET, produces = "application/json")
     public List<ProductDao> getProduct()

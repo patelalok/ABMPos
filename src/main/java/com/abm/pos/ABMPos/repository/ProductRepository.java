@@ -44,4 +44,6 @@ public interface ProductRepository extends JpaRepository<ProductDao, String> {
     @Query("UPDATE ProductDao SET active = false WHERE productNo = ?1")
     void deleteProduct(String productNo);
 
+//    @Query("SELECT p, SUM(i.quantity) as Quantity FROM ProductDao p JOIN ProductDao p ON p.productNo = i.productNo GROUP BY p.productNo, p.description, p.retail")
+//    List<Object[]> getProductWithInventory();
 }
