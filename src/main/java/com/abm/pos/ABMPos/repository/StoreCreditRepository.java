@@ -3,6 +3,7 @@ package com.abm.pos.ABMPos.repository;
 
 import com.abm.pos.ABMPos.dao.StoreCreditDao;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 
 import javax.swing.event.ListDataEvent;
 import javax.transaction.Transactional;

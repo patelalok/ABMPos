@@ -17,6 +17,7 @@ public class StoreCreditDao {
     private String reason;
     private String createdTimestamp;
     private String employeeName;
+    private boolean status;
 
     public int getId() {
         return id;
@@ -64,5 +65,13 @@ public class StoreCreditDao {
 
     public void setEmployeeName(String employeeName) {
         this.employeeName = employeeName;
+    }
+
+    public boolean isStatus() {
+        return status;
+    }
+
+    public void setStatus(boolean status) {
+        this.status = status;
     }
 }

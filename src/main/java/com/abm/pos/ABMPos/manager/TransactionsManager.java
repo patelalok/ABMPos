@@ -118,17 +118,41 @@ public class TransactionsManager {
 
 //        Here i need to handle the scenario where customer is doing partial payment, or not paying right now and will pay later so
 //        Here i need to maintain his balance by just adding transaction balance to that customers account
+        // I am doing this only if customer is doing partial payment cause only in that case customers balance will be more then 0.
 
-        setCustomerBalance(transactionDao);
+        if(null != transactionDao.getCustomerPhoneno() && transactionDao.getTransactionBalance() > 0)
+        {
+            setCustomerBalance(transactionDao);
+        }
+
+        // Here i need to handle the case where customer is using Store credit to pay the amount.
+        // I need to update the store credit for the customer and handle the transaction.
+
+        if(null != transactionDao.getCustomerPhoneno() && transactionDao.getPaymentDao().get(0).getStoreCredit() > 0)
+        {
+            setCustomerStoreCredit(transactionDao);
+        }
 
         transactionRepository.save(transactionDao);
     }
+
+    private void setCustomerStoreCredit(TransactionDao transactionDao) {
+
+        CustomerDao customerDao = customerRepository.findByPhoneNo(transactionDao.getCustomerPhoneno());
+
+        if(null != customerDao)
+        {
+            customerDao.setStoreCredit(customerDao.getStoreCredit() - transactionDao.getPaymentDao().get(0).getStoreCredit());
+
+            customerRepository.save(customerDao);
+        }
+
+    }
+
     //    Here i need to handle the scenario where customer is doing partial payment, or not paying right now and will pay later so
     //    Here i need to maintain his balance by just adding transaction balance to that customers account
 
     private void setCustomerBalance(TransactionDao transactionDao) {
-        if(null != transactionDao.getCustomerPhoneno() && transactionDao.getTransactionBalance() > 0)
-        {
             CustomerDao customerDao = customerRepository.findByPhoneNo(transactionDao.getCustomerPhoneno());
 
             if(null != customerDao)
@@ -137,7 +161,6 @@ public class TransactionsManager {
 
                 customerRepository.save(customerDao);
             }
-        }
     }
 
     private void deleteProductInventoryRow(ProductInventoryDao productInventoryDao) {
