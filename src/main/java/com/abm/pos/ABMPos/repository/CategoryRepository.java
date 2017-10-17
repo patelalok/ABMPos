@@ -21,4 +21,8 @@ public interface CategoryRepository extends JpaRepository<CategoryDao, Integer>{
 
     List<CategoryDao> findAll();
 
+    @Query(value = "SELECT distinct c.name, sum(i.quantity) quantity, sum(i.cost * i.quantity) cost, sum(i.retail * i.quantity) retail from product p Inner Join category c on p.category_id = c.category_id\n" +
+            "inner join product_inventory i on i.product_no = p.product_no group by c.name", nativeQuery = true)
+    List<Object[]> getInventoryByCategory();
+
 }

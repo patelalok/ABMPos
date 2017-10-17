@@ -120,7 +120,7 @@ public class TransactionsManager {
 //        Here i need to maintain his balance by just adding transaction balance to that customers account
         // I am doing this only if customer is doing partial payment cause only in that case customers balance will be more then 0.
 
-        if(null != transactionDao.getCustomerPhoneno() && transactionDao.getTransactionBalance() > 0)
+        if(null != transactionDao.getCustomerPhoneno() && transactionDao.getTransactionBalance() >= 0)
         {
             setCustomerBalance(transactionDao);
         }

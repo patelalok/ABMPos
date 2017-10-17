@@ -98,18 +98,21 @@ public class CloseRegisterManager {
         PaymentDao paymentDao = new PaymentDao();
         List<Object[]> result =  paymentRepository.sumOfAllPayments(timeIntervalDto.getStartDate(), timeIntervalDto.getEndDate());
 
-        for(Object [] j : result)
-        {
-            for(int i = 0; i <= result.size(); i++) {
+        if(result != null) {
 
-                paymentDao.setCash(Double.parseDouble(j[0].toString()));
-                paymentDao.setCredit(Double.parseDouble(j[1].toString()));
-                paymentDao.setDebit(Double.parseDouble(j[2].toString()));
-                paymentDao.setCheckAmount(Double.parseDouble(j[3].toString()));
-                paymentDao.setStoreCredit(Double.parseDouble(j[4].toString()));
-                paymentDao.setOnAccount(Double.parseDouble(j[5].toString()));
-                paymentDao.setLoyalty(Double.parseDouble(j[6].toString()));
+            for (Object [] j : result) {
 
+                for (int i = 0; i <= result.size(); i++) {
+
+                    paymentDao.setCash(Double.parseDouble(j[0].toString()));
+                    paymentDao.setCredit(Double.parseDouble(j[1].toString()));
+                    paymentDao.setDebit(Double.parseDouble(j[2].toString()));
+                    paymentDao.setCheckAmount(Double.parseDouble(j[3].toString()));
+                    paymentDao.setStoreCredit(Double.parseDouble(j[4].toString()));
+                    paymentDao.setOnAccount(Double.parseDouble(j[5].toString()));
+                    paymentDao.setLoyalty(Double.parseDouble(j[6].toString()));
+
+                }
             }
         }
 

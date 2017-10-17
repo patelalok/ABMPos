@@ -1,6 +1,7 @@
 package com.abm.pos.ABMPos.controller;
 
 import com.abm.pos.ABMPos.dao.ProductDao;
+import com.abm.pos.ABMPos.dao.ReportDao.InventoryDto;
 import com.abm.pos.ABMPos.manager.ReportManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -19,7 +20,7 @@ public class ReportController {
     private ReportManager reportManager;
 
     @RequestMapping(value = "/getReportByInventory", method = RequestMethod.GET, produces = "application/json")
-    public List<ProductDao> getReportByInventory(String inventoryReportBy)
+    public List<InventoryDto> getReportByInventory(String inventoryReportBy)
     {
         return reportManager.getReportByInventory(inventoryReportBy);
     }
