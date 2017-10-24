@@ -35,7 +35,7 @@ public class BrandController {
         return brandManager.getBrand();
     }
 
-    @RequestMapping(value = "/deleteBrand", method = RequestMethod.DELETE, consumes = "application/json")
+    @RequestMapping(value = "/deleteBrand", method = RequestMethod.DELETE)
     public ResponseEntity deleteBrand(@RequestParam int brandId)
     {
         brandManager.deleteBrand(brandId);

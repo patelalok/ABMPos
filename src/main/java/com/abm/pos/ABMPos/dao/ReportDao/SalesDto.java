@@ -3,6 +3,7 @@ package com.abm.pos.ABMPos.dao.ReportDao;
 public class SalesDto {
 
     private String name;
+    private String productNo;
     private int quantity;
     private double cost;
     private double retail;
@@ -18,6 +19,14 @@ public class SalesDto {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getProductNo() {
+        return productNo;
+    }
+
+    public void setProductNo(String productNo) {
+        this.productNo = productNo;
     }
 
     public int getQuantity() {

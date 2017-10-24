@@ -5,7 +5,6 @@ import org.hibernate.validator.constraints.NotEmpty;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.List;
-import java.util.Set;
 
 /**
  * Created by apatel2 on 5/16/17.
@@ -44,16 +43,17 @@ public class ProductDao implements Serializable {
     private String image;
 
     private boolean tax;
-    private boolean varaint;
+    private boolean variant;
     private boolean active;
-    private boolean ecomerce;
+    private boolean ecommerce;
     private boolean relatedProduct;
+
 
     private String returnRule;
     private double customLoyaltyAmount;
     private String createdTimestamp;
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "productNo")
     private List<ProductInventoryDao> productInventoryDaoList;
 
@@ -76,21 +76,12 @@ public class ProductDao implements Serializable {
     private String imeiNo;
 
 
-
     public String getProductNo() {
         return productNo;
     }
 
     public void setProductNo(String productNo) {
         this.productNo = productNo;
-    }
-
-    public List<ProductInventoryDao> getProductInventoryDaoList() {
-        return productInventoryDaoList;
-    }
-
-    public void setProductInventoryDaoList(List<ProductInventoryDao> productInventoryDaoList) {
-        this.productInventoryDaoList = productInventoryDaoList;
     }
 
     public String getDescription() {
@@ -205,12 +196,12 @@ public class ProductDao implements Serializable {
         this.tax = tax;
     }
 
-    public boolean isVaraint() {
-        return varaint;
+    public boolean isVariant() {
+        return variant;
     }
 
-    public void setVaraint(boolean varaint) {
-        this.varaint = varaint;
+    public void setVariant(boolean variant) {
+        this.variant = variant;
     }
 
     public boolean isActive() {
@@ -221,12 +212,12 @@ public class ProductDao implements Serializable {
         this.active = active;
     }
 
-    public boolean isEcomerce() {
-        return ecomerce;
+    public boolean isEcommerce() {
+        return ecommerce;
     }
 
-    public void setEcomerce(boolean ecomerce) {
-        this.ecomerce = ecomerce;
+    public void setEcommerce(boolean ecommerce) {
+        this.ecommerce = ecommerce;
     }
 
     public boolean isRelatedProduct() {
@@ -251,6 +242,22 @@ public class ProductDao implements Serializable {
 
     public void setCustomLoyaltyAmount(double customLoyaltyAmount) {
         this.customLoyaltyAmount = customLoyaltyAmount;
+    }
+
+    public String getCreatedTimestamp() {
+        return createdTimestamp;
+    }
+
+    public void setCreatedTimestamp(String createdTimestamp) {
+        this.createdTimestamp = createdTimestamp;
+    }
+
+    public List<ProductInventoryDao> getProductInventoryDaoList() {
+        return productInventoryDaoList;
+    }
+
+    public void setProductInventoryDaoList(List<ProductInventoryDao> productInventoryDaoList) {
+        this.productInventoryDaoList = productInventoryDaoList;
     }
 
     public String getTransactionComId() {
@@ -315,13 +322,5 @@ public class ProductDao implements Serializable {
 
     public void setImeiNo(String imeiNo) {
         this.imeiNo = imeiNo;
-    }
-
-    public String getCreatedTimestamp() {
-        return createdTimestamp;
-    }
-
-    public void setCreatedTimestamp(String createdTimestamp) {
-        this.createdTimestamp = createdTimestamp;
     }
 }

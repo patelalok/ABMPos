@@ -17,6 +17,8 @@ public interface TransactionRepository extends JpaRepository<TransactionDao, Int
 
     List<TransactionDao> findAll();
 
+    TransactionDao findFirstByCustomerPhoneno(String phoneNo);
+
     @Query("SELECT t FROM TransactionDao t WHERE t.date BETWEEN ?1 AND ?2 ORDER BY t.date DESC")
     List<TransactionDao> getTransactionByDate(String startDate, String endDate);
 

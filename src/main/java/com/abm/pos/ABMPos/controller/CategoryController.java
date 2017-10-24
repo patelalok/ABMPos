@@ -36,9 +36,9 @@ public class CategoryController {
     }
 
     @RequestMapping(value = "/deleteCategory", method = RequestMethod.DELETE)
-    public ResponseEntity deleteCategory(@RequestParam int categosryId)
+    public ResponseEntity deleteCategory(@RequestParam int categoryId)
     {
-        categoryManager.deleteCategory(categosryId);
+        categoryManager.deleteCategory(categoryId);
         System.out.println("Category Deleted Successfully!!");
         return new ResponseEntity(HttpStatus.OK);
     }

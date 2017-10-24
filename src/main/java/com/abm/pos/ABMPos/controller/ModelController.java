@@ -33,7 +33,7 @@ public class ModelController {
         return modelManager.getModel();
     }
 
-    @RequestMapping(value = "/deleteModel", method = RequestMethod.DELETE, consumes = "application/json")
+    @RequestMapping(value = "/deleteModel", method = RequestMethod.DELETE)
     public ResponseEntity deleteModel(@RequestParam int modelId)
     {
         modelManager.deleteModel(modelId);

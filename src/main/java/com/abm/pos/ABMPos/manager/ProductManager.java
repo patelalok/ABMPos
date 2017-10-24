@@ -42,11 +42,11 @@ public class ProductManager{
 
         ProductDao productDao1 = new ProductDao();
 
-        productDao1 = productRepository.getOne(productDao.getProductNo());
+        productDao1 = productRepository.findOne(productDao.getProductNo());
 
         // I need to do this cause i need to maintain retail price of the product in both product and product inventory Table.
         // So this is really important.
-        if(productDao.getRetail() != productDao1.getRetail())
+        if(null != productDao1 && productDao.getRetail() != productDao1.getRetail())
         {
             productInventoryRepository.updateProductRetailPrice(productDao.getRetail(), productDao.getProductNo());
         }
@@ -87,22 +87,22 @@ public class ProductManager{
             return productDaoArrayListNew;
 
         }
-        else if(getProductBy.equalsIgnoreCase("Brand"))
-        {
-            return productRepository.getAllActivePrductByBrandId(searchValue);
-        }
-        else if(getProductBy.equalsIgnoreCase("Category"))
-        {
-            return productRepository.getAllActivePrductByCategoryId(searchValue);
-        }
-        else if(getProductBy.equalsIgnoreCase("Vendor"))
-        {
-            return productRepository.getAllActivePrductByVendorId(searchValue);
-        }
-        else if(getProductBy.equalsIgnoreCase("Model"))
-        {
-            return productRepository.getAllActivePrductByModelId(searchValue);
-        }
+//        else if(getProductBy.equalsIgnoreCase("Brand"))
+//        {
+//            return productRepository.getAllActivePrductByBrandId(searchValue);
+//        }
+//        else if(getProductBy.equalsIgnoreCase("Category"))
+//        {
+//            return productRepository.getAllActivePrductByCategoryId(searchValue);
+//        }
+//        else if(getProductBy.equalsIgnoreCase("Vendor"))
+//        {
+//            return productRepository.getAllActivePrductByVendorId(searchValue);
+//        }
+//        else if(getProductBy.equalsIgnoreCase("Model"))
+//        {
+//            return productRepository.getAllActivePrductByModelId(searchValue);
+//        }
 
         else {
             return null;
@@ -271,5 +271,24 @@ public class ProductManager{
 //        List<Object[]> result = productRepository.getProductWithInventory();
 
         return null;
+    }
+
+    public String deleteProductInventory(ProductInventoryDao productInventoryDao) {
+
+        String response;
+
+        int count = productInventoryRepository.getCountOfRowByProductNo(productInventoryDao.getProductNo());
+
+        if (count > 1) {
+            productInventoryRepository.delete(productInventoryDao.getId());
+            response = "Product Inventory Details Deleted Successfully !!";
+        }
+        else
+        {
+            response = "Can not  Delete Product Inventory Details, Because You Must Keep One Item In !!";
+        }
+
+        return response;
+
     }
 }

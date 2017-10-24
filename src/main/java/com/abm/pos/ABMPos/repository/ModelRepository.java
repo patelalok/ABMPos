@@ -19,4 +19,16 @@ public interface ModelRepository extends JpaRepository<ModelDao, Integer> {
     @Query(value = "SELECT distinct m.name, sum(i.quantity) quantity, sum(i.cost * i.quantity) cost, sum(i.retail * i.quantity) retail from product p Inner Join model m on p.model_id = m.model_id\n" +
             "inner join product_inventory i on i.product_no = p.product_no group by m.name", nativeQuery = true)
     List<Object[]> getInventoryByModel();
+
+    @Query(value = "SELECT distinct m.name, \n" +
+            "SUM(l.quantity) quantity, \n" +
+            "SUM(l.cost * l.quantity) cost, \n" +
+            "SUM(l.retail * l.quantity) retail,\n" +
+            "SUM(l.retail * l.quantity - l.cost * l.quantity) profit\n" +
+            "from product p \n" +
+            "Inner Join model m on p.model_id = m.model_id\n" +
+            "inner join transaction_line_item l on l.product_no = p.product_no\n" +
+            "WHERE l.date BETWEEN ?1 AND ?2 \n" +
+            "GROUP BY m.name", nativeQuery = true)
+    List<Object[]> getSalesReportByModel(String startDate, String endDate);
 }

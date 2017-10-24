@@ -52,12 +52,15 @@ public class CustomerController {
     {
         return customerManager.getCustomer();
     }
+
     @RequestMapping(value = "/deleteCustomer", method = RequestMethod.DELETE)
     public ResponseEntity deleteCustomer(@RequestParam String phoneNo)
     {
-        customerManager.deleteCustomer(phoneNo);
-        System.out.println("Customer Deleted Successfully!!");
+        String response = customerManager.deleteCustomer(phoneNo);
 
-        return new ResponseEntity(HttpStatus.OK);
+        if(response.equalsIgnoreCase("Customer Deleted Successfully!!"))
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        else
+            return new ResponseEntity<>(response, HttpStatus.CONFLICT);
     }
 }

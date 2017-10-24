@@ -42,7 +42,7 @@ public class VendorController {
     }
 
 
-    @RequestMapping(value = "/deleteVendor", method = RequestMethod.DELETE, consumes = "application/json")
+    @RequestMapping(value = "/deleteVendor", method = RequestMethod.DELETE)
     public ResponseEntity deleteVendor(@RequestParam int vendorId)
     {
         vendorManager.deleteVendor(vendorId);
