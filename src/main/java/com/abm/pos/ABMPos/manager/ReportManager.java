@@ -80,6 +80,10 @@ public class ReportManager {
 
     private List<InventoryDto>  setDataForCommonInventory(List<Object[]> result) {
         List<InventoryDto> inventoryDtoList = new ArrayList<>();
+        double totalCost = 0;
+        double totalRetail = 0;
+        int totalQuantity = 0;
+        double avgMarkup;
 
 
         if (null != result) {
@@ -94,6 +98,23 @@ public class ReportManager {
                 inventoryDtoList.add(inventoryDto);
             }
         }
+
+        for(InventoryDto inventory: inventoryDtoList)
+        {
+            totalCost =+ totalCost + inventory.getCost();
+            totalRetail =+ totalRetail + inventory.getRetail();
+            totalQuantity =+ totalQuantity + inventory.getQuantity();
+        }
+
+        InventoryDto inventoryDto = new InventoryDto();
+
+        inventoryDto.setName("Total");
+        inventoryDto.setCost(totalCost);
+        inventoryDto.setRetail(totalRetail);
+        inventoryDto.setQuantity(totalQuantity);
+
+        inventoryDtoList.add(inventoryDto);
+
         return inventoryDtoList;
     }
 
@@ -183,7 +204,7 @@ public class ReportManager {
 
         TimeIntervalDto timeIntervalDto;
 
-        if(salesReportBy.equalsIgnoreCase("Category"))
+        if(salesReportBy.equalsIgnoreCase("Sales By Category"))
         {
             timeIntervalDto = utility.getDateByInputString(date);
 
@@ -191,37 +212,37 @@ public class ReportManager {
             return setDataForCommonReportBySales(result);
 
         }
-        else if(salesReportBy.equalsIgnoreCase("Brand"))
+        else if(salesReportBy.equalsIgnoreCase("Sales By Brand"))
         {
             timeIntervalDto = utility.getDateByInputString(date);
             List <Object[]> result = brandRepository.getSalesReportByBrand(timeIntervalDto.getStartDate(), timeIntervalDto.getEndDate());
             return setDataForCommonReportBySales(result);
         }
-        else if(salesReportBy.equalsIgnoreCase("Vendor"))
+        else if(salesReportBy.equalsIgnoreCase("Sales By Vendor"))
         {
             timeIntervalDto = utility.getDateByInputString(date);
             List <Object[]> result = vendorRepository.getSalesReportByVendor(timeIntervalDto.getStartDate(), timeIntervalDto.getEndDate());
             return setDataForCommonReportBySales(result);
         }
-        else if(salesReportBy.equalsIgnoreCase("Model"))
+        else if(salesReportBy.equalsIgnoreCase("Sales By Model"))
         {
             timeIntervalDto = utility.getDateByInputString(date);
             List <Object[]> result = modelRepository.getSalesReportByModel(timeIntervalDto.getStartDate(), timeIntervalDto.getEndDate());
             return setDataForCommonReportBySales(result);
         }
-        else if(salesReportBy.equalsIgnoreCase("Product"))
+        else if(salesReportBy.equalsIgnoreCase("Sales By Product"))
         {
             timeIntervalDto = utility.getDateByInputString(date);
             List <Object[]> result = productRepository.getSalesReportByProduct(timeIntervalDto.getStartDate(), timeIntervalDto.getEndDate());
             return setDataForCommonReportBySales(result);
         }
-        else if(salesReportBy.equalsIgnoreCase("Employee"))
+        else if(salesReportBy.equalsIgnoreCase("Sales By Employee"))
         {
             timeIntervalDto = utility.getDateByInputString(date);
             List <Object[]> result = employeeRepository.getSalesReportByEmployee(timeIntervalDto.getStartDate(), timeIntervalDto.getEndDate());
             return setDataForCommonReportBySales(result);
         }
-        else if(salesReportBy.equalsIgnoreCase("Customer"))
+        else if(salesReportBy.equalsIgnoreCase("Sales By Customer"))
         {
             timeIntervalDto = utility.getDateByInputString(date);
             List <Object[]> result = customerRepository.getSalesReportByCustomer(timeIntervalDto.getStartDate(), timeIntervalDto.getEndDate());
@@ -235,6 +256,19 @@ public class ReportManager {
 
         List<SalesDto> salesDtoList = new ArrayList<>();
 
+        double totalCost = 0;
+        double totalRetail = 0;
+        int totalQuantity = 0;
+        double totalProfit = 0;
+        double totalDiscount = 0;
+        double totalMarkup = 0;
+
+
+
+
+
+
+
         if (null != result) {
             for (Object[] j : result) {
                 SalesDto salesDto = new SalesDto();
@@ -247,6 +281,28 @@ public class ReportManager {
 
                 salesDtoList.add(salesDto);
             }
+
+            for(SalesDto sales: salesDtoList)
+            {
+                totalCost =+ totalCost + sales.getCost();
+                totalRetail =+ totalRetail + sales.getRetail();
+                totalQuantity =+ totalQuantity + sales.getQuantity();
+                totalProfit =+ totalProfit + sales.getProfit();
+                totalDiscount =+ totalDiscount + sales.getDiscount();
+
+            }
+
+            SalesDto salesDto = new SalesDto();
+
+            salesDto.setName("Total");
+            salesDto.setCost(totalCost);
+            salesDto.setRetail(totalRetail);
+            salesDto.setQuantity(totalQuantity);
+            salesDto.setProfit(totalProfit);
+            salesDto.setDiscount(totalDiscount);
+
+            salesDtoList.add(salesDto);
+
         }
 
         return salesDtoList;
