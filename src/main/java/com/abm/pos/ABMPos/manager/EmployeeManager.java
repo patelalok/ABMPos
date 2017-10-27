@@ -33,9 +33,9 @@ public class EmployeeManager {
         return employeeRepository.findAll();
     }
 
-    public void deleteEmployee(String username) {
+    public void deleteEmployee(int id) {
 
-        employeeRepository.delete(username);
+        employeeRepository.delete(id);
     }
 
 //All Methods to handle clock in

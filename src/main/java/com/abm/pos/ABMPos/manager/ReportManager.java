@@ -47,38 +47,33 @@ public class ReportManager {
 
     public List<InventoryDto> getReportByInventory(String inventoryReportBy) {
 
-        if(inventoryReportBy.equalsIgnoreCase("Category")) {
+        if (inventoryReportBy.equalsIgnoreCase("Category")) {
 
             List<Object[]> result = categoryRepository.getInventoryByCategory();
 
-           return setDataForCommonInventory(result);
-        }
-        else if(inventoryReportBy.equalsIgnoreCase("Brand")) {
+            return setDataForCommonInventory(result);
+        } else if (inventoryReportBy.equalsIgnoreCase("Brand")) {
             List<Object[]> result = brandRepository.getInventoryByBrand();
 
             return setDataForCommonInventory(result);
-        }
-        else if (inventoryReportBy.equalsIgnoreCase("Vendor")) {
+        } else if (inventoryReportBy.equalsIgnoreCase("Vendor")) {
 
             List<Object[]> result = vendorRepository.getInventoryByVendor();
 
             return setDataForCommonInventory(result);
-        }
-        else if (inventoryReportBy.equalsIgnoreCase("Model")) {
+        } else if (inventoryReportBy.equalsIgnoreCase("Model")) {
 
             List<Object[]> result = modelRepository.getInventoryByModel();
 
             return setDataForCommonInventory(result);
-        }
-
-        else {
+        } else {
             return null;
         }
 
 
     }
 
-    private List<InventoryDto>  setDataForCommonInventory(List<Object[]> result) {
+    private List<InventoryDto> setDataForCommonInventory(List<Object[]> result) {
         List<InventoryDto> inventoryDtoList = new ArrayList<>();
         double totalCost = 0;
         double totalRetail = 0;
@@ -99,11 +94,10 @@ public class ReportManager {
             }
         }
 
-        for(InventoryDto inventory: inventoryDtoList)
-        {
-            totalCost =+ totalCost + inventory.getCost();
-            totalRetail =+ totalRetail + inventory.getRetail();
-            totalQuantity =+ totalQuantity + inventory.getQuantity();
+        for (InventoryDto inventory : inventoryDtoList) {
+            totalCost = +totalCost + inventory.getCost();
+            totalRetail = +totalRetail + inventory.getRetail();
+            totalQuantity = +totalQuantity + inventory.getQuantity();
         }
 
         InventoryDto inventoryDto = new InventoryDto();
@@ -118,56 +112,34 @@ public class ReportManager {
         return inventoryDtoList;
     }
 
-    public List<SalesSummaryDto> getReportBySalesSummary(String salesReportBy, String date) {
+    public List<SalesSummaryDto> getReportBySalesSummary(String salesReportBy, String startDate, String endDate) {
 
         TimeIntervalDto timeIntervalDto;
 
 
+        if (salesReportBy.equalsIgnoreCase("Sales By Year")) {
 
-        if(salesReportBy.equalsIgnoreCase("SalesByYear"))
-        {
-            timeIntervalDto = utility.getDateByInputString(date);
-
-            if (null != timeIntervalDto && null != timeIntervalDto.getStartDate() && null != timeIntervalDto.getEndDate())
-            {
-                List<Object[]> result = transactionRepository.getYearlySalesReport(timeIntervalDto.getStartDate(), timeIntervalDto.getEndDate());
-                return setDataForCommonSalesReport(result);
-            }
-        }
-        else if(salesReportBy.equalsIgnoreCase("SalesByMonth"))
-        {
-            timeIntervalDto = utility.getDateByInputString("This Year");
-            if (null != timeIntervalDto && null != timeIntervalDto.getStartDate() && null != timeIntervalDto.getEndDate())
-            {
-                List<Object[]> result = transactionRepository.getMonthlySalesReport(timeIntervalDto.getStartDate(), timeIntervalDto.getEndDate());
-                return setDataForCommonSalesReport(result);
-            }
+            List<Object[]> result = transactionRepository.getYearlySalesReport(startDate, endDate);
+            return setDataForCommonSalesReport(result);
+//            }
+        } else if (salesReportBy.equalsIgnoreCase("Sales By Month")) {
+            List<Object[]> result = transactionRepository.getMonthlySalesReport(startDate, endDate);
+            return setDataForCommonSalesReport(result);
+//            }
 
         }
 
         // TODO NEED TO FIGURE THIS OUT.
-        else if(salesReportBy.equalsIgnoreCase("SalesByWeek"))
-        {
+        else if (salesReportBy.equalsIgnoreCase("Sales By Week")) {
 
-        }
-        else if(salesReportBy.equalsIgnoreCase("SalesByDay"))
-        {
-            timeIntervalDto = utility.getDateByInputString(date);
-            if (null != timeIntervalDto && null != timeIntervalDto.getStartDate() && null != timeIntervalDto.getEndDate())
-            {
-                // Reusing monthly cause i am passing start date and end date as today's date so i will show data for today only.
-                List<Object[]> result = transactionRepository.getMonthlySalesReport(timeIntervalDto.getStartDate(), timeIntervalDto.getEndDate());
-                return setDataForCommonSalesReport(result);
-            }
-        }
-        else if(salesReportBy.equalsIgnoreCase("SalesByHour"))
-        {
-            timeIntervalDto = utility.getDateByInputString(date);
-            if (null != timeIntervalDto && null != timeIntervalDto.getStartDate() && null != timeIntervalDto.getEndDate())
-            {
-                List<Object[]> result = transactionRepository.getHourlySalesReport(timeIntervalDto.getStartDate(), timeIntervalDto.getEndDate());
-                return setDataForCommonSalesReport(result);
-            }
+        } else if (salesReportBy.equalsIgnoreCase("Sales By Day")) {
+            List<Object[]> result = transactionRepository.getMonthlySalesReport(startDate, endDate);
+            return setDataForCommonSalesReport(result);
+//            }
+        } else if (salesReportBy.equalsIgnoreCase("Sales By Hour")) {
+            List<Object[]> result = transactionRepository.getHourlySalesReport(startDate, endDate);
+            return setDataForCommonSalesReport(result);
+//            }
         }
 
         return null;
@@ -200,52 +172,32 @@ public class ReportManager {
 
     }
 
-    public List<SalesDto> getReportBySales(String salesReportBy, String date) {
+    public List<SalesDto> getReportBySales(String salesReportBy, String startDate, String endDate) {
 
         TimeIntervalDto timeIntervalDto;
 
-        if(salesReportBy.equalsIgnoreCase("Sales By Category"))
-        {
-            timeIntervalDto = utility.getDateByInputString(date);
+        if (salesReportBy.equalsIgnoreCase("Sales By Category")) {
 
-            List <Object[]> result = categoryRepository.getSalesReportByCategory(timeIntervalDto.getStartDate(), timeIntervalDto.getEndDate());
+            List<Object[]> result = categoryRepository.getSalesReportByCategory(startDate, endDate);
             return setDataForCommonReportBySales(result);
 
-        }
-        else if(salesReportBy.equalsIgnoreCase("Sales By Brand"))
-        {
-            timeIntervalDto = utility.getDateByInputString(date);
-            List <Object[]> result = brandRepository.getSalesReportByBrand(timeIntervalDto.getStartDate(), timeIntervalDto.getEndDate());
+        } else if (salesReportBy.equalsIgnoreCase("Sales By Brand")) {
+            List<Object[]> result = brandRepository.getSalesReportByBrand(startDate, endDate);
             return setDataForCommonReportBySales(result);
-        }
-        else if(salesReportBy.equalsIgnoreCase("Sales By Vendor"))
-        {
-            timeIntervalDto = utility.getDateByInputString(date);
-            List <Object[]> result = vendorRepository.getSalesReportByVendor(timeIntervalDto.getStartDate(), timeIntervalDto.getEndDate());
+        } else if (salesReportBy.equalsIgnoreCase("Sales By Vendor")) {
+            List<Object[]> result = vendorRepository.getSalesReportByVendor(startDate, endDate);
             return setDataForCommonReportBySales(result);
-        }
-        else if(salesReportBy.equalsIgnoreCase("Sales By Model"))
-        {
-            timeIntervalDto = utility.getDateByInputString(date);
-            List <Object[]> result = modelRepository.getSalesReportByModel(timeIntervalDto.getStartDate(), timeIntervalDto.getEndDate());
+        } else if (salesReportBy.equalsIgnoreCase("Sales By Model")) {
+            List<Object[]> result = modelRepository.getSalesReportByModel(startDate, endDate);
             return setDataForCommonReportBySales(result);
-        }
-        else if(salesReportBy.equalsIgnoreCase("Sales By Product"))
-        {
-            timeIntervalDto = utility.getDateByInputString(date);
-            List <Object[]> result = productRepository.getSalesReportByProduct(timeIntervalDto.getStartDate(), timeIntervalDto.getEndDate());
+        } else if (salesReportBy.equalsIgnoreCase("Sales By Product")) {
+            List<Object[]> result = productRepository.getSalesReportByProduct(startDate, endDate);
             return setDataForCommonReportBySales(result);
-        }
-        else if(salesReportBy.equalsIgnoreCase("Sales By Employee"))
-        {
-            timeIntervalDto = utility.getDateByInputString(date);
-            List <Object[]> result = employeeRepository.getSalesReportByEmployee(timeIntervalDto.getStartDate(), timeIntervalDto.getEndDate());
+        } else if (salesReportBy.equalsIgnoreCase("Sales By Employee")) {
+            List<Object[]> result = employeeRepository.getSalesReportByEmployee(startDate, endDate);
             return setDataForCommonReportBySales(result);
-        }
-        else if(salesReportBy.equalsIgnoreCase("Sales By Customer"))
-        {
-            timeIntervalDto = utility.getDateByInputString(date);
-            List <Object[]> result = customerRepository.getSalesReportByCustomer(timeIntervalDto.getStartDate(), timeIntervalDto.getEndDate());
+        } else if (salesReportBy.equalsIgnoreCase("Sales By Customer")) {
+            List<Object[]> result = customerRepository.getSalesReportByCustomer(startDate, endDate);
             return setDataForCommonReportBySales(result);
         }
 
@@ -263,12 +215,6 @@ public class ReportManager {
         double totalDiscount = 0;
         double totalMarkup = 0;
 
-
-
-
-
-
-
         if (null != result) {
             for (Object[] j : result) {
                 SalesDto salesDto = new SalesDto();
@@ -282,13 +228,12 @@ public class ReportManager {
                 salesDtoList.add(salesDto);
             }
 
-            for(SalesDto sales: salesDtoList)
-            {
-                totalCost =+ totalCost + sales.getCost();
-                totalRetail =+ totalRetail + sales.getRetail();
-                totalQuantity =+ totalQuantity + sales.getQuantity();
-                totalProfit =+ totalProfit + sales.getProfit();
-                totalDiscount =+ totalDiscount + sales.getDiscount();
+            for (SalesDto sales : salesDtoList) {
+                totalCost = +totalCost + sales.getCost();
+                totalRetail = +totalRetail + sales.getRetail();
+                totalQuantity = +totalQuantity + sales.getQuantity();
+                totalProfit = +totalProfit + sales.getProfit();
+                totalDiscount = +totalDiscount + sales.getDiscount();
 
             }
 
@@ -309,20 +254,17 @@ public class ReportManager {
 
     }
 
-    public List<SalesDto> getTop50SellingItem(String productReportType, String date)
-    {
+    public List<SalesDto> getTop50SellingItem(String productReportType, String date) {
         TimeIntervalDto timeIntervalDto;
 
-        if(productReportType.equalsIgnoreCase("Top50SellingItem")) {
+        if (productReportType.equalsIgnoreCase("Top50SellingItem")) {
             timeIntervalDto = utility.getDateByInputString(date);
             List<Object[]> result = productRepository.getTop50SellingItem(timeIntervalDto.getStartDate(), timeIntervalDto.getEndDate());
             return setDataForCommonProductReports(result);
-        }
-        else if(productReportType.equalsIgnoreCase("Top50MostProfitableItem"))
-        {
-                timeIntervalDto = utility.getDateByInputString(date);
-                List<Object[]> result = productRepository.getTop50MostProfitableItem(timeIntervalDto.getStartDate(), timeIntervalDto.getEndDate());
-                return setDataForCommonProductReports(result);
+        } else if (productReportType.equalsIgnoreCase("Top50MostProfitableItem")) {
+            timeIntervalDto = utility.getDateByInputString(date);
+            List<Object[]> result = productRepository.getTop50MostProfitableItem(timeIntervalDto.getStartDate(), timeIntervalDto.getEndDate());
+            return setDataForCommonProductReports(result);
         }
 
         return null;

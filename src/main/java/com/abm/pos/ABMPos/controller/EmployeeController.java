@@ -38,10 +38,10 @@ public class EmployeeController {
         return employeeManager.getEmployee();
     }
 
-    @RequestMapping(value = "/deleteEmployee", method = RequestMethod.DELETE, consumes = "application/json")
-    public ResponseEntity deleteEmployee(@RequestParam String username)
+    @RequestMapping(value = "/deleteEmployee", method = RequestMethod.DELETE)
+    public ResponseEntity deleteEmployee(@RequestParam int id)
     {
-        employeeManager.deleteEmployee(username);
+        employeeManager.deleteEmployee(id);
         System.out.println("Employee Deleted Successfully!!");
         return new ResponseEntity(HttpStatus.OK);
     }

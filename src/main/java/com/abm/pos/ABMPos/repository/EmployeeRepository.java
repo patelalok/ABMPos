@@ -12,7 +12,7 @@ import java.util.List;
  */
 
 @Transactional
-public interface EmployeeRepository extends JpaRepository<EmployeeDao,String> {
+public interface EmployeeRepository extends JpaRepository<EmployeeDao,Integer> {
 
     List<EmployeeDao> findAll();
 

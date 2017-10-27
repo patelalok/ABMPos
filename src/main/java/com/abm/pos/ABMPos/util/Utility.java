@@ -22,6 +22,7 @@ public class Utility {
 
 
 
+// DO NOT DELETE ::: Not using this but can keep it for future if i need to do anything like this
 
     public TimeIntervalDto getDateByInputString(String inputString)
     {
@@ -77,6 +78,9 @@ public class Utility {
 
             return setStartAndEndDate(startDate, endDate);
         }
+
+
+
         else if(inputString.equalsIgnoreCase("Last Month"))
         {
             // add -1 month to current month
@@ -156,6 +160,196 @@ public class Utility {
 
     }
 
+    public TimeIntervalDto getDateByMonthName(String monthName)
+    {
+        Date currentDate = new Date();
+
+        Calendar c = Calendar.getInstance();
+        c.setTime(currentDate);
+
+        if(monthName.equalsIgnoreCase("January")) {
+            // add -1 month to current month
+            c.add(Calendar.JANUARY, 1);
+            // set DATE to 1, so first date of previous month
+            c.set(Calendar.DATE, 1);
+
+
+            String startDate = dateFormat.format(c.getTime());
+
+            c.add(Calendar.JANUARY, 1);
+            c.set(Calendar.DATE, c.getActualMaximum(Calendar.DAY_OF_MONTH));
+            String endDate = dateFormat.format(c.getTime());
+
+            return setStartAndEndDate(startDate, endDate);
+        }
+        else if(monthName.equalsIgnoreCase("February"))
+        {
+            c.add(Calendar.FEBRUARY, 1);
+            // set DATE to 1, so first date of previous month
+            c.set(Calendar.DATE, 1);
+
+
+            String startDate = dateFormat.format(c.getTime());
+
+            c.set(Calendar.DATE, c.getActualMaximum(Calendar.DAY_OF_MONTH));
+            String endDate = dateFormat.format(c.getTime());
+
+            return setStartAndEndDate(startDate, endDate);
+        }
+
+        else if(monthName.equalsIgnoreCase("March"))
+        {
+            c.add(Calendar.MARCH, 1);
+            // set DATE to 1, so first date of previous month
+            c.set(Calendar.DATE, 1);
+
+
+            String startDate = dateFormat.format(c.getTime());
+
+            c.set(Calendar.DATE, c.getActualMaximum(Calendar.DAY_OF_MONTH));
+            String endDate = dateFormat.format(c.getTime());
+
+            return setStartAndEndDate(startDate, endDate);
+        }
+
+        else if(monthName.equalsIgnoreCase("April"))
+        {
+            c.add(Calendar.APRIL, 1);
+            // set DATE to 1, so first date of previous month
+            c.set(Calendar.DATE, 1);
+
+
+            String startDate = dateFormat.format(c.getTime());
+
+            c.set(Calendar.DATE, c.getActualMaximum(Calendar.DAY_OF_MONTH));
+            String endDate = dateFormat.format(c.getTime());
+
+            return setStartAndEndDate(startDate, endDate);
+        }
+
+        else if(monthName.equalsIgnoreCase("May"))
+        {
+            c.add(Calendar.MAY, 1);
+            // set DATE to 1, so first date of previous month
+            c.set(Calendar.DATE, 1);
+
+
+            String startDate = dateFormat.format(c.getTime());
+
+            c.set(Calendar.DATE, c.getActualMaximum(Calendar.DAY_OF_MONTH));
+            String endDate = dateFormat.format(c.getTime());
+
+            return setStartAndEndDate(startDate, endDate);
+        }
+
+        else if(monthName.equalsIgnoreCase("June"))
+        {
+            c.add(Calendar.JUNE, 1);
+            // set DATE to 1, so first date of previous month
+            c.set(Calendar.DATE, 1);
+
+
+            String startDate = dateFormat.format(c.getTime());
+
+            c.set(Calendar.DATE, c.getActualMaximum(Calendar.DAY_OF_MONTH));
+            String endDate = dateFormat.format(c.getTime());
+
+            return setStartAndEndDate(startDate, endDate);
+        }
+
+        else if(monthName.equalsIgnoreCase("July"))
+        {
+            c.add(Calendar.JULY, 1);
+            // set DATE to 1, so first date of previous month
+            c.set(Calendar.DATE, 1);
+
+
+            String startDate = dateFormat.format(c.getTime());
+
+            c.set(Calendar.DATE, c.getActualMaximum(Calendar.DAY_OF_MONTH));
+            String endDate = dateFormat.format(c.getTime());
+
+            return setStartAndEndDate(startDate, endDate);
+        }
+
+        else if(monthName.equalsIgnoreCase("August"))
+        {
+            c.add(Calendar.AUGUST, 1);
+            // set DATE to 1, so first date of previous month
+            c.set(Calendar.DATE, 1);
+
+
+            String startDate = dateFormat.format(c.getTime());
+
+            c.set(Calendar.DATE, c.getActualMaximum(Calendar.DAY_OF_MONTH));
+            String endDate = dateFormat.format(c.getTime());
+
+            return setStartAndEndDate(startDate, endDate);
+        }
+
+        else if(monthName.equalsIgnoreCase("September"))
+        {
+            c.add(Calendar.SEPTEMBER, 1);
+            // set DATE to 1, so first date of previous month
+            c.set(Calendar.DATE, 1);
+
+
+            String startDate = dateFormat.format(c.getTime());
+
+            c.set(Calendar.DATE, c.getActualMaximum(Calendar.DAY_OF_MONTH));
+            String endDate = dateFormat.format(c.getTime());
+
+            return setStartAndEndDate(startDate, endDate);
+        }
+
+        else if(monthName.equalsIgnoreCase("October"))
+        {
+            c.add(Calendar.OCTOBER, 1);
+            // set DATE to 1, so first date of previous month
+            c.set(Calendar.DATE, 1);
+
+
+            String startDate = dateFormat.format(c.getTime());
+
+            c.set(Calendar.DATE, c.getActualMaximum(Calendar.DAY_OF_MONTH));
+            String endDate = dateFormat.format(c.getTime());
+
+            return setStartAndEndDate(startDate, endDate);
+        }
+
+        else if(monthName.equalsIgnoreCase("November"))
+        {
+            c.add(Calendar.NOVEMBER, 1);
+            // set DATE to 1, so first date of previous month
+            c.set(Calendar.DATE, 1);
+
+
+            String startDate = dateFormat.format(c.getTime());
+
+            c.set(Calendar.DATE, c.getActualMaximum(Calendar.DAY_OF_MONTH));
+            String endDate = dateFormat.format(c.getTime());
+
+            return setStartAndEndDate(startDate, endDate);
+        }
+
+        else if(monthName.equalsIgnoreCase("December"))
+        {
+            c.add(Calendar.DECEMBER, 1);
+            // set DATE to 1, so first date of previous month
+            c.set(Calendar.DATE, 1);
+
+
+            String startDate = dateFormat.format(c.getTime());
+
+            c.set(Calendar.DATE, c.getActualMaximum(Calendar.DAY_OF_MONTH));
+            String endDate = dateFormat.format(c.getTime());
+
+            return setStartAndEndDate(startDate, endDate);
+        }
+
+        return null;
+
+    }
     // This method add the constant after calculating current date and time.
     private TimeIntervalDto setStartAndEndDate(String startDate, String endDate)
     {
