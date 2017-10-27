@@ -30,10 +30,10 @@ public class ExpenseController {
     }
 
     @RequestMapping(value = "/getExpense", method = RequestMethod.GET, produces = "application/json")
-    public List<ExpenseDao> getExpense()
+    public List<ExpenseDao> getExpense(String startDate, String endDate)
     {
         System.out.println("Send Expense Details Successfully!!");
-        return expenseManager.getExpense();
+        return expenseManager.getExpense(startDate, endDate);
 
     }
 

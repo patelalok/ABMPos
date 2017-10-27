@@ -26,9 +26,9 @@ public class ExpenseManager {
          expenseRepository.save(expenseDao);
     }
 
-    public List<ExpenseDao> getExpense() {
+    public List<ExpenseDao> getExpense(String startDate, String endDate) {
 
-        return expenseRepository.findAll();
+        return expenseRepository.getExpenseDetailsByDate(startDate, endDate);
     }
 
     public void deleteExpense(Integer expenseId) {
