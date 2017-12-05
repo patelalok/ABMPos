@@ -41,14 +41,21 @@ public class TransactionController {
     @RequestMapping(value = "/getTransactionById", method = RequestMethod.GET, produces = "application/json")
     public TransactionDao getTransactionById(@RequestParam int transactionCompId)
     {
-
         return transactionManager.getTransactionById(transactionCompId);
     }
 
     @RequestMapping(value = "/getTransactionByDate", method = RequestMethod.GET, produces = "application/json")
     public List<TransactionDao> getTransactionByDate(@RequestParam String date)
     {
-
         return transactionManager.getTransactionByDate(date);
     }
+
+    @RequestMapping(value = "/voidTransaction", method = RequestMethod.POST)
+    public void voidTransaction(@RequestBody TransactionDao transactionDao)
+    {
+        transactionManager.voidTransaction(transactionDao);
+        System.out.println("Transaction Voided Successfully!!");
+    }
+
+
 }

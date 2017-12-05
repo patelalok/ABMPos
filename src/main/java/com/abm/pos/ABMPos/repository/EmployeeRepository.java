@@ -16,7 +16,6 @@ public interface EmployeeRepository extends JpaRepository<EmployeeDao,Integer> {
 
     List<EmployeeDao> findAll();
 
-
     @Query(value = "SELECT distinct e.username,\n" +
             "SUM(l.quantity) quantity, \n" +
             "SUM(l.cost * l.quantity) cost, \n" +
@@ -28,4 +27,6 @@ public interface EmployeeRepository extends JpaRepository<EmployeeDao,Integer> {
             "WHERE l.date BETWEEN ?1 AND ?2\n" +
             "GROUP BY e.username", nativeQuery = true)
     List<Object[]> getSalesReportByEmployee(String startDate, String endDate);
+
+    EmployeeDao findOneByUsername(String username);
 }

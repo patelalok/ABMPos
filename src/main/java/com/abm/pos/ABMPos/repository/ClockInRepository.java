@@ -17,7 +17,7 @@ public interface ClockInRepository extends JpaRepository<ClockInDao, Integer> {
     @Query("SELECT c FROM ClockInDao c WHERE c.clockIn BETWEEN ?2 AND ?3 AND username = ?1")
     List<ClockInDao> findByUsernameAndClockIn(String username, String startDate, String endDate);
 
-
-
+    @Query("SELECT c FROM ClockInDao c WHERE c.clockIn BETWEEN ?2 AND ?3 AND username = ?1")
+    ClockInDao findOneByUsernameAndClockIn(String username, String startDate, String endDate);
 
 }

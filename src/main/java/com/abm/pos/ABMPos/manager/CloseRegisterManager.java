@@ -35,18 +35,12 @@ public class CloseRegisterManager {
         this.closeRegisterRepository.save(closeRegisterDao);
     }
 
-    public CloseRegisterDao getCloseRegisterDetailsByDate(String date) throws NoSuchFieldException, IllegalAccessException {
+    public CloseRegisterDao getCloseRegisterDetailsByDate(String startDate, String endDate) throws NoSuchFieldException, IllegalAccessException {
 
-        TimeIntervalDto timeIntervalDto;
         CloseRegisterDao closeRegisterDao = new CloseRegisterDao();
 
-        timeIntervalDto = utility.getDateByInputString(date);
-
-        if (null != timeIntervalDto) {
-
-
             // Getting the sum of all payment methods from payment table.
-            PaymentDao paymentDao = getSumOfAllPayments(timeIntervalDto);
+            PaymentDao paymentDao = getSumOfAllPayments(startDate, endDate);
 
             if(null != paymentDao)
             {
@@ -60,7 +54,7 @@ public class CloseRegisterManager {
             }
 
             // Now need get transaction details from transaction table.
-            TransactionDao transactionDao = getSumOfAllTransactionDetails(timeIntervalDto);
+            TransactionDao transactionDao = getSumOfAllTransactionDetails(startDate, endDate);
 
             if(null != transactionDao)
             {
@@ -69,49 +63,65 @@ public class CloseRegisterManager {
                 closeRegisterDao.setDiscount(transactionDao.getTotalDiscount());
             }
 
+            // Here i need to check if there is any data from user, this happens when user close the register more then 2 times or
+            // User is trying to get details for previous days.
+
+            CloseRegisterDao closeRegisterDao1 = closeRegisterRepository.getCloseRegisterDetailsByDate(startDate,endDate);
+
+            if(null != closeRegisterDao1)
+            {
+                closeRegisterDao.setCloseCash(closeRegisterDao1.getCloseCash());
+                closeRegisterDao.setCloseCredit(closeRegisterDao1.getCloseCredit());
+                closeRegisterDao.setCloseDebit(closeRegisterDao1.getCloseDebit());
+                closeRegisterDao.setCloseCheck(closeRegisterDao1.getCloseCheck());
+                closeRegisterDao.setId(closeRegisterDao1.getId());
+
+            }
+
             return closeRegisterDao;
                     //closeRegisterRepository.getCloseRegisterDetailsByDate(timeIntervalDto.getStartDate(), timeIntervalDto.getEndDate());
-        } else {
-            return null;
         }
-    }
 
-    private TransactionDao getSumOfAllTransactionDetails(TimeIntervalDto timeIntervalDto) {
+    private TransactionDao getSumOfAllTransactionDetails(String startDate, String endDate) {
         TransactionDao transactionDao = new TransactionDao();
 
-        List<Object[]> result = transactionRepository.getSumOfTransactionDetailsForCloseRegister(timeIntervalDto.getStartDate(), timeIntervalDto.getEndDate());
+        List<Object[]> result = transactionRepository.getSumOfTransactionDetailsForCloseRegister(startDate, endDate);
 
         for(Object [] j : result)
         {
-            for(int i = 0; i <= result.size(); i++)
-            {
-                transactionDao.setTotalAmount((Double.parseDouble(j[0].toString())));
-                transactionDao.setTax((Double.parseDouble(j[1].toString())));
-                transactionDao.setTotalDiscount((Double.parseDouble(j[2].toString())));
+            if(j[0] != null) {
+                for (int i = 0; i <= result.size(); i++) {
+                    transactionDao.setTotalAmount((Double.parseDouble(j[0].toString())));
+                    transactionDao.setTax((Double.parseDouble(j[1].toString())));
+                    transactionDao.setTotalDiscount((Double.parseDouble(j[2].toString())));
+                }
             }
         }
         return transactionDao;
     }
 
-    private PaymentDao getSumOfAllPayments(TimeIntervalDto timeIntervalDto) {
+    private PaymentDao getSumOfAllPayments(String startDate, String endDate) {
 
         PaymentDao paymentDao = new PaymentDao();
-        List<Object[]> result =  paymentRepository.sumOfAllPayments(timeIntervalDto.getStartDate(), timeIntervalDto.getEndDate());
+        List<Object[]> result =  paymentRepository.sumOfAllPayments(startDate, endDate);
 
         if(result != null) {
 
             for (Object [] j : result) {
 
-                for (int i = 0; i <= result.size(); i++) {
+                if(j[0] != null) {
 
-                    paymentDao.setCash(Double.parseDouble(j[0].toString()));
-                    paymentDao.setCredit(Double.parseDouble(j[1].toString()));
-                    paymentDao.setDebit(Double.parseDouble(j[2].toString()));
-                    paymentDao.setCheckAmount(Double.parseDouble(j[3].toString()));
-                    paymentDao.setStoreCredit(Double.parseDouble(j[4].toString()));
-                    paymentDao.setOnAccount(Double.parseDouble(j[5].toString()));
-                    paymentDao.setLoyalty(Double.parseDouble(j[6].toString()));
+                    for (int i = 0; i <= result.size(); i++) {
 
+                        paymentDao.setCash(Double.parseDouble(j[0].toString()));
+                        paymentDao.setCredit(Double.parseDouble(j[1].toString()));
+                        paymentDao.setDebit(Double.parseDouble(j[2].toString()));
+                        paymentDao.setCheckAmount(Double.parseDouble(j[3].toString()));
+                        paymentDao.setStoreCredit(Double.parseDouble(j[4].toString()));
+                        paymentDao.setOnAccount(Double.parseDouble(j[5].toString()));
+                        paymentDao.setLoyalty(Double.parseDouble(j[6].toString()));
+
+                    }
                 }
             }
         }

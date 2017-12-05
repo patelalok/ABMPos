@@ -38,6 +38,12 @@ public class EmployeeController {
         return employeeManager.getEmployee();
     }
 
+    @RequestMapping(value = "/validateEmployeeForClockIn", method = RequestMethod.GET, produces = "application/json")
+    public boolean validateEmployeeForClockIn(String username, String password)
+    {
+        return employeeManager.validateEmployeeForClockIn(username, password);
+    }
+
     @RequestMapping(value = "/deleteEmployee", method = RequestMethod.DELETE)
     public ResponseEntity deleteEmployee(@RequestParam int id)
     {
@@ -45,6 +51,7 @@ public class EmployeeController {
         System.out.println("Employee Deleted Successfully!!");
         return new ResponseEntity(HttpStatus.OK);
     }
+
 
     @RequestMapping(value = "/addClockIn", method = RequestMethod.POST, consumes = "application/json")
     public ResponseEntity addClockIn(@RequestBody ClockInDao clockInDao)
@@ -54,10 +61,19 @@ public class EmployeeController {
 
         return new ResponseEntity(HttpStatus.CREATED);
     }
+
+    // I am using this one only for clock in, which helps to get clock in details for perticular date.
     @RequestMapping(value = "/getClockIn", method = RequestMethod.GET, produces = "application/json")
-    public List<ClockInDao> getClockIn(@RequestParam String username,@RequestParam String startDate,@RequestParam String endDate ) {
+    public ClockInDao getClockIn(@RequestParam String username,@RequestParam String startDate,@RequestParam String endDate ) {
 
         return employeeManager.getClockIn(username,startDate, endDate);
+
+    }
+
+    @RequestMapping(value = "/getAllClockIn", method = RequestMethod.GET, produces = "application/json")
+    public List<ClockInDao> getAllClockIn(@RequestParam String username,@RequestParam String startDate,@RequestParam String endDate ) {
+
+        return employeeManager.getAllClockIn(username,startDate, endDate);
 
     }
 }

@@ -91,4 +91,9 @@ public class CustomerManager {
 
         return storeCreditRepository.findAllByCustomerPhoneno(phoneNo);
     }
+
+    public CustomerDao getCustomerByPhoneNo(String phoneNo) {
+
+       return customerRepository.findByPhoneNo(phoneNo);
+    }
 }

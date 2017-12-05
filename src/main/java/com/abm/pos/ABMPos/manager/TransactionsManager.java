@@ -34,103 +34,153 @@ public class TransactionsManager {
     @Autowired
     private CustomerRepository customerRepository;
 
+    @Autowired
+    private StoreCreditRepository storeCreditRepository;
+
 
     public void addTransaction(TransactionDao transactionDao) {
 
-        List<TransactionLineItemDao> transactionLineItemDaoList = new ArrayList<>();
-        List<TransactionLineItemDao> transactionLineItemDaoListNew = new ArrayList<>();
+        if(null != transactionDao && transactionDao.getStatus().equalsIgnoreCase("Return"))
+        {
 
+            // Managing inventory for the return
 
-        transactionLineItemDaoList = transactionDao.getTransactionLineItemDaoList();
+            ProductInventoryDao productInventoryDao = new ProductInventoryDao();
 
+            for(TransactionLineItemDao lineItemDao: transactionDao.getTransactionLineItemDaoList())
+            {
+                productInventoryDao.setProductNo(lineItemDao.getProductNo());
+                productInventoryDao.setCost(Math.abs(lineItemDao.getCost()));
+                productInventoryDao.setRetail(Math.abs((lineItemDao.getRetail())));
+                productInventoryDao.setQuantity(lineItemDao.getQuantity());
+                productInventoryDao.setCreatedTimestamp(transactionDao.getDate());
 
-        for (TransactionLineItemDao lineItemDao : transactionLineItemDaoList) {
-            // I need to set this up to keep track of the inventory, so with this i will know, whether i need to call Product inventory table again or not.
-            // So with first call if parchedQuantity == 0 that mean we can full fill this sale we do not need to check for other inventory for this product but if not
-            // Then we need to keep doing this process until parched Quantity == 0.
-            int purchasedQuantity = lineItemDao.getQuantity();
-
-
-            do {
-                // step 1 : get the product from line item and then get the quantity for that product from inventory table on behalf of created time stamps.
-                ProductInventoryDao productInventoryDao = new ProductInventoryDao();
-
-                // This call will give product inventory details on behalf of FIFO.
-                productInventoryDao = productInventoryRepository.findFirstByProductNoOrderByCreatedTimestampAsc(lineItemDao.getProductNo());
-
-
-                if (null != productInventoryDao) {
-                    // This is best case.
-                    if (productInventoryDao.getQuantity() > purchasedQuantity) {
-
-                        // This is Important because i need to set cost price separately that's why i need to do this.
-                        lineItemDao.setCost(productInventoryDao.getCost());
-                        transactionLineItemDaoListNew.add(lineItemDao);
-
-                        reduceQuantityFromProductInventoryTable(productInventoryDao, purchasedQuantity);
-
-                        purchasedQuantity = 0;
-                    }
-                    // This means we do not have enough inventory to sale, so we can sale wt we have and then call inventory table again until purchase item == 0.
-                    else if (productInventoryDao.getQuantity() > 0) {
-                        lineItemDao.setCost(productInventoryDao.getCost());
-                        lineItemDao.setQuantity(productInventoryDao.getQuantity());
-
-                        transactionLineItemDaoListNew.add(lineItemDao);
-
-                        purchasedQuantity = purchasedQuantity - productInventoryDao.getQuantity();
-
-                        reduceQuantityFromProductInventoryTable(productInventoryDao, 0);
-
-
-                        // Also this means in Product Inventory table, inventory of this product is 0
-                        // So now we need to delete this row from the table
-                        // Here is the interesting this, we can delete this row only, IF IT IS NOT LAST ROW.
-                        // IF IT IS LAST ROW THEN WE JUST REDUCE THE QUANTITY AND LET ELSE CONDITION HANDLE IT
-                        // THIS CASE HAPPENS WHEN USER HAS NOT UPDATED THE PRODUCT INVENTORY TABLE BUT STILL HE IS TRYING TO SALE THE PRODUCT.
-
-                        deleteProductInventoryRow(productInventoryDao);
-
-                    }
-
-                    // This means we have last entry in product inventory table and user has not updated the quantity.
-                    else {
-                        // This is Important because i need to set cost price separately that's why i need to do this.
-                        lineItemDao.setCost(productInventoryDao.getCost());
-                        transactionLineItemDaoListNew.add(lineItemDao);
-                        reduceQuantityFromProductInventoryTable(productInventoryDao, productInventoryDao.getQuantity() - purchasedQuantity);
-
-                        purchasedQuantity = 0;
-                    }
-
-                }
-                // TODO need to handle this case  :(
-                else {
-                    System.out.println("OPPS Some problem need to handle this.");
-                }
+                productInventoryRepository.save(productInventoryDao);
             }
 
-            while (purchasedQuantity != 0);
 
+            // Handing store credit here
+            // This means user is giving store credit to the customer so i need to add customers store credit with valid reason.
+            if(null != transactionDao.getCustomerPhoneno() && null != transactionDao.getPaymentDao() && transactionDao.getPaymentDao().get(0).getStoreCredit() > 0)
+            {
+                StoreCreditDao storeCreditDao = new StoreCreditDao();
+
+                storeCreditDao.setAmount(transactionDao.getPaymentDao().get(0).getStoreCredit());
+                storeCreditDao.setCustomerPhoneno(transactionDao.getCustomerPhoneno());
+                storeCreditDao.setEmployeeName(transactionDao.getUsername());
+                storeCreditDao.setReason("Return Credit For Transaction No: " + transactionDao.getPreviousTransactionId());
+                storeCreditDao.setCreatedTimestamp(transactionDao.getDate());
+
+                storeCreditRepository.save(storeCreditDao);
+
+                CustomerDao customerDao = customerRepository.findByPhoneNo(transactionDao.getCustomerPhoneno());
+
+                // This add the store credit into customer's account
+                if(null != customerDao)
+                {
+                    customerDao.setStoreCredit(customerDao.getStoreCredit() + transactionDao.getPaymentDao().get(0).getStoreCredit());
+
+                    customerRepository.save(customerDao);
+                }
+
+
+            }
         }
+        else {
 
-        transactionDao.setTransactionLineItemDaoList(transactionLineItemDaoListNew);
+            List<TransactionLineItemDao> transactionLineItemDaoList = new ArrayList<>();
+            List<TransactionLineItemDao> transactionLineItemDaoListNew = new ArrayList<>();
+
+
+            transactionLineItemDaoList = transactionDao.getTransactionLineItemDaoList();
+
+
+            for (TransactionLineItemDao lineItemDao : transactionLineItemDaoList) {
+                // I need to set this up to keep track of the inventory, so with this i will know, whether i need to call Product inventory table again or not.
+                // So with first call if parchedQuantity == 0 that mean we can full fill this sale we do not need to check for other inventory for this product but if not
+                // Then we need to keep doing this process until parched Quantity == 0.
+                int purchasedQuantity = lineItemDao.getQuantity();
+
+
+                do {
+                    // step 1 : get the product from line item and then get the quantity for that product from inventory table on behalf of created time stamps.
+                    ProductInventoryDao productInventoryDao = new ProductInventoryDao();
+
+                    // This call will give product inventory details on behalf of FIFO.
+                    productInventoryDao = productInventoryRepository.findFirstByProductNoOrderByCreatedTimestampAsc(lineItemDao.getProductNo());
+
+
+                    if (null != productInventoryDao) {
+                        // This is best case.
+                        if (productInventoryDao.getQuantity() > purchasedQuantity) {
+
+                            // This is Important because i need to set cost price separately that's why i need to do this.
+                            lineItemDao.setCost(productInventoryDao.getCost());
+                            transactionLineItemDaoListNew.add(lineItemDao);
+
+                            reduceQuantityFromProductInventoryTable(productInventoryDao, purchasedQuantity);
+
+                            purchasedQuantity = 0;
+                        }
+                        // This means we do not have enough inventory to sale, so we can sale wt we have and then call inventory table again until purchase item == 0.
+                        else if (productInventoryDao.getQuantity() > 0) {
+                            lineItemDao.setCost(productInventoryDao.getCost());
+                            lineItemDao.setQuantity(productInventoryDao.getQuantity());
+
+                            transactionLineItemDaoListNew.add(lineItemDao);
+
+                            purchasedQuantity = purchasedQuantity - productInventoryDao.getQuantity();
+
+                            reduceQuantityFromProductInventoryTable(productInventoryDao, 0);
+
+
+                            // Also this means in Product Inventory table, inventory of this product is 0
+                            // So now we need to delete this row from the table
+                            // Here is the interesting this, we can delete this row only, IF IT IS NOT LAST ROW.
+                            // IF IT IS LAST ROW THEN WE JUST REDUCE THE QUANTITY AND LET ELSE CONDITION HANDLE IT
+                            // THIS CASE HAPPENS WHEN USER HAS NOT UPDATED THE PRODUCT INVENTORY TABLE BUT STILL HE IS TRYING TO SALE THE PRODUCT.
+
+                            deleteProductInventoryRow(productInventoryDao);
+
+                        }
+
+                        // This means we have last entry in product inventory table and user has not updated the quantity.
+                        else {
+                            // This is Important because i need to set cost price separately that's why i need to do this.
+                            lineItemDao.setCost(productInventoryDao.getCost());
+                            transactionLineItemDaoListNew.add(lineItemDao);
+                            reduceQuantityFromProductInventoryTable(productInventoryDao, productInventoryDao.getQuantity() - purchasedQuantity);
+
+                            purchasedQuantity = 0;
+                        }
+
+                    }
+                    // TODO need to handle this case  :(
+                    else {
+                        System.out.println("OPPS Some problem need to handle this.");
+                    }
+                }
+
+                while (purchasedQuantity != 0);
+
+            }
+
+            transactionDao.setTransactionLineItemDaoList(transactionLineItemDaoListNew);
 
 //        Here i need to handle the scenario where customer is doing partial payment, or not paying right now and will pay later so
 //        Here i need to maintain his balance by just adding transaction balance to that customers account
-        // I am doing this only if customer is doing partial payment cause only in that case customers balance will be more then 0.
+            // I am doing this only if customer is doing partial payment cause only in that case customers balance will be more then 0.
 
-        if(null != transactionDao.getCustomerPhoneno() && transactionDao.getTransactionBalance() >= 0)
-        {
-            setCustomerBalance(transactionDao);
-        }
+            if (null != transactionDao.getCustomerPhoneno() && transactionDao.getTransactionBalance() >= 0) {
+                setCustomerBalance(transactionDao);
+            }
 
-        // Here i need to handle the case where customer is using Store credit to pay the amount.
-        // I need to update the store credit for the customer and handle the transaction.
+            // Here i need to handle the case where customer is using Store credit to pay the amount.
+            // I need to update the store credit for the customer and handle the transaction.
 
-        if(null != transactionDao.getCustomerPhoneno() && transactionDao.getPaymentDao().get(0).getStoreCredit() > 0)
-        {
-            setCustomerStoreCredit(transactionDao);
+            if (null != transactionDao.getCustomerPhoneno() && transactionDao.getPaymentDao().get(0).getStoreCredit() > 0) {
+                setCustomerStoreCredit(transactionDao);
+            }
         }
 
         transactionRepository.save(transactionDao);
@@ -205,4 +255,10 @@ public class TransactionsManager {
         }
 
     }
+
+    public void voidTransaction(TransactionDao transactionDao) {
+
+        this.transactionRepository.save(transactionDao);
+    }
+
 }

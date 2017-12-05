@@ -75,4 +75,6 @@ public interface TransactionRepository extends JpaRepository<TransactionDao, Int
             "WHERE t.date BETWEEN ?1 AND ?2 " +
             "GROUP BY hours ", nativeQuery = true)
     List<Object[]> getHourlySalesReport(String startDate, String endDate);
+
+
 }

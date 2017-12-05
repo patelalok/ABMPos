@@ -14,6 +14,7 @@ public class PaymentDao {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int transactionPaymentId;
 
+    private String status;
     private String date;
 
     private double cash;
@@ -37,6 +38,14 @@ public class PaymentDao {
 
     public void setTransactionPaymentId(int transactionPaymentId) {
         this.transactionPaymentId = transactionPaymentId;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 
     public String getDate() {

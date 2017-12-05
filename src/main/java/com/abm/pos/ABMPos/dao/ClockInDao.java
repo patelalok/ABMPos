@@ -23,6 +23,10 @@ public class ClockInDao {
     private double totalAmount;
     private double commissionAmount;
 
+    @Transient
+    private boolean isValid;
+
+
     public int getUserClockInId() {
         return userClockInId;
     }
@@ -93,5 +97,13 @@ public class ClockInDao {
 
     public void setCommissionAmount(double commissionAmount) {
         this.commissionAmount = commissionAmount;
+    }
+
+    public boolean isValid() {
+        return isValid;
+    }
+
+    public void setValid(boolean valid) {
+        isValid = valid;
     }
 }

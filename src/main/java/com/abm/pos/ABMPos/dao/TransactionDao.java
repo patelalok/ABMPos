@@ -30,6 +30,10 @@ public class TransactionDao {
     private String customerFirstLastName;
     private String note;
 
+    //this is need to handle store credit scenario
+    @Transient
+    private int previousTransactionId;
+
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "transaction_com_id")
     private List<TransactionLineItemDao> transactionLineItemDaoList;
@@ -156,6 +160,12 @@ public class TransactionDao {
     }
 
     public void setTransactionLineItemDaoList(List<TransactionLineItemDao> transactionLineItemDaoList) {
+
+
+        for(TransactionLineItemDao t: transactionLineItemDaoList)
+        {
+           t.setTransactionLineItemId(0);
+        }
         this.transactionLineItemDaoList = transactionLineItemDaoList;
     }
 
@@ -166,5 +176,13 @@ public class TransactionDao {
 
     public void setPaymentDao(List<PaymentDao> paymentDao) {
         this.paymentDao = paymentDao;
+    }
+
+    public int getPreviousTransactionId() {
+        return previousTransactionId;
+    }
+
+    public void setPreviousTransactionId(int previousTransactionId) {
+        this.previousTransactionId = previousTransactionId;
     }
 }

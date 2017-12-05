@@ -53,6 +53,12 @@ public class CustomerController {
         return customerManager.getCustomer();
     }
 
+    @RequestMapping(value = "/getCustomerByPhoneNo", method = RequestMethod.GET, produces = "application/json")
+    public CustomerDao getCustomerByPhoneNo(String phoneNo)
+    {
+        return customerManager.getCustomerByPhoneNo(phoneNo);
+    }
+
     @RequestMapping(value = "/deleteCustomer", method = RequestMethod.DELETE)
     public ResponseEntity deleteCustomer(@RequestParam String phoneNo)
     {
