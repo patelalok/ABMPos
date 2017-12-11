@@ -51,10 +51,19 @@ public class EmployeeManager {
     }
 
 
-    public boolean validateEmployeeForClockIn(String username, String password) {
+    public EmployeeDao validateEmployeeForClockIn(String username, String password) {
 
         EmployeeDao employeeDao = employeeRepository.findOneByUsername(username);
-        return null != employeeDao && employeeDao.getPassword().equals(password);
+
+        if(null != employeeDao && employeeDao.getPassword().equals(password))
+        {
+            employeeDao.setPassword("*********");
+            return employeeDao;
+        }
+        else
+        {
+            return null;
+        }
 
     }
 

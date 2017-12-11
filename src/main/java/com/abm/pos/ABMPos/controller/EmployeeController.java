@@ -39,7 +39,7 @@ public class EmployeeController {
     }
 
     @RequestMapping(value = "/validateEmployeeForClockIn", method = RequestMethod.GET, produces = "application/json")
-    public boolean validateEmployeeForClockIn(String username, String password)
+    public EmployeeDao validateEmployeeForClockIn(String username, String password)
     {
         return employeeManager.validateEmployeeForClockIn(username, password);
     }

@@ -485,7 +485,7 @@ public class ReportManager {
 //            companyLogo.setAbsolutePosition(235,760);
 //            companyLogo.scalePercent(15);
 //            doc.add(companyLogo);
-            // createHeadingsForCompanyName(cb, 265, 770, "Excell Wireless");
+            createHeadingsForCompanyName(cb, 265, 770, "Excell Wireless");
 
         } catch (Exception ex) {
             ex.printStackTrace();
