@@ -6,10 +6,21 @@ import com.abm.pos.ABMPos.dao.ReportDao.SalesSummaryDto;
 import com.abm.pos.ABMPos.repository.*;
 import com.abm.pos.ABMPos.util.TimeIntervalDto;
 import com.abm.pos.ABMPos.util.Utility;
+import com.itextpdf.text.Document;
+import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.PageSize;
+import com.itextpdf.text.pdf.PdfContentByte;
+import com.itextpdf.text.pdf.PdfWriter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
+import com.itextpdf.text.pdf.BaseFont;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.text.DateFormat;
+import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Component
@@ -45,6 +56,12 @@ public class ReportManager {
     @Autowired
     private EmployeeRepository employeeRepository;
 
+
+    private BaseFont bfBold;
+    private BaseFont bf;
+    private int pageNumber = 0;
+
+
     public List<InventoryDto> getReportByInventory(String inventoryReportBy) {
 
         if (inventoryReportBy.equalsIgnoreCase("Category")) {
@@ -69,7 +86,6 @@ public class ReportManager {
         } else {
             return null;
         }
-
 
     }
 
@@ -295,5 +311,225 @@ public class ReportManager {
 
     }
 
+    public byte[] printReportByInventory(String inventoryReportBy) throws DocumentException {
+
+        Document doc = new Document(PageSize.A4);
+        initializeFonts();
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        PdfWriter writer = PdfWriter.getInstance(doc, byteArrayOutputStream);
+
+
+        List<InventoryDto> inventoryDtoList = new ArrayList<>();
+
+        if(inventoryReportBy.equalsIgnoreCase("Category"))
+        {
+            inventoryDtoList = getReportByInventory("Category");
+
+        }
+        else if(inventoryReportBy.equalsIgnoreCase("Brand"))
+        {
+            inventoryDtoList = getReportByInventory("Brand");
+        }
+        else if(inventoryReportBy.equalsIgnoreCase("Vendor"))
+        {
+            inventoryDtoList = getReportByInventory("Vendor");
+        }
+
+        doc.open();
+
+        PdfContentByte cb = writer.getDirectContent();
+
+        boolean beginPage = true;
+        int y = 0;
+
+        for (int i = 0; i < inventoryDtoList.size(); i++) {
+            if (beginPage) {
+                beginPage = false;
+                generateLayoutForInventory(doc, cb, inventoryReportBy);
+                generateHeaderForInventory(doc, cb,inventoryReportBy);
+                y = 570;
+            }
+            generateDetailForInventory(doc, cb, i, y, inventoryDtoList);
+            y = y - 40;
+            if (y < 60) {
+                printPageNumber(cb);
+                doc.newPage();
+                beginPage = true;
+            }
+        }
+
+        printPageNumber(cb);
+
+        doc.close();
+
+        byte[] pdfDataBytes = byteArrayOutputStream.toByteArray();
+
+
+
+        return pdfDataBytes;
+
+    }
+
+
+    private void generateDetailForInventory(Document doc, PdfContentByte cb, int index, int y, List<InventoryDto> inventoryDtoList) {
+
+        DecimalFormat df = new DecimalFormat("0.00");
+
+        try {
+
+            if (null != inventoryDtoList && inventoryDtoList.size() >= 1) {
+
+
+                    createForCommonReportsContentForInventory(cb, 23, y, inventoryDtoList.get(index).getName(), 0);
+                    createForCommonReportsContentForInventory(cb, 220, y,       df.format(inventoryDtoList.get(index).getQuantity()), 0);
+                    createForCommonReportsContentForInventory(cb, 330, y, "$" + df.format(inventoryDtoList.get(index).getCost()), 0);
+                    createForCommonReportsContentForInventory(cb, 420, y, "$" + df.format(inventoryDtoList.get(index).getRetail()), 0);
+                    createForCommonReportsContentForInventory(cb, 510, y,       df.format(inventoryDtoList.get(index).getMarkup()) + "%", 0);
+            }
+
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+
+    }
+
+    private void createForCommonReportsContentForInventory(PdfContentByte cb, float x, float y, String text, int align) {
+
+
+        cb.beginText();
+        cb.setFontAndSize(bf, 12);
+        cb.showTextAligned(align, text.trim(), x, y, 0);
+        cb.endText();
+
+    }
+
+    private void generateLayoutForInventory(Document doc, PdfContentByte cb, String reportName) {
+
+        try {
+
+            cb.setLineWidth(1f);
+
+
+            // Invoice Detail box layout
+            cb.rectangle(20, 50, 550, 580);
+            cb.moveTo(20, 590);
+            cb.lineTo(570, 590);
+//            cb.moveTo(50, 50);
+//            cb.lineTo(50, 650);
+//            cb.moveTo(150, 50);
+//            cb.lineTo(150, 650);
+//            cb.moveTo(430, 50);
+//            cb.lineTo(430, 650);
+//            cb.moveTo(500, 50);
+//            cb.lineTo(500, 650);
+            cb.stroke();
+
+            // Invoice Detail box Text Headings
+
+            //Checking which kind of report is this.
+            if (reportName.equalsIgnoreCase("Category")) {
+                createHeadingsForCommonReports(cb, 23, 605, "Category Name");
+                createHeadingsForCommonReportsName(cb, 168, 730, "Inventory By Category Report");
+            } else if (reportName.equalsIgnoreCase("Vendor")){
+                createHeadingsForCommonReports(cb, 23, 605, "Vendor Name");
+                createHeadingsForCommonReportsName(cb, 175, 730, "Inventory By Vendor Report");
+            } else if (reportName.equalsIgnoreCase("Brand")) {
+                createHeadingsForCommonReports(cb, 23, 605, "Brand Name");
+                createHeadingsForCommonReportsName(cb, 175, 730, "Inventory By Brand Report");
+            }
+
+
+            createHeadingsForCommonReports(cb, 220, 605, "Quantity");
+            createHeadingsForCommonReports(cb, 330, 605, "Cost");
+            createHeadingsForCommonReports(cb, 420, 605, "Retail");
+            createHeadingsForCommonReports(cb, 510, 605, "Margin");
+
+
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+
+    }
+
+    private void createHeadingsForCommonReports(PdfContentByte cb, float x, float y, String text) {
+
+
+        cb.beginText();
+        cb.setFontAndSize(bfBold,12);
+        cb.setTextMatrix(x, y);
+        cb.showText(text.trim());
+        cb.endText();
+
+    }
+
+    private void createHeadingsForCommonReportsName(PdfContentByte cb, float x, float y, String text) {
+
+
+        cb.beginText();
+        cb.setFontAndSize(bfBold, 20);
+        cb.setTextMatrix(x, y);
+        cb.showText(text.trim());
+        cb.endText();
+
+    }
+    private void generateHeaderForInventory(Document doc, PdfContentByte cb, String  reportName) {
+
+        try {
+
+            DateFormat df = new SimpleDateFormat("dd/MM/yy");
+            Date dateobj = new Date();
+
+            createHeadingsForCompanyName(cb, 20, 660, "Date:" + df.format(dateobj));
+
+//            Image companyLogo = Image.getInstance("/assets/images/final-Excel.png");
+//            companyLogo.setAbsolutePosition(235,760);
+//            companyLogo.scalePercent(15);
+//            doc.add(companyLogo);
+            // createHeadingsForCompanyName(cb, 265, 770, "Excell Wireless");
+
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+
+    }
+
+    private void createHeadingsForCompanyName(PdfContentByte cb, float x, float y, String text){
+
+
+        cb.beginText();
+        cb.setFontAndSize(bfBold, 12);
+        cb.setTextMatrix(x,y);
+        cb.showText(text.trim());
+        cb.endText();
+
+    }
+
+
+    private void printPageNumber(PdfContentByte cb) {
+
+
+        cb.beginText();
+        cb.setFontAndSize(bfBold, 8);
+        cb.showTextAligned(PdfContentByte.ALIGN_CENTER, "Page No. " + (pageNumber + 1), 570, 25, 0);
+        cb.endText();
+
+        pageNumber++;
+
+    }
+    private void initializeFonts(){
+
+
+        try {
+            bfBold = BaseFont.createFont(BaseFont.HELVETICA_BOLD, BaseFont.CP1252, BaseFont.NOT_EMBEDDED);
+            bf = BaseFont.createFont(BaseFont.HELVETICA, BaseFont.CP1252, BaseFont.NOT_EMBEDDED);
+
+        } catch (DocumentException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
+    }
 }
 

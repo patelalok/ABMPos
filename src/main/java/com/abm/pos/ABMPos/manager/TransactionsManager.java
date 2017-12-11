@@ -2,13 +2,13 @@ package com.abm.pos.ABMPos.manager;
 
 import com.abm.pos.ABMPos.dao.*;
 import com.abm.pos.ABMPos.repository.*;
-import com.abm.pos.ABMPos.util.TimeIntervalDto;
 import com.abm.pos.ABMPos.util.Utility;
-import org.apache.tomcat.jni.Time;
+import com.itextpdf.text.*;
+import com.itextpdf.text.pdf.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import sun.dc.pr.PRError;
-
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -36,6 +36,10 @@ public class TransactionsManager {
 
     @Autowired
     private StoreCreditRepository storeCreditRepository;
+
+    private BaseFont bfBold;
+    private BaseFont bf;
+    private int pageNumber = 0;
 
 
     public void addTransaction(TransactionDao transactionDao) {
@@ -242,23 +246,254 @@ public class TransactionsManager {
         return transactionRepository.findOne(transactionCompId);
     }
 
-    public List<TransactionDao> getTransactionByDate(String date) {
+    public List<TransactionDao> getTransactionByDate(String startDate, String endDate) {
 
-        TimeIntervalDto timeIntervalDto;
-
-        timeIntervalDto = utility.getDateByInputString(date);
-
-        if (null != timeIntervalDto) {
-            return transactionRepository.getTransactionByDate(timeIntervalDto.getStartDate(), timeIntervalDto.getEndDate());
-        } else {
-            return null;
-        }
-
+        return transactionRepository.getTransactionByDate(startDate, endDate);
     }
 
     public void voidTransaction(TransactionDao transactionDao) {
 
         this.transactionRepository.save(transactionDao);
     }
+
+    public byte[] getA4Receipt(int receiptNo) throws DocumentException {
+
+        TransactionDao transactionDao =  new TransactionDao();
+
+        Document doc = new Document(PageSize.A4);
+        initializeFonts();
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        PdfWriter writer = PdfWriter.getInstance(doc, byteArrayOutputStream);
+        doc.open();
+        PdfContentByte cb = writer.getDirectContent();
+
+        transactionDao = getTransactionById(receiptNo);
+
+        if(null != transactionDao)
+        {
+            printCustomerDetails(cb, transactionDao);
+            printStoreDetails(cb, transactionDao);
+            printTransactionDetails(doc, cb, transactionDao);
+            generateLineItemTable(cb);
+
+            printPageNumber(cb);
+        }
+            doc.close();
+
+        return byteArrayOutputStream.toByteArray();
+    }
+
+    private void printTransactionDetails(Document doc, PdfContentByte cb, TransactionDao transactionDao) {
+
+        try {
+
+
+
+            if(transactionDao.getTransactionLineItemDaoList().size() > 0) {
+
+                float[] columnWidths = {3,7,2,2,2,2};
+                float [] colWidht2 = {4,4,4,4};
+
+
+
+                doc.add(new Paragraph(":"));
+
+                PdfPTable table = new PdfPTable(columnWidths);
+
+                PdfPTable table1 = new PdfPTable(colWidht2);
+
+                table.setSpacingBefore(5);
+//                table.setSpacingAfter(100);
+
+                table.setWidthPercentage(100);
+
+                table.addCell(new Phrase("Product No", new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
+                table.addCell(new Phrase("Product Description", new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
+                table.addCell(new Phrase("Disc", new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
+                table.addCell(new Phrase("Retail", new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
+                table.addCell(new Phrase("Items", new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
+                table.addCell(new Phrase("Total", new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
+
+
+
+                table1.addCell(new Phrase("Sale Date", new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
+                table1.addCell(new Phrase("Sale Time", new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
+                table1.addCell(new Phrase("CSR", new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
+                table1.addCell(new Phrase("Sales Id", new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
+
+
+
+
+
+                for(TransactionLineItemDao lineItemDao: transactionDao.getTransactionLineItemDaoList())
+                {
+                    table.getDefaultCell().setBorder(Rectangle.NO_BORDER);
+                    table.addCell(new Phrase(lineItemDao.getProductNo(), new Font(Font.FontFamily.HELVETICA, 8)));
+                    table.addCell(new Phrase(lineItemDao.getProductNo(), new Font(Font.FontFamily.HELVETICA, 8)));
+                    table.addCell(new Phrase("$ " + String.valueOf(lineItemDao.getDiscount()), new Font(Font.FontFamily.HELVETICA, 8)));
+                    table.addCell(new Phrase("$ " + String.valueOf(lineItemDao.getRetail()), new Font(Font.FontFamily.HELVETICA, 8)));
+                    table.addCell(new Phrase(String.valueOf(lineItemDao.getQuantity()), new Font(Font.FontFamily.HELVETICA, 8)));
+                    table.addCell(new Phrase("$ " + String.valueOf(lineItemDao.getTotalProductPrice()), new Font(Font.FontFamily.HELVETICA, 8)));
+
+                }
+
+                table1.setSpacingBefore(80);
+                table1.setWidthPercentage(100);
+
+                table1.getDefaultCell().setBorder(Rectangle.NO_BORDER);
+
+                doc.add(table1);
+                doc.add(table);
+
+
+
+                PdfPTable totalTable = new PdfPTable(2);
+                totalTable.getDefaultCell().setBorder(Rectangle.NO_BORDER);
+
+                totalTable.setSpacingBefore(40);
+                totalTable.setHorizontalAlignment(Element.ALIGN_RIGHT);
+                totalTable.setWidthPercentage(30);
+
+
+                totalTable.addCell(new Phrase("Subtotal", new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
+                totalTable.addCell(new Phrase("$ " + String.valueOf(transactionDao.getSubtotal()), new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
+
+                totalTable.addCell(new Phrase("Tax", new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
+                totalTable.addCell(new Phrase("$ " + String.valueOf(transactionDao.getTax()), new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
+
+                totalTable.addCell(new Phrase("Discount", new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
+                totalTable.addCell(new Phrase("$ " + String.valueOf(transactionDao.getTotalDiscount()), new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
+
+                totalTable.addCell(new Phrase("Total", new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
+                totalTable.addCell(new Phrase("$ " + String.valueOf(transactionDao.getTotalAmount()), new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
+
+                doc.add(totalTable);
+
+            }
+
+        }
+
+        catch (Exception ex){
+            ex.printStackTrace();
+        }
+
+    }
+    public PdfPCell getCell(String text, int alignment) {
+        PdfPCell cell = new PdfPCell(new Phrase(text));
+        cell.setPadding(0);
+        cell.setHorizontalAlignment(alignment);
+        cell.setBorder(PdfPCell.NO_BORDER);
+        return cell;
+    }
+
+    private void printCustomerDetails(PdfContentByte cb, TransactionDao transactionDao) {
+
+        createCustomerDetails(cb,460, 800, "Company Name");
+        createCustomerDetails(cb,460,785,"Address Line 1");
+        createCustomerDetails(cb,460,770,"Address Line 2");
+        createCustomerDetails(cb,460,755,"City, State - ZipCode");
+        createCustomerDetails(cb,460,740,"Country");
+    }
+
+    private void printStoreDetails(PdfContentByte cb, TransactionDao transactionDao)
+    {
+
+        createCustomerDetails(cb,35, 800, "Excel Wireless");
+        createCustomerDetails(cb,35,785,"5955 Jimmy Carter Boulevard, Suite 120");
+        createCustomerDetails(cb,35,770,"Norcross, GA - 30071");
+        createCustomerDetails(cb,35,755,"USA");
+        createCustomerDetails(cb,35,740,"(678) 694-1873");
+    }
+
+
+
+    private void generateLineItemTable(PdfContentByte cb) {
+
+        try {
+
+            // Invoice Header box layout
+           // cb.rectangle(35,800,50,50);
+//            cb.moveTo(35,720);
+//            cb.lineTo(570,720);
+//
+//
+//            cb.moveTo(70,720);
+//            cb.lineTo(570,720);
+
+//            cb.moveTo(420,740);
+//            cb.lineTo(570,740);
+//            cb.moveTo(480,700);
+//            cb.lineTo(480,760);
+          //  cb.stroke();
+
+
+            // Invoice Header box Text Headings.
+//            createHeadings(cb,422,743,"Account No.");
+//            createHeadings(cb,422,723,"Invoice No.");
+//            createHeadings(cb,422,703,"Invoice Date");
+
+
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+
+    }
+    private void initializeFonts(){
+
+
+        try {
+            bfBold = BaseFont.createFont(BaseFont.HELVETICA_BOLD, BaseFont.CP1252, BaseFont.NOT_EMBEDDED);
+            bf = BaseFont.createFont(BaseFont.HELVETICA, BaseFont.CP1252, BaseFont.NOT_EMBEDDED);
+
+        } catch (DocumentException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
+    }
+    private void printPageNumber(PdfContentByte cb) {
+
+
+        cb.beginText();
+        cb.setFontAndSize(bfBold, 8);
+        cb.showTextAligned(PdfContentByte.ALIGN_CENTER, "Page No. " + (pageNumber + 1), 570, 25, 0);
+        cb.endText();
+
+        pageNumber++;
+
+    }
+    private void createCustomerDetails(PdfContentByte cb, float x, float y, String text){
+
+
+        cb.beginText();
+        cb.setFontAndSize(bfBold, 8);
+        cb.setTextMatrix(x,y);
+        cb.showText(text.trim());
+        cb.endText();
+
+    }
+    private void createHeadings(PdfContentByte cb, float x, float y, String text){
+
+
+        cb.beginText();
+        cb.setFontAndSize(bfBold, 8);
+        cb.setTextMatrix(x,y);
+        cb.showText(text.trim());
+        cb.endText();
+
+    }
+    private void createContent(PdfContentByte cb, float x, float y, String text, int align) {
+
+
+        cb.beginText();
+        cb.setFontAndSize(bf, 8);
+        cb.showTextAligned(align, text.trim(), x , y, 0);
+        cb.endText();
+
+    }
+
+
 
 }

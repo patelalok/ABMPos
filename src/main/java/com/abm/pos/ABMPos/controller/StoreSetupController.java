@@ -29,7 +29,7 @@ public class StoreSetupController {
     }
 
     @RequestMapping(value = "/getStoreSetupDetails", method = RequestMethod.GET, produces = "application/json")
-    public List<StoreSetupDao> getStoreSetupDetails()
+    public StoreSetupDao getStoreSetupDetails()
     {
         return storeSetupManager.getStoreSetupDetails();
     }

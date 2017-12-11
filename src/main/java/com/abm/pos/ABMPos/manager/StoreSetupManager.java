@@ -23,9 +23,9 @@ public class StoreSetupManager {
         storeSetupRepository.save(storeSetupDao);
     }
 
-    public List<StoreSetupDao> getStoreSetupDetails() {
+    public StoreSetupDao getStoreSetupDetails() {
 
-        return storeSetupRepository.findAll();
+        return storeSetupRepository.findOne(1);
     }
 
 }
