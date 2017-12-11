@@ -11,6 +11,7 @@ public class SalesDto {
     private double discount;
     private double markup;
     private double perOfTotal;
+    private double tax;
 
 
     public String getName() {
@@ -83,5 +84,13 @@ public class SalesDto {
 
     public void setPerOfTotal(double perOfTotal) {
         this.perOfTotal = perOfTotal;
+    }
+
+    public double getTax() {
+        return tax;
+    }
+
+    public void setTax(double tax) {
+        this.tax = tax;
     }
 }

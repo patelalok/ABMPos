@@ -8,6 +8,7 @@ import com.abm.pos.ABMPos.util.TimeIntervalDto;
 import com.abm.pos.ABMPos.util.Utility;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.Image;
 import com.itextpdf.text.PageSize;
 import com.itextpdf.text.pdf.PdfContentByte;
 import com.itextpdf.text.pdf.PdfWriter;
@@ -18,6 +19,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.DecimalFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -529,6 +531,193 @@ public class ReportManager {
             e.printStackTrace();
         }
 
+
+    }
+
+    public byte[] printReportBySalesSummary(String salesSummaryReportBy, String startDate, String endDate) throws DocumentException {
+
+        Document doc = new Document(PageSize.A4);
+        initializeFonts();
+
+
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+
+        PdfWriter writer = PdfWriter.getInstance(doc, byteArrayOutputStream);
+
+        List<SalesDto> salesDtoList = new ArrayList<>();
+
+        salesDtoList = getReportBySales(salesSummaryReportBy, startDate, endDate);
+
+        doc.open();
+
+        PdfContentByte cb = writer.getDirectContent();
+
+        boolean beginPage = true;
+        int y = 0;
+
+        if(null != salesDtoList) {
+            for (int i = 0; i < salesDtoList.size(); i++) {
+                if (beginPage) {
+                    beginPage = false;
+                    generateLayout(doc, cb, salesSummaryReportBy);
+                    generateHeader(doc, cb, startDate, endDate);
+                    y = 570;
+                }
+                generateDetail(doc, cb, i, y, salesDtoList);
+                y = y - 40;
+                if (y < 60) {
+                    printPageNumber(cb);
+                    doc.newPage();
+                    beginPage = true;
+                }
+            }
+        }
+
+        printPageNumber(cb);
+
+        doc.close();
+
+        byte[] pdfDataBytes = byteArrayOutputStream.toByteArray();
+
+
+
+        return pdfDataBytes;
+
+
+    }
+    private void generateLayout(Document doc, PdfContentByte cb, String reportName) {
+
+        try {
+
+            cb.setLineWidth(1f);
+
+
+            // Invoice Detail box layout
+            cb.rectangle(20, 50, 550, 580);
+            cb.moveTo(20, 590);
+            cb.lineTo(570, 590);
+//            cb.moveTo(50, 50);
+//            cb.lineTo(50, 650);
+//            cb.moveTo(150, 50);
+//            cb.lineTo(150, 650);
+//            cb.moveTo(430, 50);
+//            cb.lineTo(430, 650);
+//            cb.moveTo(500, 50);
+//            cb.lineTo(500, 650);
+            cb.stroke();
+
+            // Invoice Detail box Text Headings
+
+            //Checking which kind of report is this.
+            if (reportName.equalsIgnoreCase("Sales By Category")) {
+                createHeadingsForCommonReports(cb, 23, 605, "Category Name");
+                createHeadingsForCommonReportsName(cb, 200, 730, "Sales By Category Report");
+            } else if(reportName.equalsIgnoreCase("Sales By Vendor")) {
+                createHeadingsForCommonReports(cb, 23, 605, "Vendor Name");
+                createHeadingsForCommonReportsName(cb, 200, 730, "Sales By Vendor Report");
+            } else if (reportName.equalsIgnoreCase("Sales By Brand")) {
+                createHeadingsForCommonReports(cb, 23, 605, "Brand Name");
+                createHeadingsForCommonReportsName(cb, 200, 730, "Sales By Brand Report");
+            } else if (reportName.equalsIgnoreCase("Sales By Product")) {
+                createHeadingsForCommonReports(cb, 23, 605, "Product Name");
+                createHeadingsForCommonReportsName(cb, 200, 730, "Sales By Product Report");
+            } else if (reportName.equalsIgnoreCase("Sales By Employee")) {
+                createHeadingsForCommonReports(cb, 23, 605, "Employee Name");
+                createHeadingsForCommonReportsName(cb, 200, 730, "Sales By Employee Report");
+            } else if (reportName.equalsIgnoreCase("Sales By Customer")) {
+                createHeadingsForCommonReports(cb, 23, 605, "Customer Name");
+                createHeadingsForCommonReportsName(cb, 200, 730, "Sales By Customer Report");
+            } else if (reportName.equalsIgnoreCase("Sales By Top 50 Product")) {
+                createHeadingsForCommonReports(cb, 23, 605, "Product Name");
+                createHeadingsForCommonReportsName(cb, 180, 730, "Top 50 Products Sale Report");
+            }
+
+            createHeadingsForCommonReports(cb, 205, 605, "Quantity");
+            createHeadingsForCommonReports(cb, 284, 605, "Discount");
+            createHeadingsForCommonReports(cb, 369, 605, "Total Sales");
+            createHeadingsForCommonReports(cb, 462, 605, "Tax");
+            createHeadingsForCommonReports(cb, 519, 605, "Profit");
+
+
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+
+    }
+
+    private void generateHeader(Document doc, PdfContentByte cb, String startDate, String endDate) {
+
+        try {
+
+            DateFormat f = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            Date sd = null;
+            Date ed = null;
+
+            try {
+                sd = f.parse(startDate);
+                ed = f.parse(endDate);
+
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            DateFormat date = new SimpleDateFormat("MM/dd/yyyy");//NEED TO CHECK THIS
+
+            String a = date.format(sd);
+            String b = date.format(ed);
+
+            if (a.equals(b)) {
+                createHeadingsForCompanyName(cb, 20, 660, "Date:" + date.format(sd));
+            } else {
+                createHeadingsForCompanyName(cb, 20, 660, "Date:" + a + " " + "To" + " " + b);
+            }
+
+
+//            Image companyLogo = Image.getInstance("Excel.png");
+//            companyLogo.setAbsolutePosition(235,760);
+//            companyLogo.scalePercent(15);
+//            doc.add(companyLogo);
+
+             createHeadingsForCompanyName(cb, 265, 770, "Excell Wireless");
+
+
+            //createHeadings(cb, 240, 730, "Sales By Category Report");
+
+
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+
+    }
+
+    private void generateDetail(Document doc, PdfContentByte cb, int index, int y, List<SalesDto> salesDtoList) {
+        DecimalFormat df = new DecimalFormat("0.00");
+
+        try {
+
+            if (null != salesDtoList && salesDtoList.size() >= 1) {
+
+                createForCommonReportsContent(cb, 23, y, salesDtoList.get(index).getName(), 0);
+                createForCommonReportsContent(cb, 205, y,       df.format(salesDtoList.get(index).getQuantity()), 0);
+                createForCommonReportsContent(cb, 284, y, "$" + df.format(salesDtoList.get(index).getDiscount()), 0);
+
+                createForCommonReportsContent(cb, 369, y, "$" + df.format(salesDtoList.get(index).getRetail()), 0);
+                createForCommonReportsContent(cb, 462, y, "$" + df.format(salesDtoList.get(index).getTax()), 0);
+                createForCommonReportsContent(cb, 519, y, "$" + df.format(salesDtoList.get(index).getProfit()), 0);
+            }
+
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+
+    }
+
+    private void createForCommonReportsContent(PdfContentByte cb, float x, float y, String text, int align) {
+
+
+        cb.beginText();
+        cb.setFontAndSize(bf, 12);
+        cb.showTextAligned(align, text.trim(), x, y, 0);
+        cb.endText();
 
     }
 }
