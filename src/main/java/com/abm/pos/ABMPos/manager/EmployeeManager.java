@@ -55,7 +55,7 @@ public class EmployeeManager {
 
         EmployeeDao employeeDao = employeeRepository.findOneByUsername(username);
 
-        if(null != employeeDao && employeeDao.getPassword().equals(password))
+        if(null != employeeDao && employeeDao.getPassword().equals(password) && username.equalsIgnoreCase(employeeDao.getUsername()))
         {
             employeeDao.setPassword("*********");
             return employeeDao;
