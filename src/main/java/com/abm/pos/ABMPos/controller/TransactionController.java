@@ -29,10 +29,10 @@ public class TransactionController {
     private TransactionsManager transactionManager;
 
     @RequestMapping(value = "/addTransaction", method = RequestMethod.POST, consumes = "application/json")
-    public ResponseEntity addTransaction(@RequestBody TransactionDao transactionDao)
+    public TransactionDao addTransaction(@RequestBody TransactionDao transactionDao)
     {
-        transactionManager.addTransaction(transactionDao);
-        return new ResponseEntity(HttpStatus.CREATED);
+       return transactionManager.addTransaction(transactionDao);
+//        return new ResponseEntity(HttpStatus.CREATED);
     }
 
     @RequestMapping(value = "/getA4Receipt", method = RequestMethod.GET, produces = "application/json")

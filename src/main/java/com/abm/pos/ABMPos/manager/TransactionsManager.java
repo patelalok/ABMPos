@@ -7,9 +7,14 @@ import com.itextpdf.text.*;
 import com.itextpdf.text.pdf.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -42,17 +47,15 @@ public class TransactionsManager {
     private int pageNumber = 0;
 
 
-    public void addTransaction(TransactionDao transactionDao) {
+    public TransactionDao addTransaction(TransactionDao transactionDao) {
 
-        if(null != transactionDao && transactionDao.getStatus().equalsIgnoreCase("Return"))
-        {
+        if (null != transactionDao && transactionDao.getStatus().equalsIgnoreCase("Return")) {
 
             // Managing inventory for the return
 
             ProductInventoryDao productInventoryDao = new ProductInventoryDao();
 
-            for(TransactionLineItemDao lineItemDao: transactionDao.getTransactionLineItemDaoList())
-            {
+            for (TransactionLineItemDao lineItemDao : transactionDao.getTransactionLineItemDaoList()) {
                 productInventoryDao.setProductNo(lineItemDao.getProductNo());
                 productInventoryDao.setCost(Math.abs(lineItemDao.getCost()));
                 productInventoryDao.setRetail(Math.abs((lineItemDao.getRetail())));
@@ -65,8 +68,7 @@ public class TransactionsManager {
 
             // Handing store credit here
             // This means user is giving store credit to the customer so i need to add customers store credit with valid reason.
-            if(null != transactionDao.getCustomerPhoneno() && null != transactionDao.getPaymentDao() && transactionDao.getPaymentDao().get(0).getStoreCredit() > 0)
-            {
+            if (null != transactionDao.getCustomerPhoneno() && null != transactionDao.getPaymentDao() && transactionDao.getPaymentDao().get(0).getStoreCredit() > 0) {
                 StoreCreditDao storeCreditDao = new StoreCreditDao();
 
                 storeCreditDao.setAmount(transactionDao.getPaymentDao().get(0).getStoreCredit());
@@ -80,8 +82,7 @@ public class TransactionsManager {
                 CustomerDao customerDao = customerRepository.findByPhoneNo(transactionDao.getCustomerPhoneno());
 
                 // This add the store credit into customer's account
-                if(null != customerDao)
-                {
+                if (null != customerDao) {
                     customerDao.setStoreCredit(customerDao.getStoreCredit() + transactionDao.getPaymentDao().get(0).getStoreCredit());
 
                     customerRepository.save(customerDao);
@@ -89,8 +90,7 @@ public class TransactionsManager {
 
 
             }
-        }
-        else {
+        } else {
 
             List<TransactionLineItemDao> transactionLineItemDaoList = new ArrayList<>();
             List<TransactionLineItemDao> transactionLineItemDaoListNew = new ArrayList<>();
@@ -187,15 +187,17 @@ public class TransactionsManager {
             }
         }
 
-        transactionRepository.save(transactionDao);
+
+        return transactionRepository.save(transactionDao);
+
+
     }
 
     private void setCustomerStoreCredit(TransactionDao transactionDao) {
 
         CustomerDao customerDao = customerRepository.findByPhoneNo(transactionDao.getCustomerPhoneno());
 
-        if(null != customerDao)
-        {
+        if (null != customerDao) {
             customerDao.setStoreCredit(customerDao.getStoreCredit() - transactionDao.getPaymentDao().get(0).getStoreCredit());
 
             customerRepository.save(customerDao);
@@ -207,14 +209,13 @@ public class TransactionsManager {
     //    Here i need to maintain his balance by just adding transaction balance to that customers account
 
     private void setCustomerBalance(TransactionDao transactionDao) {
-            CustomerDao customerDao = customerRepository.findByPhoneNo(transactionDao.getCustomerPhoneno());
+        CustomerDao customerDao = customerRepository.findByPhoneNo(transactionDao.getCustomerPhoneno());
 
-            if(null != customerDao)
-            {
-                customerDao.setBalance(transactionDao.getTransactionBalance());
+        if (null != customerDao) {
+            customerDao.setBalance(transactionDao.getTransactionBalance());
 
-                customerRepository.save(customerDao);
-            }
+            customerRepository.save(customerDao);
+        }
     }
 
     private void deleteProductInventoryRow(ProductInventoryDao productInventoryDao) {
@@ -238,12 +239,59 @@ public class TransactionsManager {
 
     public List<TransactionDao> getTransaction() {
 
-        return transactionRepository.findAll();
+        List<TransactionDao> transactionDaoList = new ArrayList<>();
+
+        transactionDaoList = transactionRepository.findAll();
+        List<TransactionDao> transactionDaoFinal = new ArrayList<>();
+
+
+        if(null != transactionDaoList)
+        {
+            ProductDao productDao = new ProductDao();
+            List<TransactionLineItemDao> transactionLineItemDaoList = new ArrayList<>();
+
+            for(TransactionDao transactionDao: transactionDaoList)
+            {
+                for(TransactionLineItemDao lineItem: transactionDao.getTransactionLineItemDaoList())
+                {
+                    productDao = productRepository.findOneByProductNo(lineItem.getProductNo());
+
+                    if (null != productDao) {
+                        lineItem.setDescription(productDao.getDescription());
+                        transactionLineItemDaoList.add(lineItem);
+                    }
+                }
+
+                transactionDao.setTransactionLineItemDaoList(transactionLineItemDaoList);
+
+                transactionDaoFinal.add(transactionDao);
+            }
+        }
+
+        return transactionDaoFinal;
     }
 
     public TransactionDao getTransactionById(int transactionCompId) {
 
-        return transactionRepository.findOne(transactionCompId);
+        TransactionDao transactionDao = transactionRepository.findOne(transactionCompId);
+        List<TransactionLineItemDao> transactionLineItemDaoList = new ArrayList<>();
+
+        if(null != transactionDao)
+        {
+            for(TransactionLineItemDao lineItem: transactionDao.getTransactionLineItemDaoList())
+            {
+                ProductDao productDao = productRepository.findOneByProductNo(lineItem.getProductNo());
+
+                if (null != productDao) {
+                    lineItem.setDescription(productDao.getDescription());
+                    transactionLineItemDaoList.add(lineItem);
+                }
+            }
+
+            transactionDao.setTransactionLineItemDaoList(transactionLineItemDaoList);
+        }
+
+        return  transactionDao;
     }
 
     public List<TransactionDao> getTransactionByDate(String startDate, String endDate) {
@@ -258,7 +306,7 @@ public class TransactionsManager {
 
     public byte[] getA4Receipt(int receiptNo) throws DocumentException {
 
-        TransactionDao transactionDao =  new TransactionDao();
+        TransactionDao transactionDao = new TransactionDao();
 
         Document doc = new Document(PageSize.A4);
         initializeFonts();
@@ -269,8 +317,7 @@ public class TransactionsManager {
 
         transactionDao = getTransactionById(receiptNo);
 
-        if(null != transactionDao)
-        {
+        if (null != transactionDao) {
             printCustomerDetails(cb, transactionDao);
             printStoreDetails(cb, transactionDao);
             printTransactionDetails(doc, cb, transactionDao);
@@ -278,7 +325,7 @@ public class TransactionsManager {
 
             printPageNumber(cb);
         }
-            doc.close();
+        doc.close();
 
         return byteArrayOutputStream.toByteArray();
     }
@@ -288,12 +335,10 @@ public class TransactionsManager {
         try {
 
 
+            if (transactionDao.getTransactionLineItemDaoList().size() > 0) {
 
-            if(transactionDao.getTransactionLineItemDaoList().size() > 0) {
-
-                float[] columnWidths = {3,7,2,2,2,2};
-                float [] colWidht2 = {4,4,4,4};
-
+                float[] columnWidths = {3, 7, 2, 2, 2, 2};
+                float[] colWidht2 = {4, 4, 4, 4};
 
 
                 doc.add(new Paragraph(":"));
@@ -315,21 +360,27 @@ public class TransactionsManager {
                 table.addCell(new Phrase("Total", new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
 
 
+                DateFormat f = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                Date d = null;
+                try {
+                    d = f.parse(transactionDao.getDate());
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+                DateFormat date = new SimpleDateFormat("MM/dd/yyyy");//NEED TO CHECK THIS
+                DateFormat time = new SimpleDateFormat("hh:mm:ss");
 
-                table1.addCell(new Phrase("Sale Date", new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
-                table1.addCell(new Phrase("Sale Time", new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
-                table1.addCell(new Phrase("CSR", new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
-                table1.addCell(new Phrase("Sales Id", new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
 
 
+                table1.addCell(new Phrase("Sale Date : " + date.format(d), new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
+                table1.addCell(new Phrase("Sale Time : " + time.format(d), new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
+                table1.addCell(new Phrase("CSR : " + transactionDao.getUsername(), new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
+                table1.addCell(new Phrase("Sales Id : " + transactionDao.getTransactionComId(), new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
 
-
-
-                for(TransactionLineItemDao lineItemDao: transactionDao.getTransactionLineItemDaoList())
-                {
+                for (TransactionLineItemDao lineItemDao : transactionDao.getTransactionLineItemDaoList()) {
                     table.getDefaultCell().setBorder(Rectangle.NO_BORDER);
                     table.addCell(new Phrase(lineItemDao.getProductNo(), new Font(Font.FontFamily.HELVETICA, 8)));
-                    table.addCell(new Phrase(lineItemDao.getProductNo(), new Font(Font.FontFamily.HELVETICA, 8)));
+                    table.addCell(new Phrase(lineItemDao.getDescription(), new Font(Font.FontFamily.HELVETICA, 8)));
                     table.addCell(new Phrase("$ " + String.valueOf(lineItemDao.getDiscount()), new Font(Font.FontFamily.HELVETICA, 8)));
                     table.addCell(new Phrase("$ " + String.valueOf(lineItemDao.getRetail()), new Font(Font.FontFamily.HELVETICA, 8)));
                     table.addCell(new Phrase(String.valueOf(lineItemDao.getQuantity()), new Font(Font.FontFamily.HELVETICA, 8)));
@@ -344,7 +395,6 @@ public class TransactionsManager {
 
                 doc.add(table1);
                 doc.add(table);
-
 
 
                 PdfPTable totalTable = new PdfPTable(2);
@@ -364,20 +414,60 @@ public class TransactionsManager {
                 totalTable.addCell(new Phrase("Discount", new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
                 totalTable.addCell(new Phrase("$ " + String.valueOf(transactionDao.getTotalDiscount()), new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
 
+                if(transactionDao.getPreviousBalance() > 0) {
+
+                    totalTable.addCell(new Phrase("Pre Balance", new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
+                    totalTable.addCell(new Phrase("$ " + String.valueOf(transactionDao.getPreviousBalance()), new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
+                }
+
                 totalTable.addCell(new Phrase("Total", new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
                 totalTable.addCell(new Phrase("$ " + String.valueOf(transactionDao.getTotalAmount()), new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
+
+
+                if (null != transactionDao.getPaymentDao()) {
+                    if (transactionDao.getPaymentDao().get(0).getCash() > 0) {
+                        totalTable.addCell(new Phrase("Cash", new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
+                        totalTable.addCell(new Phrase("$ " + String.valueOf(transactionDao.getPaymentDao().get(0).getCash()), new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
+                    } else if (transactionDao.getPaymentDao().get(0).getChangeForCash() > 0) {
+                        totalTable.addCell(new Phrase("Change", new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
+                        totalTable.addCell(new Phrase("$ " + String.valueOf(transactionDao.getPaymentDao().get(0).getChangeForCash()), new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
+                    } else if (transactionDao.getPaymentDao().get(0).getCredit() > 0) {
+                        totalTable.addCell(new Phrase("Credit", new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
+                        totalTable.addCell(new Phrase("$ " + String.valueOf(transactionDao.getPaymentDao().get(0).getCredit()), new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
+                    } else if (transactionDao.getPaymentDao().get(0).getDebit() > 0) {
+                        totalTable.addCell(new Phrase("Debit", new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
+                        totalTable.addCell(new Phrase("$ " + String.valueOf(transactionDao.getPaymentDao().get(0).getDebit()), new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
+                    } else if (transactionDao.getPaymentDao().get(0).getCheckAmount() > 0) {
+                        totalTable.addCell(new Phrase("Check", new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
+                        totalTable.addCell(new Phrase("$ " + String.valueOf(transactionDao.getPaymentDao().get(0).getCheckAmount()), new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
+                    }
+//                    else if (transactionDao.getPaymentDao().get(0).getOnAccount() > 0) {
+//                        totalTable.addCell(new Phrase("On Account", new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
+//                        totalTable.addCell(new Phrase("$ " + String.valueOf(transactionDao.getPaymentDao().get(0).getOnAccount()), new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
+//                    }
+                    else if (transactionDao.getPaymentDao().get(0).getStoreCredit() > 0) {
+                        totalTable.addCell(new Phrase("Store Credit", new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
+                        totalTable.addCell(new Phrase("$ " + String.valueOf(transactionDao.getPaymentDao().get(0).getStoreCredit()), new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
+                    } else if (transactionDao.getPaymentDao().get(0).getLoyalty() > 0) {
+                        totalTable.addCell(new Phrase("Loyalty", new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
+                        totalTable.addCell(new Phrase("$ " + String.valueOf(transactionDao.getPaymentDao().get(0).getLoyalty()), new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
+                    }
+                        totalTable.addCell(new Phrase("Balance Due", new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
+                        totalTable.addCell(new Phrase("$ " + String.valueOf(transactionDao.getTransactionBalance()), new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
+
+                }
+
 
                 doc.add(totalTable);
 
             }
 
-        }
-
-        catch (Exception ex){
+        } catch (Exception ex) {
             ex.printStackTrace();
         }
 
     }
+
     public PdfPCell getCell(String text, int alignment) {
         PdfPCell cell = new PdfPCell(new Phrase(text));
         cell.setPadding(0);
@@ -388,23 +478,29 @@ public class TransactionsManager {
 
     private void printCustomerDetails(PdfContentByte cb, TransactionDao transactionDao) {
 
-        createCustomerDetails(cb,460, 800, "Company Name");
-        createCustomerDetails(cb,460,785,"Address Line 1");
-        createCustomerDetails(cb,460,770,"Address Line 2");
-        createCustomerDetails(cb,460,755,"City, State - ZipCode");
-        createCustomerDetails(cb,460,740,"Country");
+        if (null != transactionDao && null != transactionDao.getCustomerPhoneno()) {
+            CustomerDao customerDao = customerRepository.findOneByPhoneNo(transactionDao.getCustomerPhoneno());
+
+            if (null != customerDao) {
+
+                createCustomerDetails(cb, 460, 800, customerDao.getCompanyName());
+                createCustomerDetails(cb, 460, 785, customerDao.getName());
+                createCustomerDetails(cb, 460, 770, customerDao.getStreet());
+                createCustomerDetails(cb, 460, 755, customerDao.getCity() + customerDao.getState() + customerDao.getZipCode());
+                createCustomerDetails(cb, 460, 740, customerDao.getCountry());
+            }
+        }
+
     }
 
-    private void printStoreDetails(PdfContentByte cb, TransactionDao transactionDao)
-    {
+    private void printStoreDetails(PdfContentByte cb, TransactionDao transactionDao) {
 
-        createCustomerDetails(cb,35, 800, "Excel Wireless");
-        createCustomerDetails(cb,35,785,"5955 Jimmy Carter Boulevard, Suite 120");
-        createCustomerDetails(cb,35,770,"Norcross, GA - 30071");
-        createCustomerDetails(cb,35,755,"USA");
-        createCustomerDetails(cb,35,740,"(678) 694-1873");
+        createCustomerDetails(cb, 35, 800, "Excel Wireless");
+        createCustomerDetails(cb, 35, 785, "5955 Jimmy Carter Boulevard, Suite 120");
+        createCustomerDetails(cb, 35, 770, "Norcross, GA - 30071");
+        createCustomerDetails(cb, 35, 755, "USA");
+        createCustomerDetails(cb, 35, 740, "(678) 694-1873");
     }
-
 
 
     private void generateLineItemTable(PdfContentByte cb) {
@@ -412,7 +508,7 @@ public class TransactionsManager {
         try {
 
             // Invoice Header box layout
-           // cb.rectangle(35,800,50,50);
+            // cb.rectangle(35,800,50,50);
 //            cb.moveTo(35,720);
 //            cb.lineTo(570,720);
 //
@@ -424,7 +520,7 @@ public class TransactionsManager {
 //            cb.lineTo(570,740);
 //            cb.moveTo(480,700);
 //            cb.lineTo(480,760);
-          //  cb.stroke();
+            //  cb.stroke();
 
 
             // Invoice Header box Text Headings.
@@ -438,7 +534,8 @@ public class TransactionsManager {
         }
 
     }
-    private void initializeFonts(){
+
+    private void initializeFonts() {
 
 
         try {
@@ -453,6 +550,7 @@ public class TransactionsManager {
 
 
     }
+
     private void printPageNumber(PdfContentByte cb) {
 
 
@@ -464,36 +562,40 @@ public class TransactionsManager {
         pageNumber++;
 
     }
-    private void createCustomerDetails(PdfContentByte cb, float x, float y, String text){
+
+    private void createCustomerDetails(PdfContentByte cb, float x, float y, String text) {
 
 
         cb.beginText();
         cb.setFontAndSize(bfBold, 8);
-        cb.setTextMatrix(x,y);
-        cb.showText(text.trim());
+        cb.setTextMatrix(x, y);
+
+        if (null != text)
+            cb.showText(text.trim());
         cb.endText();
 
     }
-    private void createHeadings(PdfContentByte cb, float x, float y, String text){
+
+    private void createHeadings(PdfContentByte cb, float x, float y, String text) {
 
 
         cb.beginText();
         cb.setFontAndSize(bfBold, 8);
-        cb.setTextMatrix(x,y);
+        cb.setTextMatrix(x, y);
         cb.showText(text.trim());
         cb.endText();
 
     }
+
     private void createContent(PdfContentByte cb, float x, float y, String text, int align) {
 
 
         cb.beginText();
         cb.setFontAndSize(bf, 8);
-        cb.showTextAligned(align, text.trim(), x , y, 0);
+        cb.showTextAligned(align, text.trim(), x, y, 0);
         cb.endText();
 
     }
-
 
 
 }

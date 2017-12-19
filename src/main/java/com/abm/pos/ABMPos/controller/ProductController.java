@@ -37,7 +37,7 @@ public class ProductController {
     @RequestMapping(value = "/addProduct", method = RequestMethod.POST, consumes = "application/json")
     public ResponseEntity addProduct(@RequestBody ProductDao productDao)
     {
-        productManager.addProduct(productDao);
+        productManager.addProductTest(productDao);
         System.out.println("Product added or updated successfully ");
         return new ResponseEntity(HttpStatus.CREATED);
     }

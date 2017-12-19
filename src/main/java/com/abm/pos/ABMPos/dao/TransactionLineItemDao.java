@@ -26,6 +26,9 @@ public class TransactionLineItemDao {
     private double totalProductPrice;
     private String imeiNo;
 
+    @Transient
+    private String description;
+
 
     public int getTransactionLineItemId() {
         return transactionLineItemId;
@@ -78,6 +81,14 @@ public class TransactionLineItemDao {
 
     public double getCost() {
         return cost;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public void setCost(double cost) {

@@ -5,6 +5,7 @@ import com.abm.pos.ABMPos.repository.*;
 import com.abm.pos.ABMPos.util.TimeIntervalDto;
 import com.abm.pos.ABMPos.util.Utility;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CachePut;
 import org.springframework.stereotype.Component;
 
 import javax.jws.Oneway;
@@ -37,6 +38,8 @@ public class ProductManager{
     @Autowired
     private Utility utility;
 
+
+    //@CachePut("products")
     public void addProduct(ProductDao productDao)
     {
 
@@ -51,8 +54,15 @@ public class ProductManager{
             productInventoryRepository.updateProductRetailPrice(productDao.getRetail(), productDao.getProductNo());
         }
         // Then update the product.
+
         productRepository.save(productDao);
     }
+
+    public ProductDao addProductTest(ProductDao productDao) {
+
+       return productRepository.save(productDao);
+    }
+
 
 
     public void addProductInventory(ProductInventoryDao productInventoryDao) {
@@ -113,9 +123,6 @@ public class ProductManager{
 
         return productRepository.getAllActiveProduct();
     }
-
-
-
         public ProductDao getProductById(String productNo) {
 
         return productRepository.findOne(productNo);

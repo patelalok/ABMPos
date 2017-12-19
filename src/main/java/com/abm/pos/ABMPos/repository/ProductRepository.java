@@ -1,6 +1,7 @@
 package com.abm.pos.ABMPos.repository;
 
 import com.abm.pos.ABMPos.dao.ProductDao;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -19,7 +20,10 @@ public interface ProductRepository extends JpaRepository<ProductDao, String> {
     List<ProductDao> findAll();
 
     @Query("SELECT p FROM ProductDao p WHERE p.active = true ORDER BY p.description ASC")
+//    @Cacheable(value = "products")
     List<ProductDao> getAllActiveProduct();
+
+    ProductDao findOneByProductNo(String productNo);
 
 //    @Query("SELECT p FROM ProductDao p WHERE p.active = true AND p.brandId = ?1")
 //    List<ProductDao> getAllActivePrductByBrandId(int brandId);
