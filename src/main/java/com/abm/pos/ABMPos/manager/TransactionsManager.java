@@ -42,6 +42,9 @@ public class TransactionsManager {
     @Autowired
     private StoreCreditRepository storeCreditRepository;
 
+    @Autowired
+    private CustomerManager customerManager;
+
     private BaseFont bfBold;
     private BaseFont bf;
     private int pageNumber = 0;
@@ -74,7 +77,7 @@ public class TransactionsManager {
                 storeCreditDao.setAmount(transactionDao.getPaymentDao().get(0).getStoreCredit());
                 storeCreditDao.setCustomerPhoneno(transactionDao.getCustomerPhoneno());
                 storeCreditDao.setEmployeeName(transactionDao.getUsername());
-                storeCreditDao.setReason("Return Credit For Transaction No: " + transactionDao.getPreviousTransactionId());
+                storeCreditDao.setReason("Return Credit For Transaction No: " + transactionDao.getTransactionComId());
                 storeCreditDao.setCreatedTimestamp(transactionDao.getDate());
 
                 storeCreditRepository.save(storeCreditDao);
@@ -414,7 +417,7 @@ public class TransactionsManager {
                 totalTable.addCell(new Phrase("Discount", new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
                 totalTable.addCell(new Phrase("$ " + String.valueOf(transactionDao.getTotalDiscount()), new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
 
-                if(transactionDao.getPreviousBalance() > 0) {
+                if(transactionDao.getPreviousBalance() != 0) {
 
                     totalTable.addCell(new Phrase("Pre Balance", new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
                     totalTable.addCell(new Phrase("$ " + String.valueOf(transactionDao.getPreviousBalance()), new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
@@ -425,19 +428,19 @@ public class TransactionsManager {
 
 
                 if (null != transactionDao.getPaymentDao()) {
-                    if (transactionDao.getPaymentDao().get(0).getCash() > 0) {
+                    if (transactionDao.getPaymentDao().get(0).getCash() != 0) {
                         totalTable.addCell(new Phrase("Cash", new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
                         totalTable.addCell(new Phrase("$ " + String.valueOf(transactionDao.getPaymentDao().get(0).getCash()), new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
-                    } else if (transactionDao.getPaymentDao().get(0).getChangeForCash() > 0) {
+                    } else if (transactionDao.getPaymentDao().get(0).getChangeForCash() != 0) {
                         totalTable.addCell(new Phrase("Change", new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
                         totalTable.addCell(new Phrase("$ " + String.valueOf(transactionDao.getPaymentDao().get(0).getChangeForCash()), new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
-                    } else if (transactionDao.getPaymentDao().get(0).getCredit() > 0) {
+                    } else if (transactionDao.getPaymentDao().get(0).getCredit() != 0) {
                         totalTable.addCell(new Phrase("Credit", new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
                         totalTable.addCell(new Phrase("$ " + String.valueOf(transactionDao.getPaymentDao().get(0).getCredit()), new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
-                    } else if (transactionDao.getPaymentDao().get(0).getDebit() > 0) {
+                    } else if (transactionDao.getPaymentDao().get(0).getDebit() != 0) {
                         totalTable.addCell(new Phrase("Debit", new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
                         totalTable.addCell(new Phrase("$ " + String.valueOf(transactionDao.getPaymentDao().get(0).getDebit()), new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
-                    } else if (transactionDao.getPaymentDao().get(0).getCheckAmount() > 0) {
+                    } else if (transactionDao.getPaymentDao().get(0).getCheckAmount() != 0) {
                         totalTable.addCell(new Phrase("Check", new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
                         totalTable.addCell(new Phrase("$ " + String.valueOf(transactionDao.getPaymentDao().get(0).getCheckAmount()), new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
                     }
@@ -445,10 +448,10 @@ public class TransactionsManager {
 //                        totalTable.addCell(new Phrase("On Account", new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
 //                        totalTable.addCell(new Phrase("$ " + String.valueOf(transactionDao.getPaymentDao().get(0).getOnAccount()), new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
 //                    }
-                    else if (transactionDao.getPaymentDao().get(0).getStoreCredit() > 0) {
+                    else if (transactionDao.getPaymentDao().get(0).getStoreCredit() != 0) {
                         totalTable.addCell(new Phrase("Store Credit", new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
                         totalTable.addCell(new Phrase("$ " + String.valueOf(transactionDao.getPaymentDao().get(0).getStoreCredit()), new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
-                    } else if (transactionDao.getPaymentDao().get(0).getLoyalty() > 0) {
+                    } else if (transactionDao.getPaymentDao().get(0).getLoyalty() != 0) {
                         totalTable.addCell(new Phrase("Loyalty", new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
                         totalTable.addCell(new Phrase("$ " + String.valueOf(transactionDao.getPaymentDao().get(0).getLoyalty()), new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
                     }
@@ -479,7 +482,11 @@ public class TransactionsManager {
     private void printCustomerDetails(PdfContentByte cb, TransactionDao transactionDao) {
 
         if (null != transactionDao && null != transactionDao.getCustomerPhoneno()) {
-            CustomerDao customerDao = customerRepository.findOneByPhoneNo(transactionDao.getCustomerPhoneno());
+
+
+            String test = transactionDao.getCustomerPhoneno();
+
+            CustomerDao customerDao = customerManager.getCustomerByPhoneNo(test);
 
             if (null != customerDao) {
 

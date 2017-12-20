@@ -16,8 +16,6 @@ public interface CustomerRepository extends JpaRepository<CustomerDao, String>{
 
     List<CustomerDao> findAll();
 
-    CustomerDao findOneByPhoneNo(String phoneNo);
-
     CustomerDao findByPhoneNo(String phoneNo);
 
     @Query(value = "SELECT distinct c.name,\n" +
