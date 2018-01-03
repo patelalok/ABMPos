@@ -299,7 +299,42 @@ public class TransactionsManager {
 
     public List<TransactionDao> getTransactionByDate(String startDate, String endDate) {
 
-        return transactionRepository.getTransactionByDate(startDate, endDate);
+        List<TransactionDao> transactionDaoList;
+
+        transactionDaoList = transactionRepository.getTransactionByDate(startDate, endDate);
+
+        List<TransactionDao> transactionDaoFinal = new ArrayList<>();
+
+
+        if(null != transactionDaoList)
+        {
+            ProductDao productDao;
+
+
+
+            for(TransactionDao transactionDao: transactionDaoList)
+            {
+                List<TransactionLineItemDao> transactionLineItemDaoList = new ArrayList<>();
+                for(TransactionLineItemDao lineItem: transactionDao.getTransactionLineItemDaoList()) {
+                    productDao = productRepository.findOneByProductNo(lineItem.getProductNo());
+
+                    if (null != productDao) {
+                        lineItem.setDescription(productDao.getDescription());
+                        transactionLineItemDaoList.add(lineItem);
+                    }
+
+                }
+                transactionDao.setTransactionLineItemDaoList(transactionLineItemDaoList);
+
+
+                transactionDaoFinal.add(transactionDao);
+            }
+
+        }
+
+        return transactionDaoFinal;
+
+
     }
 
     public void voidTransaction(TransactionDao transactionDao) {

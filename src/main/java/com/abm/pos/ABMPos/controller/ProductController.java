@@ -43,7 +43,7 @@ public class ProductController {
     }
 
     @RequestMapping(value = "/addProductInventory", method = RequestMethod.POST, consumes = "application/json")
-    public ResponseEntity addProductInventory(@RequestBody ProductInventoryDao productInventoryDao)
+    public ResponseEntity addProductInventory(@RequestBody List<ProductInventoryDao> productInventoryDao)
     {
         productManager.addProductInventory(productInventoryDao);
         System.out.println("Product Inventory list added successfully ");

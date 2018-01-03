@@ -57,7 +57,7 @@ public class ProductManager{
 
         productRepository.save(productDao);
     }
-
+    @CachePut("products")
     public ProductDao addProductTest(ProductDao productDao) {
 
        return productRepository.save(productDao);
@@ -65,7 +65,7 @@ public class ProductManager{
 
 
 
-    public void addProductInventory(ProductInventoryDao productInventoryDao) {
+    public void addProductInventory(List<ProductInventoryDao> productInventoryDao) {
 
         productInventoryRepository.save(productInventoryDao);
     }

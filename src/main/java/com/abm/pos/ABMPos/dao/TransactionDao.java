@@ -34,12 +34,12 @@ public class TransactionDao {
     @Transient
     private int previousTransactionId;
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "transaction_com_id")
     private List<TransactionLineItemDao> transactionLineItemDaoList;
 
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "transaction_com_id")
     private List<PaymentDao> paymentDao;
 
@@ -164,7 +164,7 @@ public class TransactionDao {
 
         for(TransactionLineItemDao t: transactionLineItemDaoList)
         {
-           t.setTransactionLineItemId(0);
+           //t.setTransactionLineItemId(0);
         }
         this.transactionLineItemDaoList = transactionLineItemDaoList;
     }

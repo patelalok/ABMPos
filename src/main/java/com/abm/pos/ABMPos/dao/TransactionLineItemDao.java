@@ -38,7 +38,6 @@ public class TransactionLineItemDao {
         this.transactionLineItemId = transactionLineItemId;
     }
 
-
     public String getDate() {
         return date;
     }
