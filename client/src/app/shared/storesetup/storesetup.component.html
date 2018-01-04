@@ -1,0 +1,174 @@
+<p>
+    <app-top-navbar [menu]="this.items" isSubMenu="true"></app-top-navbar>
+    <router-outlet></router-outlet>
+</p>
+
+
+<mat-card>
+    <mat-card-title>
+        <h3>
+            Store Details
+        </h3>
+    </mat-card-title>
+
+    <mat-card-content>
+        <form [formGroup]="storeForm">
+
+            <div class="container">
+
+
+                <div class="row">
+
+                    <div class="col-md-3">
+
+                    </div>
+
+                    <div class="col-md-2">
+                        <label>Store Name  </label>
+                    </div>
+                    <div class="col-md-4">
+                        <input type="text" class="form-control" formControlName="name">
+                    </div>
+
+                    <div class="col-md-3">
+
+                    </div>
+
+                </div>
+
+                <div class="row store-row">
+
+                    <div class="col-md-3">
+
+                    </div>
+
+                    <div class="col-md-2">
+                        <label>Street  </label>
+                    </div>
+                    <div class="col-md-4">
+                        <input type="text" class="form-control" formControlName="street">
+                    </div>
+
+                    <div class="col-md-3">
+
+                    </div>
+                </div>
+
+                <div class="row store-row">
+
+                    <div class="col-md-3">
+
+                    </div>
+
+                    <div class="col-md-2">
+                        <label>City  </label>
+                    </div>
+                    <div class="col-md-4">
+                        <input type="text" class="form-control" formControlName="city">
+                    </div>
+
+                    <div class="col-md-3">
+
+                    </div>
+                </div>
+
+                <div class="row store-row">
+
+                    <div class="col-md-3">
+
+                    </div>
+
+                    <div class="col-md-2">
+                        <label>State  </label>
+                    </div>
+                    <div class="col-md-4">
+                        <input type="text" class="form-control" formControlName="state">
+                    </div>
+
+                    <div class="col-md-3">
+
+                    </div>
+                </div>
+
+                <div class="row store-row">
+
+                    <div class="col-md-3">
+
+                    </div>
+
+                    <div class="col-md-2">
+                        <label>Zipcode  </label>
+                    </div>
+                    <div class="col-md-4">
+                        <input type="text" class="form-control" formControlName="zipcode">
+                    </div>
+
+                    <div class="col-md-3">
+
+                    </div>
+                </div>
+                <div class="row store-row">
+
+                    <div class="col-md-3">
+
+                    </div>
+
+                    <div class="col-md-2">
+                        <label>Email  </label>
+                    </div>
+                    <div class="col-md-4">
+                        <input type="text" class="form-control" formControlName="email">
+                    </div>
+
+                    <div class="col-md-3">
+
+                    </div>
+                </div>
+                <div class="row store-row">
+
+                    <div class="col-md-3">
+
+                    </div>
+
+                    <div class="col-md-2">
+                        <label>Tax  </label>
+                    </div>
+                    <div class="col-md-4">
+                        <input type="text" class="form-control" formControlName="tax">
+                    </div>
+
+                    <div class="col-md-3">
+
+                    </div>
+                </div>
+
+                <div class="row store-row">
+
+                    <div class="col-md-3">
+
+                    </div>
+
+                    <div class="col-md-2">
+                        <label> $1 Loyalty  = </label>
+                    </div>
+                    <div class="col-md-4">
+                        <input type="number" class="form-control" formControlName="loyaltyAmountForDollar" placeholder="Enter Loyalty Amount For $1 Loyalty">
+                    </div>
+
+                    <div class="col-md-3">
+
+                    </div>
+                </div>
+
+
+
+            </div>
+        </form>
+
+    </mat-card-content>
+    <mat-card-footer>
+        <div class="d-flex align-items-center justify-content-center">
+            <button mat-raised-button class="bg-primary text-white " (click)="this.saveStoreDetails()">Save Store Details</button>
+        </div>
+    </mat-card-footer>
+</mat-card>

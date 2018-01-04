@@ -1,0 +1,133 @@
+<form *ngIf="this.loginForm !=null" class="flex-form" [formGroup]="this.loginForm" (keyup.enter)="this.userLogin()">
+    <div class="card card-login mat-elevation-z2" >
+        <div class="card-header text-center" data-background-color="blue">
+            <h4 class="card-title">Login</h4>
+            <div class="social-line">
+                <a href="#btn" class="btn btn-just-icon btn-simple">
+                    <i class="fa fa-facebook-square"></i>
+                </a>
+                <a href="#pablo" class="btn btn-just-icon btn-simple">
+                    <i class="fa fa-twitter"></i>
+                </a>
+                <a href="#eugen" class="btn btn-just-icon btn-simple">
+                    <i class="fa fa-google-plus"></i>
+                </a>
+                <a href="#eugen" class="btn btn-just-icon btn-simple">
+                    <i class="fa fa-linkedin"></i>
+                </a>
+            </div>
+        </div>
+        <div class="card-content">
+            <div class="input-group justify-content-center">
+                <!-- <span class="input-group-addon">
+                        <i class="material-icons">email</i>
+                    </span> -->
+                <div class="form-group label-floating">
+                    <mat-form-field>
+                        <input matInput formControlName="username" placeholder="Username">
+                    </mat-form-field>
+                </div>
+            </div>
+            <div *ngIf="formErrors.username" class="alert alert-danger text-center justify-content-center">
+                {{ formErrors.username }}
+            </div>
+            <div class="input-group justify-content-center">
+                <!-- <span class="input-group-addon">
+                        <i class="material-icons">lock_outline</i>
+                    </span> -->
+                <div class="form-group label-floating">
+                    <mat-form-field>
+                        <input matInput formControlName="password" placeholder="Password" type="password">
+                    </mat-form-field>
+                </div>
+            </div>
+            <div *ngIf="formErrors.password" class="alert alert-danger flex-form-input text-center justify-content-center">
+                {{ formErrors.password }}
+            </div>
+        </div>
+        <div class="footer text-center">
+            <div class="row">
+                <div class="col-lg-2 col-md-2 col-sm-2"></div>
+                <div class="col-lg-8 col-md-8 col-sm-8 justify-content-start">
+                    <mat-slide-toggle class="flex-form-input" [disabled]="loading">Remember Me</mat-slide-toggle>
+                    <!-- <mat-slide-toggle class="flex-form-input">Fingerprint </mat-slide-toggle> -->
+                </div>
+                <div class="col-lg-3 col-md-2 col-sm-2">
+
+                </div>
+            </div>
+            <div class="row">
+                    <div class="col-lg-2 col-md-2 col-sm-2"></div>
+                    <div class="col-lg-8 col-md-8 col-sm-8 justify-content-start">
+                        <!-- <mat-slide-toggle class="flex-form-input" [disabled]="loading">Remember Me</mat-slide-toggle> -->
+                        <!-- <mat-slide-toggle class="flex-form-input">Fingerprint </mat-slide-toggle> -->
+                        <div *ngIf="this.error" class="alert alert-danger flex-form-input text-center justify-content-center">Invalid Login</div>
+                    </div>
+                    <div class="col-lg-3 col-md-2 col-sm-2">
+    
+                    </div>
+                </div>
+            <div class="row">
+                <div class="col-lg-3 col-md-2 col-sm-2"></div>
+                <div class="d-flex col-lg-6 col-md-8 col-sm-8 justify-content-start">
+                    <button *ngIf="!loading" class="flex-form-input bg-primary text-white font-size-16" mat-raised-button [disabled]="this.loginForm.invalid" (click)="this.userLogin()">
+                        <!-- <h4> -->
+                            Login&nbsp;
+                            <i class="fa fa-sign-in" aria-hidden="true"></i>
+                        <!-- </h4> -->
+                    </button>
+                </div>
+                <div class="col-lg-3 col-md-2 col-sm-2">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-3 col-md-2 col-sm-2"></div>
+                <div class="d-flex col-lg-6 col-md-8 col-sm-8 justify-content-center">
+                    <a href="javascript:void(0)">Sign Up</a>&nbsp;|&nbsp;<a href="javascript:void(0)">More Info</a>
+                </div>
+                <div class="col-lg-3 col-md-2 col-sm-2">
+                </div>
+            </div>
+            <br>
+        </div>
+        <mat-spinner *ngIf="this.loading" style="margin: 0px auto;"></mat-spinner>
+    </div>
+</form>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- <mat-card class="mat-elevation-z6">
+  <form *ngIf="this.loginForm !=null" class="flex-form" [formGroup]="this.loginForm">
+    <mat-form-field class="flex-form-input">
+      <input matInput formControlName="username" placeholder="Username">
+    </mat-form-field>
+    <div *ngIf="formErrors.username" class="alert alert-danger flex-form-input text-center">
+      {{ formErrors.username }}
+    </div>
+    <mat-form-field class="flex-form-input" >
+        <input matInput formControlName="password" placeholder="Password" type="password">
+      </mat-form-field>
+      <div *ngIf="formErrors.password" class="alert alert-danger flex-form-input text-center">
+        {{ formErrors.password }}
+      </div>
+      <mat-slide-toggle class="flex-form-input" [disabled]="loading">Remember Me</mat-slide-toggle>
+      <mat-slide-toggle>Fingerprint </mat-slide-toggle>      
+      <button *ngIf="!loading" class="flex-form-input" mat-raised-button [disabled]="this.loginForm.invalid" (click)="this.userLogin()">
+        <h4>
+          Login&nbsp;<i class="fa fa-sign-in" aria-hidden="true"></i>
+        </h4>
+      </button>
+      
+  </form>
+</mat-card> -->

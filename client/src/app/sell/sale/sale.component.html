@@ -1,0 +1,451 @@
+<div class="row">
+    <div class="col-lg-9">
+        <mat-card>
+            <div class="row">
+                <div class="align-self-center col-lg-7">
+
+                    <p-autoComplete id="productsearch" [(ngModel)]="p" class="full-width m-1" [suggestions]="product" placeholder="Scan or Search Product" (onFocus)="print($event)" (onBlur)="print($event)" (completeMethod)="filterProducts($event)" name="test" [minLength]="3"
+                        (keyup.enter)="submitProduct(p)" field="description">
+                    </p-autoComplete>
+                    <!-- <button (click)="this.testFocus()">Click me</button> -->
+
+                </div>
+                <div class="col-lg-0"></div>
+                <div class="col-lg-5 d-flex justify-content-end">
+                    <!-- Buttons go here  -->
+                    <button (click)="this.parkSale()" class="bg-primary text-white action-button m-1" mat-raised-button [disabled]="this.paymentButtonOnSale">
+                        <span>
+                            <i class="fa fa-history">
+                                Park Sale
+                            </i>
+                        </span>
+                    </button>
+                    <button class="bg-danger text-white action-button m-1" mat-raised-button data-toggle="modal" data-target="#deleteProduct" (click)="this.setHeaderAndMessageForDisgardPopup()" [disabled]="this.paymentButtonOnSale">
+                        <span>
+                            <i class="fa fa-trash">
+                                Discard Sale
+                            </i>
+                        </span>
+                    </button>
+                    <button class="bg-primary text-white  action-button m-1" mat-raised-button>
+                        <span>
+                            <i class="fa fa-th">
+                                Show Grid
+                            </i>
+                        </span>
+                    </button>
+                    <!-- <button class="bg-primary text-white  action-button m-1" mat-raised-button (click)="this.openSellCustomerView()">
+                        <span>
+                            <i class="fa fa-user">
+                                Customer View
+                            </i>
+                        </span>
+                    </button> -->
+                </div>
+            </div>
+            <!-- <div class="row m-2">
+                <app-receipt [data]="this.recieptData"></app-receipt>
+            </div> -->
+        </mat-card>
+        <!-- <br/> -->
+        <mat-card>
+            <!-- <mat-card-title></mat-card-title> -->
+            <mat-card-content>
+                <div class="row p-md-3">
+                    <!-- Product Table -->
+                    <p-dataTable [value]="this.transactionLineItemDaoList" scrollable="true" [responsive]="true" scrollHeight="300px" [editable]="true" (onEditComplete)="updateLineItemDetails($event)">
+                        <p-header>Product Sale Table</p-header>
+
+                        <p-column field="productNo" header="ProductNo" [style]="{'width':'15%','text-align':'center', 'overflow':'visible'}"></p-column>
+                        <p-column field="description" header="Description" [style]="{'width':'45%','text-align':'center', 'overflow':'visible'}"></p-column>
+                        <p-column field="defaultQuantity" header="Quantity" [editable]="true">
+                            <ng-template let-product="rowData" pTemplate="body">
+                                <div id="lineitem{{product.productNo}}" [ngClass]="{'quantity-updated': product.quantityUpdated }">
+                                    {{product.defaultQuantity}}
+                                </div>
+                            </ng-template>
+                        </p-column>
+                        <p-column field="actualRetail" header="Retail"></p-column>
+                        <p-column field="retail" header="RetWtDis" [editable]="true"></p-column>
+                        <p-column field="quantity" header="Stock"></p-column>
+                        <p-column field="totalProductPrice" header="Total"></p-column>
+                        <p-column header="" styleClass="col-button" [style]="{'width':'5%','text-align':'center', 'overflow':'visible'}">
+
+                            <ng-template let-product="rowData" pTemplate="body">
+                                <button mat-button class="btn-red action-button-table" mat-button (click)="this.setProductForDelete(product)" data-toggle="modal" data-target="#deleteProduct">
+                                    <i class="fa fa-trash" aria-hidden="true"></i>
+                                </button>
+                            </ng-template>
+                        </p-column>
+
+
+                    </p-dataTable>
+                </div>
+            </mat-card-content>
+        </mat-card>
+
+    </div>
+    <div class="col-lg-3">
+        <mat-card>
+            <mat-card-content>
+                <div class="row">
+                    <div class="input-group">
+                        <span class="input-group-addon" id="basic-addon1">
+                            <i class="fa fa-user-plus" aria-hidden="true"></i>
+                        </span>
+                        <p-autoComplete [(ngModel)]="this.selectedCustomer" [field]="'name'" [suggestions]="filteredCustomer" (completeMethod)="this.filterCustomers($event)" class="full-width" [minLength]="1" (keyup.enter)="this.submitCustomer()" (onClear)="this.removeCustomerOnSale()">
+                            <ng-template let-c pTemplate="item">
+                                <div class="ui-helper-clearfix" style="border-bottom:1px solid #D5D5D5">
+                                    <div style="width:32px;display:inline-block;margin:5px 0 2px 5px">{{c.name}}</div>
+                                    <div style="font-size:18px;float:right;margin:10px 10px 0 0">{{c.phoneNo}}</div>
+                                </div>
+                            </ng-template>
+
+                        </p-autoComplete>
+
+                    </div>
+                </div>
+                <br/>
+                <div *ngIf="this.selectedCustomer">
+                    <table class="table table-bordered customer">
+
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <dl class="row">
+                                        <dt class="">Name:</dt>
+                                        <dd class="">{{this.selectedCustomer.name}}</dd>
+                                    </dl>
+                                </td>
+                                <td>
+                                    <dl class="row">
+                                        <dt class="">Phone:</dt>
+                                        <dd class="">{{this.selectedCustomer.phoneNo}}</dd>
+                                    </dl>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <dl class="row">
+                                        <dt class="">Balance:</dt>
+                                        <dd class="">{{this.selectedCustomer.balance | currency:'USD':'true'}}</dd>
+                                    </dl>
+                                </td>
+                                <td>
+                                    <dl class="row">
+                                        <dt class="">Credit:</dt>
+                                        <dd class="">{{this.selectedCustomer.storeCredit | currency:'USD':'true'}}</dd>
+                                    </dl>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <dl class="row">
+                                        <dt class="">Spending:</dt>
+                                        <dd class="">$ 2090.99</dd>
+                                    </dl>
+                                </td>
+                                <td>
+                                    <dl class="row">
+                                        <dt class="">Loyalty:</dt>
+                                        <dd class="">$ 2.70</dd>
+                                    </dl>
+
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="sales-total p-md-4">
+
+                    <dl class="row">
+                        <dt class="">Sub-total</dt>
+                        <dd class="">{{this.transactionDtoList.subtotal | currency:'USD':'true'}}</dd>
+                    </dl>
+                    <dl class="row">
+                        <dt class="">
+                            <a #discount id="discount-popover" href="javascript:void(0)" (click)="this.showPopover(discount)">
+                                Discount
+                            </a>
+                        </dt>
+                        <dd class="">{{this.transactionDtoList.totalDiscount | currency:'USD':'true'}}</dd>
+                    </dl>
+                    <dl class="row">
+                        <dt *ngIf="this.taxPercent == 7">
+                        <a  href="javascript:void(0)" (click)="this.taxPercent = 0">
+                                Tax ({{this.taxPercent}}%)
+                        </a>
+                        </dt>
+
+                        <dt *ngIf="this.taxPercent == 0">
+
+                            <a  href="javascript:void(0)" (click)="this.taxPercent = 7">
+                                    No Tax
+                                    <!-- ({{this.taxPercent}}%) -->
+                            </a>
+                        </dt>
+                        <dd class="">{{this.transactionDtoList.tax | currency:'USD':'true'}}</dd>
+                    </dl>
+                    <dl class="row">
+                        <dt class="">Quantity</dt>
+                        <dd class="">{{this.transactionDtoList.quantity}}</dd>
+                    </dl>
+                    <dl class="row" *ngIf="this.selectedCustomer != null && this.selectedCustomer.balance > 0">
+                        <dt class="">Pre Balance</dt>
+                        <dd class="">{{this.selectedCustomer.balance | currency:'USD':'true'}}</dd>
+                    </dl>
+                    <dl class="row">
+                        <dt class="">Total</dt>
+                        <dd class="">{{this.transactionDtoList.totalAmount | currency:'USD':'true'}}</dd>
+                    </dl>
+                </div>
+                <button *ngIf="this.saleType == 'Complete' " mat-raised-button [disabled]="this.paymentButtonOnSale" type="button" (click)="this.setDataForPaymentModel()" data-toggle="modal" data-target="#paymentModel" style="width: 100%; font-size: 20px" class="btn btn-green btn-lg text-white m-md-1 p-md-2">
+                    <div class="row p-md-1 font-weight-bold">
+                        <div class="col-md-6 text-left">Payment</div>
+                        <div class="col-md-6 text-right">{{this.transactionDtoList.totalAmount | currency:'USD':'true'}}</div>
+                    </div>
+                </button>
+
+                <button *ngIf="this.saleType == 'Return' " mat-raised-button [disabled]="this.paymentButtonOnSale" type="button" (click)="this.setDataForPaymentModelForReturnSale()" data-toggle="modal" data-target="#paymentModel" style="width: 100%; font-size: 20px"
+                    class="btn btn-red btn-lg text-white m-md-1 p-md-2">
+                    <div class="row p-md-1 font-weight-bold">
+                        <div class="col-md-6 text-left">Return</div>
+                        <div class="col-md-6 text-right">{{this.transactionDtoList.totalAmount | currency:'USD':'true'}}</div>
+                    </div>
+                </button>
+
+            </mat-card-content>
+        </mat-card>
+
+
+    </div>
+</div>
+
+<!-- Popover -->
+<div #popover *ngIf="this.popoverStyle" class="popover fade bs-popover-left show" role="tooltip" [style]="this.popoverStyle">
+    <div class="arrow" style="top: 82px;"></div>
+    <h3 class="popover-header">
+        Apply Discount For Sale
+    </h3>
+    <div class="popover-body">
+        <!-- <button mat-raised-button class="action-button" (click)="this.setDiscountType('By Percentage')"> % </button>
+        <button mat-raised-button class="action-button" (click)="this.setDiscountType('By Amount')"> $ </button> -->
+        <div class="row">
+            <div class="col-md-5">
+                <mat-input-container>
+                    <input matInput [(ngModel)]="this.discountValue" type="text" placeholder="Add Discount">
+                </mat-input-container>
+            </div>
+            <div class="col-md-7">
+                <mat-radio-group class="m-t-5" [(ngModel)]="this.discountType">
+                    <mat-radio-button class="p-md-2 m-r-20" value="By Amount"> $</mat-radio-button>
+                    <mat-radio-button class="p-md-2 m-r-20" value="By Percentage"> %</mat-radio-button>
+                </mat-radio-group>
+            </div>
+        </div>
+    </div>
+    <div class="d-flex justify-content-center  p-md-3">
+        <button mat-button class="btn-red action-button-table" (click)="this.calculateDiscount(this.discountValue)">
+                        Apply
+            </button>
+
+
+    </div>
+</div>
+<!-- End of Discount pophover -->
+
+
+
+<!-- Start of Product and Sale discard Pop up -->
+
+<div class="modal fade" id="deleteProduct" role="dialog">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">{{this.popupHeader}}</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+
+            </div>
+            <div class="modal-body">
+                <p>{{this.popupMessage}}</p>
+            </div>
+            <div class="modal-footer">
+
+                <!-- This logic to reuse the model code cause i need popup for delete single product and also delete complete sale -->
+                <button *ngIf="this.popupHeader == 'Delete Product' " type="button" class="btn btn-danger" data-dismiss="modal" (click)="this.deleteProduct()">Yes</button>
+                <button *ngIf="this.popupHeader == 'Discard Sale' " type="button" class="btn btn-danger" data-dismiss="modal" (click)="this.disgardCompleteSale()">Yes</button>
+                <!-- TODO Add one more button for add product if it does not exists -->
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancle</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- End of Product and Sale discard Pop up -->
+
+
+<!-- Start Of payment model -->
+<div class="modal fade" id="paymentModel" role="dialog">
+    <div class="modal-dialog modal-lg">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Manage Payment</h3>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+
+            </div>
+            <div class="modal-body">
+
+                <div class="row">
+
+                    <div class="col-md-3">
+                        <h3>{{this.payLable}}</h3>
+                    </div>
+
+                    <div class="col-md-2">
+                        <input [(ngModel)]="this.payAmountTextBox" class="form-control" type="number" [style.color]="this.dueAmountForTransaction <=0 ? 'green' : 'red' ">
+                    </div>
+
+
+                    <div class="col-md-4">
+                        <h3>{{this.amountDueLable}}</h3>
+                    </div>
+
+                    <div class="col-md-3">
+                        <h3 [style.color]="this.dueAmountForTransaction <=0 ? 'green' : 'red' ">$ {{this.dueAmountForTransaction | number:'1.2-2'}}</h3>
+                    </div>
+
+                </div>
+
+                <div *ngIf="this.paymentObjectForPaymentSellTable.length > 0" class="row">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Payment Type</th>
+                                <th>Amount</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let payment of this.paymentObjectForPaymentSellTable">
+                                <td>{{payment.paymentType}}</td>
+                                <td>$ {{payment.paymentAmount}}</td>
+                                <td (click)="this.deletePaymentFromPaymentModel(payment)">
+                                    <i class="fa fa-trash"></i>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+
+                <div class="row" style="margin-top: 30px">
+                    <div class="col-lg-3">
+                        <button mat-raised-button class="primary-button" (click)="this.setPaymentDto('Cash',this.payAmountTextBox)" [disabled]="this.disablePaymentButtons">Cash</button>
+                    </div>
+
+                    <div class="col-lg-3">
+                        <button mat-raised-button class="primary-button" (click)="this.setPaymentDto('Credit',this.payAmountTextBox)" [disabled]="this.disablePaymentButtons">Credit</button>
+                    </div>
+
+                    <div class="col-lg-3">
+                        <button mat-raised-button class="primary-button" (click)="this.setPaymentDto('Debit',this.payAmountTextBox)" [disabled]="this.disablePaymentButtons">Debit</button>
+                    </div>
+
+                    <div class="col-lg-3">
+                        <button mat-raised-button class="primary-button" (click)="this.setPaymentDto('Check',this.payAmountTextBox)" [disabled]="this.disablePaymentButtons">Check</button>
+                    </div>
+                </div>
+                <div class="row" style="margin-top: 30px">
+
+                    <div class="col-md-2">
+                        <button mat-raised-button class="primary-button" (click)="this.setPaymentDto('Cash', 1)" [disabled]="this.disablePaymentButtonsWithAmount">$1</button>
+                    </div>
+
+                    <div class="col-md-2">
+                        <button mat-raised-button class="primary-button" (click)="this.setPaymentDto('Cash', 5)" [disabled]="this.disablePaymentButtonsWithAmount">$5</button>
+                    </div>
+
+                    <div class="col-md-2">
+                        <button mat-raised-button class="primary-button" (click)="this.setPaymentDto('Cash', 10)" [disabled]="this.disablePaymentButtonsWithAmount">$10</button>
+                    </div>
+
+                    <div class="col-md-2">
+                        <button mat-raised-button class="primary-button" (click)="this.setPaymentDto('Cash', 20)" [disabled]="this.disablePaymentButtonsWithAmount">$20</button>
+                    </div>
+
+                    <div class="col-md-2">
+                        <button mat-raised-button class="primary-button" (click)="this.setPaymentDto('Cash', 50)" [disabled]="this.disablePaymentButtonsWithAmount">$50</button>
+                    </div>
+
+                    <div class="col-md-2">
+                        <button mat-raised-button class="primary-button" (click)="this.setPaymentDto('Cash', 100)" [disabled]="this.disablePaymentButtonsWithAmount">$100</button>
+                    </div>
+                </div>
+                <div class="row" style="margin-top: 30px">
+
+                    <div class="col-md-3">
+                        <button (click)="this.setPaymentDto('OnAccount', this.payAmountTextBox)" mat-raised-button class="secondary-button" [disabled]="this.disableOnAccountButtons">On Account</button>
+                    </div>
+
+                    <div class="col-md-3">
+                        <button mat-raised-button class="secondary-button" [disabled]="this.disableStoreCreditButtons" (click)="this.setPaymentDto('StoreCredit', this.selectedCustomer.storeCredit)">Store Credit</button>
+                    </div>
+
+                    <div class="col-md-3">
+                        <button mat-raised-button class="secondary-button" [disabled]="false">Loyalty($ 2.70)</button>
+                    </div>
+
+                    <div class="col-md-3">
+                        <button mat-raised-button class="secondary-button" [disabled]="true">Layby</button>
+                    </div>
+                </div>
+
+                <div class="row" style="margin-top: 30px">
+                    <div class="col-md-12">
+                        <input [(ngModel)]="this.transactionNotes" class="form-control form-control-lg" type="text" placeholder="Add Sales Notes">
+                    </div>
+                </div>
+
+                <div class="row" style="margin-top: 30px">
+                    <div class="col-md-3">
+
+                    </div>
+
+                    <div class="col-md-6">
+                        <button mat-raised-button [ngClass]="{'primary-button': this.saleType == 'Complete', 'danger-button': this.saleType == 'Return' }" (click)="this.completeSale()" [disabled]="this.disableCompleteSaleButton">Complete Sale</button>
+                    </div>
+
+                    <div class="col-md-3">
+
+                    </div>
+                </div>
+
+                <div class="row" style="margin-top: 30px" *ngIf="null != this.printTransactionDto">
+                    <div class="col-md-3">
+
+                    </div>
+
+                    <div class="col-md-6">
+                        <button mat-raised-button [ngClass]="{'primary-button': this.saleType == 'Complete', 'danger-button': this.saleType == 'Return' }" (click)="this.printReciept()" data-dismiss="modal" data-toggle="modal">Print Reciept</button>
+                    </div>
+
+                    <div class="col-md-3">
+
+                    </div>
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal" (click)="this.clearAllDateAfterTransactionComplete()">Close</button>
+            </div>
+
+        </div>
+
+
+    </div>
+
+</div>
+<!-- End of Payment Pop up -->

@@ -1,0 +1,58 @@
+@import '../../../scss/variables.scss';
+.menu{
+    display: flex;
+    justify-content: center;
+    padding: 15px;
+    margin: -23px -30px -1px -30px;
+    // background: $white;
+    background: $gray-300;
+    color: $gray-700;
+    :hover{
+        cursor: pointer;
+    }
+    .active{
+        
+        transition: all .2s cubic-bezier(0.45, 0.05, 0.55, 0.95);
+        // @extend .mat-elevation-z8;
+        box-shadow: 0 3px 5px -1px rgba(0,0,0,.2), 0 5px 8px 0 rgba(0,0,0,.14), 0 1px 14px 0 rgba(0,0,0,.12);
+        // background: map-get($theme-colors,'secondary');
+        // background: $gray-800;
+        background: $white;
+        // color: $white;
+
+        margin: -15px 0px -15px 0px;
+        padding-top: 15px;
+    }
+}
+.subMenu{
+    // margin-bottom: 10px;
+    
+    display: flex;
+    justify-content: center;
+    padding: 12px;
+    margin: -12px -30px 10px -30px;
+    // background: map-get($theme-colors,'secondary');
+    // background: $white;
+    background: $gray-100;
+    color: $gray-800;
+    // color: $white;
+    .active{
+        // background: map-get($theme-colors,'primary');
+        transition: all .2s cubic-bezier(0.45, 0.05, 0.55, 0.95);
+        background: $gray-300;
+    // background: map-get($theme-colors,'secondary');
+        // color: $white;
+        margin: -10px 0px;
+        padding: 10px;
+        // border-radius: 5px;
+        box-shadow: 0 3px 5px -1px rgba(0,0,0,.2), 0 5px 8px 0 rgba(0,0,0,.14), 0 1px 14px 0 rgba(0,0,0,.12);
+    }
+    :hover{
+        transition: all .2s cubic-bezier(0.45, 0.05, 0.55, 0.95);
+        cursor: pointer;    
+        background: $gray-300; 
+        margin: -15px 0px;
+        padding: 15px;
+        border-radius: 5px;
+    }
+}

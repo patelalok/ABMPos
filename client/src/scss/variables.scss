@@ -1,0 +1,29 @@
+@import "~bootstrap/scss/_functions.scss";
+// @import "_variables_stub.scss";
+@import "~bootstrap/scss/_variables.scss";
+// $gray-100: #f0f4f4;
+
+// $blue: #65B2FF; //malibu
+// $blue: #1e8eff; 
+$blue: #337ab7;
+$steel-pink: #a059b5; 
+$carnation: #f5765f;
+$bittersweet: #ff6666;
+// $purple: #a059b5;
+$body-bg: $gray-100;
+
+
+
+$theme-colors: (
+    primary: $blue,
+    secondary: $gray-600,
+    success: $green,
+    info: $cyan,
+    warning: $yellow,
+    danger: $red,
+    light: $gray-100,
+    dark: $gray-800
+  );
+ 
+$font-family-base: 'Poppins', sans-serif;
+  

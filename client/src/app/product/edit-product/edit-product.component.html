@@ -1,0 +1,400 @@
+<mat-card>
+    <form *ngIf="this.form != null" [formGroup]="form">
+        <mat-card-title>
+            Edit Product
+        </mat-card-title>
+        <mat-card-content>
+
+            <div class="row">
+
+                <div class="col-md-6">
+
+                    <div class="row m-2">
+                        <div class="col-md-4 product-textbox">
+                            <label>Product No:</label>
+                        </div>
+
+                        <div class="col-md-8 product-textbox">
+                            <input type="text" class="form-control" formControlName="productNo" placeholder="Please Enter ProductNo">
+                            <!--<input type="submit" value="submit" [disabled]="!form.valid">-->
+                            <div *ngIf="form.get('productNo').hasError('required') && form.get('productNo').touched" class="alert alert-danger">
+                                *Required!!
+                            </div>
+                            <div *ngIf="form.get('productNo').hasError('pattern') && form.get('productNo').touched" class="alert alert-danger">
+                                *Value Not Alloewd</div>
+                        </div>
+                    </div>
+                    <div class="row m-2">
+
+                        <div class="col-md-4 product-textbox">
+                            <label class="control-label"> Description:</label>
+                        </div>
+
+                        <div class="col-md-8 product-textbox">
+                            <input type="text" class="form-control" style="text-transform:uppercase" formControlName="description" placeholder="Please Enter Description">
+                            <p *ngIf="form.get('description').hasError('required') && form.get('description').touched" class="alert alert-danger">
+                                *Required!!</p>
+                        </div>
+                    </div>
+
+                    <div class="row m-2">
+                        <div class="col-md-4 product-textbox">
+                            <label class="control-label">Category Name:</label>
+                        </div>
+                        <div class="col-md-8 product-textbox">
+                            <select class="form-control" formControlName="category">
+                                      <option *ngFor="let category of categoryDto" [ngValue]= "category">
+                                          {{category.name}}
+                                          </option>
+                                  </select>
+                            <p *ngIf="form.get('category').hasError('required')" class="alert alert-danger">
+                                *Required!!</p>
+                        </div>
+                    </div>
+
+                    <div class="row m-2">
+
+                        <div class="col-md-4 product-textbox">
+                            <label class="control-label">Brand Name:</label>
+                        </div>
+
+                        <div class="col-md-8 product-textbox">
+                            <select class="form-control" formControlName="brand" name="brand">
+                                      <option *ngFor = "let brand of brandDto" [ngValue]="brand">
+                                          {{brand.name}}
+                                      </option>
+                                  </select>
+                            <p *ngIf="form.get('brand').hasError('required')" class="alert alert-danger">
+                                *Required!!</p>
+                        </div>
+                    </div>
+                    <div class="row m-2">
+                        <div class="col-md-4 product-textbox">
+                            <label class="control-label">Vender Name:</label>
+                        </div>
+                        <div class="col-md-8 product-textbox">
+                            <select class="form-control" formControlName="vendor" name="vendor">
+                                      <option *ngFor = "let vendor of vendorDto" [ngValue]="vendor">
+                                          {{vendor.name}}
+                                          </option>
+                                  </select>
+                            <p *ngIf="form.get('vendor').hasError('required')" class="alert alert-danger">
+                                *Required!!</p>
+                        </div>
+                    </div>
+                    <div class="row m-2">
+                        <div class="col-md-4 product-textbox">
+                            <label class="control-label"> Model Name:</label>
+                        </div>
+                        <div class="col-md-8 product-textbox">
+                            <select class="form-control" name="model">
+                                      <option *ngFor = "let model of modelDto">
+                                          {{model.name}}
+                                          </option>
+                                  </select>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!--End of left side Div-->
+
+                <!--Start of Right Side DIV-->
+
+                <div class="col-md-6">
+                    <div class="row m-2">
+                        <label class="col-md-4 control-label product-textbox">
+                                    Retail Price:
+                                </label>
+                        <div class="col-md-8 product-textbox">
+                            <input type="number" formControlName="retail" class="form-control">
+                            <p *ngIf="form.get('retail').hasError('required') && form.get('retail').touched" class="alert alert-danger">
+                                *Required!!</p>
+                            <p *ngIf="form.get('retail').hasError('pattern') && form.get('retail').touched" class="alert alert-danger">
+                                *Value Not Alloewd*</p>
+                        </div>
+                    </div>
+
+                    <div class="row m-2">
+
+
+                        <label class="col-md-4 control-label product-textbox">
+                                Total Quantity:
+                            </label>
+                        <div class="col-md-8 product-textbox">
+                            <input type="number" class="form-control" formControlName="quantity" placeholder="Please Enter Quantity" disabled="disabled">
+                            <div *ngIf="form.get('quantity').hasError('pattern') && form.get('quantity').touched" class="alert alert-danger">
+                                *Value Not Alloewd*</div>
+                        </div>
+                    </div>
+                    <div class="row m-2">
+
+
+                        <label class="col-md-4 control-label product-textbox">
+                                ReOrder Quantity:
+                                          </label>
+                        <div class="col-md-8 product-textbox">
+                            <input type="text" class="form-control" formControlName="minQuantity" placeholder="Please Enter Min-Quantity">
+                            <div *ngIf="form.get('minQuantity').hasError('pattern') && form.get('minQuantity').touched" class="alert alert-danger">
+                                *Value Not Alloewd*</div>
+                        </div>
+                    </div>
+
+                    <div class="row m-2">
+
+                        <div class="col-md-4 product-textbox">
+                            <label class="control-label">Alternate No:</label>
+                        </div>
+
+                        <div class="col-md-8 product-textbox">
+                            <input type="text" class="form-control" placeholder="Please Enter Alternate No">
+                        </div>
+                    </div>
+                    <div class="row m-2">
+
+
+                        <label class="col-md-4 control-label product-textbox">
+                                              Return Rule:
+                                          </label>
+                        <div class="col-md-8 product-textbox">
+                            <select class="form-control">
+                                      <option>No-Return-Allowed</option>
+                                      <option>1 Day</option>
+                                      <option>1 Week</option>
+                                      <option>2 Week</option>
+                                       <option>1 Month</option>
+                                       <option>3 Months</option>
+                                       <option>6 Months</option>
+                                       <option>12 Months</option>
+                                  </select>
+
+                        </div>
+                    </div>
+                    <div class="row m-2">
+
+                        <div class="col-md-12 product-textbox">
+                            <div class="checkbox">
+                                <label>
+                                        <input type="checkbox" formControlName="tax">
+                                         Is Taxable
+                                      </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row m-2">
+
+
+                        <div class="col-md-12 product-textbox">
+                            <div class="checkbox">
+                                <label>
+                                        <input type="checkbox" formControlName="ecomerce">
+                                         Is Ecomerce
+                                      </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row m-2">
+
+                        <div class="col-md-12 product-textbox">
+                            <div class="checkbox">
+                                <label>
+                                        <input type="checkbox" (click) = "showDialog()" formControlName="varaint">
+                                         Is Variant
+                                      </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- <div class="col-md-12 ">
+                                <div class="radio">
+                                    <label>
+                                      <input type="radio" name="optradio">$ 0.63 Default Loyalty:
+                                  </label> (based on the default Loyalty ratio of 50:1)
+                                </div>
+                                <div class="radio">
+                                    <label><input type="radio" name="optradio">Customer Loyalty Of:</label>
+                                    <input type="text" name="optradio">
+                                </div>
+                            </div> -->
+
+                </div>
+                <!-- end of row for right side-->
+            </div>
+
+            <!--End Main Row-->
+
+            <hr>
+
+            <div class="row">
+                <div class="col-md-12">
+                    <h4>Product Inventory Details</h4>
+                    <p-dataTable [value]="this.currentProduct.productInventoryDaoList" [editable]="true" scrollable="true" [responsive]="true" scrollHeight="300px" (onEditComplete)="this.updateProductInventory($event)">
+                        <p-column header="Cost" field="cost" [editable]="true">
+                            <ng-template let-product="rowData" pTemplate="body">
+                                {{product.cost | currency:'USD':'true'}}
+                            </ng-template>
+                        </p-column>
+
+                        <p-column field="quantity" header="Quantity" [editable]="true"></p-column>
+
+                        <p-column field="date" header="Date"></p-column>
+
+                        <p-column field="time" header="Time"></p-column>
+
+                        <p-column [style]="{'width': '5%'}" header="Action">
+                            <ng-template let-product="rowData" pTemplate="body" class="m-auto">
+
+                                <button class="btn-red action-button-table" mat-button (click)="this.setProductInventoryDetailsForDelete(product)" data-toggle="modal" data-target="#deleteProductInventory">
+                                    <i class="fa fa-trash" aria-hidden="true"></i>
+                                </button>
+
+                            </ng-template>
+                        </p-column>
+                    </p-dataTable>
+
+                </div>
+            </div>
+        </mat-card-content>
+        <mat-card-footer>
+            <!--Submit button Row-->
+            <div class="d-flex p-md-3 justify-content-center">
+                <button mat-raised-button class="bg-danger text-white m-2 action-button-lg" routerLink="/product/productTable">Cancel</button>
+                <button mat-raised-button class="bg btn-green text-white m-2 action-button-lg" type="submit" (click)="addProduct()" [disabled]="form.invalid">
+                        <i class="fa fa-paper-plane" aria-hidden="true" ></i>
+                        
+                    Update Product</button>
+            </div>
+
+        </mat-card-footer>
+
+
+        <!-- <div class="col-md-2 product-textbox">
+                      <p><button [disabled]="form.invalid" (click)="addProduct(true)" class="btn btn-primary btn-block">Next</button></p>
+                  </div> -->
+
+
+
+
+    </form>
+
+</mat-card>
+
+<!-- Start of Delete Vendor Popup -->
+<div class="modal fade" id="deleteProductInventory" role="dialog">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Delete Product Inventory</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p>Are You Sure You Want To Delete This Product Inventory</p>
+            </div>
+            <div class="modal-footer">
+
+                <button type="button" class="btn btn-danger" data-dismiss="modal" (click)="this.deleteProductInventory()">Yes</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancle</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- End of Delete Vendor Popup -->
+
+
+
+
+
+
+
+<!--********************************* VERY IMPORTANT DO NOT DELET IT *********************************-->
+
+
+<!--START OF VARIANT POPUP-->
+
+<p-dialog header="Product Variant Details" [(visible)]="displayDialog" [modal]="true" [responsive]="true">
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-2">
+                <select class="form-control">
+                              <option *ngFor = "let variantName of productVariantDetailsDto">
+                                  {{variantName}}
+                                  </option>
+                          </select>
+            </div>
+
+            <div class="col-md-3">
+                <select class="form-control">
+                                <option *ngFor = "let variantValue of productVariantDetailsByNameDto"> 
+                                    {{variantValue.value}}
+                                    </option>
+                              </select>
+
+            </div>
+
+            <div class="col-md-2">
+                <input type="text" class="form-control" [(ngModel)]="formProduct.cost" placeholder="Cost Price">
+            </div>
+            <div class="col-md-2">
+                <input type="text" class="form-control" [(ngModel)]="formProduct.markup" placeholder="Markup %">
+
+            </div>
+            <div class="col-md-2">
+                <input type="text" class="form-control" [(ngModel)]="formProduct.retail" placeholder="Retail Price">
+            </div>
+            <div class="col-md-1">
+                <i class="fa fa-trash-o" aria-hidden="true"></i>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-2">
+                <select class="form-control">
+                              <option *ngFor = "let variantName of productVariantDetailsDto">
+                                  {{variantName}}
+                                  </option>
+                          </select>
+            </div>
+
+            <div class="col-md-3">
+                <select class="form-control">
+                                <option *ngFor = "let variantValue of productVariantDetailsByNameDto"> 
+                                    {{variantValue.value}}
+                                    </option>
+                              </select>
+
+            </div>
+
+            <div class="col-md-2">
+                <input type="text" class="form-control" [(ngModel)]="formProduct.cost" placeholder="Cost Price">
+            </div>
+            <div class="col-md-2">
+                <input type="text" class="form-control" [(ngModel)]="formProduct.markup" placeholder="Markup %">
+
+            </div>
+            <div class="col-md-2">
+                <input type="text" class="form-control" [(ngModel)]="formProduct.retail" placeholder="Retail Price">
+            </div>
+            <div class="col-md-1">
+                <i class="fa fa-trash-o" aria-hidden="true"></i>
+            </div>
+        </div>
+
+        <div class="row">
+
+            <div class="col-md-3">
+            </div>
+            <div class="col-md-3">
+                <p><button class="btn btn-primary btn-block">Add Product Variant</button></p>
+            </div>
+            <div class="col-md-3">
+                <p><button class="btn btn-primary btn-block">Update Product Variant</button></p>
+            </div>
+
+        </div>
+    </div>
+</p-dialog>
+
+<!--End Of variant logic-->

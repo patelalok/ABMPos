@@ -1,0 +1,11 @@
+<div class="container-fluid">
+    <div  class="" *ngIf="this.userService.isAuthenticated() | async">
+        <app-header></app-header>
+    </div>
+    <div *ngIf="this.config.showNavbar && this.userService.isAuthenticated() | async" class="top-navbar" >
+        <app-top-navbar></app-top-navbar>
+    </div>
+    <main >
+        <router-outlet></router-outlet>
+    </main>
+</div>

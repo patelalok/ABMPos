@@ -1,0 +1,9 @@
+<div class="row mat-elevation-z2 subMenu">
+    <div class="col-md-1" align="center" *ngFor="let item of this.menu" [ngClass]="{'visible': item.show}" [routerLink]="item.link" [routerLinkActive]="'active'">
+        <i class="{{item.icon}}" aria-hidden="true"></i>
+        <div align="center">
+            {{item.name}}
+        </div>
+    </div>
+
+</div>

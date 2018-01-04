@@ -1,0 +1,123 @@
+<p-growl [(value)]="msgs"></p-growl>
+<mat-card>
+    <mat-card-title>
+        <h4>
+            Vendor Details
+        </h4>
+    </mat-card-title>
+    <mat-card-content>
+        <div class="row">
+            <div class="col-md-6"></div>
+            <div class="col-md-6 d-flex justify-content-end">
+                <button type="button" mat-raised-button class="bg-primary text-white action-button-lg" (click)="showDialogToAdd()">
+                                <i class="fa fa-plus-square" aria-hidden="true" label="Add"></i>
+                                Add Vendor
+                            </button>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12 p-md-3">
+                <!-- <p-header>Category Details</p-header> -->
+                <p-dataTable [value]="this.vendorDto" scrollable="true" scrollHeight="500px" [responsive]="true" [editable]="true" (onEditComplete)="this.updateVendor($event)">
+                    <p-column field="index" header="Index"></p-column>
+                    <p-column field="name" [style]="{'width': '20%'}" header="Vendor Name" filterPlaceholder="Search For Vendor Name" [filter]="true" [editable]="true"></p-column>
+                    <p-column field="phoneNo" header="Vendor PhoneNo" [sortable]="true" [editable]="true"></p-column>
+                    <p-column field="companyName" header="Company Name" [sortable]="true" [editable]="true"></p-column>
+                    <p-column field="companyAddress" header="Company Address" [sortable]="true" [editable]="true"></p-column>
+                    <p-column field="email" header="Email" [sortable]="true" [editable]="true"></p-column>
+                    <p-column field="noOfProduct" header="No Of Prodcuts" [sortable]="true"></p-column>
+                    <p-column field="action" header="Action" [style]="{'width': '5%'}">
+                        <ng-template let-vendor="rowData" pTemplate="body" class="m-auto">
+                            <button class="btn-red action-button-table" mat-button data-toggle="modal" data-target="#deleteVendor" (click)="this.setVendorForDelete(vendor)">
+                                            <i class="fa fa-trash" aria-hidden="true"></i>
+                                        </button>
+                        </ng-template>
+                    </p-column>
+                </p-dataTable>
+
+            </div>
+
+            <form *ngIf="this.vendorForm != null" [formGroup]="this.vendorForm">
+                <p-dialog header="Add Vendor" appendTo="body" [(visible)]="displayDialog" [responsive]="true" showEffect="fade" [modal]="true">
+                    <div class="ui-grid ui-grid-responsive ui-fluid" *ngIf="vendor">
+                        <div class="ui-grid-row">
+                            <div class="ui-grid-col-4">
+                                <label for="name">Name:</label>
+                            </div>
+                            <div class="ui-grid-col-8">
+                                <input class="form-control" formControlName="name" />
+                            </div>
+                        </div>
+                        <div class="ui-grid-row">
+                            <div class="ui-grid-col-4">
+                                <label for="description">PhoneNo:</label>
+                            </div>
+                            <div class="ui-grid-col-8">
+                                <input type="number" class="form-control" formControlName="phoneNo" />
+                            </div>
+                        </div>
+                        <div class="ui-grid-row">
+                            <div class="ui-grid-col-4">
+                                <label for="description">Company Name:</label>
+                            </div>
+                            <div class="ui-grid-col-8">
+                                <input class="form-control" formControlName="companyName" />
+                            </div>
+                        </div>
+                        <div class="ui-grid-row">
+                            <div class="ui-grid-col-4">
+                                <label for="description">Company Address:</label>
+                            </div>
+                            <div class="ui-grid-col-8">
+                                <input class="form-control" formControlName="companyAddress" />
+                            </div>
+                        </div>
+                        <div class="ui-grid-row">
+                            <div class="ui-grid-col-4">
+                                <label for="description">Email:</label>
+                            </div>
+                            <div class="ui-grid-col-8">
+                                <input class="form-control" formControlName="email" />
+                            </div>
+                        </div>
+                    </div>
+                    <p-footer>
+                        <div style="text-align: center">
+                            <button type="button" class="btn btn-success" (click)="this.addVendor()" [disabled]="this.vendorForm.invalid">
+                                            <i class="fa fa-paper-plane" aria-hidden="true" ></i>
+                                    Add Vendor
+                                </button>
+
+                        </div>
+                    </p-footer>
+                </p-dialog>
+            </form>
+        </div>
+    </mat-card-content>
+</mat-card>
+
+
+
+
+<!-- Start of Delete Vendor Popup -->
+<div class="modal fade" id="deleteVendor" role="dialog">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Delete Vendor</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p>Are You Sure You Want To Delete This Vendor</p>
+            </div>
+            <div class="modal-footer">
+
+                <button type="button" class="btn btn-danger" data-dismiss="modal" (click)="this.deleteVendor()">Yes</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancle</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- End of Delete Brand Popup -->

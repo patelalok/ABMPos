@@ -1,0 +1,66 @@
+<mat-card>
+    <mat-card-title>
+        <h4>Inventory Reports</h4>
+    </mat-card-title>
+
+    <mat-card-content>
+
+        <div class="row d-flex align-items-center">
+
+            <!-- DO NOT DELETE THIS CAUSE I NEED TO USE IT FOR TWO DIFFERENT REPORT -->
+
+            <!-- <div class="col-md-2">
+
+                <select class="form-control">
+                    <option>Inventory Report</option>
+                    <option>Low Stock Inventory Report</option>
+                </select>
+            </div> -->
+
+            <div class="col-md-2">
+
+                <select class="form-control" [(ngModel)]="this.inventoryDropdown" (change)="getInventoryReport(this.inventoryDropdown)">
+                    <option>Category</option>
+                    <option>Vendor</option>
+                    <option>Brand</option>
+                    <option>Model</option>
+                </select>
+            </div>
+
+
+            <div class="col-md-2">
+                <button matIcon (click)="this.printInventoryReportBy(this.inventoryDropdown.toLowerCase())">
+                    <i class="fa fa-print fa-3x" aria-hidden="true"></i>
+                </button>
+            </div>
+
+        </div>
+
+        <div class="row" *ngIf="this.pieChartData" style="height: 250px">
+            <ngx-charts-advanced-pie-chart class="" [scheme]="colorScheme" [results]="pieChartData" [view]="null" (select)="onSelect($event)">
+            </ngx-charts-advanced-pie-chart>
+        </div>
+
+        <div class="row d-flex align-items-center">
+            <div class="col-md-12 p-md-3">
+                <p-dataTable [value]="this.inventoryDto" scrollable="true" [responsive]="true" scrollHeight="500px">
+                    <p-column field="name" header="Name" [style]="{'height': '46px', 'width': '25%', 'text-align': 'left'}"></p-column>
+                    <p-column field="cost" header="Total Cost" [sortable]="true">
+                        <ng-template let-inventory="rowData" pTemplate="body">
+                            {{inventory.cost | currency:'USD':'true'}}
+                        </ng-template>
+                    </p-column>
+                    <p-column field="retail" header="Total Retail" [sortable]="true">
+                        <ng-template let-inventory="rowData" pTemplate="body">
+                            {{inventory.retail | currency:'USD':'true'}}
+                        </ng-template>
+                    </p-column>
+                    <p-column field="markup" header="Total Markup %" [sortable]="true"></p-column>
+                    <p-column field="quantity" header="Total Quantity" [sortable]="true"></p-column>
+                </p-dataTable>
+
+            </div>
+        </div>
+
+    </mat-card-content>
+</mat-card>

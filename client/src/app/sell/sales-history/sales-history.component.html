@@ -1,0 +1,283 @@
+<mat-card>
+    <mat-card-title>
+        <h4>Sales History</h4>
+    </mat-card-title>
+
+    <mat-card-content>
+
+        <div class="row d-flex align-items-center">
+
+            <div class="col-md-2">
+                <select class="form-control form-control" [(ngModel)]="this.salesHistoryDropdown" (change)="this.getTransactionDetails(this.salesHistoryDropdown)">
+                    <option>Today</option>
+                    <option>Yesterday</option>
+                    <option>This Week</option>
+                    <option>Last Week</option>
+                    <option>This Month</option>
+                    <option>Last Month</option>
+                    <option>Last 3 Months</option>
+                    <option>Last 6 Months</option>
+                    <option>This Year</option>
+                    <option>Last Year</option>
+                    <option>Custom</option>
+
+                </select>
+
+            </div>
+            <div *ngIf="this.salesHistoryDropdown == 'Custom' " class="col-md-3 form-group d-flex align-items-center" [formGroup]="this.customDate">
+
+                <mat-form-field class="float-never col-md-6">
+                    <input formControlName="fromDate" matInput [matDatepicker]="fromDate" placeholder="Start Date" [max]="this.currentDate">
+                    <mat-datepicker-toggle matSuffix [for]="fromDate"></mat-datepicker-toggle>
+                    <mat-datepicker #fromDate></mat-datepicker>
+                </mat-form-field>
+                <label class="text-center">To</label>
+                <mat-form-field class="float-never col-md-6">
+                    <input class="" formControlName="toDate" matInput [matDatepicker]="toDate" placeholder="End Date" [min]="this.customDate.get('fromDate').value" [max]="this.currentDate">
+                    <mat-datepicker-toggle matSuffix [for]="toDate"></mat-datepicker-toggle>
+                    <mat-datepicker #toDate></mat-datepicker>
+                </mat-form-field>
+            </div>
+
+            <div class="col-md-2">
+                <select class="form-control">
+                    <option>All Transaction Status</option>
+                    <option>Complete</option>
+                    <option>Return</option>
+                    <option>Void</option>
+                    <option>Park</option>
+                    <option>Online</option>
+                </select>
+
+            </div>
+
+
+            <div class="col-md-3">
+                <input [formControl]="this.searchByCustomerInputBox" class="form-control form-control" type="text" placeholder="Search By Customer Name Or PhoneNo">
+
+            </div>
+            <div class="col-md-2">
+                <input [formControl]="this.searchByReceiptNoInputBox" class="form-control form-control" type="text" placeholder="Search By Recipt Number">
+
+            </div>
+
+        </div>
+
+        <div class="row p-md-3">
+            <p-dataTable [value]="this.transactionDetails" scrollable="true" scrollHeight="500px" expandableRows="true" [responsive]="true">
+                <p-column expander="true" styleClass="col-icon" [style]="{'width': '3%'}"></p-column>
+                <p-column field="transactionComId" header="Receipt No" [style]="{'width': '7%'}"></p-column>
+                <p-column field="date" header="Date" [sortable]="true" [style]="{'width': '6%'}"></p-column>
+                <p-column field="time" header="Time" [sortable]="true" [style]="{'width': '6%'}"></p-column>
+                <p-column field="customerPhoneno" header="Customer Phone"></p-column>
+                <p-column field="customerFirstLastName" header="Customer Name"></p-column>
+                <!-- <p-column field="username" header="User Name"></p-column> -->
+                <p-column field="tax" header="Tax" [style]="{'width': '8%'}"></p-column>
+                <p-column field="totalDiscount" header="Discount" [style]="{'width': '8%'}"></p-column>
+                <p-column field="subtotal" header="Subtotal" [style]="{'width': '8%'}"></p-column>
+                <p-column field="totalAmount" header="Total Amount" [sortable]="true" [style]="{'width': '10%'}"></p-column>
+                <p-column field="status" header="Status" [sortable]="true" [style]="{'width': '8%'}"></p-column>
+                <p-column field="status" header="Action" [style]="{'width': '10%'}">
+
+                    <ng-template let-transaction="rowData" pTemplate="body">
+                        <button class="btn-blue action-button-table" mat-button (click)="this.printReceipt(transaction)">
+                            <i class="fa fa-print" aria-hidden="true"></i>
+                        </button>
+                        <button class="btn-green action-button-table" mat-button>
+                            <i class="fa fa-envelope" aria-hidden="true"></i>
+                        </button>
+
+                        <!-- // Do not remove this, this is for park sales where i can redirect user to start the transaction. -->
+                        <!-- <button *ngIf="transaction.status != 'Return' " class="btn-red action-button-table" mat-button [routerLink]="['/sell', {transactionComId: transaction.transactionComId}]"> -->
+                        <button *ngIf="transaction.status == 'Complete' || transaction.status == 'Void' " class="btn-red action-button-table" mat-button (click)="setTransactoinToVoid(transaction)" data-toggle="modal" data-target="#voidTransaction">
+                                
+                            <i class="fa fa-ban" aria-hidden="true"></i>
+                        </button>
+                        <button *ngIf="transaction.status == 'Park' || transaction.status == 'Online' " class="btn-red action-button-table" mat-button [routerLink]="['/sell/sale', {transactionComId: transaction.transactionComId}]">
+                                <i class="fa fa-reply-all" aria-hidden="true"></i>
+                        </button>
+
+
+                    </ng-template>
+                </p-column>
+
+
+                <ng-template let-receipt pTemplate="rowexpansion">
+                    <div class="ui-grid ui-grid-responsive ui-fluid" style="font-size:16px;padding:20px">
+                        <div class="ui-grid-row">
+                            <div class="ui-grid-col-12">
+                                <div class="ui-grid ui-grid-responsive ui-grid-pad">
+
+                                    <table class="table table-striped">
+                                        <thead>
+                                            <tr>
+                                                <th>Product No</th>
+                                                <th>Description</th>
+                                                <th>Retail</th>
+                                                <th>Discount</th>
+                                                <th>Quantity</th>
+                                                <th>Total</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr *ngFor="let lineItem of receipt.transactionLineItemDaoList">
+                                                <td>{{this.lineItem.productNo}}</td>
+                                                <td>{{this.lineItem.description}}</td>
+                                                <td>{{this.lineItem.retail}}</td>
+                                                <td>{{this.lineItem.discount}}</td>
+                                                <td>{{this.lineItem.quantity}}</td>
+                                                <td>{{this.lineItem.totalProductPrice}}</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-9">
+                                <!-- <textarea rows="3" cols="150">
+                           Transaction Notes  : {{receipt.note}}
+                        </textarea> -->
+                            </div>
+                            <div class="col-md-3">
+
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        Subtotal:
+                                    </div>
+                                    <div class="col-md-3">
+                                        $ {{receipt.subtotal}}
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-3" *ngIf="receipt.totalDiscount != 0">
+                                        Discount:
+                                    </div>
+                                    <div class="col-md-3" *ngIf="receipt.totalDiscount != 0">
+                                        $ {{receipt.totalDiscount}}
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        Tax:
+                                    </div>
+                                    <div class="col-md-3">
+                                        $ {{receipt.tax}}
+                                    </div>
+                                </div>
+
+                                <hr>
+
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        TOTAL:
+                                    </div>
+                                    <div class="col-md-3">
+                                        $ {{receipt.totalAmount}}
+                                    </div>
+                                </div>
+
+                                <hr>
+                                <div class="row">
+                                    <div class="col-md-3" *ngIf="receipt.paymentDao[0].cash != 0">
+                                        Cash:
+                                    </div>
+                                    <div class="col-md-3" *ngIf="receipt.paymentDao[0].cash != 0">
+                                        $ {{receipt.paymentDao[0].cash + receipt.paymentDao[0].changeForCash}}
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-3" *ngIf="receipt.paymentDao[0].changeForCash != 0">
+                                        Change:
+                                    </div>
+                                    <div class="col-md-3" *ngIf="receipt.paymentDao[0].changeForCash != 0">
+                                        $ {{receipt.paymentDao[0].changeForCash}}
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-3" *ngIf="receipt.paymentDao[0].credit != 0">
+                                        Credit:
+                                    </div>
+                                    <div class="col-md-3" *ngIf="receipt.paymentDao[0].credit != 0">
+                                        $ {{receipt.paymentDao[0].credit}}
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-3" *ngIf="receipt.paymentDao[0].debit != 0">
+                                        Debit:
+                                    </div>
+                                    <div class="col-md-3" *ngIf="receipt.paymentDao[0].debit != 0">
+                                        $ {{receipt.paymentDao[0].debit}}
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-3" *ngIf="receipt.paymentDao[0].checkAmount != 0">
+                                        Check:
+                                    </div>
+                                    <div class="col-md-3" *ngIf="receipt.paymentDao[0].checkAmount != 0">
+                                        $ {{receipt.paymentDao[0].checkAmount}}
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-3" *ngIf="receipt.paymentDao[0].storeCredit != 0">
+                                        Store Credit:
+                                    </div>
+                                    <div class="col-md-3" *ngIf="receipt.paymentDao[0].storeCredit != 0">
+                                        $ {{receipt.paymentDao[0].storeCredit}}
+                                    </div>
+                                </div>
+
+                                <hr>
+
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        Balance:
+                                    </div>
+                                    <div class="col-md-3">
+                                        $ {{receipt.transactionBalance}}
+                                    </div>
+                                </div>
+
+
+
+                            </div>
+                        </div>
+
+                    </div>
+                </ng-template>
+            </p-dataTable>
+
+        </div>
+    </mat-card-content>
+</mat-card>
+
+
+
+<!-- Start of Void Transacton -->
+<div class="modal fade" id="voidTransaction" role="dialog">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Void Sale</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p>Are You Sure You Want To Void This Sale</p>
+            </div>
+            <div class="modal-footer">
+
+                <button type="button" class="btn btn-danger" data-dismiss="modal" (click)="this.voidTransaction()">Yes</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancle</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- End of Void Transacton -->

@@ -1,0 +1,178 @@
+<mat-card>
+    <mat-card-title>
+        <h4>Sales Reports</h4>
+    </mat-card-title>
+
+    <mat-card-content>
+
+        <div class="row d-flex align-items-center">
+
+            <div class="col-md-2">
+
+                <select class="form-control" [(ngModel)]="this.salesDropdown" (change)="this.getReportDetails()">
+                    <option>Sales Summary</option>
+                    <option>Sales By Category</option>
+                    <option>Sales By Vendor</option>
+                    <option>Sales By Brand</option>
+                    <option>Sales By Model</option>
+                    <option>Sales By Product</option>
+                    <option>Sales By Employee</option>
+                    <option>Sales By Customer</option>
+                </select>
+            </div>
+
+            <div *ngIf="this.salesDropdown == 'Sales Summary'" class="col-md-2">
+                <select class="form-control" [(ngModel)]="this.salesSummaryDropdown" (change)="this.getReportDetails()">
+                          <option>Sales By Year</option>
+                          <option>Sales By Month</option>
+                          <option>Sales By Week</option>
+                          <option>Sales By Day</option>
+                          <option>Sales By Hour</option>
+                </select>
+
+            </div>
+
+            <div *ngIf="this.salesDropdown == 'Sales Summary' && this.salesSummaryDropdown == 'Sales By Year'" class="col-md-2">
+                <select class="form-control" [(ngModel)]="this.salesByYearDropdown" (change)="this.getReportDetails()">
+                              <option>This Year</option>
+                              <option>Last Year</option>
+                              <option>Last 5 Years</option>
+                              <option>Last 10 Years</option>
+                    </select>
+
+            </div>
+
+            <div *ngIf="this.salesSummaryDropdown == 'Sales By Month'" class="col-md-2">
+                <select class="form-control" [(ngModel)]="this.salesSummaryMonthDropdown" (change)="this.getReportDetails()">
+                              <option>January</option>
+                              <option>February</option>
+                              <option>March</option>
+                              <option>April</option>
+                              <option>May</option>
+                              <option>June</option>
+                              <option>July</option>
+                              <option>August</option>
+                              <option>September</option>
+                              <option>October</option>
+                              <option>November</option>
+                              <option>December</option>
+                </select>
+
+            </div>
+
+            <div *ngIf="this.salesDropdown != 'Sales Summary' " class="col-md-2">
+                <select class="form-control" [(ngModel)]="this.salesDateDropdown" (change)="this.getReportDetails()">
+                  <option>Today</option>
+                  <option>Yesterday</option>
+                  <option>This Week</option>
+                  <option>Last Week</option>
+                  <option>This Month</option>
+                  <option>Last Month</option>
+                  <option>Last 3 Months</option>
+                  <option>Last 6 Months</option>
+                  <option>This Year</option>
+                  <option>Last Year</option>
+                  <option>Custom</option>
+                </select>
+
+            </div>
+
+            <div class="col-md-2">
+
+                <button matIcon (click)="this.printSalesReportBy()">
+                    <i class="fa fa-print fa-3x" aria-hidden="true"></i>
+                </button>
+            </div>
+
+        </div>
+
+        <div class="row d-flex align-items-center" *ngIf="this.pieChartData" style="height: 250px">
+
+            <ngx-charts-advanced-pie-chart class="" [scheme]="this.colorScheme" [results]="pieChartData" [view]="null" (select)="onSelect($event)">
+            </ngx-charts-advanced-pie-chart>
+        </div>
+
+        <div class="row d-flex align-items-center">
+
+            <!-- Showing this table for sales by reports -->
+            <div *ngIf="this.salesDropdown != 'Sales Summary'" class="col-md-12 p-md-3">
+                <p-dataTable [value]="this.salesDto" scrollable="true" [responsive]="true" scrollHeight="500px">
+                    <p-column field="name" header="Name" [style]="{'height': '46px', 'width': '25%', 'text-align': 'left'}"></p-column>
+                    <p-column field="cost" header="Cost" [sortable]="true">
+                        <ng-template let-sales="rowData" pTemplate="body">
+                            {{sales.cost | currency:'USD':'true'}}
+                        </ng-template>
+                    </p-column>
+                    <p-column field="retail" header="Retail" [sortable]="true">
+                        <ng-template let-sales="rowData" pTemplate="body">
+                            {{sales.retail | currency:'USD':'true'}}
+                        </ng-template>
+                    </p-column>
+                    <p-column field="quantity" header="Quantity" [sortable]="true"></p-column>
+                    <p-column field="profit" header="Profit" [sortable]="true">
+                        <ng-template let-sales="rowData" pTemplate="body">
+                            {{sales.profit | currency:'USD':'true'}}
+                        </ng-template>
+                    </p-column>
+                    <p-column field="markup" header="Markup %" [sortable]="true"></p-column>
+                    <p-column field="perOfTotal" header="% Of Total" [sortable]="true"></p-column>
+
+                </p-dataTable>
+            </div>
+
+
+            <!-- Showing this table for sales summary Reports -->
+            <div *ngIf="this.salesDropdown == 'Sales Summary'" class="col-md-12 p-md-3">
+                <p-dataTable [value]="this.salesSummaryDto" scrollable="true" [responsive]="true" scrollHeight="500px">
+                    <p-column field="name" header="Name" [style]="{'height': '46px', 'width': '10%', 'text-align': 'left'}"></p-column>
+                    <p-column field="cash" header="Cash" [sortable]="true">
+                        <ng-template let-summary="rowData" pTemplate="body">
+                            {{summary.cash | currency:'USD':'true'}}
+                        </ng-template>
+                    </p-column>
+                    <p-column field="credit" header="Credit" [sortable]="true">
+                        <ng-template let-summary="rowData" pTemplate="body">
+                            {{summary.credit | currency:'USD':'true'}}
+                        </ng-template>
+                    </p-column>
+                    <p-column field="debit" header="Debit" [sortable]="true">
+                        <ng-template let-summary="rowData" pTemplate="body">
+                            {{summary.debit | currency:'USD':'true'}}
+                        </ng-template>
+                    </p-column>
+
+                    <p-column field="check" header="Check" [sortable]="true">
+                        <ng-template let-summary="rowData" pTemplate="body">
+                            {{summary.check | currency:'USD':'true'}}
+                        </ng-template>
+                    </p-column>
+                    <p-column field="tax" header="Tax" [sortable]="true">
+                        <ng-template let-summary="rowData" pTemplate="body">
+                            {{summary.tax | currency:'USD':'true'}}
+                        </ng-template>
+                    </p-column>
+                    <p-column field="discount" header="Discount" [sortable]="true">
+                        <ng-template let-summary="rowData" pTemplate="body">
+                            {{summary.discount | currency:'USD':'true'}}
+                        </ng-template>
+                    </p-column>
+                    <p-column field="profit" header="Profit" [sortable]="true">
+                        <ng-template let-summary="rowData" pTemplate="body">
+                            {{summary.profit | currency:'USD':'true'}}
+                        </ng-template>
+                    </p-column>
+                    <p-column field="returns" header="Returns" [sortable]="true">
+                        <ng-template let-summary="rowData" pTemplate="body">
+                            {{summary.returns | currency:'USD':'true'}}
+                        </ng-template>
+                    </p-column>
+
+                </p-dataTable>
+            </div>
+
+
+        </div>
+
+
+    </mat-card-content>
+</mat-card>

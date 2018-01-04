@@ -1,0 +1,210 @@
+<p-growl [(value)]="msgs"></p-growl>
+
+<mat-card>
+    <mat-card-title>
+        <h3>
+            Expense Details
+        </h3>
+    </mat-card-title>
+    <mat-card-content>
+
+        <div class="row d-flex align-items-center">
+            <div class="col-md-2">
+
+
+                <select class="form-control" [(ngModel)]="this.expenseDropDown" (change)="getExpenseDetails()">
+                        <option>Today</option>
+                        <option>Yesterday</option>
+                        <option>This Week</option>
+                        <option>Last Week</option>
+                        <option>This Month</option>
+                        <option>Last Month</option>
+                        <option>Last 3 Months</option>
+                        <option>Last 6 Months</option>
+                        <option>This Year</option>
+                        <option>Last Year</option>
+                        <option>Custom</option>
+                                
+                    </select>
+            </div>
+
+            <div class="col-md-5">
+
+            </div>
+
+            <div class="col-md-5 d-flex align-items-center justify-content-end">
+                <button type="button" class="bg-primary text-white action-button-lg m-3" data-toggle="modal" data-target="#addExpense">
+                    <i class="fa fa-plus-square" aria-hidden="true" label="Add"></i>
+                        Add Expnese
+                </button>
+
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12">
+                <p-dataTable [value]="this.expenseDto" scrollable="true" [responsive]="true" scrollHeight="500px">
+                    <p-column field="expenseName" header="Expense Name" filterPlaceholder="Search By Expense Name" [filter]="true"></p-column>
+                    <p-column [style]="{'width': '8%'}" field="date" header="Date" [sortable]="true"></p-column>
+                    <p-column [style]="{'width': '8%'}" field="time" header="Time" [sortable]="true"></p-column>
+                    <p-column [style]="{'width': '8%'}" field="amount" header="Amount">
+                        <ng-template let-expense="rowData" pTemplate="body">
+                            {{expense.amount | currency:'USD':'true'}}
+                        </ng-template>
+                    </p-column>
+                    <p-column field="expenseOwner" header="Expense Owner" [sortable]="true"></p-column>
+                    <p-column field="expenseDocument" header="Expense Document"></p-column>
+                    <p-column field="expenseNotes" header="Expense Notes"></p-column>
+                    <p-column field="action" header="Action" [style]="{'width': '10%'}">
+                        <ng-template let-expense="rowData" pTemplate="body">
+                            <button mat-button class="btn-blue action-button-table" (click)="this.updateExpense(expense)" data-toggle="modal" data-target="#addExpense">
+                                    <i class="fa fa-pencil" aria-hidden="true"></i>
+                                </button>
+                            <button mat-button class="btn-red action-button-table" (click)="this.setExpenseForDelete(expense)" data-toggle="modal" data-target="#deleteExpense">
+                                    <i class="fa fa-trash" aria-hidden="true"></i>
+                                </button>
+                            <button mat-button class="btn-green action-button-table" data-toggle="modal" data-target="#productHistoryModel">
+                                    <i class="fa fa-history" aria-hidden="true"></i>
+                                </button>
+                        </ng-template>
+                    </p-column>
+
+                </p-dataTable>
+
+            </div>
+        </div>
+    </mat-card-content>
+</mat-card>
+
+<!-- Start Of Add Expense popup -->
+<form [formGroup]="expenseForm">
+    <div class="modal fade" id="addExpense" role="dialog">
+        <div class="modal-dialog modal-lg">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Add Expense</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <div class="modal-body">
+
+                    <div class="row m-1">
+
+                        <div class="col-md-6 form-group">
+                            <label>Expense Name :</label>
+                        </div>
+                        <div class="col-md-6 form-group">
+                            <select class="form-control" formControlName="expenseName" name="expenseName">
+                                        <option *ngFor = "let expenseName of this.expenseNameDto">
+                                            {{expenseName.expenseName}}
+                                        </option>
+                                    </select>
+                            <!-- <input type="text" class="form-control" formControlName="expenseName" /> -->
+                        </div>
+                    </div>
+
+
+                    <div class="row m-1">
+
+                        <div class="col-md-6 form-group">
+                            <label>Expense Date :</label>
+                        </div>
+                        <div class="col-md-6 form-group">
+                            <input type="text" class="form-control" formControlName="date" />
+                        </div>
+                    </div>
+
+
+                    <div class="row m-1">
+
+                        <div class="col-md-6 form-group">
+                            <label>Expense Amount :</label>
+                        </div>
+                        <div class="col-md-6 form-group">
+                            <input type="number" class="form-control" formControlName="amount" />
+                        </div>
+                    </div>
+
+
+                    <div class="row m-1">
+
+                        <div class="col-md-6 form-group">
+                            <label>Expense Owner :</label>
+                        </div>
+                        <div class="col-md-6 form-group">
+                            <input type="text" class="form-control" formControlName="expenseOwner" />
+                        </div>
+                    </div>
+
+
+                    <div class="row m-1">
+
+                        <div class="col-md-6 form-group">
+                            <label>Expense Document :</label>
+                        </div>
+                        <div class="col-md-6 form-group">
+                            <input type="text" class="form-control" formControlName="expenseDocument" />
+                        </div>
+                    </div>
+
+                    <div class="row m-1">
+
+                        <div class="col-md-6 form-group">
+                            <label>Expense Notes :</label>
+                        </div>
+                        <div class="col-md-6 form-group">
+                            <textarea rows="6" cols="40" formControlName="expenseNotes">
+                            </textarea>
+
+                        </div>
+                    </div>
+
+                    <hr>
+                    <div class="row m-1">
+
+                        <div class="col-md-12 form-group d-flex justify-content-center">
+                            <button mat-raised-button class="bg btn-green text-white m-2 action-button-lg" data-dismiss="modal" (click)="this.addExpense()" type="submit" [disabled]="expenseForm.invalid">
+                                <i class="fa fa-paper-plane" aria-hidden="true" ></i>
+                                Add Expense
+                            </button>
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+
+
+        </div>
+
+    </div>
+</form>
+<!-- Start Of Add Expense popup -->
+
+<!-- Start of Delete Brand Popup -->
+<div class="modal fade" id="deleteExpense" role="dialog">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Delete Expense</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p>Are You Sure You Want To Delete This Expense</p>
+            </div>
+            <div class="modal-footer">
+
+                <button type="button" class="btn btn-danger" data-dismiss="modal" (click)="this.deleteExpense()">Yes</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancle</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- End of Delete Brand Popup -->

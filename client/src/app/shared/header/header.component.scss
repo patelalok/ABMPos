@@ -1,0 +1,12 @@
+@import '../../../scss/variables.scss';
+.header{ 
+    height: 60px;
+    margin: 0px -15px;
+    background: $gray-700;
+}
+
+.logo{
+    height: stretch;
+    // padding: 10px; 
+    margin-left: 10px; 
+}

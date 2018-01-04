@@ -1,0 +1,133 @@
+<div class="container-fluid">
+
+    <!-- <p-growl [(value)]="msgs"></p-growl> -->
+
+    <div class="row" style="margin-top: 35px">
+        <div class="col-md-10" style="background-color:lightgreen;">
+            <h2>
+                Employee
+            </h2>
+        </div>
+        <div class="col-md-2">
+
+            <select class="form-control">
+                <option>Today</option>
+                <option>Yesterday</option>
+                <option>This Week</option>
+                <option>Last Week</option>
+                <option>This Month</option>
+                <option>Last Month</option>
+                <option>Last 3 Months</option>
+                <option>Last 6 Months</option>
+                <option>This Year</option>
+                <option>Last Year</option>
+                <option>Custom</option>
+                                
+            </select>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <p-header>Clock In Details</p-header>
+            <p-dataTable [value]="this.clockInDto" selectionMode="single" [(selection)]="selectedEmployee" (onRowSelect)="onRowSelect($event)" [paginator]="true" rows="10" [responsive]="true">
+                <p-column field="date" header="Date"></p-column>
+                <p-column field="username" header="Username"></p-column>
+                <p-column field="clockIn" header="ClockIn" [sortable]="true"></p-column>
+                <p-column field="clockOut" header="Clock Out" [sortable]="true"></p-column>
+                <p-column field="noOfHours" header="No Of Hours" [sortable]="true"></p-column>
+                <p-column field="hourlyRate" header="Hourly Rate" [sortable]="true"></p-column>
+                <p-column field="commissionAmount" header="Commission" [sortable]="true"> </p-column>
+                <p-column field="action" header="Action" [sortable]="true">
+                    <ng-template pTemplate="body">
+                        <button (click)="updateClockInDetails()">
+                        <i class="fa fa-pencil" aria-hidden="true"></i>
+                      </button>
+                        <button (click)="deleteClockInDetails()">
+                      <i class="fa fa-trash" aria-hidden="true"></i>
+                      </button>
+                    </ng-template>
+                </p-column>
+            </p-dataTable>
+
+        </div>
+    </div>
+</div>
+
+<!-- <form [formGroup]="clockInForm"> -->
+<p-dialog header="Update Clock In Details" appendTo="body" [(visible)]="displayDialog" [responsive]="true" showEffect="fade" [modal]="true" (onHide)="resrtForm()">
+
+    <div class="container">
+
+
+        <div class="row">
+
+            <div class="col-md-2">
+                <label>Date:</label>
+            </div>
+
+            <div class="col-md-4">
+                <label>Test</label>
+            </div>
+
+            <div class="col-md-2">
+                <!-- <label>Phone Number:</label> -->
+            </div>
+            <div class="col-md-4">
+                <!-- <input type="text" class="form-control" formControlName="phoneNo" placeholder="Enter Phone Number"> -->
+
+            </div>
+
+            <!-- Second row of the cusotmer -->
+
+            <div class="col-md-2">
+                <label>Clock In Time:</label>
+            </div>
+
+            <div class="col-md-4">
+                <!-- <input type="text" class="form-control" formControlName="username" placeholder="Enter Email Address"> -->
+            </div>
+
+            <div class="col-md-2">
+                <label>Clock Out Time:</label>
+            </div>
+            <div class="col-md-4">
+                <!-- <input type="text" class="form-control" formControlName="password" placeholder="Enter Password"> -->
+
+            </div>
+
+            <!-- thirs row of customer -->
+
+            <div class="col-md-2">
+                <label>Hourly Rate:</label>
+            </div>
+
+            <div class="col-md-4">
+                <!-- <input type="text" class="form-control" formControlName="taxId" placeholder="Enter Tax Id"> -->
+            </div>
+
+            <div class="col-md-2">
+                <label>Commission</label>
+            </div>
+            <div class="col-md-4">
+                <!-- <input type="text" class="form-control" formControlName="dateOfBirth" placeholder="Enter Date Of Birth"> -->
+
+            </div>
+        </div>
+
+        <p-footer>
+            <div style="text-align: center">
+                <button type="button" class="btn btn-success" [disabled]="">
+                        <i class="fa fa-check" aria-hidden="true" (click)="save()" ></i>
+                        Save Employee Details
+                    </button>
+
+                <button type="button" class="btn btn-danger" *ngIf="this.showDeleteButton">
+                        <i class="fa fa-window-close" aria-hidden="true" (click)="delete()"></i>
+                        Delete Employee Details
+                    </button>
+            </div>
+        </p-footer>
+
+    </div>
+</p-dialog>
+<!-- </form> -->

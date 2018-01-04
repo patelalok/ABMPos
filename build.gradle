@@ -1,44 +1,20 @@
-buildscript {
-	ext {
-		springBootVersion = '1.5.3.RELEASE'
-	}
+plugins {
+	id "fi.evident.beanstalk" version "0.1.1"
+}
+
+allprojects {
+//    task alltask.doLast  { task -> println "In $task.project.name" }
+//
+	version = '1.0.0-SNAPSHOT'
+}
+
+subprojects {
+
 	repositories {
 		mavenCentral()
 	}
-	dependencies {
-		classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
-	}
 }
 
-apply plugin: 'java'
-apply plugin: 'eclipse'
-apply plugin: 'org.springframework.boot'
-
-version = '0.0.1-SNAPSHOT'
-sourceCompatibility = 1.8
-
-repositories {
-	mavenCentral()
-}
-
-
-dependencies {
-	compile('org.springframework.boot:spring-boot-starter-data-jpa')
-	compile('org.springframework.boot:spring-boot-starter-data-rest')
-	compile('org.springframework.boot:spring-boot-starter-jdbc')
-	compile('org.springframework.boot:spring-boot-starter-web')
-	//http://mvnrepository.com/artifact/com.itextpdf/itextpdf
-	compile group: 'com.itextpdf', name: 'itextpdf', version: '5.4.0'
-
-	compile group: 'org.springframework.boot', name: 'spring-boot-starter-mail', version: '1.2.0.RELEASE'
-
-	// https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-thymeleaf
-	compile group: 'org.springframework.boot', name: 'spring-boot-starter-thymeleaf', version: '1.5.2.RELEASE'
-
-	// https://mvnrepository.com/artifact/nz.net.ultraq.thymeleaf/thymeleaf-layout-dialect
-	compile group: 'nz.net.ultraq.thymeleaf', name: 'thymeleaf-layout-dialect', version: '1.2'
-	runtime('mysql:mysql-connector-java')
-	testCompile('org.springframework.boot:spring-boot-starter-test')
-
-
+task wrapper(type: Wrapper) {
+	gradleVersion = '3.4.1'
 }

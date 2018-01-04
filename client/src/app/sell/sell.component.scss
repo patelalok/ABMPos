@@ -1,0 +1,65 @@
+.borderless td,
+.borderless th {
+    border: none;
+}
+
+.a :hover {
+    background: #3374C2;
+}
+
+.wid100 {
+    width: 100% !important;
+}
+
+.primary-button {
+    background-color: #41AF4B;
+    color: #FFF;
+    height: 50px;
+    width: 100%;
+    font-size: 20px;
+}
+
+.danger-button {
+    background-color: #dc3545;
+    color: #FFF;
+    height: 50px;
+    width: 100%;
+    font-size: 20px;
+}
+
+.secondary-button {
+    background-color: #6692B0;
+    height: 50px;
+    width: 100%;
+    color: #FFF;
+    font-size: 20px;
+}
+
+.customer td,
+.customer th {
+    padding: 10px 10px;
+}
+
+.customer dl.row {
+    margin: 0px;
+    display: flex;
+    justify-content: space-between;
+    dt {
+        text-align: left;
+    }
+    dd {
+        text-align: right;
+        margin: 0px;
+    }
+}
+
+.sales-total dl {
+    display: flex;
+    justify-content: space-between;
+    font-size: 17px;
+}
+
+.quantity-updated {
+    background: greenyellow;
+    padding: 9px;
+}

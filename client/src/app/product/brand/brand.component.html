@@ -1,0 +1,104 @@
+<div class="">
+
+    <p-growl [(value)]="msgs"></p-growl>
+    <mat-card>
+        <mat-card-title>
+            <h4>
+                Brands Details
+            </h4>
+        </mat-card-title>
+        <mat-card-content>
+            <div class="row d-flex align-items-center justify-content-end">
+                <div class="col-md-6"></div>
+                <div class="col-md-6 d-flex justify-content-end">
+                    <button type="button" mat-raised-button class="bg-primary text-white action-button-lg" (click)="showDialogToAdd()">
+                            <i class="fa fa-plus-square" aria-hidden="true" label="Add"></i>
+                            Add Brand
+                        </button>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12 p-md-3">
+                    <!-- <p-header>Category Details</p-header> -->
+                    <!-- <p-dataTable [value]="this.brandDto" scrollable="true" scrollHeight="500px" selectionMode="single" [(selection)]="selectedBrand" (onRowSelect)="onRowSelect($event)" [responsive]="true"> -->
+                    <p-dataTable [value]="this.brandDto" scrollable="true" scrollHeight="500px" [responsive]="true" [editable]="true" (onEditComplete)="this.updateBrand($event)">
+
+                        <p-column field="index" header="Index" [sortable]="true"></p-column>
+                        <p-column field="name" header="Brand Name" filterPlaceholder="Search For Brand Name" [filter]="true" [editable]="true"></p-column>
+                        <p-column field="description" header="Brand Description" [sortable]="true" [editable]="true"></p-column>
+                        <p-column field="noOfProduct" header="No Of Prodcuts" [sortable]="true"></p-column>
+                        <p-column field="action" header="Action" [style]="{'width': '5%'}">
+                            <ng-template let-brand="rowData" pTemplate="body" class="m-auto">
+                                <button class="btn-red action-button-table" mat-button data-toggle="modal" data-target="#deleteBrand" (click)="this.setBrandForDetete(brand)">
+                                    <i class="fa fa-trash" aria-hidden="true"></i>
+                                </button>
+                            </ng-template>
+                        </p-column>
+
+                    </p-dataTable>
+
+                </div>
+
+                <form *ngIf="this.brandForm != null" [formGroup]="this.brandForm">
+                    <p-dialog header="Add Brand" appendTo="body" [(visible)]="displayDialog" [responsive]="true" showEffect="fade" [modal]="true">
+                        <div class="ui-grid ui-grid-responsive ui-fluid" *ngIf="brand">
+                            <div class="ui-grid-row">
+                                <div class="ui-grid-col-4">
+                                    <label for="name">Name:</label>
+                                </div>
+                                <div class="ui-grid-col-8">
+                                    <input class="form-control" formControlName="name" />
+                                </div>
+                            </div>
+                            <div class="ui-grid-row">
+                                <div class="ui-grid-col-4">
+                                    <label for="description">Description:</label>
+                                </div>
+                                <div class="ui-grid-col-8">
+                                    <input class="form-control" formControlName="description" />
+                                </div>
+                            </div>
+                        </div>
+                        <p-footer>
+                            <!-- <div style="text-align: center"> -->
+                            <button type="button" class="btn btn-green" [disabled]="this.brandForm.invalid" (click)="addBrand()">
+                                <i class="fa fa-paper-plane" aria-hidden="true" ></i>
+                                Add Brand
+                            </button>
+
+                            <!-- </div> -->
+                        </p-footer>
+                    </p-dialog>
+                </form>
+            </div>
+        </mat-card-content>
+    </mat-card>
+    <div class="row" style="margin-top: 35px">
+    </div>
+</div>
+
+
+
+
+
+<!-- Start of Delete Brand Popup -->
+<div class="modal fade" id="deleteBrand" role="dialog">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Delete Brand</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p>Are You Sure You Want To Delete This Brand</p>
+            </div>
+            <div class="modal-footer">
+
+                <button type="button" class="btn btn-danger" data-dismiss="modal" (click)="this.deleteBrand()">Yes</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancle</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- End of Delete Brand Popup -->

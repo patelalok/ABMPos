@@ -1,0 +1,20 @@
+<form id="filter">
+
+    <!--<md-input-container>
+                <input type="text" mdInput [formControl]="myControl" [mdAutocomplete]="auto">
+            </md-input-container>
+
+            <md-autocomplete #auto="mdAutocomplete" [displayWith]="displayFn">
+                <md-option *ngFor="let p of filteredOptions | async" [value]="p" (click)="addTransactionLineItem(p)">
+                    {{ p.description }}
+                </md-option>
+            </md-autocomplete>-->
+    <p-dropdown [options]="product" [(ngModel)]="this.selectedCar2" [style]="{'width':'150px'}" filter="filter" name="test">
+        <ng-template let-product pTemplate="item">
+            <div class="ui-helper-clearfix" style="position: relative;height: 25px;">
+                <img src="" style="width:24px;position:absolute;top:1px;left:5px" />
+                <div style="font-size:14px;float:right;margin-top:4px">{{product.description}}</div>
+            </div>
+        </ng-template>
+    </p-dropdown>
+</form>

@@ -1,0 +1,25 @@
+@import '../../../scss/variables';
+.flex-form{
+    display: flex;
+    flex-wrap: wrap;
+    padding: 20px;
+    width: 70%;
+    margin: 50px auto !important;
+    justify-content: center;
+    .flex-form-input{
+        // align-self: center;
+        width: 100%;
+        margin: 20px 0px;
+    }
+}
+mat-card{
+    margin: auto;
+    max-width: map-get($grid-breakpoints, md);
+}
+
+.card-login .card-content {
+    padding: 0px 30px 0px 30px;
+}
+.card{
+    flex-grow: 0.15;
+}
