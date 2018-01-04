@@ -983,13 +983,10 @@ console.log('sales type', this.saleType);
     this.sellService.addTransactionDetails(this.transactionDtoList)
     .subscribe(
       data => {
-        console.log('sales type', this.saleType);
-        //this.toastr.success('Parked Transaction Successfully', 'Success!');
         this.printTransactionDto = data.json();
         if(this.saleType == 'Park')
         {
           this.toastr.success('Parked Transaction Successfully', 'Success!');
-          //this.printTransactionDto = null;
           this.clearAllDateAfterTransactionComplete();
     
         }

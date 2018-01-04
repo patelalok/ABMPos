@@ -52,18 +52,18 @@ th {
             <th>SKU</th>
             <th>Quantity</th>
             <th>Retail</th>
-            <th>RetailWithDis</th>
+            <th>Discount</th>
             <th>Total</th>
         </tr>
 
         <tr th:each="lineItem : ${lineItem}">
 
-            <td th:text="${lineItem.ProductDescription}">ProductDescription</td>
-            <td th:text="${lineItem.productNumber}">ProductNumber</td>
+            <td th:text="${lineItem.description}">ProductDescription</td>
+            <td th:text="${lineItem.productNo}">ProductNumber</td>
             <td th:text="${lineItem.quantity}">Quantity</td>
             <td th:text="${lineItem.retail}">Retail</td>
-            <td th:text="${lineItem.retailWithDis}">productNumber</td>
-            <td th:text="${lineItem.totalProductPrice}">quantity</td>
+            <td th:text="${lineItem.discount}">Discount</td>
+            <td th:text="${lineItem.totalProductPrice}">TotalPrice</td>
 
         </tr>
 

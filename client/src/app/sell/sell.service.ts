@@ -96,6 +96,11 @@ export class SellService {
          printBlob(data._body)
        })
   }
+
+  sendEmail(transactionCompId: number) {
+    return this.http.get('http://localhost:8080/sendEmail?transactionCompId='+transactionCompId);
+  }
+  
   private extractData(res: Response): Product[] {
     let body = res.json();
     console.log(body);

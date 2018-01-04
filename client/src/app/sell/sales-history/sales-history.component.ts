@@ -197,6 +197,32 @@ export class SalesHistoryComponent implements OnInit {
 
   }
 
+  sendEmail(transaction: TransactionDtoList){
+
+    if(null != transaction && null != transaction.customerPhoneno && transaction.customerPhoneno.length > 0) {
+
+      this.sellService.sendEmail(transaction.transactionComId)
+      .subscribe((data) =>
+    {
+      if(data.text())
+      {
+        this.toastr.success('Email Send Sucessfully !!', 'Success!');
+      }
+      console.log('send email response', data.text());
+    },
+    (error) => {
+      this.toastr.error('Something goes wrong, not able to send an email now !!', 'Error!');
+      console.log(JSON.stringify(error.json()));
+  });
+    }
+
+    else{
+      this.toastr.error('Can not find email address for transaction !!', 'Error!');
+    }
+
+
+  }
+
 }
 
 

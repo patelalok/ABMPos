@@ -364,7 +364,7 @@ public class TransactionsManager {
 
         TransactionDao transactionDao =  getTransactionById(receiptId);
 
-        String email = "alokpatel.au@gmail.com";
+        String email = null;
 
         if(null != transactionDao && transactionDao.getCustomerPhoneno().length() > 1 && null != transactionDao.getTransactionLineItemDaoList() && null != transactionDao.getPaymentDao())
         {
@@ -377,6 +377,8 @@ public class TransactionsManager {
 
             if(null != customerDao && null != customerDao.getEmail())
             {
+
+                email = customerDao.getEmail();
                 //setting shipping details
             context.setVariable("firstName", customerDao.getName());
             context.setVariable("companyName",customerDao.getCompanyName() );
