@@ -5,17 +5,28 @@ import com.abm.pos.ABMPos.repository.*;
 import com.abm.pos.ABMPos.util.Utility;
 import com.itextpdf.text.*;
 import com.itextpdf.text.pdf.*;
+
+
+
 import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.stereotype.Component;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.List;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
+import org.thymeleaf.context.Context;
+
+
+
+
+
 
 /**
  * Created by apatel2 on 5/18/17.
@@ -44,6 +55,9 @@ public class TransactionsManager {
 
     @Autowired
     private CustomerManager customerManager;
+
+    @Autowired
+    EmailHtmlSender emailHtmlSender;
 
     private BaseFont bfBold;
     private BaseFont bf;
@@ -337,9 +351,70 @@ public class TransactionsManager {
 
     }
 
-    public void voidTransaction(TransactionDao transactionDao) {
+    public TransactionDao voidTransaction(TransactionDao transactionDao) {
 
-        this.transactionRepository.save(transactionDao);
+        return transactionRepository.save(transactionDao);
+    }
+
+    public boolean sendEmail(int receiptId) {
+
+        //String customerEmail =  jdbcTemplate.queryForObject(sqlQuery.getCustomerEmail, new Object[]{receiptId}, String.class);
+
+        Context context = new Context();
+
+        TransactionDao transactionDao =  getTransactionById(receiptId);
+
+        String email = "alokpatel.au@gmail.com";
+
+        if(null != transactionDao && transactionDao.getCustomerPhoneno().length() > 1 && null != transactionDao.getTransactionLineItemDaoList() && null != transactionDao.getPaymentDao())
+        {
+
+            //First get customer details to send an email.
+
+            CustomerDao customerDao = new CustomerDao();
+
+            customerDao = customerRepository.findByPhoneNo(transactionDao.getCustomerPhoneno());
+
+            if(null != customerDao && null != customerDao.getEmail())
+            {
+                //setting shipping details
+            context.setVariable("firstName", customerDao.getName());
+            context.setVariable("companyName",customerDao.getCompanyName() );
+            context.setVariable("addressLine", customerDao.getStreet());
+            context.setVariable("City", customerDao.getCity());
+            context.setVariable("State", customerDao.getState());
+            context.setVariable("zipcode",customerDao.getZipCode());
+            context.setVariable("phoneNo", customerDao.getPhoneNo());
+            }
+
+
+
+            //setting line item details
+            context.setVariable("lineItem", transactionDao.getTransactionLineItemDaoList());
+
+            //setting transaction details
+            context.setVariable("subtotal",transactionDao.getSubtotal());
+            context.setVariable("shipping","00");//TODO need to figure out this problem
+            context.setVariable("quantity", transactionDao.getQuantity());
+            context.setVariable("discount", transactionDao.getTotalDiscount());
+            context.setVariable("previousBalance", transactionDao.getPreviousBalance());
+            context.setVariable("salesTax", transactionDao.getTax());
+            context.setVariable("grandTotal",transactionDao.getTotalAmount());
+            context.setVariable("balance",transactionDao.getTransactionBalance());
+
+
+
+            //By this logic if email is failing i will get an email
+//            if( null != receiptDtoList.get(0).getCustomerDtosList().get(0).getEmail())
+//            {
+//                email = receiptDtoList.get(0).getCustomerDtosList().get(0).getEmail();
+//            }
+
+        }
+
+        EmailStatus emailStatus = emailHtmlSender.send(email, "ExcelWireless Order Details", "template-1", context);
+
+        return  emailStatus.isSuccess();
     }
 
     public byte[] getA4Receipt(int receiptNo) throws DocumentException {
@@ -466,16 +541,16 @@ public class TransactionsManager {
                     if (transactionDao.getPaymentDao().get(0).getCash() != 0) {
                         totalTable.addCell(new Phrase("Cash", new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
                         totalTable.addCell(new Phrase("$ " + String.valueOf(transactionDao.getPaymentDao().get(0).getCash()), new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
-                    } else if (transactionDao.getPaymentDao().get(0).getChangeForCash() != 0) {
+                    }  if (transactionDao.getPaymentDao().get(0).getChangeForCash() != 0) {
                         totalTable.addCell(new Phrase("Change", new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
                         totalTable.addCell(new Phrase("$ " + String.valueOf(transactionDao.getPaymentDao().get(0).getChangeForCash()), new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
-                    } else if (transactionDao.getPaymentDao().get(0).getCredit() != 0) {
+                    }  if (transactionDao.getPaymentDao().get(0).getCredit() != 0) {
                         totalTable.addCell(new Phrase("Credit", new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
                         totalTable.addCell(new Phrase("$ " + String.valueOf(transactionDao.getPaymentDao().get(0).getCredit()), new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
-                    } else if (transactionDao.getPaymentDao().get(0).getDebit() != 0) {
+                    } if (transactionDao.getPaymentDao().get(0).getDebit() != 0) {
                         totalTable.addCell(new Phrase("Debit", new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
                         totalTable.addCell(new Phrase("$ " + String.valueOf(transactionDao.getPaymentDao().get(0).getDebit()), new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
-                    } else if (transactionDao.getPaymentDao().get(0).getCheckAmount() != 0) {
+                    } if (transactionDao.getPaymentDao().get(0).getCheckAmount() != 0) {
                         totalTable.addCell(new Phrase("Check", new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
                         totalTable.addCell(new Phrase("$ " + String.valueOf(transactionDao.getPaymentDao().get(0).getCheckAmount()), new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
                     }
@@ -483,10 +558,10 @@ public class TransactionsManager {
 //                        totalTable.addCell(new Phrase("On Account", new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
 //                        totalTable.addCell(new Phrase("$ " + String.valueOf(transactionDao.getPaymentDao().get(0).getOnAccount()), new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
 //                    }
-                    else if (transactionDao.getPaymentDao().get(0).getStoreCredit() != 0) {
+                     if (transactionDao.getPaymentDao().get(0).getStoreCredit() != 0) {
                         totalTable.addCell(new Phrase("Store Credit", new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
                         totalTable.addCell(new Phrase("$ " + String.valueOf(transactionDao.getPaymentDao().get(0).getStoreCredit()), new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
-                    } else if (transactionDao.getPaymentDao().get(0).getLoyalty() != 0) {
+                    }  if (transactionDao.getPaymentDao().get(0).getLoyalty() != 0) {
                         totalTable.addCell(new Phrase("Loyalty", new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
                         totalTable.addCell(new Phrase("$ " + String.valueOf(transactionDao.getPaymentDao().get(0).getLoyalty()), new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
                     }

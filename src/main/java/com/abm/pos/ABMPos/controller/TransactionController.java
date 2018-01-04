@@ -74,11 +74,30 @@ public class TransactionController {
     }
 
     @RequestMapping(value = "/voidTransaction", method = RequestMethod.POST)
-    public void voidTransaction(@RequestBody TransactionDao transactionDao)
+    public ResponseEntity voidTransaction(@RequestBody TransactionDao transactionDao)
+
     {
-        transactionManager.voidTransaction(transactionDao);
-        System.out.println("Transaction Voided Successfully!!");
+        TransactionDao transactionDao1;
+
+       transactionDao1 =  transactionManager.voidTransaction(transactionDao);
+
+       if(null != transactionDao1)
+       {
+           System.out.println("Transaction Voided Successfully!!");
+           return  new ResponseEntity(HttpStatus.OK);
+       }
+       else
+       {
+           return  new ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR);
+       }
     }
+
+    @RequestMapping(value = "/sendEmail", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public boolean sendEmail(@RequestParam int transactionCompId)
+    {
+        return transactionManager.sendEmail(transactionCompId);
+    }
+
 
 
 }
