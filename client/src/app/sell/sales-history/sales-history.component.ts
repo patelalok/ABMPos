@@ -27,6 +27,7 @@ export class SalesHistoryComponent implements OnInit {
   // searchByCustomerInputBox: string;
   searchByCustomerInputBox = new FormControl();
   searchByReceiptNoInputBox = new FormControl();
+  searchByTransactionType: string = 'All Transaction Status';
   transactionToVoid: TransactionDtoList;
 
   document: jspdf; 
@@ -35,12 +36,21 @@ export class SalesHistoryComponent implements OnInit {
   constructor(private sellService: SellService, private fb: FormBuilder, private dateService: DateService, private http: Http, private toastr: ToastsManager) { }
 
   ngOnInit() {
+
     this.searchByCustomerInputBox.valueChanges
       .debounceTime(800)
       .distinctUntilChanged()
       .subscribe((change) => {
-        this.filterTransactionDetails(change);
+        this.filterTransactionDetails(change, 'Customer');
       });
+
+      this.searchByReceiptNoInputBox.valueChanges
+      .distinctUntilChanged()
+      .subscribe((change) => {
+        this.filterTransactionDetails(change, 'Recipt-No');
+      });
+
+
     this.getTransactionDetails(this.salesHistoryDropdown);
 
     
@@ -79,6 +89,11 @@ export class SalesHistoryComponent implements OnInit {
 
     this.sellService.printReceipt(transaction);
   
+  }
+
+  onTransactionTypeDropdownChoose(){
+
+    this.filterTransactionDetails(this.searchByTransactionType, 'Transaction-Type');
   }
 
   getTransactionDetails(inputDate: any) {
@@ -136,28 +151,48 @@ export class SalesHistoryComponent implements OnInit {
       });
   }
 
-  filterTransactionDetails(input: string) {
+  filterTransactionDetails(input: string, searchType: string) {
     // console.log('Transaction details Object', this.transactionDetails)
     if (input.length > 0)
-      this.transactionDetails = this.nowFilterTransaction(input, this.transactionDetails);
+      this.transactionDetails = this.nowFilterTransaction(input, this.transactionDetails,searchType);
     else
       this.getTransactionDetails(this.salesHistoryDropdown);
   }
 
-  nowFilterTransaction(query: string, transactionDetailsList: TransactionDtoList[]): TransactionDtoList[] {
+  nowFilterTransaction(query: any, transactionDetailsList: TransactionDtoList[], searchType: string): TransactionDtoList[] {
 
     let filtered: TransactionDtoList[] = [];
     for (let i = 0; i < transactionDetailsList.length; i++) {
       let trans = transactionDetailsList[i];
 
-      // TODO NEED to remove this hard code phone no
-      if ((trans.customerFirstLastName && trans.customerFirstLastName.toLowerCase().includes(query.toLowerCase())) || trans.customerPhoneno == '7707030801') {
-        filtered.push(trans);
+      if(searchType == 'Customer')
+      {
+        if(null != trans.customerFirstLastName && null != trans.customerPhoneno) {
+          
+                  if (trans.customerFirstLastName.toLowerCase().includes(query.toLowerCase()) || trans.customerPhoneno.includes(query)) {
+                    filtered.push(trans);
+                  }
+                }
       }
+      if(searchType == 'Recipt-No') {
+
+        if(trans.transactionComId.toString().includes(query)) {
+          filtered.push(trans);
+        }
+      }
+
+      if(searchType == 'Transaction-Type') {
+
+        if(trans.status.includes(query)) {
+          filtered.push(trans);
+        }
+        else if(query == 'All Transaction Status') {
+          this.getTransactionDetails(this.salesHistoryDropdown);
+        }
+      }
+      
     }
     return filtered;
-
-
 
   }
 
@@ -201,6 +236,7 @@ export class SalesHistoryComponent implements OnInit {
 
     if(null != transaction && null != transaction.customerPhoneno && transaction.customerPhoneno.length > 0) {
 
+      // Todo need to add sppiner for this so user can wait that email is sending, cuase its taking littel bit more time to send an email.
       this.sellService.sendEmail(transaction.transactionComId)
       .subscribe((data) =>
     {
