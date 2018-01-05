@@ -154,6 +154,7 @@ export class SalesHistoryComponent implements OnInit {
   filterTransactionDetails(input: string, searchType: string) {
     // console.log('Transaction details Object', this.transactionDetails)
     if (input.length > 0)
+
       this.transactionDetails = this.nowFilterTransaction(input, this.transactionDetails,searchType);
     else
       this.getTransactionDetails(this.salesHistoryDropdown);

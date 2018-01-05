@@ -73,14 +73,13 @@ export class CustomerComponent implements OnInit {
   }
 
   addCustomer() {
+
     let newCustomer = this.customerForm.value;
     this.customerService.addOrUpdateCustomer(this.customerForm.value);
     this.customerDto.push(newCustomer);
     this.customerDto = this.customerDto.slice();
     this.customerForm.reset();
     this.displayDialog = false;
-
-    this.getCustomerDetails();
   }
 
   setCustomerForDelete(cust: Customer) {

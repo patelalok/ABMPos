@@ -51,7 +51,11 @@ export class CategoryComponent implements OnInit {
     }
 
     addCategory() {
+        
+        let newCategory = this.categoryForm.value;
         this.categoryService.addOrUpdateCategory(this.categoryForm.value);
+        this.categoryDto.push(newCategory);
+        this.categoryDto = this.categoryDto.slice();
         this.displayDialog = false;    
         
     }

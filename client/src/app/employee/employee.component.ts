@@ -77,6 +77,7 @@ export class EmployeeComponent implements OnInit {
   }
 
   addEmployee() {
+    
     this.employeeService.addOrUpdateEmployee(this.employeeForm.value);
     this.employeeForm.reset();
     this.displayDialog = false;

@@ -82,7 +82,12 @@ export class VendorComponent implements OnInit {
 
     addVendor() {
 
-        this.vendorService.addOrUpdateVendor(this.vendorForm.value);
+        let newVendor = this.vendorForm.value;
+       
+        this.vendorService.addOrUpdateVendor(this.vendorForm.value); 
+        this.vendorDto.push(newVendor);
+        this.vendorDto = this.vendorDto.slice();
+
         this.displayDialog = false;
 
     }

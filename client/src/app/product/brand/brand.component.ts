@@ -50,15 +50,11 @@ export class BrandComponent implements OnInit {
 
     addBrand() {
         let newBrand = this.brandForm.value; 
-        console.log('brand object', this.brandForm.value)
         this.brandService.addOrUpdateBrand(this.brandForm.value);
         this.brandDto.push(newBrand);
 
         this.brandDto = this.brandDto.slice();
         this.displayDialog = false;
-
-        // Todo need to check should i do this or not.
-        this.getBrandDetails();
     }
 
     updateBrand(event) {

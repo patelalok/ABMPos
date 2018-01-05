@@ -53,7 +53,6 @@ export class ModelComponent implements OnInit {
         this.modelDto.push(newModel);
         this.modelDto = this.modelDto.slice();
         this.displayDialog = false;
-        this.getModelDetails();
     }
     updateModel(event) {
         this.modelService.addOrUpdateModel(event.data);
