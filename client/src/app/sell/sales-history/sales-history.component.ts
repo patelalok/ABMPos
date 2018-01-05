@@ -9,6 +9,7 @@ import { Http } from '@angular/http';
 import { ResponseType, ResponseContentType } from '@angular/http';
 import { printBlob } from 'app/shared/services/util.service';
 import { ToastsManager } from 'ng2-toastr';
+import { LoadingService } from 'app/loading.service';
 
 declare var $: JQueryStatic;
 
@@ -20,6 +21,7 @@ declare var $: JQueryStatic;
 export class SalesHistoryComponent implements OnInit {
   currentDate = new Date(); 
   transactionDetails: TransactionDtoList[] = [];
+  transactionDetailsOriginal: TransactionDtoList[] = [];
   transactionLineItemDetails: TransactionLineItemDaoList[];
   salesHistoryDropdown: any = 'Today';
   dateDto = new DateDto();
@@ -33,7 +35,7 @@ export class SalesHistoryComponent implements OnInit {
   document: jspdf; 
   customDate: FormGroup; 
   
-  constructor(private sellService: SellService, private fb: FormBuilder, private dateService: DateService, private http: Http, private toastr: ToastsManager) { }
+  constructor(private sellService: SellService, private fb: FormBuilder, private dateService: DateService, private http: Http, private toastr: ToastsManager, private loadingServie: LoadingService) { }
 
   ngOnInit() {
 
@@ -64,11 +66,11 @@ export class SalesHistoryComponent implements OnInit {
       'fromDate' : new Date(),
       'toDate': new Date()
     });
-
     this.customDate.valueChanges
       .subscribe((change) => {
         console.log('Custom Date', change);
-
+        this.loadingServie.loading = true;
+        
         let customDateValues: {toDate: Date, fromDate: Date} = change; 
         this.sellService.getTransactionDetails(
           moment(customDateValues.fromDate).hour(0).format('YYYY-MM-DD HH:mm:ss'),
@@ -81,6 +83,7 @@ export class SalesHistoryComponent implements OnInit {
             trans.date = moment(trans.date).format('MM-DD-YYYY');
           })
           this.transactionDetails = transaction;
+          this.loadingServie.loading = false;
         });
       });
   }
@@ -147,7 +150,8 @@ export class SalesHistoryComponent implements OnInit {
           trans.time = moment(trans.date).format('hh:mm A');
           trans.date = moment(trans.date).format('MM-DD-YYYY');
         })
-        this.transactionDetails = transaction;
+        this.transactionDetailsOriginal = transaction;
+        this.transactionDetails = this.transactionDetailsOriginal;
       });
   }
 
@@ -155,7 +159,7 @@ export class SalesHistoryComponent implements OnInit {
     // console.log('Transaction details Object', this.transactionDetails)
     if (input.length > 0)
 
-      this.transactionDetails = this.nowFilterTransaction(input, this.transactionDetails,searchType);
+      this.transactionDetails = this.nowFilterTransaction(input, this.transactionDetailsOriginal,searchType);
     else
       this.getTransactionDetails(this.salesHistoryDropdown);
   }

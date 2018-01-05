@@ -42,3 +42,8 @@ body .ui-widget button {
 label {
     font-size: 18px;
 }
+
+.mat-progress-spinner circle,
+.mat-spinner circle {
+    stroke: #44b773 !important;
+}

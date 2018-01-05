@@ -28,6 +28,7 @@ import { RouterModule } from '@angular/router';
 
 import {ToastModule} from 'ng2-toastr/ng2-toastr';
 import { AuthModule } from 'app/auth/auth.module';
+import { LoadingService } from './loading.service';
 
 
 @NgModule({
@@ -59,7 +60,7 @@ import { AuthModule } from 'app/auth/auth.module';
   declarations: [
     AppComponent
     ],
-  providers: [StoreSetupService, ConfigService],
+  providers: [StoreSetupService, ConfigService, LoadingService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

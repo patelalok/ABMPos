@@ -45,9 +45,9 @@ public class EmployeeManager {
         clockInRepository.save(clockInDao);
     }
 
-    public ClockInDao getClockIn(String username, String startDate, String endDate) {
+    public List<ClockInDao> getClockIn(String username, String startDate, String endDate) {
 
-        return clockInRepository.findOneByUsernameAndClockIn(username, startDate, endDate);
+        return clockInRepository.findAllByUsernameAndClockIn(username, startDate, endDate);
     }
 
 

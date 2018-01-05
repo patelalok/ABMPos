@@ -39,12 +39,17 @@ export class HeaderComponent implements OnInit {
     );
 
     // this.clockInForm.get('username').setValue(this.employeeDto[0].username);
+    this.clockInForm.get('username').valueChanges
+    .subscribe((change) => {
+      this.getClockInDetails();
+    })
   }
 
   getEmployeeDetails() {
     this.employeeService.getEmployeeDetails()
       .subscribe((emp: Employee[]) => {
         this.employeeDto = emp;
+        this.clockInForm.get('username').setValue(this.employeeDto[0].username);
       });
   }
 

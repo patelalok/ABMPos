@@ -44,7 +44,7 @@
 
                         <div class="col-md-12">
                             <label>Username</label>
-                            <select class="form-control" formControlName="username" (change)="this.getClockInDetails()">
+                            <select class="form-control" formControlName="username">
                             <option *ngFor="let emp of this.employeeDto">
                                 {{emp.username}}</option> 
                         </select>
@@ -66,8 +66,8 @@
                             <label>{{this.clockInObj.clockIn}}</label>
                         </div>
                         <div class="col-md-6">
-                            <label>NoOfHours  </label>
-                            <label> {{this.clockInObj.noOfHours}} : {{this.clockInObj.noOfMinute}}</label>
+                            <label>Hour:  </label>
+                            <label> {{this.clockInObj.noOfHours}}   Minute : {{this.clockInObj.noOfMinute}}</label>
                         </div>
                     </div>
 

@@ -1,11 +1,14 @@
 <div class="container-fluid">
-    <div  class="" *ngIf="this.userService.isAuthenticated() | async">
+    <div class="" *ngIf="this.userService.isAuthenticated() | async">
         <app-header></app-header>
     </div>
-    <div *ngIf="this.config.showNavbar && this.userService.isAuthenticated() | async" class="top-navbar" >
+    <div *ngIf="this.config.showNavbar && this.userService.isAuthenticated() | async" class="top-navbar">
         <app-top-navbar></app-top-navbar>
     </div>
-    <main >
+    <main>
         <router-outlet></router-outlet>
     </main>
+    <div *ngIf="this.loadingService.loading == true" style="z-index:100;position:fixed;top:50%;right:50%">
+        <mat-spinner></mat-spinner>
+    </div>
 </div>

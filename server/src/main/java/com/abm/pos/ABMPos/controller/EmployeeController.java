@@ -64,7 +64,7 @@ public class EmployeeController {
 
     // I am using this one only for clock in, which helps to get clock in details for perticular date.
     @RequestMapping(value = "/getClockIn", method = RequestMethod.GET, produces = "application/json")
-    public ClockInDao getClockIn(@RequestParam String username,@RequestParam String startDate,@RequestParam String endDate ) {
+    public List<ClockInDao> getClockIn(@RequestParam String username,@RequestParam String startDate,@RequestParam String endDate ) {
 
         return employeeManager.getClockIn(username,startDate, endDate);
 
