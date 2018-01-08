@@ -29,7 +29,6 @@ public class ProductDao implements Serializable {
 
     private double cost;
     private double retail;
-    private double markup;
     private int quantity;
     private int minQuantity;
 
@@ -143,14 +142,6 @@ public class ProductDao implements Serializable {
 
     public void setRetail(double retail) {
         this.retail = retail;
-    }
-
-    public double getMarkup() {
-        return markup;
-    }
-
-    public void setMarkup(double markup) {
-        this.markup = markup;
     }
 
     public int getQuantity() {

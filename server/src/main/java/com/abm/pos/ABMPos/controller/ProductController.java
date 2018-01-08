@@ -50,10 +50,10 @@ public class ProductController {
         return new ResponseEntity(HttpStatus.CREATED);
     }
 
-    @RequestMapping(value = "/getProductTest", method = RequestMethod.GET, produces = "application/json")
-    public List<ProductDao> getProductTest(String getProductBy, int searchValue)
+    @RequestMapping(value = "/getProductTableDetails", method = RequestMethod.GET, produces = "application/json")
+    public List<ProductDao> getProductTableDetails()
     {
-        return productManager.getProductTest(getProductBy, searchValue);
+        return productManager.getProductTableDetails();
     }
 
 //    @RequestMapping(value = "/getProductForProductTable", method = RequestMethod.GET, produces = "application/json")
@@ -63,9 +63,9 @@ public class ProductController {
 //    }
 
     @RequestMapping(value = "/getProduct", method = RequestMethod.GET, produces = "application/json")
-    public List<ProductDao> getProduct()
+    public List<ProductDao> getProductForSellPage()
     {
-        return productManager.getProduct();
+        return productManager.getProductForSellPage();
     }
 
     @RequestMapping(value = "/getProductById", method = RequestMethod.GET, produces = "application/json")

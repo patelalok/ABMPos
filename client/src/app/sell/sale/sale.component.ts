@@ -84,7 +84,7 @@ export class SaleComponent implements OnInit, AfterViewInit {
   saleType: string = 'Complete';
   // This is useful in case of return where user gives store credit, i need oldtransactionId to store in store credit table as reason.
   previousTransactionId: any;
-  taxPercent: number;
+  taxPercent: number = 0.00;
 
 printTransactionDto: TransactionDtoList = null;
 

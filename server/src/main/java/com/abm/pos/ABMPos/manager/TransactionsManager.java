@@ -66,9 +66,9 @@ public class TransactionsManager {
 
     public TransactionDao addTransaction(TransactionDao transactionDao) {
 
-        if (null != transactionDao && transactionDao.getStatus().equalsIgnoreCase("Return")) {
+        if (null != transactionDao && (transactionDao.getStatus().equalsIgnoreCase("Return") || transactionDao.getStatus().equalsIgnoreCase("Void"))) {
 
-            // Managing inventory for the return
+            // Managing inventory for the RETURN or VOID
 
             ProductInventoryDao productInventoryDao = new ProductInventoryDao();
 
@@ -85,29 +85,64 @@ public class TransactionsManager {
 
             // Handing store credit here
             // This means user is giving store credit to the customer so i need to add customers store credit with valid reason.
-            if (null != transactionDao.getCustomerPhoneno() && null != transactionDao.getPaymentDao() && transactionDao.getPaymentDao().get(0).getStoreCredit() > 0) {
-                StoreCreditDao storeCreditDao = new StoreCreditDao();
-
-                storeCreditDao.setAmount(transactionDao.getPaymentDao().get(0).getStoreCredit());
-                storeCreditDao.setCustomerPhoneno(transactionDao.getCustomerPhoneno());
-                storeCreditDao.setEmployeeName(transactionDao.getUsername());
-                storeCreditDao.setReason("Return Credit For Transaction No: " + transactionDao.getTransactionComId());
-                storeCreditDao.setCreatedTimestamp(transactionDao.getDate());
-
-                storeCreditRepository.save(storeCreditDao);
+            if (null != transactionDao.getCustomerPhoneno() && null != transactionDao.getPaymentDao()) {
 
                 CustomerDao customerDao = customerRepository.findByPhoneNo(transactionDao.getCustomerPhoneno());
 
-                // This add the store credit into customer's account
-                if (null != customerDao) {
+                if(transactionDao.getPaymentDao().get(0).getStoreCredit() > 0)
+                {
+                    StoreCreditDao storeCreditDao = new StoreCreditDao();
+
+                    storeCreditDao.setAmount(transactionDao.getPaymentDao().get(0).getStoreCredit());
+                    storeCreditDao.setCustomerPhoneno(transactionDao.getCustomerPhoneno());
+                    storeCreditDao.setEmployeeName(transactionDao.getUsername());
+                    storeCreditDao.setReason("Return Credit For Transaction No: " + transactionDao.getTransactionComId());
+                    storeCreditDao.setCreatedTimestamp(transactionDao.getDate());
+
+                    storeCreditRepository.save(storeCreditDao);
+
                     customerDao.setStoreCredit(customerDao.getStoreCredit() + transactionDao.getPaymentDao().get(0).getStoreCredit());
 
+
+                    }
+
+                else if(transactionDao.getPaymentDao().get(0).getOnAccount() > 0)
+                {
+                    // First check this customer has any balance on account or not, if yes then check return amount on account if it is less than return amount then subtract the amount other wise
+                    //Subtract the amount and rest of the amount just as the store credit.
+
+                    if(customerDao.getBalance() >= transactionDao.getPaymentDao().get(0).getOnAccount())
+                    {
+                        customerDao.setBalance(customerDao.getBalance() - transactionDao.getPaymentDao().get(0).getOnAccount());
+                    }
+                    else
+                    {
+                        double difference = transactionDao.getPaymentDao().get(0).getOnAccount() - customerDao.getBalance();
+
+                        // This will make customer balance as 0.
+                        customerDao.setBalance(0.00);
+
+                        customerDao.setStoreCredit(difference);
+
+
+                        StoreCreditDao storeCreditDao = new StoreCreditDao();
+                        storeCreditDao.setAmount(transactionDao.getPaymentDao().get(0).getStoreCredit());
+                        storeCreditDao.setCustomerPhoneno(transactionDao.getCustomerPhoneno());
+                        storeCreditDao.setEmployeeName(transactionDao.getUsername());
+                        storeCreditDao.setReason("Return Credit For Transaction No: " + transactionDao.getTransactionComId());
+                        storeCreditDao.setCreatedTimestamp(transactionDao.getDate());
+
+                        storeCreditRepository.save(storeCreditDao);
+                    }
+                }
+
+                // finally updating customers account details whether it is store credit or on on account choose by the customer on the
                     customerRepository.save(customerDao);
                 }
 
+        }
 
-            }
-        } else {
+        else {
 
             List<TransactionLineItemDao> transactionLineItemDaoList = new ArrayList<>();
             List<TransactionLineItemDao> transactionLineItemDaoListNew = new ArrayList<>();
@@ -353,6 +388,21 @@ public class TransactionsManager {
 
     public TransactionDao voidTransaction(TransactionDao transactionDao) {
 
+        // Managing inventory for the Void Transaction same as return.
+
+        ProductInventoryDao productInventoryDao = new ProductInventoryDao();
+
+        for (TransactionLineItemDao lineItemDao : transactionDao.getTransactionLineItemDaoList()) {
+            productInventoryDao.setProductNo(lineItemDao.getProductNo());
+            productInventoryDao.setCost(Math.abs(lineItemDao.getCost()));
+            productInventoryDao.setRetail(Math.abs((lineItemDao.getRetail())));
+            productInventoryDao.setQuantity(lineItemDao.getQuantity());
+            productInventoryDao.setCreatedTimestamp(transactionDao.getDate());
+
+            productInventoryRepository.save(productInventoryDao);
+        }
+
+
         return transactionRepository.save(transactionDao);
     }
 
@@ -556,10 +606,10 @@ public class TransactionsManager {
                         totalTable.addCell(new Phrase("Check", new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
                         totalTable.addCell(new Phrase("$ " + String.valueOf(transactionDao.getPaymentDao().get(0).getCheckAmount()), new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
                     }
-//                    else if (transactionDao.getPaymentDao().get(0).getOnAccount() > 0) {
-//                        totalTable.addCell(new Phrase("On Account", new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
-//                        totalTable.addCell(new Phrase("$ " + String.valueOf(transactionDao.getPaymentDao().get(0).getOnAccount()), new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
-//                    }
+                    else if (transactionDao.getPaymentDao().get(0).getOnAccount() != 0) {
+                        totalTable.addCell(new Phrase("On Account", new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
+                        totalTable.addCell(new Phrase("$ " + String.valueOf(transactionDao.getPaymentDao().get(0).getOnAccount()), new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
+                    }
                      if (transactionDao.getPaymentDao().get(0).getStoreCredit() != 0) {
                         totalTable.addCell(new Phrase("Store Credit", new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
                         totalTable.addCell(new Phrase("$ " + String.valueOf(transactionDao.getPaymentDao().get(0).getStoreCredit()), new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
@@ -569,7 +619,6 @@ public class TransactionsManager {
                     }
                         totalTable.addCell(new Phrase("Balance Due", new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
                         totalTable.addCell(new Phrase("$ " + String.valueOf(transactionDao.getTransactionBalance()), new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
-
                 }
 
 

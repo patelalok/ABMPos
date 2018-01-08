@@ -234,6 +234,15 @@
                                     </div>
                                 </div>
 
+                                <div class="row">
+                                    <div class="col-md-3" *ngIf="receipt.paymentDao[0].onAccount != 0">
+                                        On Account:
+                                    </div>
+                                    <div class="col-md-3" *ngIf="receipt.paymentDao[0].onAccount != 0">
+                                        $ {{receipt.paymentDao[0].onAccount}}
+                                    </div>
+                                </div>
+
                                 <hr>
 
                                 <div class="row">

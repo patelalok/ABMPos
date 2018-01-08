@@ -71,10 +71,8 @@ public class ProductManager{
         productInventoryRepository.save(productInventoryDao);
     }
 
-    public List<ProductDao> getProductTest(String getProductBy, int searchValue) {
+    public List<ProductDao> getProductTableDetails() {
 
-        if(getProductBy.equalsIgnoreCase("All") && searchValue == 0)
-        {
             List<ProductDao> productDaoArrayList = new ArrayList<>();
             List<ProductDao> productDaoArrayListNew = new ArrayList<>();
 
@@ -87,7 +85,6 @@ public class ProductManager{
 //                int quantity = 0;
 //                for(ProductInventoryDao i : p.getProductInventoryDaoList())
 //                {
-//
 //                    quantity = quantity + i.getQuantity();
 //                }
 //
@@ -120,14 +117,10 @@ public class ProductManager{
 //            return productRepository.getAllActivePrductByModelId(searchValue);
 //        }
 
-        else {
-            return null;
-        }
 
-    }
-    public List<ProductDao> getProduct() {
+    public List<ProductDao> getProductForSellPage() {
 
-        return productRepository.getAllActiveProduct();
+        return productRepository.getAllActiveProductForSellPage();
     }
         public ProductDao getProductById(String productNo) {
 

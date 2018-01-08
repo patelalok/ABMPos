@@ -60,12 +60,11 @@ export class ProductTableComponent implements OnInit {
 
   getProductDetails() {
 
-    // Here passing All and ) because i have backend logic with these parameter like for all product = "All" and for Brand pass "Brand" and "brandId" for which you need data...
-    this.productService.getProductDetails('All', 0)
+    this.productService.getProductDetails()
       .subscribe((pro: BackendProductDto[]) => {
-        this.backendProductDto = pro;
+        this.productViewList = pro;
         // console.log('ProductList' + this.backendProductDto);
-        this.productViewList = this.backendProductDto;
+      //  this.productViewList = this.backendProductDto;
       });
 
   }

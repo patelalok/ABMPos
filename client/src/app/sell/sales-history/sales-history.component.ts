@@ -224,7 +224,7 @@ export class SalesHistoryComponent implements OnInit {
     payment.status = 'Void';
   });
 
-    this.sellService.voidTransaction(this.transactionToVoid)
+    this.sellService.addTransactionDetails(this.transactionToVoid)
     .subscribe(
       (data) => {
         this.toastr.success('Transaction Voided Successfully !!!', 'Success!');

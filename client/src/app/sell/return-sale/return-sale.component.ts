@@ -243,12 +243,14 @@ printTransactionDto: TransactionDtoList = null;
             let totalPrice = 0.00;
             let tax: number = 0.00;
         
-            if (this.selectedCustomer && this.saleType == 'Complete') {
-              this.transactionDtoList.totalAmount = this.selectedCustomer.balance
-            }
-            else {
+
+            // I do not need this for return sale cause we are not counting customer balance here.
+            // if (this.selectedCustomer && this.saleType == 'Complete') {
+            //   this.transactionDtoList.totalAmount = this.selectedCustomer.balance
+            // }
+            // else {
               this.transactionDtoList.totalAmount = 0.00;
-            }
+            // }
         
         
             for (let i = 0; i < lineItem.length; i++) {
@@ -362,7 +364,7 @@ printTransactionDto: TransactionDtoList = null;
         this.disableOnAccountButtons = this.selectedCustomer == null;
     
         // This mean this customer has some store credit to use so i need to enable store credit button.
-        if (this.selectedCustomer && this.selectedCustomer.storeCredit > 0) {
+        if (this.selectedCustomer) {
           this.disableStoreCreditButtons = false;
         }
         else {
@@ -387,7 +389,6 @@ printTransactionDto: TransactionDtoList = null;
       setPaymentDtoForRetun(paymentType: any, paymentAmount: any) {
         this.payLable = 'Return';
         this.amountDueLable = 'Return Amount:';
-    
     
         if (paymentType == 'Cash') {
     
@@ -422,6 +423,14 @@ printTransactionDto: TransactionDtoList = null;
           this.disableStoreCreditButtons = true;
           this.validatePaymentForReturn();
         }
+        else if(paymentType == 'OnAccount')
+        {
+          // Converting negative amount to positive so i can add this amount in backend.
+          this.paymentDto.onAccount = Math.abs(paymentAmount);
+          this.paymentObjectForPaymentSellTable.push({'paymentType': 'OnAccount', 'paymentAmount': paymentAmount })
+          this.disableOnAccountButtons = true;
+          this.validatePaymentForReturn();
+        }
     
     
       }
@@ -445,8 +454,6 @@ printTransactionDto: TransactionDtoList = null;
     
         this.disablePaymentButtons = true;
         this.disableCompleteSaleButton = false;
-    
-    
       }
 
       clearAllDateAfterTransactionComplete() {

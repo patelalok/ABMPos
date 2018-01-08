@@ -13,8 +13,8 @@ export class ProductService {
 
   constructor(private http: Http) { }
 
-  getProductDetails(getProductBy: string, searchValue: number): Observable<BackendProductDto[]> {
-    return this.http.get('http://localhost:8080/getProductTest?getProductBy=' + getProductBy + '&searchValue=' + searchValue)
+  getProductDetails(): Observable<BackendProductDto[]> {
+    return this.http.get('http://localhost:8080/getProductTableDetails')
       .map(this.extractData)
       .catch(this.handleError);
   }
