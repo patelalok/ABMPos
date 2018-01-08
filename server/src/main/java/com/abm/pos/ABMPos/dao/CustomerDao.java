@@ -19,7 +19,6 @@ public class CustomerDao {
     private String companyName;
     private String email;
     private String taxId;
-    private String dateOfBirth;
     private String type;
     private String gender;
     private String street;
@@ -29,9 +28,7 @@ public class CustomerDao {
     private Integer zipCode;
     private double storeCredit;
     private double balance;
-    private String lastUpdatedStoreCreditDate;
     private String password;
-    private String createdDate;
     private String customerNote;
     private String keytag;
 
@@ -75,13 +72,7 @@ public class CustomerDao {
         this.taxId = taxId;
     }
 
-    public String getDateOfBirth() {
-        return dateOfBirth;
-    }
 
-    public void setDateOfBirth(String dateOfBirth) {
-        this.dateOfBirth = dateOfBirth;
-    }
 
     public String getType() {
         return type;
@@ -147,14 +138,6 @@ public class CustomerDao {
         this.storeCredit = storeCredit;
     }
 
-    public String getLastUpdatedStoreCreditDate() {
-        return lastUpdatedStoreCreditDate;
-    }
-
-    public void setLastUpdatedStoreCreditDate(String lastUpdatedStoreCreditDate) {
-        this.lastUpdatedStoreCreditDate = lastUpdatedStoreCreditDate;
-    }
-
     public String getPassword() {
         return password;
     }
@@ -163,13 +146,7 @@ public class CustomerDao {
         this.password = password;
     }
 
-    public String getCreatedDate() {
-        return createdDate;
-    }
 
-    public void setCreatedDate(String createdDate) {
-        this.createdDate = createdDate;
-    }
 
     public double getBalance() {
         return balance;

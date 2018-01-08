@@ -14,6 +14,7 @@ public class BrandDao {
     private int brandId;
     private String name;
     private String description;
+    private String brandImage;
 
     public int getBrandId() {
         return brandId;
@@ -39,5 +40,11 @@ public class BrandDao {
         this.description = description;
     }
 
+    public String getBrandImage() {
+        return brandImage;
+    }
 
+    public void setBrandImage(String brandImage) {
+        this.brandImage = brandImage;
+    }
 }

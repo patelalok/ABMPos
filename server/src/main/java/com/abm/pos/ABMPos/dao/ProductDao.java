@@ -17,13 +17,12 @@ public class ProductDao implements Serializable {
     @Id
     private String productNo;
 
-    @NotEmpty
     private String description;
-    @NotEmpty
+
     private String categoryId;
-    @NotEmpty
+
     private String brandId;
-    @NotEmpty
+
     private String vendorId;
     private String modelId;
     private String alternetNo;
@@ -32,15 +31,13 @@ public class ProductDao implements Serializable {
     private double retail;
     private double markup;
     private int quantity;
-
     private int minQuantity;
-
 
     //this is just to send as 1 when we sell the product default
     @Transient
     private int defaultQuantity = 1;
 
-    private String image;
+   // private String image;
 
     private boolean tax;
     private boolean variant;
@@ -53,9 +50,9 @@ public class ProductDao implements Serializable {
     private double customLoyaltyAmount;
     private String createdTimestamp;
 
-    @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "productNo")
-    private List<ProductInventoryDao> productInventoryDaoList;
+//    @OneToMany(cascade = CascadeType.ALL)
+//    @JoinColumn(name = "productNo")
+//    private List<ProductInventoryDao> productInventoryDaoList;
 
 
     @Transient
@@ -180,13 +177,13 @@ public class ProductDao implements Serializable {
         this.defaultQuantity = defaultQuantity;
     }
 
-    public String getImage() {
-        return image;
-    }
-
-    public void setImage(String image) {
-        this.image = image;
-    }
+//    public String getImage() {
+//        return image;
+//    }
+//
+//    public void setImage(String image) {
+//        this.image = image;
+//    }
 
     public boolean isTax() {
         return tax;
@@ -252,13 +249,13 @@ public class ProductDao implements Serializable {
         this.createdTimestamp = createdTimestamp;
     }
 
-    public List<ProductInventoryDao> getProductInventoryDaoList() {
-        return productInventoryDaoList;
-    }
-
-    public void setProductInventoryDaoList(List<ProductInventoryDao> productInventoryDaoList) {
-        this.productInventoryDaoList = productInventoryDaoList;
-    }
+//    public List<ProductInventoryDao> getProductInventoryDaoList() {
+//        return productInventoryDaoList;
+//    }
+//
+//    public void setProductInventoryDaoList(List<ProductInventoryDao> productInventoryDaoList) {
+//        this.productInventoryDaoList = productInventoryDaoList;
+//    }
 
     public String getTransactionComId() {
         return transactionComId;

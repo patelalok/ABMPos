@@ -18,6 +18,7 @@ public class VendorDao {
     private String companyName;
     private String companyAddress;
     private String email;
+//    private double commission;
 
     public int getVendorId() {
         return vendorId;
@@ -66,4 +67,6 @@ public class VendorDao {
     public void setEmail(String email) {
         this.email = email;
     }
+
+
 }

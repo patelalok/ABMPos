@@ -11,6 +11,7 @@ import org.springframework.stereotype.Component;
 import javax.jws.Oneway;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Stream;
 
 /**
  * Created by apatel2 on 5/16/17.
@@ -79,22 +80,27 @@ public class ProductManager{
 
             productDaoArrayList = productRepository.getAllActiveProduct();
 
+            return productDaoArrayList;
 
-            for(ProductDao p :productDaoArrayList)
-            {
-                int quantity = 0;
-                for(ProductInventoryDao i : p.getProductInventoryDaoList())
-                {
+//            for(ProductDao p :productDaoArrayList)
+//            {
+//                int quantity = 0;
+//                for(ProductInventoryDao i : p.getProductInventoryDaoList())
+//                {
+//
+//                    quantity = quantity + i.getQuantity();
+//                }
+//
+//                p.setQuantity(quantity);
+//
+//                productDaoArrayListNew.add(p);
+//
+//            }
 
-                    quantity = quantity + i.getQuantity();
-                }
 
-                p.setQuantity(quantity);
+           // return productDaoArrayListNew;
 
-                productDaoArrayListNew.add(p);
-
-            }
-            return productDaoArrayListNew;
+          //  return productDaoArrayList;
 
         }
 //        else if(getProductBy.equalsIgnoreCase("Brand"))
