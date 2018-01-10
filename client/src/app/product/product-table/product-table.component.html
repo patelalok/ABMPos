@@ -50,7 +50,18 @@
             <div class="col-md-12 p-md-3">
 
                 <!-- <p-header>Product Details</p-header> -->
-                <p-dataTable [value]="this.productViewList" [editable]="true" scrollable="true" [responsive]="true" scrollHeight="500px" (onEditComplete)="this.updateRetailPrice($event)">
+                <p-dataTable [value]="this.productViewList" 
+                    [editable]="true" 
+                    scrollable="true" 
+                    virtualScroll="virtualScroll"
+                    [rows]="this.rowsToShow"
+                    [lazy]="true" 
+                    [totalRecords]="this.totalNumberProducts"
+                    [responsive]="true" 
+                    scrollHeight="400px"
+                    (onEditComplete)="this.updateRetailPrice($event)"
+                    (onLazyLoad)="loadProductsLazy($event)"
+                    >
                     <p-column [style]="{'width': '15%'}" field="productNo" header="Product Number" filterPlaceholder="Search For Product Name"></p-column>
                     <p-column [style]="{'width': '25%', 'text-align': 'left'}" field="description" header="Description" [sortable]="true"></p-column>
                     <p-column [style]="{'width': '10%'}" field="categoryName" header="Category" [sortable]="true"></p-column>

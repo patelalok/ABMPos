@@ -3,12 +3,13 @@ import { ProductService } from "app/product/product.service";
 import { Product, TransactionLineItemDaoList } from 'app/sell/sell.component';
 // import { FormBuilder } from "@angular/forms/forms";
 import { FormBuilder, Validators, FormGroup, FormControl } from '@angular/forms';
-import { MenuItem } from 'primeng/primeng';
+import { MenuItem, LazyLoadEvent } from 'primeng/primeng';
 import { BackendProductDto, Category, Brand, Model, Vendor, ProductCommon, ProductInventory } from "app/product/product.component";
 import * as moment from 'moment';
 import { ViewChild } from '@angular/core/src/metadata/di';
 import { Element } from '@angular/compiler';
 import { ElementRef } from '@angular/core/src/linker/element_ref';
+import { LoadingService } from 'app/loading.service';
 declare var $: JQueryStatic
 ; 
 
@@ -21,7 +22,10 @@ export class ProductTableComponent implements OnInit {
   form: FormGroup;
   productFilterBox: any;
   backendProductDto: BackendProductDto[];
-  productViewList: BackendProductDto[];
+  productViewList: BackendProductDto[] =[];
+  productFullList: BackendProductDto[] = [];
+  rowsToShow: number = 20;  
+  totalNumberProducts: number = 0 ;
   displayDialog = false;
   products: Product[];
   categoryDto: Category[];
@@ -44,7 +48,9 @@ export class ProductTableComponent implements OnInit {
   productInventoryList: ProductInventory[] = [];
 
   dropdownOptionValue: number;
-  constructor(private productService: ProductService) { }
+
+  loading: boolean = false; 
+  constructor(private productService: ProductService, private loadingService: LoadingService) { }
 
   ngOnInit() {
 
@@ -59,26 +65,47 @@ export class ProductTableComponent implements OnInit {
   }
 
   getProductDetails() {
-
+    this.loadingService.loading = true; 
     this.productService.getProductDetails()
-      .subscribe((pro: BackendProductDto[]) => {
-        this.productViewList = pro;
+      .subscribe((pro: BackendProductDto[]) =>{
+        // console.log(pro); 
+        // this.productViewList = pro.slice(0,500);
+        
+        // this.productViewList = pro;
+        this.productFullList = pro; 
+        this.backendProductDto = pro;
+        this.totalNumberProducts = this.productFullList.length; 
+        this.productViewList = this.productFullList.slice(0, (this.rowsToShow*2)-1);
         // console.log('ProductList' + this.backendProductDto);
       //  this.productViewList = this.backendProductDto;
+      this.loadingService.loading = false; 
       });
 
+  }
+  loadProductsLazy(event: LazyLoadEvent) {
+    this.loadingService.loading = true; 
+    if(this.productFullList && this.productFullList.length > 0){
+      this.productViewList = this.productFullList.slice(event.first, event.first + event.rows-1); 
+
+    }
+
+    this.loadingService.loading = false; 
   }
 
 
   filterProducts(input: string) {
+    this.loadingService.loading = true; 
     if (input.length > 0)
-      this.productViewList = this.nowFilterProduct(input, this.productViewList)
+      this.productFullList = this.nowFilterProduct(input, this.productFullList)
     else{
       this.getProductDetails();
       if(this.dropdownOptionValue)
         this.fiterProductByDropdown(this.dropdownOptionValue);
 
     }
+
+    this.loadingService.loading = false;
+    this.loadProductsLazy({first: 0, rows: this.rowsToShow*2}); 
   }
 
   nowFilterProduct(input: string, backendProductDto: BackendProductDto[]): BackendProductDto[] {
@@ -97,20 +124,20 @@ export class ProductTableComponent implements OnInit {
       this.dropdownOptionValue = obj;
     console.log(obj);
     if (obj == -1) {
-      this.productViewList = this.backendProductDto;
+      this.productFullList = this.backendProductDto;
       return;
     }
     if (this.selectedProductDropdownOption === 'Brand') {
-      this.productViewList = this.backendProductDto.filter((el) => el.brandId == obj)
+      this.productFullList = this.backendProductDto.filter((el) => el.brandId == obj)
     }
     else if (this.selectedProductDropdownOption === 'Category') {
-      this.productViewList = this.backendProductDto.filter((cat) => cat.categoryId == obj)
+      this.productFullList = this.backendProductDto.filter((cat) => cat.categoryId == obj)
     }
     else if (this.selectedProductDropdownOption === 'Vendor') {
-      this.productViewList = this.backendProductDto.filter((ven) => ven.vendorId == obj)
+      this.productFullList = this.backendProductDto.filter((ven) => ven.vendorId == obj)
     }
     else if (this.selectedProductDropdownOption === 'Model') {
-      this.productViewList = this.backendProductDto.filter((mod) => mod.modelId == obj)
+      this.productFullList = this.backendProductDto.filter((mod) => mod.modelId == obj)
     }
 
 
