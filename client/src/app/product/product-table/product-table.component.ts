@@ -11,7 +11,7 @@ import { Element } from '@angular/compiler';
 import { ElementRef } from '@angular/core/src/linker/element_ref';
 import { LoadingService } from 'app/loading.service';
 declare var $: JQueryStatic
-; 
+  ;
 
 @Component({
   selector: 'app-product-table',
@@ -22,10 +22,10 @@ export class ProductTableComponent implements OnInit {
   form: FormGroup;
   productFilterBox: any;
   backendProductDto: BackendProductDto[];
-  productViewList: BackendProductDto[] =[];
+  productViewList: BackendProductDto[] = [];
   productFullList: BackendProductDto[] = [];
-  rowsToShow: number = 20;  
-  totalNumberProducts: number = 0 ;
+  rowsToShow: number = 20;
+  totalNumberProducts: number = 0;
   displayDialog = false;
   products: Product[];
   categoryDto: Category[];
@@ -49,7 +49,7 @@ export class ProductTableComponent implements OnInit {
 
   dropdownOptionValue: number;
 
-  loading: boolean = false; 
+  loading: boolean = false;
   constructor(private productService: ProductService, private loadingService: LoadingService) { }
 
   ngOnInit() {
@@ -65,47 +65,49 @@ export class ProductTableComponent implements OnInit {
   }
 
   getProductDetails() {
-    this.loadingService.loading = true; 
+    this.loadingService.loading = true;
     this.productService.getProductDetails()
-      .subscribe((pro: BackendProductDto[]) =>{
+      .subscribe((pro: BackendProductDto[]) => {
         // console.log(pro); 
         // this.productViewList = pro.slice(0,500);
-        
+
         // this.productViewList = pro;
-        this.productFullList = pro; 
+        this.productFullList = pro;
         this.backendProductDto = pro;
-        this.totalNumberProducts = this.productFullList.length; 
-        this.productViewList = this.productFullList.slice(0, (this.rowsToShow*2)-1);
-        // console.log('ProductList' + this.backendProductDto);
-      //  this.productViewList = this.backendProductDto;
-      this.loadingService.loading = false; 
+
+        if (this.dropdownOptionValue)
+          this.fiterProductByDropdown(this.dropdownOptionValue);
+
+        this.loadProductsLazy({ first: 0, rows: this.rowsToShow * 2 });
+
+        this.loadingService.loading = false;
       });
 
   }
   loadProductsLazy(event: LazyLoadEvent) {
-    this.loadingService.loading = true; 
-    if(this.productFullList && this.productFullList.length > 0){
-      this.productViewList = this.productFullList.slice(event.first, event.first + event.rows-1); 
-
-    }
-
-    this.loadingService.loading = false; 
-  }
-
-
-  filterProducts(input: string) {
-    this.loadingService.loading = true; 
-    if (input.length > 0)
-      this.productFullList = this.nowFilterProduct(input, this.productFullList)
-    else{
-      this.getProductDetails();
-      if(this.dropdownOptionValue)
-        this.fiterProductByDropdown(this.dropdownOptionValue);
+    this.loadingService.loading = true;
+    if (this.productFullList && this.productFullList.length > 0) {
+      this.totalNumberProducts = this.productFullList.length;
+      this.productViewList = this.productFullList.slice(event.first, event.first + event.rows - 1);
 
     }
 
     this.loadingService.loading = false;
-    this.loadProductsLazy({first: 0, rows: this.rowsToShow*2}); 
+  }
+
+
+  filterProducts(input: string) {
+    this.loadingService.loading = true;
+    if (input.length > 0)
+      this.productFullList = this.nowFilterProduct(input, this.productFullList)
+    else {
+      this.getProductDetails();
+      if (this.dropdownOptionValue)
+        this.fiterProductByDropdown(this.dropdownOptionValue);
+    }
+
+    this.loadingService.loading = false;
+    this.loadProductsLazy({ first: 0, rows: this.rowsToShow * 2 });
   }
 
   nowFilterProduct(input: string, backendProductDto: BackendProductDto[]): BackendProductDto[] {
@@ -120,7 +122,7 @@ export class ProductTableComponent implements OnInit {
     return filtered;
   }
   fiterProductByDropdown(obj: number) {
-    if(obj)
+    if (obj)
       this.dropdownOptionValue = obj;
     console.log(obj);
     if (obj == -1) {
@@ -139,8 +141,7 @@ export class ProductTableComponent implements OnInit {
     else if (this.selectedProductDropdownOption === 'Model') {
       this.productFullList = this.backendProductDto.filter((mod) => mod.modelId == obj)
     }
-
-
+    this.loadProductsLazy({ first: 0, rows: this.rowsToShow * 2 });
   }
   onProductDropdownChoose(): void {
     console.log(this.selectedProductDropdownOption);
@@ -192,7 +193,8 @@ export class ProductTableComponent implements OnInit {
     }
     else {
       this.listOfProductOption = null;
-      this.productViewList = this.backendProductDto;
+      this.productFullList = this.backendProductDto;
+      this.loadProductsLazy({ first: 0, rows: this.rowsToShow * 2 });
     }
   }
 
@@ -264,22 +266,22 @@ export class ProductTableComponent implements OnInit {
   }
 
   updateProductInventory(event) {
-    let  product:BackendProductDto = event.data; 
+    let product: BackendProductDto = event.data;
     console.log('Updating product inventory', product);
     this.productService.updateProductInventory(event.data);
 
-    let index = this.productViewList.findIndex((el) => el.productNo == product.productNo); 
+    let index = this.productViewList.findIndex((el) => el.productNo == product.productNo);
 
     this.productViewList[index] = {
       ...this.productViewList[index],
       ...product
-    } ; 
+    };
 
     this.productViewList = this.productViewList.slice();
 
   }
 
-  hideProductModal(){
+  hideProductModal() {
     console.log('Hiding modal');
     $('#productInventory').modal('hide');
   }
