@@ -339,17 +339,9 @@ items: MenuItem[];
 
     this.transactionLineItemDaoList[this.transactionLineItemDaoList.length - 1].retail = value;
     this.transactionLineItemDaoList[this.transactionLineItemDaoList.length - 1].totalProductPrice = (this.transactionLineItemDaoList[this.transactionLineItemDaoList.length - 1].retail * this.transactionLineItemDaoList[this.transactionLineItemDaoList.length - 1].defaultQuantity);
-    
-    console.log("outside if", this.transactionLineItemDaoList[this.transactionLineItemDaoList.length - 1].retail);
-    // if(value < oldRetail)
-    // {
-    //   this.transactionLineItemDaoList[this.transactionLineItemDaoList.length - 1].retailDiscount = oldRetail - value;
-    //   console.log("lineitem discount:", oldRetail - value);
-    // }
-    console.log("after if if", value);
-  
     this.transactionLineItemDaoList = this.transactionLineItemDaoList.slice();
-    this.setTransactionDtoList(this.transactionLineItemDaoList)
+
+    this.setTransactionDtoList(this.transactionLineItemDaoList);
 
     this.persit.setProducts(this.transactionLineItemDaoList);
     this.p = null;
@@ -422,6 +414,7 @@ items: MenuItem[];
     let totalQuantity = 0;
     let totalPrice = 0.00;
     let tax: number = 0.00;
+    let totalLineItemDiscount: number = 0.00;
 
     if (this.selectedCustomer && this.saleType == 'Complete') {
       this.transactionDtoList.totalAmount = this.selectedCustomer.balance
@@ -437,16 +430,16 @@ items: MenuItem[];
 
       // Here totalProductPriceWithTax mean, only amount of the tax on that product dont get confuse with naming
       tax = + (lineItem[i].totalProductPrice * this.taxPercent) / 100 + tax;
-      console.log("totalQuantity", totalQuantity);
-      console.log("totalPrice", totalPrice);
-      console.log("totalTax", tax);
+ 
     }
-
 
     this.transactionDtoList.quantity = parseFloat(totalQuantity.toFixed(2));
     this.transactionDtoList.subtotal = parseFloat(totalPrice.toFixed(2));
     this.transactionDtoList.tax = parseFloat(tax.toFixed(2));
     this.transactionDtoList.totalAmount = this.transactionDtoList.totalAmount + parseFloat(((totalPrice) + tax).toFixed(2));
+
+    // This will add line item discount as well as total discount to show final discount amount on invoice.
+    this.transactionDtoList.totalDiscount = + this.transactionDtoList.totalDiscount + totalLineItemDiscount;
 
     
 
@@ -920,7 +913,9 @@ items: MenuItem[];
   // This is the method which handle completing the transaction and reset the all flag and other data.
   completeSale() {
 
-console.log('sales type', this.saleType);
+
+    let totalLineItemDiscount: number = 0.00
+    console.log('sales type', this.saleType);
     // setting customer details
     if (null != this.selectedCustomer && this.selectedCustomer != undefined) {
       this.transactionDtoList.customerPhoneno = this.selectedCustomer.phoneNo;
@@ -955,15 +950,18 @@ console.log('sales type', this.saleType);
 
     // Setting TransactionLineItemDetails
     for (let lineItem of this.transactionLineItemDaoList) {
-
       lineItem.status = this.saleType;
       lineItem.date = this.transactionDtoList.date;
       // I need to do this casue in backend i am using quantity and here i have to use defult quanity to show 1 as user insert product.
       lineItem.quantity = lineItem.defaultQuantity;
 
-      lineItem.discount = (lineItem.actualRetail - lineItem.retail) * lineItem.quantity;
-    }
-
+       // This means user has given line item discount.
+       if(lineItem.retail < lineItem.actualRetail)
+       {
+         lineItem.discount = (lineItem.actualRetail - lineItem.retail) * lineItem.quantity;
+         totalLineItemDiscount = + ((lineItem.actualRetail - lineItem.retail)*lineItem.defaultQuantity) + totalLineItemDiscount;
+       }
+      }
     // Seeting paymentDto status
 
     for(let payment of this.paymentDao){
@@ -976,6 +974,8 @@ console.log('sales type', this.saleType);
     // To do need to fix this hardcoded value for username
     this.transactionDtoList.username = 'alok@alok.com';
     this.transactionDtoList.transactionLineItemDaoList = this.transactionLineItemDaoList;
+    this.transactionDtoList.totalDiscount = + this.transactionDtoList.totalDiscount + totalLineItemDiscount;
+    this.transactionDtoList.subtotal =  this.transactionDtoList.subtotal + this.transactionDtoList.totalDiscount;
 
 
 
@@ -1161,8 +1161,6 @@ console.log('sales type', this.saleType);
 }
 
 
-
-
 export class Product {
   productNo: string;
   productVariantNo: number;
@@ -1246,7 +1244,7 @@ export class TransactionDtoList {
   time: any;
   totalAmount: number;
   tax: number;
-  totalDiscount: number;
+  totalDiscount: number = 0.00;
   subtotal: number;
   quantity: number;
   transactionComId: number;
