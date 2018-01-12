@@ -85,10 +85,9 @@ export class ProductTableComponent implements OnInit {
   }
   loadProductsLazy(event: LazyLoadEvent) {
     this.loadingService.loading = true;
-    if (this.productFullList && this.productFullList.length > 0) {
+    if (this.productFullList) {
       this.totalNumberProducts = this.productFullList.length;
       this.productViewList = this.productFullList.slice(event.first, event.first + event.rows - 1);
-
     }
 
     this.loadingService.loading = false;
@@ -126,13 +125,16 @@ export class ProductTableComponent implements OnInit {
     console.log(obj);
     if (obj == -1) {
       this.productFullList = this.backendProductDto;
+      this.loadProductsLazy({ first: 0, rows: this.rowsToShow * 2 });
       return;
     }
     if (this.selectedProductDropdownOption === 'Brand') {
-      this.productFullList = this.backendProductDto.filter((el) => el.brandId == obj)
+      this.productFullList = this.backendProductDto.filter((el) => el.brandId == obj); 
+
     }
     else if (this.selectedProductDropdownOption === 'Category') {
       this.productFullList = this.backendProductDto.filter((cat) => cat.categoryId == obj)
+
     }
     else if (this.selectedProductDropdownOption === 'Vendor') {
       this.productFullList = this.backendProductDto.filter((ven) => ven.vendorId == obj)
@@ -140,6 +142,8 @@ export class ProductTableComponent implements OnInit {
     else if (this.selectedProductDropdownOption === 'Model') {
       this.productFullList = this.backendProductDto.filter((mod) => mod.modelId == obj)
     }
+
+    // console.log('Product full list here', this.productFullList);
     this.loadProductsLazy({ first: 0, rows: this.rowsToShow * 2 });
   }
   onProductDropdownChoose(): void {
@@ -270,7 +274,9 @@ export class ProductTableComponent implements OnInit {
     console.log('Updating product inventory', product);
 
     console.log('event on inventoty', event.date);
-    let productInventory: ProductInventory[] = event.data;
+    let productInventory: ProductInventory[] = []; 
+    
+    productInventory.push(event.data);
 
     console.log('product invetrory object', productInventory);
 
@@ -283,6 +289,8 @@ export class ProductTableComponent implements OnInit {
     };
 
     this.productViewList = this.productViewList.slice();
+
+    this.hideProductModal();
 
   }
 
