@@ -54,12 +54,12 @@ public class EmployeeController {
 
 
     @RequestMapping(value = "/addClockIn", method = RequestMethod.POST, consumes = "application/json")
-    public ResponseEntity addClockIn(@RequestBody ClockInDao clockInDao)
+    public ClockInDao addClockIn(@RequestBody ClockInDao clockInDao)
     {
-        employeeManager.addClockIn(clockInDao);
         System.out.println("Employee Clock In Add Or Updated Successfully!!");
+        return employeeManager.addClockIn(clockInDao);
 
-        return new ResponseEntity(HttpStatus.CREATED);
+        //return new ResponseEntity(HttpStatus.CREATED);
     }
 
     // I am using this one only for clock in, which helps to get clock in details for perticular date.

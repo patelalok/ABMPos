@@ -10,8 +10,7 @@ import { ViewChild } from '@angular/core/src/metadata/di';
 import { Element } from '@angular/compiler';
 import { ElementRef } from '@angular/core/src/linker/element_ref';
 import { LoadingService } from 'app/loading.service';
-declare var $: JQueryStatic
-  ;
+declare var $: JQueryStatic;
 
 @Component({
   selector: 'app-product-table',

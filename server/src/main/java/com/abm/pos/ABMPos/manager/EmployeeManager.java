@@ -42,9 +42,9 @@ public class EmployeeManager {
 
 //All Methods to handle clock in
 
-    public void addClockIn(ClockInDao clockInDao) {
+    public ClockInDao addClockIn(ClockInDao clockInDao) {
 
-        clockInRepository.save(clockInDao);
+       return clockInRepository.save(clockInDao);
     }
 
     public List<ClockInDao> getClockIn(String username, String startDate, String endDate) {

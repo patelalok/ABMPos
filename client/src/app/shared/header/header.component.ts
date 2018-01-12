@@ -6,6 +6,9 @@ import { ClockIn } from 'app/employee/clockin/clockin.component';
 import { FormBuilder, Validators, FormGroup, FormControl } from '@angular/forms';
 import * as moment from 'moment';
 import { UserService } from 'app/auth/user/user.service';
+import { ToastsManager } from 'ng2-toastr';
+declare var $: JQueryStatic;
+
 
 
 @Component({
@@ -29,7 +32,7 @@ export class HeaderComponent implements OnInit {
   lastClockInDate: any;
   lastDate: any;
   clockInViewList: ClockIn[] = [];
-  constructor(private employeeService: EmployeeService, private formBuilder: FormBuilder, private dateService: DateService, private userService: UserService) { }
+  constructor(private employeeService: EmployeeService, private formBuilder: FormBuilder, private dateService: DateService, private userService: UserService, private toastr: ToastsManager) { }
 
   ngOnInit() {
 
@@ -152,7 +155,7 @@ export class HeaderComponent implements OnInit {
         if(null != this.clockInList && this.clockInList.length > 0)
         {
           this.clockInList.forEach((clockIn) => {
-            if(null != clockIn.clockOut)
+            if(null != clockIn.clockOut )
             {
               this.isClockIn = false;
             }
@@ -175,7 +178,22 @@ export class HeaderComponent implements OnInit {
         this.clockInObj.username = username;
 
         console.log('clok in object', this.clockInObj)
-        this.employeeService.addClockInDetails(this.clockInObj);
+        this.employeeService.addClockInDetails(this.clockInObj)
+        .subscribe(data => {
+
+          if(data.username != null){
+            this.toastr.success("ClockIn Successfully!!", 'Success');
+          }
+          else{
+            this.toastr.error("Oops Something goes wrong!!", 'Error');
+          }
+          console.log('Response From Add Clockin call' + data);
+        },
+        error => {
+          this.toastr.error("Oops Something goes wrong!!", 'Error');
+      console.log(JSON.stringify(error.json()));
+    });
+
       }
 
       else if(valid && this.isClockIn) {
@@ -190,13 +208,28 @@ export class HeaderComponent implements OnInit {
         this.clockInObj.username = username;
         this.clockInObj.userClockInId = this.lastClockInId;
         this.clockInObj.date = this.lastDate;
-        
 
-        this.employeeService.addClockInDetails(this.clockInObj);
+
+        this.employeeService.addClockInDetails(this.clockInObj)
+        .subscribe(data => {
+
+          if(data.username != null){
+            this.toastr.success("Clockout Successfully!!", 'Success');
+          }
+          else{
+            this.toastr.error("Oops Something goes wrong!!", 'Error');
+          }
+          console.log('Response From Add Clockin call' + data);
+        },
+          error => {
+            this.toastr.error("Oops Something goes wrong!!", 'Error');
+        console.log(JSON.stringify(error.json()));
+      });
       }
 
     });
-
+    
+    $('#clockIn').modal('hide');
     this.clockInForm.reset();
 
   }
@@ -210,7 +243,10 @@ export class HeaderComponent implements OnInit {
       let clockInViewList = new ClockIn();
 
       clockInViewList.clockIn = moment(clockIn.clockIn).format('YYYY-MM-DD HH:mm:ss');
-      clockInViewList.clockOut = moment(clockIn.clockOut).format('YYYY-MM-DD HH:mm:ss');
+      if(clockIn.clockOut != null){
+
+        clockInViewList.clockOut = moment(clockIn.clockOut).format('YYYY-MM-DD HH:mm:ss');
+      }
 
       if(clockIn.clockIn != null && clockIn.clockOut != null) {
 

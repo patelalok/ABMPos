@@ -74,15 +74,12 @@ getEmployeeAllClockInDetails(username: string, startDate: any, endDate: any): Ob
     });
     }
 
-    addClockInDetails(clockIn: ClockIn)
+    addClockInDetails(clockIn: ClockIn): Observable<ClockIn>
     {
-      this.http.post('http://localhost:8080/addClockIn', clockIn)
-      .subscribe(data => {
-        console.log('Response From Add Clockin call' + data);
-      },
-        error => {
-      console.log(JSON.stringify(error.json()));
-    });
+      return this.http.post('http://localhost:8080/addClockIn', clockIn)
+      .map(this.extractData)
+      .catch(this.handleError);
+    
     }
 
     deleteEmployee(id: number)
