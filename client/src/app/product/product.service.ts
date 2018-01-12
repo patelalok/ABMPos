@@ -115,7 +115,7 @@ export class ProductService {
       });
   }
 
-  updateProductInventory(productInventory: ProductInventory) {
+  updateProductInventory(productInventory: ProductInventory[]) {
     this.http.post('http://localhost:8080/addProductInventory', productInventory)
       .subscribe(data => {
         alert('ok');

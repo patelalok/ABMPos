@@ -23,7 +23,7 @@ export class ProductTableComponent implements OnInit {
   backendProductDto: BackendProductDto[];
   productViewList: BackendProductDto[] = [];
   productFullList: BackendProductDto[] = [];
-  rowsToShow: number = 500;
+  rowsToShow: number = 100;
   totalNumberProducts: number = 0;
   displayDialog = false;
   products: Product[];
@@ -265,10 +265,16 @@ export class ProductTableComponent implements OnInit {
   }
 
   updateProductInventory(event) {
+
     let product: BackendProductDto = event.data;
     console.log('Updating product inventory', product);
-    this.productService.updateProductInventory(event.data);
 
+    console.log('event on inventoty', event.date);
+    let productInventory: ProductInventory[] = event.data;
+
+    console.log('product invetrory object', productInventory);
+
+    this.productService.updateProductInventory(productInventory);
     let index = this.productViewList.findIndex((el) => el.productNo == product.productNo);
 
     this.productViewList[index] = {
