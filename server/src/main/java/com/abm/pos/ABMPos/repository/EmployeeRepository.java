@@ -1,6 +1,7 @@
 package com.abm.pos.ABMPos.repository;
 
 import com.abm.pos.ABMPos.dao.EmployeeDao;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
@@ -14,6 +15,7 @@ import java.util.List;
 @Transactional
 public interface EmployeeRepository extends JpaRepository<EmployeeDao,Integer> {
 
+    @Cacheable("employee")
     List<EmployeeDao> findAll();
 
     @Query(value = "SELECT distinct e.username,\n" +

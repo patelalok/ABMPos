@@ -975,6 +975,9 @@ items: MenuItem[];
     this.transactionDtoList.username = 'alok@alok.com';
     this.transactionDtoList.transactionLineItemDaoList = this.transactionLineItemDaoList;
     this.transactionDtoList.totalDiscount = + this.transactionDtoList.totalDiscount + totalLineItemDiscount;
+
+    // I am doing this to show subtotal without line item discount, so in invoice customer wont get confuse.
+    // 
     this.transactionDtoList.subtotal =  this.transactionDtoList.subtotal + this.transactionDtoList.totalDiscount;
 
 

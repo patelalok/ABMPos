@@ -49,9 +49,9 @@ public class ProductDao implements Serializable {
     private double customLoyaltyAmount;
     private String createdTimestamp;
 
-//    @OneToMany(cascade = CascadeType.ALL)
-//    @JoinColumn(name = "productNo")
-//    private List<ProductInventoryDao> productInventoryDaoList;
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "productNo")
+    private List<ProductInventoryDao> productInventoryDaoList;
 
 
     @Transient
@@ -240,13 +240,13 @@ public class ProductDao implements Serializable {
         this.createdTimestamp = createdTimestamp;
     }
 
-//    public List<ProductInventoryDao> getProductInventoryDaoList() {
-//        return productInventoryDaoList;
-//    }
-//
-//    public void setProductInventoryDaoList(List<ProductInventoryDao> productInventoryDaoList) {
-//        this.productInventoryDaoList = productInventoryDaoList;
-//    }
+    public List<ProductInventoryDao> getProductInventoryDaoList() {
+        return productInventoryDaoList;
+    }
+
+    public void setProductInventoryDaoList(List<ProductInventoryDao> productInventoryDaoList) {
+        this.productInventoryDaoList = productInventoryDaoList;
+    }
 
     public String getTransactionComId() {
         return transactionComId;

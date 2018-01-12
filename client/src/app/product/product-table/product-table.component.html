@@ -50,18 +50,8 @@
             <div class="col-md-12 p-md-3">
 
                 <!-- <p-header>Product Details</p-header> -->
-                <p-dataTable [value]="this.productViewList" 
-                    [editable]="true" 
-                    scrollable="true" 
-                    virtualScroll="virtualScroll"
-                    [rows]="this.rowsToShow"
-                    [lazy]="true" 
-                    [totalRecords]="this.totalNumberProducts"
-                    [responsive]="true" 
-                    scrollHeight="400px"
-                    (onEditComplete)="this.updateRetailPrice($event)"
-                    (onLazyLoad)="loadProductsLazy($event)"
-                    >
+                <p-dataTable [value]="this.productViewList" [editable]="true" scrollable="true" virtualScroll="virtualScroll" [rows]="this.rowsToShow" [lazy]="true" [totalRecords]="this.totalNumberProducts" [responsive]="true" scrollHeight="400px" (onEditComplete)="this.updateRetailPrice($event)"
+                    (onLazyLoad)="loadProductsLazy($event)">
                     <p-column [style]="{'width': '15%'}" field="productNo" header="Product Number" filterPlaceholder="Search For Product Name"></p-column>
                     <p-column [style]="{'width': '25%', 'text-align': 'left'}" field="description" header="Description" [sortable]="true"></p-column>
                     <p-column [style]="{'width': '10%'}" field="categoryName" header="Category" [sortable]="true"></p-column>
@@ -99,6 +89,47 @@
                         </ng-template>
                     </p-column>
                 </p-dataTable>
+
+
+
+                <!-- <table class="table" class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Product No</th>
+                            <th>Description</th>
+                            <th>Cost</th>
+                            <th>Retail</th>
+                            <th>Quantity</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let product of this.backendProductDto">
+                            <td>{{product.productNo}}</td>
+                            <td>{{product.description}}</td>
+                            <td>{{product.cost}}</td>
+                            <td>{{product.retail}}</td>
+                            <td>{{product.quantity}}</td> -->
+                <!-- <td>
+                                <button class="btn-blue action-button-table" mat-button [routerLink]="['/product/edit', {productNo: product.productNo}]">
+                                    <i class="fa fa-pencil" aria-hidden="true"></i>
+                                </button>
+                                <button mat-button class="btn-red action-button-table" mat-button (click)="this.setProductToDelete(product)" data-toggle="modal" data-target="#deleteProduct">
+                                    <i class="fa fa-trash" aria-hidden="true"></i>
+                                </button>
+                                <button mat-button class="btn-green action-button-table" mat-button (click)="this.setProductForHistory(product)" data-toggle="modal" data-target="#productHistoryModel">
+                                    <i class="fa fa-history" aria-hidden="true"></i>
+                                </button>
+                                <button mat-button class="btn-gray action-button-table" mat-button data-toggle="modal" data-target="#productHistoryModel">
+                                    <i class="fa fa-barcode" aria-hidden="true"></i>
+                                </button>
+                            </td> -->
+                <!-- </tr>
+
+                    </tbody>
+                </table> -->
+
+
 
             </div>
         </div>

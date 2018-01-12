@@ -8,6 +8,8 @@ import com.abm.pos.ABMPos.repository.CustomerRepository;
 import com.abm.pos.ABMPos.repository.StoreCreditRepository;
 import com.abm.pos.ABMPos.repository.TransactionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -29,11 +31,13 @@ public class CustomerManager {
     private TransactionRepository transactionRepository;
 
 
+    @CachePut("customer")
     public void addCustomer(CustomerDao customerDao) {
 
         customerRepository.save(customerDao);
     }
 
+    @Cacheable("customer")
     public List<CustomerDao> getCustomer() {
 
         return customerRepository.findAll();

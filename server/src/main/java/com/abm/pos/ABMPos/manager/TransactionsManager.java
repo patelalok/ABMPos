@@ -10,6 +10,7 @@ import com.itextpdf.text.pdf.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+import org.springframework.cache.annotation.CachePut;
 import org.springframework.stereotype.Component;
 
 import java.io.ByteArrayOutputStream;
@@ -57,7 +58,7 @@ public class TransactionsManager {
     private CustomerManager customerManager;
 
     @Autowired
-    EmailHtmlSender emailHtmlSender;
+    private EmailHtmlSender emailHtmlSender;
 
     private BaseFont bfBold;
     private BaseFont bf;
@@ -103,13 +104,12 @@ public class TransactionsManager {
 
                     customerDao.setStoreCredit(customerDao.getStoreCredit() + transactionDao.getPaymentDao().get(0).getStoreCredit());
 
-
                     }
 
                 else if(transactionDao.getPaymentDao().get(0).getOnAccount() > 0)
                 {
                     // First check this customer has any balance on account or not, if yes then check return amount on account if it is less than return amount then subtract the amount other wise
-                    //Subtract the amount and rest of the amount just as the store credit.
+                    //Subtract the amount and rest of the amount just add as the store credit.
 
                     if(customerDao.getBalance() >= transactionDao.getPaymentDao().get(0).getOnAccount())
                     {
@@ -260,6 +260,7 @@ public class TransactionsManager {
     //    Here i need to handle the scenario where customer is doing partial payment, or not paying right now and will pay later so
     //    Here i need to maintain his balance by just adding transaction balance to that customers account
 
+    @CachePut("customer")
     private void setCustomerBalance(TransactionDao transactionDao) {
         CustomerDao customerDao = customerRepository.findByPhoneNo(transactionDao.getCustomerPhoneno());
 

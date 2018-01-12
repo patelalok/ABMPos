@@ -66,13 +66,24 @@ export class EditProductComponent implements OnInit {
             // 'costPrice': [this.currentProduct.cost, [Validators.required, Validators.pattern('^[0-9-.]+$')]],
             'markup': [null, Validators.pattern('^[0-9-.]+$')],
             'retail': [this.currentProduct.retail, [Validators.required, Validators.pattern('^[0-9-.]+$')]],
-            'quantity': [this.currentProduct.quantity, [Validators.required, Validators.pattern('^[0-9]+$')]],
-            'minQuantity': [this.currentProduct.minQuantity, [Validators.pattern('^[0-9]+$')]],
+            'quantity': [this.currentProduct.quantity,''],
+            'minQuantity': [this.currentProduct.minQuantity,''],
             'tax': [this.currentProduct.tax, null],
             'ecomerce': [this.currentProduct.ecommerce, null],
             'varaint': [this.currentProduct.variant, null]
           }
+
+          
         );
+
+        this.form.valueChanges
+        .subscribe((changes) => {
+          console.log('form valurs', this.form.errors);
+          console.log('form valurs', this.form.valid);
+
+          console.log('complete form', this.form.value);
+
+        })
    
         this.productService.getCategoryDetails()
         .subscribe((categories: Category[]) => {
@@ -124,6 +135,8 @@ export class EditProductComponent implements OnInit {
     // this.productVariantDetailsByNameDto = a;
     // console.log('productVariantDetailsByNameDto' + this.productVariantDetailsByNameDto);
     //     });
+
+  
   }
 
   addProduct() {

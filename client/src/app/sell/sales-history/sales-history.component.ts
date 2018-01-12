@@ -145,13 +145,14 @@ export class SalesHistoryComponent implements OnInit {
 
     this.sellService.getTransactionDetails(this.dateDto.startDate, this.dateDto.endDate)
       .subscribe(transaction => {
-
+        this.loadingServie.loading = true;
         transaction.forEach(trans => {
           trans.time = moment(trans.date).format('hh:mm A');
           trans.date = moment(trans.date).format('MM-DD-YYYY');
         })
         this.transactionDetailsOriginal = transaction;
         this.transactionDetails = this.transactionDetailsOriginal;
+        this.loadingServie.loading = false;
       });
   }
 
@@ -245,15 +246,22 @@ export class SalesHistoryComponent implements OnInit {
       this.sellService.sendEmail(transaction.transactionComId)
       .subscribe((data) =>
     {
+      this.loadingServie.loading = true;
       if(data.text())
       {
+        this.loadingServie.loading = false;
         this.toastr.success('Email Send Sucessfully !!', 'Success!');
       }
+
       console.log('send email response', data.text());
     },
     (error) => {
+      
+      this.loadingServie.loading = false;
       this.toastr.error('Something goes wrong, not able to send an email now !!', 'Error!');
       console.log(JSON.stringify(error.json()));
+
+
   });
     }
 

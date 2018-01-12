@@ -5,6 +5,7 @@ import com.abm.pos.ABMPos.dao.EmployeeDao;
 import com.abm.pos.ABMPos.repository.ClockInRepository;
 import com.abm.pos.ABMPos.repository.EmployeeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CachePut;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -23,6 +24,7 @@ public class EmployeeManager {
     private ClockInRepository clockInRepository;
 
 
+    @CachePut("employee")
     public void addEmployee(EmployeeDao employeeDao) {
 
         employeeRepository.save(employeeDao);

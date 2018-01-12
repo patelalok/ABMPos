@@ -59,31 +59,48 @@
                         </div>
                     </div>
 
-                    <div class="row m-1" *ngIf="this.isClockIn">
+                    <div class="row m-1">
 
-                        <div class="col-md-6">
+                        <!-- <div class="col-md-6">
                             <label>ClockIn  </label>
                             <label>{{this.clockInObj.clockIn}}</label>
                         </div>
                         <div class="col-md-6">
                             <label>Hour:  </label>
                             <label> {{this.clockInObj.noOfHours}}   Minute : {{this.clockInObj.noOfMinute}}</label>
-                        </div>
+                        </div> -->
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>ClockIn</th>
+                                    <th>ClockOut</th>
+                                    <th>Total</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let clockIn of this.clockInViewList">
+
+                                    <td>{{clockIn.clockIn}}</td>
+                                    <td>{{clockIn.clockOut}}</td>
+                                    <td>Hour : {{clockIn.noOfHours}} : Minute: {{clockIn.noOfMinute}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
                     </div>
 
                     <div class="row m-2 p-2">
-                        <button *ngIf="this.isClockIn" type="button" (click)="this.validateAndAddClockInDetails()" mat-raised-button class="bg-primary text-white action-button-lg m-auto" data-dismiss="modal">
+                        <button *ngIf="this.isClockIn == false" type="button" (click)="this.validateAndAddClockInDetails()" mat-raised-button class="bg-primary text-white action-button-lg m-auto" data-dismiss="modal">
+                                    Clock In
+                                </button>
+                        <button *ngIf="this.isClockIn == true" type="button" (click)="this.validateAndAddClockInDetails()" mat-raised-button class="bg-primary text-white action-button-lg m-auto" data-dismiss="modal">
                             Clock Out
                         </button>
-                        <button *ngIf="!this.isClockIn" type="button" (click)="this.validateAndAddClockInDetails()" mat-raised-button class="bg-primary text-white action-button-lg m-auto" data-dismiss="modal">
-                            Clock In
-                        </button>
+
                     </div>
 
                 </form>
 
             </div>
-
 
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>

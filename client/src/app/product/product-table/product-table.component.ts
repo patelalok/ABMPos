@@ -24,7 +24,7 @@ export class ProductTableComponent implements OnInit {
   backendProductDto: BackendProductDto[];
   productViewList: BackendProductDto[] = [];
   productFullList: BackendProductDto[] = [];
-  rowsToShow: number = 20;
+  rowsToShow: number = 500;
   totalNumberProducts: number = 0;
   displayDialog = false;
   products: Product[];

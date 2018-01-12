@@ -47,7 +47,7 @@ constructor(private http: Http) { }
       .catch(this.handleError);
     }
 
-    getEmployeeClockInDetails(username: string, startDate: any, endDate: any): Observable<ClockIn>
+    getEmployeeClockInDetails(username: string, startDate: any, endDate: any): Observable<ClockIn []>
     {
       console.log('Username coming from the clock In component'+ username);
       return this.http.get('http://localhost:8080/getClockIn?username='+username+'&startDate='+startDate+'&endDate='+endDate)

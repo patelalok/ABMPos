@@ -16,6 +16,7 @@ export class CloseRegisterComponent implements OnInit {
   closeRegisterDto = new CloseRegisterDto();
   dateDto = new DateDto();
   closeRegId: any;
+  totalCloseAmount: number;
   
   
  constructor(private closeRegisterService: CloseRegistorService,  private formBuilder: FormBuilder, private dateService: DateService) { }
@@ -83,12 +84,24 @@ export class CloseRegisterComponent implements OnInit {
       this.closeRegisterForm.get('reportTotalAmount').setValue(this.closeRegisterDto.reportTotalAmount);
       this.closeRegisterForm.get('tax').setValue(this.closeRegisterDto.tax);
       this.closeRegisterForm.get('discount').setValue(this.closeRegisterDto.discount);
-      this.closeRegisterForm.get('totalWithoutTax').setValue(this.closeRegisterDto.reportTotalAmount - this.closeRegisterDto.tax);
+
+      let totalWithoutTax = this.closeRegisterDto.reportTotalAmount - this.closeRegisterDto.tax;
+      this.closeRegisterForm.get('totalWithoutTax').setValue(totalWithoutTax.toFixed(2));
+
       this.closeRegisterForm.get('storeCredit').setValue(this.closeRegisterDto.storeCredit);
       this.closeRegisterForm.get('onAccount').setValue(this.closeRegisterDto.onAccount);
       this.closeRegisterForm.get('loyalty').setValue(this.closeRegisterDto.loyalty);
+
+       let closeTotalAmountWithTax = this.closeRegisterForm.get('closeCash').value + this.closeRegisterForm.get('closeCredit').value + this.closeRegisterForm.get('closeDebit').value + this.closeRegisterForm.get('closeCheck').value;
+      this.closeRegisterForm.get('closeTotalAmount').setValue(this.totalCloseAmount);
     });
 
+
+  }
+
+  calculateTotalCloseAmountOnValueChange(){
+
+    this.totalCloseAmount = this.closeRegisterForm.get('closeCash').value + this.closeRegisterForm.get('closeCredit').value + this.closeRegisterForm.get('closeDebit').value + this.closeRegisterForm.get('closeCheck').value;
 
   }
 

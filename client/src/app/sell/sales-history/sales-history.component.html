@@ -134,111 +134,120 @@
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-md-9">
+                            <div class="col-md-10">
                                 <!-- <textarea rows="3" cols="150">
                            Transaction Notes  : {{receipt.note}}
                         </textarea> -->
                             </div>
-                            <div class="col-md-3">
+                            <div class="col-md-2">
 
                                 <div class="row">
-                                    <div class="col-md-3">
+                                    <div class="col-md-6">
                                         Subtotal:
                                     </div>
-                                    <div class="col-md-3">
+                                    <div class="col-md-6">
                                         $ {{receipt.subtotal}}
                                     </div>
                                 </div>
 
                                 <div class="row">
-                                    <div class="col-md-3" *ngIf="receipt.totalDiscount != 0">
+                                    <div class="col-md-6" *ngIf="receipt.totalDiscount != 0">
                                         Discount:
                                     </div>
-                                    <div class="col-md-3" *ngIf="receipt.totalDiscount != 0">
+                                    <div class="col-md-6" *ngIf="receipt.totalDiscount != 0">
                                         $ {{receipt.totalDiscount}}
                                     </div>
                                 </div>
 
                                 <div class="row">
-                                    <div class="col-md-3">
+                                    <div class="col-md-6">
                                         Tax:
                                     </div>
-                                    <div class="col-md-3">
+                                    <div class="col-md-6">
                                         $ {{receipt.tax}}
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-6" *ngIf="receipt.previousBalance != 0">
+                                        Pre Balance:
+                                    </div>
+                                    <div class="col-md-6" *ngIf="receipt.previousBalance != 0">
+                                        $ {{receipt.previousBalance}}
                                     </div>
                                 </div>
 
                                 <hr>
 
                                 <div class="row">
-                                    <div class="col-md-3">
+                                    <div class="col-md-6">
                                         TOTAL:
                                     </div>
-                                    <div class="col-md-3">
+                                    <div class="col-md-6">
                                         $ {{receipt.totalAmount}}
                                     </div>
                                 </div>
 
                                 <hr>
                                 <div class="row">
-                                    <div class="col-md-3" *ngIf="receipt.paymentDao[0].cash != 0">
+                                    <div class="col-md-6" *ngIf="receipt.paymentDao[0].cash != 0">
                                         Cash:
                                     </div>
-                                    <div class="col-md-3" *ngIf="receipt.paymentDao[0].cash != 0">
+                                    <div class="col-md-6" *ngIf="receipt.paymentDao[0].cash != 0">
                                         $ {{receipt.paymentDao[0].cash + receipt.paymentDao[0].changeForCash}}
                                     </div>
                                 </div>
 
                                 <div class="row">
-                                    <div class="col-md-3" *ngIf="receipt.paymentDao[0].changeForCash != 0">
+                                    <div class="col-md-6" *ngIf="receipt.paymentDao[0].changeForCash != 0">
                                         Change:
                                     </div>
-                                    <div class="col-md-3" *ngIf="receipt.paymentDao[0].changeForCash != 0">
+                                    <div class="col-md-6" *ngIf="receipt.paymentDao[0].changeForCash != 0">
                                         $ {{receipt.paymentDao[0].changeForCash}}
                                     </div>
                                 </div>
 
                                 <div class="row">
-                                    <div class="col-md-3" *ngIf="receipt.paymentDao[0].credit != 0">
+                                    <div class="col-md-6" *ngIf="receipt.paymentDao[0].credit != 0">
                                         Credit:
                                     </div>
-                                    <div class="col-md-3" *ngIf="receipt.paymentDao[0].credit != 0">
+                                    <div class="col-md-6" *ngIf="receipt.paymentDao[0].credit != 0">
                                         $ {{receipt.paymentDao[0].credit}}
                                     </div>
                                 </div>
 
                                 <div class="row">
-                                    <div class="col-md-3" *ngIf="receipt.paymentDao[0].debit != 0">
+                                    <div class="col-md-6" *ngIf="receipt.paymentDao[0].debit != 0">
                                         Debit:
                                     </div>
-                                    <div class="col-md-3" *ngIf="receipt.paymentDao[0].debit != 0">
+                                    <div class="col-md-6" *ngIf="receipt.paymentDao[0].debit != 0">
                                         $ {{receipt.paymentDao[0].debit}}
                                     </div>
                                 </div>
 
                                 <div class="row">
-                                    <div class="col-md-3" *ngIf="receipt.paymentDao[0].checkAmount != 0">
+                                    <div class="col-md-6" *ngIf="receipt.paymentDao[0].checkAmount != 0">
                                         Check:
                                     </div>
-                                    <div class="col-md-3" *ngIf="receipt.paymentDao[0].checkAmount != 0">
+                                    <div class="col-md-6" *ngIf="receipt.paymentDao[0].checkAmount != 0">
                                         $ {{receipt.paymentDao[0].checkAmount}}
                                     </div>
                                 </div>
 
                                 <div class="row">
-                                    <div class="col-md-3" *ngIf="receipt.paymentDao[0].storeCredit != 0">
+                                    <div class="col-md-6" *ngIf="receipt.paymentDao[0].storeCredit != 0">
                                         Store Credit:
                                     </div>
-                                    <div class="col-md-3" *ngIf="receipt.paymentDao[0].storeCredit != 0">
+                                    <div class="col-md-6" *ngIf="receipt.paymentDao[0].storeCredit != 0">
                                         $ {{receipt.paymentDao[0].storeCredit}}
                                     </div>
                                 </div>
 
                                 <div class="row">
-                                    <div class="col-md-3" *ngIf="receipt.paymentDao[0].onAccount != 0">
+                                    <div class="col-md-6" *ngIf="receipt.paymentDao[0].onAccount != 0">
                                         On Account:
                                     </div>
-                                    <div class="col-md-3" *ngIf="receipt.paymentDao[0].onAccount != 0">
+                                    <div class="col-md-6" *ngIf="receipt.paymentDao[0].onAccount != 0">
                                         $ {{receipt.paymentDao[0].onAccount}}
                                     </div>
                                 </div>
@@ -246,10 +255,10 @@
                                 <hr>
 
                                 <div class="row">
-                                    <div class="col-md-3">
+                                    <div class="col-md-6">
                                         Balance:
                                     </div>
-                                    <div class="col-md-3">
+                                    <div class="col-md-6">
                                         $ {{receipt.transactionBalance}}
                                     </div>
                                 </div>
