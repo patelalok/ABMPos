@@ -49,6 +49,7 @@ public class ProductDao implements Serializable {
     private double customLoyaltyAmount;
     private String createdTimestamp;
 
+
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "productNo")
     private List<ProductInventoryDao> productInventoryDaoList;

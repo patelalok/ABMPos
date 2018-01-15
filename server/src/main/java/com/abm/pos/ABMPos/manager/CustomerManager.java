@@ -31,13 +31,11 @@ public class CustomerManager {
     private TransactionRepository transactionRepository;
 
 
-    @CachePut("customer")
     public void addCustomer(CustomerDao customerDao) {
 
         customerRepository.save(customerDao);
     }
 
-    @Cacheable("customer")
     public List<CustomerDao> getCustomer() {
 
         return customerRepository.findAll();

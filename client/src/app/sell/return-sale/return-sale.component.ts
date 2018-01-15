@@ -41,6 +41,8 @@ export class ReturnSaleComponent implements OnInit, AfterViewInit {
   a = 'sdfds';
   selectedProduct: Product;
   selectedCustomer: Customer;
+  taxPercent: number = 0.00;
+
 
   cols: any[];
 
@@ -80,7 +82,7 @@ export class ReturnSaleComponent implements OnInit, AfterViewInit {
   disableOnAccountButtons: boolean = true;
   disableStoreCreditButtons: boolean = true;
 
-  saleType: string = 'Complete';
+  saleType: string = 'Return';
   // This is useful in case of return where user gives store credit, i need oldtransactionId to store in store credit table as reason.
   previousTransactionId: any;
 
@@ -104,6 +106,7 @@ printTransactionDto: TransactionDtoList = null;
     this.storeSetupService.getStoreDetails().
     then((data) => {
       this.storeDetails = data;
+      this.taxPercent = this.storeDetails.tax;
     });
 
         // This call is to get all customer details.
@@ -209,7 +212,7 @@ printTransactionDto: TransactionDtoList = null;
         this.transactionLineItemDaoList[event.index].defaultQuantity = event.data.defaultQuantity;
         this.transactionLineItemDaoList[event.index].retail = event.data.retail;
         this.transactionLineItemDaoList[event.index].totalProductPrice = (event.data.defaultQuantity * event.data.retail);
-        this.transactionLineItemDaoList[event.index].taxAmountOnProduct = ((event.data.defaultQuantity * event.data.retail) * 7) / 100
+        this.transactionLineItemDaoList[event.index].taxAmountOnProduct = ((event.data.defaultQuantity * event.data.retail) * this.taxPercent) / 100
         this.setTransactionDtoList(this.transactionLineItemDaoList)
     
         //this.persit.setProducts(this.transactionLineItemDaoList);
@@ -221,7 +224,7 @@ printTransactionDto: TransactionDtoList = null;
               productObj.retail = - productObj.retail;
         
               productObj.totalProductPrice = parseFloat(productObj.retail.toFixed(2));
-              productObj.taxAmountOnProduct = (productObj.retail * 7) / 100;
+              productObj.taxAmountOnProduct = (productObj.retail * this.taxPercent) / 100;
         
         
               console.log("when add product", productObj);
@@ -258,7 +261,7 @@ printTransactionDto: TransactionDtoList = null;
               totalPrice = + lineItem[i].totalProductPrice + totalPrice;
         
               // Here totalProductPriceWithTax mean, only amount of the tax on that product dont get confuse with naming
-              tax = + (lineItem[i].totalProductPrice * 7) / 100 + tax;
+              tax = + (lineItem[i].totalProductPrice * this.taxPercent) / 100 + tax;
               console.log("totalQuantity", totalQuantity);
               console.log("totalPrice", totalPrice);
               console.log("totalTax", tax);
@@ -325,8 +328,13 @@ printTransactionDto: TransactionDtoList = null;
 
   submitCustomer(a: any) {
 
-
     this.selectedCustomer = a;
+
+    if(this.selectedCustomer.type == 'Business')
+    {
+      this.taxPercent = 0;
+    }
+
     // this.cust = null;
     // this.disableCustomerSearchTextbox = true;
 
@@ -541,6 +549,12 @@ printTransactionDto: TransactionDtoList = null;
             // I need to do this casue in backend i am using quantity and here i have to use defult quanity to show 1 as user insert product.
             lineItem.quantity = lineItem.defaultQuantity;
           }
+
+          // Seeting paymentDto status
+
+    for(let payment of this.paymentDao){
+      payment.status = this.saleType;
+    }
       
           // this.transactionNotes is bind with the ng model on ui.
           this.transactionDtoList.note = this.transactionNotes

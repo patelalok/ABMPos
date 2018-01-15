@@ -131,13 +131,13 @@
                                 <td>
                                     <dl class="row">
                                         <dt class="">Spending:</dt>
-                                        <dd class="">$ 2090.99</dd>
+                                        <dd class=""></dd>
                                     </dl>
                                 </td>
                                 <td>
                                     <dl class="row">
                                         <dt class="">Loyalty:</dt>
-                                        <dd class="">$ 2.70</dd>
+                                        <dd class=""></dd>
                                     </dl>
 
                                 </td>
@@ -160,8 +160,25 @@
                                             </dt>
                         <dd class="">{{this.transactionDtoList.totalDiscount | currency:'USD':'true'}}</dd>
                     </dl> -->
-                    <dl class="row">
+                    <!-- <dl class="row">
                         <dt class="">Tax (7%)</dt>
+                        <dd class="">{{this.transactionDtoList.tax | currency:'USD':'true'}}</dd>
+                    </dl> -->
+
+                    <dl class="row">
+                        <dt *ngIf="this.taxPercent == 7">
+                        <a  href="javascript:void(0)" (click)="this.taxPercent = 0">
+                                Tax ({{this.taxPercent}}%)
+                        </a>
+                        </dt>
+
+                        <dt *ngIf="this.taxPercent == 0">
+
+                            <a  href="javascript:void(0)" (click)="this.taxPercent = 7">
+                                    No Tax
+                                    <!-- ({{this.taxPercent}}%) -->
+                            </a>
+                        </dt>
                         <dd class="">{{this.transactionDtoList.tax | currency:'USD':'true'}}</dd>
                     </dl>
                     <dl class="row">

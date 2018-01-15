@@ -24,7 +24,9 @@ export class TopNavbarComponent implements OnInit {
         { name: 'Employee', link: '/employee', icon: 'fa fa-user-circle-o fa-2x text-blue' },
         { name: 'Expense', link: '/expense', icon: 'fa fa-money fa-2x text-green' },        
         { name: 'Setting', link: '/setting', icon: 'fa fa-cogs fa-2x text-dark-grey', },
-        { name: 'Ecomerce', link: '/ecommerce', icon: 'fa fa-cart-arrow-down fa-2x text-green' }
+       // { name: 'Ecomerce', link: '/ecommerce', icon: 'fa fa-cart-arrow-down fa-2x text-green' },
+        { name: 'Rewards', link: '/ecommerce', icon: 'fa fa-trophy fa-2x text-green' },
+        { name: 'Promotion', link: '/customer', icon: 'fa fa-bullhorn fa-2x text-bittersweet' }
       ];
     }
   }

@@ -17,6 +17,10 @@ import java.util.List;
 @Transactional
 public interface ProductRepository extends JpaRepository<ProductDao, String> {
 
+    public static final String KEY = "products";
+
+
+
     List<ProductDao> findAll();
 
     @Query("SELECT p.description FROM ProductDao p WHERE p.productNo = ?1")
@@ -25,11 +29,12 @@ public interface ProductRepository extends JpaRepository<ProductDao, String> {
 
    //@Query("SELECT p FROM ProductDao p WHERE p.active = true ORDER BY p.description ASC")
     @Query("SELECT p FROM ProductDao p WHERE p.active = true ORDER BY p.productNo ASC")
-    @Cacheable(value = "products")
+    //@Cacheable(value = "products",  key = "#root.target.KEY")
+   @Cacheable("products")
     List<ProductDao> getAllActiveProduct();
 
     @Query("SELECT p FROM ProductDao p WHERE p.active = true")
-    @Cacheable(value = "products")
+    //@Cacheable(value = "products")
     List<ProductDao> getAllActiveProductForSellPage();
 
     ProductDao findOneByProductNo(String productNo);

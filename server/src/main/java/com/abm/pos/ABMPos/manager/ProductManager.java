@@ -5,7 +5,9 @@ import com.abm.pos.ABMPos.repository.*;
 import com.abm.pos.ABMPos.util.TimeIntervalDto;
 import com.abm.pos.ABMPos.util.Utility;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Component;
 
 import javax.jws.Oneway;
@@ -40,6 +42,9 @@ public class ProductManager{
     private Utility utility;
 
 
+    //public static final String KEY = "products";
+
+
     //@CachePut("products")
     public void addProduct(ProductDao productDao)
     {
@@ -58,19 +63,21 @@ public class ProductManager{
 
         productRepository.save(productDao);
     }
+    //@CachePut(value = "products", key = "#productDao.productNo")
+   // @CacheEvict(value = "products",  key = "#root.target.KEY")
+
     @CachePut("products")
+    //@CacheEvict("products")
     public ProductDao addProductTest(ProductDao productDao) {
 
        return productRepository.save(productDao);
     }
-
-
-
     public void addProductInventory(List<ProductInventoryDao> productInventoryDao) {
 
         productInventoryRepository.save(productInventoryDao);
     }
 
+   // @Cacheable("products")
     public List<ProductDao> getProductTableDetails() {
 
             List<ProductDao> productDaoArrayList = new ArrayList<>();

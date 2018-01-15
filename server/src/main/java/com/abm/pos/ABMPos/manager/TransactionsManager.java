@@ -65,6 +65,7 @@ public class TransactionsManager {
     private int pageNumber = 0;
 
 
+
     public TransactionDao addTransaction(TransactionDao transactionDao) {
 
         if (null != transactionDao && (transactionDao.getStatus().equalsIgnoreCase("Return") || transactionDao.getStatus().equalsIgnoreCase("Void"))) {
@@ -79,6 +80,7 @@ public class TransactionsManager {
                 productInventoryDao.setRetail(Math.abs((lineItemDao.getRetail())));
                 productInventoryDao.setQuantity(lineItemDao.getQuantity());
                 productInventoryDao.setCreatedTimestamp(transactionDao.getDate());
+
 
                 productInventoryRepository.save(productInventoryDao);
             }
@@ -281,6 +283,7 @@ public class TransactionsManager {
             productInventoryRepository.delete(productInventoryDao.getId());
         }
     }
+
 
     private void reduceQuantityFromProductInventoryTable(ProductInventoryDao productInventoryDao, int newQuantityAfterSubtractionFromPurchasedQuantity) {
         // Here i am just reducing purchasedQuantity from current inventory and updating into table.

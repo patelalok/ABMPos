@@ -15,7 +15,6 @@ import java.util.List;
 @Transactional
 public interface CustomerRepository extends JpaRepository<CustomerDao, String>{
 
-    @Cacheable("customer")
     List<CustomerDao> findAll();
 
     CustomerDao findByPhoneNo(String phoneNo);
