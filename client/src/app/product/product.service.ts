@@ -95,20 +95,42 @@ export class ProductService {
 
   addProduct(product: Product) {
     console.log("Product Added", product.description);
-    return this.http.post(this.url+'/addProduct', product);
+    return this.http.post(this.url+'/addProduct', product)
+      .map((product: any) => {
+        console.log('Adding product'); 
+        if(this.fullProductList){
+          this.fullProductList.push(product);
+          //Sorting logic here 
+
+          this.fullProductList = this.fullProductList.slice(); 
+
+          return this.fullProductList; 
+        }
+      });
   }
 
   // TODO:  This is redudant, but need to do it cause i have two obejct for backend dto and product, i need to fix this.
   editProduct(product: BackendProductDto) {
     console.log("Product Added", product.description);
     this.http.post(this.url+'/addProduct', product)
-      .subscribe(data => {
-        alert('ok');
-        console.log(data);
-      },
-      error => {
-        console.log(JSON.stringify(error.json()));
-      });
+      // .subscribe(data => {
+      //   alert('ok');
+      //   console.log(data);
+      // },
+      // error => {
+      //   console.log(JSON.stringify(error.json()));
+      // });
+      .map((updatedProduct: any) => {
+        let index = this.fullProductList.findIndex((product) => {
+          return product.productNo === (<Product>updatedProduct).productNo; 
+        })
+        if(index)
+          this.fullProductList[index] = updatedProduct; 
+        
+        this.fullProductList = this.fullProductList.slice(); 
+
+        return this.fullProductList; 
+      })
   }
 
   addProductInventory(productInventory: ProductInventory[]) {
