@@ -35,11 +35,10 @@ public class ProductController {
 //    }
 
     @RequestMapping(value = "/addProduct", method = RequestMethod.POST, consumes = "application/json")
-    public ResponseEntity addProduct(@RequestBody ProductDao productDao)
+    public ProductDao addProduct(@RequestBody ProductDao productDao)
     {
-        productManager.addProductTest(productDao);
         System.out.println("Product added or updated successfully ");
-        return new ResponseEntity(HttpStatus.CREATED);
+         return productManager.addProductTest(productDao);
     }
 
     @RequestMapping(value = "/addProductInventory", method = RequestMethod.POST, consumes = "application/json")

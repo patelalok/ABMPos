@@ -152,37 +152,39 @@ var AppComponent = /** @class */ (function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/esm5/core.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_platform_browser__ = __webpack_require__("../../../platform-browser/esm5/platform-browser.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_forms__ = __webpack_require__("../../../forms/esm5/forms.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_app_app_routing_module__ = __webpack_require__("../../../../../src/app/app-routing.module.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_primeng_primeng__ = __webpack_require__("../../../../primeng/primeng.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_primeng_primeng___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4_primeng_primeng__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__angular_http__ = __webpack_require__("../../../http/esm5/http.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_app_sell_sell_module__ = __webpack_require__("../../../../../src/app/sell/sell.module.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__app_component__ = __webpack_require__("../../../../../src/app/app.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8_hammerjs__ = __webpack_require__("../../../../hammerjs/hammer.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8_hammerjs___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_8_hammerjs__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9_app_product_product_module__ = __webpack_require__("../../../../../src/app/product/product.module.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10_app_shared_shared_module__ = __webpack_require__("../../../../../src/app/shared/shared.module.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11_app_customer_customer_module__ = __webpack_require__("../../../../../src/app/customer/customer.module.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12_app_expense_expense_module__ = __webpack_require__("../../../../../src/app/expense/expense.module.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_13_app_employee_employee_module__ = __webpack_require__("../../../../../src/app/employee/employee.module.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_14_app_close_register_close_register_module__ = __webpack_require__("../../../../../src/app/close-register/close-register.module.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_15_app_shared_storesetup_storesetup_service__ = __webpack_require__("../../../../../src/app/shared/storesetup/storesetup.service.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_16__angular_platform_browser_animations__ = __webpack_require__("../../../platform-browser/esm5/animations.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_17_app_report_report_module__ = __webpack_require__("../../../../../src/app/report/report.module.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_18__angular_service_worker__ = __webpack_require__("../../../service-worker/esm5/service-worker.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_19__environments_environment__ = __webpack_require__("../../../../../src/environments/environment.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_20_app_shared_config_service__ = __webpack_require__("../../../../../src/app/shared/config.service.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_21__angular_router__ = __webpack_require__("../../../router/esm5/router.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_22_ng2_toastr_ng2_toastr__ = __webpack_require__("../../../../ng2-toastr/ng2-toastr.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_22_ng2_toastr_ng2_toastr___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_22_ng2_toastr_ng2_toastr__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_23_app_auth_auth_module__ = __webpack_require__("../../../../../src/app/auth/auth.module.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_24__loading_service__ = __webpack_require__("../../../../../src/app/loading.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__angular_common__ = __webpack_require__("../../../common/esm5/common.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_app_app_routing_module__ = __webpack_require__("../../../../../src/app/app-routing.module.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_primeng_primeng__ = __webpack_require__("../../../../primeng/primeng.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_primeng_primeng___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5_primeng_primeng__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__angular_http__ = __webpack_require__("../../../http/esm5/http.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_app_sell_sell_module__ = __webpack_require__("../../../../../src/app/sell/sell.module.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__app_component__ = __webpack_require__("../../../../../src/app/app.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9_hammerjs__ = __webpack_require__("../../../../hammerjs/hammer.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9_hammerjs___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_9_hammerjs__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10_app_product_product_module__ = __webpack_require__("../../../../../src/app/product/product.module.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11_app_shared_shared_module__ = __webpack_require__("../../../../../src/app/shared/shared.module.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12_app_customer_customer_module__ = __webpack_require__("../../../../../src/app/customer/customer.module.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_13_app_expense_expense_module__ = __webpack_require__("../../../../../src/app/expense/expense.module.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_14_app_employee_employee_module__ = __webpack_require__("../../../../../src/app/employee/employee.module.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_15_app_close_register_close_register_module__ = __webpack_require__("../../../../../src/app/close-register/close-register.module.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_16_app_shared_storesetup_storesetup_service__ = __webpack_require__("../../../../../src/app/shared/storesetup/storesetup.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_17__angular_platform_browser_animations__ = __webpack_require__("../../../platform-browser/esm5/animations.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_18_app_report_report_module__ = __webpack_require__("../../../../../src/app/report/report.module.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_19__angular_service_worker__ = __webpack_require__("../../../service-worker/esm5/service-worker.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_20__environments_environment__ = __webpack_require__("../../../../../src/environments/environment.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_21_app_shared_config_service__ = __webpack_require__("../../../../../src/app/shared/config.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_22__angular_router__ = __webpack_require__("../../../router/esm5/router.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_23_ng2_toastr_ng2_toastr__ = __webpack_require__("../../../../ng2-toastr/ng2-toastr.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_23_ng2_toastr_ng2_toastr___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_23_ng2_toastr_ng2_toastr__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_24_app_auth_auth_module__ = __webpack_require__("../../../../../src/app/auth/auth.module.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_25__loading_service__ = __webpack_require__("../../../../../src/app/loading.service.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
+
 
 
 
@@ -216,33 +218,33 @@ var AppModule = /** @class */ (function () {
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["NgModule"])({
             imports: [
                 __WEBPACK_IMPORTED_MODULE_1__angular_platform_browser__["BrowserModule"],
-                __WEBPACK_IMPORTED_MODULE_21__angular_router__["RouterModule"],
-                __WEBPACK_IMPORTED_MODULE_16__angular_platform_browser_animations__["a" /* BrowserAnimationsModule */],
+                __WEBPACK_IMPORTED_MODULE_22__angular_router__["RouterModule"],
+                __WEBPACK_IMPORTED_MODULE_17__angular_platform_browser_animations__["a" /* BrowserAnimationsModule */],
                 __WEBPACK_IMPORTED_MODULE_2__angular_forms__["FormsModule"],
                 __WEBPACK_IMPORTED_MODULE_2__angular_forms__["ReactiveFormsModule"],
-                __WEBPACK_IMPORTED_MODULE_3_app_app_routing_module__["a" /* AppRoutingModule */],
-                __WEBPACK_IMPORTED_MODULE_23_app_auth_auth_module__["a" /* AuthModule */],
-                __WEBPACK_IMPORTED_MODULE_23_app_auth_auth_module__["a" /* AuthModule */].forRoot(),
+                __WEBPACK_IMPORTED_MODULE_4_app_app_routing_module__["a" /* AppRoutingModule */],
+                __WEBPACK_IMPORTED_MODULE_24_app_auth_auth_module__["a" /* AuthModule */],
+                __WEBPACK_IMPORTED_MODULE_24_app_auth_auth_module__["a" /* AuthModule */].forRoot(),
                 // MaterialModule,
-                __WEBPACK_IMPORTED_MODULE_4_primeng_primeng__["ContextMenuModule"],
-                __WEBPACK_IMPORTED_MODULE_5__angular_http__["b" /* HttpModule */],
-                __WEBPACK_IMPORTED_MODULE_6_app_sell_sell_module__["a" /* SellModule */],
-                __WEBPACK_IMPORTED_MODULE_4_primeng_primeng__["TabMenuModule"],
-                __WEBPACK_IMPORTED_MODULE_9_app_product_product_module__["a" /* ProductModule */],
-                __WEBPACK_IMPORTED_MODULE_10_app_shared_shared_module__["a" /* SharedModule */],
-                __WEBPACK_IMPORTED_MODULE_11_app_customer_customer_module__["a" /* CustomerModule */],
-                __WEBPACK_IMPORTED_MODULE_12_app_expense_expense_module__["a" /* ExpenseModule */],
-                __WEBPACK_IMPORTED_MODULE_13_app_employee_employee_module__["a" /* EmployeeModule */],
-                __WEBPACK_IMPORTED_MODULE_14_app_close_register_close_register_module__["a" /* CloseRegisterModule */],
-                __WEBPACK_IMPORTED_MODULE_17_app_report_report_module__["a" /* ReportModule */],
-                __WEBPACK_IMPORTED_MODULE_19__environments_environment__["a" /* environment */].production ? __WEBPACK_IMPORTED_MODULE_18__angular_service_worker__["a" /* ServiceWorkerModule */].register('/ngsw-worker.js') : [],
-                __WEBPACK_IMPORTED_MODULE_22_ng2_toastr_ng2_toastr__["ToastModule"].forRoot()
+                __WEBPACK_IMPORTED_MODULE_5_primeng_primeng__["ContextMenuModule"],
+                __WEBPACK_IMPORTED_MODULE_6__angular_http__["b" /* HttpModule */],
+                __WEBPACK_IMPORTED_MODULE_7_app_sell_sell_module__["a" /* SellModule */],
+                __WEBPACK_IMPORTED_MODULE_5_primeng_primeng__["TabMenuModule"],
+                __WEBPACK_IMPORTED_MODULE_10_app_product_product_module__["a" /* ProductModule */],
+                __WEBPACK_IMPORTED_MODULE_11_app_shared_shared_module__["a" /* SharedModule */],
+                __WEBPACK_IMPORTED_MODULE_12_app_customer_customer_module__["a" /* CustomerModule */],
+                __WEBPACK_IMPORTED_MODULE_13_app_expense_expense_module__["a" /* ExpenseModule */],
+                __WEBPACK_IMPORTED_MODULE_14_app_employee_employee_module__["a" /* EmployeeModule */],
+                __WEBPACK_IMPORTED_MODULE_15_app_close_register_close_register_module__["a" /* CloseRegisterModule */],
+                __WEBPACK_IMPORTED_MODULE_18_app_report_report_module__["a" /* ReportModule */],
+                __WEBPACK_IMPORTED_MODULE_20__environments_environment__["a" /* environment */].production ? __WEBPACK_IMPORTED_MODULE_19__angular_service_worker__["a" /* ServiceWorkerModule */].register('/ngsw-worker.js') : [],
+                __WEBPACK_IMPORTED_MODULE_23_ng2_toastr_ng2_toastr__["ToastModule"].forRoot()
             ],
             declarations: [
-                __WEBPACK_IMPORTED_MODULE_7__app_component__["a" /* AppComponent */]
+                __WEBPACK_IMPORTED_MODULE_8__app_component__["a" /* AppComponent */]
             ],
-            providers: [__WEBPACK_IMPORTED_MODULE_15_app_shared_storesetup_storesetup_service__["a" /* StoreSetupService */], __WEBPACK_IMPORTED_MODULE_20_app_shared_config_service__["a" /* ConfigService */], __WEBPACK_IMPORTED_MODULE_24__loading_service__["a" /* LoadingService */]],
-            bootstrap: [__WEBPACK_IMPORTED_MODULE_7__app_component__["a" /* AppComponent */]]
+            providers: [__WEBPACK_IMPORTED_MODULE_16_app_shared_storesetup_storesetup_service__["a" /* StoreSetupService */], __WEBPACK_IMPORTED_MODULE_21_app_shared_config_service__["a" /* ConfigService */], __WEBPACK_IMPORTED_MODULE_25__loading_service__["a" /* LoadingService */], { provide: __WEBPACK_IMPORTED_MODULE_3__angular_common__["LocationStrategy"], useClass: __WEBPACK_IMPORTED_MODULE_3__angular_common__["HashLocationStrategy"] }],
+            bootstrap: [__WEBPACK_IMPORTED_MODULE_8__app_component__["a" /* AppComponent */]]
         })
     ], AppModule);
     return AppModule;
@@ -1185,6 +1187,7 @@ var CloseRegisterModule = /** @class */ (function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/esm5/core.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_http__ = __webpack_require__("../../../http/esm5/http.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_rxjs_Observable__ = __webpack_require__("../../../../rxjs/_esm5/Observable.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_environments_environment__ = __webpack_require__("../../../../../src/environments/environment.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -1197,17 +1200,19 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
+
 var CloseRegistorService = /** @class */ (function () {
     function CloseRegistorService(http) {
         this.http = http;
+        this.url = __WEBPACK_IMPORTED_MODULE_3_environments_environment__["a" /* environment */].reportUrl;
     }
     CloseRegistorService.prototype.getCloseRegisterDetails = function (startDate, endDate) {
-        return this.http.get('http://localhost:8080/getCloseRegisterDetailsByDate?startDate=' + startDate + '&endDate=' + endDate)
+        return this.http.get(this.url + '/getCloseRegisterDetailsByDate?startDate=' + startDate + '&endDate=' + endDate)
             .map(this.extractData)
             .catch(this.handleError);
     };
     CloseRegistorService.prototype.saveCloseRegisterDetail = function (closeRegisterObj) {
-        this.http.post('http://localhost:8080/addCloseRegisterDetails', closeRegisterObj)
+        this.http.post(this.url + '/addCloseRegisterDetails', closeRegisterObj)
             .subscribe(function (data) {
             console.log("Response From Add Close Register call" + data);
         }, function (error) {
@@ -1565,6 +1570,7 @@ var CustomerModule = /** @class */ (function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/esm5/core.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_http__ = __webpack_require__("../../../http/esm5/http.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_rxjs_Observable__ = __webpack_require__("../../../../rxjs/_esm5/Observable.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_environments_environment__ = __webpack_require__("../../../../../src/environments/environment.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -1577,28 +1583,30 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
+
 var CustomerService = /** @class */ (function () {
     function CustomerService(http) {
         this.http = http;
+        this.url = __WEBPACK_IMPORTED_MODULE_3_environments_environment__["a" /* environment */].reportUrl;
     }
     CustomerService.prototype.getCustomerDetails = function () {
-        return this.http.get('http://localhost:8080/getCustomer')
+        return this.http.get(this.url + '/getCustomer')
             .map(this.extractData)
             .catch(this.handleError);
     };
     CustomerService.prototype.getCustomerDetailsByPhoneNo = function (phoneNo) {
-        return this.http.get('http://localhost:8080/getCustomerByPhoneNo?phoneNo=' + phoneNo)
+        return this.http.get(this.url + '/getCustomerByPhoneNo?phoneNo=' + phoneNo)
             .map(this.extractData)
             .catch(this.handleError);
     };
     CustomerService.prototype.getCustomerStoreCreditHistory = function (phoneNo) {
-        return this.http.get('http://localhost:8080/getCustomerStoreCreditHistory?phoneNo=' + phoneNo)
+        return this.http.get(this.url + '/getCustomerStoreCreditHistory?phoneNo=' + phoneNo)
             .map(this.extractData)
             .catch(this.handleError);
     };
     CustomerService.prototype.addOrUpdateCustomer = function (customer) {
         console.log("Customer to be Added" + customer.name);
-        this.http.post('http://localhost:8080/addCustomer', customer)
+        this.http.post(this.url + '/addCustomer', customer)
             .subscribe(function (data) {
             console.log("Response From Add Customer call" + data);
         }, function (error) {
@@ -1606,7 +1614,7 @@ var CustomerService = /** @class */ (function () {
         });
     };
     CustomerService.prototype.addStoreCredit = function (storeCredit) {
-        this.http.post('http://localhost:8080/addCustomerStoreCredit', storeCredit)
+        this.http.post(this.url + '/addCustomerStoreCredit', storeCredit)
             .subscribe(function (data) {
             console.log("Response From Add Customer Store Credit Call" + data);
         }, function (error) {
@@ -1614,7 +1622,7 @@ var CustomerService = /** @class */ (function () {
         });
     };
     CustomerService.prototype.deleteCustomer = function (phoneNo) {
-        this.http.delete('http://localhost:8080/deleteCustomer?phoneNo=' + phoneNo)
+        this.http.delete(this.url + '/deleteCustomer?phoneNo=' + phoneNo)
             .subscribe(function (data) {
             console.log('Customer Deleted With this !!' + phoneNo);
         }, function (error) {
@@ -2104,6 +2112,7 @@ var EmployeeModule = /** @class */ (function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/esm5/core.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_http__ = __webpack_require__("../../../http/esm5/http.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_rxjs_Observable__ = __webpack_require__("../../../../rxjs/_esm5/Observable.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_environments_environment__ = __webpack_require__("../../../../../src/environments/environment.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -2116,10 +2125,12 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
+
 var EmployeeService = /** @class */ (function () {
     function EmployeeService(http) {
         this.http = http;
         this.sharingData = { name: 'test' };
+        this.url = __WEBPACK_IMPORTED_MODULE_3_environments_environment__["a" /* environment */].reportUrl;
     }
     EmployeeService.prototype.saveData = function (str) {
         console.log('save data function called' + str + 'sharing data name' + this.sharingData.name);
@@ -2131,30 +2142,30 @@ var EmployeeService = /** @class */ (function () {
         return this.sharingData.name;
     };
     EmployeeService.prototype.getEmployeeDetails = function () {
-        return this.http.get('http://localhost:8080/getEmployee')
+        return this.http.get(this.url + '/getEmployee')
             .map(this.extractData)
             .catch(this.handleError);
     };
     EmployeeService.prototype.validateEmployee = function (username, password) {
-        return this.http.get('http://localhost:8080/validateEmployeeForClockIn?username=' + username + '&password=' + password)
+        return this.http.get(this.url + '/validateEmployeeForClockIn?username=' + username + '&password=' + password)
             .map(this.extractDataForLogin)
             .catch(this.handleError);
     };
     EmployeeService.prototype.getEmployeeClockInDetails = function (username, startDate, endDate) {
         console.log('Username coming from the clock In component' + username);
-        return this.http.get('http://localhost:8080/getClockIn?username=' + username + '&startDate=' + startDate + '&endDate=' + endDate)
+        return this.http.get(this.url + '/getClockIn?username=' + username + '&startDate=' + startDate + '&endDate=' + endDate)
             .map(this.extractData)
             .catch(this.handleError);
     };
     EmployeeService.prototype.getEmployeeAllClockInDetails = function (username, startDate, endDate) {
         console.log('Username coming from the clock In component' + username);
-        return this.http.get('http://localhost:8080/getAllClockIn?username=' + username + '&startDate=' + startDate + '&endDate=' + endDate)
+        return this.http.get(this.url + '/getAllClockIn?username=' + username + '&startDate=' + startDate + '&endDate=' + endDate)
             .map(this.extractData)
             .catch(this.handleError);
     };
     EmployeeService.prototype.addOrUpdateEmployee = function (employee) {
         console.log('Employee to be Added' + employee.name);
-        this.http.post('http://localhost:8080/addEmployee', employee)
+        this.http.post(this.url + '/addEmployee', employee)
             .subscribe(function (data) {
             console.log('Response From Add Employee call' + data);
         }, function (error) {
@@ -2162,12 +2173,12 @@ var EmployeeService = /** @class */ (function () {
         });
     };
     EmployeeService.prototype.addClockInDetails = function (clockIn) {
-        return this.http.post('http://localhost:8080/addClockIn', clockIn)
+        return this.http.post(this.url + '/addClockIn', clockIn)
             .map(this.extractData)
             .catch(this.handleError);
     };
     EmployeeService.prototype.deleteEmployee = function (id) {
-        this.http.delete('http://localhost:8080/deleteEmployee?id=' + id)
+        this.http.delete(this.url + '/deleteEmployee?id=' + id)
             .subscribe(function (data) {
             console.log('Customer Deleted With this !!' + id);
         }, function (error) {
@@ -2465,6 +2476,7 @@ var ExpenseModule = /** @class */ (function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/esm5/core.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_http__ = __webpack_require__("../../../http/esm5/http.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_rxjs_Observable__ = __webpack_require__("../../../../rxjs/_esm5/Observable.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_environments_environment__ = __webpack_require__("../../../../../src/environments/environment.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -2477,29 +2489,31 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
+
 var ExpenseService = /** @class */ (function () {
     function ExpenseService(http) {
         this.http = http;
+        this.url = __WEBPACK_IMPORTED_MODULE_3_environments_environment__["a" /* environment */].reportUrl;
     }
     ExpenseService.prototype.getExpenseDetails = function (startDate, endDate) {
-        return this.http.get('http://localhost:8080/getExpense?startDate=' + startDate + '&endDate=' + endDate)
+        return this.http.get(this.url + '/getExpense?startDate=' + startDate + '&endDate=' + endDate)
             .map(this.extractData)
             .catch(this.handleError);
     };
     //This call to get expnese name for dropwodn on add expense page
     ExpenseService.prototype.getExpenseNameDetails = function () {
-        return this.http.get('http://localhost:8080/getExpenseNames')
+        return this.http.get(this.url + '/getExpenseNames')
             .map(this.extractData)
             .catch(this.handleError);
     };
     ExpenseService.prototype.getEmployeeDetails = function () {
-        return this.http.get('http://localhost:8080/getEmployee')
+        return this.http.get(this.url + '/getEmployee')
             .map(this.extractData)
             .catch(this.handleError);
     };
     ExpenseService.prototype.addOrUpdateExpense = function (expense) {
         console.log('Expense Added' + expense.expenseName);
-        this.http.post('http://localhost:8080/addExpense', expense)
+        this.http.post(this.url + '/addExpense', expense)
             .subscribe(function (data) {
             console.log(data);
             // this.getExpenseNameDetails();
@@ -2509,7 +2523,7 @@ var ExpenseService = /** @class */ (function () {
         });
     };
     ExpenseService.prototype.deleteExpense = function (expenseId) {
-        this.http.delete('http://localhost:8080/deleteExpense?expenseId=' + expenseId)
+        this.http.delete(this.url + '/deleteExpense?expenseId=' + expenseId)
             .subscribe(function (data) {
             alert('Expense Deleted !!');
             console.log(data);
@@ -4457,6 +4471,7 @@ var ProductModule = /** @class */ (function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/esm5/core.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_http__ = __webpack_require__("../../../http/esm5/http.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_rxjs_Observable__ = __webpack_require__("../../../../rxjs/_esm5/Observable.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_environments_environment__ = __webpack_require__("../../../../../src/environments/environment.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -4469,69 +4484,71 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
+
 var ProductService = /** @class */ (function () {
     function ProductService(http) {
         this.http = http;
+        this.url = __WEBPACK_IMPORTED_MODULE_3_environments_environment__["a" /* environment */].reportUrl;
     }
     ProductService.prototype.getProductDetails = function () {
-        return this.http.get('http://localhost:8080/getProductTableDetails')
+        return this.http.get(this.url + '/getProductTableDetails')
             .map(this.extractData)
             .catch(this.handleError);
     };
     ProductService.prototype.getCategoryDetails = function () {
-        return this.http.get('http://localhost:8080/getCategory')
+        return this.http.get(this.url + '/getCategory')
             .map(this.extractData)
             .catch(this.handleError);
     };
     ProductService.prototype.getProductDetailsById = function (productNo) {
-        var url = "http://localhost:8080/getProductById?productNo=" + productNo;
+        var url = this.url + ("/getProductById?productNo=" + productNo);
         return this.http.get(url)
             .map(this.extractData)
             .catch(this.handleError);
     };
     ProductService.prototype.getBrandDetails = function () {
-        return this.http.get('http://localhost:8080/getBrand')
+        return this.http.get(this.url + '/getBrand')
             .map(this.extractData)
             .catch(this.handleError);
     };
     ProductService.prototype.getVendorDetails = function () {
-        return this.http.get('http://localhost:8080/getVendor')
+        return this.http.get(this.url + '/getVendor')
             .map(this.extractData)
             .catch(this.handleError);
     };
     ProductService.prototype.getModelDetails = function () {
-        return this.http.get('http://localhost:8080/getModel')
+        return this.http.get(this.url + '/getModel')
             .map(this.extractData)
             .catch(this.handleError);
     };
     ProductService.prototype.getProductVariantDetails = function () {
-        return this.http.get('http://localhost:8080/getProductVariantDetails')
+        return this.http.get(this.url + '/getProductVariantDetails')
             .map(this.extractData)
             .catch(this.handleError);
     };
     ProductService.prototype.getProductVariantDetailsByName = function (name) {
-        return this.http.get('http://localhost:8080/getProductVariantDetailsByName?variantName=' + name)
+        return this.http.get(this.url + '/getProductVariantDetailsByName?variantName=' + name)
             .map(this.extractData)
             .catch(this.handleError);
     };
     ProductService.prototype.getAutoGeneratedBarcode = function () {
-        return this.http.get('http://localhost:8080/getAutoGeneratedProductNo')
+        return this.http.get(this.url + '/getAutoGeneratedProductNo')
             .map(function (res) { return res.text(); })
             .catch(this.handleError);
     };
     ProductService.prototype.getProductHistory = function (productNo, timeDuration) {
-        return this.http.get('http://localhost:8080/getProductHistory?productNo=' + productNo + '&timeDuration=' + timeDuration)
+        return this.http.get(this.url + 'getProductHistory?productNo=' + productNo + '&timeDuration=' + timeDuration)
             .map(this.extractData)
             .catch(this.handleError);
     };
     ProductService.prototype.addProduct = function (product) {
         console.log("Product Added", product.description);
-        return this.http.post('http://localhost:8080/addProduct', product);
+        return this.http.post(this.url + '/addProduct', product);
     };
     // TODO:  This is redudant, but need to do it cause i have two obejct for backend dto and product, i need to fix this.
     ProductService.prototype.editProduct = function (product) {
         console.log("Product Added", product.description);
-        this.http.post('http://localhost:8080/addProduct', product)
+        this.http.post(this.url + '/addProduct', product)
             .subscribe(function (data) {
             alert('ok');
             console.log(data);
@@ -4541,10 +4558,10 @@ var ProductService = /** @class */ (function () {
     };
     ProductService.prototype.addProductInventory = function (productInventory) {
         console.log("Product Added", productInventory);
-        return this.http.post('http://localhost:8080/addProductInventory', productInventory);
+        return this.http.post(this.url + '/addProductInventory', productInventory);
     };
     ProductService.prototype.updateProductRetailPrice = function (product) {
-        this.http.post('http://localhost:8080/addProduct', product)
+        this.http.post(this.url + '/addProduct', product)
             .subscribe(function (data) {
             alert('ok');
             console.log(data);
@@ -4553,10 +4570,10 @@ var ProductService = /** @class */ (function () {
         });
     };
     ProductService.prototype.updateProductInventory = function (productInventory) {
-        return this.http.post('http://localhost:8080/addProductInventory', productInventory);
+        return this.http.post(this.url + '/addProductInventory', productInventory);
     };
     ProductService.prototype.deleteProduct = function (deletedProduct) {
-        this.http.put('http://localhost:8080/deleteProduct', deletedProduct)
+        this.http.put(this.url + '/deleteProduct', deletedProduct)
             .subscribe(function (data) {
             alert('deleted');
             console.log(data);
@@ -4565,7 +4582,7 @@ var ProductService = /** @class */ (function () {
         });
     };
     ProductService.prototype.deleteProductInventory = function (deletedInvetory) {
-        this.http.post('http://localhost:8080/deleteProductInventory', deletedInvetory)
+        this.http.post(this.url + '/deleteProductInventory', deletedInvetory)
             .subscribe(function (data) {
             alert('deleted');
             console.log(data);
@@ -5225,17 +5242,17 @@ var ReportService = /** @class */ (function () {
         this.url = __WEBPACK_IMPORTED_MODULE_3_environments_environment__["a" /* environment */].reportUrl;
     }
     ReportService.prototype.getInventoryDetails = function (inventoryReportBy) {
-        return this.http.get('http://localhost:8080/getReportByInventory?inventoryReportBy=' + inventoryReportBy)
+        return this.http.get(this.url + '/getReportByInventory?inventoryReportBy=' + inventoryReportBy)
             .map(this.extractData)
             .catch(this.handleError);
     };
     ReportService.prototype.getSalesDetails = function (salesReportBy, startDate, endDate) {
-        return this.http.get('http://localhost:8080/getReportBySales?salesReportBy=' + salesReportBy + '&startDate=' + startDate + '&endDate=' + endDate)
+        return this.http.get(this.url + '/getReportBySales?salesReportBy=' + salesReportBy + '&startDate=' + startDate + '&endDate=' + endDate)
             .map(this.extractData)
             .catch(this.handleError);
     };
     ReportService.prototype.getSalesSummaryReport = function (salesSummaryReportBy, startDate, endDate) {
-        return this.http.get('http://localhost:8080/getReportBySalesSummary?salesSummaryReportBy=' + salesSummaryReportBy + '&startDate=' + startDate + '&endDate=' + endDate)
+        return this.http.get(this.url + '/getReportBySalesSummary?salesSummaryReportBy=' + salesSummaryReportBy + '&startDate=' + startDate + '&endDate=' + endDate)
             .map(this.extractData)
             .catch(this.handleError);
     };
@@ -9090,6 +9107,7 @@ var SellModule = /** @class */ (function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_rxjs_Observable__ = __webpack_require__("../../../../rxjs/_esm5/Observable.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_app_shared_services_persistence_service__ = __webpack_require__("../../../../../src/app/shared/services/persistence.service.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_app_shared_services_util_service__ = __webpack_require__("../../../../../src/app/shared/services/util.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_environments_environment__ = __webpack_require__("../../../../../src/environments/environment.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -9104,28 +9122,30 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
+
 var SellService = /** @class */ (function () {
     function SellService(http, persit) {
         this.http = http;
         this.persit = persit;
+        this.url = __WEBPACK_IMPORTED_MODULE_5_environments_environment__["a" /* environment */].reportUrl;
     }
     SellService.prototype.getProductDetails = function () {
-        return this.http.get('http://localhost:8080/getProduct')
+        return this.http.get(this.url + '/getProduct')
             .map(this.extractData)
             .catch(this.handleError);
     };
     SellService.prototype.getTransactionDetails = function (startDate, endDate) {
-        return this.http.get('http://localhost:8080/getTransactionByDate?startDate=' + startDate + '&endDate=' + endDate)
+        return this.http.get(this.url + '/getTransactionByDate?startDate=' + startDate + '&endDate=' + endDate)
             .map(this.extractData)
             .catch(this.handleError);
     };
     SellService.prototype.getTransactionById = function (transactionId) {
-        return this.http.get('http://localhost:8080/getTransactionById?transactionCompId=' + transactionId)
+        return this.http.get(this.url + '/getTransactionById?transactionCompId=' + transactionId)
             .map(this.extractData)
             .catch(this.handleError);
     };
     SellService.prototype.getTransactionLineItemDetailsByTransactionId = function (tranactionId) {
-        return this.http.get('http://localhost:8080/getTransactionLineItemById?transactionCompId=' + 1)
+        return this.http.get(this.url + '/getTransactionLineItemById?transactionCompId=' + 1)
             .map(this.extractData)
             .catch(this.handleError);
     };
@@ -9153,11 +9173,11 @@ var SellService = /** @class */ (function () {
     };
     SellService.prototype.addTransactionDetails = function (transactionDto) {
         console.log("Transaction Amount" + transactionDto.totalAmount);
-        return this.http.post('http://localhost:8080/addTransaction', transactionDto);
+        return this.http.post(this.url + '/addTransaction', transactionDto);
     };
     SellService.prototype.addTransactionLineItemDetails = function (transactionLineItemDtoList) {
         console.log("Transaction Amount" + transactionLineItemDtoList);
-        this.http.post('http://localhost:8080/addTransactionLineItem', transactionLineItemDtoList)
+        this.http.post(this.url + '/addTransactionLineItem', transactionLineItemDtoList)
             .subscribe(function (data) {
             alert('ok');
             console.log(data);
@@ -9166,17 +9186,17 @@ var SellService = /** @class */ (function () {
         });
     };
     SellService.prototype.voidTransaction = function (transactionToVoid) {
-        return this.http.post('http://localhost:8080/voidTransaction', transactionToVoid);
+        return this.http.post(this.url + '/voidTransaction', transactionToVoid);
     };
     SellService.prototype.printReceipt = function (transaction) {
         // this.document.
-        this.http.get("http://localhost:8080/getA4Receipt?receiptNo=" + transaction.transactionComId, { responseType: __WEBPACK_IMPORTED_MODULE_1__angular_http__["d" /* ResponseContentType */].Blob })
+        this.http.get(this.url + ("/getA4Receipt?receiptNo=" + transaction.transactionComId), { responseType: __WEBPACK_IMPORTED_MODULE_1__angular_http__["d" /* ResponseContentType */].Blob })
             .subscribe(function (data) {
             Object(__WEBPACK_IMPORTED_MODULE_4_app_shared_services_util_service__["b" /* printBlob */])(data._body);
         });
     };
     SellService.prototype.sendEmail = function (transactionCompId) {
-        return this.http.get('http://localhost:8080/sendEmail?transactionCompId=' + transactionCompId);
+        return this.http.get(this.url + '/sendEmail?transactionCompId=' + transactionCompId);
     };
     SellService.prototype.extractData = function (res) {
         var body = res.json();
@@ -10177,6 +10197,7 @@ var StoreSetupDto = /** @class */ (function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/esm5/core.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_http__ = __webpack_require__("../../../http/esm5/http.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_rxjs_Observable__ = __webpack_require__("../../../../rxjs/_esm5/Observable.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_environments_environment__ = __webpack_require__("../../../../../src/environments/environment.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -10224,9 +10245,11 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 
 
 
+
 var StoreSetupService = /** @class */ (function () {
     function StoreSetupService(http) {
         this.http = http;
+        this.url = __WEBPACK_IMPORTED_MODULE_3_environments_environment__["a" /* environment */].reportUrl;
     }
     StoreSetupService.prototype.getStoreDetails = function () {
         return __awaiter(this, void 0, void 0, function () {
@@ -10238,7 +10261,7 @@ var StoreSetupService = /** @class */ (function () {
                         return [2 /*return*/, this.storeDetails];
                     case 1:
                         _a = this;
-                        return [4 /*yield*/, (this.http.get('http://localhost:8080/getStoreSetupDetails')
+                        return [4 /*yield*/, (this.http.get(this.url + '/getStoreSetupDetails')
                                 .map(this.extractData)
                                 .map(function (data) { return data; })
                                 .catch(this.handleError)).toPromise()];
@@ -10252,7 +10275,7 @@ var StoreSetupService = /** @class */ (function () {
         });
     };
     StoreSetupService.prototype.saveStoreDetails = function (storeSetupDao) {
-        this.http.post('http://localhost:8080/addStoreDetails', storeSetupDao)
+        this.http.post(this.url + '/addStoreDetails', storeSetupDao)
             .subscribe(function (data) {
             console.log("Response From Add Store call" + data);
         }, function (error) {
