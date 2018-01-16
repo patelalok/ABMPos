@@ -24,4 +24,5 @@ dist/
 nbdist/
 .nb-gradle/
 classes/
-
+/server/out/production
+/server/src/main/resources/*

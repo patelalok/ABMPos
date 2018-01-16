@@ -98,26 +98,31 @@ export class ProductTableComponent implements OnInit {
   filterProducts(input: string) {
     this.loadingService.loading = true;
     if (input.length > 0)
-      this.productFullList = this.nowFilterProduct(input, this.productFullList)
+    this.productFullList = this.nowFilterProduct(input, this.backendProductDto)
     else {
       this.getProductDetails();
       if (this.dropdownOptionValue)
-        this.fiterProductByDropdown(this.dropdownOptionValue);
+      this.fiterProductByDropdown(this.dropdownOptionValue);
     }
-
+    
     this.loadingService.loading = false;
+    console.log('Filtering product list..', this.productFullList); 
+    
     this.loadProductsLazy({ first: 0, rows: this.rowsToShow * 2 });
   }
 
   nowFilterProduct(input: string, backendProductDto: BackendProductDto[]): BackendProductDto[] {
 
     let filtered: BackendProductDto[] = [];
-    for (let i = 0; i < backendProductDto.length; i++) {
-      let p = backendProductDto[i];
-      if (p.description.toLowerCase().includes(input.toLowerCase()) || p.productNo.includes(input)) {
-        filtered.push(p);
-      }
-    }
+    // for (let i = 0; i < backendProductDto.length; i++) {
+      // let p = backendProductDto[i];
+      // if (p.description.toLowerCase().includes(input.toLowerCase()) || p.productNo.includes(input)) {
+      //   filtered.push(p);
+      // }
+      
+    // ); 
+  // }
+  filtered = backendProductDto.filter((p) => p.description.toLowerCase().includes(input.toLowerCase()) || p.productNo.includes(input))
     return filtered;
   }
   fiterProductByDropdown(obj: number) {
