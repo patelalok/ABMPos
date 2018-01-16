@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule, ReactiveFormsModule  } from '@angular/forms';
-import { APP_BASE_HREF } from '@angular/common';
+import { APP_BASE_HREF, LocationStrategy, HashLocationStrategy } from '@angular/common';
 import {AppRoutingModule} from 'app/app-routing.module';
 import {ContextMenuModule} from 'primeng/primeng';
 import { HttpModule } from '@angular/http';
@@ -60,7 +60,7 @@ import { LoadingService } from './loading.service';
   declarations: [
     AppComponent
     ],
-  providers: [StoreSetupService, ConfigService, LoadingService],
+  providers: [StoreSetupService, ConfigService, LoadingService, {provide: LocationStrategy, useClass: HashLocationStrategy}],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
