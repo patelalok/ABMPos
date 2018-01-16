@@ -35,8 +35,8 @@ export class ProductComponent implements OnInit {
   }
 
   ngOnInit() {
-    if (this.router.url == "/product")
-      this.router.navigate(['/product/productTable']);
+    // if (this.router.url == "/product")
+    //   this.router.navigate(['/product/productTable']);
       
     this.selectedProductDropdownOption = 'Select All';
 

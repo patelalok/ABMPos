@@ -20,7 +20,7 @@ const routes: Routes = [
     canActivate: [AuthGuard],
     // canActivateChild: [AuthGuard],
     children: [
-      // { path: '', redirectTo: 'productTable', pathMatch: 'full' },
+      { path: '', redirectTo: 'productTable', pathMatch: 'prefix' },
       { path: 'add', component:  AddProductComponent},
       { path: 'edit', component:  EditProductComponent},
       { path: 'productTable', component:  ProductTableComponent},

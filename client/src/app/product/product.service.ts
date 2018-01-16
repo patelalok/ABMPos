@@ -5,12 +5,13 @@ import { Product, TransactionLineItemDaoList } from 'app/sell/sell.component';
 import { FormControl } from '@angular/forms/forms';
 import { Category, Brand, Vendor, Model, ProductVariantDetail, CategoryTest, BackendProductDto, ProductInventory } from 'app/product/product.component';
 import { environment } from 'environments/environment';
+import { Observer } from 'rxjs';
 
 
 @Injectable()
 export class ProductService {
   private url: string; 
-
+  private fullProductList: Product[]; 
   testData: string;
 
   constructor(private http: Http) {
@@ -19,9 +20,23 @@ export class ProductService {
    }
 
   getProductDetails(): Observable<BackendProductDto[]> {
-    return this.http.get(this.url+'/getProductTableDetails')
-      .map(this.extractData)
-      .catch(this.handleError);
+    if(!this.fullProductList){
+      return this.http.get(this.url+'/getProductTableDetails')
+        .map(this.extractData)
+        .map((list) => {
+          console.log('Caching product list...');
+          this.fullProductList = list;
+          return this.fullProductList;
+        })
+        .catch(this.handleError);
+    }
+    else{
+      return Observable.create((observer: Observer<any>) => {
+        console.log('Returning cached product list');
+        observer.next(this.fullProductList);
+        observer.complete();  
+      }); 
+    }
   }
 
   getCategoryDetails(): Observable<Category[]> {
