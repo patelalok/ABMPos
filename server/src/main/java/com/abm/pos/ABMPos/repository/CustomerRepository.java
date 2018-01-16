@@ -22,8 +22,7 @@ public interface CustomerRepository extends JpaRepository<CustomerDao, String>{
     @Query(value = "SELECT distinct c.name,\n" +
             "SUM(l.quantity) quantity, \n" +
             "SUM(l.cost * l.quantity) cost, \n" +
-            "SUM(l.retail * l.quantity) retail,\n" +
-            "SUM(l.retail * l.quantity - l.cost * l.quantity) profit\n" +
+            "SUM(l.retail * l.quantity) retail\n" +
             "from transaction t \n" +
             "Inner Join customer c on c.phone_no = t.customer_phoneno\n" +
             "inner join transaction_line_item l on l.transaction_com_id = t.transaction_com_id\n" +

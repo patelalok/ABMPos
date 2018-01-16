@@ -9,5 +9,4 @@ export const environment = {
   productUrl: 'http://localhost:8080',
   userUrl: 'http://localhost:8080',
   reportUrl: 'http://localhost:8080'
-
 };

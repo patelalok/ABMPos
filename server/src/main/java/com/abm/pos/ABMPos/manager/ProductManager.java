@@ -85,24 +85,24 @@ public class ProductManager{
 
             productDaoArrayList = productRepository.getAllActiveProduct();
 
-            return productDaoArrayList;
+            //return productDaoArrayList;
 
-//            for(ProductDao p :productDaoArrayList)
-//            {
-//                int quantity = 0;
-//                for(ProductInventoryDao i : p.getProductInventoryDaoList())
-//                {
-//                    quantity = quantity + i.getQuantity();
-//                }
-//
-//                p.setQuantity(quantity);
-//
-//                productDaoArrayListNew.add(p);
-//
-//            }
+            for(ProductDao p :productDaoArrayList)
+            {
+                int quantity = 0;
+                for(ProductInventoryDao i : p.getProductInventoryDaoList())
+                {
+                    quantity = quantity + i.getQuantity();
+                }
+
+                p.setQuantity(quantity);
+
+                productDaoArrayListNew.add(p);
+
+            }
 
 
-           // return productDaoArrayListNew;
+            return productDaoArrayListNew;
 
           //  return productDaoArrayList;
 

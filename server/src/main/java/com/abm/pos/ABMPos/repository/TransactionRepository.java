@@ -33,10 +33,8 @@ public interface TransactionRepository extends JpaRepository<TransactionDao, Int
             "SUM(p.check_amount) checkAmount, " +
             "SUM(t.tax) tax, " +
             "SUM(t.subtotal) subtotal, " +
-            "SUM(t.total_discount) discount, " +
-            "SUM(l.retail - l.cost) profit " +
+            "SUM(t.total_discount) discount " +
             "FROM Transaction t " +
-            "INNER JOIN transaction_line_item l ON t.transaction_com_id = l.transaction_com_id " +
             "INNER JOIN transaction_payment p ON t.transaction_com_id = p.transaction_com_id " +
             "WHERE t.date BETWEEN ?1 AND ?2 " +
             "GROUP BY NameOfMonth ORDER BY field(NameOfMonth,'January','February','March','April','May','June','July','August','September','October','November','December')", nativeQuery = true)
@@ -50,10 +48,8 @@ public interface TransactionRepository extends JpaRepository<TransactionDao, Int
             "SUM(p.check_amount) checkAmount, " +
             "SUM(t.tax) tax, " +
             "SUM(t.subtotal) subtotal, " +
-            "SUM(t.total_discount) discount, " +
-            "SUM(l.retail - l.cost) profit " +
+            "SUM(t.total_discount) discount " +
             "FROM Transaction t " +
-            "INNER JOIN transaction_line_item l ON t.transaction_com_id = l.transaction_com_id " +
             "INNER JOIN transaction_payment p ON t.transaction_com_id = p.transaction_com_id " +
             "WHERE t.date BETWEEN ?1 AND ?2 " +
             "GROUP BY dates ", nativeQuery = true)
@@ -67,10 +63,8 @@ public interface TransactionRepository extends JpaRepository<TransactionDao, Int
             "SUM(p.check_amount) checkAmount, " +
             "SUM(t.tax) tax, " +
             "SUM(t.subtotal) subtotal, " +
-            "SUM(t.total_discount) discount, " +
-            "SUM(l.retail - l.cost) profit " +
+            "SUM(t.total_discount) discount " +
             "FROM Transaction t " +
-            "INNER JOIN transaction_line_item l ON t.transaction_com_id = l.transaction_com_id " +
             "INNER JOIN transaction_payment p ON t.transaction_com_id = p.transaction_com_id " +
             "WHERE t.date BETWEEN ?1 AND ?2 " +
             "GROUP BY hours ", nativeQuery = true)

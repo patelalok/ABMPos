@@ -1,20 +1,23 @@
 import { Injectable } from '@angular/core';
 import {Http, Response, Headers} from '@angular/http';import { Observable } from 'rxjs/Observable';
 import { CloseRegisterDto } from 'app/close-register/close-register.component';
+import { environment } from 'environments/environment';
 
 @Injectable()
 export class CloseRegistorService {
-
-  constructor(private http: Http) { }
+  private url: string; 
+  constructor(private http: Http) {
+    this.url = environment.reportUrl; 
+   }
 
   getCloseRegisterDetails(startDate: any, endDate: any): Observable<CloseRegisterDto> {
-    return this.http.get('http://localhost:8080/getCloseRegisterDetailsByDate?startDate='+startDate+'&endDate='+endDate)
+    return this.http.get(this.url+'/getCloseRegisterDetailsByDate?startDate='+startDate+'&endDate='+endDate)
     .map(this.extractData)
     .catch(this.handleError);
   }
 
   saveCloseRegisterDetail(closeRegisterObj: CloseRegisterDto) {
-    this.http.post('http://localhost:8080/addCloseRegisterDetails', closeRegisterObj)
+    this.http.post(this.url+'/addCloseRegisterDetails', closeRegisterObj)
     .subscribe(data => {
       console.log("Response From Add Close Register call" + data);
     },

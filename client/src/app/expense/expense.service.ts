@@ -6,17 +6,22 @@ import { FormControl } from '@angular/forms/forms';
 import { ExpenseInterface, ExpenseNameDto } from "app/expense/expense.component";
 import { ClockInInterface } from "app/employee/clockin/clockin.component";
 import { EmployeeInterface } from "app/employee/employee.component";
+import { environment } from 'environments/environment';
 
 
 
 
 @Injectable()
 export class ExpenseService {
+  private url: string; 
 
-    constructor(private http: Http) { }
+    constructor(private http: Http) { 
+
+      this.url = environment.reportUrl; 
+    }
 
     getExpenseDetails(startDate: string, endDate: string): Observable<ExpenseInterface[]> {
-      return this.http.get('http://localhost:8080/getExpense?startDate='+startDate+'&endDate='+endDate)
+      return this.http.get(this.url+'/getExpense?startDate='+startDate+'&endDate='+endDate)
       .map(this.extractData)
       .catch(this.handleError);
     }
@@ -24,20 +29,20 @@ export class ExpenseService {
     //This call to get expnese name for dropwodn on add expense page
 
       getExpenseNameDetails(): Observable<ExpenseNameDto[]> {
-      return this.http.get('http://localhost:8080/getExpenseNames')
+      return this.http.get(this.url+'/getExpenseNames')
       .map(this.extractData)
       .catch(this.handleError);
     }
 
     getEmployeeDetails(): Observable<EmployeeInterface[]> {
-      return this.http.get('http://localhost:8080/getEmployee')
+      return this.http.get(this.url+'/getEmployee')
       .map(this.extractData)
       .catch(this.handleError);
     }
 
     addOrUpdateExpense(expense: ExpenseInterface) {
       console.log('Expense Added' + expense.expenseName);
-      this.http.post('http://localhost:8080/addExpense', expense)
+      this.http.post(this.url+'/addExpense', expense)
       .subscribe(data => {
         console.log(data);
         // this.getExpenseNameDetails();
@@ -49,7 +54,7 @@ export class ExpenseService {
     }
 
       deleteExpense(expenseId: number) {
-      this.http.delete('http://localhost:8080/deleteExpense?expenseId=' + expenseId)
+      this.http.delete(this.url+'/deleteExpense?expenseId=' + expenseId)
       .subscribe(data => {
         alert('Expense Deleted !!');
         console.log(data);

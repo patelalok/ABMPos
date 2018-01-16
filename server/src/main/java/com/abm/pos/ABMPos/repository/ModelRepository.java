@@ -23,8 +23,7 @@ public interface ModelRepository extends JpaRepository<ModelDao, Integer> {
     @Query(value = "SELECT distinct m.name, \n" +
             "SUM(l.quantity) quantity, \n" +
             "SUM(l.cost * l.quantity) cost, \n" +
-            "SUM(l.retail * l.quantity) retail,\n" +
-            "SUM(l.retail * l.quantity - l.cost * l.quantity) profit\n" +
+            "SUM(l.retail * l.quantity) retail \n" +
             "from product p \n" +
             "Inner Join model m on p.model_id = m.model_id\n" +
             "inner join transaction_line_item l on l.product_no = p.product_no\n" +

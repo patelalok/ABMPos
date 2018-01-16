@@ -7,35 +7,38 @@ import { Observer } from 'rxjs';
 import { PersistenceService } from 'app/shared/services/persistence.service';
 import { Customer } from 'app/customer/customer.component';
 import { printBlob } from 'app/shared/services/util.service';
+import { environment } from 'environments/environment';
 
 
 
 
 @Injectable()
 export class SellService {
-
-  constructor(private http: Http, private persit: PersistenceService) { }
+private url: string;
+  constructor(private http: Http, private persit: PersistenceService) { 
+    this.url = environment.reportUrl;
+  }
 
   getProductDetails(): Observable<Product[]> {
-    return this.http.get('http://localhost:8080/getProduct')
+    return this.http.get(this.url+'/getProduct')
       .map(this.extractData)
       .catch(this.handleError);
   }
 
   getTransactionDetails(startDate: any, endDate: any): Observable<TransactionDtoList[]> {
-    return this.http.get('http://localhost:8080/getTransactionByDate?startDate=' + startDate+'&endDate='+endDate)
+    return this.http.get(this.url+'/getTransactionByDate?startDate=' + startDate+'&endDate='+endDate)
       .map(this.extractData)
       .catch(this.handleError);
   }
 
   getTransactionById(transactionId: any) :Observable<TransactionDtoList> {
-    return this.http.get('http://localhost:8080/getTransactionById?transactionCompId=' + transactionId)
+    return this.http.get(this.url+'/getTransactionById?transactionCompId=' + transactionId)
     .map(this.extractData)
     .catch(this.handleError);
   }
 
   getTransactionLineItemDetailsByTransactionId(tranactionId: number): Observable<TransactionLineItemDaoList[]> {
-    return this.http.get('http://localhost:8080/getTransactionLineItemById?transactionCompId=' + 1)
+    return this.http.get(this.url+'/getTransactionLineItemById?transactionCompId=' + 1)
       .map(this.extractData)
       .catch(this.handleError);
   }
@@ -69,13 +72,13 @@ export class SellService {
 
   addTransactionDetails(transactionDto: TransactionDtoList) {
     console.log("Transaction Amount" + transactionDto.totalAmount);
-    return this.http.post('http://localhost:8080/addTransaction', transactionDto);
+    return this.http.post(this.url+'/addTransaction', transactionDto);
 
   }
 
   addTransactionLineItemDetails(transactionLineItemDtoList: TransactionLineItemDaoList[]) {
     console.log("Transaction Amount" + transactionLineItemDtoList);
-    this.http.post('http://localhost:8080/addTransactionLineItem', transactionLineItemDtoList)
+    this.http.post(this.url+'/addTransactionLineItem', transactionLineItemDtoList)
       .subscribe(data => {
         alert('ok');
         console.log(data);
@@ -86,19 +89,19 @@ export class SellService {
   }
 
   voidTransaction(transactionToVoid: TransactionDtoList) {
-    return this.http.post('http://localhost:8080/voidTransaction', transactionToVoid);
+    return this.http.post(this.url+'/voidTransaction', transactionToVoid);
   }
 
   printReceipt(transaction: TransactionDtoList) {
        // this.document.
-       this.http.get(`http://localhost:8080/getA4Receipt?receiptNo=${transaction.transactionComId}` , {responseType: ResponseContentType.Blob})
+       this.http.get(this.url+`/getA4Receipt?receiptNo=${transaction.transactionComId}` , {responseType: ResponseContentType.Blob})
        .subscribe((data: any) => {
          printBlob(data._body)
        })
   }
 
   sendEmail(transactionCompId: number) {
-    return this.http.get('http://localhost:8080/sendEmail?transactionCompId='+transactionCompId);
+    return this.http.get(this.url+'/sendEmail?transactionCompId='+transactionCompId);
   }
   
   private extractData(res: Response): Product[] {

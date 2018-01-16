@@ -14,19 +14,19 @@ export class ReportService {
     }
 
     getInventoryDetails(inventoryReportBy: string): Observable<InventoryDto[]> {
-        return this.http.get('http://localhost:8080/getReportByInventory?inventoryReportBy=' + inventoryReportBy)
+        return this.http.get(this.url+'/getReportByInventory?inventoryReportBy=' + inventoryReportBy)
         .map(this.extractData)
         .catch(this.handleError);
       }
 
       getSalesDetails(salesReportBy: string, startDate: string, endDate: string): Observable<SalesDto[]> {
 
-        return this.http.get('http://localhost:8080/getReportBySales?salesReportBy=' + salesReportBy+'&startDate='+startDate+'&endDate='+endDate)
+        return this.http.get(this.url+'/getReportBySales?salesReportBy=' + salesReportBy+'&startDate='+startDate+'&endDate='+endDate)
         .map(this.extractData)
         .catch(this.handleError);
       }
       getSalesSummaryReport(salesSummaryReportBy: string, startDate: string, endDate: string): Observable<SalesSummaryDto[]> {
-        return this.http.get('http://localhost:8080/getReportBySalesSummary?salesSummaryReportBy=' + salesSummaryReportBy+'&startDate='+startDate+'&endDate='+endDate)
+        return this.http.get(this.url+'/getReportBySalesSummary?salesSummaryReportBy=' + salesSummaryReportBy+'&startDate='+startDate+'&endDate='+endDate)
         .map(this.extractData)
         .catch(this.handleError);
       }

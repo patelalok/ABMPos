@@ -10,6 +10,7 @@ import { ViewChild } from '@angular/core/src/metadata/di';
 import { Element } from '@angular/compiler';
 import { ElementRef } from '@angular/core/src/linker/element_ref';
 import { LoadingService } from 'app/loading.service';
+import { ToastsManager } from 'ng2-toastr';
 declare var $: JQueryStatic;
 
 @Component({
@@ -49,7 +50,7 @@ export class ProductTableComponent implements OnInit {
   dropdownOptionValue: number;
 
   loading: boolean = false;
-  constructor(private productService: ProductService, private loadingService: LoadingService) { }
+  constructor(private productService: ProductService, private loadingService: LoadingService, private toastr: ToastsManager) { }
 
   ngOnInit() {
 
@@ -280,7 +281,18 @@ export class ProductTableComponent implements OnInit {
 
     console.log('product invetrory object', productInventory);
 
-    this.productService.updateProductInventory(productInventory);
+    this.productService.updateProductInventory(productInventory)
+    .subscribe(data => {
+
+      if(data){
+        this.toastr.success('Inventory Updated Successfully !!', 'Success!');
+      }
+    },
+    error => {
+      this.toastr.error('Opps Something goes wrong !!', 'Error!!');
+      console.log(JSON.stringify(error.json()));
+    });
+    
     let index = this.productViewList.findIndex((el) => el.productNo == product.productNo);
 
     this.productViewList[index] = {

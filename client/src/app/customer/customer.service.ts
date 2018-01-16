@@ -5,27 +5,30 @@ import { Product } from 'app/sell/sell.component';
 import { FormControl } from '@angular/forms/forms';
 import { Category, Brand, Vendor, Model, ProductVariantDetail, CategoryTest, BackendProductDto } from 'app/product/product.component';
 import { CustomerInterface, StoreCreditDto, Customer } from 'app/customer/customer.component';
+import { environment } from 'environments/environment';
 
 
 @Injectable()
 export class CustomerService {
-
-constructor(private http: Http) { }
+private url: string; 
+constructor(private http: Http) { 
+  this.url = environment.reportUrl; 
+}
 
     getCustomerDetails(): Observable<CustomerInterface[]> {
-      return this.http.get('http://localhost:8080/getCustomer')
+      return this.http.get(this.url+'/getCustomer')
       .map(this.extractData)
       .catch(this.handleError);
     }
 
     getCustomerDetailsByPhoneNo(phoneNo: any): Observable<Customer> {
-      return this.http.get('http://localhost:8080/getCustomerByPhoneNo?phoneNo='+phoneNo)
+      return this.http.get(this.url+'/getCustomerByPhoneNo?phoneNo='+phoneNo)
       .map(this.extractData)
       .catch(this.handleError);
     }
 
     getCustomerStoreCreditHistory(phoneNo: any): Observable<StoreCreditDto[]> {
-      return this.http.get('http://localhost:8080/getCustomerStoreCreditHistory?phoneNo='+phoneNo)
+      return this.http.get(this.url+'/getCustomerStoreCreditHistory?phoneNo='+phoneNo)
       .map(this.extractData)
       .catch(this.handleError);
     }
@@ -33,7 +36,7 @@ constructor(private http: Http) { }
     addOrUpdateCustomer(customer: CustomerInterface)
     {
      console.log("Customer to be Added" + customer.name);
-      this.http.post('http://localhost:8080/addCustomer', customer)
+      this.http.post(this.url+'/addCustomer', customer)
       .subscribe(data => {
         console.log("Response From Add Customer call" + data);
       },
@@ -43,7 +46,7 @@ constructor(private http: Http) { }
     }
 
     addStoreCredit(storeCredit: StoreCreditDto) {
-      this.http.post('http://localhost:8080/addCustomerStoreCredit', storeCredit)
+      this.http.post(this.url+'/addCustomerStoreCredit', storeCredit)
       .subscribe(data => {
         console.log("Response From Add Customer Store Credit Call" + data);
       },
@@ -54,7 +57,7 @@ constructor(private http: Http) { }
 
     deleteCustomer(phoneNo: string)
     {
-      this.http.delete('http://localhost:8080/deleteCustomer?phoneNo=' + phoneNo)
+      this.http.delete(this.url+'/deleteCustomer?phoneNo=' + phoneNo)
        .subscribe(data => {
         console.log('Customer Deleted With this !!' + phoneNo);
       },

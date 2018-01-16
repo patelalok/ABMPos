@@ -7,6 +7,7 @@ import { Category, Brand, Vendor, Model, ProductVariantDetail, CategoryTest, Bac
 import { CustomerInterface } from 'app/customer/customer.component';
 import { EmployeeInterface, Employee } from 'app/employee/employee.component';
 import { ClockInInterface, ClockIn } from "app/employee/clockin/clockin.component";
+import { environment } from 'environments/environment';
 
 export interface myData {
     name: string;
@@ -14,6 +15,7 @@ export interface myData {
 @Injectable()
 export class EmployeeService {
 
+  private url: string; 
 
   sharingData: myData = {name: 'test'};
 
@@ -32,17 +34,19 @@ export class EmployeeService {
   }
 
 
-constructor(private http: Http) { }
+constructor(private http: Http) { 
+  this.url = environment.reportUrl; 
+}
 
     getEmployeeDetails(): Observable<EmployeeInterface[]> {
-      return this.http.get('http://localhost:8080/getEmployee')
+      return this.http.get(this.url+'/getEmployee')
       .map(this.extractData)
       .catch(this.handleError);
     }
 
     validateEmployee(username: any, password: any): Observable<boolean>{
 
-      return this.http.get('http://localhost:8080/validateEmployeeForClockIn?username='+username+'&password='+password)
+      return this.http.get(this.url+'/validateEmployeeForClockIn?username='+username+'&password='+password)
       .map(this.extractDataForLogin)
       .catch(this.handleError);
     }
@@ -50,14 +54,14 @@ constructor(private http: Http) { }
     getEmployeeClockInDetails(username: string, startDate: any, endDate: any): Observable<ClockIn []>
     {
       console.log('Username coming from the clock In component'+ username);
-      return this.http.get('http://localhost:8080/getClockIn?username='+username+'&startDate='+startDate+'&endDate='+endDate)
+      return this.http.get(this.url+'/getClockIn?username='+username+'&startDate='+startDate+'&endDate='+endDate)
       .map(this.extractData)
       .catch(this.handleError);
 }
 getEmployeeAllClockInDetails(username: string, startDate: any, endDate: any): Observable<ClockIn[]>
 {
   console.log('Username coming from the clock In component'+ username);
-  return this.http.get('http://localhost:8080/getAllClockIn?username='+username+'&startDate='+startDate+'&endDate='+endDate)
+  return this.http.get(this.url+'/getAllClockIn?username='+username+'&startDate='+startDate+'&endDate='+endDate)
   .map(this.extractData)
   .catch(this.handleError);
 }
@@ -65,7 +69,7 @@ getEmployeeAllClockInDetails(username: string, startDate: any, endDate: any): Ob
     addOrUpdateEmployee(employee: Employee)
     {
      console.log('Employee to be Added' + employee.name);
-      this.http.post('http://localhost:8080/addEmployee', employee)
+      this.http.post(this.url+'/addEmployee', employee)
       .subscribe(data => {
         console.log('Response From Add Employee call' + data);
       },
@@ -76,7 +80,7 @@ getEmployeeAllClockInDetails(username: string, startDate: any, endDate: any): Ob
 
     addClockInDetails(clockIn: ClockIn): Observable<ClockIn>
     {
-      return this.http.post('http://localhost:8080/addClockIn', clockIn)
+      return this.http.post(this.url+'/addClockIn', clockIn)
       .map(this.extractData)
       .catch(this.handleError);
     
@@ -84,7 +88,7 @@ getEmployeeAllClockInDetails(username: string, startDate: any, endDate: any): Ob
 
     deleteEmployee(id: number)
     {
-      this.http.delete('http://localhost:8080/deleteEmployee?id=' + id)
+      this.http.delete(this.url+'/deleteEmployee?id=' + id)
        .subscribe(data => {
         console.log('Customer Deleted With this !!' + id);
       },

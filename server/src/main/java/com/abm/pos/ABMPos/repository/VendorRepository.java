@@ -23,8 +23,7 @@ public interface VendorRepository extends JpaRepository<VendorDao, Integer>{
     @Query(value = "SELECT distinct v.name, \n" +
             "SUM(l.quantity) quantity, \n" +
             "SUM(l.cost * l.quantity) cost, \n" +
-            "SUM(l.retail * l.quantity) retail,\n" +
-            "SUM(l.retail * l.quantity - l.cost * l.quantity) profit\n" +
+            "SUM(l.retail * l.quantity) retail\n" +
             "from product p \n" +
             "Inner Join vendor v on p.vendor_id = v.vendor_id\n" +
             "inner join transaction_line_item l on l.product_no = p.product_no\n" +

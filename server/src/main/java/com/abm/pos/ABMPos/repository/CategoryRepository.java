@@ -28,8 +28,7 @@ public interface CategoryRepository extends JpaRepository<CategoryDao, Integer>{
     @Query(value = "SELECT distinct c.name, " +
             "SUM(l.quantity) quantity, " +
             "SUM(l.cost * l.quantity) cost, " +
-            "SUM(l.retail * l.quantity) retail, " +
-            "SUM(l.retail * l.quantity - l.cost * l.quantity) profit " +
+            "SUM(l.retail * l.quantity) retail " +
             "from product p " +
             "Inner Join category c on p.category_id = c.category_id " +
             "inner join transaction_line_item l on l.product_no = p.product_no " +

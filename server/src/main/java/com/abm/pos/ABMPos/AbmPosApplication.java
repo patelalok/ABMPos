@@ -3,6 +3,7 @@ package com.abm.pos.ABMPos;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cache.annotation.EnableCaching;
+import org.springframework.scheduling.annotation.EnableScheduling;
 
 import javax.print.*;
 import javax.print.attribute.HashPrintRequestAttributeSet;
@@ -13,7 +14,7 @@ import javax.print.attribute.PrintServiceAttributeSet;
 
 @SpringBootApplication
 @EnableCaching
-
+@EnableScheduling
 public class AbmPosApplication {
 	
 

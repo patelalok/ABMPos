@@ -5,6 +5,7 @@ import { BackendProductDto, ProductInventory, Vendor } from 'app/product/product
 import { SellService } from 'app/sell/sell.service';
 import { PersistenceService } from 'app/shared/services/persistence.service';
 import * as moment from 'moment';
+import { ToastsManager } from 'ng2-toastr';
 
 
 @Component({
@@ -26,7 +27,7 @@ export class AddInventoryComponent implements OnInit {
   popupHeader: string;
   popupMessage: string;
 
-  constructor(private saleService: SellService, private productService: ProductService, private persit: PersistenceService) { }
+  constructor(private saleService: SellService, private productService: ProductService, private persit: PersistenceService, private toastr: ToastsManager) { }
 
   ngOnInit() {
     
@@ -266,7 +267,17 @@ getVendorDetails() {
           inventory.createdTimestamp = moment(Date.now()).format('YYYY-MM-DD HH:mm:ss');
         });
 
-        this.productService.addProductInventory(this.productInventotyList);
+        this.productService.addProductInventory(this.productInventotyList)
+        .subscribe(data => {
+
+          if(data){
+            this.toastr.success('Inventory Added Successfully !!', 'Success!');
+          }
+        },
+        error => {
+          this.toastr.error('Opps Something goes wrong !!', 'Error!!');
+          console.log(JSON.stringify(error.json()));
+        });
 
       }
 

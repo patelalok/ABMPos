@@ -2,17 +2,20 @@ import {Injectable } from '@angular/core';
 import {Http, Response, Headers} from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import { StoreSetupDto } from 'app/shared/storesetup/storesetup.component';
+import { environment } from 'environments/environment';
 
 
 
 
 @Injectable()
 export class StoreSetupService{
-
+private url: string;
     storeDetails: StoreSetupDto;
 
     constructor(private http: Http)
-    { }
+    { 
+      this.url = environment.reportUrl;
+    }
 
     async getStoreDetails(): Promise<StoreSetupDto>
     {
@@ -21,7 +24,7 @@ export class StoreSetupService{
         return this.storeDetails;
       }
       else{
-        this.storeDetails = await (this.http.get('http://localhost:8080/getStoreSetupDetails')
+        this.storeDetails = await (this.http.get(this.url+'/getStoreSetupDetails')
        .map(this.extractData)
        .map((data) => data)
        
@@ -32,7 +35,7 @@ export class StoreSetupService{
     }
 
     saveStoreDetails(storeSetupDao: any){
-      this.http.post('http://localhost:8080/addStoreDetails', storeSetupDao)
+      this.http.post(this.url+'/addStoreDetails', storeSetupDao)
       .subscribe(data => {
         console.log("Response From Add Store call" + data);
       },

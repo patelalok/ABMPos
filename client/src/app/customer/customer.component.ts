@@ -39,7 +39,7 @@ export class CustomerComponent implements OnInit {
         'phoneNo': ['', [Validators.required, Validators.pattern('^[0-9]+$')]], //TODO - Need to fix this for phono no.
         // 'phoneNo': [''],
         'username': [null],
-        'email': ['', [Validators.required, Validators.pattern('^[A-Za-z0-9.]+@[A-Za-z0-9.]+$')]], // TODO - Need to fox this too .com is not validating
+        'email': [''], // TODO - Need to fox this too .com is not validating
         'dateOfBirth': [null],
         'taxId': [''],
         'street': [null],

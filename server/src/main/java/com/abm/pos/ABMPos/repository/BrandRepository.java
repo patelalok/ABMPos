@@ -21,12 +21,14 @@ public interface BrandRepository extends JpaRepository<BrandDao, Integer>{
     @Query(value = "SELECT distinct b.name, \n" +
             "SUM(l.quantity) quantity, \n" +
             "SUM(l.cost * l.quantity) cost, \n" +
-            "SUM(l.retail * l.quantity) retail,\n" +
-            "SUM(l.retail * l.quantity - l.cost * l.quantity) profit\n" +
+            "SUM(l.retail * l.quantity) retail \n" +
             "from product p \n" +
             "Inner Join brand b on p.brand_id = b.brand_id\n" +
             "inner join transaction_line_item l on l.product_no = p.product_no\n" +
             "WHERE l.date BETWEEN ?1 AND ?2 \n" +
             "GROUP BY b.name", nativeQuery = true)
     List<Object[]> getSalesReportByBrand(String startDate, String endDate);
+
+
+
 }
