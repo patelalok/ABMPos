@@ -8,6 +8,7 @@ import { PersistenceService } from 'app/shared/services/persistence.service';
 import { Customer } from 'app/customer/customer.component';
 import { printBlob } from 'app/shared/services/util.service';
 import { environment } from 'environments/environment';
+import { CloseRegisterDto } from 'app/sell/close-register/close-register.component';
 
 
 
@@ -102,6 +103,24 @@ private url: string;
 
   sendEmail(transactionCompId: number) {
     return this.http.get(this.url+'/sendEmail?transactionCompId='+transactionCompId);
+  }
+
+
+  // This is specific to close register
+  getCloseRegisterDetails(startDate: any, endDate: any): Observable<CloseRegisterDto> {
+    return this.http.get(this.url+'/getCloseRegisterDetailsByDate?startDate='+startDate+'&endDate='+endDate)
+    .map(this.extractData)
+    .catch(this.handleError);
+  }
+
+  saveCloseRegisterDetail(closeRegisterObj: CloseRegisterDto) {
+    this.http.post(this.url+'/addCloseRegisterDetails', closeRegisterObj)
+    .subscribe(data => {
+      console.log("Response From Add Close Register call" + data);
+    },
+      error => {
+    console.log(JSON.stringify(error.json()));
+  });
   }
   
   private extractData(res: Response): Product[] {

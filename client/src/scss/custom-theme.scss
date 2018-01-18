@@ -8,12 +8,11 @@
 .btn-green {
     background: $green !important;
     color: $white !important;
-
-    &:disabled{
-        background-color: rgba(0,0,0,.12) !important;
+    &:disabled {
+        background-color: rgba(0, 0, 0, .12) !important;
     }
-
 }
+
 .btn-red {
     background: $red !important;
     color: $white !important;
@@ -31,7 +30,6 @@ button.action-button {
 }
 
 button.action-button-lg {
-    
     height: 50px;
     width: 210px;
     font-size: 20px !important;

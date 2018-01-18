@@ -12,6 +12,7 @@ export class ReportComponent implements OnInit {
   constructor(private router: Router) { }
 
   ngOnInit() {
+    
     if (this.router.url == "/report")
       this.router.navigate(['/report/inventory']);
 

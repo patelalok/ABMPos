@@ -17,7 +17,6 @@ import { CustomerModule } from 'app/customer/customer.module';
 import { ExpenseModule } from 'app/expense/expense.module';
 import { EmployeeComponent } from 'app/employee/employee.component';
 import { EmployeeModule } from 'app/employee/employee.module';
-import { CloseRegisterModule } from 'app/close-register/close-register.module';
 import { StoreSetupService } from 'app/shared/storesetup/storesetup.service';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ReportModule } from 'app/report/report.module';
@@ -29,6 +28,7 @@ import { RouterModule } from '@angular/router';
 import {ToastModule} from 'ng2-toastr/ng2-toastr';
 import { AuthModule } from 'app/auth/auth.module';
 import { LoadingService } from './loading.service';
+import { PromotionComponent } from './promotion/promotion.component';
 
 
 @NgModule({
@@ -51,14 +51,14 @@ import { LoadingService } from './loading.service';
     CustomerModule,
     ExpenseModule,
     EmployeeModule,
-    CloseRegisterModule,
     ReportModule,
     environment.production ? ServiceWorkerModule.register('/ngsw-worker.js') : [],
     ToastModule.forRoot()
     
   ],
   declarations: [
-    AppComponent
+    AppComponent,
+    PromotionComponent
     ],
   providers: [StoreSetupService, ConfigService, LoadingService, {provide: LocationStrategy, useClass: HashLocationStrategy}],
   bootstrap: [AppComponent]

@@ -21,6 +21,7 @@ import { SellCustomerComponent } from './sell-customer/sell-customer.component';
 import { ReturnSaleComponent } from './return-sale/return-sale.component';
 import { SaleComponent } from './sale/sale.component';
 import { PurchaseOrderComponent } from './purchase-order/purchase-order.component';
+import { CloseRegisterComponent } from './close-register/close-register.component';
 
 
 
@@ -36,7 +37,7 @@ import { PurchaseOrderComponent } from './purchase-order/purchase-order.componen
     DropdownModule,
     SharedModule
   ],
-  declarations: [SellComponent, ProductAutoCompleteComponent, ReceiptComponent, SalesHistoryComponent, SellCustomerComponent, ReturnSaleComponent, SaleComponent, PurchaseOrderComponent],
+  declarations: [SellComponent, ProductAutoCompleteComponent, ReceiptComponent, SalesHistoryComponent, SellCustomerComponent, ReturnSaleComponent, SaleComponent, PurchaseOrderComponent, CloseRegisterComponent],
   providers: [SellService, CustomerService],
   bootstrap: [SellComponent]
 })

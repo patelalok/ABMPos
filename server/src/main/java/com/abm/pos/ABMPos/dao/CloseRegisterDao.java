@@ -29,7 +29,8 @@ public class CloseRegisterDao {
     private double differenceTotal;
     private double totalBusinessAmount;
     private double tax;
-    private double discount;
+    private double totalDiscount;
+    private double totalReturn;
     private double profit;
     private double markup;
     private double bankDeposit;
@@ -199,12 +200,20 @@ public class CloseRegisterDao {
         this.tax = tax;
     }
 
-    public double getDiscount() {
-        return discount;
+    public double getTotalDiscount() {
+        return totalDiscount;
     }
 
-    public void setDiscount(double discount) {
-        this.discount = discount;
+    public void setTotalDiscount(double totalDiscount) {
+        this.totalDiscount = totalDiscount;
+    }
+
+    public double getTotalReturn() {
+        return totalReturn;
+    }
+
+    public void setTotalReturn(double totalReturn) {
+        this.totalReturn = totalReturn;
     }
 
     public double getProfit() {

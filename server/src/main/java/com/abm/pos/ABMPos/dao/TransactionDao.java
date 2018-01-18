@@ -34,6 +34,9 @@ public class TransactionDao {
     @Transient
     private int previousTransactionId;
 
+    @Transient
+    private double totalReturn;
+
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "transaction_com_id")
     private List<TransactionLineItemDao> transactionLineItemDaoList;
@@ -184,5 +187,13 @@ public class TransactionDao {
 
     public void setPreviousTransactionId(int previousTransactionId) {
         this.previousTransactionId = previousTransactionId;
+    }
+
+    public double getTotalReturn() {
+        return totalReturn;
+    }
+
+    public void setTotalReturn(double totalReturn) {
+        this.totalReturn = totalReturn;
     }
 }

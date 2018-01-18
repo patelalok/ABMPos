@@ -47,3 +47,7 @@ label {
 .mat-spinner circle {
     stroke: #44b773 !important;
 }
+
+#productsearch>span>div.ui-autocomplete-panel.ui-widget-content.ui-corner-all.ui-shadow {
+    max-height: 500px !important;
+}

@@ -457,7 +457,7 @@ items: MenuItem[];
 
     this.items = [
       { name: 'Return', icon: 'fa fa-reply-all fa-x', link: '/sell/return' },
-      // { name: 'Refund', icon: 'fa fa-list fa-x', link: '/sell/refund' },
+      { name: 'Close Register', icon: 'fa fa-window-close-o fa-x', link: '/sell/closeRegister' },
       { name: 'Purchase Order', icon: 'fa fa-bookmark fa-x', link: '/sell/purchaseOrder' }
     ];
 

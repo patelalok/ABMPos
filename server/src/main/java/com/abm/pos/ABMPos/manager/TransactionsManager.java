@@ -329,6 +329,7 @@ public class TransactionsManager {
 
     public TransactionDao getTransactionById(int transactionCompId) {
 
+        // just basic java logic to get the details from db
         TransactionDao transactionDao = transactionRepository.findOne(transactionCompId);
         List<TransactionLineItemDao> transactionLineItemDaoList = new ArrayList<>();
 
@@ -477,6 +478,7 @@ public class TransactionsManager {
 
         TransactionDao transactionDao = new TransactionDao();
 
+        // this will generate the PDF document as byte []
         Document doc = new Document(PageSize.A4);
         initializeFonts();
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
@@ -484,9 +486,12 @@ public class TransactionsManager {
         doc.open();
         PdfContentByte cb = writer.getDirectContent();
 
+
+        // this method call the database and sends the receipt details
         transactionDao = getTransactionById(receiptNo);
 
         if (null != transactionDao) {
+
             printCustomerDetails(cb, transactionDao);
             printStoreDetails(cb, transactionDao);
             printTransactionDetails(doc, cb, transactionDao);
@@ -540,6 +545,7 @@ public class TransactionsManager {
                 DateFormat time = new SimpleDateFormat("hh:mm:ss");
 
 
+                // this all dyanamic data which i s cmming form DB
 
                 table1.addCell(new Phrase("Sale Date : " + date.format(d), new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
                 table1.addCell(new Phrase("Sale Time : " + time.format(d), new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
