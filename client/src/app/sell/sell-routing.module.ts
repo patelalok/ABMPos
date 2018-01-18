@@ -47,20 +47,7 @@ const routes: Routes = [
     canActivate: [AuthGuard],
   },
   { path: 'setting', component: StoresetupComponent},
-  { path: 'sell-customer', component: SellCustomerComponent},
-  {
-    path:  'promotion', 
-    component: PromotionComponent,
-    canActivate: [AuthGuard],
-    children: [  
-      { path: '', redirectTo: 'sms', pathMatch: 'prefix'},
-      { path: 'sms', component:  PromotionComponent},
-      { path: 'email', component:  PromotionComponent},
-      { path: 'facebook', component:  PromotionComponent}
-    ]
-}
-  
-
+  { path: 'sell-customer', component: SellCustomerComponent}
 ];
 
 @NgModule({

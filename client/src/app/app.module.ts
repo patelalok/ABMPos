@@ -28,7 +28,7 @@ import { RouterModule } from '@angular/router';
 import {ToastModule} from 'ng2-toastr/ng2-toastr';
 import { AuthModule } from 'app/auth/auth.module';
 import { LoadingService } from './loading.service';
-import { PromotionComponent } from './promotion/promotion.component';
+import { PromotionModule } from 'app/promotion/promotion.module';
 
 
 @NgModule({
@@ -51,14 +51,14 @@ import { PromotionComponent } from './promotion/promotion.component';
     CustomerModule,
     ExpenseModule,
     EmployeeModule,
+    PromotionModule,
     ReportModule,
     environment.production ? ServiceWorkerModule.register('/ngsw-worker.js') : [],
     ToastModule.forRoot()
     
   ],
   declarations: [
-    AppComponent,
-    PromotionComponent
+    AppComponent
     ],
   providers: [StoreSetupService, ConfigService, LoadingService, {provide: LocationStrategy, useClass: HashLocationStrategy}],
   bootstrap: [AppComponent]
