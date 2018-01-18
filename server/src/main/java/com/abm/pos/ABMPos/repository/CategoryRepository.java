@@ -32,7 +32,7 @@ public interface CategoryRepository extends JpaRepository<CategoryDao, Integer>{
             "from product p " +
             "Inner Join category c on p.category_id = c.category_id " +
             "inner join transaction_line_item l on l.product_no = p.product_no " +
-            "WHERE l.date BETWEEN ?1 AND ?2 " +
+            "WHERE l.date BETWEEN ?1 AND ?2 AND (l.status = 'Complete' OR l.status = 'Return') \n " +
             "GROUP BY c.name", nativeQuery = true)
     List<Object[]> getSalesReportByCategory(String startDate, String endDate);
 }

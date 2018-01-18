@@ -38,25 +38,6 @@ public interface ProductRepository extends JpaRepository<ProductDao, String> {
 
     ProductDao findOneByProductNo(String productNo);
 
-//    @Query("SELECT p FROM ProductDao p WHERE p.active = true AND p.brandId = ?1")
-//    List<ProductDao> getAllActivePrductByBrandId(int brandId);
-//
-//    @Query("SELECT p FROM ProductDao p WHERE p.active = true AND p.categoryId = ?1")
-//    List<ProductDao> getAllActivePrductByCategoryId(int categoryId);
-//
-//    @Query("SELECT p FROM ProductDao p WHERE p.active = true AND p.vendorId = ?1")
-//    List<ProductDao> getAllActivePrductByVendorId(int vendorId);
-//
-//    @Query("SELECT p FROM ProductDao p WHERE p.active = true AND p.modelId = ?1")
-//    List<ProductDao> getAllActivePrductByModelId(int modelId);
-
-//    @Query("SELECT p.quantity FROM ProductDao p WHERE p.productNo = ?1")
-//    int getProductQuantity(String productNo);
-
-//    @Modifying
-//    @Query("UPDATE ProductDao SET quantity = ?2 WHERE productNo = ?1")
-//    void updateProductQuantity(String productNo, int quantity);
-
     @Modifying
     @Query("UPDATE ProductDao SET active = false WHERE productNo = ?1")
     void deleteProduct(String productNo);
@@ -67,7 +48,7 @@ public interface ProductRepository extends JpaRepository<ProductDao, String> {
             "SUM(l.retail * l.quantity) retail\n" +
             "from product p \n" +
             "inner join transaction_line_item l on l.product_no = p.product_no\n" +
-            "WHERE l.date BETWEEN ?1 AND ?2\n" +
+            "WHERE l.date BETWEEN ?1 AND ?2 AND (l.status = 'Complete' OR l.status = 'Return') \n" +
             "GROUP BY p.description", nativeQuery = true)
     List<Object[]> getSalesReportByProduct(String startDate, String endDate);
 
@@ -79,7 +60,7 @@ public interface ProductRepository extends JpaRepository<ProductDao, String> {
             "sum(l.discount) discount \n" +
             "FROM product p\n" +
             "INNER JOIN transaction_line_item l ON p.product_no = l.product_no\n" +
-            "WHERE  l.date BETWEEN ?1 AND ?2 \n" +
+            "WHERE  l.date BETWEEN ?1 AND ?2 AND (l.status = 'Complete' OR l.status = 'Return') \n" +
             "GROUP BY p.description, p.product_no\n" +
             "ORDER BY retail DESC LIMIT 50", nativeQuery = true)
     List<Object[]> getTop50SellingItem(String startDate, String endDate);

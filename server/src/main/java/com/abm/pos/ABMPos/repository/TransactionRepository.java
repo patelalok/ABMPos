@@ -36,7 +36,7 @@ public interface TransactionRepository extends JpaRepository<TransactionDao, Int
             "SUM(t.total_discount) discount " +
             "FROM Transaction t " +
             "INNER JOIN transaction_payment p ON t.transaction_com_id = p.transaction_com_id " +
-            "WHERE t.date BETWEEN ?1 AND ?2 " +
+            "WHERE t.date BETWEEN ?1 AND ?2 AND (t.status = 'Complete' OR t.status = 'Return') \n" +
             "GROUP BY NameOfMonth ORDER BY field(NameOfMonth,'January','February','March','April','May','June','July','August','September','October','November','December')", nativeQuery = true)
     List<Object[]> getYearlySalesReport(String startDate, String endDate);
 
@@ -51,7 +51,7 @@ public interface TransactionRepository extends JpaRepository<TransactionDao, Int
             "SUM(t.total_discount) discount " +
             "FROM Transaction t " +
             "INNER JOIN transaction_payment p ON t.transaction_com_id = p.transaction_com_id " +
-            "WHERE t.date BETWEEN ?1 AND ?2 " +
+            "WHERE t.date BETWEEN ?1 AND ?2 AND (t.status = 'Complete' OR t.status = 'Return') \n" +
             "GROUP BY dates ", nativeQuery = true)
     List<Object []> getMonthlySalesReport(String startDate, String endDate);
 
@@ -66,7 +66,7 @@ public interface TransactionRepository extends JpaRepository<TransactionDao, Int
             "SUM(t.total_discount) discount " +
             "FROM Transaction t " +
             "INNER JOIN transaction_payment p ON t.transaction_com_id = p.transaction_com_id " +
-            "WHERE t.date BETWEEN ?1 AND ?2 " +
+            "WHERE t.date BETWEEN ?1 AND ?2 AND (t.status = 'Complete' OR t.status = 'Return') \n" +
             "GROUP BY hours ", nativeQuery = true)
     List<Object[]> getHourlySalesReport(String startDate, String endDate);
 

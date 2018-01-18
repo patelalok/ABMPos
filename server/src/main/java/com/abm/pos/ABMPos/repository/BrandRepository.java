@@ -14,7 +14,7 @@ public interface BrandRepository extends JpaRepository<BrandDao, Integer>{
     //@Query("SELECT  b.name, b.description FROM BrandDao b join ProductDao p where p.brandName = b.name")
     List<BrandDao> findAll();
 
-    @Query(value = "SELECT distinct b.name, sum(i.quantity) quantity, sum(i.cost * i.quantity) cost, sum(i.retail * i.quantity) retail from product p Inner Join brand b on p.brand_id = b.brand_id\n" +
+    @Query(value = "SELECT distinct b.name, sum(i.quantity) quantity, sum(i.cost * i.quantity) cost, sum(i.retail * i.quantity) retail from product p Inner Join brand b on p.brand_id = b.brand_id " +
             " inner join product_inventory i on i.product_no = p.product_no group by b.name", nativeQuery = true)
     List<Object[]> getInventoryByBrand();
 
@@ -25,7 +25,7 @@ public interface BrandRepository extends JpaRepository<BrandDao, Integer>{
             "from product p \n" +
             "Inner Join brand b on p.brand_id = b.brand_id\n" +
             "inner join transaction_line_item l on l.product_no = p.product_no\n" +
-            "WHERE l.date BETWEEN ?1 AND ?2 \n" +
+            "WHERE l.date BETWEEN ?1 AND ?2 AND (l.status = 'Complete' OR l.status = 'Return') \n" +
             "GROUP BY b.name", nativeQuery = true)
     List<Object[]> getSalesReportByBrand(String startDate, String endDate);
 
