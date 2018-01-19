@@ -7,7 +7,7 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { DialogModule } from 'primeng/primeng';
 import {TabMenuModule, MenuItem} from 'primeng/primeng';
 
-
+import { TableModule } from "primeng/table";
 import {DataTableModule} from 'primeng/primeng';
 import {MessagesModule} from 'primeng/primeng';
 import {GrowlModule} from 'primeng/primeng';
@@ -46,7 +46,8 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
     TabMenuModule,
     ProductRoutingModule,
     InputSwitchModule,
-    AutoCompleteModule
+    AutoCompleteModule,
+    TableModule
   ],
    declarations: [
     ProductComponent,

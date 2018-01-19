@@ -76,7 +76,15 @@
                 <p-column field="totalDiscount" header="Discount" [style]="{'width': '8%'}"></p-column>
                 <p-column field="subtotal" header="Subtotal" [style]="{'width': '8%'}"></p-column>
                 <p-column field="totalAmount" header="Total Amount" [sortable]="true" [style]="{'width': '10%'}"></p-column>
-                <p-column field="status" header="Status" [sortable]="true" [style]="{'width': '8%'}"></p-column>
+                <p-column field="status" header="Status" [sortable]="true" [style]="{'width': '8%'}">
+
+                    <ng-template let-transaction="rowData" pTemplate="body">
+                        <mat-chip-list>
+                            <mat-chip color="secondary" selected="true">{{transaction.status}}</mat-chip>
+                        </mat-chip-list>
+                    </ng-template>
+
+                </p-column>
                 <p-column field="status" header="Action" [style]="{'width': '10%'}">
 
                     <ng-template let-transaction="rowData" pTemplate="body">
@@ -134,10 +142,14 @@
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-md-10">
-                                <!-- <textarea rows="3" cols="150">
-                           Transaction Notes  : {{receipt.note}}
-                        </textarea> -->
+
+                            <div class="col-md-10 text-left">
+                                <div>
+                                    Transaction Notes :
+                                </div>
+                                <textarea rows="3" cols="150">
+                            {{receipt.note}}
+                        </textarea>
                             </div>
                             <div class="col-md-2">
 

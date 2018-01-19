@@ -16,11 +16,9 @@ import { SalesHistoryComponent } from 'app/sell/sales-history/sales-history.comp
 import { ReportComponent } from 'app/report/report.component';
 import { StoresetupComponent } from 'app/shared/storesetup/storesetup.component';
 import { InventoryComponent } from 'app/report/inventory/inventory.component';
-import { SellCustomerComponent } from 'app/sell/sell-customer/sell-customer.component';
 import { AuthGuard } from 'app/auth/auth.guard';
 import { ReturnSaleComponent } from 'app/sell/return-sale/return-sale.component';
 import { SaleComponent } from 'app/sell/sale/sale.component';
-import { PurchaseOrderComponent } from 'app/sell/purchase-order/purchase-order.component';
 import { PromotionComponent } from 'app/promotion/promotion.component';
 import { CloseRegisterComponent } from 'app/sell/close-register/close-register.component';
 
@@ -32,9 +30,9 @@ const routes: Routes = [
     canActivate: [AuthGuard],
     children: [
       { path: '', redirectTo: 'sale', pathMatch: 'prefix'},
-      { path: 'purchaseOrder', component:  PurchaseOrderComponent},
+      { path: 'close-shift', component:  CloseRegisterComponent},
       { path: 'return', component:  ReturnSaleComponent},
-      { path: 'closeRegister', component:  CloseRegisterComponent},
+      { path: 'close-register', component:  CloseRegisterComponent},
       { path: 'sale', component:  SaleComponent}
     ]
   },
@@ -46,8 +44,7 @@ const routes: Routes = [
     component: SalesHistoryComponent, 
     canActivate: [AuthGuard],
   },
-  { path: 'setting', component: StoresetupComponent},
-  { path: 'sell-customer', component: SellCustomerComponent}
+  { path: 'setting', component: StoresetupComponent}
 ];
 
 @NgModule({
