@@ -96,7 +96,7 @@ public class CloseRegisterManager {
                     transactionDao.setTax((Double.parseDouble(j[1].toString())));
                     transactionDao.setTotalDiscount((Double.parseDouble(j[2].toString())));
 
-                    if(null != j[3].toString()){
+                    if(null != j[3]){
                         transactionDao.setTotalReturn(Double.parseDouble(j[3].toString()));
                     }
 

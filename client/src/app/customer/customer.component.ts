@@ -28,6 +28,7 @@ export class CustomerComponent implements OnInit {
   storeCreditDto: StoreCreditDto[] = [];
   addStoreCreditObject = new StoreCreditDto();
 
+
   constructor(private customerService: CustomerService, private formBuilder: FormBuilder) { }
 
   ngOnInit() {

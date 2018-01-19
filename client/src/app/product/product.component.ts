@@ -153,6 +153,7 @@ export class BackendProductDto {
   categoryName: string;
   cost: number;
   retail: number;
+  markup: number;
   quantity: number;
   minQuantity: number;
   brandId: number;
@@ -164,6 +165,7 @@ export class BackendProductDto {
   active: boolean;
   variant: boolean;
   relatedProduct: boolean;
+  createdTimestamp: any;
   customLoyaltyAmount: number;
 
   productInventoryDaoList: ProductInventory[];

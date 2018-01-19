@@ -161,7 +161,9 @@ export class EditProductComponent implements OnInit {
         categoryName: null,
         customLoyaltyAmount: 0.00,
         productInventoryDaoList: this.currentProduct.productInventoryDaoList,
-        variant: formValues.variant
+        variant: formValues.variant,
+        markup: 0.00,
+        createdTimestamp: ''
           }
 
       this.productService.editProduct(product);
