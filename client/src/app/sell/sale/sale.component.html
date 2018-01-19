@@ -97,7 +97,7 @@
                         <span class="input-group-addon" id="basic-addon1">
                             <i class="fa fa-user-plus" aria-hidden="true"></i>
                         </span>
-                        <p-autoComplete [(ngModel)]="this.selectedCustomer" [field]="'name'" [suggestions]="filteredCustomer" (completeMethod)="this.filterCustomers($event)" class="full-width" [minLength]="1" (keyup.enter)="this.submitCustomer()" (onClear)="this.removeCustomerOnSale()">
+                        <p-autoComplete id ="customerSearch" [(ngModel)]="this.selectedCustomer" [field]="'name'" [suggestions]="filteredCustomer" (completeMethod)="this.filterCustomers($event)" class="full-width" [minLength]="1" (keyup.enter)="this.submitCustomer()" (onClear)="this.removeCustomerOnSale()">
                             <ng-template let-c pTemplate="item">
                                 <div class="ui-helper-clearfix" style="border-bottom:1px solid #D5D5D5">
                                     <div style="width:32px;display:inline-block;margin:5px 0 2px 5px">{{c.name}}</div>

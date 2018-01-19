@@ -262,7 +262,6 @@ public class TransactionsManager {
     //    Here i need to handle the scenario where customer is doing partial payment, or not paying right now and will pay later so
     //    Here i need to maintain his balance by just adding transaction balance to that customers account
 
-    @CachePut("customer")
     private void setCustomerBalance(TransactionDao transactionDao) {
         CustomerDao customerDao = customerRepository.findByPhoneNo(transactionDao.getCustomerPhoneno());
 

@@ -22,11 +22,13 @@ public interface CustomerRepository extends JpaRepository<CustomerDao, String>{
     @Query(value = "SELECT distinct c.name,\n" +
             "SUM(l.quantity) quantity, \n" +
             "SUM(l.cost * l.quantity) cost, \n" +
-            "SUM(l.retail * l.quantity) retail\n" +
-            "from transaction t \n" +
-            "Inner Join customer c on c.phone_no = t.customer_phoneno\n" +
-            "inner join transaction_line_item l on l.transaction_com_id = t.transaction_com_id\n" +
-            "WHERE l.date BETWEEN ?1 AND ?2 AND (l.status = 'Complete' OR l.status = 'Return') \n" +
+            "SUM(l.retail * l.quantity) retail,\n" +
+            "SUM((l.retail * l.quantity) - (l.cost * l.quantity)) profit\n" +
+            "FROM transaction t \n" +
+            "INNER JOIN customer c on c.phone_no = t.customer_phoneno\n" +
+            "INNER JOIN transaction_line_item l on l.transaction_com_id = t.transaction_com_id\n" +
+            "WHERE l.date BETWEEN ?1 AND ?2 \n" +
+            " AND (l.status = 'Complete' OR l.status = 'Return')\n" +
             "GROUP BY c.name", nativeQuery = true)
     List<Object[]> getSalesReportByCustomer(String startDate, String endDate);
 }

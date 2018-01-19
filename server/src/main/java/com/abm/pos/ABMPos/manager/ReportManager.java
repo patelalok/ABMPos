@@ -180,7 +180,7 @@ public class ReportManager {
                 salesSummaryDto.setTax(Double.parseDouble(j[5].toString()));
                 salesSummaryDto.setSubtotal(Double.parseDouble(j[6].toString()));
                 salesSummaryDto.setDiscount(Double.parseDouble(j[7].toString()));
-               // salesSummaryDto.setProfit(Double.parseDouble(j[8].toString()));
+                salesSummaryDto.setProfit(Double.parseDouble(j[8].toString()));
 
                 salesSummaryDtoList.add(salesSummaryDto);
             }
@@ -191,8 +191,6 @@ public class ReportManager {
     }
 
     public List<SalesDto> getReportBySales(String salesReportBy, String startDate, String endDate) {
-
-        TimeIntervalDto timeIntervalDto;
 
         if (salesReportBy.equalsIgnoreCase("Sales By Category")) {
 
@@ -241,7 +239,7 @@ public class ReportManager {
                 salesDto.setQuantity(Integer.parseInt(j[1].toString()));
                 salesDto.setCost(Double.parseDouble(j[2].toString()));
                 salesDto.setRetail(Double.parseDouble(j[3].toString()));
-                //salesDto.setProfit(Double.parseDouble(j[4].toString()));
+                salesDto.setProfit(Double.parseDouble(j[4].toString()));
 
                 salesDtoList.add(salesDto);
             }
@@ -250,7 +248,7 @@ public class ReportManager {
                 totalCost = +totalCost + sales.getCost();
                 totalRetail = +totalRetail + sales.getRetail();
                 totalQuantity = +totalQuantity + sales.getQuantity();
-                //totalProfit = +totalProfit + sales.getProfit();
+                totalProfit = +totalProfit + sales.getProfit();
                 totalDiscount = +totalDiscount + sales.getDiscount();
 
             }
@@ -261,7 +259,7 @@ public class ReportManager {
             salesDto.setCost(totalCost);
             salesDto.setRetail(totalRetail);
             salesDto.setQuantity(totalQuantity);
-           // salesDto.setProfit(totalProfit);
+            salesDto.setProfit(totalProfit);
             salesDto.setDiscount(totalDiscount);
 
             salesDtoList.add(salesDto);
@@ -302,7 +300,7 @@ public class ReportManager {
                 salesDto.setQuantity(Integer.parseInt(j[2].toString()));
                 salesDto.setCost(Double.parseDouble(j[3].toString()));
                 salesDto.setRetail(Double.parseDouble(j[4].toString()));
-                //salesDto.setProfit(Double.parseDouble(j[5].toString()));
+                salesDto.setProfit(Double.parseDouble(j[5].toString()));
                 salesDto.setDiscount(Double.parseDouble(j[6].toString()));
 
                 salesDtoList.add(salesDto);

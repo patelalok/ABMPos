@@ -19,13 +19,15 @@ public interface EmployeeRepository extends JpaRepository<EmployeeDao,Integer> {
     List<EmployeeDao> findAll();
 
     @Query(value = "SELECT distinct e.username,\n" +
-            "SUM(l.quantity) quantity, \n" +
-            "SUM(l.cost * l.quantity) cost, \n" +
-            "SUM(l.retail * l.quantity) retail\n" +
-            "from transaction t \n" +
+            "SUM(l.quantity) quantity,\n" +
+            "SUM(l.cost * l.quantity) cost,\n" +
+            "SUM(l.retail * l.quantity) retail,\n" +
+            "SUM((l.retail * l.quantity) - (l.cost * l.quantity)) profit\n" +
+            "from transaction t\n" +
             "Inner Join employee e on e.username = t.username\n" +
             "inner join transaction_line_item l on l.transaction_com_id = t.transaction_com_id\n" +
-            "WHERE l.date BETWEEN ?1 AND ?2 AND (l.status = 'Complete' OR l.status = 'Return') \n" +
+            "WHERE l.date BETWEEN ?1 AND ?2 \n" +
+            "AND (l.status = 'Complete' OR l.status = 'Return')\n" +
             "GROUP BY e.username", nativeQuery = true)
     List<Object[]> getSalesReportByEmployee(String startDate, String endDate);
 
