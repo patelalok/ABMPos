@@ -20,7 +20,7 @@ export class ProductService {
    }
 
   getProductDetails(): Observable<BackendProductDto[]> {
-    if(!this.fullProductList){
+    // if(!this.fullProductList){
       return this.http.get(this.url+'/getProductTableDetails')
         .map(this.extractData)
         .map((list) => {
@@ -29,14 +29,14 @@ export class ProductService {
           return this.fullProductList;
         })
         .catch(this.handleError);
-    }
-    else{
-      return Observable.create((observer: Observer<any>) => {
-        console.log('Returning cached product list');
-        observer.next(this.fullProductList);
-        observer.complete();  
-      }); 
-    }
+    // }
+    // else{
+    //   return Observable.create((observer: Observer<any>) => {
+    //     console.log('Returning cached product list');
+    //     observer.next(this.fullProductList);
+    //     observer.complete();  
+    //   }); 
+    // }
   }
 
   getCategoryDetails(): Observable<Category[]> {

@@ -38,7 +38,7 @@ export class SellComponent implements OnInit, AfterViewInit {
   filteredCustomer: any[];
   isProductExistsInSellList = false;
   transactionLineItemDaoList: TransactionLineItemDaoList[];
-  transactionDtoList = new TransactionDtoList(0, 0.00, 0.00, 0.00, 0.00);
+  transactionDtoList = new TransactionDtoList();
   paymentDto = new PaymentDto();
   a = 'sdfds';
   selectedProduct: Product;
@@ -130,7 +130,7 @@ items: MenuItem[];
 
 
     // This call is to get all customer details.
-    this.getCustomerDetails();
+    //this.getCustomerDetails();
 
     // Here i am checking that customer already selected on sale page or not.
     this.selectedCustomer = this.persit.getCustomerDetailsForSale();
@@ -1210,14 +1210,6 @@ export class TransactionLineItemDaoList {
 }
 
 export class TransactionDtoList {
-
-  constructor(quantity: number, subtotal: number, tax: number, totalAmount: number, totalDiscount: number, ) {
-    this.quantity = quantity;
-    this.subtotal = subtotal;
-    this.tax = tax;
-    this.totalAmount = totalAmount;
-    this.totalDiscount = totalDiscount;
-  }
 
   date: any;
   time: any;

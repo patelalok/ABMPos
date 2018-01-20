@@ -150,6 +150,7 @@ public class TransactionsManager {
             List<TransactionLineItemDao> transactionLineItemDaoListNew = new ArrayList<>();
 
 
+            assert transactionDao != null;
             transactionLineItemDaoList = transactionDao.getTransactionLineItemDaoList();
 
 
@@ -176,7 +177,7 @@ public class TransactionsManager {
                             lineItemDao.setCost(productInventoryDao.getCost());
                             transactionLineItemDaoListNew.add(lineItemDao);
 
-                            reduceQuantityFromProductInventoryTable(productInventoryDao, purchasedQuantity);
+                            reduceQuantityFromProductInventoryTable(productInventoryDao, productInventoryDao.getQuantity() - purchasedQuantity);
 
                             purchasedQuantity = 0;
                         }
