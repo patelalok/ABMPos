@@ -113,15 +113,7 @@ items: MenuItem[];
       { name: 'Purchase Order', icon: 'fa fa-bookmark fa-x', link: '/sell/purchaseOrder' }
     ];
 
-    // this.toastr.success("Sell component initiated", "Nice!");
-    this.storeSetupService.getStoreDetails().
-      then((data) => {
-        this.storeDetails = data;
-
-        this.taxPercent = this.storeDetails.tax;
-        console.log('Store Details', this.storeDetails);
-
-      });
+    
 
     let transactionComId = this.route.snapshot.paramMap.get('transactionComId');
     if (transactionComId) {
@@ -150,6 +142,23 @@ items: MenuItem[];
 
     // this will show transaction data on right side on refresh or on load of the page
     this.setTransactionDtoList(this.transactionLineItemDaoList);
+
+    // this.toastr.success("Sell component initiated", "Nice!");
+    this.storeSetupService.getStoreDetails().
+      then((data) => {
+        this.storeDetails = data;
+
+        if(this.selectedCustomer != null && this.selectedCustomer.type == 'Business')
+        {
+          this.taxPercent = 0.00;
+        }
+        else{
+          this.taxPercent = this.storeDetails.tax;
+        }
+        
+        console.log('Store Details', this.storeDetails);
+
+      });
   }
 
   ngAfterViewInit() {
