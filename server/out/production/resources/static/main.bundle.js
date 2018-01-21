@@ -166,24 +166,26 @@ var AppComponent = /** @class */ (function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_12_app_customer_customer_module__ = __webpack_require__("../../../../../src/app/customer/customer.module.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_13_app_expense_expense_module__ = __webpack_require__("../../../../../src/app/expense/expense.module.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_14_app_employee_employee_module__ = __webpack_require__("../../../../../src/app/employee/employee.module.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_15_app_close_register_close_register_module__ = __webpack_require__("../../../../../src/app/close-register/close-register.module.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_16_app_shared_storesetup_storesetup_service__ = __webpack_require__("../../../../../src/app/shared/storesetup/storesetup.service.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_17__angular_platform_browser_animations__ = __webpack_require__("../../../platform-browser/esm5/animations.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_18_app_report_report_module__ = __webpack_require__("../../../../../src/app/report/report.module.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_19__angular_service_worker__ = __webpack_require__("../../../service-worker/esm5/service-worker.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_20__environments_environment__ = __webpack_require__("../../../../../src/environments/environment.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_21_app_shared_config_service__ = __webpack_require__("../../../../../src/app/shared/config.service.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_22__angular_router__ = __webpack_require__("../../../router/esm5/router.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_23_ng2_toastr_ng2_toastr__ = __webpack_require__("../../../../ng2-toastr/ng2-toastr.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_23_ng2_toastr_ng2_toastr___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_23_ng2_toastr_ng2_toastr__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_24_app_auth_auth_module__ = __webpack_require__("../../../../../src/app/auth/auth.module.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_25__loading_service__ = __webpack_require__("../../../../../src/app/loading.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_15_app_shared_storesetup_storesetup_service__ = __webpack_require__("../../../../../src/app/shared/storesetup/storesetup.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_16__angular_platform_browser_animations__ = __webpack_require__("../../../platform-browser/esm5/animations.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_17_app_report_report_module__ = __webpack_require__("../../../../../src/app/report/report.module.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_18__angular_service_worker__ = __webpack_require__("../../../service-worker/esm5/service-worker.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_19__environments_environment__ = __webpack_require__("../../../../../src/environments/environment.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_20_app_shared_config_service__ = __webpack_require__("../../../../../src/app/shared/config.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_21__angular_router__ = __webpack_require__("../../../router/esm5/router.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_22_ng2_toastr_ng2_toastr__ = __webpack_require__("../../../../ng2-toastr/ng2-toastr.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_22_ng2_toastr_ng2_toastr___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_22_ng2_toastr_ng2_toastr__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_23_app_auth_auth_module__ = __webpack_require__("../../../../../src/app/auth/auth.module.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_24__loading_service__ = __webpack_require__("../../../../../src/app/loading.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_25_app_promotion_promotion_module__ = __webpack_require__("../../../../../src/app/promotion/promotion.module.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_26_app_purchase_order_purchase_order_module__ = __webpack_require__("../../../../../src/app/purchase-order/purchase-order.module.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
+
 
 
 
@@ -218,13 +220,13 @@ var AppModule = /** @class */ (function () {
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["NgModule"])({
             imports: [
                 __WEBPACK_IMPORTED_MODULE_1__angular_platform_browser__["BrowserModule"],
-                __WEBPACK_IMPORTED_MODULE_22__angular_router__["RouterModule"],
-                __WEBPACK_IMPORTED_MODULE_17__angular_platform_browser_animations__["a" /* BrowserAnimationsModule */],
+                __WEBPACK_IMPORTED_MODULE_21__angular_router__["RouterModule"],
+                __WEBPACK_IMPORTED_MODULE_16__angular_platform_browser_animations__["a" /* BrowserAnimationsModule */],
                 __WEBPACK_IMPORTED_MODULE_2__angular_forms__["FormsModule"],
                 __WEBPACK_IMPORTED_MODULE_2__angular_forms__["ReactiveFormsModule"],
                 __WEBPACK_IMPORTED_MODULE_4_app_app_routing_module__["a" /* AppRoutingModule */],
-                __WEBPACK_IMPORTED_MODULE_24_app_auth_auth_module__["a" /* AuthModule */],
-                __WEBPACK_IMPORTED_MODULE_24_app_auth_auth_module__["a" /* AuthModule */].forRoot(),
+                __WEBPACK_IMPORTED_MODULE_23_app_auth_auth_module__["a" /* AuthModule */],
+                __WEBPACK_IMPORTED_MODULE_23_app_auth_auth_module__["a" /* AuthModule */].forRoot(),
                 // MaterialModule,
                 __WEBPACK_IMPORTED_MODULE_5_primeng_primeng__["ContextMenuModule"],
                 __WEBPACK_IMPORTED_MODULE_6__angular_http__["b" /* HttpModule */],
@@ -235,15 +237,16 @@ var AppModule = /** @class */ (function () {
                 __WEBPACK_IMPORTED_MODULE_12_app_customer_customer_module__["a" /* CustomerModule */],
                 __WEBPACK_IMPORTED_MODULE_13_app_expense_expense_module__["a" /* ExpenseModule */],
                 __WEBPACK_IMPORTED_MODULE_14_app_employee_employee_module__["a" /* EmployeeModule */],
-                __WEBPACK_IMPORTED_MODULE_15_app_close_register_close_register_module__["a" /* CloseRegisterModule */],
-                __WEBPACK_IMPORTED_MODULE_18_app_report_report_module__["a" /* ReportModule */],
-                __WEBPACK_IMPORTED_MODULE_20__environments_environment__["a" /* environment */].production ? __WEBPACK_IMPORTED_MODULE_19__angular_service_worker__["a" /* ServiceWorkerModule */].register('/ngsw-worker.js') : [],
-                __WEBPACK_IMPORTED_MODULE_23_ng2_toastr_ng2_toastr__["ToastModule"].forRoot()
+                __WEBPACK_IMPORTED_MODULE_25_app_promotion_promotion_module__["a" /* PromotionModule */],
+                __WEBPACK_IMPORTED_MODULE_17_app_report_report_module__["a" /* ReportModule */],
+                __WEBPACK_IMPORTED_MODULE_26_app_purchase_order_purchase_order_module__["a" /* PurchaseOrderModule */],
+                __WEBPACK_IMPORTED_MODULE_19__environments_environment__["a" /* environment */].production ? __WEBPACK_IMPORTED_MODULE_18__angular_service_worker__["a" /* ServiceWorkerModule */].register('/ngsw-worker.js') : [],
+                __WEBPACK_IMPORTED_MODULE_22_ng2_toastr_ng2_toastr__["ToastModule"].forRoot()
             ],
             declarations: [
                 __WEBPACK_IMPORTED_MODULE_8__app_component__["a" /* AppComponent */]
             ],
-            providers: [__WEBPACK_IMPORTED_MODULE_16_app_shared_storesetup_storesetup_service__["a" /* StoreSetupService */], __WEBPACK_IMPORTED_MODULE_21_app_shared_config_service__["a" /* ConfigService */], __WEBPACK_IMPORTED_MODULE_25__loading_service__["a" /* LoadingService */], { provide: __WEBPACK_IMPORTED_MODULE_3__angular_common__["LocationStrategy"], useClass: __WEBPACK_IMPORTED_MODULE_3__angular_common__["HashLocationStrategy"] }],
+            providers: [__WEBPACK_IMPORTED_MODULE_15_app_shared_storesetup_storesetup_service__["a" /* StoreSetupService */], __WEBPACK_IMPORTED_MODULE_20_app_shared_config_service__["a" /* ConfigService */], __WEBPACK_IMPORTED_MODULE_24__loading_service__["a" /* LoadingService */], { provide: __WEBPACK_IMPORTED_MODULE_3__angular_common__["LocationStrategy"], useClass: __WEBPACK_IMPORTED_MODULE_3__angular_common__["HashLocationStrategy"] }],
             bootstrap: [__WEBPACK_IMPORTED_MODULE_8__app_component__["a" /* AppComponent */]]
         })
     ], AppModule);
@@ -932,317 +935,6 @@ var User = /** @class */ (function () {
         this.emailAddress = dto.email;
     }
     return User;
-}());
-
-
-
-/***/ }),
-
-/***/ "../../../../../src/app/close-register/close-register-routing.module.ts":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return CloseRegisterRoutingModule; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/esm5/core.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_router__ = __webpack_require__("../../../router/esm5/router.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_app_auth_auth_guard__ = __webpack_require__("../../../../../src/app/auth/auth.guard.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_app_close_register_close_register_component__ = __webpack_require__("../../../../../src/app/close-register/close-register.component.ts");
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-
-
-
-
-var routes = [
-    {
-        path: 'close-register',
-        component: __WEBPACK_IMPORTED_MODULE_3_app_close_register_close_register_component__["a" /* CloseRegisterComponent */],
-        canActivate: [__WEBPACK_IMPORTED_MODULE_2_app_auth_auth_guard__["a" /* AuthGuard */]]
-    },
-];
-var CloseRegisterRoutingModule = /** @class */ (function () {
-    function CloseRegisterRoutingModule() {
-    }
-    CloseRegisterRoutingModule = __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["NgModule"])({
-            imports: [__WEBPACK_IMPORTED_MODULE_1__angular_router__["RouterModule"].forChild(routes)],
-            exports: [__WEBPACK_IMPORTED_MODULE_1__angular_router__["RouterModule"]]
-        })
-    ], CloseRegisterRoutingModule);
-    return CloseRegisterRoutingModule;
-}());
-
-
-
-/***/ }),
-
-/***/ "../../../../../src/app/close-register/close-register.component.html":
-/***/ (function(module, exports) {
-
-module.exports = "<div>\n    <mat-card>\n        <mat-card-title>\n            <h3>\n                Close Register\n            </h3>\n        </mat-card-title>\n        <mat-card-content>\n            <form [formGroup]=\"closeRegisterForm\">\n\n                <div class=\"row p-md-3\">\n                    <!-- Start of left side of div for payment -->\n                    <div class=\"col-md-6\">\n\n                        <div class=\"row product-textbox\">\n                            <div class=\"col-md-3\">\n                                <p>Payment Type</p>\n                            </div>\n\n                            <div class=\"col-md-3\">\n                                <p>Manual Count</p>\n                            </div>\n\n                            <div class=\"col-md-3\">\n                                <p>System Count</p>\n                            </div>\n\n                            <div class=\"col-md-3\">\n                                <p>Difference</p>\n                            </div>\n                        </div>\n\n                        <div class=\"row close-row\">\n\n                            <div class=\"col-md-3\">\n                                <p>Cash</p>\n                            </div>\n\n                            <div class=\"col-md-3\">\n                                <input type=\"text\" class=\"form-control\" formControlName=\"closeCash\">\n                            </div>\n\n                            <div class=\"col-md-3\">\n                                <input type=\"text\" class=\"form-control\" disabled=\"true\" formControlName=\"reportCash\">\n                            </div>\n\n                            <div class=\"col-md-3\">\n                                <input type=\"text\" class=\"form-control\" disabled=\"true\" formControlName=\"differenceCash\" value=\"reportCash - closeCash\">\n                            </div>\n\n                        </div>\n\n                        <div class=\"row close-row \">\n\n                            <div class=\"col-md-3\">\n                                <p>Credit</p>\n                            </div>\n\n                            <div class=\"col-md-3\">\n                                <input type=\"text\" class=\"form-control\" formControlName=\"closeCredit\">\n                            </div>\n\n                            <div class=\"col-md-3\">\n                                <input type=\"text\" class=\"form-control\" disabled=\"true\" formControlName=\"reportCredit\">\n                            </div>\n\n                            <div class=\"col-md-3\">\n                                <input type=\"text\" class=\"form-control\" disabled=\"true\" formControlName=\"differenceCredit\">\n                            </div>\n\n                        </div>\n\n                        <div class=\"row close-row \">\n\n                            <div class=\"col-md-3\">\n                                <p>Debit</p>\n                            </div>\n\n                            <div class=\"col-md-3\">\n                                <input type=\"text\" class=\"form-control\" formControlName=\"closeDebit\">\n                            </div>\n\n                            <div class=\"col-md-3\">\n                                <input type=\"text\" class=\"form-control\" disabled=\"true\" formControlName=\"reportDebit\">\n                            </div>\n\n                            <div class=\"col-md-3\">\n                                <input type=\"text\" class=\"form-control\" disabled=\"true\" formControlName=\"differenceDebit\">\n                            </div>\n\n                        </div>\n\n                        <div class=\"row close-row \">\n\n                            <div class=\"col-md-3\">\n                                <p>Check</p>\n                            </div>\n\n                            <div class=\"col-md-3\">\n                                <input type=\"text\" class=\"form-control\" formControlName=\"closeCheck\">\n                            </div>\n\n                            <div class=\"col-md-3\">\n                                <input type=\"text\" class=\"form-control\" disabled=\"true\" formControlName=\"reportCheck\">\n                            </div>\n\n                            <div class=\"col-md-3\">\n                                <input type=\"text\" class=\"form-control\" disabled=\"true\" formControlName=\"differenceCheck\">\n                            </div>\n\n                        </div>\n\n                        <div class=\"row close-row \">\n\n                            <div class=\"col-md-3\">\n                                <p>Other Payment</p>\n                            </div>\n                            <div class=\"col-md-3\">\n                                <p>Store Credit</p>\n                            </div>\n\n                            <div class=\"col-md-3\">\n                                <p>On Account</p>\n                            </div>\n\n                            <div class=\"col-md-3\">\n                                <p>Loyalty</p>\n                            </div>\n\n\n                        </div>\n\n                        <div class=\"row\">\n\n                            <div class=\"col-md-3\">\n                            </div>\n                            <div class=\"col-md-3\">\n                                <input type=\"text\" class=\"form-control\" disabled=\"true\" formControlName=\"storeCredit\">\n                            </div>\n\n                            <div class=\"col-md-3\">\n                                <input type=\"text\" class=\"form-control\" disabled=\"true\" formControlName=\"onAccount\">\n                            </div>\n\n                            <div class=\"col-md-3\">\n                                <input type=\"text\" class=\"form-control\" disabled=\"true\" formControlName=\"loyalty\">\n                            </div>\n\n\n\n                        </div>\n                        <hr>\n                        <div class=\"row\">\n\n                            <div class=\"col-md-3\">\n                                <p>Total With Tax</p>\n                            </div>\n\n\n                            <div class=\"col-md-3\">\n                                <input type=\"text\" class=\"form-control\" disabled=\"true\" formControlName=\"closeTotalAmount\">\n                            </div>\n\n                            <div class=\"col-md-3\">\n                                <input type=\"text\" class=\"form-control\" disabled=\"true\" formControlName=\"reportTotalAmount\">\n                            </div>\n\n                            <div class=\"col-md-3\">\n                                <input type=\"text\" class=\"form-control\" disabled=\"true\" formControlName=\"differenceTotal\">\n                            </div>\n\n                        </div>\n\n                        <hr>\n\n                        <div class=\"row\">\n\n                            <div class=\"col-md-3\">\n                                <p>Total Without Tax</p>\n                            </div>\n\n                            <div class=\"col-md-3\">\n                                <p>Total Tax</p>\n                            </div>\n\n                            <div class=\"col-md-3\">\n                                <p>Total Discount</p>\n                            </div>\n                            <div class=\"col-md-3\">\n                                <p>Total Return</p>\n                            </div>\n\n                        </div>\n\n                        <div class=\"row\">\n\n                            <div class=\"col-md-3\">\n                                <input type=\"text\" class=\"form-control\" disabled=\"true\" formControlName=\"totalWithoutTax\">\n                            </div>\n\n                            <div class=\"col-md-3\">\n                                <input type=\"text\" class=\"form-control\" disabled=\"true\" formControlName=\"tax\">\n                            </div>\n\n                            <div class=\"col-md-3\">\n                                <input type=\"text\" class=\"form-control\" disabled=\"true\" formControlName=\"discount\">\n                            </div>\n\n                            <div class=\"col-md-3\">\n                                <input type=\"text\" disabled=\"true\" class=\"form-control\">\n                            </div>\n\n                        </div>\n\n                        <hr>\n\n\n\n\n                    </div>\n                    <!-- End of left side of div for payment -->\n\n                    <!-- <div class=\"col-md-6\">\n                        <h4> Close Shift </h4>\n\n                        <div class=\"row\">\n\n                            <div class=\"col-md-3\">\n                                <p>From User</p>\n                            </div>\n\n                            <div class=\"col-md-3\">\n                                <p>From System</p>\n                            </div>\n\n                            <div class=\"col-md-3\">\n                                <p>Difference</p>\n                            </div>\n\n                        </div>\n\n                        <div class=\"row\">\n\n                            <div class=\"col-md-3\">\n                                <input type=\"text\">\n                            </div>\n\n                            <div class=\"col-md-3\">\n                                <input type=\"text\">\n                            </div>\n\n                            <div class=\"col-md-3\">\n                                <input type=\"text\">\n                            </div>\n\n                        </div>\n\n                        <div class=\"row\">\n                            <button> Close Shift</button>\n                        </div>\n\n\n                        <div class=\"row\">\n                            <table class=\"table\">\n                                <thead>\n                                    <tr>\n                                        <th>Date</th>\n                                        <th>Time</th>\n                                        <th>Close Amount</th>\n                                        <th>Difference</th>\n                                        <th>Close By</th>\n                                        <th>Action</th>\n                                    </tr>\n                                </thead>\n                                <tbody>\n                                    <tr>\n                                        <td></td>\n                                        <td></td>\n                                        <td></td>\n                                        <td></td>\n                                        <td></td>\n                                        <td>\n                                            <i class=\"fa fa-pencil\"></i>\n                                            <i class=\"fa fa-trash\"></i>\n                                        </td>\n                                    </tr>\n                                </tbody>\n                            </table>\n                        </div>\n\n\n                    </div> -->\n\n\n                    <!-- Start of right side of div for money count -->\n                    <!-- <div class=\"col-md-1\">\n                        <div class=\"row\">\n\n                            <div class=\"col-md-4\">\n                                <p>$100</p>\n                            </div>\n\n                            <div class=\"col-md-4\">\n                                <p>*</p>\n                            </div>\n                            <div class=\"col-md-4\">\n                                <input type=\"text\">\n                            </div>\n\n                        </div>\n                        <div class=\"row\">\n\n                            <div class=\"col-md-4\">\n                                <p>$50</p>\n                            </div>\n\n                            <div class=\"col-md-4\">\n                                <p>*</p>\n                            </div>\n                            <div class=\"col-md-4\">\n                                <input type=\"text\">\n                            </div>\n\n                        </div>\n                        <div class=\"row\">\n\n                            <div class=\"col-md-4\">\n                                <p>$20</p>\n                            </div>\n\n                            <div class=\"col-md-4\">\n                                <p>*</p>\n                            </div>\n                            <div class=\"col-md-4\">\n                                <input type=\"text\">\n                            </div>\n\n                        </div>\n                        <div class=\"row\">\n\n                            <div class=\"col-md-4\">\n                                <p>$10</p>\n                            </div>\n\n                            <div class=\"col-md-4\">\n                                <p>*</p>\n                            </div>\n                            <div class=\"col-md-4\">\n                                <input type=\"text\">\n                            </div>\n\n                        </div>\n                        <div class=\"row\">\n\n                            <div class=\"col-md-4\">\n                                <p>$5</p>\n                            </div>\n\n                            <div class=\"col-md-4\">\n                                <p>*</p>\n                            </div>\n                            <div class=\"col-md-4\">\n                                <input type=\"text\">\n                            </div>\n\n                        </div>\n                        <div class=\"row\">\n\n                            <div class=\"col-md-4\">\n                                <p>$1</p>\n                            </div>\n\n                            <div class=\"col-md-4\">\n                                <p>*</p>\n                            </div>\n                            <div class=\"col-md-4\">\n                                <input type=\"text\">\n                            </div>\n\n                        </div>\n                        <div class=\"row\">\n\n                            <div class=\"col-md-8\">\n                                <p>Total</p>\n                            </div>\n\n                            <div class=\"col-md-4\">\n                                <input type=\"text\">\n                            </div>\n\n                        </div>\n                    </div> -->\n                    <!-- End of right side of div for money count -->\n\n\n\n                </div>\n            </form>\n        </mat-card-content>\n        <mat-card-footer>\n            <div class=\"d-flex align-items-center justify-content-center\">\n                <button mat-raised-button class=\"bg-primary text-white \" (click)=\"this.saveCloseRegisterDetails()\">Close Register</button>\n            </div>\n        </mat-card-footer>\n    </mat-card>\n</div>"
-
-/***/ }),
-
-/***/ "../../../../../src/app/close-register/close-register.component.scss":
-/***/ (function(module, exports, __webpack_require__) {
-
-exports = module.exports = __webpack_require__("../../../../css-loader/lib/css-base.js")(false);
-// imports
-
-
-// module
-exports.push([module.i, ".close-row {\n  margin-top: 10px; }\n", ""]);
-
-// exports
-
-
-/*** EXPORTS FROM exports-loader ***/
-module.exports = module.exports.toString();
-
-/***/ }),
-
-/***/ "../../../../../src/app/close-register/close-register.component.ts":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return CloseRegisterComponent; });
-/* unused harmony export CloseRegisterDto */
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/esm5/core.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_app_close_register_close_registor_service__ = __webpack_require__("../../../../../src/app/close-register/close-registor.service.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_forms__ = __webpack_require__("../../../forms/esm5/forms.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_moment__ = __webpack_require__("../../../../moment/moment.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_moment___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_moment__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_app_shared_services_date_service__ = __webpack_require__("../../../../../src/app/shared/services/date.service.ts");
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var __metadata = (this && this.__metadata) || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
-
-
-
-
-
-var CloseRegisterComponent = /** @class */ (function () {
-    function CloseRegisterComponent(closeRegisterService, formBuilder, dateService) {
-        this.closeRegisterService = closeRegisterService;
-        this.formBuilder = formBuilder;
-        this.dateService = dateService;
-        this.closeRegisterDto = new CloseRegisterDto();
-        this.dateDto = new __WEBPACK_IMPORTED_MODULE_4_app_shared_services_date_service__["a" /* DateDto */]();
-    }
-    CloseRegisterComponent.prototype.ngOnInit = function () {
-        this.dateDto = this.dateService.getCurrentDay();
-        this.getCloseRegisterDetails(this.dateDto.startDate, this.dateDto.endDate);
-        this.closeRegisterForm = this.formBuilder.group({
-            'reportCash': [null],
-            'reportCredit': [null],
-            'reportDebit': [null],
-            'reportCheck': [null],
-            'reportTotalAmount': [null],
-            'closeCash': [null],
-            'closeCredit': [null],
-            'closeDebit': [null],
-            'closeCheck': [null],
-            'closeTotalAmount': [null],
-            'differenceCash': [null],
-            'differenceCredit': [null],
-            'differenceDebit': [null],
-            'differenceCheck': [null],
-            'differenceTotal': [null],
-            'totalBusinessAmount': [null],
-            'tax': [null],
-            'totalWithoutTax': [null],
-            'discount': [null],
-            'profit': [null],
-            'markup': [null],
-            'bankDeposit': [null],
-            'onAccount': [null],
-            'storeCredit': [null],
-            'loyalty': [null],
-            'inHandCash': [null],
-            'note': [null]
-        });
-    };
-    CloseRegisterComponent.prototype.getCloseRegisterDetails = function (startDate, endDate) {
-        var _this = this;
-        this.closeRegisterService.getCloseRegisterDetails(startDate, endDate)
-            .subscribe(function (closeReg) {
-            _this.closeRegisterDto = closeReg;
-            _this.closeRegId = closeReg.id;
-            _this.closeRegisterForm.get('reportCash').setValue(_this.closeRegisterDto.reportCash);
-            _this.closeRegisterForm.get('closeCash').setValue(_this.closeRegisterDto.closeCash);
-            _this.closeRegisterForm.get('reportCredit').setValue(_this.closeRegisterDto.reportCredit);
-            _this.closeRegisterForm.get('closeCredit').setValue(_this.closeRegisterDto.closeCredit);
-            _this.closeRegisterForm.get('reportDebit').setValue(_this.closeRegisterDto.reportDebit);
-            _this.closeRegisterForm.get('closeDebit').setValue(_this.closeRegisterDto.closeDebit);
-            _this.closeRegisterForm.get('reportCheck').setValue(_this.closeRegisterDto.reportCheck);
-            _this.closeRegisterForm.get('closeCheck').setValue(_this.closeRegisterDto.closeCheck);
-            _this.closeRegisterForm.get('reportTotalAmount').setValue(_this.closeRegisterDto.reportTotalAmount);
-            _this.closeRegisterForm.get('tax').setValue(_this.closeRegisterDto.tax);
-            _this.closeRegisterForm.get('discount').setValue(_this.closeRegisterDto.discount);
-            var totalWithoutTax = _this.closeRegisterDto.reportTotalAmount - _this.closeRegisterDto.tax;
-            _this.closeRegisterForm.get('totalWithoutTax').setValue(totalWithoutTax.toFixed(2));
-            _this.closeRegisterForm.get('storeCredit').setValue(_this.closeRegisterDto.storeCredit);
-            _this.closeRegisterForm.get('onAccount').setValue(_this.closeRegisterDto.onAccount);
-            _this.closeRegisterForm.get('loyalty').setValue(_this.closeRegisterDto.loyalty);
-            var closeTotalAmountWithTax = _this.closeRegisterForm.get('closeCash').value + _this.closeRegisterForm.get('closeCredit').value + _this.closeRegisterForm.get('closeDebit').value + _this.closeRegisterForm.get('closeCheck').value;
-            _this.closeRegisterForm.get('closeTotalAmount').setValue(_this.totalCloseAmount);
-        });
-    };
-    CloseRegisterComponent.prototype.calculateTotalCloseAmountOnValueChange = function () {
-        this.totalCloseAmount = this.closeRegisterForm.get('closeCash').value + this.closeRegisterForm.get('closeCredit').value + this.closeRegisterForm.get('closeDebit').value + this.closeRegisterForm.get('closeCheck').value;
-    };
-    CloseRegisterComponent.prototype.saveCloseRegisterDetails = function () {
-        this.closeRegisterDto = this.closeRegisterForm.value;
-        this.closeRegisterDto.date = __WEBPACK_IMPORTED_MODULE_3_moment__(Date.now()).format('YYYY-MM-DD HH:mm:ss');
-        this.closeRegisterDto.id = this.closeRegId;
-        // TODO need to handle getting user name.
-        this.closeRegisterDto.username = 'ALOK';
-        console.log(this.closeRegisterDto);
-        this.closeRegisterService.saveCloseRegisterDetail(this.closeRegisterDto);
-    };
-    CloseRegisterComponent = __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
-            selector: 'app-close-register',
-            template: __webpack_require__("../../../../../src/app/close-register/close-register.component.html"),
-            styles: [__webpack_require__("../../../../../src/app/close-register/close-register.component.scss")]
-        }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_app_close_register_close_registor_service__["a" /* CloseRegistorService */], __WEBPACK_IMPORTED_MODULE_2__angular_forms__["FormBuilder"], __WEBPACK_IMPORTED_MODULE_4_app_shared_services_date_service__["b" /* DateService */]])
-    ], CloseRegisterComponent);
-    return CloseRegisterComponent;
-}());
-
-var CloseRegisterDto = /** @class */ (function () {
-    function CloseRegisterDto() {
-    }
-    return CloseRegisterDto;
-}());
-
-
-
-/***/ }),
-
-/***/ "../../../../../src/app/close-register/close-register.module.ts":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return CloseRegisterModule; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/esm5/core.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_common__ = __webpack_require__("../../../common/esm5/common.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__close_register_component__ = __webpack_require__("../../../../../src/app/close-register/close-register.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__close_registor_service__ = __webpack_require__("../../../../../src/app/close-register/close-registor.service.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__angular_forms__ = __webpack_require__("../../../forms/esm5/forms.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_app_shared_shared_module__ = __webpack_require__("../../../../../src/app/shared/shared.module.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_app_close_register_close_register_routing_module__ = __webpack_require__("../../../../../src/app/close-register/close-register-routing.module.ts");
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-
-
-
-
-
-
-
-var CloseRegisterModule = /** @class */ (function () {
-    function CloseRegisterModule() {
-    }
-    CloseRegisterModule = __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["NgModule"])({
-            imports: [
-                __WEBPACK_IMPORTED_MODULE_1__angular_common__["CommonModule"],
-                __WEBPACK_IMPORTED_MODULE_5_app_shared_shared_module__["a" /* SharedModule */],
-                __WEBPACK_IMPORTED_MODULE_4__angular_forms__["ReactiveFormsModule"],
-                __WEBPACK_IMPORTED_MODULE_4__angular_forms__["FormsModule"],
-                __WEBPACK_IMPORTED_MODULE_6_app_close_register_close_register_routing_module__["a" /* CloseRegisterRoutingModule */]
-            ],
-            declarations: [__WEBPACK_IMPORTED_MODULE_2__close_register_component__["a" /* CloseRegisterComponent */]],
-            providers: [__WEBPACK_IMPORTED_MODULE_3__close_registor_service__["a" /* CloseRegistorService */]]
-        })
-    ], CloseRegisterModule);
-    return CloseRegisterModule;
-}());
-
-
-
-/***/ }),
-
-/***/ "../../../../../src/app/close-register/close-registor.service.ts":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return CloseRegistorService; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/esm5/core.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_http__ = __webpack_require__("../../../http/esm5/http.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_rxjs_Observable__ = __webpack_require__("../../../../rxjs/_esm5/Observable.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_environments_environment__ = __webpack_require__("../../../../../src/environments/environment.ts");
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var __metadata = (this && this.__metadata) || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
-
-
-
-
-var CloseRegistorService = /** @class */ (function () {
-    function CloseRegistorService(http) {
-        this.http = http;
-        this.url = __WEBPACK_IMPORTED_MODULE_3_environments_environment__["a" /* environment */].reportUrl;
-    }
-    CloseRegistorService.prototype.getCloseRegisterDetails = function (startDate, endDate) {
-        return this.http.get(this.url + '/getCloseRegisterDetailsByDate?startDate=' + startDate + '&endDate=' + endDate)
-            .map(this.extractData)
-            .catch(this.handleError);
-    };
-    CloseRegistorService.prototype.saveCloseRegisterDetail = function (closeRegisterObj) {
-        this.http.post(this.url + '/addCloseRegisterDetails', closeRegisterObj)
-            .subscribe(function (data) {
-            console.log("Response From Add Close Register call" + data);
-        }, function (error) {
-            console.log(JSON.stringify(error.json()));
-        });
-    };
-    CloseRegistorService.prototype.extractData = function (res) {
-        var body = res.json();
-        // console.log(body);
-        return body || {};
-    };
-    CloseRegistorService.prototype.handleError = function (error) {
-        // In a real world app, you might use a remote logging infrastructure
-        var errMsg;
-        if (error instanceof __WEBPACK_IMPORTED_MODULE_1__angular_http__["c" /* Response */]) {
-            var body = error.json() || '';
-            var err = body.error || JSON.stringify(body);
-            errMsg = error.status + " - " + (error.statusText || '') + " " + err;
-        }
-        else {
-            errMsg = error.message ? error.message : error.toString();
-        }
-        console.error(errMsg);
-        return __WEBPACK_IMPORTED_MODULE_2_rxjs_Observable__["Observable"].throw(errMsg);
-    };
-    CloseRegistorService = __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Injectable"])(),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1__angular_http__["a" /* Http */]])
-    ], CloseRegistorService);
-    return CloseRegistorService;
 }());
 
 
@@ -3566,7 +3258,9 @@ var EditProductComponent = /** @class */ (function () {
                 categoryName: null,
                 customLoyaltyAmount: 0.00,
                 productInventoryDaoList: this.currentProduct.productInventoryDaoList,
-                variant: formValues.variant
+                variant: formValues.variant,
+                markup: 0.00,
+                createdTimestamp: ''
             };
             this.productService.editProduct(product);
             this.clearProductForm();
@@ -4374,27 +4068,30 @@ var ProductInventory = /** @class */ (function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__angular_forms__ = __webpack_require__("../../../forms/esm5/forms.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_primeng_primeng__ = __webpack_require__("../../../../primeng/primeng.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_primeng_primeng___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6_primeng_primeng__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_app_product_category_category_component__ = __webpack_require__("../../../../../src/app/product/category/category.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8_app_product_vendor_vendor_component__ = __webpack_require__("../../../../../src/app/product/vendor/vendor.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9_app_product_vendor_vendor_service__ = __webpack_require__("../../../../../src/app/product/vendor/vendor.service.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10_app_product_category_category_service__ = __webpack_require__("../../../../../src/app/product/category/category.service.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__brand_brand_component__ = __webpack_require__("../../../../../src/app/product/brand/brand.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12_app_product_brand_brand_service__ = __webpack_require__("../../../../../src/app/product/brand/brand.service.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__model_model_component__ = __webpack_require__("../../../../../src/app/product/model/model.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_14_app_product_model_model_service__ = __webpack_require__("../../../../../src/app/product/model/model.service.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_15_app_product_addProduct_component__ = __webpack_require__("../../../../../src/app/product/addProduct.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_16__product_table_product_table_component__ = __webpack_require__("../../../../../src/app/product/product-table/product-table.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_17_app_product_product_routing_module__ = __webpack_require__("../../../../../src/app/product/product-routing.module.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_18__add_inventory_add_inventory_component__ = __webpack_require__("../../../../../src/app/product/add-inventory/add-inventory.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_19_app_shared_shared_module__ = __webpack_require__("../../../../../src/app/shared/shared.module.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_20__edit_product_edit_product_component__ = __webpack_require__("../../../../../src/app/product/edit-product/edit-product.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_21__angular_platform_browser_animations__ = __webpack_require__("../../../platform-browser/esm5/animations.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_primeng_table__ = __webpack_require__("../../../../primeng/table.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_primeng_table___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_7_primeng_table__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8_app_product_category_category_component__ = __webpack_require__("../../../../../src/app/product/category/category.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9_app_product_vendor_vendor_component__ = __webpack_require__("../../../../../src/app/product/vendor/vendor.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10_app_product_vendor_vendor_service__ = __webpack_require__("../../../../../src/app/product/vendor/vendor.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11_app_product_category_category_service__ = __webpack_require__("../../../../../src/app/product/category/category.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__brand_brand_component__ = __webpack_require__("../../../../../src/app/product/brand/brand.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_13_app_product_brand_brand_service__ = __webpack_require__("../../../../../src/app/product/brand/brand.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_14__model_model_component__ = __webpack_require__("../../../../../src/app/product/model/model.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_15_app_product_model_model_service__ = __webpack_require__("../../../../../src/app/product/model/model.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_16_app_product_addProduct_component__ = __webpack_require__("../../../../../src/app/product/addProduct.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_17__product_table_product_table_component__ = __webpack_require__("../../../../../src/app/product/product-table/product-table.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_18_app_product_product_routing_module__ = __webpack_require__("../../../../../src/app/product/product-routing.module.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_19__add_inventory_add_inventory_component__ = __webpack_require__("../../../../../src/app/product/add-inventory/add-inventory.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_20_app_shared_shared_module__ = __webpack_require__("../../../../../src/app/shared/shared.module.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_21__edit_product_edit_product_component__ = __webpack_require__("../../../../../src/app/product/edit-product/edit-product.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_22__angular_platform_browser_animations__ = __webpack_require__("../../../platform-browser/esm5/animations.js");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
+
 
 
 
@@ -4431,32 +4128,33 @@ var ProductModule = /** @class */ (function () {
             imports: [
                 __WEBPACK_IMPORTED_MODULE_1__angular_common__["CommonModule"],
                 __WEBPACK_IMPORTED_MODULE_2__angular_platform_browser__["BrowserModule"],
-                __WEBPACK_IMPORTED_MODULE_21__angular_platform_browser_animations__["a" /* BrowserAnimationsModule */],
+                __WEBPACK_IMPORTED_MODULE_22__angular_platform_browser_animations__["a" /* BrowserAnimationsModule */],
                 __WEBPACK_IMPORTED_MODULE_5__angular_forms__["ReactiveFormsModule"],
                 __WEBPACK_IMPORTED_MODULE_5__angular_forms__["FormsModule"],
                 __WEBPACK_IMPORTED_MODULE_6_primeng_primeng__["DialogModule"],
                 __WEBPACK_IMPORTED_MODULE_6_primeng_primeng__["DataTableModule"],
-                __WEBPACK_IMPORTED_MODULE_19_app_shared_shared_module__["a" /* SharedModule */],
+                __WEBPACK_IMPORTED_MODULE_20_app_shared_shared_module__["a" /* SharedModule */],
                 __WEBPACK_IMPORTED_MODULE_6_primeng_primeng__["MessagesModule"],
                 __WEBPACK_IMPORTED_MODULE_6_primeng_primeng__["GrowlModule"],
                 __WEBPACK_IMPORTED_MODULE_6_primeng_primeng__["TabMenuModule"],
-                __WEBPACK_IMPORTED_MODULE_17_app_product_product_routing_module__["a" /* ProductRoutingModule */],
+                __WEBPACK_IMPORTED_MODULE_18_app_product_product_routing_module__["a" /* ProductRoutingModule */],
                 __WEBPACK_IMPORTED_MODULE_6_primeng_primeng__["InputSwitchModule"],
-                __WEBPACK_IMPORTED_MODULE_6_primeng_primeng__["AutoCompleteModule"]
+                __WEBPACK_IMPORTED_MODULE_6_primeng_primeng__["AutoCompleteModule"],
+                __WEBPACK_IMPORTED_MODULE_7_primeng_table__["TableModule"]
             ],
             declarations: [
                 __WEBPACK_IMPORTED_MODULE_3_app_product_product_component__["a" /* ProductComponent */],
-                __WEBPACK_IMPORTED_MODULE_15_app_product_addProduct_component__["a" /* AddProductComponent */],
-                __WEBPACK_IMPORTED_MODULE_7_app_product_category_category_component__["a" /* CategoryComponent */],
-                __WEBPACK_IMPORTED_MODULE_8_app_product_vendor_vendor_component__["a" /* VendorComponent */],
-                __WEBPACK_IMPORTED_MODULE_11__brand_brand_component__["a" /* BrandComponent */],
-                __WEBPACK_IMPORTED_MODULE_13__model_model_component__["a" /* ModelComponent */],
-                __WEBPACK_IMPORTED_MODULE_16__product_table_product_table_component__["a" /* ProductTableComponent */],
-                __WEBPACK_IMPORTED_MODULE_18__add_inventory_add_inventory_component__["a" /* AddInventoryComponent */],
-                __WEBPACK_IMPORTED_MODULE_20__edit_product_edit_product_component__["a" /* EditProductComponent */]
+                __WEBPACK_IMPORTED_MODULE_16_app_product_addProduct_component__["a" /* AddProductComponent */],
+                __WEBPACK_IMPORTED_MODULE_8_app_product_category_category_component__["a" /* CategoryComponent */],
+                __WEBPACK_IMPORTED_MODULE_9_app_product_vendor_vendor_component__["a" /* VendorComponent */],
+                __WEBPACK_IMPORTED_MODULE_12__brand_brand_component__["a" /* BrandComponent */],
+                __WEBPACK_IMPORTED_MODULE_14__model_model_component__["a" /* ModelComponent */],
+                __WEBPACK_IMPORTED_MODULE_17__product_table_product_table_component__["a" /* ProductTableComponent */],
+                __WEBPACK_IMPORTED_MODULE_19__add_inventory_add_inventory_component__["a" /* AddInventoryComponent */],
+                __WEBPACK_IMPORTED_MODULE_21__edit_product_edit_product_component__["a" /* EditProductComponent */]
             ],
-            providers: [__WEBPACK_IMPORTED_MODULE_4_app_product_product_service__["a" /* ProductService */], __WEBPACK_IMPORTED_MODULE_9_app_product_vendor_vendor_service__["a" /* VendorService */], __WEBPACK_IMPORTED_MODULE_10_app_product_category_category_service__["a" /* CategoryService */], __WEBPACK_IMPORTED_MODULE_12_app_product_brand_brand_service__["a" /* BrandService */], __WEBPACK_IMPORTED_MODULE_14_app_product_model_model_service__["a" /* ModelService */]],
-            bootstrap: [__WEBPACK_IMPORTED_MODULE_3_app_product_product_component__["a" /* ProductComponent */], __WEBPACK_IMPORTED_MODULE_15_app_product_addProduct_component__["a" /* AddProductComponent */], __WEBPACK_IMPORTED_MODULE_18__add_inventory_add_inventory_component__["a" /* AddInventoryComponent */]]
+            providers: [__WEBPACK_IMPORTED_MODULE_4_app_product_product_service__["a" /* ProductService */], __WEBPACK_IMPORTED_MODULE_10_app_product_vendor_vendor_service__["a" /* VendorService */], __WEBPACK_IMPORTED_MODULE_11_app_product_category_category_service__["a" /* CategoryService */], __WEBPACK_IMPORTED_MODULE_13_app_product_brand_brand_service__["a" /* BrandService */], __WEBPACK_IMPORTED_MODULE_15_app_product_model_model_service__["a" /* ModelService */]],
+            bootstrap: [__WEBPACK_IMPORTED_MODULE_3_app_product_product_component__["a" /* ProductComponent */], __WEBPACK_IMPORTED_MODULE_16_app_product_addProduct_component__["a" /* AddProductComponent */], __WEBPACK_IMPORTED_MODULE_19__add_inventory_add_inventory_component__["a" /* AddInventoryComponent */]]
         })
     ], ProductModule);
     return ProductModule;
@@ -4495,23 +4193,23 @@ var ProductService = /** @class */ (function () {
     }
     ProductService.prototype.getProductDetails = function () {
         var _this = this;
-        if (!this.fullProductList) {
-            return this.http.get(this.url + '/getProductTableDetails')
-                .map(this.extractData)
-                .map(function (list) {
-                console.log('Caching product list...');
-                _this.fullProductList = list;
-                return _this.fullProductList;
-            })
-                .catch(this.handleError);
-        }
-        else {
-            return __WEBPACK_IMPORTED_MODULE_2_rxjs_Observable__["Observable"].create(function (observer) {
-                console.log('Returning cached product list');
-                observer.next(_this.fullProductList);
-                observer.complete();
-            });
-        }
+        // if(!this.fullProductList){
+        return this.http.get(this.url + '/getProductTableDetails')
+            .map(this.extractData)
+            .map(function (list) {
+            console.log('Caching product list...');
+            _this.fullProductList = list;
+            return _this.fullProductList;
+        })
+            .catch(this.handleError);
+        // }
+        // else{
+        //   return Observable.create((observer: Observer<any>) => {
+        //     console.log('Returning cached product list');
+        //     observer.next(this.fullProductList);
+        //     observer.complete();  
+        //   }); 
+        // }
     };
     ProductService.prototype.getCategoryDetails = function () {
         return this.http.get(this.url + '/getCategory')
@@ -4858,6 +4556,754 @@ var VendorService = /** @class */ (function () {
         __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1__angular_http__["a" /* Http */]])
     ], VendorService);
     return VendorService;
+}());
+
+
+
+/***/ }),
+
+/***/ "../../../../../src/app/promotion/email/email.component.html":
+/***/ (function(module, exports) {
+
+module.exports = "<p>\n  email works!\n</p>\n"
+
+/***/ }),
+
+/***/ "../../../../../src/app/promotion/email/email.component.scss":
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__("../../../../css-loader/lib/css-base.js")(false);
+// imports
+
+
+// module
+exports.push([module.i, "", ""]);
+
+// exports
+
+
+/*** EXPORTS FROM exports-loader ***/
+module.exports = module.exports.toString();
+
+/***/ }),
+
+/***/ "../../../../../src/app/promotion/email/email.component.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return EmailComponent; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/esm5/core.js");
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+var EmailComponent = /** @class */ (function () {
+    function EmailComponent() {
+    }
+    EmailComponent.prototype.ngOnInit = function () {
+    };
+    EmailComponent = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
+            selector: 'app-email',
+            template: __webpack_require__("../../../../../src/app/promotion/email/email.component.html"),
+            styles: [__webpack_require__("../../../../../src/app/promotion/email/email.component.scss")]
+        }),
+        __metadata("design:paramtypes", [])
+    ], EmailComponent);
+    return EmailComponent;
+}());
+
+
+
+/***/ }),
+
+/***/ "../../../../../src/app/promotion/facebook/facebook.component.html":
+/***/ (function(module, exports) {
+
+module.exports = "<p>\n  facebook works!\n</p>\n"
+
+/***/ }),
+
+/***/ "../../../../../src/app/promotion/facebook/facebook.component.scss":
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__("../../../../css-loader/lib/css-base.js")(false);
+// imports
+
+
+// module
+exports.push([module.i, "", ""]);
+
+// exports
+
+
+/*** EXPORTS FROM exports-loader ***/
+module.exports = module.exports.toString();
+
+/***/ }),
+
+/***/ "../../../../../src/app/promotion/facebook/facebook.component.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return FacebookComponent; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/esm5/core.js");
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+var FacebookComponent = /** @class */ (function () {
+    function FacebookComponent() {
+    }
+    FacebookComponent.prototype.ngOnInit = function () {
+    };
+    FacebookComponent = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
+            selector: 'app-facebook',
+            template: __webpack_require__("../../../../../src/app/promotion/facebook/facebook.component.html"),
+            styles: [__webpack_require__("../../../../../src/app/promotion/facebook/facebook.component.scss")]
+        }),
+        __metadata("design:paramtypes", [])
+    ], FacebookComponent);
+    return FacebookComponent;
+}());
+
+
+
+/***/ }),
+
+/***/ "../../../../../src/app/promotion/promotion-routing.module.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return PromotionRoutingModule; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/esm5/core.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_router__ = __webpack_require__("../../../router/esm5/router.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_app_promotion_promotion_component__ = __webpack_require__("../../../../../src/app/promotion/promotion.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_app_auth_auth_guard__ = __webpack_require__("../../../../../src/app/auth/auth.guard.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_app_promotion_sms_sms_component__ = __webpack_require__("../../../../../src/app/promotion/sms/sms.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_app_promotion_email_email_component__ = __webpack_require__("../../../../../src/app/promotion/email/email.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_app_promotion_facebook_facebook_component__ = __webpack_require__("../../../../../src/app/promotion/facebook/facebook.component.ts");
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+
+
+
+
+
+
+
+var routes = [
+    {
+        path: 'promotion',
+        component: __WEBPACK_IMPORTED_MODULE_2_app_promotion_promotion_component__["a" /* PromotionComponent */],
+        canActivate: [__WEBPACK_IMPORTED_MODULE_3_app_auth_auth_guard__["a" /* AuthGuard */]],
+        children: [
+            { path: '', redirectTo: 'sms', pathMatch: 'prefix' },
+            { path: 'sms', component: __WEBPACK_IMPORTED_MODULE_4_app_promotion_sms_sms_component__["a" /* SmsComponent */] },
+            { path: 'email', component: __WEBPACK_IMPORTED_MODULE_5_app_promotion_email_email_component__["a" /* EmailComponent */] },
+            { path: 'facebook', component: __WEBPACK_IMPORTED_MODULE_6_app_promotion_facebook_facebook_component__["a" /* FacebookComponent */] }
+        ]
+    }
+];
+var PromotionRoutingModule = /** @class */ (function () {
+    function PromotionRoutingModule() {
+    }
+    PromotionRoutingModule = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["NgModule"])({
+            imports: [__WEBPACK_IMPORTED_MODULE_1__angular_router__["RouterModule"].forChild(routes)],
+            exports: [__WEBPACK_IMPORTED_MODULE_1__angular_router__["RouterModule"]]
+        })
+    ], PromotionRoutingModule);
+    return PromotionRoutingModule;
+}());
+
+
+
+/***/ }),
+
+/***/ "../../../../../src/app/promotion/promotion.component.html":
+/***/ (function(module, exports) {
+
+module.exports = "<p>\n    <app-top-sub-navbar [menu]=\"this.items\"></app-top-sub-navbar>\n    <router-outlet></router-outlet>\n</p>"
+
+/***/ }),
+
+/***/ "../../../../../src/app/promotion/promotion.component.scss":
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__("../../../../css-loader/lib/css-base.js")(false);
+// imports
+
+
+// module
+exports.push([module.i, "", ""]);
+
+// exports
+
+
+/*** EXPORTS FROM exports-loader ***/
+module.exports = module.exports.toString();
+
+/***/ }),
+
+/***/ "../../../../../src/app/promotion/promotion.component.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return PromotionComponent; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/esm5/core.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_router__ = __webpack_require__("../../../router/esm5/router.js");
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+var PromotionComponent = /** @class */ (function () {
+    function PromotionComponent(router) {
+        this.router = router;
+    }
+    PromotionComponent.prototype.ngOnInit = function () {
+        this.items = [
+            { name: 'Message', icon: 'fa fa-commenting-o fa-x', link: '/promotion/sms' },
+            { name: 'Email', icon: 'fa fa-envelope-o fa-x', link: '/promotion/email' },
+            { name: 'Facebook', icon: 'fa fa-facebook fa-x', link: '/promotion/facebook' }
+        ];
+    };
+    PromotionComponent = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
+            selector: 'app-promotion',
+            template: __webpack_require__("../../../../../src/app/promotion/promotion.component.html"),
+            styles: [__webpack_require__("../../../../../src/app/promotion/promotion.component.scss")]
+        }),
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1__angular_router__["Router"]])
+    ], PromotionComponent);
+    return PromotionComponent;
+}());
+
+
+
+/***/ }),
+
+/***/ "../../../../../src/app/promotion/promotion.module.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return PromotionModule; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/esm5/core.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_common__ = __webpack_require__("../../../common/esm5/common.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_primeng_primeng__ = __webpack_require__("../../../../primeng/primeng.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_primeng_primeng___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_primeng_primeng__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__angular_forms__ = __webpack_require__("../../../forms/esm5/forms.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_app_shared_shared_module__ = __webpack_require__("../../../../../src/app/shared/shared.module.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_app_promotion_promotion_routing_module__ = __webpack_require__("../../../../../src/app/promotion/promotion-routing.module.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_app_promotion_promotion_component__ = __webpack_require__("../../../../../src/app/promotion/promotion.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_app_promotion_sms_sms_component__ = __webpack_require__("../../../../../src/app/promotion/sms/sms.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8_app_promotion_email_email_component__ = __webpack_require__("../../../../../src/app/promotion/email/email.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9_app_promotion_facebook_facebook_component__ = __webpack_require__("../../../../../src/app/promotion/facebook/facebook.component.ts");
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+
+
+
+ // <-- NgModel lives here
+
+
+
+
+
+
+
+var PromotionModule = /** @class */ (function () {
+    function PromotionModule() {
+    }
+    PromotionModule = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["NgModule"])({
+            imports: [
+                __WEBPACK_IMPORTED_MODULE_1__angular_common__["CommonModule"],
+                __WEBPACK_IMPORTED_MODULE_5_app_promotion_promotion_routing_module__["a" /* PromotionRoutingModule */],
+                __WEBPACK_IMPORTED_MODULE_3__angular_forms__["ReactiveFormsModule"],
+                __WEBPACK_IMPORTED_MODULE_2_primeng_primeng__["AutoCompleteModule"],
+                __WEBPACK_IMPORTED_MODULE_2_primeng_primeng__["DropdownModule"],
+                __WEBPACK_IMPORTED_MODULE_4_app_shared_shared_module__["a" /* SharedModule */]
+            ],
+            declarations: [
+                __WEBPACK_IMPORTED_MODULE_6_app_promotion_promotion_component__["a" /* PromotionComponent */],
+                __WEBPACK_IMPORTED_MODULE_7_app_promotion_sms_sms_component__["a" /* SmsComponent */],
+                __WEBPACK_IMPORTED_MODULE_8_app_promotion_email_email_component__["a" /* EmailComponent */],
+                __WEBPACK_IMPORTED_MODULE_9_app_promotion_facebook_facebook_component__["a" /* FacebookComponent */]
+            ],
+            bootstrap: [__WEBPACK_IMPORTED_MODULE_6_app_promotion_promotion_component__["a" /* PromotionComponent */]]
+        })
+    ], PromotionModule);
+    return PromotionModule;
+}());
+
+
+
+/***/ }),
+
+/***/ "../../../../../src/app/promotion/sms/sms.component.html":
+/***/ (function(module, exports) {
+
+module.exports = "<p>\n  sms works!\n</p>\n"
+
+/***/ }),
+
+/***/ "../../../../../src/app/promotion/sms/sms.component.scss":
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__("../../../../css-loader/lib/css-base.js")(false);
+// imports
+
+
+// module
+exports.push([module.i, "", ""]);
+
+// exports
+
+
+/*** EXPORTS FROM exports-loader ***/
+module.exports = module.exports.toString();
+
+/***/ }),
+
+/***/ "../../../../../src/app/promotion/sms/sms.component.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return SmsComponent; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/esm5/core.js");
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+var SmsComponent = /** @class */ (function () {
+    function SmsComponent() {
+    }
+    SmsComponent.prototype.ngOnInit = function () {
+    };
+    SmsComponent = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
+            selector: 'app-sms',
+            template: __webpack_require__("../../../../../src/app/promotion/sms/sms.component.html"),
+            styles: [__webpack_require__("../../../../../src/app/promotion/sms/sms.component.scss")]
+        }),
+        __metadata("design:paramtypes", [])
+    ], SmsComponent);
+    return SmsComponent;
+}());
+
+
+
+/***/ }),
+
+/***/ "../../../../../src/app/purchase-order/purchase-order-routing.module.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return PurchaseOrderRoutingModule; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/esm5/core.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_router__ = __webpack_require__("../../../router/esm5/router.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_app_auth_auth_guard__ = __webpack_require__("../../../../../src/app/auth/auth.guard.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_app_purchase_order_purchase_order_component__ = __webpack_require__("../../../../../src/app/purchase-order/purchase-order.component.ts");
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+
+
+
+
+var routes = [
+    {
+        path: 'purchase-order',
+        component: __WEBPACK_IMPORTED_MODULE_3_app_purchase_order_purchase_order_component__["a" /* PurchaseOrderComponent */],
+        canActivate: [__WEBPACK_IMPORTED_MODULE_2_app_auth_auth_guard__["a" /* AuthGuard */]]
+    },
+];
+var PurchaseOrderRoutingModule = /** @class */ (function () {
+    function PurchaseOrderRoutingModule() {
+    }
+    PurchaseOrderRoutingModule = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["NgModule"])({
+            imports: [__WEBPACK_IMPORTED_MODULE_1__angular_router__["RouterModule"].forChild(routes)],
+            exports: [__WEBPACK_IMPORTED_MODULE_1__angular_router__["RouterModule"]]
+        })
+    ], PurchaseOrderRoutingModule);
+    return PurchaseOrderRoutingModule;
+}());
+
+
+
+/***/ }),
+
+/***/ "../../../../../src/app/purchase-order/purchase-order.component.html":
+/***/ (function(module, exports) {
+
+module.exports = "<mat-card>\n    <mat-card-title>\n        Purchase Order\n    </mat-card-title>\n    <mat-card-content>\n        <div class=\"row\">\n            <div class=\"col-md-5\">\n                <select class=\"form-control form-control-lg\" [(ngModel)]=\"this.selectedVendor\" (change)=\"this.onVendorChoose()\">\n                                    <option>Please Select Vendor</option>\n                                 <option *ngFor=\"let vendor of this.vendorDto\">\n                                     {{vendor.name}}\n                                 </option>\n                                </select>\n            </div>\n            <div class=\"col-md-4\">\n\n                <p-autoComplete id=\"productsearch\" [(ngModel)]=\"p\" class=\"full-width m-1\" [suggestions]=\"product\" placeholder=\"Scan or Search Product\" (completeMethod)=\"filterProducts($event)\" name=\"test\" [minLength]=\"3\" (keyup.enter)=\"submitProduct(p)\" field=\"description\">\n                </p-autoComplete>\n                <span style=\"margin-left:10px\"></span>\n\n                <!-- <button type=\"button \" (click)=\"this.test(10)\" class=\"btn btn-success \">Add Product</button> -->\n            </div>\n            <div class=\"col-md-3\">\n                <button class=\"bg btn-green text-white m-3 action-button-lg\" mat-raised-button (click)=\"this.openProductLookUpModel()\">\n                        <i class=\"fa fa-search\" aria-hidden=\"true\">\n                            Product look up\n                            \n                        </i>\n\n                </button>\n            </div>\n\n        </div>\n\n        <div class=\"row\">\n            <!-- Product Table -->\n            <p-dataTable [value]=\"this.productInventotyList\" scrollable=\"true\" [responsive]=\"true\" scrollHeight=\"300px\" [editable]=\"true\" (onEditComplete)=\"updateInventoryDetails($event)\">\n                <p-header>Add Purchase Order Details</p-header>\n\n                <p-column field=\"productNo\" header=\"ProductNo\" [style]=\"{'width':'15%','text-align':'center', 'overflow':'visible'}\"></p-column>\n                <p-column field=\"description\" header=\"Description\" [style]=\"{'width':'50%','text-align':'center', 'overflow':'visible'}\"></p-column>\n                <p-column field=\"defaultQuantity\" header=\"Quantity\" [editable]=\"true\"></p-column>\n                <p-column field=\"cost\" header=\"Cost\" [editable]=\"true\"></p-column>\n                <p-column field=\"retail\" header=\"Retail\" [editable]=\"true\"></p-column>\n                <p-column field=\"quantity\" header=\"In-Stock\"></p-column>\n                <p-column field=\"totalProductPrice\" header=\"Total\"></p-column>\n                <p-column header=\"\" styleClass=\"col-button\" [style]=\"{'width':'3%','text-align':'center', 'overflow':'visible'}\">\n                    <!-- <ng-template pTemplate=\"header\">\n                                        <button type=\"button\" pButton icon=\"fa-refresh\"></button>\n                                    </ng-template> -->\n                    <ng-template let-product=\"rowData\" pTemplate=\"body\">\n\n                        <button mat-button class=\"btn-red action-button-table\" mat-button (click)=\"this.setProductForDelete(product)\" data-toggle=\"modal\" data-target=\"#removeProductInventory\">\n                                    <i class=\"fa fa-trash\" aria-hidden=\"true\"></i>\n                                </button>\n                    </ng-template>\n                </p-column>\n\n\n            </p-dataTable>\n        </div>\n    </mat-card-content>\n\n    <mat-card-footer class=\"d-flex justify-content-md-center\">\n\n        <button class=\"bg-danger text-white m-3 action-button-lg\" mat-raised-button data-toggle=\"modal\" data-target=\"#removeProductInventory\" (click)=\"this.setHeaderForRemoveAllInventoryProduct()\">\n                        <i class=\"fa fa-trash\">\n                            Discard Order\n                        </i>\n                    </button>\n\n        <button class=\"bg btn-green text-white m-3 action-button-lg\" mat-raised-button data-toggle=\"modal\" data-target=\"#removeProductInventory\" (click)=\"this.setHeaderForAddProductInventory()\"> \n                            <i class=\"fa fa-paper-plane\" aria-hidden=\"true\" >\n                                    Add Order\n                            </i>\n                         \n                    </button>\n    </mat-card-footer>\n</mat-card>\n\n\n\n\n<!-- Start of Product and Sale discard Pop up -->\n\n<div class=\"modal fade\" id=\"removeProductInventory\" role=\"dialog\">\n    <div class=\"modal-dialog modal-sm\">\n        <div class=\"modal-content\">\n            <div class=\"modal-header\">\n                <h4 class=\"modal-title\">{{this.popupHeader}}</h4>\n                <button type=\"button\" class=\"close\" data-dismiss=\"modal\">&times;</button>\n            </div>\n            <div class=\"modal-body\">\n                <p>{{this.popupMessage}}</p>\n            </div>\n            <div class=\"modal-footer\">\n\n                <!-- This logic to reuse the model code cause i need popup for delete single product and also delete complete sale -->\n                <button *ngIf=\"this.popupHeader == 'Remove Product Inventory' \" type=\"button\" class=\"btn btn-danger\" data-dismiss=\"modal\" (click)=\"this.deleteProduct()\">Yes</button>\n                <button *ngIf=\"this.popupHeader == 'Remove All Products Inventory'\" type=\"button\" class=\"btn btn-danger\" data-dismiss=\"modal\" (click)=\"this.removeAllProductInventory()\">Yes</button>\n\n                <button *ngIf=\"this.popupHeader == 'Add All Product Inventory' \" type=\"button\" class=\"btn btn-success\" data-dismiss=\"modal\" (click)=\"this.addProductInventoryToBackEnd()\">Yes</button>\n\n                <!-- TODO Add one more button for add product if it does not exists -->\n                <button type=\"button\" class=\"btn btn-default\" data-dismiss=\"modal\">Cancle</button>\n            </div>\n        </div>\n    </div>\n</div>\n\n<!-- End of Product and Sale discard Pop up -->\n\n<p-dialog header=\"Product Details\" appendTo=\"body\" [(visible)]=\"displayDialog\" [responsive]=\"true\" showEffect=\"fade\" [modal]=\"true\">\n\n    <div class=\"container\">\n\n        <div class=\"row\">\n\n            <table class=\"table table-striped\">\n                <thead>\n                    <tr>\n                        <th>Product No</th>\n                        <th>Description</th>\n                        <th>Cost</th>\n                        <th>Retail</th>\n                        <th>Qauntity</th>\n                        <th>Order Quantity</th>\n\n                    </tr>\n                </thead>\n                <tbody>\n                    <tr *ngFor=\"let product of this.filteredProductByVendor\">\n                        <td>{{product.productNo}}</td>\n                        <td>{{product.description}}</td>\n                        <td>{{product.cost}}</td>\n                        <td>{{product.retail}}</td>\n                        <td [ngStyle]=\"{'backgroundColor': (product.quantity >= 0)?'':'red'}\">{{product.quantity}}</td>\n                        <td>\n                            <input type=\"number\" (keyup.enter)=\"this.addProdutForPurchaseOrder($event, product)\">\n                            <!-- <button mat-button class=\"btn-green action-button-table\" mat-button (click)=\"this.setProductForHistory(product)\" data-toggle=\"modal\" data-target=\"#productHistoryModel\">\n                                    <i class=\"fa fa-history\" aria-hidden=\"true\"></i>\n                                </button> -->\n                            <!-- <button class=\"bg-primary text-white action-button m-1\" mat-raised-button>\n                                Add\n                            </button> -->\n                        </td>\n\n                    </tr>\n                </tbody>\n            </table>\n\n        </div>\n    </div>\n\n    <p-footer>\n        <div style=\"text-align: center\">\n\n        </div>\n    </p-footer>\n\n\n</p-dialog>"
+
+/***/ }),
+
+/***/ "../../../../../src/app/purchase-order/purchase-order.component.scss":
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__("../../../../css-loader/lib/css-base.js")(false);
+// imports
+
+
+// module
+exports.push([module.i, "", ""]);
+
+// exports
+
+
+/*** EXPORTS FROM exports-loader ***/
+module.exports = module.exports.toString();
+
+/***/ }),
+
+/***/ "../../../../../src/app/purchase-order/purchase-order.component.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return PurchaseOrderComponent; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/esm5/core.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_app_product_product_service__ = __webpack_require__("../../../../../src/app/product/product.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_app_product_product_component__ = __webpack_require__("../../../../../src/app/product/product.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_app_sell_sell_service__ = __webpack_require__("../../../../../src/app/sell/sell.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_app_shared_services_persistence_service__ = __webpack_require__("../../../../../src/app/shared/services/persistence.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_moment__ = __webpack_require__("../../../../moment/moment.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_moment___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5_moment__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_ng2_toastr__ = __webpack_require__("../../../../ng2-toastr/ng2-toastr.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_ng2_toastr___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6_ng2_toastr__);
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+
+
+
+
+
+var PurchaseOrderComponent = /** @class */ (function () {
+    function PurchaseOrderComponent(saleService, productService, persit, toastr) {
+        this.saleService = saleService;
+        this.productService = productService;
+        this.persit = persit;
+        this.toastr = toastr;
+        this.productInventoryObject = new __WEBPACK_IMPORTED_MODULE_2_app_product_product_component__["b" /* ProductInventory */]();
+        this.vendorDto = [];
+        this.filteredProductByVendor = [];
+        this.displayDialog = false;
+    }
+    PurchaseOrderComponent.prototype.ngOnInit = function () {
+        this.getProductDetails();
+        this.getVendorDetails();
+        this.productInventotyList = this.persit.getProductInventoryForAdd() || [];
+    };
+    PurchaseOrderComponent.prototype.getProductDetails = function () {
+        var _this = this;
+        this.saleService.getProductDetails()
+            .subscribe(function (pro) {
+            _this.productDto = pro;
+            _this.filteredProductByVendor = _this.productDto;
+            console.log('ProductList' + _this.productDto);
+        });
+    };
+    PurchaseOrderComponent.prototype.getVendorDetails = function () {
+        var _this = this;
+        this.productService.getVendorDetails()
+            .subscribe(function (vendors) {
+            _this.vendorDto = vendors;
+            // this.form.get('vendor').setValue(this.vendorDto[0]);
+        });
+    };
+    // TODO NEED TO make it common so i can use other places too.
+    PurchaseOrderComponent.prototype.filterProducts = function (event) {
+        var _this = this;
+        var query = event.query;
+        this.saleService.getProductDetails()
+            .subscribe(function (products) {
+            // console.log(products);
+            _this.product = _this.filterProduct(query, products);
+        });
+    };
+    PurchaseOrderComponent.prototype.filterProduct = function (query, products) {
+        var filtered = [];
+        for (var i = 0; i < products.length; i++) {
+            var p = products[i];
+            if (p.description.toLowerCase().includes(query.toLowerCase())) {
+                filtered.push(p);
+            }
+        }
+        return filtered;
+    };
+    // This method helps when user try to change retial price or quanity from the sell text box.
+    PurchaseOrderComponent.prototype.submitProduct = function (value) {
+        console.log('This is value: ', value);
+        if (typeof value === 'string') {
+            console.log('This is value: ', value);
+            // this is the senario where user is adding new product to Add into Inventory
+            if (this.product != null && this.product.length > 0) {
+                console.log("coming here");
+                this.addProductInventory(this.product[0]);
+            }
+            else if (value !== '' && value !== undefined && value.indexOf('.') !== 0) {
+                if (value.match(/[a-z]/i))
+                    console.log('contains only charcters');
+                // this mean this is decimal value so it will change the retail price of the product
+                if (value.match(/[0-9]/i) && value.indexOf('.') > 0)
+                    this.updateCostPrice(value);
+                else if (value.match(/[0-9]/i))
+                    this.updateProductQuantityToAddInventory(value);
+            }
+        }
+        else if (value != null) {
+            this.addProductInventory(value);
+        }
+    };
+    PurchaseOrderComponent.prototype.addProductInventory = function (productObj) {
+        // This mean user is adding first product into grid.
+        // if(this.productInventotyList.length == 0) {
+        this.productInventotyList = this.productInventotyList.slice();
+        this.productInventoryObject = new __WEBPACK_IMPORTED_MODULE_2_app_product_product_component__["b" /* ProductInventory */]();
+        this.productInventoryObject.productNo = productObj.productNo;
+        this.productInventoryObject.description = productObj.description;
+        this.productInventoryObject.cost = productObj.cost;
+        this.productInventoryObject.retail = productObj.retail;
+        this.productInventoryObject.quantity = productObj.quantity;
+        this.productInventoryObject.markup = 0.00;
+        this.productInventotyList.push(this.productInventoryObject);
+        this.persit.setProductInventoryForAdd(this.productInventotyList);
+        this.product = null;
+        this.p = null;
+        // }
+        return this.productInventotyList;
+    };
+    PurchaseOrderComponent.prototype.openProductLookUpModel = function () {
+        this.displayDialog = !this.displayDialog;
+    };
+    PurchaseOrderComponent.prototype.addProdutForPurchaseOrder = function (event, product) {
+        product.quantity = event.target.value;
+        this.addProductInventory(product);
+        console.log('purchase order Product No', event.target.value);
+        console.log('purchase order quantity', event);
+    };
+    // I HAVE KEEP IT CASUE MAY BE I NEED TO HANDLE THIS LOGIC WHEN EVER USER ADD SAME PRODCUT INTO TABLE.
+    // else {
+    // Checking weather user is adding same product agian or not if its true
+    //  then just update the quantity of that product by 1.
+    // for (let lineItem of this.transactionLineItemDaoList) {
+    //   if (productObj.productNo === lineItem.productNo) {
+    //     // This flag helps to determin whether to add new product or just update the quantity
+    //     this.isProductExistsInSellList = true;
+    //     lineItem.defaultQuantity = + lineItem.defaultQuantity + 1;
+    //     this.transactionLineItemDaoList = this.transactionLineItemDaoList.slice();
+    //     productObj.totalProductPrice = parseFloat((productObj.retail * lineItem.defaultQuantity).toFixed(2));
+    //     productObj.taxAmountOnProduct = (productObj.retail * 7) / 100;
+    //     console.log("when add product", productObj);
+    //     this.product = null;
+    //     this.p = null
+    //     console.log(this.transactionLineItemDaoList);
+    //     this.setTransactionDtoList(this.transactionLineItemDaoList)
+    //     this.persit.setProducts(this.transactionLineItemDaoList);
+    //     break;
+    //   }
+    //   else {
+    //     // This flag helps to determin whether to add new product or just update the quantity
+    //     this.isProductExistsInSellList = false;
+    //   }
+    // }
+    // This flag helps to determin whether to add new product or just update the quantity
+    // else (!this.isProductExistsInSellList) {
+    //   this.transactionLineItemDaoList = this.transactionLineItemDaoList.slice();
+    //   productObj.totalProductPrice = productObj.retail * productObj.defaultQuantity;
+    //   productObj.taxAmountOnProduct = parseFloat(((productObj.retail * 7) / 100).toFixed(2));
+    //   console.log("when add product", productObj);
+    //   this.transactionLineItemDaoList.push(productObj);
+    //   this.product = null;
+    //   this.p = null
+    //   console.log(this.transactionLineItemDaoList);
+    //   this.setTransactionDtoList(this.transactionLineItemDaoList)
+    //   this.persit.setProducts(this.transactionLineItemDaoList);
+    // }
+    PurchaseOrderComponent.prototype.updateCostPrice = function (value) {
+        console.log('Price change');
+        this.productInventotyList[this.productInventotyList.length - 1].cost = value;
+        // this.transactionLineItemDaoList[this.transactionLineItemDaoList.length - 1].totalProductPrice = (this.transactionLineItemDaoList[this.transactionLineItemDaoList.length - 1].retail * this.transactionLineItemDaoList[this.transactionLineItemDaoList.length - 1].defaultQuantity);
+        this.productInventotyList = this.productInventotyList.slice();
+        //this.setTransactionDtoList(this.transactionLineItemDaoList)
+        this.persit.setProductInventoryForAdd(this.productInventotyList);
+        this.p = null;
+    };
+    PurchaseOrderComponent.prototype.updateProductQuantityToAddInventory = function (value) {
+        console.log('Quantity change');
+        this.productInventotyList[this.productInventotyList.length - 1].quantity = value;
+        // this.transactionLineItemDaoList[this.transactionLineItemDaoList.length - 1].totalProductPrice = parseFloat((this.transactionLineItemDaoList[this.transactionLineItemDaoList.length - 1].retail * this.transactionLineItemDaoList[this.transactionLineItemDaoList.length - 1].defaultQuantity).toFixed(2));
+        this.productInventotyList = this.productInventotyList.slice();
+        // this.setTransactionDtoList(this.transactionLineItemDaoList)
+        this.persit.setProductInventoryForAdd(this.productInventotyList);
+        this.p = null;
+    };
+    PurchaseOrderComponent.prototype.updateInventoryDetails = function (event) {
+        this.productInventotyList[event.index].quantity = event.data.quantity;
+        this.productInventotyList[event.index].cost = event.data.cost;
+        // this.transactionLineItemDaoList[event.index].totalProductPrice = (event.data.defaultQuantity * event.data.retail);
+        // this.transactionLineItemDaoList[event.index].taxAmountOnProduct = ((event.data.defaultQuantity * event.data.retail) * 7) / 100
+        // this.setTransactionDtoList(this.transactionLineItemDaoList)
+        this.persit.setProductInventoryForAdd(this.productInventotyList);
+    };
+    PurchaseOrderComponent.prototype.setProductForDelete = function (product) {
+        this.selectedProduct = product;
+        this.popupHeader = 'Remove Product Inventory';
+        this.popupMessage = 'Are You Sure Remove Product Inventory ?';
+    };
+    PurchaseOrderComponent.prototype.deleteProduct = function () {
+        console.log("inside delete");
+        var index = this.productInventotyList.indexOf(this.selectedProduct, 0);
+        console.log("index", index);
+        if (index > -1) {
+            this.productInventotyList.splice(index, 1);
+            this.productInventotyList = this.productInventotyList.slice();
+            this.persit.setProductInventoryForAdd(this.productInventotyList);
+        }
+    };
+    PurchaseOrderComponent.prototype.setHeaderForRemoveAllInventoryProduct = function () {
+        this.popupHeader = 'Remove All Products Inventory';
+        this.popupMessage = 'Are Sure You Want To Remove All Product Inventory ?';
+    };
+    PurchaseOrderComponent.prototype.removeAllProductInventory = function () {
+        this.persit.clearProductInventory();
+        this.productInventotyList = [];
+    };
+    // TO DO NEED TO FIGURE OUT FILTERTING HERE
+    PurchaseOrderComponent.prototype.onVendorChoose = function () {
+        this.productDto.filter(function (product) {
+            // return product.vendorId = thi
+        });
+    };
+    PurchaseOrderComponent.prototype.setHeaderForAddProductInventory = function () {
+        this.popupHeader = 'Add All Product Inventory';
+        this.popupMessage = 'This Will Add All Products Into Inventory';
+    };
+    PurchaseOrderComponent.prototype.addProductInventoryToBackEnd = function () {
+        var _this = this;
+        this.productInventotyList.forEach(function (inventory) {
+            inventory.createdTimestamp = __WEBPACK_IMPORTED_MODULE_5_moment__(Date.now()).format('YYYY-MM-DD HH:mm:ss');
+        });
+        this.productService.addProductInventory(this.productInventotyList)
+            .subscribe(function (data) {
+            if (data) {
+                _this.toastr.success('Inventory Added Successfully !!', 'Success!');
+            }
+        }, function (error) {
+            _this.toastr.error('Opps Something goes wrong !!', 'Error!!');
+            console.log(JSON.stringify(error.json()));
+        });
+    };
+    PurchaseOrderComponent = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
+            selector: 'app-purchase-order',
+            template: __webpack_require__("../../../../../src/app/purchase-order/purchase-order.component.html"),
+            styles: [__webpack_require__("../../../../../src/app/purchase-order/purchase-order.component.scss")]
+        }),
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_3_app_sell_sell_service__["a" /* SellService */], __WEBPACK_IMPORTED_MODULE_1_app_product_product_service__["a" /* ProductService */], __WEBPACK_IMPORTED_MODULE_4_app_shared_services_persistence_service__["a" /* PersistenceService */], __WEBPACK_IMPORTED_MODULE_6_ng2_toastr__["ToastsManager"]])
+    ], PurchaseOrderComponent);
+    return PurchaseOrderComponent;
+}());
+
+
+
+/***/ }),
+
+/***/ "../../../../../src/app/purchase-order/purchase-order.module.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return PurchaseOrderModule; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/esm5/core.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_common__ = __webpack_require__("../../../common/esm5/common.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__purchase_order_component__ = __webpack_require__("../../../../../src/app/purchase-order/purchase-order.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_app_purchase_order_purchase_order_routing_module__ = __webpack_require__("../../../../../src/app/purchase-order/purchase-order-routing.module.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_app_shared_shared_module__ = __webpack_require__("../../../../../src/app/shared/shared.module.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__angular_forms__ = __webpack_require__("../../../forms/esm5/forms.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_primeng_primeng__ = __webpack_require__("../../../../primeng/primeng.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_primeng_primeng___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6_primeng_primeng__);
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+
+
+
+
+
+
+
+var PurchaseOrderModule = /** @class */ (function () {
+    function PurchaseOrderModule() {
+    }
+    PurchaseOrderModule = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["NgModule"])({
+            imports: [
+                __WEBPACK_IMPORTED_MODULE_1__angular_common__["CommonModule"],
+                __WEBPACK_IMPORTED_MODULE_3_app_purchase_order_purchase_order_routing_module__["a" /* PurchaseOrderRoutingModule */],
+                __WEBPACK_IMPORTED_MODULE_4_app_shared_shared_module__["a" /* SharedModule */],
+                __WEBPACK_IMPORTED_MODULE_6_primeng_primeng__["DataTableModule"],
+                __WEBPACK_IMPORTED_MODULE_5__angular_forms__["FormsModule"],
+                __WEBPACK_IMPORTED_MODULE_5__angular_forms__["ReactiveFormsModule"],
+                __WEBPACK_IMPORTED_MODULE_6_primeng_primeng__["AutoCompleteModule"],
+                __WEBPACK_IMPORTED_MODULE_6_primeng_primeng__["DropdownModule"],
+                __WEBPACK_IMPORTED_MODULE_6_primeng_primeng__["DialogModule"]
+            ],
+            declarations: [__WEBPACK_IMPORTED_MODULE_2__purchase_order_component__["a" /* PurchaseOrderComponent */]]
+        })
+    ], PurchaseOrderModule);
+    return PurchaseOrderModule;
 }());
 
 
@@ -5516,7 +5962,14 @@ var SalesSummaryDto = /** @class */ (function () {
 
 /***/ }),
 
-/***/ "../../../../../src/app/sell/product-auto-complete/product-auto-complete.component.css":
+/***/ "../../../../../src/app/sell/close-register/close-register.component.html":
+/***/ (function(module, exports) {
+
+module.exports = "<div>\n    <mat-card>\n        <mat-card-title>\n            <h3>\n                Close Register\n            </h3>\n        </mat-card-title>\n        <mat-card-content>\n            <form [formGroup]=\"closeRegisterForm\">\n\n                <div class=\"row p-md-3\">\n                    <!-- Start of left side of div for payment -->\n                    <div class=\"col-md-6\">\n\n                        <div class=\"row product-textbox\">\n                            <div class=\"col-md-3\">\n                                <p>Payment Type</p>\n                            </div>\n\n                            <div class=\"col-md-3\">\n                                <p>Manual Count</p>\n                            </div>\n\n                            <div class=\"col-md-3\">\n                                <p>System Count</p>\n                            </div>\n\n                            <div class=\"col-md-3\">\n                                <p>Difference</p>\n                            </div>\n                        </div>\n\n                        <div class=\"row close-row\">\n\n                            <div class=\"col-md-3\">\n                                <p>Cash</p>\n                            </div>\n\n                            <div class=\"col-md-3\">\n                                <input type=\"number\" class=\"form-control\" formControlName=\"closeCash\">\n                            </div>\n\n                            <div class=\"col-md-3\">\n                                <input type=\"number\" class=\"form-control\" disabled=\"true\" formControlName=\"reportCash\">\n                            </div>\n\n                            <div class=\"col-md-3\">\n                                <input [style.color]=\"this.closeRegisterForm.get('differenceCash').value >=0 ? 'green' : 'red' \" type=\"number\" class=\"form-control\" disabled=\"true\" formControlName=\"differenceCash\">\n                            </div>\n\n                        </div>\n\n                        <div class=\"row close-row \">\n\n                            <div class=\"col-md-3\">\n                                <p>Credit</p>\n                            </div>\n\n                            <div class=\"col-md-3\">\n                                <input type=\"number\" class=\"form-control\" formControlName=\"closeCredit\">\n                            </div>\n\n                            <div class=\"col-md-3\">\n                                <input type=\"number\" class=\"form-control\" disabled=\"true\" formControlName=\"reportCredit\">\n                            </div>\n\n                            <div class=\"col-md-3\">\n                                <input [style.color]=\"this.closeRegisterForm.get('differenceCredit').value >=0 ? 'green' : 'red' \" type=\"number\" class=\"form-control\" disabled=\"true\" formControlName=\"differenceCredit\">\n                            </div>\n\n                        </div>\n\n                        <div class=\"row close-row \">\n\n                            <div class=\"col-md-3\">\n                                <p>Debit</p>\n                            </div>\n\n                            <div class=\"col-md-3\">\n                                <input type=\"number\" class=\"form-control\" formControlName=\"closeDebit\">\n                            </div>\n\n                            <div class=\"col-md-3\">\n                                <input type=\"number\" class=\"form-control\" disabled=\"true\" formControlName=\"reportDebit\">\n                            </div>\n\n                            <div class=\"col-md-3\">\n                                <input [style.color]=\"this.closeRegisterForm.get('differenceDebit').value >=0 ? 'green' : 'red' \" type=\"number\" class=\"form-control\" disabled=\"true\" formControlName=\"differenceDebit\">\n                            </div>\n\n                        </div>\n\n                        <div class=\"row close-row \">\n\n                            <div class=\"col-md-3\">\n                                <p>Check</p>\n                            </div>\n\n                            <div class=\"col-md-3\">\n                                <input type=\"number\" class=\"form-control\" formControlName=\"closeCheck\">\n                            </div>\n\n                            <div class=\"col-md-3\">\n                                <input type=\"number\" class=\"form-control\" disabled=\"true\" formControlName=\"reportCheck\">\n                            </div>\n\n                            <div class=\"col-md-3\">\n                                <input [style.color]=\"this.closeRegisterForm.get('differenceCheck').value >=0 ? 'green' : 'red' \" class=\"form-control\" disabled=\"true\" type=\"number\" formControlName=\"differenceCheck\">\n                            </div>\n\n                        </div>\n\n                        <div class=\"row close-row \">\n\n                            <div class=\"col-md-3\">\n                                <p>Other Payment</p>\n                            </div>\n                            <div class=\"col-md-3\">\n                                <p>Store Credit</p>\n                            </div>\n\n                            <div class=\"col-md-3\">\n                                <p>On Account</p>\n                            </div>\n\n                            <div class=\"col-md-3\">\n                                <p>Loyalty</p>\n                            </div>\n\n\n                        </div>\n\n                        <div class=\"row\">\n\n                            <div class=\"col-md-3\">\n                            </div>\n                            <div class=\"col-md-3\">\n                                <input type=\"text\" class=\"form-control\" disabled=\"true\" formControlName=\"storeCredit\">\n                            </div>\n\n                            <div class=\"col-md-3\">\n                                <input type=\"text\" class=\"form-control\" disabled=\"true\" formControlName=\"onAccount\">\n                            </div>\n\n                            <div class=\"col-md-3\">\n                                <input type=\"text\" class=\"form-control\" disabled=\"true\" formControlName=\"loyalty\">\n                            </div>\n\n\n\n                        </div>\n                        <hr>\n                        <div class=\"row\">\n\n                            <div class=\"col-md-3\">\n                                <p>Total With Tax</p>\n                            </div>\n\n\n                            <div class=\"col-md-3\">\n                                <input type=\"number\" class=\"form-control\" disabled=\"true\" formControlName=\"closeTotalAmount\">\n                            </div>\n\n                            <div class=\"col-md-3\">\n                                <input type=\"number\" class=\"form-control\" disabled=\"true\" formControlName=\"reportTotalAmount\">\n                            </div>\n\n                            <div class=\"col-md-3\">\n                                <input [style.color]=\"this.closeRegisterForm.get('differenceTotal').value >=0 ? 'green' : 'red' \" type=\"number\" class=\"form-control\" disabled=\"true\" formControlName=\"differenceTotal\">\n                            </div>\n\n                        </div>\n\n                        <hr>\n\n                        <div class=\"row\">\n\n                            <div class=\"col-md-3\">\n                                <p>Total Without Tax</p>\n                            </div>\n\n                            <div class=\"col-md-3\">\n                                <p>Total Tax</p>\n                            </div>\n\n                            <div class=\"col-md-3\">\n                                <p>Total Discount</p>\n                            </div>\n                            <div class=\"col-md-3\">\n                                <p>Total Return</p>\n                            </div>\n\n                        </div>\n\n                        <div class=\"row\">\n\n                            <div class=\"col-md-3\">\n                                <input type=\"number\" class=\"form-control\" disabled=\"true\" formControlName=\"totalWithoutTax\">\n                            </div>\n\n                            <div class=\"col-md-3\">\n                                <input type=\"number\" class=\"form-control\" disabled=\"true\" formControlName=\"tax\">\n                            </div>\n\n                            <div class=\"col-md-3\">\n                                <input style=\"color: green;\" type=\"number\" class=\"form-control\" disabled=\"true\" formControlName=\"totalDiscount\">\n                            </div>\n\n                            <div class=\"col-md-3\">\n                                <input style=\"color: red;\" type=\"number\" disabled=\"true\" class=\"form-control\" formControlName=\"totalReturn\">\n                            </div>\n\n                        </div>\n\n                        <hr>\n\n\n\n\n                    </div>\n                    <!-- End of left side of div for payment -->\n\n                    <!-- <div class=\"col-md-6\">\n                        <h4> Close Shift </h4>\n\n                        <div class=\"row\">\n\n                            <div class=\"col-md-3\">\n                                <p>From User</p>\n                            </div>\n\n                            <div class=\"col-md-3\">\n                                <p>From System</p>\n                            </div>\n\n                            <div class=\"col-md-3\">\n                                <p>Difference</p>\n                            </div>\n\n                        </div>\n\n                        <div class=\"row\">\n\n                            <div class=\"col-md-3\">\n                                <input type=\"text\">\n                            </div>\n\n                            <div class=\"col-md-3\">\n                                <input type=\"text\">\n                            </div>\n\n                            <div class=\"col-md-3\">\n                                <input type=\"text\">\n                            </div>\n\n                        </div>\n\n                        <div class=\"row\">\n                            <button> Close Shift</button>\n                        </div>\n\n\n                        <div class=\"row\">\n                            <table class=\"table\">\n                                <thead>\n                                    <tr>\n                                        <th>Date</th>\n                                        <th>Time</th>\n                                        <th>Close Amount</th>\n                                        <th>Difference</th>\n                                        <th>Close By</th>\n                                        <th>Action</th>\n                                    </tr>\n                                </thead>\n                                <tbody>\n                                    <tr>\n                                        <td></td>\n                                        <td></td>\n                                        <td></td>\n                                        <td></td>\n                                        <td></td>\n                                        <td>\n                                            <i class=\"fa fa-pencil\"></i>\n                                            <i class=\"fa fa-trash\"></i>\n                                        </td>\n                                    </tr>\n                                </tbody>\n                            </table>\n                        </div>\n\n\n                    </div> -->\n\n\n                    <!-- Start of right side of div for money count -->\n                    <!-- <div class=\"col-md-1\">\n                        <div class=\"row\">\n\n                            <div class=\"col-md-4\">\n                                <p>$100</p>\n                            </div>\n\n                            <div class=\"col-md-4\">\n                                <p>*</p>\n                            </div>\n                            <div class=\"col-md-4\">\n                                <input type=\"text\">\n                            </div>\n\n                        </div>\n                        <div class=\"row\">\n\n                            <div class=\"col-md-4\">\n                                <p>$50</p>\n                            </div>\n\n                            <div class=\"col-md-4\">\n                                <p>*</p>\n                            </div>\n                            <div class=\"col-md-4\">\n                                <input type=\"text\">\n                            </div>\n\n                        </div>\n                        <div class=\"row\">\n\n                            <div class=\"col-md-4\">\n                                <p>$20</p>\n                            </div>\n\n                            <div class=\"col-md-4\">\n                                <p>*</p>\n                            </div>\n                            <div class=\"col-md-4\">\n                                <input type=\"text\">\n                            </div>\n\n                        </div>\n                        <div class=\"row\">\n\n                            <div class=\"col-md-4\">\n                                <p>$10</p>\n                            </div>\n\n                            <div class=\"col-md-4\">\n                                <p>*</p>\n                            </div>\n                            <div class=\"col-md-4\">\n                                <input type=\"text\">\n                            </div>\n\n                        </div>\n                        <div class=\"row\">\n\n                            <div class=\"col-md-4\">\n                                <p>$5</p>\n                            </div>\n\n                            <div class=\"col-md-4\">\n                                <p>*</p>\n                            </div>\n                            <div class=\"col-md-4\">\n                                <input type=\"text\">\n                            </div>\n\n                        </div>\n                        <div class=\"row\">\n\n                            <div class=\"col-md-4\">\n                                <p>$1</p>\n                            </div>\n\n                            <div class=\"col-md-4\">\n                                <p>*</p>\n                            </div>\n                            <div class=\"col-md-4\">\n                                <input type=\"text\">\n                            </div>\n\n                        </div>\n                        <div class=\"row\">\n\n                            <div class=\"col-md-8\">\n                                <p>Total</p>\n                            </div>\n\n                            <div class=\"col-md-4\">\n                                <input type=\"text\">\n                            </div>\n\n                        </div>\n                    </div> -->\n                    <!-- End of right side of div for money count -->\n\n\n\n                </div>\n            </form>\n        </mat-card-content>\n        <mat-card-footer>\n            <div class=\"d-flex align-items-center justify-content-center\">\n                <button mat-raised-button class=\"bg-primary text-white \" (click)=\"this.saveCloseRegisterDetails()\">Close Register</button>\n            </div>\n        </mat-card-footer>\n    </mat-card>\n</div>"
+
+/***/ }),
+
+/***/ "../../../../../src/app/sell/close-register/close-register.component.scss":
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__("../../../../css-loader/lib/css-base.js")(false);
@@ -5524,7 +5977,7 @@ exports = module.exports = __webpack_require__("../../../../css-loader/lib/css-b
 
 
 // module
-exports.push([module.i, "", ""]);
+exports.push([module.i, ".close-row {\n  margin-top: 10px; }\n", ""]);
 
 // exports
 
@@ -5534,19 +5987,18 @@ module.exports = module.exports.toString();
 
 /***/ }),
 
-/***/ "../../../../../src/app/sell/product-auto-complete/product-auto-complete.component.html":
-/***/ (function(module, exports) {
-
-module.exports = "<form id=\"filter\">\n\n    <!--<md-input-container>\n                <input type=\"text\" mdInput [formControl]=\"myControl\" [mdAutocomplete]=\"auto\">\n            </md-input-container>\n\n            <md-autocomplete #auto=\"mdAutocomplete\" [displayWith]=\"displayFn\">\n                <md-option *ngFor=\"let p of filteredOptions | async\" [value]=\"p\" (click)=\"addTransactionLineItem(p)\">\n                    {{ p.description }}\n                </md-option>\n            </md-autocomplete>-->\n    <p-dropdown [options]=\"product\" [(ngModel)]=\"this.selectedCar2\" [style]=\"{'width':'150px'}\" filter=\"filter\" name=\"test\">\n        <ng-template let-product pTemplate=\"item\">\n            <div class=\"ui-helper-clearfix\" style=\"position: relative;height: 25px;\">\n                <img src=\"\" style=\"width:24px;position:absolute;top:1px;left:5px\" />\n                <div style=\"font-size:14px;float:right;margin-top:4px\">{{product.description}}</div>\n            </div>\n        </ng-template>\n    </p-dropdown>\n</form>"
-
-/***/ }),
-
-/***/ "../../../../../src/app/sell/product-auto-complete/product-auto-complete.component.ts":
+/***/ "../../../../../src/app/sell/close-register/close-register.component.ts":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ProductAutoCompleteComponent; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return CloseRegisterComponent; });
+/* unused harmony export CloseRegisterDto */
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/esm5/core.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_forms__ = __webpack_require__("../../../forms/esm5/forms.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_moment__ = __webpack_require__("../../../../moment/moment.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_moment___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_moment__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_app_shared_services_date_service__ = __webpack_require__("../../../../../src/app/shared/services/date.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_app_sell_sell_service__ = __webpack_require__("../../../../../src/app/sell/sell.service.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -5557,81 +6009,120 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 
-var ProductAutoCompleteComponent = /** @class */ (function () {
-    function ProductAutoCompleteComponent() {
+
+
+
+
+var CloseRegisterComponent = /** @class */ (function () {
+    function CloseRegisterComponent(sellService, formBuilder, dateService) {
+        this.sellService = sellService;
+        this.formBuilder = formBuilder;
+        this.dateService = dateService;
+        this.closeRegisterDto = new CloseRegisterDto();
+        this.dateDto = new __WEBPACK_IMPORTED_MODULE_3_app_shared_services_date_service__["a" /* DateDto */]();
     }
-    ProductAutoCompleteComponent.prototype.ngOnInit = function () {
+    CloseRegisterComponent.prototype.ngOnInit = function () {
+        var _this = this;
+        this.dateDto = this.dateService.getCurrentDay();
+        this.getCloseRegisterDetails(this.dateDto.startDate, this.dateDto.endDate);
+        this.closeRegisterForm = this.formBuilder.group({
+            'reportCash': [null],
+            'reportCredit': [null],
+            'reportDebit': [null],
+            'reportCheck': [null],
+            'reportTotalAmount': [null],
+            'closeCash': [null],
+            'closeCredit': [null],
+            'closeDebit': [null],
+            'closeCheck': [null],
+            'closeTotalAmount': [null],
+            'differenceCash': [null],
+            'differenceCredit': [null],
+            'differenceDebit': [null],
+            'differenceCheck': [null],
+            'differenceTotal': [null],
+            'totalBusinessAmount': [null],
+            'tax': [null],
+            'totalWithoutTax': [null],
+            'totalDiscount': [null],
+            'profit': [null],
+            'markup': [null],
+            'bankDeposit': [null],
+            'onAccount': [null],
+            'storeCredit': [null],
+            'loyalty': [null],
+            'inHandCash': [null],
+            'note': [null],
+            'totalReturn': [null]
+        });
+        this.closeRegisterForm.valueChanges.subscribe(function (changes) {
+            var formValues = _this.closeRegisterForm.value;
+            _this.closeRegisterForm.patchValue({
+                differenceCash: (formValues.closeCash - formValues.reportCash).toFixed(2),
+                differenceCredit: (formValues.closeCredit - formValues.reportCredit).toFixed(2),
+                differenceDebit: (formValues.closeDebit - formValues.reportDebit).toFixed(2),
+                differenceCheck: (formValues.closeCheck - formValues.reportCheck).toFixed(2),
+                closeTotalAmount: ((formValues.closeCash) + (+formValues.closeCredit) + (+formValues.closeDebit) + (+formValues.closeCheck)).toFixed(2),
+                differenceTotal: ((formValues.closeCash) + (+formValues.closeCredit) + (+formValues.closeDebit) + (+formValues.closeCheck) - formValues.reportTotalAmount).toFixed(2),
+            }, {
+                emitEvent: false
+            });
+        });
     };
-    ProductAutoCompleteComponent = __decorate([
+    CloseRegisterComponent.prototype.getCloseRegisterDetails = function (startDate, endDate) {
+        var _this = this;
+        this.sellService.getCloseRegisterDetails(startDate, endDate)
+            .subscribe(function (closeReg) {
+            _this.closeRegisterDto = closeReg;
+            _this.closeRegId = closeReg.id;
+            _this.closeRegisterForm.get('reportCash').setValue(_this.closeRegisterDto.reportCash);
+            _this.closeRegisterForm.get('closeCash').setValue(_this.closeRegisterDto.closeCash);
+            _this.closeRegisterForm.get('reportCredit').setValue(_this.closeRegisterDto.reportCredit);
+            _this.closeRegisterForm.get('closeCredit').setValue(_this.closeRegisterDto.closeCredit);
+            _this.closeRegisterForm.get('reportDebit').setValue(_this.closeRegisterDto.reportDebit);
+            _this.closeRegisterForm.get('closeDebit').setValue(_this.closeRegisterDto.closeDebit);
+            _this.closeRegisterForm.get('reportCheck').setValue(_this.closeRegisterDto.reportCheck);
+            _this.closeRegisterForm.get('closeCheck').setValue(_this.closeRegisterDto.closeCheck);
+            _this.closeRegisterForm.get('reportTotalAmount').setValue(_this.closeRegisterDto.reportTotalAmount);
+            _this.closeRegisterForm.get('tax').setValue(_this.closeRegisterDto.tax);
+            _this.closeRegisterForm.get('totalDiscount').setValue(_this.closeRegisterDto.totalDiscount);
+            _this.closeRegisterForm.get('totalReturn').setValue(_this.closeRegisterDto.totalReturn);
+            var totalWithoutTax = _this.closeRegisterDto.reportTotalAmount - _this.closeRegisterDto.tax;
+            _this.closeRegisterForm.get('totalWithoutTax').setValue(totalWithoutTax.toFixed(2));
+            _this.closeRegisterForm.get('storeCredit').setValue(_this.closeRegisterDto.storeCredit);
+            _this.closeRegisterForm.get('onAccount').setValue(_this.closeRegisterDto.onAccount);
+            _this.closeRegisterForm.get('loyalty').setValue(_this.closeRegisterDto.loyalty);
+            var closeTotalAmountWithTax = _this.closeRegisterForm.get('closeCash').value + _this.closeRegisterForm.get('closeCredit').value + _this.closeRegisterForm.get('closeDebit').value + _this.closeRegisterForm.get('closeCheck').value;
+            _this.closeRegisterForm.get('closeTotalAmount').setValue(_this.totalCloseAmount);
+        });
+    };
+    CloseRegisterComponent.prototype.calculateTotalCloseAmountOnValueChange = function () {
+        this.totalCloseAmount = this.closeRegisterForm.get('closeCash').value + this.closeRegisterForm.get('closeCredit').value + this.closeRegisterForm.get('closeDebit').value + this.closeRegisterForm.get('closeCheck').value;
+    };
+    CloseRegisterComponent.prototype.saveCloseRegisterDetails = function () {
+        this.closeRegisterDto = this.closeRegisterForm.value;
+        this.closeRegisterDto.date = __WEBPACK_IMPORTED_MODULE_2_moment__(Date.now()).format('YYYY-MM-DD HH:mm:ss');
+        this.closeRegisterDto.id = this.closeRegId;
+        // TODO need to handle getting user name.
+        this.closeRegisterDto.username = 'ALOK';
+        console.log(this.closeRegisterDto);
+        this.sellService.saveCloseRegisterDetail(this.closeRegisterDto);
+    };
+    CloseRegisterComponent = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
-            selector: 'app-product-auto-complete',
-            template: __webpack_require__("../../../../../src/app/sell/product-auto-complete/product-auto-complete.component.html"),
-            styles: [__webpack_require__("../../../../../src/app/sell/product-auto-complete/product-auto-complete.component.css")]
+            selector: 'app-close-register',
+            template: __webpack_require__("../../../../../src/app/sell/close-register/close-register.component.html"),
+            styles: [__webpack_require__("../../../../../src/app/sell/close-register/close-register.component.scss")]
         }),
-        __metadata("design:paramtypes", [])
-    ], ProductAutoCompleteComponent);
-    return ProductAutoCompleteComponent;
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_4_app_sell_sell_service__["a" /* SellService */], __WEBPACK_IMPORTED_MODULE_1__angular_forms__["FormBuilder"], __WEBPACK_IMPORTED_MODULE_3_app_shared_services_date_service__["b" /* DateService */]])
+    ], CloseRegisterComponent);
+    return CloseRegisterComponent;
 }());
 
-
-
-/***/ }),
-
-/***/ "../../../../../src/app/sell/purchase-order/purchase-order.component.html":
-/***/ (function(module, exports) {
-
-module.exports = "<mat-card>\n    <mat-card-title>\n        <h4>Purchase Order</h4>\n    </mat-card-title>\n    <mat-card-content>\n        <div class=\"row d-flex align-items-center\">\n            <div class=\"col-md-3\">\n                <select class=\"form-control form-control\" [(ngModel)]=\"this.salesHistoryDropdown\" (change)=\"this.getTransactionDetails(this.salesHistoryDropdown)\">\n                            <option>Today</option>\n                            <option>Yesterday</option>\n                            <option>This Week</option>\n                            <option>Last Week</option>\n                            <option>This Month</option>\n                            <option>Last Month</option>\n                            <option>Last 3 Months</option>\n                            <option>Last 6 Months</option>\n                            <option>This Year</option>\n                            <option>Last Year</option>\n                            <option>Custom</option>\n        \n                        </select>\n            </div>\n\n            <div *ngIf=\"this.salesHistoryDropdown == 'Custom' \" class=\"col-md-3 form-group d-flex align-items-center\" [formGroup]=\"this.customDate\">\n\n                <mat-form-field class=\"float-never col-md-6\">\n                    <input formControlName=\"fromDate\" matInput [matDatepicker]=\"fromDate\" placeholder=\"Start Date\" [max]=\"this.currentDate\">\n                    <mat-datepicker-toggle matSuffix [for]=\"fromDate\"></mat-datepicker-toggle>\n                    <mat-datepicker #fromDate></mat-datepicker>\n                </mat-form-field>\n                <label class=\"text-center\">To</label>\n                <mat-form-field class=\"float-never col-md-6\">\n                    <input class=\"\" formControlName=\"toDate\" matInput [matDatepicker]=\"toDate\" placeholder=\"End Date\" [min]=\"this.customDate.get('fromDate').value\" [max]=\"this.currentDate\">\n                    <mat-datepicker-toggle matSuffix [for]=\"toDate\"></mat-datepicker-toggle>\n                    <mat-datepicker #toDate></mat-datepicker>\n                </mat-form-field>\n            </div>\n\n            <div class=\"col-md-3\">\n                <select class=\"form-control form-control-lg\" [(ngModel)]=\"this.selectedVendor\" (change)=\"onVendorChoose()\">\n                            <option>Please Select Vendor</option>\n                         <option *ngFor=\"let vendor of this.vendorDto\">\n                             {{vendor.name}}\n                         </option>\n                        </select>\n\n            </div>\n\n            <div class=\"col-md-3 d-flex justify-content-end\">\n                <button type=\"button\" mat-raised-button class=\"bg-primary text-white action-button-lg\" style=\"margin-right: 15px\" [routerLink]=\"['/product/add']\">\n                      <i class=\"fa fa-plus-square\" aria-hidden=\"true\" label=\"Add\"></i>\n                      Purchase Order\n                  </button>\n\n                <!-- <button type=\"button\" mat-raised-button class=\"bg-primary text-white action-button-lg\" [routerLink]=\"['/product/addInventory']\">\n                      <i class=\"fa fa-plus-square\" aria-hidden=\"true\" label=\"Add\"></i>\n                      Add Inventory\n                  </button> -->\n\n            </div>\n\n\n        </div>\n        <div class=\"row\">\n            <div class=\"col-md-12 p-md-3\">\n\n                <p-dataTable [value]=\"this.productInventotyList\" scrollable=\"true\" [responsive]=\"true\" scrollHeight=\"300px\" [editable]=\"true\" (onEditComplete)=\"updateInventoryDetails($event)\">\n                    <p-header>Add Product Inventory Table</p-header>\n\n                    <p-column field=\"productNo\" header=\"ProductNo\" [style]=\"{'width':'15%','text-align':'center', 'overflow':'visible'}\"></p-column>\n                    <p-column field=\"description\" header=\"Description\" [style]=\"{'width':'40%','text-align':'center', 'overflow':'visible'}\"></p-column>\n                    <p-column field=\"defaultQuantity\" header=\"Quantity To Order\" [editable]=\"true\" [style]=\"{'width':'10%','text-align':'center', 'overflow':'visible'}\"></p-column>\n                    <p-column field=\"cost\" header=\"Cost\" [editable]=\"true\" [style]=\"{'width':'5%','text-align':'center', 'overflow':'visible'}\"></p-column>\n                    <p-column field=\"retail\" header=\"Retail\" [editable]=\"true\" [style]=\"{'width':'5%','text-align':'center', 'overflow':'visible'}\"></p-column>\n                    <p-column field=\"quantity\" header=\"In-Stock\" [style]=\"{'width':'7%','text-align':'center', 'overflow':'visible'}\"></p-column>\n                    <p-column field=\"totalProductPrice\" header=\"Total\" [style]=\"{'width':'5%','text-align':'center', 'overflow':'visible'}\"></p-column>\n                    <p-column header=\"Action\" styleClass=\"col-button\" [style]=\"{'width':'10%','text-align':'center', 'overflow':'visible'}\">\n                        <!-- <ng-template pTemplate=\"header\">\n                                                <button type=\"button\" pButton icon=\"fa-refresh\"></button>\n                                            </ng-template> -->\n                        <ng-template let-product=\"rowData\" pTemplate=\"body\">\n\n                            <button mat-button class=\"btn-red action-button-table\" mat-button (click)=\"this.setProductForDelete(product)\" data-toggle=\"modal\" data-target=\"#removeProductInventory\">\n                                            <i class=\"fa fa-trash\" aria-hidden=\"true\"></i>\n                                        </button>\n                        </ng-template>\n                    </p-column>\n\n\n                </p-dataTable>\n\n            </div>\n        </div>\n\n    </mat-card-content>\n</mat-card>\n<!-- <p-growl [(value)]=\"msgs\"></p-growl> -->\n\n\n<!-- Start Of Product History model -->\n<div class=\"modal fade\" id=\"productHistoryModel\" role=\"dialog\">\n    <div class=\"modal-dialog modal-lg\">\n\n        <!-- Modal content-->\n        <div class=\"modal-content\">\n            <div class=\"modal-header\">\n                <button type=\"button\" class=\"close\" data-dismiss=\"modal\">&times;</button>\n                <h3 class=\"modal-title\">Product History</h3>\n            </div>\n            <div class=\"modal-body\">\n\n                <div class=\"row\">\n                    <div class=\"col-md-4\">\n                        <select class=\"form-control form-control-lg\" [(ngModel)]=\"this.productHistoryDropDown\" (change)=\"this.getProductHistory()\">\n                          <option>Today</option>\n                          <option>Yesterday</option>\n                          <option>This Week</option>\n                          <option>Last Week</option>\n                          <option>This Month</option>\n                          <option>Last Month</option>\n                          <option>Last 3 Months</option>\n                          <option>Last 6 Months</option>\n                          <option>This Year</option>\n                          <option>Last Year</option>\n                          <option>Custom</option>\n\n                      </select>\n\n                    </div>\n\n                </div>\n\n                <div class=\"row\">\n                    <table class=\"table\">\n                        <thead>\n                            <tr>\n\n                                <th>Product No</th>\n                                <th>Product Sold</th>\n                                <th>Cost</th>\n                                <th>Retail</th>\n                                <th>Date</th>\n                                <th>Time</th>\n                            </tr>\n                        </thead>\n                        <tbody>\n                            <tr *ngFor=\"let product of this.productHistoryDto\">\n                                <td>{{product.productNo}}</td>\n                                <td>{{product.quantity}}</td>\n                                <td>{{product.cost}}</td>\n                                <td>{{product.retail}}</td>\n                                <td>{{product.date}}</td>\n                                <td>{{product.time}}</td>\n                            </tr>\n                        </tbody>\n                    </table>\n\n                </div>\n                <div class=\"row\">\n                    <h5>Total Number Of Product Sold: 324(TODO CENTER)</h5>\n                </div>\n\n            </div>\n            <div class=\"modal-footer\">\n                <button type=\"button\" class=\"btn btn-default\" data-dismiss=\"modal\">Close</button>\n            </div>\n        </div>\n\n\n    </div>\n\n</div>\n\n<!-- End of Prodcut Histoty Model -->\n\n<!-- Start of Delete product up -->\n<div class=\"modal fade\" id=\"deleteProduct\" role=\"dialog\">\n    <div class=\"modal-dialog modal-sm\">\n        <div class=\"modal-content\">\n            <div class=\"modal-header\">\n                <h4 class=\"modal-title\">Delete Product</h4>\n                <button type=\"button\" class=\"close\" data-dismiss=\"modal\">&times;</button>\n            </div>\n            <div class=\"modal-body\">\n                <p>Are You Sure You Want To Delete This Product</p>\n            </div>\n            <div class=\"modal-footer\">\n\n                <button type=\"button\" class=\"btn btn-danger\" data-dismiss=\"modal\" (click)=\"this.deleteProduct()\">Yes</button>\n                <button type=\"button\" class=\"btn btn-default\" data-dismiss=\"modal\">Cancle</button>\n            </div>\n        </div>\n    </div>\n</div>\n\n<!-- End of Delete product up -->\n\n\n<!-- Start Of Cost price and Quantity model -->\n<div class=\"modal fade\" id=\"productInventory\" role=\"dialog\" (keyup.enter)=\"this.hideProductModal()\">\n    <div class=\"modal-dialog modal-lg\">\n\n        <!-- Modal content-->\n        <div class=\"modal-content\">\n            <div class=\"modal-header\">\n                <h4 class=\"modal-title\">Product Inventory</h4>\n                <button type=\"button\" class=\"close\" data-dismiss=\"modal\">&times;</button>\n            </div>\n            <div class=\"modal-body\">\n\n                <div class=\"row p-3\">\n                    <p-dataTable [value]=\"this.productInventoryList\" [editable]=\"true\" scrollable=\"true\" [responsive]=\"true\" scrollHeight=\"300px\" (onEditComplete)=\"this.updateProductInventory($event)\">\n                        <p-column field=\"cost\" header=\"Cost\" [editable]=\"true\">\n                            <ng-template let-product=\"rowData\" pTemplate=\"body\">\n                                {{product.cost | currency:'USD':'true'}}\n                            </ng-template>\n                        </p-column>\n\n                        <p-column field=\"quantity\" header=\"Quantity\" [editable]=\"true\"></p-column>\n\n                        <p-column field=\"date\" header=\"Date\"></p-column>\n\n                        <p-column field=\"time\" header=\"Time\"></p-column>\n\n                    </p-dataTable>\n                    <!-- \n                  <table class=\"table table-striped\">\n                      <thead>\n                          <tr>\n                              <th>Product No</th>\n                              <th>Cost</th>\n                              <th>Quantity</th>\n                              <th>Date</th>\n                              <th>Time</th>\n                          </tr>\n                      </thead>\n                      <tbody>\n                          <tr *ngFor=\"let inventory of this.productInventoryList\">\n                              <td>{{inventory.productNo}}</td>\n                              <td>\n                                  <input type=\"text\" [(ngModel)]=\"inventory.cost\" />\n                              </td>\n                              <td>\n                                  <input type=\"text\" [(ngModel)]=\"inventory.quantity\" />\n                              </td>\n                              <td>{{inventory.date}}</td>\n                              <td>{{inventory.time}}</td>\n                              <td>\n                                  <button (click)=\"this.updateProductInventory(inventory)\">update</button>\n                              </td>\n                          </tr>\n                      </tbody>\n                  </table> -->\n                </div>\n            </div>\n\n\n            <div class=\"modal-footer\">\n                <button type=\"button\" class=\"btn btn-default\" data-dismiss=\"modal\">Close</button>\n            </div>\n        </div>\n\n\n    </div>\n\n</div>\n<!-- Start Of Cost price and Quantity model -->"
-
-/***/ }),
-
-/***/ "../../../../../src/app/sell/purchase-order/purchase-order.component.scss":
-/***/ (function(module, exports, __webpack_require__) {
-
-exports = module.exports = __webpack_require__("../../../../css-loader/lib/css-base.js")(false);
-// imports
-
-
-// module
-exports.push([module.i, "", ""]);
-
-// exports
-
-
-/*** EXPORTS FROM exports-loader ***/
-module.exports = module.exports.toString();
-
-/***/ }),
-
-/***/ "../../../../../src/app/sell/purchase-order/purchase-order.component.ts":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return PurchaseOrderComponent; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/esm5/core.js");
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var __metadata = (this && this.__metadata) || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
-
-var PurchaseOrderComponent = /** @class */ (function () {
-    function PurchaseOrderComponent() {
+var CloseRegisterDto = /** @class */ (function () {
+    function CloseRegisterDto() {
     }
-    PurchaseOrderComponent.prototype.ngOnInit = function () {
-    };
-    PurchaseOrderComponent = __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
-            selector: 'app-purchase-order',
-            template: __webpack_require__("../../../../../src/app/sell/purchase-order/purchase-order.component.html"),
-            styles: [__webpack_require__("../../../../../src/app/sell/purchase-order/purchase-order.component.scss")]
-        }),
-        __metadata("design:paramtypes", [])
-    ], PurchaseOrderComponent);
-    return PurchaseOrderComponent;
+    return CloseRegisterDto;
 }());
 
 
@@ -6400,7 +6891,7 @@ var ReturnSaleComponent = /** @class */ (function () {
 /***/ "../../../../../src/app/sell/sale/sale.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"row\">\n    <div class=\"col-lg-9\">\n        <mat-card>\n            <div class=\"row\">\n                <div class=\"align-self-center col-lg-7\">\n\n                    <p-autoComplete id=\"productsearch\" [(ngModel)]=\"p\" class=\"full-width m-1\" [suggestions]=\"product\" placeholder=\"Scan or Search Product\" (onFocus)=\"print($event)\" (onBlur)=\"print($event)\" (completeMethod)=\"filterProducts($event)\" name=\"test\" [minLength]=\"3\"\n                        (keyup.enter)=\"submitProduct(p)\" field=\"description\">\n                    </p-autoComplete>\n                    <!-- <button (click)=\"this.testFocus()\">Click me</button> -->\n\n                </div>\n                <div class=\"col-lg-0\"></div>\n                <div class=\"col-lg-5 d-flex justify-content-end\">\n                    <!-- Buttons go here  -->\n                    <button (click)=\"this.parkSale()\" class=\"bg-primary text-white action-button m-1\" mat-raised-button [disabled]=\"this.paymentButtonOnSale\">\n                        <span>\n                            <i class=\"fa fa-history\">\n                                Park Sale\n                            </i>\n                        </span>\n                    </button>\n                    <button class=\"bg-danger text-white action-button m-1\" mat-raised-button data-toggle=\"modal\" data-target=\"#deleteProduct\" (click)=\"this.setHeaderAndMessageForDisgardPopup()\" [disabled]=\"this.paymentButtonOnSale\">\n                        <span>\n                            <i class=\"fa fa-trash\">\n                                Discard Sale\n                            </i>\n                        </span>\n                    </button>\n                    <button class=\"bg-primary text-white  action-button m-1\" mat-raised-button>\n                        <span>\n                            <i class=\"fa fa-th\">\n                                Show Grid\n                            </i>\n                        </span>\n                    </button>\n                    <!-- <button class=\"bg-primary text-white  action-button m-1\" mat-raised-button (click)=\"this.openSellCustomerView()\">\n                        <span>\n                            <i class=\"fa fa-user\">\n                                Customer View\n                            </i>\n                        </span>\n                    </button> -->\n                </div>\n            </div>\n            <!-- <div class=\"row m-2\">\n                <app-receipt [data]=\"this.recieptData\"></app-receipt>\n            </div> -->\n        </mat-card>\n        <!-- <br/> -->\n        <mat-card>\n            <!-- <mat-card-title></mat-card-title> -->\n            <mat-card-content>\n                <div class=\"row p-md-3\">\n                    <!-- Product Table -->\n                    <p-dataTable [value]=\"this.transactionLineItemDaoList\" scrollable=\"true\" [responsive]=\"true\" scrollHeight=\"300px\" [editable]=\"true\" (onEditComplete)=\"updateLineItemDetails($event)\">\n                        <p-header>Product Sale Table</p-header>\n\n                        <p-column field=\"productNo\" header=\"ProductNo\" [style]=\"{'width':'15%','text-align':'center', 'overflow':'visible'}\"></p-column>\n                        <p-column field=\"description\" header=\"Description\" [style]=\"{'width':'45%','text-align':'center', 'overflow':'visible'}\"></p-column>\n                        <p-column field=\"defaultQuantity\" header=\"Quantity\" [editable]=\"true\">\n                            <ng-template let-product=\"rowData\" pTemplate=\"body\">\n                                <div id=\"lineitem{{product.productNo}}\" [ngClass]=\"{'quantity-updated': product.quantityUpdated }\">\n                                    {{product.defaultQuantity}}\n                                </div>\n                            </ng-template>\n                        </p-column>\n                        <p-column field=\"actualRetail\" header=\"Retail\"></p-column>\n                        <p-column field=\"retail\" header=\"RetWtDis\" [editable]=\"true\"></p-column>\n                        <p-column field=\"quantity\" header=\"Stock\"></p-column>\n                        <p-column field=\"totalProductPrice\" header=\"Total\"></p-column>\n                        <p-column header=\"\" styleClass=\"col-button\" [style]=\"{'width':'5%','text-align':'center', 'overflow':'visible'}\">\n\n                            <ng-template let-product=\"rowData\" pTemplate=\"body\">\n                                <button mat-button class=\"btn-red action-button-table\" mat-button (click)=\"this.setProductForDelete(product)\" data-toggle=\"modal\" data-target=\"#deleteProduct\">\n                                    <i class=\"fa fa-trash\" aria-hidden=\"true\"></i>\n                                </button>\n                            </ng-template>\n                        </p-column>\n\n\n                    </p-dataTable>\n                </div>\n            </mat-card-content>\n        </mat-card>\n\n    </div>\n    <div class=\"col-lg-3\">\n        <mat-card>\n            <mat-card-content>\n                <div class=\"row\">\n                    <div class=\"input-group\">\n                        <span class=\"input-group-addon\" id=\"basic-addon1\">\n                            <i class=\"fa fa-user-plus\" aria-hidden=\"true\"></i>\n                        </span>\n                        <p-autoComplete [(ngModel)]=\"this.selectedCustomer\" [field]=\"'name'\" [suggestions]=\"filteredCustomer\" (completeMethod)=\"this.filterCustomers($event)\" class=\"full-width\" [minLength]=\"1\" (keyup.enter)=\"this.submitCustomer()\" (onClear)=\"this.removeCustomerOnSale()\">\n                            <ng-template let-c pTemplate=\"item\">\n                                <div class=\"ui-helper-clearfix\" style=\"border-bottom:1px solid #D5D5D5\">\n                                    <div style=\"width:32px;display:inline-block;margin:5px 0 2px 5px\">{{c.name}}</div>\n                                    <div style=\"font-size:18px;float:right;margin:10px 10px 0 0\">{{c.phoneNo}}</div>\n                                </div>\n                            </ng-template>\n\n                        </p-autoComplete>\n\n                    </div>\n                </div>\n                <br/>\n                <div *ngIf=\"this.selectedCustomer\">\n                    <table class=\"table table-bordered customer\">\n\n                        <tbody>\n                            <tr>\n                                <td>\n                                    <dl class=\"row\">\n                                        <dt class=\"\">Name:</dt>\n                                        <dd class=\"\">{{this.selectedCustomer.name}}</dd>\n                                    </dl>\n                                </td>\n                                <td>\n                                    <dl class=\"row\">\n                                        <dt class=\"\">Phone:</dt>\n                                        <dd class=\"\">{{this.selectedCustomer.phoneNo}}</dd>\n                                    </dl>\n                                </td>\n                            </tr>\n                            <tr>\n                                <td>\n                                    <dl class=\"row\">\n                                        <dt class=\"\">Balance:</dt>\n                                        <dd class=\"\">{{this.selectedCustomer.balance | currency:'USD':'true'}}</dd>\n                                    </dl>\n                                </td>\n                                <td>\n                                    <dl class=\"row\">\n                                        <dt class=\"\">Credit:</dt>\n                                        <dd class=\"\">{{this.selectedCustomer.storeCredit | currency:'USD':'true'}}</dd>\n                                    </dl>\n                                </td>\n                            </tr>\n                            <tr>\n                                <td>\n                                    <dl class=\"row\">\n                                        <dt class=\"\">Spending:</dt>\n                                        <dd class=\"\"></dd>\n                                    </dl>\n                                </td>\n                                <td>\n                                    <dl class=\"row\">\n                                        <dt class=\"\">Loyalty:</dt>\n                                        <dd class=\"\"></dd>\n                                    </dl>\n\n                                </td>\n                            </tr>\n                        </tbody>\n                    </table>\n                </div>\n\n                <div class=\"sales-total p-md-4\">\n\n                    <dl class=\"row\">\n                        <dt class=\"\">Sub-total</dt>\n                        <dd class=\"\">{{this.transactionDtoList.subtotal | currency:'USD':'true'}}</dd>\n                    </dl>\n                    <dl class=\"row\">\n                        <dt class=\"\">\n                            <a #discount id=\"discount-popover\" href=\"javascript:void(0)\" (click)=\"this.showPopover(discount)\">\n                                Discount\n                            </a>\n                        </dt>\n                        <dd class=\"\">{{this.transactionDtoList.totalDiscount | currency:'USD':'true'}}</dd>\n                    </dl>\n                    <dl class=\"row\">\n                        <dt *ngIf=\"this.taxPercent == 7\">\n                        <a  href=\"javascript:void(0)\" (click)=\"this.taxPercent = 0\">\n                                Tax ({{this.taxPercent}}%)\n                        </a>\n                        </dt>\n\n                        <dt *ngIf=\"this.taxPercent == 0\">\n\n                            <a  href=\"javascript:void(0)\" (click)=\"this.taxPercent = 7\">\n                                    No Tax\n                                    <!-- ({{this.taxPercent}}%) -->\n                            </a>\n                        </dt>\n                        <dd class=\"\">{{this.transactionDtoList.tax | currency:'USD':'true'}}</dd>\n                    </dl>\n                    <dl class=\"row\">\n                        <dt class=\"\">Quantity</dt>\n                        <dd class=\"\">{{this.transactionDtoList.quantity}}</dd>\n                    </dl>\n                    <dl class=\"row\" *ngIf=\"this.selectedCustomer != null && this.selectedCustomer.balance > 0\">\n                        <dt class=\"\">Pre Balance</dt>\n                        <dd class=\"\">{{this.selectedCustomer.balance | currency:'USD':'true'}}</dd>\n                    </dl>\n                    <dl class=\"row\">\n                        <dt class=\"\">Total</dt>\n                        <dd class=\"\">{{this.transactionDtoList.totalAmount | currency:'USD':'true'}}</dd>\n                    </dl>\n                </div>\n                <button *ngIf=\"this.saleType == 'Complete' \" mat-raised-button [disabled]=\"this.paymentButtonOnSale\" type=\"button\" (click)=\"this.setDataForPaymentModel()\" data-toggle=\"modal\" data-target=\"#paymentModel\" style=\"width: 100%; font-size: 20px\" class=\"btn btn-green btn-lg text-white m-md-1 p-md-2\">\n                    <div class=\"row p-md-1 font-weight-bold\">\n                        <div class=\"col-md-6 text-left\">Payment</div>\n                        <div class=\"col-md-6 text-right\">{{this.transactionDtoList.totalAmount | currency:'USD':'true'}}</div>\n                    </div>\n                </button>\n\n                <button *ngIf=\"this.saleType == 'Return' \" mat-raised-button [disabled]=\"this.paymentButtonOnSale\" type=\"button\" (click)=\"this.setDataForPaymentModelForReturnSale()\" data-toggle=\"modal\" data-target=\"#paymentModel\" style=\"width: 100%; font-size: 20px\"\n                    class=\"btn btn-red btn-lg text-white m-md-1 p-md-2\">\n                    <div class=\"row p-md-1 font-weight-bold\">\n                        <div class=\"col-md-6 text-left\">Return</div>\n                        <div class=\"col-md-6 text-right\">{{this.transactionDtoList.totalAmount | currency:'USD':'true'}}</div>\n                    </div>\n                </button>\n\n            </mat-card-content>\n        </mat-card>\n\n\n    </div>\n</div>\n\n<!-- Popover -->\n<div #popover *ngIf=\"this.popoverStyle\" class=\"popover fade bs-popover-left show\" role=\"tooltip\" [style]=\"this.popoverStyle\">\n    <div class=\"arrow\" style=\"top: 82px;\"></div>\n    <h3 class=\"popover-header\">\n        Apply Discount For Sale\n    </h3>\n    <div class=\"popover-body\">\n        <!-- <button mat-raised-button class=\"action-button\" (click)=\"this.setDiscountType('By Percentage')\"> % </button>\n        <button mat-raised-button class=\"action-button\" (click)=\"this.setDiscountType('By Amount')\"> $ </button> -->\n        <div class=\"row\">\n            <div class=\"col-md-5\">\n                <mat-input-container>\n                    <input matInput [(ngModel)]=\"this.discountValue\" type=\"text\" placeholder=\"Add Discount\">\n                </mat-input-container>\n            </div>\n            <div class=\"col-md-7\">\n                <mat-radio-group class=\"m-t-5\" [(ngModel)]=\"this.discountType\">\n                    <mat-radio-button class=\"p-md-2 m-r-20\" value=\"By Amount\"> $</mat-radio-button>\n                    <mat-radio-button class=\"p-md-2 m-r-20\" value=\"By Percentage\"> %</mat-radio-button>\n                </mat-radio-group>\n            </div>\n        </div>\n    </div>\n    <div class=\"d-flex justify-content-center  p-md-3\">\n        <button mat-button class=\"btn-red action-button-table\" (click)=\"this.calculateDiscount(this.discountValue)\">\n                        Apply\n            </button>\n\n\n    </div>\n</div>\n<!-- End of Discount pophover -->\n\n\n\n<!-- Start of Product and Sale discard Pop up -->\n\n<div class=\"modal fade\" id=\"deleteProduct\" role=\"dialog\">\n    <div class=\"modal-dialog modal-sm\">\n        <div class=\"modal-content\">\n            <div class=\"modal-header\">\n                <h4 class=\"modal-title\">{{this.popupHeader}}</h4>\n                <button type=\"button\" class=\"close\" data-dismiss=\"modal\">&times;</button>\n\n            </div>\n            <div class=\"modal-body\">\n                <p>{{this.popupMessage}}</p>\n            </div>\n            <div class=\"modal-footer\">\n\n                <!-- This logic to reuse the model code cause i need popup for delete single product and also delete complete sale -->\n                <button *ngIf=\"this.popupHeader == 'Delete Product' \" type=\"button\" class=\"btn btn-danger\" data-dismiss=\"modal\" (click)=\"this.deleteProduct()\">Yes</button>\n                <button *ngIf=\"this.popupHeader == 'Discard Sale' \" type=\"button\" class=\"btn btn-danger\" data-dismiss=\"modal\" (click)=\"this.disgardCompleteSale()\">Yes</button>\n                <!-- TODO Add one more button for add product if it does not exists -->\n                <button type=\"button\" class=\"btn btn-default\" data-dismiss=\"modal\">Cancle</button>\n            </div>\n        </div>\n    </div>\n</div>\n\n<!-- End of Product and Sale discard Pop up -->\n\n\n<!-- Start Of payment model -->\n<div class=\"modal fade\" id=\"paymentModel\" role=\"dialog\">\n    <div class=\"modal-dialog modal-lg\">\n\n        <!-- Modal content-->\n        <div class=\"modal-content\">\n            <div class=\"modal-header\">\n                <h3 class=\"modal-title\">Manage Payment</h3>\n                <button type=\"button\" class=\"close\" data-dismiss=\"modal\">&times;</button>\n\n            </div>\n            <div class=\"modal-body\">\n\n                <div class=\"row\">\n\n                    <div class=\"col-md-3\">\n                        <h3>{{this.payLable}}</h3>\n                    </div>\n\n                    <div class=\"col-md-2\">\n                        <input [(ngModel)]=\"this.payAmountTextBox\" class=\"form-control\" type=\"number\" [style.color]=\"this.dueAmountForTransaction <=0 ? 'green' : 'red' \">\n                    </div>\n\n\n                    <div class=\"col-md-4\">\n                        <h3>{{this.amountDueLable}}</h3>\n                    </div>\n\n                    <div class=\"col-md-3\">\n                        <h3 [style.color]=\"this.dueAmountForTransaction <=0 ? 'green' : 'red' \">$ {{this.dueAmountForTransaction | number:'1.2-2'}}</h3>\n                    </div>\n\n                </div>\n\n                <div *ngIf=\"this.paymentObjectForPaymentSellTable.length > 0\" class=\"row\">\n                    <table class=\"table\">\n                        <thead>\n                            <tr>\n                                <th>Payment Type</th>\n                                <th>Amount</th>\n                                <th>Action</th>\n                            </tr>\n                        </thead>\n                        <tbody>\n                            <tr *ngFor=\"let payment of this.paymentObjectForPaymentSellTable\">\n                                <td>{{payment.paymentType}}</td>\n                                <td>$ {{payment.paymentAmount}}</td>\n                                <td (click)=\"this.deletePaymentFromPaymentModel(payment)\">\n                                    <i class=\"fa fa-trash\"></i>\n                                </td>\n                            </tr>\n                        </tbody>\n                    </table>\n                </div>\n\n\n                <div class=\"row\" style=\"margin-top: 30px\">\n                    <div class=\"col-lg-3\">\n                        <button mat-raised-button class=\"primary-button\" (click)=\"this.setPaymentDto('Cash',this.payAmountTextBox)\" [disabled]=\"this.disablePaymentButtons\">Cash</button>\n                    </div>\n\n                    <div class=\"col-lg-3\">\n                        <button mat-raised-button class=\"primary-button\" (click)=\"this.setPaymentDto('Credit',this.payAmountTextBox)\" [disabled]=\"this.disablePaymentButtons\">Credit</button>\n                    </div>\n\n                    <div class=\"col-lg-3\">\n                        <button mat-raised-button class=\"primary-button\" (click)=\"this.setPaymentDto('Debit',this.payAmountTextBox)\" [disabled]=\"this.disablePaymentButtons\">Debit</button>\n                    </div>\n\n                    <div class=\"col-lg-3\">\n                        <button mat-raised-button class=\"primary-button\" (click)=\"this.setPaymentDto('Check',this.payAmountTextBox)\" [disabled]=\"this.disablePaymentButtons\">Check</button>\n                    </div>\n                </div>\n                <div class=\"row\" style=\"margin-top: 30px\">\n\n                    <div class=\"col-md-2\">\n                        <button mat-raised-button class=\"primary-button\" (click)=\"this.setPaymentDto('Cash', 1)\" [disabled]=\"this.disablePaymentButtonsWithAmount\">$1</button>\n                    </div>\n\n                    <div class=\"col-md-2\">\n                        <button mat-raised-button class=\"primary-button\" (click)=\"this.setPaymentDto('Cash', 5)\" [disabled]=\"this.disablePaymentButtonsWithAmount\">$5</button>\n                    </div>\n\n                    <div class=\"col-md-2\">\n                        <button mat-raised-button class=\"primary-button\" (click)=\"this.setPaymentDto('Cash', 10)\" [disabled]=\"this.disablePaymentButtonsWithAmount\">$10</button>\n                    </div>\n\n                    <div class=\"col-md-2\">\n                        <button mat-raised-button class=\"primary-button\" (click)=\"this.setPaymentDto('Cash', 20)\" [disabled]=\"this.disablePaymentButtonsWithAmount\">$20</button>\n                    </div>\n\n                    <div class=\"col-md-2\">\n                        <button mat-raised-button class=\"primary-button\" (click)=\"this.setPaymentDto('Cash', 50)\" [disabled]=\"this.disablePaymentButtonsWithAmount\">$50</button>\n                    </div>\n\n                    <div class=\"col-md-2\">\n                        <button mat-raised-button class=\"primary-button\" (click)=\"this.setPaymentDto('Cash', 100)\" [disabled]=\"this.disablePaymentButtonsWithAmount\">$100</button>\n                    </div>\n                </div>\n                <div class=\"row\" style=\"margin-top: 30px\">\n\n                    <div class=\"col-md-3\">\n                        <button (click)=\"this.setPaymentDto('OnAccount', this.payAmountTextBox)\" mat-raised-button class=\"secondary-button\" [disabled]=\"this.disableOnAccountButtons\">On Account</button>\n                    </div>\n\n                    <div class=\"col-md-3\">\n                        <button mat-raised-button class=\"secondary-button\" [disabled]=\"this.disableStoreCreditButtons\" (click)=\"this.setPaymentDto('StoreCredit', this.selectedCustomer.storeCredit)\">Store Credit</button>\n                    </div>\n\n                    <div class=\"col-md-3\">\n                        <button mat-raised-button class=\"secondary-button\" [disabled]=\"false\">Loyalty($ 2.70)</button>\n                    </div>\n\n                    <div class=\"col-md-3\">\n                        <button mat-raised-button class=\"secondary-button\" [disabled]=\"true\">Layby</button>\n                    </div>\n                </div>\n\n                <div class=\"row\" style=\"margin-top: 30px\">\n                    <div class=\"col-md-12\">\n                        <input [(ngModel)]=\"this.transactionNotes\" class=\"form-control form-control-lg\" type=\"text\" placeholder=\"Add Sales Notes\">\n                    </div>\n                </div>\n\n                <div class=\"row\" style=\"margin-top: 30px\">\n                    <div class=\"col-md-3\">\n\n                    </div>\n\n                    <div class=\"col-md-6\">\n                        <button mat-raised-button [ngClass]=\"{'primary-button': this.saleType == 'Complete', 'danger-button': this.saleType == 'Return' }\" (click)=\"this.completeSale()\" [disabled]=\"this.disableCompleteSaleButton\">Complete Sale</button>\n                    </div>\n\n                    <div class=\"col-md-3\">\n\n                    </div>\n                </div>\n\n                <div class=\"row\" style=\"margin-top: 30px\" *ngIf=\"null != this.printTransactionDto\">\n                    <div class=\"col-md-3\">\n\n                    </div>\n\n                    <div class=\"col-md-6\">\n                        <button mat-raised-button [ngClass]=\"{'primary-button': this.saleType == 'Complete', 'danger-button': this.saleType == 'Return' }\" (click)=\"this.printReciept()\" data-dismiss=\"modal\" data-toggle=\"modal\">Print Reciept</button>\n                    </div>\n\n                    <div class=\"col-md-3\">\n\n                    </div>\n                </div>\n\n            </div>\n            <div class=\"modal-footer\">\n                <button type=\"button\" class=\"btn btn-default\" data-dismiss=\"modal\" (click)=\"this.clearAllDateAfterTransactionComplete()\">Close</button>\n            </div>\n\n        </div>\n\n\n    </div>\n\n</div>\n<!-- End of Payment Pop up -->"
+module.exports = "<div class=\"row\">\n    <div class=\"col-lg-9\">\n        <mat-card>\n            <div class=\"row\">\n                <div class=\"align-self-center col-lg-7\" style=\"max-height: 500px !important;\">\n\n                    <p-autoComplete id=\"productsearch\" [(ngModel)]=\"p\" class=\"full-width m-1\" [suggestions]=\"product\" placeholder=\"Scan or Search Product\" (onFocus)=\"print($event)\" (onBlur)=\"print($event)\" (completeMethod)=\"filterProducts($event)\" name=\"test\" [minLength]=\"3\"\n                        (keyup.enter)=\"submitProduct(p)\" field=\"description\">\n                        <ng-template>\n                            <span style=\"max-width:500px !important\">\n                                </span>\n                        </ng-template>\n                    </p-autoComplete>\n                    <!-- <button (click)=\"this.testFocus()\">Click me</button> -->\n\n                </div>\n                <div class=\"col-lg-0\"></div>\n                <div class=\"col-lg-5 d-flex justify-content-end\">\n                    <!-- Buttons go here  -->\n                    <button (click)=\"this.parkSale()\" class=\"bg-primary text-white action-button m-1\" mat-raised-button [disabled]=\"this.paymentButtonOnSale\">\n                        <span>\n                            <i class=\"fa fa-history\">\n                                Park Sale\n                            </i>\n                        </span>\n                    </button>\n                    <button class=\"bg-danger text-white action-button m-1\" mat-raised-button data-toggle=\"modal\" data-target=\"#deleteProduct\" (click)=\"this.setHeaderAndMessageForDisgardPopup()\" [disabled]=\"this.paymentButtonOnSale\">\n                        <span>\n                            <i class=\"fa fa-trash\">\n                                Discard Sale\n                            </i>\n                        </span>\n                    </button>\n                    <button class=\"bg-primary text-white  action-button m-1\" mat-raised-button>\n                        <span>\n                            <i class=\"fa fa-th\">\n                                Show Grid\n                            </i>\n                        </span>\n                    </button>\n                    <!-- <button class=\"bg-primary text-white  action-button m-1\" mat-raised-button (click)=\"this.openSellCustomerView()\">\n                        <span>\n                            <i class=\"fa fa-user\">\n                                Customer View\n                            </i>\n                        </span>\n                    </button> -->\n                </div>\n            </div>\n            <!-- <div class=\"row m-2\">\n                <app-receipt [data]=\"this.recieptData\"></app-receipt>\n            </div> -->\n        </mat-card>\n        <!-- <br/> -->\n        <mat-card>\n            <!-- <mat-card-title></mat-card-title> -->\n            <mat-card-content>\n                <div class=\"row p-md-3\">\n                    <!-- Product Table -->\n                    <p-dataTable [value]=\"this.transactionLineItemDaoList\" scrollable=\"true\" [responsive]=\"true\" scrollHeight=\"300px\" [editable]=\"true\" (onEditComplete)=\"updateLineItemDetails($event)\">\n                        <p-header>Product Sale Table</p-header>\n\n                        <p-column field=\"productNo\" header=\"ProductNo\" [style]=\"{'width':'15%','text-align':'center', 'overflow':'visible'}\"></p-column>\n                        <p-column field=\"description\" header=\"Description\" [style]=\"{'width':'45%','text-align':'center', 'overflow':'visible'}\"></p-column>\n                        <p-column field=\"defaultQuantity\" header=\"Quantity\" [editable]=\"true\">\n                            <ng-template let-product=\"rowData\" pTemplate=\"body\">\n                                <div id=\"lineitem{{product.productNo}}\" [ngClass]=\"{'quantity-updated': product.quantityUpdated }\">\n                                    {{product.defaultQuantity}}\n                                </div>\n                            </ng-template>\n                        </p-column>\n                        <p-column field=\"actualRetail\" header=\"Retail\"></p-column>\n                        <p-column field=\"retail\" header=\"RetWtDis\" [editable]=\"true\"></p-column>\n                        <p-column field=\"quantity\" header=\"Stock\"></p-column>\n                        <p-column field=\"totalProductPrice\" header=\"Total\"></p-column>\n                        <p-column header=\"\" styleClass=\"col-button\" [style]=\"{'width':'5%','text-align':'center', 'overflow':'visible'}\">\n\n                            <ng-template let-product=\"rowData\" pTemplate=\"body\">\n                                <button mat-button class=\"btn-red action-button-table\" mat-button (click)=\"this.setProductForDelete(product)\" data-toggle=\"modal\" data-target=\"#deleteProduct\">\n                                    <i class=\"fa fa-trash\" aria-hidden=\"true\"></i>\n                                </button>\n                            </ng-template>\n                        </p-column>\n\n\n                    </p-dataTable>\n                </div>\n            </mat-card-content>\n        </mat-card>\n\n    </div>\n    <div class=\"col-lg-3\">\n        <mat-card>\n            <mat-card-content>\n                <div class=\"row\">\n                    <div class=\"input-group\">\n                        <span class=\"input-group-addon\" id=\"basic-addon1\">\n                            <i class=\"fa fa-user-plus\" aria-hidden=\"true\"></i>\n                        </span>\n                        <p-autoComplete id =\"customerSearch\" [(ngModel)]=\"this.selectedCustomer\" [field]=\"'name'\" [suggestions]=\"filteredCustomer\" (completeMethod)=\"this.filterCustomers($event)\" class=\"full-width\" [minLength]=\"1\" (keyup.enter)=\"this.submitCustomer()\" (onClear)=\"this.removeCustomerOnSale()\">\n                            <ng-template let-c pTemplate=\"item\">\n                                <div class=\"ui-helper-clearfix\" style=\"border-bottom:1px solid #D5D5D5\">\n                                    <div style=\"width:32px;display:inline-block;margin:5px 0 2px 5px\">{{c.name}}</div>\n                                    <div style=\"font-size:18px;float:right;margin:10px 10px 0 0\">{{c.phoneNo}}</div>\n                                </div>\n                            </ng-template>\n\n                        </p-autoComplete>\n\n                    </div>\n                </div>\n                <br/>\n                <div *ngIf=\"this.selectedCustomer\">\n                    <table class=\"table table-bordered customer\">\n\n                        <tbody>\n                            <tr>\n                                <td>\n                                    <dl class=\"row\">\n                                        <dt class=\"\">Name:</dt>\n                                        <dd class=\"\">{{this.selectedCustomer.name}}</dd>\n                                    </dl>\n                                </td>\n                                <td>\n                                    <dl class=\"row\">\n                                        <dt class=\"\">Phone:</dt>\n                                        <dd class=\"\">{{this.selectedCustomer.phoneNo}}</dd>\n                                    </dl>\n                                </td>\n                            </tr>\n                            <tr>\n                                <td>\n                                    <dl class=\"row\">\n                                        <dt class=\"\">Balance:</dt>\n                                        <dd class=\"\">{{this.selectedCustomer.balance | currency:'USD':'true'}}</dd>\n                                    </dl>\n                                </td>\n                                <td>\n                                    <dl class=\"row\">\n                                        <dt class=\"\">Credit:</dt>\n                                        <dd class=\"\">{{this.selectedCustomer.storeCredit | currency:'USD':'true'}}</dd>\n                                    </dl>\n                                </td>\n                            </tr>\n                            <tr>\n                                <td>\n                                    <dl class=\"row\">\n                                        <dt class=\"\">Spending:</dt>\n                                        <dd class=\"\"></dd>\n                                    </dl>\n                                </td>\n                                <td>\n                                    <dl class=\"row\">\n                                        <dt class=\"\">Loyalty:</dt>\n                                        <dd class=\"\"></dd>\n                                    </dl>\n\n                                </td>\n                            </tr>\n                        </tbody>\n                    </table>\n                </div>\n\n                <div class=\"sales-total p-md-4\">\n\n                    <dl class=\"row\">\n                        <dt class=\"\">Sub-total</dt>\n                        <dd class=\"\">{{this.transactionDtoList.subtotal | currency:'USD':'true'}}</dd>\n                    </dl>\n                    <dl class=\"row\">\n                        <dt class=\"\">\n                            <a #discount id=\"discount-popover\" href=\"javascript:void(0)\" (click)=\"this.showPopover(discount)\">\n                                Discount\n                            </a>\n                        </dt>\n                        <dd class=\"\">{{this.transactionDtoList.totalDiscount | currency:'USD':'true'}}</dd>\n                    </dl>\n                    <dl class=\"row\">\n                        <dt *ngIf=\"this.taxPercent == 7\">\n                        <a  href=\"javascript:void(0)\" (click)=\"this.taxPercent = 0\">\n                                Tax ({{this.taxPercent}}%)\n                        </a>\n                        </dt>\n\n                        <dt *ngIf=\"this.taxPercent == 0\">\n\n                            <a  href=\"javascript:void(0)\" (click)=\"this.taxPercent = 7\">\n                                    No Tax\n                                    <!-- ({{this.taxPercent}}%) -->\n                            </a>\n                        </dt>\n                        <dd class=\"\">{{this.transactionDtoList.tax | currency:'USD':'true'}}</dd>\n                    </dl>\n                    <dl class=\"row\">\n                        <dt class=\"\">Quantity</dt>\n                        <dd class=\"\">{{this.transactionDtoList.quantity}}</dd>\n                    </dl>\n                    <dl class=\"row\" *ngIf=\"this.selectedCustomer != null && this.selectedCustomer.balance > 0\">\n                        <dt class=\"\">Pre Balance</dt>\n                        <dd class=\"\">{{this.selectedCustomer.balance | currency:'USD':'true'}}</dd>\n                    </dl>\n                    <dl class=\"row\">\n                        <dt class=\"\">Total</dt>\n                        <dd class=\"\">{{this.transactionDtoList.totalAmount | currency:'USD':'true'}}</dd>\n                    </dl>\n                </div>\n                <button *ngIf=\"this.saleType == 'Complete' \" mat-raised-button [disabled]=\"this.paymentButtonOnSale\" type=\"button\" (click)=\"this.setDataForPaymentModel()\" data-toggle=\"modal\" data-target=\"#paymentModel\" style=\"width: 100%; font-size: 20px\" class=\"btn btn-green btn-lg text-white m-md-1 p-md-2\">\n                    <div class=\"row p-md-1 font-weight-bold\">\n                        <div class=\"col-md-6 text-left\">Payment</div>\n                        <div class=\"col-md-6 text-right\">{{this.transactionDtoList.totalAmount | currency:'USD':'true'}}</div>\n                    </div>\n                </button>\n\n                <button *ngIf=\"this.saleType == 'Return' \" mat-raised-button [disabled]=\"this.paymentButtonOnSale\" type=\"button\" (click)=\"this.setDataForPaymentModelForReturnSale()\" data-toggle=\"modal\" data-target=\"#paymentModel\" style=\"width: 100%; font-size: 20px\"\n                    class=\"btn btn-red btn-lg text-white m-md-1 p-md-2\">\n                    <div class=\"row p-md-1 font-weight-bold\">\n                        <div class=\"col-md-6 text-left\">Return</div>\n                        <div class=\"col-md-6 text-right\">{{this.transactionDtoList.totalAmount | currency:'USD':'true'}}</div>\n                    </div>\n                </button>\n\n            </mat-card-content>\n        </mat-card>\n\n\n    </div>\n</div>\n\n<!-- Popover -->\n<div #popover *ngIf=\"this.popoverStyle\" class=\"popover fade bs-popover-left show\" role=\"tooltip\" [style]=\"this.popoverStyle\">\n    <div class=\"arrow\" style=\"top: 82px;\"></div>\n    <h3 class=\"popover-header\">\n        Apply Discount For Sale\n    </h3>\n    <div class=\"popover-body\">\n        <!-- <button mat-raised-button class=\"action-button\" (click)=\"this.setDiscountType('By Percentage')\"> % </button>\n        <button mat-raised-button class=\"action-button\" (click)=\"this.setDiscountType('By Amount')\"> $ </button> -->\n        <div class=\"row\">\n            <div class=\"col-md-5\">\n                <mat-input-container>\n                    <input matInput [(ngModel)]=\"this.discountValue\" type=\"text\" placeholder=\"Add Discount\">\n                </mat-input-container>\n            </div>\n            <div class=\"col-md-7\">\n                <mat-radio-group class=\"m-t-5\" [(ngModel)]=\"this.discountType\">\n                    <mat-radio-button class=\"p-md-2 m-r-20\" value=\"By Amount\"> $</mat-radio-button>\n                    <mat-radio-button class=\"p-md-2 m-r-20\" value=\"By Percentage\"> %</mat-radio-button>\n                </mat-radio-group>\n            </div>\n        </div>\n    </div>\n    <div class=\"d-flex justify-content-center  p-md-3\">\n        <button mat-button class=\"btn-red action-button-table\" (click)=\"this.calculateDiscount(this.discountValue)\">\n                        Apply\n            </button>\n\n\n    </div>\n</div>\n<!-- End of Discount pophover -->\n\n\n\n<!-- Start of Product and Sale discard Pop up -->\n\n<div class=\"modal fade\" id=\"deleteProduct\" role=\"dialog\">\n    <div class=\"modal-dialog modal-sm\">\n        <div class=\"modal-content\">\n            <div class=\"modal-header\">\n                <h4 class=\"modal-title\">{{this.popupHeader}}</h4>\n                <button type=\"button\" class=\"close\" data-dismiss=\"modal\">&times;</button>\n\n            </div>\n            <div class=\"modal-body\">\n                <p>{{this.popupMessage}}</p>\n            </div>\n            <div class=\"modal-footer\">\n\n                <!-- This logic to reuse the model code cause i need popup for delete single product and also delete complete sale -->\n                <button *ngIf=\"this.popupHeader == 'Delete Product' \" type=\"button\" class=\"btn btn-danger\" data-dismiss=\"modal\" (click)=\"this.deleteProduct()\">Yes</button>\n                <button *ngIf=\"this.popupHeader == 'Discard Sale' \" type=\"button\" class=\"btn btn-danger\" data-dismiss=\"modal\" (click)=\"this.disgardCompleteSale()\">Yes</button>\n                <!-- TODO Add one more button for add product if it does not exists -->\n                <button type=\"button\" class=\"btn btn-default\" data-dismiss=\"modal\">Cancle</button>\n            </div>\n        </div>\n    </div>\n</div>\n\n<!-- End of Product and Sale discard Pop up -->\n\n\n<!-- Start Of payment model -->\n<div class=\"modal fade\" id=\"paymentModel\" role=\"dialog\">\n    <div class=\"modal-dialog modal-lg\">\n\n        <!-- Modal content-->\n        <div class=\"modal-content\">\n            <div class=\"modal-header\">\n                <h3 class=\"modal-title\">Manage Payment</h3>\n                <button type=\"button\" class=\"close\" data-dismiss=\"modal\">&times;</button>\n\n            </div>\n            <div class=\"modal-body\">\n\n                <div class=\"row\">\n\n                    <div class=\"col-md-3\">\n                        <h3>{{this.payLable}}</h3>\n                    </div>\n\n                    <div class=\"col-md-2\">\n                        <input [(ngModel)]=\"this.payAmountTextBox\" class=\"form-control\" type=\"number\" [style.color]=\"this.dueAmountForTransaction <=0 ? 'green' : 'red' \">\n                    </div>\n\n\n                    <div class=\"col-md-4\">\n                        <h3>{{this.amountDueLable}}</h3>\n                    </div>\n\n                    <div class=\"col-md-3\">\n                        <h3 [style.color]=\"this.dueAmountForTransaction <=0 ? 'green' : 'red' \">$ {{this.dueAmountForTransaction | number:'1.2-2'}}</h3>\n                    </div>\n\n                </div>\n\n                <div *ngIf=\"this.paymentObjectForPaymentSellTable.length > 0\" class=\"row\">\n                    <table class=\"table\">\n                        <thead>\n                            <tr>\n                                <th>Payment Type</th>\n                                <th>Amount</th>\n                                <th>Action</th>\n                            </tr>\n                        </thead>\n                        <tbody>\n                            <tr *ngFor=\"let payment of this.paymentObjectForPaymentSellTable\">\n                                <td>{{payment.paymentType}}</td>\n                                <td>$ {{payment.paymentAmount}}</td>\n                                <td (click)=\"this.deletePaymentFromPaymentModel(payment)\">\n                                    <i class=\"fa fa-trash\"></i>\n                                </td>\n                            </tr>\n                        </tbody>\n                    </table>\n                </div>\n\n\n                <div class=\"row\" style=\"margin-top: 30px\">\n                    <div class=\"col-lg-3\">\n                        <button mat-raised-button class=\"primary-button\" (click)=\"this.setPaymentDto('Cash',this.payAmountTextBox)\" [disabled]=\"this.disablePaymentButtons\">Cash</button>\n                    </div>\n\n                    <div class=\"col-lg-3\">\n                        <button mat-raised-button class=\"primary-button\" (click)=\"this.setPaymentDto('Credit',this.payAmountTextBox)\" [disabled]=\"this.disablePaymentButtons\">Credit</button>\n                    </div>\n\n                    <div class=\"col-lg-3\">\n                        <button mat-raised-button class=\"primary-button\" (click)=\"this.setPaymentDto('Debit',this.payAmountTextBox)\" [disabled]=\"this.disablePaymentButtons\">Debit</button>\n                    </div>\n\n                    <div class=\"col-lg-3\">\n                        <button mat-raised-button class=\"primary-button\" (click)=\"this.setPaymentDto('Check',this.payAmountTextBox)\" [disabled]=\"this.disablePaymentButtons\">Check</button>\n                    </div>\n                </div>\n                <div class=\"row\" style=\"margin-top: 30px\">\n\n                    <div class=\"col-md-2\">\n                        <button mat-raised-button class=\"primary-button\" (click)=\"this.setPaymentDto('Cash', 1)\" [disabled]=\"this.disablePaymentButtonsWithAmount\">$1</button>\n                    </div>\n\n                    <div class=\"col-md-2\">\n                        <button mat-raised-button class=\"primary-button\" (click)=\"this.setPaymentDto('Cash', 5)\" [disabled]=\"this.disablePaymentButtonsWithAmount\">$5</button>\n                    </div>\n\n                    <div class=\"col-md-2\">\n                        <button mat-raised-button class=\"primary-button\" (click)=\"this.setPaymentDto('Cash', 10)\" [disabled]=\"this.disablePaymentButtonsWithAmount\">$10</button>\n                    </div>\n\n                    <div class=\"col-md-2\">\n                        <button mat-raised-button class=\"primary-button\" (click)=\"this.setPaymentDto('Cash', 20)\" [disabled]=\"this.disablePaymentButtonsWithAmount\">$20</button>\n                    </div>\n\n                    <div class=\"col-md-2\">\n                        <button mat-raised-button class=\"primary-button\" (click)=\"this.setPaymentDto('Cash', 50)\" [disabled]=\"this.disablePaymentButtonsWithAmount\">$50</button>\n                    </div>\n\n                    <div class=\"col-md-2\">\n                        <button mat-raised-button class=\"primary-button\" (click)=\"this.setPaymentDto('Cash', 100)\" [disabled]=\"this.disablePaymentButtonsWithAmount\">$100</button>\n                    </div>\n                </div>\n                <div class=\"row\" style=\"margin-top: 30px\">\n\n                    <div class=\"col-md-3\">\n                        <button (click)=\"this.setPaymentDto('OnAccount', this.payAmountTextBox)\" mat-raised-button class=\"secondary-button\" [disabled]=\"this.disableOnAccountButtons\">On Account</button>\n                    </div>\n\n                    <div class=\"col-md-3\">\n                        <button mat-raised-button class=\"secondary-button\" [disabled]=\"this.disableStoreCreditButtons\" (click)=\"this.setPaymentDto('StoreCredit', this.selectedCustomer.storeCredit)\">Store Credit</button>\n                    </div>\n\n                    <div class=\"col-md-3\">\n                        <button mat-raised-button class=\"secondary-button\" [disabled]=\"false\">Loyalty($ 2.70)</button>\n                    </div>\n\n                    <div class=\"col-md-3\">\n                        <button mat-raised-button class=\"secondary-button\" [disabled]=\"true\">Layby</button>\n                    </div>\n                </div>\n\n                <div class=\"row\" style=\"margin-top: 30px\">\n                    <div class=\"col-md-12\">\n                        <input [(ngModel)]=\"this.transactionNotes\" class=\"form-control form-control-lg\" type=\"text\" placeholder=\"Add Sales Notes\">\n                    </div>\n                </div>\n\n                <div class=\"row\" style=\"margin-top: 30px\">\n                    <div class=\"col-md-3\">\n\n                    </div>\n\n                    <div class=\"col-md-6\">\n                        <button mat-raised-button [ngClass]=\"{'primary-button': this.saleType == 'Complete', 'danger-button': this.saleType == 'Return' }\" (click)=\"this.completeSale()\" [disabled]=\"this.disableCompleteSaleButton\">Complete Sale</button>\n                    </div>\n\n                    <div class=\"col-md-3\">\n\n                    </div>\n                </div>\n\n                <div class=\"row\" style=\"margin-top: 30px\" *ngIf=\"null != this.printTransactionDto\">\n                    <div class=\"col-md-3\">\n\n                    </div>\n\n                    <div class=\"col-md-6\">\n                        <button mat-raised-button [ngClass]=\"{'primary-button': this.saleType == 'Complete', 'danger-button': this.saleType == 'Return' }\" (click)=\"this.printReciept()\" data-dismiss=\"modal\" data-toggle=\"modal\">Print Reciept</button>\n                    </div>\n\n                    <div class=\"col-md-3\">\n\n                    </div>\n                </div>\n\n            </div>\n            <div class=\"modal-footer\">\n                <button type=\"button\" class=\"btn btn-default\" data-dismiss=\"modal\" (click)=\"this.clearAllDateAfterTransactionComplete()\">Close</button>\n            </div>\n\n        </div>\n\n\n    </div>\n\n</div>\n<!-- End of Payment Pop up -->"
 
 /***/ }),
 
@@ -7381,7 +7872,7 @@ module.exports = module.exports.toString();
 /***/ "../../../../../src/app/sell/sales-history/sales-history.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<mat-card>\n    <mat-card-title>\n        <h4>Sales History</h4>\n    </mat-card-title>\n\n    <mat-card-content>\n\n        <div class=\"row d-flex align-items-center\">\n\n            <div class=\"col-md-2\">\n                <select class=\"form-control form-control\" [(ngModel)]=\"this.salesHistoryDropdown\" (change)=\"this.getTransactionDetails(this.salesHistoryDropdown)\">\n                    <option>Today</option>\n                    <option>Yesterday</option>\n                    <option>This Week</option>\n                    <option>Last Week</option>\n                    <option>This Month</option>\n                    <option>Last Month</option>\n                    <option>Last 3 Months</option>\n                    <option>Last 6 Months</option>\n                    <option>This Year</option>\n                    <option>Last Year</option>\n                    <option>Custom</option>\n\n                </select>\n\n            </div>\n            <div *ngIf=\"this.salesHistoryDropdown == 'Custom' \" class=\"col-md-3 form-group d-flex align-items-center\" [formGroup]=\"this.customDate\">\n\n                <mat-form-field class=\"float-never col-md-6\">\n                    <input formControlName=\"fromDate\" matInput [matDatepicker]=\"fromDate\" placeholder=\"Start Date\" [max]=\"this.currentDate\">\n                    <mat-datepicker-toggle matSuffix [for]=\"fromDate\"></mat-datepicker-toggle>\n                    <mat-datepicker #fromDate></mat-datepicker>\n                </mat-form-field>\n                <label class=\"text-center\">To</label>\n                <mat-form-field class=\"float-never col-md-6\">\n                    <input class=\"\" formControlName=\"toDate\" matInput [matDatepicker]=\"toDate\" placeholder=\"End Date\" [min]=\"this.customDate.get('fromDate').value\" [max]=\"this.currentDate\">\n                    <mat-datepicker-toggle matSuffix [for]=\"toDate\"></mat-datepicker-toggle>\n                    <mat-datepicker #toDate></mat-datepicker>\n                </mat-form-field>\n            </div>\n\n            <div class=\"col-md-2\">\n                <select class=\"form-control\" [(ngModel)]=\"this.searchByTransactionType\" (change)=\"onTransactionTypeDropdownChoose()\">\n                    <option>All Transaction Status</option>\n                    <option>Complete</option>\n                    <option>Return</option>\n                    <option>Void</option>\n                    <option>Park</option>\n                    <option>Online</option>\n                </select>\n\n            </div>\n\n\n            <div class=\"col-md-3\">\n                <input [formControl]=\"this.searchByCustomerInputBox\" class=\"form-control form-control\" type=\"text\" placeholder=\"Search By Customer Name Or PhoneNo\">\n\n            </div>\n            <div class=\"col-md-2\">\n                <input [formControl]=\"this.searchByReceiptNoInputBox\" class=\"form-control form-control\" type=\"text\" placeholder=\"Search By Recipt Number\">\n\n            </div>\n\n        </div>\n\n        <div class=\"row p-md-3\">\n            <p-dataTable [value]=\"this.transactionDetails\" scrollable=\"true\" scrollHeight=\"500px\" expandableRows=\"true\" [responsive]=\"true\">\n                <p-column expander=\"true\" styleClass=\"col-icon\" [style]=\"{'width': '3%'}\"></p-column>\n                <p-column field=\"transactionComId\" header=\"Receipt No\" [style]=\"{'width': '7%'}\"></p-column>\n                <p-column field=\"date\" header=\"Date\" [sortable]=\"true\" [style]=\"{'width': '6%'}\"></p-column>\n                <p-column field=\"time\" header=\"Time\" [sortable]=\"true\" [style]=\"{'width': '6%'}\"></p-column>\n                <p-column field=\"customerPhoneno\" header=\"Customer Phone\"></p-column>\n                <p-column field=\"customerFirstLastName\" header=\"Customer Name\"></p-column>\n                <!-- <p-column field=\"username\" header=\"User Name\"></p-column> -->\n                <p-column field=\"tax\" header=\"Tax\" [style]=\"{'width': '8%'}\"></p-column>\n                <p-column field=\"totalDiscount\" header=\"Discount\" [style]=\"{'width': '8%'}\"></p-column>\n                <p-column field=\"subtotal\" header=\"Subtotal\" [style]=\"{'width': '8%'}\"></p-column>\n                <p-column field=\"totalAmount\" header=\"Total Amount\" [sortable]=\"true\" [style]=\"{'width': '10%'}\"></p-column>\n                <p-column field=\"status\" header=\"Status\" [sortable]=\"true\" [style]=\"{'width': '8%'}\"></p-column>\n                <p-column field=\"status\" header=\"Action\" [style]=\"{'width': '10%'}\">\n\n                    <ng-template let-transaction=\"rowData\" pTemplate=\"body\">\n                        <button class=\"btn-blue action-button-table\" mat-button (click)=\"this.printReceipt(transaction)\">\n                            <i class=\"fa fa-print\" aria-hidden=\"true\"></i>\n                        </button>\n                        <button class=\"btn-green action-button-table\" mat-button (click)='this.sendEmail(transaction)'>\n                            <i class=\"fa fa-envelope\" aria-hidden=\"true\"></i>\n                        </button>\n\n                        <!-- // Do not remove this, this is for park sales where i can redirect user to start the transaction. -->\n                        <!-- <button *ngIf=\"transaction.status != 'Return' \" class=\"btn-red action-button-table\" mat-button [routerLink]=\"['/sell', {transactionComId: transaction.transactionComId}]\"> -->\n                        <button *ngIf=\"transaction.status == 'Complete' || transaction.status == 'Void' \" class=\"btn-red action-button-table\" mat-button (click)=\"setTransactoinToVoid(transaction)\" data-toggle=\"modal\" data-target=\"#voidTransaction\">\n                                \n                            <i class=\"fa fa-ban\" aria-hidden=\"true\"></i>\n                        </button>\n                        <button *ngIf=\"transaction.status == 'Park' || transaction.status == 'Online' \" class=\"btn-red action-button-table\" mat-button [routerLink]=\"['/sell/sale', {transactionComId: transaction.transactionComId}]\">\n                                <i class=\"fa fa-reply-all\" aria-hidden=\"true\"></i>\n                        </button>\n\n\n                    </ng-template>\n                </p-column>\n\n\n                <ng-template let-receipt pTemplate=\"rowexpansion\">\n                    <div class=\"ui-grid ui-grid-responsive ui-fluid\" style=\"font-size:16px;padding:20px\">\n                        <div class=\"ui-grid-row\">\n                            <div class=\"ui-grid-col-12\">\n                                <div class=\"ui-grid ui-grid-responsive ui-grid-pad\">\n\n                                    <table class=\"table table-striped\">\n                                        <thead>\n                                            <tr>\n                                                <th>Product No</th>\n                                                <th>Description</th>\n                                                <th>Retail</th>\n                                                <th>Discount</th>\n                                                <th>Quantity</th>\n                                                <th>Total</th>\n                                            </tr>\n                                        </thead>\n                                        <tbody>\n                                            <tr *ngFor=\"let lineItem of receipt.transactionLineItemDaoList\">\n                                                <td>{{this.lineItem.productNo}}</td>\n                                                <td>{{this.lineItem.description}}</td>\n                                                <td>{{this.lineItem.retail}}</td>\n                                                <td>{{this.lineItem.discount}}</td>\n                                                <td>{{this.lineItem.quantity}}</td>\n                                                <td>{{this.lineItem.totalProductPrice}}</td>\n                                            </tr>\n                                        </tbody>\n                                    </table>\n                                </div>\n                            </div>\n                        </div>\n                        <div class=\"row\">\n                            <div class=\"col-md-10\">\n                                <!-- <textarea rows=\"3\" cols=\"150\">\n                           Transaction Notes  : {{receipt.note}}\n                        </textarea> -->\n                            </div>\n                            <div class=\"col-md-2\">\n\n                                <div class=\"row\">\n                                    <div class=\"col-md-6\">\n                                        Subtotal:\n                                    </div>\n                                    <div class=\"col-md-6\">\n                                        $ {{receipt.subtotal}}\n                                    </div>\n                                </div>\n\n                                <div class=\"row\">\n                                    <div class=\"col-md-6\" *ngIf=\"receipt.totalDiscount != 0\">\n                                        Discount:\n                                    </div>\n                                    <div class=\"col-md-6\" *ngIf=\"receipt.totalDiscount != 0\">\n                                        $ {{receipt.totalDiscount}}\n                                    </div>\n                                </div>\n\n                                <div class=\"row\">\n                                    <div class=\"col-md-6\">\n                                        Tax:\n                                    </div>\n                                    <div class=\"col-md-6\">\n                                        $ {{receipt.tax}}\n                                    </div>\n                                </div>\n\n                                <div class=\"row\">\n                                    <div class=\"col-md-6\" *ngIf=\"receipt.previousBalance != 0\">\n                                        Pre Balance:\n                                    </div>\n                                    <div class=\"col-md-6\" *ngIf=\"receipt.previousBalance != 0\">\n                                        $ {{receipt.previousBalance}}\n                                    </div>\n                                </div>\n\n                                <hr>\n\n                                <div class=\"row\">\n                                    <div class=\"col-md-6\">\n                                        TOTAL:\n                                    </div>\n                                    <div class=\"col-md-6\">\n                                        $ {{receipt.totalAmount}}\n                                    </div>\n                                </div>\n\n                                <hr>\n                                <div class=\"row\">\n                                    <div class=\"col-md-6\" *ngIf=\"receipt.paymentDao[0].cash != 0\">\n                                        Cash:\n                                    </div>\n                                    <div class=\"col-md-6\" *ngIf=\"receipt.paymentDao[0].cash != 0\">\n                                        $ {{receipt.paymentDao[0].cash + receipt.paymentDao[0].changeForCash}}\n                                    </div>\n                                </div>\n\n                                <div class=\"row\">\n                                    <div class=\"col-md-6\" *ngIf=\"receipt.paymentDao[0].changeForCash != 0\">\n                                        Change:\n                                    </div>\n                                    <div class=\"col-md-6\" *ngIf=\"receipt.paymentDao[0].changeForCash != 0\">\n                                        $ {{receipt.paymentDao[0].changeForCash}}\n                                    </div>\n                                </div>\n\n                                <div class=\"row\">\n                                    <div class=\"col-md-6\" *ngIf=\"receipt.paymentDao[0].credit != 0\">\n                                        Credit:\n                                    </div>\n                                    <div class=\"col-md-6\" *ngIf=\"receipt.paymentDao[0].credit != 0\">\n                                        $ {{receipt.paymentDao[0].credit}}\n                                    </div>\n                                </div>\n\n                                <div class=\"row\">\n                                    <div class=\"col-md-6\" *ngIf=\"receipt.paymentDao[0].debit != 0\">\n                                        Debit:\n                                    </div>\n                                    <div class=\"col-md-6\" *ngIf=\"receipt.paymentDao[0].debit != 0\">\n                                        $ {{receipt.paymentDao[0].debit}}\n                                    </div>\n                                </div>\n\n                                <div class=\"row\">\n                                    <div class=\"col-md-6\" *ngIf=\"receipt.paymentDao[0].checkAmount != 0\">\n                                        Check:\n                                    </div>\n                                    <div class=\"col-md-6\" *ngIf=\"receipt.paymentDao[0].checkAmount != 0\">\n                                        $ {{receipt.paymentDao[0].checkAmount}}\n                                    </div>\n                                </div>\n\n                                <div class=\"row\">\n                                    <div class=\"col-md-6\" *ngIf=\"receipt.paymentDao[0].storeCredit != 0\">\n                                        Store Credit:\n                                    </div>\n                                    <div class=\"col-md-6\" *ngIf=\"receipt.paymentDao[0].storeCredit != 0\">\n                                        $ {{receipt.paymentDao[0].storeCredit}}\n                                    </div>\n                                </div>\n\n                                <div class=\"row\">\n                                    <div class=\"col-md-6\" *ngIf=\"receipt.paymentDao[0].onAccount != 0\">\n                                        On Account:\n                                    </div>\n                                    <div class=\"col-md-6\" *ngIf=\"receipt.paymentDao[0].onAccount != 0\">\n                                        $ {{receipt.paymentDao[0].onAccount}}\n                                    </div>\n                                </div>\n\n                                <hr>\n\n                                <div class=\"row\">\n                                    <div class=\"col-md-6\">\n                                        Balance:\n                                    </div>\n                                    <div class=\"col-md-6\">\n                                        $ {{receipt.transactionBalance}}\n                                    </div>\n                                </div>\n\n\n\n                            </div>\n                        </div>\n\n                    </div>\n                </ng-template>\n            </p-dataTable>\n\n        </div>\n    </mat-card-content>\n</mat-card>\n\n\n\n<!-- Start of Void Transacton -->\n<div class=\"modal fade\" id=\"voidTransaction\" role=\"dialog\">\n    <div class=\"modal-dialog modal-sm\">\n        <div class=\"modal-content\">\n            <div class=\"modal-header\">\n                <h4 class=\"modal-title\">Void Sale</h4>\n                <button type=\"button\" class=\"close\" data-dismiss=\"modal\">&times;</button>\n            </div>\n            <div class=\"modal-body\">\n                <p>Are You Sure You Want To Void This Sale</p>\n            </div>\n            <div class=\"modal-footer\">\n\n                <button type=\"button\" class=\"btn btn-danger\" data-dismiss=\"modal\" (click)=\"this.voidTransaction()\">Yes</button>\n                <button type=\"button\" class=\"btn btn-default\" data-dismiss=\"modal\">Cancle</button>\n            </div>\n        </div>\n    </div>\n</div>\n\n<!-- End of Void Transacton -->"
+module.exports = "<mat-card>\n    <mat-card-title>\n        <h4>Sales History</h4>\n    </mat-card-title>\n\n    <mat-card-content>\n\n        <div class=\"row d-flex align-items-center\">\n\n            <div class=\"col-md-2\">\n                <select class=\"form-control form-control\" [(ngModel)]=\"this.salesHistoryDropdown\" (change)=\"this.getTransactionDetails(this.salesHistoryDropdown)\">\n                    <option>Today</option>\n                    <option>Yesterday</option>\n                    <option>This Week</option>\n                    <option>Last Week</option>\n                    <option>This Month</option>\n                    <option>Last Month</option>\n                    <option>Last 3 Months</option>\n                    <option>Last 6 Months</option>\n                    <option>This Year</option>\n                    <option>Last Year</option>\n                    <option>Custom</option>\n\n                </select>\n\n            </div>\n            <div *ngIf=\"this.salesHistoryDropdown == 'Custom' \" class=\"col-md-3 form-group d-flex align-items-center\" [formGroup]=\"this.customDate\">\n\n                <mat-form-field class=\"float-never col-md-6\">\n                    <input formControlName=\"fromDate\" matInput [matDatepicker]=\"fromDate\" placeholder=\"Start Date\" [max]=\"this.currentDate\">\n                    <mat-datepicker-toggle matSuffix [for]=\"fromDate\"></mat-datepicker-toggle>\n                    <mat-datepicker #fromDate></mat-datepicker>\n                </mat-form-field>\n                <label class=\"text-center\">To</label>\n                <mat-form-field class=\"float-never col-md-6\">\n                    <input class=\"\" formControlName=\"toDate\" matInput [matDatepicker]=\"toDate\" placeholder=\"End Date\" [min]=\"this.customDate.get('fromDate').value\" [max]=\"this.currentDate\">\n                    <mat-datepicker-toggle matSuffix [for]=\"toDate\"></mat-datepicker-toggle>\n                    <mat-datepicker #toDate></mat-datepicker>\n                </mat-form-field>\n            </div>\n\n            <div class=\"col-md-2\">\n                <select class=\"form-control\" [(ngModel)]=\"this.searchByTransactionType\" (change)=\"onTransactionTypeDropdownChoose()\">\n                    <option>All Transaction Status</option>\n                    <option>Complete</option>\n                    <option>Return</option>\n                    <option>Void</option>\n                    <option>Park</option>\n                    <option>Online</option>\n                </select>\n\n            </div>\n\n\n            <div class=\"col-md-3\">\n                <input [formControl]=\"this.searchByCustomerInputBox\" class=\"form-control form-control\" type=\"text\" placeholder=\"Search By Customer Name Or PhoneNo\">\n\n            </div>\n            <div class=\"col-md-2\">\n                <input [formControl]=\"this.searchByReceiptNoInputBox\" class=\"form-control form-control\" type=\"text\" placeholder=\"Search By Recipt Number\">\n\n            </div>\n\n        </div>\n\n        <div class=\"row p-md-3\">\n            <p-dataTable [value]=\"this.transactionDetails\" scrollable=\"true\" scrollHeight=\"500px\" expandableRows=\"true\" [responsive]=\"true\">\n                <p-column expander=\"true\" styleClass=\"col-icon\" [style]=\"{'width': '3%'}\"></p-column>\n                <p-column field=\"transactionComId\" header=\"Receipt No\" [style]=\"{'width': '7%'}\"></p-column>\n                <p-column field=\"date\" header=\"Date\" [sortable]=\"true\" [style]=\"{'width': '6%'}\"></p-column>\n                <p-column field=\"time\" header=\"Time\" [sortable]=\"true\" [style]=\"{'width': '6%'}\"></p-column>\n                <p-column field=\"customerPhoneno\" header=\"Customer Phone\"></p-column>\n                <p-column field=\"customerFirstLastName\" header=\"Customer Name\"></p-column>\n                <!-- <p-column field=\"username\" header=\"User Name\"></p-column> -->\n                <p-column field=\"tax\" header=\"Tax\" [style]=\"{'width': '8%'}\"></p-column>\n                <p-column field=\"totalDiscount\" header=\"Discount\" [style]=\"{'width': '8%'}\"></p-column>\n                <p-column field=\"subtotal\" header=\"Subtotal\" [style]=\"{'width': '8%'}\"></p-column>\n                <p-column field=\"totalAmount\" header=\"Total Amount\" [sortable]=\"true\" [style]=\"{'width': '10%'}\"></p-column>\n                <p-column field=\"status\" header=\"Status\" [sortable]=\"true\" [style]=\"{'width': '8%'}\">\n\n                    <ng-template let-transaction=\"rowData\" pTemplate=\"body\">\n                        <mat-chip-list>\n                            <mat-chip color=\"secondary\" selected=\"true\">{{transaction.status}}</mat-chip>\n                        </mat-chip-list>\n                    </ng-template>\n\n                </p-column>\n                <p-column field=\"status\" header=\"Action\" [style]=\"{'width': '10%'}\">\n\n                    <ng-template let-transaction=\"rowData\" pTemplate=\"body\">\n                        <button class=\"btn-blue action-button-table\" mat-button (click)=\"this.printReceipt(transaction)\">\n                            <i class=\"fa fa-print\" aria-hidden=\"true\"></i>\n                        </button>\n                        <button class=\"btn-green action-button-table\" mat-button (click)='this.sendEmail(transaction)'>\n                            <i class=\"fa fa-envelope\" aria-hidden=\"true\"></i>\n                        </button>\n\n                        <!-- // Do not remove this, this is for park sales where i can redirect user to start the transaction. -->\n                        <!-- <button *ngIf=\"transaction.status != 'Return' \" class=\"btn-red action-button-table\" mat-button [routerLink]=\"['/sell', {transactionComId: transaction.transactionComId}]\"> -->\n                        <button *ngIf=\"transaction.status == 'Complete' || transaction.status == 'Void' \" class=\"btn-red action-button-table\" mat-button (click)=\"setTransactoinToVoid(transaction)\" data-toggle=\"modal\" data-target=\"#voidTransaction\">\n                                \n                            <i class=\"fa fa-ban\" aria-hidden=\"true\"></i>\n                        </button>\n                        <button *ngIf=\"transaction.status == 'Park' || transaction.status == 'Online' \" class=\"btn-red action-button-table\" mat-button [routerLink]=\"['/sell/sale', {transactionComId: transaction.transactionComId}]\">\n                                <i class=\"fa fa-reply-all\" aria-hidden=\"true\"></i>\n                        </button>\n\n\n                    </ng-template>\n                </p-column>\n\n\n                <ng-template let-receipt pTemplate=\"rowexpansion\">\n                    <div class=\"ui-grid ui-grid-responsive ui-fluid\" style=\"font-size:16px;padding:20px\">\n                        <div class=\"ui-grid-row\">\n                            <div class=\"ui-grid-col-12\">\n                                <div class=\"ui-grid ui-grid-responsive ui-grid-pad\">\n\n                                    <table class=\"table table-striped\">\n                                        <thead>\n                                            <tr>\n                                                <th>Product No</th>\n                                                <th>Description</th>\n                                                <th>Retail</th>\n                                                <th>Discount</th>\n                                                <th>Quantity</th>\n                                                <th>Total</th>\n                                            </tr>\n                                        </thead>\n                                        <tbody>\n                                            <tr *ngFor=\"let lineItem of receipt.transactionLineItemDaoList\">\n                                                <td>{{this.lineItem.productNo}}</td>\n                                                <td>{{this.lineItem.description}}</td>\n                                                <td>{{this.lineItem.retail}}</td>\n                                                <td>{{this.lineItem.discount}}</td>\n                                                <td>{{this.lineItem.quantity}}</td>\n                                                <td>{{this.lineItem.totalProductPrice}}</td>\n                                            </tr>\n                                        </tbody>\n                                    </table>\n                                </div>\n                            </div>\n                        </div>\n                        <div class=\"row\">\n\n                            <div class=\"col-md-10 text-left\">\n                                <div>\n                                    Transaction Notes :\n                                </div>\n                                <textarea rows=\"3\" cols=\"150\">\n                            {{receipt.note}}\n                        </textarea>\n                            </div>\n                            <div class=\"col-md-2\">\n\n                                <div class=\"row\">\n                                    <div class=\"col-md-6\">\n                                        Subtotal:\n                                    </div>\n                                    <div class=\"col-md-6\">\n                                        $ {{receipt.subtotal}}\n                                    </div>\n                                </div>\n\n                                <div class=\"row\">\n                                    <div class=\"col-md-6\" *ngIf=\"receipt.totalDiscount != 0\">\n                                        Discount:\n                                    </div>\n                                    <div class=\"col-md-6\" *ngIf=\"receipt.totalDiscount != 0\">\n                                        $ {{receipt.totalDiscount}}\n                                    </div>\n                                </div>\n\n                                <div class=\"row\">\n                                    <div class=\"col-md-6\">\n                                        Tax:\n                                    </div>\n                                    <div class=\"col-md-6\">\n                                        $ {{receipt.tax}}\n                                    </div>\n                                </div>\n\n                                <div class=\"row\">\n                                    <div class=\"col-md-6\" *ngIf=\"receipt.previousBalance != 0\">\n                                        Pre Balance:\n                                    </div>\n                                    <div class=\"col-md-6\" *ngIf=\"receipt.previousBalance != 0\">\n                                        $ {{receipt.previousBalance}}\n                                    </div>\n                                </div>\n\n                                <hr>\n\n                                <div class=\"row\">\n                                    <div class=\"col-md-6\">\n                                        TOTAL:\n                                    </div>\n                                    <div class=\"col-md-6\">\n                                        $ {{receipt.totalAmount}}\n                                    </div>\n                                </div>\n\n                                <hr>\n                                <div class=\"row\">\n                                    <div class=\"col-md-6\" *ngIf=\"receipt.paymentDao[0].cash != 0\">\n                                        Cash:\n                                    </div>\n                                    <div class=\"col-md-6\" *ngIf=\"receipt.paymentDao[0].cash != 0\">\n                                        $ {{receipt.paymentDao[0].cash + receipt.paymentDao[0].changeForCash}}\n                                    </div>\n                                </div>\n\n                                <div class=\"row\">\n                                    <div class=\"col-md-6\" *ngIf=\"receipt.paymentDao[0].changeForCash != 0\">\n                                        Change:\n                                    </div>\n                                    <div class=\"col-md-6\" *ngIf=\"receipt.paymentDao[0].changeForCash != 0\">\n                                        $ {{receipt.paymentDao[0].changeForCash}}\n                                    </div>\n                                </div>\n\n                                <div class=\"row\">\n                                    <div class=\"col-md-6\" *ngIf=\"receipt.paymentDao[0].credit != 0\">\n                                        Credit:\n                                    </div>\n                                    <div class=\"col-md-6\" *ngIf=\"receipt.paymentDao[0].credit != 0\">\n                                        $ {{receipt.paymentDao[0].credit}}\n                                    </div>\n                                </div>\n\n                                <div class=\"row\">\n                                    <div class=\"col-md-6\" *ngIf=\"receipt.paymentDao[0].debit != 0\">\n                                        Debit:\n                                    </div>\n                                    <div class=\"col-md-6\" *ngIf=\"receipt.paymentDao[0].debit != 0\">\n                                        $ {{receipt.paymentDao[0].debit}}\n                                    </div>\n                                </div>\n\n                                <div class=\"row\">\n                                    <div class=\"col-md-6\" *ngIf=\"receipt.paymentDao[0].checkAmount != 0\">\n                                        Check:\n                                    </div>\n                                    <div class=\"col-md-6\" *ngIf=\"receipt.paymentDao[0].checkAmount != 0\">\n                                        $ {{receipt.paymentDao[0].checkAmount}}\n                                    </div>\n                                </div>\n\n                                <div class=\"row\">\n                                    <div class=\"col-md-6\" *ngIf=\"receipt.paymentDao[0].storeCredit != 0\">\n                                        Store Credit:\n                                    </div>\n                                    <div class=\"col-md-6\" *ngIf=\"receipt.paymentDao[0].storeCredit != 0\">\n                                        $ {{receipt.paymentDao[0].storeCredit}}\n                                    </div>\n                                </div>\n\n                                <div class=\"row\">\n                                    <div class=\"col-md-6\" *ngIf=\"receipt.paymentDao[0].onAccount != 0\">\n                                        On Account:\n                                    </div>\n                                    <div class=\"col-md-6\" *ngIf=\"receipt.paymentDao[0].onAccount != 0\">\n                                        $ {{receipt.paymentDao[0].onAccount}}\n                                    </div>\n                                </div>\n\n                                <hr>\n\n                                <div class=\"row\">\n                                    <div class=\"col-md-6\">\n                                        Balance:\n                                    </div>\n                                    <div class=\"col-md-6\">\n                                        $ {{receipt.transactionBalance}}\n                                    </div>\n                                </div>\n\n\n\n                            </div>\n                        </div>\n\n                    </div>\n                </ng-template>\n            </p-dataTable>\n\n        </div>\n    </mat-card-content>\n</mat-card>\n\n\n\n<!-- Start of Void Transacton -->\n<div class=\"modal fade\" id=\"voidTransaction\" role=\"dialog\">\n    <div class=\"modal-dialog modal-sm\">\n        <div class=\"modal-content\">\n            <div class=\"modal-header\">\n                <h4 class=\"modal-title\">Void Sale</h4>\n                <button type=\"button\" class=\"close\" data-dismiss=\"modal\">&times;</button>\n            </div>\n            <div class=\"modal-body\">\n                <p>Are You Sure You Want To Void This Sale</p>\n            </div>\n            <div class=\"modal-footer\">\n\n                <button type=\"button\" class=\"btn btn-danger\" data-dismiss=\"modal\" (click)=\"this.voidTransaction()\">Yes</button>\n                <button type=\"button\" class=\"btn btn-default\" data-dismiss=\"modal\">Cancle</button>\n            </div>\n        </div>\n    </div>\n</div>\n\n<!-- End of Void Transacton -->"
 
 /***/ }),
 
@@ -7623,77 +8114,6 @@ var SalesHistoryComponent = /** @class */ (function () {
 
 /***/ }),
 
-/***/ "../../../../../src/app/sell/sell-customer/sell-customer.component.html":
-/***/ (function(module, exports) {
-
-module.exports = "<div class=\"row p-md-3\">\n  <div class=\"col-lg-9\">\n\n      <!-- <br/> -->\n      <mat-card>\n          <!-- <mat-card-title></mat-card-title> -->\n          <mat-card-content>\n              <div class=\"row p-md-3\">\n                  <!-- Product Table -->\n                  <p-dataTable [value]=\"this.transactionLineItemDaoList\" scrollable=\"true\" [responsive]=\"true\" scrollHeight=\"300px\" [editable]=\"true\" >\n                      <p-header>Product Sale Table</p-header>\n\n                      <p-column field=\"productNo\" header=\"ProductNo\" [style]=\"{'width':'15%','text-align':'center', 'overflow':'visible'}\"></p-column>\n                      <p-column field=\"description\" header=\"Description\" [style]=\"{'width':'45%','text-align':'center', 'overflow':'visible'}\"></p-column>\n                      <p-column field=\"defaultQuantity\" header=\"Quantity\" [editable]=\"true\">\n                          <ng-template let-product=\"rowData\" pTemplate=\"body\">\n                              <div id=\"lineitem{{product.productNo}}\" [ngClass]=\"{'quantity-updated': product.quantityUpdated }\">\n                                  {{product.defaultQuantity}}\n                              </div>\n                          </ng-template>\n                      </p-column>\n                      <p-column field=\"retail\" header=\"Retail\" [editable]=\"true\"></p-column>\n                      <p-column field=\"retailWithDis\" header=\"RetWtDis\"></p-column>\n                      <p-column field=\"quantity\" header=\"Stock\"></p-column>\n                      <p-column field=\"totalProductPrice\" header=\"Total\"></p-column>\n                      <!-- <p-column header=\"\" styleClass=\"col-button\" [style]=\"{'width':'5%','text-align':'center', 'overflow':'visible'}\">\n\n                          <ng-template let-product=\"rowData\" pTemplate=\"body\">\n                              <button mat-button class=\"btn-red action-button-table\" mat-button (click)=\"this.setProductForDelete(product)\" data-toggle=\"modal\" data-target=\"#deleteProduct\">\n                                  <i class=\"fa fa-trash\" aria-hidden=\"true\"></i>\n                              </button>\n                          </ng-template>\n                      </p-column> -->\n\n\n                  </p-dataTable>\n              </div>\n          </mat-card-content>\n      </mat-card>\n\n  </div>\n  <div class=\"col-lg-3\">\n      <mat-card>\n          <mat-card-content>\n              <!-- <div class=\"row\">\n                  <div class=\"input-group\">\n                      <span class=\"input-group-addon\" id=\"basic-addon1\">\n                          <i class=\"fa fa-user-plus\" aria-hidden=\"true\"></i>\n                      </span>\n                      <p-autoComplete [(ngModel)]=\"this.selectedCustomer\" [field]=\"'name'\" [suggestions]=\"filteredCustomer\" (completeMethod)=\"this.filterCustomers($event)\" class=\"full-width\" [minLength]=\"1\" (keyup.enter)=\"this.submitCustomer()\" (onClear)=\"this.removeCustomerOnSale()\">\n                          <ng-template let-c pTemplate=\"item\">\n                              <div class=\"ui-helper-clearfix\" style=\"border-bottom:1px solid #D5D5D5\">\n                                  <div style=\"width:32px;display:inline-block;margin:5px 0 2px 5px\">{{c.name}}</div>\n                                  <div style=\"font-size:18px;float:right;margin:10px 10px 0 0\">{{c.phoneNo}}</div>\n                              </div>\n                          </ng-template>\n\n                      </p-autoComplete>\n\n                  </div>\n              </div> -->\n              <br/>\n              <div *ngIf=\"this.selectedCustomer\">\n                  <table class=\"table table-bordered customer\">\n\n                      <tbody>\n                          <tr>\n                              <td>\n                                  <dl class=\"row\">\n                                      <dt class=\"\">Name:</dt>\n                                      <dd class=\"\">{{this.selectedCustomer.name}}</dd>\n                                  </dl>\n                              </td>\n                              <td>\n                                  <dl class=\"row\">\n                                      <dt class=\"\">Phone:</dt>\n                                      <dd class=\"\">{{this.selectedCustomer.phoneNo}}</dd>\n                                  </dl>\n                              </td>\n                          </tr>\n                          <tr>\n                              <td>\n                                  <dl class=\"row\">\n                                      <dt class=\"\">Balance:</dt>\n                                      <dd class=\"\">{{this.selectedCustomer.balance | currency:'USD':'true'}}</dd>\n                                  </dl>\n                              </td>\n                              <td>\n                                  <dl class=\"row\">\n                                      <dt class=\"\">Credit:</dt>\n                                      <dd class=\"\">{{this.selectedCustomer.storeCredit | currency:'USD':'true'}}</dd>\n                                  </dl>\n                              </td>\n                          </tr>\n                          <tr>\n                              <td>\n                                  <dl class=\"row\">\n                                      <dt class=\"\">Spending:</dt>\n                                      <dd class=\"\"></dd>\n                                  </dl>\n                              </td>\n                              <td>\n                                  <dl class=\"row\">\n                                      <dt class=\"\">Point:</dt>\n                                      <dd class=\"\"></dd>\n                                  </dl>\n\n                              </td>\n                          </tr>\n                      </tbody>\n                  </table>\n              </div>\n\n              <!-- <div class=\"sales-total p-md-4\">\n\n                  <dl class=\"row\">\n                      <dt class=\"\">Sub-total</dt>\n                      <dd class=\"\">{{this.transactionDtoList.subtotal | currency:'USD':'true'}}</dd>\n                  </dl>\n                  <dl class=\"row\">\n                      <dt class=\"\">\n                          <a #discount id=\"discount-popover\" href=\"javascript:void(0)\" (click)=\"this.showPopover(discount)\">\n                              Discount\n                          </a>\n                      </dt>\n                      <dd class=\"\">{{this.transactionDtoList.totalDiscount | currency:'USD':'true'}}</dd>\n                  </dl>\n                  <dl class=\"row\">\n                      <dt class=\"\">Tax (7%)</dt>\n                      <dd class=\"\">{{this.transactionDtoList.tax | currency:'USD':'true'}}</dd>\n                  </dl>\n                  <dl class=\"row\">\n                      <dt class=\"\">Quantity</dt>\n                      <dd class=\"\">{{this.transactionDtoList.quantity}}</dd>\n                  </dl>\n                  <dl class=\"row\" *ngIf=\"this.selectedCustomer != null && this.selectedCustomer.balance > 0\">\n                      <dt class=\"\">Pre Balance</dt>\n                      <dd class=\"\">{{this.selectedCustomer.balance | currency:'USD':'true'}}</dd>\n                  </dl>\n                  <dl class=\"row\">\n                      <dt class=\"\">Total</dt>\n                      <dd class=\"\">{{this.transactionDtoList.totalAmount | currency:'USD':'true'}}</dd>\n                  </dl>\n              </div>\n              <button mat-raised-button [disabled]=\"this.paymentButtonOnSale\" type=\"button\" (click)=\"this.setDataForPaymentModel()\" data-toggle=\"modal\" data-target=\"#paymentModel\" style=\"width: 100%; font-size: 20px\" class=\"btn btn-green btn-lg text-white m-md-1 p-md-2\">\n                  <div class=\"row p-md-1 font-weight-bold\">\n                      <div class=\"col-md-6 text-left\">Payment</div>\n                      <div class=\"col-md-6 text-right\">{{this.transactionDtoList.totalAmount | currency:'USD':'true'}}</div>\n                  </div>\n              </button> -->\n          </mat-card-content>\n      </mat-card>\n\n\n  </div>\n</div>"
-
-/***/ }),
-
-/***/ "../../../../../src/app/sell/sell-customer/sell-customer.component.scss":
-/***/ (function(module, exports, __webpack_require__) {
-
-exports = module.exports = __webpack_require__("../../../../css-loader/lib/css-base.js")(false);
-// imports
-
-
-// module
-exports.push([module.i, ".customer td,\n.customer th {\n  padding: 10px 10px; }\n\n.customer dl.row {\n  margin: 0px;\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-pack: justify;\n      -ms-flex-pack: justify;\n          justify-content: space-between; }\n  .customer dl.row dt {\n    text-align: left; }\n  .customer dl.row dd {\n    text-align: right;\n    margin: 0px; }\n", ""]);
-
-// exports
-
-
-/*** EXPORTS FROM exports-loader ***/
-module.exports = module.exports.toString();
-
-/***/ }),
-
-/***/ "../../../../../src/app/sell/sell-customer/sell-customer.component.ts":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return SellCustomerComponent; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/esm5/core.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_app_sell_sell_service__ = __webpack_require__("../../../../../src/app/sell/sell.service.ts");
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var __metadata = (this && this.__metadata) || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
-
-
-var SellCustomerComponent = /** @class */ (function () {
-    function SellCustomerComponent(sellService) {
-        this.sellService = sellService;
-    }
-    SellCustomerComponent.prototype.ngOnInit = function () {
-        var _this = this;
-        this.sellService.getCurrentSaleTransactions()
-            .subscribe(function (list) {
-            _this.transactionLineItemDaoList = list;
-        });
-        this.sellService.getCurrentSaleCustomer()
-            .subscribe(function (customer) { return _this.selectedCustomer = customer; });
-    };
-    SellCustomerComponent = __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
-            selector: 'app-sell-customer',
-            template: __webpack_require__("../../../../../src/app/sell/sell-customer/sell-customer.component.html"),
-            styles: [__webpack_require__("../../../../../src/app/sell/sell-customer/sell-customer.component.scss")]
-        }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_app_sell_sell_service__["a" /* SellService */]])
-    ], SellCustomerComponent);
-    return SellCustomerComponent;
-}());
-
-
-
-/***/ }),
-
 /***/ "../../../../../src/app/sell/sell-routing.module.ts":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -7707,18 +8127,16 @@ var SellCustomerComponent = /** @class */ (function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_app_expense_expense_component__ = __webpack_require__("../../../../../src/app/expense/expense.component.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_app_sell_sales_history_sales_history_component__ = __webpack_require__("../../../../../src/app/sell/sales-history/sales-history.component.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_app_shared_storesetup_storesetup_component__ = __webpack_require__("../../../../../src/app/shared/storesetup/storesetup.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8_app_sell_sell_customer_sell_customer_component__ = __webpack_require__("../../../../../src/app/sell/sell-customer/sell-customer.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9_app_auth_auth_guard__ = __webpack_require__("../../../../../src/app/auth/auth.guard.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10_app_sell_return_sale_return_sale_component__ = __webpack_require__("../../../../../src/app/sell/return-sale/return-sale.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11_app_sell_sale_sale_component__ = __webpack_require__("../../../../../src/app/sell/sale/sale.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12_app_sell_purchase_order_purchase_order_component__ = __webpack_require__("../../../../../src/app/sell/purchase-order/purchase-order.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8_app_auth_auth_guard__ = __webpack_require__("../../../../../src/app/auth/auth.guard.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9_app_sell_return_sale_return_sale_component__ = __webpack_require__("../../../../../src/app/sell/return-sale/return-sale.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10_app_sell_sale_sale_component__ = __webpack_require__("../../../../../src/app/sell/sale/sale.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11_app_sell_close_register_close_register_component__ = __webpack_require__("../../../../../src/app/sell/close-register/close-register.component.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
-
 
 
 
@@ -7735,12 +8153,13 @@ var routes = [
     {
         path: 'sell',
         component: __WEBPACK_IMPORTED_MODULE_2_app_sell_sell_component__["b" /* SellComponent */],
-        canActivate: [__WEBPACK_IMPORTED_MODULE_9_app_auth_auth_guard__["a" /* AuthGuard */]],
+        canActivate: [__WEBPACK_IMPORTED_MODULE_8_app_auth_auth_guard__["a" /* AuthGuard */]],
         children: [
             { path: '', redirectTo: 'sale', pathMatch: 'prefix' },
-            { path: 'purchaseOrder', component: __WEBPACK_IMPORTED_MODULE_12_app_sell_purchase_order_purchase_order_component__["a" /* PurchaseOrderComponent */] },
-            { path: 'return', component: __WEBPACK_IMPORTED_MODULE_10_app_sell_return_sale_return_sale_component__["a" /* ReturnSaleComponent */] },
-            { path: 'sale', component: __WEBPACK_IMPORTED_MODULE_11_app_sell_sale_sale_component__["b" /* SaleComponent */] }
+            { path: 'close-shift', component: __WEBPACK_IMPORTED_MODULE_11_app_sell_close_register_close_register_component__["a" /* CloseRegisterComponent */] },
+            { path: 'return', component: __WEBPACK_IMPORTED_MODULE_9_app_sell_return_sale_return_sale_component__["a" /* ReturnSaleComponent */] },
+            { path: 'close-register', component: __WEBPACK_IMPORTED_MODULE_11_app_sell_close_register_close_register_component__["a" /* CloseRegisterComponent */] },
+            { path: 'sale', component: __WEBPACK_IMPORTED_MODULE_10_app_sell_sale_sale_component__["b" /* SaleComponent */] }
         ]
     },
     { path: 'employee', component: __WEBPACK_IMPORTED_MODULE_3_app_employee_employee_component__["a" /* EmployeeComponent */] },
@@ -7749,10 +8168,9 @@ var routes = [
     {
         path: 'sales-history',
         component: __WEBPACK_IMPORTED_MODULE_6_app_sell_sales_history_sales_history_component__["a" /* SalesHistoryComponent */],
-        canActivate: [__WEBPACK_IMPORTED_MODULE_9_app_auth_auth_guard__["a" /* AuthGuard */]],
+        canActivate: [__WEBPACK_IMPORTED_MODULE_8_app_auth_auth_guard__["a" /* AuthGuard */]],
     },
-    { path: 'setting', component: __WEBPACK_IMPORTED_MODULE_7_app_shared_storesetup_storesetup_component__["a" /* StoresetupComponent */] },
-    { path: 'sell-customer', component: __WEBPACK_IMPORTED_MODULE_8_app_sell_sell_customer_sell_customer_component__["a" /* SellCustomerComponent */] }
+    { path: 'setting', component: __WEBPACK_IMPORTED_MODULE_7_app_shared_storesetup_storesetup_component__["a" /* StoresetupComponent */] }
 ];
 var SellRoutingModule = /** @class */ (function () {
     function SellRoutingModule() {
@@ -7854,7 +8272,7 @@ var SellComponent = /** @class */ (function () {
         this.toastr = toastr;
         this.myControl = new __WEBPACK_IMPORTED_MODULE_3__angular_forms__["FormControl"]();
         this.isProductExistsInSellList = false;
-        this.transactionDtoList = new TransactionDtoList(0, 0.00, 0.00, 0.00, 0.00);
+        this.transactionDtoList = new TransactionDtoList();
         this.paymentDto = new PaymentDto();
         this.a = 'sdfds';
         this.showCustomerDetails = false;
@@ -7876,346 +8294,6 @@ var SellComponent = /** @class */ (function () {
         this.disableStoreCreditButtons = true;
         this.saleType = 'Complete';
         this.printTransactionDto = null;
-        this.recieptData = {
-            "transactionDtoList": [
-                {
-                    "transactionCompId": 5425,
-                    "transactionDate": "05/15/2017",
-                    "transactionTime": "12:46:26",
-                    "totalAmount": 703.25,
-                    "tax": 0.0,
-                    "discount": 32.5,
-                    "subTotal": 703.25,
-                    "customerPhoneNo": "6786100020",
-                    "customerName": "Anir Rehmani",
-                    "userId": 3,
-                    "status": "c",
-                    "paidAmountCash": 0.01,
-                    "changeAmount": 0.01,
-                    "paidAmountCredit": 703.25,
-                    "paidAmountCheck": 0.0,
-                    "paidAmountDebit": 0.0,
-                    "username": "Asif",
-                    "transactionLineItemDtoList": null,
-                    "totalQuantity": 108,
-                    "transCreditId": null,
-                    "last4Digits": 0,
-                    "prevBalance": 0.0,
-                    "balance": 0.0,
-                    "lineItemDiscount": 32.5,
-                    "receiptNote": null,
-                    "transactionNote": null,
-                    "notes": null
-                }
-            ],
-            "transactionLineItemDtoList": [
-                {
-                    "transactionLineItemId": 42193,
-                    "transactionCompId": 5425,
-                    "productNumber": "712321140050",
-                    "quantity": 1,
-                    "retail": 3.0,
-                    "cost": 1.85,
-                    "discount": 0.0,
-                    "transactionDate": "2017-05-15 12:46:26.0",
-                    "productCount": null,
-                    "retailWithDis": 0.0,
-                    "totalProductPrice": 3.0,
-                    "totalProductPriceWithTax": 3.0,
-                    "discountPercentage": 0.0,
-                    "transactionStatus": null,
-                    "imeiNo": null,
-                    "phoneId": 0,
-                    "productDescription": "LG LV3 MS210 Hybrid Side Kickstand With Holster Clip - Black+Red"
-                },
-                {
-                    "transactionLineItemId": 42194,
-                    "transactionCompId": 5425,
-                    "productNumber": "6954851218593",
-                    "quantity": 1,
-                    "retail": 9.5,
-                    "cost": 5.25,
-                    "discount": 0.0,
-                    "transactionDate": "2017-05-15 12:46:26.0",
-                    "productCount": null,
-                    "retailWithDis": 0.0,
-                    "totalProductPrice": 9.5,
-                    "totalProductPriceWithTax": 9.5,
-                    "discountPercentage": 0.0,
-                    "transactionStatus": null,
-                    "imeiNo": null,
-                    "phoneId": 0,
-                    "productDescription": "REMAX E5 Series 5000mAh (Blue)"
-                },
-                {
-                    "transactionLineItemId": 42195,
-                    "transactionCompId": 5425,
-                    "productNumber": "6954851220695",
-                    "quantity": 1,
-                    "retail": 15.0,
-                    "cost": 9.0,
-                    "discount": 0.0,
-                    "transactionDate": "2017-05-15 12:46:26.0",
-                    "productCount": null,
-                    "retailWithDis": 0.0,
-                    "totalProductPrice": 15.0,
-                    "totalProductPriceWithTax": 15.0,
-                    "discountPercentage": 0.0,
-                    "transactionStatus": null,
-                    "imeiNo": null,
-                    "phoneId": 0,
-                    "productDescription": "REMAX Pure Series Power Bank 10000mAh"
-                },
-                {
-                    "transactionLineItemId": 42196,
-                    "transactionCompId": 5425,
-                    "productNumber": "1000000015",
-                    "quantity": 4,
-                    "retail": 10.0,
-                    "cost": 6.5,
-                    "discount": 0.0,
-                    "transactionDate": "2017-05-15 12:46:26.0",
-                    "productCount": null,
-                    "retailWithDis": 0.0,
-                    "totalProductPrice": 40.0,
-                    "totalProductPriceWithTax": 40.0,
-                    "discountPercentage": 0.0,
-                    "transactionStatus": null,
-                    "imeiNo": null,
-                    "phoneId": 0,
-                    "productDescription": "VOYAGER Bluetooth"
-                },
-                {
-                    "transactionLineItemId": 42197,
-                    "transactionCompId": 5425,
-                    "productNumber": "P00000000355",
-                    "quantity": 1,
-                    "retail": 10.0,
-                    "cost": 6.0,
-                    "discount": 0.0,
-                    "transactionDate": "2017-05-15 12:46:26.0",
-                    "productCount": null,
-                    "retailWithDis": 0.0,
-                    "totalProductPrice": 10.0,
-                    "totalProductPriceWithTax": 10.0,
-                    "discountPercentage": 0.0,
-                    "transactionStatus": null,
-                    "imeiNo": null,
-                    "phoneId": 0,
-                    "productDescription": "POWER BANK 5600mAH"
-                },
-                {
-                    "transactionLineItemId": 42198,
-                    "transactionCompId": 5425,
-                    "productNumber": "88060852585517",
-                    "quantity": 3,
-                    "retail": 8.75,
-                    "cost": 5.0,
-                    "discount": 0.0,
-                    "transactionDate": "2017-05-15 12:46:26.0",
-                    "productCount": null,
-                    "retailWithDis": 0.0,
-                    "totalProductPrice": 26.25,
-                    "totalProductPriceWithTax": 26.25,
-                    "discountPercentage": 0.0,
-                    "transactionStatus": null,
-                    "imeiNo": null,
-                    "phoneId": 0,
-                    "productDescription": "EX Perfume Bottle FUR BOW LIPS - Large"
-                },
-                {
-                    "transactionLineItemId": 42199,
-                    "transactionCompId": 5425,
-                    "productNumber": "8809998255437",
-                    "quantity": 1,
-                    "retail": 6.5,
-                    "cost": 3.75,
-                    "discount": 0.0,
-                    "transactionDate": "2017-05-15 12:46:26.0",
-                    "productCount": null,
-                    "retailWithDis": 0.0,
-                    "totalProductPrice": 6.5,
-                    "totalProductPriceWithTax": 6.5,
-                    "discountPercentage": 0.0,
-                    "transactionStatus": null,
-                    "imeiNo": null,
-                    "phoneId": 0,
-                    "productDescription": "CAR S7 Bluetooth Car Charger"
-                },
-                {
-                    "transactionLineItemId": 42200,
-                    "transactionCompId": 5425,
-                    "productNumber": "8809998255336",
-                    "quantity": 1,
-                    "retail": 3.95,
-                    "cost": 2.0,
-                    "discount": 0.0,
-                    "transactionDate": "2017-05-15 12:46:26.0",
-                    "productCount": null,
-                    "retailWithDis": 0.0,
-                    "totalProductPrice": 3.95,
-                    "totalProductPriceWithTax": 3.95,
-                    "discountPercentage": 0.0,
-                    "transactionStatus": null,
-                    "imeiNo": null,
-                    "phoneId": 0,
-                    "productDescription": "MERCURY Goospery i-Jelly Ring Case"
-                },
-                {
-                    "transactionLineItemId": 42201,
-                    "transactionCompId": 5425,
-                    "productNumber": "P0028",
-                    "quantity": 28,
-                    "retail": 0.6,
-                    "cost": 0.4,
-                    "discount": 0.0,
-                    "transactionDate": "2017-05-15 12:46:26.0",
-                    "productCount": null,
-                    "retailWithDis": 0.0,
-                    "totalProductPrice": 16.8,
-                    "totalProductPriceWithTax": 16.8,
-                    "discountPercentage": 0.0,
-                    "transactionStatus": null,
-                    "imeiNo": null,
-                    "phoneId": 0,
-                    "productDescription": "9H Tempered Glass Paper Packaging"
-                },
-                {
-                    "transactionLineItemId": 42202,
-                    "transactionCompId": 5425,
-                    "productNumber": "8809998255447",
-                    "quantity": 2,
-                    "retail": 4.0,
-                    "cost": 3.0,
-                    "discount": 0.0,
-                    "transactionDate": "2017-05-15 12:46:26.0",
-                    "productCount": null,
-                    "retailWithDis": 0.0,
-                    "totalProductPrice": 8.0,
-                    "totalProductPriceWithTax": 8.0,
-                    "discountPercentage": 0.0,
-                    "transactionStatus": null,
-                    "imeiNo": null,
-                    "phoneId": 0,
-                    "productDescription": "EX Glossy/Wood Finish TPU with Rim"
-                },
-                {
-                    "transactionLineItemId": 42203,
-                    "transactionCompId": 5425,
-                    "productNumber": "8809998255533",
-                    "quantity": 2,
-                    "retail": 4.5,
-                    "cost": 3.0,
-                    "discount": 0.0,
-                    "transactionDate": "2017-05-15 12:46:26.0",
-                    "productCount": null,
-                    "retailWithDis": 0.0,
-                    "totalProductPrice": 9.0,
-                    "totalProductPriceWithTax": 9.0,
-                    "discountPercentage": 0.0,
-                    "transactionStatus": null,
-                    "imeiNo": null,
-                    "phoneId": 0,
-                    "productDescription": "FULL Fur NEW Case"
-                },
-                {
-                    "transactionLineItemId": 42204,
-                    "transactionCompId": 5425,
-                    "productNumber": "88060852585547",
-                    "quantity": 1,
-                    "retail": 3.75,
-                    "cost": 1.9,
-                    "discount": 0.0,
-                    "transactionDate": "2017-05-15 12:46:26.0",
-                    "productCount": null,
-                    "retailWithDis": 0.0,
-                    "totalProductPrice": 3.75,
-                    "totalProductPriceWithTax": 3.75,
-                    "discountPercentage": 0.0,
-                    "transactionStatus": null,
-                    "imeiNo": null,
-                    "phoneId": 0,
-                    "productDescription": "Kitty Character Floating Glitter TPU"
-                },
-                {
-                    "transactionLineItemId": 42205,
-                    "transactionCompId": 5425,
-                    "productNumber": "88060852586074",
-                    "quantity": 13,
-                    "retail": 4.5,
-                    "cost": 2.15,
-                    "discount": 0.0,
-                    "transactionDate": "2017-05-15 12:46:26.0",
-                    "productCount": null,
-                    "retailWithDis": 0.0,
-                    "totalProductPrice": 58.5,
-                    "totalProductPriceWithTax": 58.5,
-                    "discountPercentage": 0.0,
-                    "transactionStatus": null,
-                    "imeiNo": null,
-                    "phoneId": 0,
-                    "productDescription": "S8/S8Plus Case Friendly Full covered Tempered Glass"
-                },
-                {
-                    "transactionLineItemId": 42206,
-                    "transactionCompId": 5425,
-                    "productNumber": "8809998255185",
-                    "quantity": 20,
-                    "retail": 17.5,
-                    "cost": 11.0,
-                    "discount": 30.0,
-                    "transactionDate": "2017-05-15 12:46:26.0",
-                    "productCount": null,
-                    "retailWithDis": 16.0,
-                    "totalProductPrice": 320.0,
-                    "totalProductPriceWithTax": 320.0,
-                    "discountPercentage": 8.57,
-                    "transactionStatus": null,
-                    "imeiNo": null,
-                    "phoneId": 0,
-                    "productDescription": "HBS 910 CSR Tone+"
-                },
-                {
-                    "transactionLineItemId": 42207,
-                    "transactionCompId": 5425,
-                    "productNumber": "799666108570",
-                    "quantity": 28,
-                    "retail": 6.0,
-                    "cost": 5.0,
-                    "discount": 0.0,
-                    "transactionDate": "2017-05-15 12:46:26.0",
-                    "productCount": null,
-                    "retailWithDis": 0.0,
-                    "totalProductPrice": 168.0,
-                    "totalProductPriceWithTax": 168.0,
-                    "discountPercentage": 0.0,
-                    "transactionStatus": null,
-                    "imeiNo": null,
-                    "phoneId": 0,
-                    "productDescription": "HBS 800 Bluetooth Headset"
-                },
-                {
-                    "transactionLineItemId": 42208,
-                    "transactionCompId": 5425,
-                    "productNumber": "8809998255286",
-                    "quantity": 1,
-                    "retail": 7.5,
-                    "cost": 3.0,
-                    "discount": 2.5,
-                    "transactionDate": "2017-05-15 12:46:26.0",
-                    "productCount": null,
-                    "retailWithDis": 5.0,
-                    "totalProductPrice": 5.0,
-                    "totalProductPriceWithTax": 5.0,
-                    "discountPercentage": 33.33,
-                    "transactionStatus": null,
-                    "imeiNo": null,
-                    "phoneId": 0,
-                    "productDescription": "MAGNETIC REPAIR MAT"
-                }
-            ],
-            "customerDtosList": []
-        };
     }
     // 
     SellComponent.prototype.ngOnInit = function () {
@@ -8223,9 +8301,9 @@ var SellComponent = /** @class */ (function () {
         //   this.router.navigate(['/sell/sale']);
         var _this = this;
         this.items = [
-            { name: 'Return', icon: 'fa fa-reply-all fa-x', link: '/sell/return' },
-            // { name: 'Refund', icon: 'fa fa-list fa-x', link: '/sell/refund' },
-            { name: 'Purchase Order', icon: 'fa fa-bookmark fa-x', link: '/sell/purchaseOrder' }
+            { name: 'Return', icon: 'fa fa-reply-all fa-x ', link: '/sell/return' },
+            { name: 'Close Register', icon: 'fa fa-window-close-o fa-x', link: '/sell/close-register' },
+            { name: 'Close Shift', icon: 'fa fa-times fa-x', link: '/sell/close-shift' }
         ];
         // this.toastr.success("Sell component initiated", "Nice!");
         this.storeSetupService.getStoreDetails().
@@ -8237,7 +8315,7 @@ var SellComponent = /** @class */ (function () {
             this.returnSale(transactionComId);
         }
         // This call is to get all customer details.
-        this.getCustomerDetails();
+        //this.getCustomerDetails();
         // Here i am checking that customer already selected on sale page or not.
         this.selectedCustomer = this.persit.getCustomerDetailsForSale();
         this.cols = [
@@ -9029,12 +9107,7 @@ var TransactionLineItemDaoList = /** @class */ (function () {
 }());
 
 var TransactionDtoList = /** @class */ (function () {
-    function TransactionDtoList(quantity, subtotal, tax, totalAmount, totalDiscount) {
-        this.quantity = quantity;
-        this.subtotal = subtotal;
-        this.tax = tax;
-        this.totalAmount = totalAmount;
-        this.totalDiscount = totalDiscount;
+    function TransactionDtoList() {
     }
     return TransactionDtoList;
 }());
@@ -9068,15 +9141,13 @@ var PaymentObjectForPaymentSellTable = /** @class */ (function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_app_sell_sell_routing_module__ = __webpack_require__("../../../../../src/app/sell/sell-routing.module.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_app_sell_sell_component__ = __webpack_require__("../../../../../src/app/sell/sell.component.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_app_sell_sell_service__ = __webpack_require__("../../../../../src/app/sell/sell.service.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__product_auto_complete_product_auto_complete_component__ = __webpack_require__("../../../../../src/app/sell/product-auto-complete/product-auto-complete.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8_app_shared_shared_module__ = __webpack_require__("../../../../../src/app/shared/shared.module.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__receipt_receipt_component__ = __webpack_require__("../../../../../src/app/sell/receipt/receipt.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10_app_customer_customer_service__ = __webpack_require__("../../../../../src/app/customer/customer.service.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__sales_history_sales_history_component__ = __webpack_require__("../../../../../src/app/sell/sales-history/sales-history.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__sell_customer_sell_customer_component__ = __webpack_require__("../../../../../src/app/sell/sell-customer/sell-customer.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__return_sale_return_sale_component__ = __webpack_require__("../../../../../src/app/sell/return-sale/return-sale.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_14__sale_sale_component__ = __webpack_require__("../../../../../src/app/sell/sale/sale.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_15__purchase_order_purchase_order_component__ = __webpack_require__("../../../../../src/app/sell/purchase-order/purchase-order.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_app_shared_shared_module__ = __webpack_require__("../../../../../src/app/shared/shared.module.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__receipt_receipt_component__ = __webpack_require__("../../../../../src/app/sell/receipt/receipt.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9_app_customer_customer_service__ = __webpack_require__("../../../../../src/app/customer/customer.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__sales_history_sales_history_component__ = __webpack_require__("../../../../../src/app/sell/sales-history/sales-history.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__return_sale_return_sale_component__ = __webpack_require__("../../../../../src/app/sell/return-sale/return-sale.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__sale_sale_component__ = __webpack_require__("../../../../../src/app/sell/sale/sale.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__close_register_close_register_component__ = __webpack_require__("../../../../../src/app/sell/close-register/close-register.component.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -9089,8 +9160,6 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 
 
  // <-- NgModel lives here
-
-
 
 
 
@@ -9115,10 +9184,10 @@ var SellModule = /** @class */ (function () {
                 __WEBPACK_IMPORTED_MODULE_3__angular_forms__["ReactiveFormsModule"],
                 __WEBPACK_IMPORTED_MODULE_2_primeng_primeng__["AutoCompleteModule"],
                 __WEBPACK_IMPORTED_MODULE_2_primeng_primeng__["DropdownModule"],
-                __WEBPACK_IMPORTED_MODULE_8_app_shared_shared_module__["a" /* SharedModule */]
+                __WEBPACK_IMPORTED_MODULE_7_app_shared_shared_module__["a" /* SharedModule */]
             ],
-            declarations: [__WEBPACK_IMPORTED_MODULE_5_app_sell_sell_component__["b" /* SellComponent */], __WEBPACK_IMPORTED_MODULE_7__product_auto_complete_product_auto_complete_component__["a" /* ProductAutoCompleteComponent */], __WEBPACK_IMPORTED_MODULE_9__receipt_receipt_component__["a" /* ReceiptComponent */], __WEBPACK_IMPORTED_MODULE_11__sales_history_sales_history_component__["a" /* SalesHistoryComponent */], __WEBPACK_IMPORTED_MODULE_12__sell_customer_sell_customer_component__["a" /* SellCustomerComponent */], __WEBPACK_IMPORTED_MODULE_13__return_sale_return_sale_component__["a" /* ReturnSaleComponent */], __WEBPACK_IMPORTED_MODULE_14__sale_sale_component__["b" /* SaleComponent */], __WEBPACK_IMPORTED_MODULE_15__purchase_order_purchase_order_component__["a" /* PurchaseOrderComponent */]],
-            providers: [__WEBPACK_IMPORTED_MODULE_6_app_sell_sell_service__["a" /* SellService */], __WEBPACK_IMPORTED_MODULE_10_app_customer_customer_service__["a" /* CustomerService */]],
+            declarations: [__WEBPACK_IMPORTED_MODULE_5_app_sell_sell_component__["b" /* SellComponent */], __WEBPACK_IMPORTED_MODULE_8__receipt_receipt_component__["a" /* ReceiptComponent */], __WEBPACK_IMPORTED_MODULE_10__sales_history_sales_history_component__["a" /* SalesHistoryComponent */], __WEBPACK_IMPORTED_MODULE_11__return_sale_return_sale_component__["a" /* ReturnSaleComponent */], __WEBPACK_IMPORTED_MODULE_12__sale_sale_component__["b" /* SaleComponent */], __WEBPACK_IMPORTED_MODULE_13__close_register_close_register_component__["a" /* CloseRegisterComponent */]],
+            providers: [__WEBPACK_IMPORTED_MODULE_6_app_sell_sell_service__["a" /* SellService */], __WEBPACK_IMPORTED_MODULE_9_app_customer_customer_service__["a" /* CustomerService */]],
             bootstrap: [__WEBPACK_IMPORTED_MODULE_5_app_sell_sell_component__["b" /* SellComponent */]]
         })
     ], SellModule);
@@ -9229,6 +9298,20 @@ var SellService = /** @class */ (function () {
     };
     SellService.prototype.sendEmail = function (transactionCompId) {
         return this.http.get(this.url + '/sendEmail?transactionCompId=' + transactionCompId);
+    };
+    // This is specific to close register
+    SellService.prototype.getCloseRegisterDetails = function (startDate, endDate) {
+        return this.http.get(this.url + '/getCloseRegisterDetailsByDate?startDate=' + startDate + '&endDate=' + endDate)
+            .map(this.extractData)
+            .catch(this.handleError);
+    };
+    SellService.prototype.saveCloseRegisterDetail = function (closeRegisterObj) {
+        this.http.post(this.url + '/addCloseRegisterDetails', closeRegisterObj)
+            .subscribe(function (data) {
+            console.log("Response From Add Close Register call" + data);
+        }, function (error) {
+            console.log(JSON.stringify(error.json()));
+        });
     };
     SellService.prototype.extractData = function (res) {
         var body = res.json();
@@ -10069,20 +10152,21 @@ var SharedModule = /** @class */ (function () {
             ],
             declarations: [__WEBPACK_IMPORTED_MODULE_3__storesetup_storesetup_component__["a" /* StoresetupComponent */], __WEBPACK_IMPORTED_MODULE_4__top_navbar_top_navbar_component__["a" /* TopNavbarComponent */], __WEBPACK_IMPORTED_MODULE_11_app_shared_top_sub_navbar_top_sub_navbar_component__["a" /* TopSubNavbarComponent */], __WEBPACK_IMPORTED_MODULE_5__header_header_component__["a" /* HeaderComponent */], __WEBPACK_IMPORTED_MODULE_8__footer_footer_component__["a" /* FooterComponent */]],
             exports: [
-                __WEBPACK_IMPORTED_MODULE_6__angular_material__["e" /* MatInputModule */],
+                __WEBPACK_IMPORTED_MODULE_6__angular_material__["f" /* MatInputModule */],
                 __WEBPACK_IMPORTED_MODULE_6__angular_material__["b" /* MatCardModule */],
                 __WEBPACK_IMPORTED_MODULE_6__angular_material__["a" /* MatButtonModule */],
-                __WEBPACK_IMPORTED_MODULE_6__angular_material__["c" /* MatDatepickerModule */],
-                __WEBPACK_IMPORTED_MODULE_6__angular_material__["f" /* MatNativeDateModule */],
-                __WEBPACK_IMPORTED_MODULE_6__angular_material__["d" /* MatFormFieldModule */],
-                __WEBPACK_IMPORTED_MODULE_6__angular_material__["j" /* MatSliderModule */],
-                __WEBPACK_IMPORTED_MODULE_6__angular_material__["i" /* MatSlideToggleModule */],
-                __WEBPACK_IMPORTED_MODULE_6__angular_material__["g" /* MatProgressSpinnerModule */],
-                __WEBPACK_IMPORTED_MODULE_6__angular_material__["h" /* MatRadioModule */],
+                __WEBPACK_IMPORTED_MODULE_6__angular_material__["d" /* MatDatepickerModule */],
+                __WEBPACK_IMPORTED_MODULE_6__angular_material__["g" /* MatNativeDateModule */],
+                __WEBPACK_IMPORTED_MODULE_6__angular_material__["e" /* MatFormFieldModule */],
+                __WEBPACK_IMPORTED_MODULE_6__angular_material__["k" /* MatSliderModule */],
+                __WEBPACK_IMPORTED_MODULE_6__angular_material__["j" /* MatSlideToggleModule */],
+                __WEBPACK_IMPORTED_MODULE_6__angular_material__["h" /* MatProgressSpinnerModule */],
+                __WEBPACK_IMPORTED_MODULE_6__angular_material__["i" /* MatRadioModule */],
                 __WEBPACK_IMPORTED_MODULE_4__top_navbar_top_navbar_component__["a" /* TopNavbarComponent */],
                 __WEBPACK_IMPORTED_MODULE_11_app_shared_top_sub_navbar_top_sub_navbar_component__["a" /* TopSubNavbarComponent */],
                 __WEBPACK_IMPORTED_MODULE_5__header_header_component__["a" /* HeaderComponent */],
-                __WEBPACK_IMPORTED_MODULE_8__footer_footer_component__["a" /* FooterComponent */]
+                __WEBPACK_IMPORTED_MODULE_8__footer_footer_component__["a" /* FooterComponent */],
+                __WEBPACK_IMPORTED_MODULE_6__angular_material__["c" /* MatChipsModule */]
             ],
             providers: [__WEBPACK_IMPORTED_MODULE_2__services_persistence_service__["a" /* PersistenceService */], __WEBPACK_IMPORTED_MODULE_9_app_shared_services_date_service__["b" /* DateService */], __WEBPACK_IMPORTED_MODULE_12__services_util_service__["a" /* UtilService */]]
         })
@@ -10397,16 +10481,16 @@ var TopNavbarComponent = /** @class */ (function () {
                 { name: 'Sell', link: '/sell', icon: 'fa fa-usd fa-2x text-green' },
                 { name: 'Sales History', link: '/sales-history', icon: 'fa fa-history fa-2x text-bittersweet ' },
                 { name: 'Product', link: '/product', icon: 'fa fa-tag fa-2x text-blue' },
-                { name: 'Report', link: '/report', icon: 'fa fa-line-chart fa-2x text-orange' },
-                { name: 'Register', link: '/close-register', icon: 'fa fa-window-close-o fa-2x text-green' },
+                { name: 'Purchase Order', link: '/purchase-order', icon: 'fa fa-first-order fa-x fa-2x text-green' },
                 { name: 'Customer', link: '/customer', icon: 'fa fa-user fa-2x text-bittersweet' },
+                { name: 'Report', link: '/report', icon: 'fa fa-line-chart fa-2x text-orange' },
                 // {name: 'Repair', link: '/repair', icon: 'fa fa-wrench fa-2x text-violet', show: false},
                 { name: 'Employee', link: '/employee', icon: 'fa fa-user-circle-o fa-2x text-blue' },
                 { name: 'Expense', link: '/expense', icon: 'fa fa-money fa-2x text-green' },
                 { name: 'Setting', link: '/setting', icon: 'fa fa-cogs fa-2x text-dark-grey', },
                 // { name: 'Ecomerce', link: '/ecommerce', icon: 'fa fa-cart-arrow-down fa-2x text-green' },
                 { name: 'Rewards', link: '/ecommerce', icon: 'fa fa-trophy fa-2x text-green' },
-                { name: 'Promotion', link: '/customer', icon: 'fa fa-bullhorn fa-2x text-bittersweet' }
+                { name: 'Promotion', link: '/promotion', icon: 'fa fa-bullhorn fa-2x text-bittersweet' }
             ];
         }
     };

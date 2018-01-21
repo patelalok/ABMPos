@@ -65,13 +65,13 @@
 
         <button class="bg-danger text-white m-3 action-button-lg" mat-raised-button data-toggle="modal" data-target="#removeProductInventory" (click)="this.setHeaderForRemoveAllInventoryProduct()">
                         <i class="fa fa-trash">
-                            Remove All Products
+                            Discard Order
                         </i>
                     </button>
 
         <button class="bg btn-green text-white m-3 action-button-lg" mat-raised-button data-toggle="modal" data-target="#removeProductInventory" (click)="this.setHeaderForAddProductInventory()"> 
                             <i class="fa fa-paper-plane" aria-hidden="true" >
-                                    Add All Products
+                                    Add Order
                             </i>
                          
                     </button>
@@ -124,21 +124,25 @@
                         <th>Cost</th>
                         <th>Retail</th>
                         <th>Qauntity</th>
-                        <th>Action</th>
+                        <th>Order Quantity</th>
 
                     </tr>
                 </thead>
                 <tbody>
                     <tr *ngFor="let product of this.filteredProductByVendor">
-                        <th scope="row">{{product.productNo}}</th>
+                        <td>{{product.productNo}}</td>
                         <td>{{product.description}}</td>
                         <td>{{product.cost}}</td>
                         <td>{{product.retail}}</td>
-                        <td>{{product.quantity}}</td>
+                        <td [ngStyle]="{'backgroundColor': (product.quantity >= 0)?'':'red'}">{{product.quantity}}</td>
                         <td>
-                            <button class="bg-primary text-white action-button m-1" mat-raised-button>
+                            <input type="number" (keyup.enter)="this.addProdutForPurchaseOrder($event, product)">
+                            <!-- <button mat-button class="btn-green action-button-table" mat-button (click)="this.setProductForHistory(product)" data-toggle="modal" data-target="#productHistoryModel">
+                                    <i class="fa fa-history" aria-hidden="true"></i>
+                                </button> -->
+                            <!-- <button class="bg-primary text-white action-button m-1" mat-raised-button>
                                 Add
-                            </button>
+                            </button> -->
                         </td>
 
                     </tr>

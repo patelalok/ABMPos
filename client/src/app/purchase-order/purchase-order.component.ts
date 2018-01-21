@@ -6,6 +6,7 @@ import { SellService } from 'app/sell/sell.service';
 import { PersistenceService } from 'app/shared/services/persistence.service';
 import * as moment from 'moment';
 import { ToastsManager } from 'ng2-toastr';
+import { Event } from '@angular/router/src/events';
 
 @Component({
   selector: 'app-purchase-order',
@@ -26,7 +27,6 @@ export class PurchaseOrderComponent implements OnInit {
   popupHeader: string;
   popupMessage: string;
   displayDialog = false;
-
 
   constructor(private saleService: SellService, private productService: ProductService, private persit: PersistenceService, private toastr: ToastsManager) { }
 
@@ -134,8 +134,18 @@ export class PurchaseOrderComponent implements OnInit {
 
     return this.productInventotyList;
   }
+
   openProductLookUpModel(){
     this.displayDialog = !this.displayDialog;
+  }
+
+  addProdutForPurchaseOrder(event: any, product: Product) {
+
+    product.quantity = event.target.value;
+    this.addProductInventory(product);
+
+    console.log('purchase order Product No', event.target.value);
+    console.log('purchase order quantity', event);
   }
 
   // I HAVE KEEP IT CASUE MAY BE I NEED TO HANDLE THIS LOGIC WHEN EVER USER ADD SAME PRODCUT INTO TABLE.
@@ -281,6 +291,8 @@ export class PurchaseOrderComponent implements OnInit {
       });
 
   }
+
+  
 
 
 
