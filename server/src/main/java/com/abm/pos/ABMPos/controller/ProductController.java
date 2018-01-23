@@ -42,11 +42,11 @@ public class ProductController {
     }
 
     @RequestMapping(value = "/addProductInventory", method = RequestMethod.POST, consumes = "application/json")
-    public ResponseEntity addProductInventory(@RequestBody List<ProductInventoryDao> productInventoryDao)
+    public List<ProductInventoryDao> addProductInventory(@RequestBody List<ProductInventoryDao> productInventoryDao)
     {
-        productManager.addProductInventory(productInventoryDao);
-        System.out.println("Product Inventory list added successfully ");
-        return new ResponseEntity(HttpStatus.CREATED);
+        return productManager.addProductInventory(productInventoryDao);
+//        System.out.println("Product Inventory list added successfully ");
+//        return new ResponseEntity(HttpStatus.CREATED);
     }
 
     @RequestMapping(value = "/getProductInventory", method = RequestMethod.GET, produces = "application/json")

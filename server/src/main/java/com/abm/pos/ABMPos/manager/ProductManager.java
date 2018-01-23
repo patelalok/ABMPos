@@ -72,9 +72,29 @@ public class ProductManager{
 
        return productRepository.save(productDao);
     }
-    public void addProductInventory(List<ProductInventoryDao> productInventoryDao) {
+    public List<ProductInventoryDao> addProductInventory(List<ProductInventoryDao> productInventoryDao) {
 
-        productInventoryRepository.save(productInventoryDao);
+        List<ProductInventoryDao> productInventoryDaoList = productInventoryRepository.save(productInventoryDao);
+        List<ProductInventoryDao> productInventoryDaoList1 = new ArrayList<>();
+
+        // I need to do this because, if there is any product with NEGATIVE Quantity, I need to delete that inventory, cause if i dont delete, that will messed up current stock, cause negative minus the positive inventory make complete count wrong.
+        if(null != productInventoryDaoList && productInventoryDaoList.size() >=1)
+        {
+            productInventoryDaoList1 = productInventoryRepository.findAllByProductNo(productInventoryDaoList.get(0).getProductNo());
+
+            for(ProductInventoryDao productInventoryDao1:productInventoryDaoList1 )
+            {
+                // this will delete inventory details with negative quantity.
+                // Very Important.
+                if(productInventoryDao1.getQuantity() <= 0)
+                {
+                    productInventoryRepository.delete(productInventoryDao1);
+                }
+            }
+        }
+
+        return productInventoryDaoList;
+
     }
 
    // @Cacheable("products")
