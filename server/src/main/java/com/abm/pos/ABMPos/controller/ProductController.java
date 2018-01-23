@@ -49,6 +49,12 @@ public class ProductController {
         return new ResponseEntity(HttpStatus.CREATED);
     }
 
+    @RequestMapping(value = "/getProductInventory", method = RequestMethod.GET, produces = "application/json")
+    public List<ProductInventoryDao> getProductInventory(String productNo)
+    {
+        return productManager.getProductInventory(productNo);
+    }
+
     @RequestMapping(value = "/getProductTableDetails", method = RequestMethod.GET, produces = "application/json")
     public List<ProductDao> getProductTableDetails()
     {

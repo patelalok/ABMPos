@@ -7004,13 +7004,6 @@ var SaleComponent = /** @class */ (function () {
             // { name: 'Refund', icon: 'fa fa-list fa-x', link: '/sell/refund' },
             { name: 'Purchase Order', icon: 'fa fa-bookmark fa-x', link: '/sell/purchaseOrder' }
         ];
-        // this.toastr.success("Sell component initiated", "Nice!");
-        this.storeSetupService.getStoreDetails().
-            then(function (data) {
-            _this.storeDetails = data;
-            _this.taxPercent = _this.storeDetails.tax;
-            console.log('Store Details', _this.storeDetails);
-        });
         var transactionComId = this.route.snapshot.paramMap.get('transactionComId');
         if (transactionComId) {
             this.handleParkedTransactionFromSalesHistory(transactionComId);
@@ -7032,6 +7025,18 @@ var SaleComponent = /** @class */ (function () {
         this.transactionLineItemDaoList = this.persit.getProducts() || [];
         // this will show transaction data on right side on refresh or on load of the page
         this.setTransactionDtoList(this.transactionLineItemDaoList);
+        // this.toastr.success("Sell component initiated", "Nice!");
+        this.storeSetupService.getStoreDetails().
+            then(function (data) {
+            _this.storeDetails = data;
+            if (_this.selectedCustomer != null && _this.selectedCustomer.type == 'Business') {
+                _this.taxPercent = 0.00;
+            }
+            else {
+                _this.taxPercent = _this.storeDetails.tax;
+            }
+            console.log('Store Details', _this.storeDetails);
+        });
     };
     SaleComponent.prototype.ngAfterViewInit = function () {
         // This will focus on the autocomplete field

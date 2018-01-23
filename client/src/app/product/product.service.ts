@@ -39,6 +39,12 @@ export class ProductService {
     // }
   }
 
+  getProductInventoryByProductNo(productNo: string) : Observable<ProductInventory[]>{
+   return this.http.get(this.url+'/getProductInventory?productNo='+productNo)
+   .map(this.extractData)
+   .catch(this.handleError);
+  }
+
   getCategoryDetails(): Observable<Category[]> {
     return this.http.get(this.url+'/getCategory')
       .map(this.extractData)

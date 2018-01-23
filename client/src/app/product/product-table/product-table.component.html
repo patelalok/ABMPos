@@ -52,9 +52,9 @@
                 <!-- <p-header>Product Details</p-header> -->
                 <p-dataTable [value]="this.productViewList" [editable]="true" scrollable="true" virtualScroll="virtualScroll" [rows]="this.rowsToShow" [lazy]="true" [totalRecords]="this.totalNumberProducts" [responsive]="true" scrollHeight="400px" (onEditComplete)="this.updateRetailPrice($event)"
                     (onLazyLoad)="loadProductsLazy($event)">
-                    <p-column [style]="{'width': '15%'}" field="productNo" header="Product Number" filterPlaceholder="Search For Product Name"></p-column>
-                    <p-column [style]="{'width': '25%', 'text-align': 'left'}" field="description" header="Description" [sortable]="true"></p-column>
-                    <p-column [style]="{'width': '10%'}" field="categoryName" header="Category" [sortable]="true"></p-column>
+                    <p-column [style]="{'width': '10%'}" field="productNo" header="Product Number" filterPlaceholder="Search For Product Name"></p-column>
+                    <p-column [style]="{'width': '30%', 'text-align': 'left'}" field="description" header="Description" [sortable]="true"></p-column>
+                    <!-- <p-column [style]="{'width': '10%'}" field="categoryName" header="Category" [sortable]="true"></p-column> -->
                     <p-column [style]="{'width': '10%'}" field="cost" header="Cost" [sortable]="true">
 
                         <ng-template let-product="rowData" pTemplate="body">
@@ -250,6 +250,21 @@
             </div>
             <div class="modal-body">
 
+                <div class="row">
+                    <div class="col-md-4">
+                        <input class="form-control" [(ngModel)]="this.cost" type="number" placeholder="Cost">
+                    </div>
+                    <div class="col-md-4">
+                        <input class="form-control" [(ngModel)]="this.quantity" type="number" placeholder="Quantity">
+                    </div>
+                    <div class="col-md-4">
+                        <button type="button" mat-raised-button class="bg-primary text-white" style="width: 100%;" (click)="this.addProductInventory()" data-dismiss="modal">
+                                <i class="fa fa-plus-square" aria-hidden="true" label="Add"></i>
+                                Add Product Inventory
+                        </button>
+                    </div>
+
+                </div>
                 <div class="row p-3">
                     <p-dataTable [value]="this.productInventoryList" [editable]="true" scrollable="true" [responsive]="true" scrollHeight="300px" (onEditComplete)="this.updateProductInventory($event)">
                         <p-column field="cost" header="Cost" [editable]="true">
@@ -265,35 +280,8 @@
                         <p-column field="time" header="Time"></p-column>
 
                     </p-dataTable>
-                    <!-- 
-                    <table class="table table-striped">
-                        <thead>
-                            <tr>
-                                <th>Product No</th>
-                                <th>Cost</th>
-                                <th>Quantity</th>
-                                <th>Date</th>
-                                <th>Time</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr *ngFor="let inventory of this.productInventoryList">
-                                <td>{{inventory.productNo}}</td>
-                                <td>
-                                    <input type="text" [(ngModel)]="inventory.cost" />
-                                </td>
-                                <td>
-                                    <input type="text" [(ngModel)]="inventory.quantity" />
-                                </td>
-                                <td>{{inventory.date}}</td>
-                                <td>{{inventory.time}}</td>
-                                <td>
-                                    <button (click)="this.updateProductInventory(inventory)">update</button>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table> -->
                 </div>
+
             </div>
 
 

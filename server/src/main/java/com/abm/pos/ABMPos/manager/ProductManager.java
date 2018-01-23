@@ -304,4 +304,9 @@ public class ProductManager{
         return response;
 
     }
+
+    public List<ProductInventoryDao> getProductInventory(String productNo) {
+
+        return productInventoryRepository.findAllByProductNo(productNo);
+    }
 }

@@ -11,6 +11,7 @@ import { Element } from '@angular/compiler';
 import { ElementRef } from '@angular/core/src/linker/element_ref';
 import { LoadingService } from 'app/loading.service';
 import { ToastsManager } from 'ng2-toastr';
+import { error } from 'selenium-webdriver';
 declare var $: JQueryStatic;
 
 @Component({
@@ -48,6 +49,9 @@ export class ProductTableComponent implements OnInit {
   productInventoryList: ProductInventory[] = [];
 
   dropdownOptionValue: number;
+  cost: number;
+  quantity: number;
+
 
   loading: boolean = false;
   constructor(private productService: ProductService, private loadingService: LoadingService, private toastr: ToastsManager) { }
@@ -266,13 +270,52 @@ export class ProductTableComponent implements OnInit {
   // This method helps to set the perticualr product inventory details to show on popup when user click on the cost price.
   setProductInventoryForSelectedProduct(productInventoryList1: ProductInventory[]) {
 
-    console.log('inventory', productInventoryList1);
-    productInventoryList1.forEach((inventory) => {
-      inventory.time = moment(inventory.createdTimestamp).format('hh:mm A');
-      inventory.date = moment(inventory.createdTimestamp).format('MM/DD/YYYY');
-    })
-    this.productInventoryList = productInventoryList1;
+    // First need to get real inventory details from the db, cause when you add inventory and if you dont do this call, it wont show you,
+    // Newly added inventory details.
+    this.productService.getProductInventoryByProductNo(productInventoryList1[0].productNo)
+    .subscribe((inventory: ProductInventory[]) => {
+      this.productInventoryList = inventory;
+
+      this.productInventoryList.forEach((inventory) => {
+        inventory.time = moment(inventory.createdTimestamp).format('hh:mm A');
+        inventory.date = moment(inventory.createdTimestamp).format('MM-DD-YYYY');
+      
+      })
+    });
   }
+
+  addProductInventory(){
+    let productInventoryObj: ProductInventory = new ProductInventory();
+
+    productInventoryObj.productNo = this.productInventoryList[0].productNo;
+    productInventoryObj.cost = this.cost;
+    productInventoryObj.retail = this.productInventoryList[0].retail;
+    productInventoryObj.quantity = this.quantity;
+    productInventoryObj.createdTimestamp = moment(Date.now()).format('YYYY-MM-DD HH:mm:ss');
+
+    this.productInventoryList.push(productInventoryObj);
+
+    this.productService.addProductInventory(this.productInventoryList)
+    .subscribe((productInventory) => {
+      if(null != productInventory){
+        this.toastr.success('Inventory Added Successfully !!', 'Success!');
+
+      }
+      else{
+        this.toastr.error('Opps Something Goes Wrong !!', 'Error!');
+
+      }
+    },
+    error => {
+      this.toastr.error('Opps Something goes wrong !!', 'Error!!');
+      console.log(JSON.stringify(error.json()));
+    });
+
+    this.cost = null;
+    this.quantity = null;
+
+    }
+
 
   updateProductInventory(event) {
 
