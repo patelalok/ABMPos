@@ -167,8 +167,6 @@ export class BackendProductDto {
   relatedProduct: boolean;
   createdTimestamp: any;
   customLoyaltyAmount: number;
-
-  productInventoryDaoList: ProductInventory[];
 }
 export interface ProductCommon {
   name: string;
@@ -179,18 +177,18 @@ export class ProductCommonTest {
   id: number;
 }
 
-export class ProductInventory {
-  productNo: string;
-  description:string;
-  cost: number;
-  retail: number;
-  markup: number;
-  quantity: number;
-  createdTimestamp: any;
-  vendorId: number;
-  date: any;
-  time: any;
-}
+// export class ProductInventory {
+//   productNo: string;
+//   description:string;
+//   cost: number;
+//   retail: number;
+//   markup: number;
+//   quantity: number;
+//   createdTimestamp: any;
+//   vendorId: number;
+//   date: any;
+//   time: any;
+// }
 
 
       // markup: '',

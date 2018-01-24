@@ -2,10 +2,7 @@ package com.abm.pos.ABMPos.manager;
 
 import com.abm.pos.ABMPos.dao.CustomerDao;
 import com.abm.pos.ABMPos.dao.ProductDao;
-import com.abm.pos.ABMPos.dao.ProductInventoryDao;
-import com.abm.pos.ABMPos.dao.ReportDao.InventoryDto;
 import com.abm.pos.ABMPos.repository.CustomerRepository;
-import com.abm.pos.ABMPos.repository.ProductInventoryRepository;
 import com.abm.pos.ABMPos.repository.ProductRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,8 +27,7 @@ public class PageSetUpManager {
     @Autowired
     private ProductRepository productRepository;
 
-    @Autowired
-    private ProductInventoryRepository productInventoryRepository;
+
 
 
     public void addMultyCustomer(final List<CustomerDao> customerDao) {
@@ -43,9 +39,6 @@ public class PageSetUpManager {
         productRepository.save(productDao);
     }
 
-    public void addMultipleProductInventory(List<ProductInventoryDao> inventoryDtoList) {
-        productInventoryRepository.save(inventoryDtoList);
-    }
 }
 
 

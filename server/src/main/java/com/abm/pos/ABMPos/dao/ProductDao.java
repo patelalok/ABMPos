@@ -50,10 +50,6 @@ public class ProductDao implements Serializable {
     private String createdTimestamp;
 
 
-    @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "productNo")
-    private List<ProductInventoryDao> productInventoryDaoList;
-
 
     @Transient
     private String transactionComId;
@@ -239,14 +235,6 @@ public class ProductDao implements Serializable {
 
     public void setCreatedTimestamp(String createdTimestamp) {
         this.createdTimestamp = createdTimestamp;
-    }
-
-    public List<ProductInventoryDao> getProductInventoryDaoList() {
-        return productInventoryDaoList;
-    }
-
-    public void setProductInventoryDaoList(List<ProductInventoryDao> productInventoryDaoList) {
-        this.productInventoryDaoList = productInventoryDaoList;
     }
 
     public String getTransactionComId() {

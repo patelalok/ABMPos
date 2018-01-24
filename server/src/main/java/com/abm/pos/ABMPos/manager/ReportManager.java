@@ -31,8 +31,6 @@ public class ReportManager {
     @Autowired
     private Utility utility;
 
-    @Autowired
-    private ProductInventoryRepository productInventoryRepository;
 
     @Autowired
     private ProductRepository productRepository;

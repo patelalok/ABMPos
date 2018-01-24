@@ -3,7 +3,7 @@ import { ProductService } from "app/product/product.service";
 import { Product } from "app/sell/sell.component";
 // import { FormBuilder } from "@angular/forms/forms";
 import { FormBuilder, Validators, FormGroup, FormControl } from '@angular/forms';
-import { BackendProductDto, Category, Brand, Vendor, ProductVariantDetail, Model, ProductInventory } from "app/product/product.component";
+import { BackendProductDto, Category, Brand, Vendor, ProductVariantDetail, Model } from "app/product/product.component";
 import * as moment from 'moment';
 import { slideInOutAnimation } from 'app/shared/animations/slide-in-out.animation';
 import { ToastsManager } from 'ng2-toastr/src/toast-manager';
@@ -36,8 +36,6 @@ export class AddProductComponent implements OnInit {
   products: Product[];
   formProduct = new Product();
   finalProductTosend: Product;
-  productInventory = new ProductInventory();
-  productInventoryList: ProductInventory[] = [];
 
   constructor(private productService: ProductService, private formBuilder: FormBuilder, private toastr: ToastsManager) {
   }
@@ -111,16 +109,16 @@ export class AddProductComponent implements OnInit {
 
    
 
-      this.productInventoryList.push(this.productInventory);
+     // this.productInventoryList.push(this.productInventory);
 
       let formValues: ProductForm = this.form.value;
 
       // Here i need to add product inventory details to the product inventory table 
-      this.productInventory.productNo = formValues.productNo;
-      this.productInventory.cost = formValues.cost;
-      this.productInventory.retail = formValues.retail;
-      this.productInventory.quantity = formValues.quantity;
-      this.productInventory.createdTimestamp = moment(Date.now()).format('YYYY-MM-DD HH:mm:ss');
+     // this.productInventory.productNo = formValues.productNo;
+     // this.productInventory.cost = formValues.cost;
+     // this.productInventory.retail = formValues.retail;
+     // this.productInventory.quantity = formValues.quantity;
+    //  this.productInventory.createdTimestamp = moment(Date.now()).format('YYYY-MM-DD HH:mm:ss');
 
 
       let product: Product = {
@@ -153,7 +151,7 @@ export class AddProductComponent implements OnInit {
         transactionComId: null,
         time: null,
         createdTimestamp: moment(Date.now()).format('YYYY-MM-DD HH:mm:ss'),
-        productInventoryDaoList: this.productInventoryList
+       // productInventoryDaoList: this.productInventoryList
 
       }
       this.productService.addProduct(product)
@@ -229,6 +227,5 @@ export interface ProductForm {
   ecommerce: boolean;
   variant: boolean;
   customLoyaltyAmount: number;
-  productInventoryDaoList: ProductInventory[];
 
 }

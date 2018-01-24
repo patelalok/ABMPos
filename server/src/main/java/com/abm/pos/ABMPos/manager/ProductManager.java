@@ -35,10 +35,6 @@ public class ProductManager{
     private LastProductNoRepository lastProductNoRepository;
 
     @Autowired
-    private ProductInventoryRepository productInventoryRepository;
-
-
-    @Autowired
     private Utility utility;
 
 
@@ -49,101 +45,14 @@ public class ProductManager{
     public void addProduct(ProductDao productDao)
     {
 
-        ProductDao productDao1 = new ProductDao();
-
-        productDao1 = productRepository.findOne(productDao.getProductNo());
-
-        // I need to do this cause i need to maintain retail price of the product in both product and product inventory Table.
-        // So this is really important.
-        if(null != productDao1 && productDao.getRetail() != productDao1.getRetail())
-        {
-            productInventoryRepository.updateProductRetailPrice(productDao.getRetail(), productDao.getProductNo());
-        }
-        // Then update the product.
-
         productRepository.save(productDao);
     }
-    //@CachePut(value = "products", key = "#productDao.productNo")
-   // @CacheEvict(value = "products",  key = "#root.target.KEY")
-
     @CachePut("products")
     //@CacheEvict("products")
     public ProductDao addProductTest(ProductDao productDao) {
 
        return productRepository.save(productDao);
     }
-    public List<ProductInventoryDao> addProductInventory(List<ProductInventoryDao> productInventoryDao) {
-
-        List<ProductInventoryDao> productInventoryDaoList = productInventoryRepository.save(productInventoryDao);
-        List<ProductInventoryDao> productInventoryDaoList1;
-
-        // I need to do this because, if there is any product with NEGATIVE Quantity, I need to delete that inventory, cause if i dont delete, that will messed up current stock, cause negative minus the positive inventory make complete count wrong.
-        if(null != productInventoryDaoList && productInventoryDaoList.size() >=1)
-        {
-            productInventoryDaoList1 = productInventoryRepository.findAllByProductNo(productInventoryDaoList.get(0).getProductNo());
-
-            for(ProductInventoryDao productInventoryDao1:productInventoryDaoList1 )
-            {
-                // this will delete inventory details with negative quantity.
-                // Very Important.
-                if(productInventoryDao1.getQuantity() <= 0)
-                {
-                    productInventoryRepository.delete(productInventoryDao1);
-                }
-            }
-        }
-
-        return productInventoryDaoList;
-
-    }
-
-   // @Cacheable("products")
-    public List<ProductDao> getProductTableDetails() {
-
-            List<ProductDao> productDaoArrayList = new ArrayList<>();
-            List<ProductDao> productDaoArrayListNew = new ArrayList<>();
-
-            productDaoArrayList = productRepository.getAllActiveProduct();
-
-            //return productDaoArrayList;
-
-            for(ProductDao p :productDaoArrayList)
-            {
-                int quantity = 0;
-                for(ProductInventoryDao i : p.getProductInventoryDaoList())
-                {
-                    quantity = quantity + i.getQuantity();
-                }
-
-                p.setQuantity(quantity);
-
-                productDaoArrayListNew.add(p);
-
-            }
-
-
-            return productDaoArrayListNew;
-
-          //  return productDaoArrayList;
-
-        }
-//        else if(getProductBy.equalsIgnoreCase("Brand"))
-//        {
-//            return productRepository.getAllActivePrductByBrandId(searchValue);
-//        }
-//        else if(getProductBy.equalsIgnoreCase("Category"))
-//        {
-//            return productRepository.getAllActivePrductByCategoryId(searchValue);
-//        }
-//        else if(getProductBy.equalsIgnoreCase("Vendor"))
-//        {
-//            return productRepository.getAllActivePrductByVendorId(searchValue);
-//        }
-//        else if(getProductBy.equalsIgnoreCase("Model"))
-//        {
-//            return productRepository.getAllActivePrductByModelId(searchValue);
-//        }
-
 
     public List<ProductDao> getProductForSellPage() {
 
@@ -183,21 +92,6 @@ public class ProductManager{
 
         boolean isDeletableProduct = true;
 
-        // Before in active the product we need check if that product has any data or quantity more then 0 in inventory table,
-        // If yes then need to show error that can not delete product cause it has data in inventory table,
-        // If no then we can in active the product and delete the entry in product inventory table.
-
-        List<ProductInventoryDao> productInventoryDaoList = new ArrayList<>();
-        productInventoryDaoList = productInventoryRepository.findAllByProductNo(productDao.getProductNo());
-
-        for(ProductInventoryDao productInventoryDao: productInventoryDaoList)
-        {
-            if(productInventoryDao.getQuantity() > 0)
-            {
-                isDeletableProduct = false;
-                break;
-            }
-        }
         if(isDeletableProduct)
         {
             // This will only INACTIVE THE PRODUCT
@@ -306,27 +200,4 @@ public class ProductManager{
         return null;
     }
 
-    public String deleteProductInventory(ProductInventoryDao productInventoryDao) {
-
-        String response;
-
-        int count = productInventoryRepository.getCountOfRowByProductNo(productInventoryDao.getProductNo());
-
-        if (count > 1) {
-            productInventoryRepository.delete(productInventoryDao.getId());
-            response = "Product Inventory Details Deleted Successfully !!";
-        }
-        else
-        {
-            response = "Can not  Delete Product Inventory Details, Because You Must Keep One Item In !!";
-        }
-
-        return response;
-
-    }
-
-    public List<ProductInventoryDao> getProductInventory(String productNo) {
-
-        return productInventoryRepository.findAllByProductNo(productNo);
-    }
 }

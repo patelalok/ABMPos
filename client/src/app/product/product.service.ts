@@ -3,7 +3,7 @@ import { Http, Response, Headers } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import { Product, TransactionLineItemDaoList } from 'app/sell/sell.component';
 import { FormControl } from '@angular/forms/forms';
-import { Category, Brand, Vendor, Model, ProductVariantDetail, CategoryTest, BackendProductDto, ProductInventory } from 'app/product/product.component';
+import { Category, Brand, Vendor, Model, ProductVariantDetail, CategoryTest, BackendProductDto } from 'app/product/product.component';
 import { environment } from 'environments/environment';
 import { Observer } from 'rxjs';
 
@@ -39,11 +39,11 @@ export class ProductService {
     // }
   }
 
-  getProductInventoryByProductNo(productNo: string) : Observable<ProductInventory[]>{
-   return this.http.get(this.url+'/getProductInventory?productNo='+productNo)
-   .map(this.extractData)
-   .catch(this.handleError);
-  }
+  // getProductInventoryByProductNo(productNo: string) : Observable<ProductInventory[]>{
+  //  return this.http.get(this.url+'/getProductInventory?productNo='+productNo)
+  //  .map(this.extractData)
+  //  .catch(this.handleError);
+  // }
 
   getCategoryDetails(): Observable<Category[]> {
     return this.http.get(this.url+'/getCategory')
@@ -139,10 +139,10 @@ export class ProductService {
       // })
   }
 
-  addProductInventory(productInventory: ProductInventory[]) {
-    console.log("Product Added", productInventory);
-    return this.http.post(this.url+'/addProductInventory', productInventory);
-  }
+  // addProductInventory(productInventory: ProductInventory[]) {
+  //   console.log("Product Added", productInventory);
+  //   return this.http.post(this.url+'/addProductInventory', productInventory);
+  // }
 
   updateProductRetailPrice(product: Product) {
 
@@ -156,10 +156,10 @@ export class ProductService {
       });
   }
 
-  updateProductInventory(productInventory: ProductInventory[]) {
-    return this.http.post(this.url+'/addProductInventory', productInventory);
+  // updateProductInventory(productInventory: ProductInventory[]) {
+  //   return this.http.post(this.url+'/addProductInventory', productInventory);
      
-  }
+  // }
 
 
 
@@ -175,16 +175,16 @@ export class ProductService {
 
   }
 
-  deleteProductInventory(deletedInvetory: ProductInventory) {
-    this.http.post(this.url+'/deleteProductInventory', deletedInvetory)
-      .subscribe(data => {
-        alert('deleted');
-        console.log(data);
-      },
-      error => {
-        console.log(JSON.stringify(error.json()));
-      });
-  }
+  // deleteProductInventory(deletedInvetory: ProductInventory) {
+  //   this.http.post(this.url+'/deleteProductInventory', deletedInvetory)
+  //     .subscribe(data => {
+  //       alert('deleted');
+  //       console.log(data);
+  //     },
+  //     error => {
+  //       console.log(JSON.stringify(error.json()));
+  //     });
+  // }
 
   private extractData(res: Response): Product[] {
     let body = res.json();

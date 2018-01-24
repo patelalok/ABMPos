@@ -12,7 +12,6 @@ import { Customer, CustomerInterface, PrimeCustomer } from 'app/customer/custome
 import * as moment from 'moment';
 import { DomSanitizer } from '@angular/platform-browser';
 import { fadeInAnimation } from 'app/shared/animations/fade-in.animation';
-import { ProductInventory } from 'app/product/product.component';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastsManager } from 'ng2-toastr/src/toast-manager';
 import { empty } from 'rxjs/Observer';

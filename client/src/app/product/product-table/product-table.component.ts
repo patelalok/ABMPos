@@ -4,7 +4,7 @@ import { Product, TransactionLineItemDaoList } from 'app/sell/sell.component';
 // import { FormBuilder } from "@angular/forms/forms";
 import { FormBuilder, Validators, FormGroup, FormControl } from '@angular/forms';
 import { MenuItem, LazyLoadEvent } from 'primeng/primeng';
-import { BackendProductDto, Category, Brand, Model, Vendor, ProductCommon, ProductInventory } from "app/product/product.component";
+import { BackendProductDto, Category, Brand, Model, Vendor, ProductCommon } from "app/product/product.component";
 import * as moment from 'moment';
 import { ViewChild } from '@angular/core/src/metadata/di';
 import { Element } from '@angular/compiler';
@@ -46,7 +46,6 @@ export class ProductTableComponent implements OnInit {
   selectedProductForHistory: Product;
   productHistoryDropDown: any = 'Today';
   updateProductObject: Product;
-  productInventoryList: ProductInventory[] = [];
 
   dropdownOptionValue: number;
   cost: number;
@@ -268,91 +267,91 @@ export class ProductTableComponent implements OnInit {
   }
 
   // This method helps to set the perticualr product inventory details to show on popup when user click on the cost price.
-  setProductInventoryForSelectedProduct(productInventoryList1: ProductInventory[]) {
+  //setProductInventoryForSelectedProduct(productInventoryList1: ProductInventory[]) {
 
     // First need to get real inventory details from the db, cause when you add inventory and if you dont do this call, it wont show you,
     // Newly added inventory details.
-    this.productService.getProductInventoryByProductNo(productInventoryList1[0].productNo)
-    .subscribe((inventory: ProductInventory[]) => {
-      this.productInventoryList = inventory;
+  //   this.productService.getProductInventoryByProductNo(productInventoryList1[0].productNo)
+  //   .subscribe((inventory: ProductInventory[]) => {
+  //     this.productInventoryList = inventory;
 
-      this.productInventoryList.forEach((inventory) => {
-        inventory.time = moment(inventory.createdTimestamp).format('hh:mm A');
-        inventory.date = moment(inventory.createdTimestamp).format('MM-DD-YYYY');
+  //     this.productInventoryList.forEach((inventory) => {
+  //       inventory.time = moment(inventory.createdTimestamp).format('hh:mm A');
+  //       inventory.date = moment(inventory.createdTimestamp).format('MM-DD-YYYY');
       
-      })
-    });
-  }
+  //     })
+  //   });
+  // }
 
-  addProductInventory(){
-    let productInventoryObj: ProductInventory = new ProductInventory();
+  // addProductInventory(){
+  //   let productInventoryObj: ProductInventory = new ProductInventory();
 
-    productInventoryObj.productNo = this.productInventoryList[0].productNo;
-    productInventoryObj.cost = this.cost;
-    productInventoryObj.retail = this.productInventoryList[0].retail;
-    productInventoryObj.quantity = this.quantity;
-    productInventoryObj.createdTimestamp = moment(Date.now()).format('YYYY-MM-DD HH:mm:ss');
+  //   productInventoryObj.productNo = this.productInventoryList[0].productNo;
+  //   productInventoryObj.cost = this.cost;
+  //   productInventoryObj.retail = this.productInventoryList[0].retail;
+  //   productInventoryObj.quantity = this.quantity;
+  //   productInventoryObj.createdTimestamp = moment(Date.now()).format('YYYY-MM-DD HH:mm:ss');
 
-    this.productInventoryList.push(productInventoryObj);
+  //   this.productInventoryList.push(productInventoryObj);
 
-    this.productService.addProductInventory(this.productInventoryList)
-    .subscribe((productInventory) => {
-      if(null != productInventory){
-        this.toastr.success('Inventory Added Successfully !!', 'Success!');
+  //   this.productService.addProductInventory(this.productInventoryList)
+  //   .subscribe((productInventory) => {
+  //     if(null != productInventory){
+  //       this.toastr.success('Inventory Added Successfully !!', 'Success!');
 
-      }
-      else{
-        this.toastr.error('Opps Something Goes Wrong !!', 'Error!');
+  //     }
+  //     else{
+  //       this.toastr.error('Opps Something Goes Wrong !!', 'Error!');
 
-      }
-    },
-    error => {
-      this.toastr.error('Opps Something goes wrong !!', 'Error!!');
-      console.log(JSON.stringify(error.json()));
-    });
+  //     }
+  //   },
+  //   error => {
+  //     this.toastr.error('Opps Something goes wrong !!', 'Error!!');
+  //     console.log(JSON.stringify(error.json()));
+  //   });
 
-    this.cost = null;
-    this.quantity = null;
+  //   this.cost = null;
+  //   this.quantity = null;
 
-    }
+  //   }
 
 
-  updateProductInventory(event) {
+  // updateProductInventory(event) {
 
-    let product: BackendProductDto = event.data;
-    console.log('Updating product inventory', product);
+  //   let product: BackendProductDto = event.data;
+  //   console.log('Updating product inventory', product);
 
-    console.log('event on inventoty', event.date);
-    let productInventory: ProductInventory[] = []; 
+  //   console.log('event on inventoty', event.date);
+  //   let productInventory: ProductInventory[] = []; 
     
-    productInventory.push(event.data);
+  //   productInventory.push(event.data);
 
-    console.log('product invetrory object', productInventory);
+  //   console.log('product invetrory object', productInventory);
 
-    this.productService.updateProductInventory(productInventory)
-    .subscribe(data => {
+  //   this.productService.updateProductInventory(productInventory)
+  //   .subscribe(data => {
 
-      if(data){
-        this.toastr.success('Inventory Updated Successfully !!', 'Success!');
-      }
-    },
-    error => {
-      this.toastr.error('Opps Something goes wrong !!', 'Error!!');
-      console.log(JSON.stringify(error.json()));
-    });
+  //     if(data){
+  //       this.toastr.success('Inventory Updated Successfully !!', 'Success!');
+  //     }
+  //   },
+  //   error => {
+  //     this.toastr.error('Opps Something goes wrong !!', 'Error!!');
+  //     console.log(JSON.stringify(error.json()));
+  //   });
     
-    let index = this.productViewList.findIndex((el) => el.productNo == product.productNo);
+  //   let index = this.productViewList.findIndex((el) => el.productNo == product.productNo);
 
-    this.productViewList[index] = {
-      ...this.productViewList[index],
-      ...product
-    };
+  //   this.productViewList[index] = {
+  //     ...this.productViewList[index],
+  //     ...product
+  //   };
 
-    this.productViewList = this.productViewList.slice();
+  //   this.productViewList = this.productViewList.slice();
 
-    this.hideProductModal();
+  //   this.hideProductModal();
 
-  }
+  // }
 
   hideProductModal() {
     console.log('Hiding modal');

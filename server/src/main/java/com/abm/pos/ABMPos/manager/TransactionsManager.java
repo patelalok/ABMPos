@@ -46,9 +46,6 @@ public class TransactionsManager {
     private ProductRepository productRepository;
 
     @Autowired
-    private ProductInventoryRepository productInventoryRepository;
-
-    @Autowired
     private CustomerRepository customerRepository;
 
     @Autowired
@@ -69,21 +66,6 @@ public class TransactionsManager {
     public TransactionDao addTransaction(TransactionDao transactionDao) {
 
         if (null != transactionDao && (transactionDao.getStatus().equalsIgnoreCase("Return") || transactionDao.getStatus().equalsIgnoreCase("Void"))) {
-
-            // Managing inventory for the RETURN or VOID
-
-            ProductInventoryDao productInventoryDao = new ProductInventoryDao();
-
-            for (TransactionLineItemDao lineItemDao : transactionDao.getTransactionLineItemDaoList()) {
-                productInventoryDao.setProductNo(lineItemDao.getProductNo());
-                productInventoryDao.setCost(Math.abs(lineItemDao.getCost()));
-                productInventoryDao.setRetail(Math.abs((lineItemDao.getRetail())));
-                productInventoryDao.setQuantity(lineItemDao.getQuantity());
-                productInventoryDao.setCreatedTimestamp(transactionDao.getDate());
-
-
-                productInventoryRepository.save(productInventoryDao);
-            }
 
 
             // Handing store credit here
@@ -161,67 +143,6 @@ public class TransactionsManager {
                 int purchasedQuantity = lineItemDao.getQuantity();
 
 
-                do {
-                    // step 1 : get the product from line item and then get the quantity for that product from inventory table on behalf of created time stamps.
-                    ProductInventoryDao productInventoryDao = new ProductInventoryDao();
-
-                    // This call will give product inventory details on behalf of FIFO.
-                    productInventoryDao = productInventoryRepository.findFirstByProductNoOrderByCreatedTimestampAsc(lineItemDao.getProductNo());
-
-
-                    if (null != productInventoryDao) {
-                        // This is best case.
-                        if (productInventoryDao.getQuantity() > purchasedQuantity) {
-
-                            // This is Important because i need to set cost price separately that's why i need to do this.
-                            lineItemDao.setCost(productInventoryDao.getCost());
-                            transactionLineItemDaoListNew.add(lineItemDao);
-
-                            reduceQuantityFromProductInventoryTable(productInventoryDao, productInventoryDao.getQuantity() - purchasedQuantity);
-
-                            purchasedQuantity = 0;
-                        }
-                        // This means we do not have enough inventory to sale, so we can sale wt we have and then call inventory table again until purchase item == 0.
-                        else if (productInventoryDao.getQuantity() > 0) {
-                            lineItemDao.setCost(productInventoryDao.getCost());
-                            lineItemDao.setQuantity(productInventoryDao.getQuantity());
-
-                            transactionLineItemDaoListNew.add(lineItemDao);
-
-                            purchasedQuantity = purchasedQuantity - productInventoryDao.getQuantity();
-
-                            reduceQuantityFromProductInventoryTable(productInventoryDao, 0);
-
-
-                            // Also this means in Product Inventory table, inventory of this product is 0
-                            // So now we need to delete this row from the table
-                            // Here is the interesting this, we can delete this row only, IF IT IS NOT LAST ROW.
-                            // IF IT IS LAST ROW THEN WE JUST REDUCE THE QUANTITY AND LET ELSE CONDITION HANDLE IT
-                            // THIS CASE HAPPENS WHEN USER HAS NOT UPDATED THE PRODUCT INVENTORY TABLE BUT STILL HE IS TRYING TO SALE THE PRODUCT.
-
-                            deleteProductInventoryRow(productInventoryDao);
-
-                        }
-
-                        // This means we have last entry in product inventory table and user has not updated the quantity.
-                        else {
-                            // This is Important because i need to set cost price separately that's why i need to do this.
-                            lineItemDao.setCost(productInventoryDao.getCost());
-                            transactionLineItemDaoListNew.add(lineItemDao);
-                            reduceQuantityFromProductInventoryTable(productInventoryDao, productInventoryDao.getQuantity() - purchasedQuantity);
-
-                            purchasedQuantity = 0;
-                        }
-
-                    }
-                    // TODO need to handle this case  :(
-                    else {
-                        System.out.println("OPPS Some problem need to handle this.");
-                    }
-                }
-
-                while (purchasedQuantity != 0);
-
             }
 
             transactionDao.setTransactionLineItemDaoList(transactionLineItemDaoListNew);
@@ -271,25 +192,6 @@ public class TransactionsManager {
 
             customerRepository.save(customerDao);
         }
-    }
-
-    private void deleteProductInventoryRow(ProductInventoryDao productInventoryDao) {
-        // First we need to get the count of the row, we can delete row only and only if it is not last row,
-        // if it is not last row then we need to keep it.
-
-        int count = productInventoryRepository.getCountOfRowByProductNo(productInventoryDao.getProductNo());
-
-        if (count > 1) {
-            productInventoryRepository.delete(productInventoryDao.getId());
-        }
-    }
-
-
-    private void reduceQuantityFromProductInventoryTable(ProductInventoryDao productInventoryDao, int newQuantityAfterSubtractionFromPurchasedQuantity) {
-        // Here i am just reducing purchasedQuantity from current inventory and updating into table.
-        // Need to set purchasedQuantity cause that what customer has bought.(purchasedQuantity i)
-        productInventoryDao.setQuantity(newQuantityAfterSubtractionFromPurchasedQuantity);
-        productInventoryRepository.save(productInventoryDao);
     }
 
 
@@ -392,20 +294,6 @@ public class TransactionsManager {
     }
 
     public TransactionDao voidTransaction(TransactionDao transactionDao) {
-
-        // Managing inventory for the Void Transaction same as return.
-
-        ProductInventoryDao productInventoryDao = new ProductInventoryDao();
-
-        for (TransactionLineItemDao lineItemDao : transactionDao.getTransactionLineItemDaoList()) {
-            productInventoryDao.setProductNo(lineItemDao.getProductNo());
-            productInventoryDao.setCost(Math.abs(lineItemDao.getCost()));
-            productInventoryDao.setRetail(Math.abs((lineItemDao.getRetail())));
-            productInventoryDao.setQuantity(lineItemDao.getQuantity());
-            productInventoryDao.setCreatedTimestamp(transactionDao.getDate());
-
-            productInventoryRepository.save(productInventoryDao);
-        }
 
 
         return transactionRepository.save(transactionDao);

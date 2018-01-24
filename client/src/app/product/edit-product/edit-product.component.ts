@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators, FormGroup, FormControl } from '@angular/forms';
 
-import { BackendProductDto, Category, Brand, Vendor, Model, ProductVariantDetail, ProductInventory } from 'app/product/product.component';
+import { BackendProductDto, Category, Brand, Vendor, Model, ProductVariantDetail } from 'app/product/product.component';
 import { Product } from 'app/sell/sell.component';
 import * as moment from 'moment';
 import { ProductService } from 'app/product/product.service';
@@ -30,7 +30,6 @@ export class EditProductComponent implements OnInit {
   products: Product[];
   formProduct = new Product();
   finalProductTosend: Product;
-  selectedProductInventoryForDelete: ProductInventory;
  
 
   currentProduct: BackendProductDto; 
@@ -45,12 +44,6 @@ export class EditProductComponent implements OnInit {
       this.productService.getProductDetailsById(productNo)
       .subscribe((product) =>{
         this.currentProduct=product;
-
-        this.currentProduct.productInventoryDaoList.forEach((inventory => {
-          inventory.time = moment(inventory.date).format('hh:mm A');
-          inventory.date = moment(inventory.date).format('MM/DD/YYYY');
-          this.currentProduct.quantity = +this.currentProduct.quantity + inventory.quantity;
-        }));
 
         let currentCategory={}; 
         let currentBrand ={};
@@ -159,7 +152,6 @@ export class EditProductComponent implements OnInit {
         quantity: formValues.quantity,
         categoryName: null,
         customLoyaltyAmount: 0.00,
-        productInventoryDaoList: this.currentProduct.productInventoryDaoList,
         variant: formValues.variant,
         markup: 0.00,
         createdTimestamp: moment(Date.now()).format('YYYY-MM-DD HH:mm:ss'),
@@ -173,18 +165,9 @@ export class EditProductComponent implements OnInit {
     }
   }
 
-  updateProductInventory(event) {
-    this.productService.updateProductInventory(event.data);
-  }
-
-  setProductInventoryDetailsForDelete(inventory: ProductInventory) {
-
-    this.selectedProductInventoryForDelete = inventory;
-  }
-  deleteProductInventory() {
-
-    this.productService.deleteProductInventory(this.selectedProductInventoryForDelete);
-  }
+  // updateProductInventory(event) {
+  //   this.productService.updateProductInventory(event.data);
+  // }
 
   clearProductForm() {
     this.form.get('productNo').setValue(null);
