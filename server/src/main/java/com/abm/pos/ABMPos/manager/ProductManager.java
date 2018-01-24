@@ -86,7 +86,7 @@ public class ProductManager{
             {
                 // this will delete inventory details with negative quantity.
                 // Very Important.
-                if(productInventoryDao1.getQuantity() <= 0)
+                if(productInventoryDao1.getQuantity() < 0)
                 {
                     productInventoryRepository.delete(productInventoryDao1);
                 }
