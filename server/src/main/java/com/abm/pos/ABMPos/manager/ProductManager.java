@@ -75,7 +75,7 @@ public class ProductManager{
     public List<ProductInventoryDao> addProductInventory(List<ProductInventoryDao> productInventoryDao) {
 
         List<ProductInventoryDao> productInventoryDaoList = productInventoryRepository.save(productInventoryDao);
-        List<ProductInventoryDao> productInventoryDaoList1 = new ArrayList<>();
+        List<ProductInventoryDao> productInventoryDaoList1;
 
         // I need to do this because, if there is any product with NEGATIVE Quantity, I need to delete that inventory, cause if i dont delete, that will messed up current stock, cause negative minus the positive inventory make complete count wrong.
         if(null != productInventoryDaoList && productInventoryDaoList.size() >=1)

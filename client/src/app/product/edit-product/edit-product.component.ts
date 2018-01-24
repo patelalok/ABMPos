@@ -111,11 +111,11 @@ export class EditProductComponent implements OnInit {
           // console.log('VendorList' + this.vendorDto);
         });
 
-      this.productService.getModelDetails()
-        .subscribe((models: Model[]) => {
-          this.modelDto = models;
-          console.log('ModelList' + this.modelDto);
-        });
+      // this.productService.getModelDetails()
+      //   .subscribe((models: Model[]) => {
+      //     this.modelDto = models;
+      //     console.log('ModelList' + this.modelDto);
+      //   });
 
 
       });
@@ -148,7 +148,6 @@ export class EditProductComponent implements OnInit {
         categoryId: formValues.category.categoryId,
         brandId: formValues.brand.brandId,
         vendorId: formValues.vendor.vendorId,
-        modelId: null,
         cost: formValues.cost,
         retail: formValues.retail,
         description: formValues.description.toUpperCase(),
@@ -163,13 +162,13 @@ export class EditProductComponent implements OnInit {
         productInventoryDaoList: this.currentProduct.productInventoryDaoList,
         variant: formValues.variant,
         markup: 0.00,
-        createdTimestamp: ''
+        createdTimestamp: moment(Date.now()).format('YYYY-MM-DD HH:mm:ss'),
           }
 
       this.productService.editProduct(product);
-      this.clearProductForm();
+      //this.clearProductForm();
 
-      this.router.navigate(['/product/productTable']);
+      //this.router.navigate(['/product/productTable']);
       
     }
   }

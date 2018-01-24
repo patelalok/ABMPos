@@ -149,9 +149,9 @@ export class ProductTableComponent implements OnInit {
     else if (this.selectedProductDropdownOption === 'Vendor') {
       this.productFullList = this.backendProductDto.filter((ven) => ven.vendorId == obj)
     }
-    else if (this.selectedProductDropdownOption === 'Model') {
-      this.productFullList = this.backendProductDto.filter((mod) => mod.modelId == obj)
-    }
+    // else if (this.selectedProductDropdownOption === 'Model') {
+    //   this.productFullList = this.backendProductDto.filter((mod) => mod.modelId == obj)
+    // }
 
     // console.log('Product full list here', this.productFullList);
     this.loadProductsLazy({ first: 0, rows: this.rowsToShow * 2 });
@@ -194,16 +194,16 @@ export class ProductTableComponent implements OnInit {
           }));
         });
     }
-    else if (this.selectedProductDropdownOption === 'Model') {
-      this.productService.getModelDetails()
-        .subscribe((models: Model[]) => {
-          this.listOfProductOption = [];
-          models.forEach((el) => this.listOfProductOption.push({
-            id: el.modelId,
-            name: el.name
-          }));
-        });
-    }
+    // else if (this.selectedProductDropdownOption === 'Model') {
+    //   this.productService.getModelDetails()
+    //     .subscribe((models: Model[]) => {
+    //       this.listOfProductOption = [];
+    //       models.forEach((el) => this.listOfProductOption.push({
+    //         id: el.modelId,
+    //         name: el.name
+    //       }));
+    //     });
+    // }
     else {
       this.listOfProductOption = null;
       this.productFullList = this.backendProductDto;

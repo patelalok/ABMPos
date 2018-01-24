@@ -206,9 +206,10 @@ items: MenuItem[];
     if (this.transactionLineItemDaoList.length == 0) {
 
       productObj.totalProductPrice = parseFloat(productObj.retail.toFixed(2));
-      productObj.taxAmountOnProduct = (productObj.retail * this.taxPercent) / 100;
 
-
+      if(productObj.tax){
+        productObj.taxAmountOnProduct = (productObj.retail * this.taxPercent) / 100;
+      }
       console.log("when add product", productObj);
       this.transactionLineItemDaoList.push(productObj);
       this.product = null;
@@ -234,8 +235,9 @@ items: MenuItem[];
 
           // here  i need to get value of lineitem.retail becuase user might have change the retial price so, if i dont do lineitem.retail it will take old retail price.
           lineItem.totalProductPrice = parseFloat((lineItem.retail * lineItem.defaultQuantity).toFixed(2));
-          lineItem.taxAmountOnProduct = (lineItem.retail * this.taxPercent) / 100;
-
+          if(productObj.tax){
+            lineItem.taxAmountOnProduct = (lineItem.retail * this.taxPercent) / 100;
+          }
           console.log("when add product", productObj);
           this.transactionLineItemDaoList = this.transactionLineItemDaoList.slice();
 
@@ -268,7 +270,10 @@ items: MenuItem[];
 
         this.transactionLineItemDaoList = this.transactionLineItemDaoList.slice();
         productObj.totalProductPrice = productObj.retail * productObj.defaultQuantity;
-        productObj.taxAmountOnProduct = parseFloat(((productObj.retail * this.taxPercent) / 100).toFixed(2));
+
+        if(productObj.tax){
+          productObj.taxAmountOnProduct = parseFloat(((productObj.retail * this.taxPercent) / 100).toFixed(2));
+        }
         console.log("when add product", productObj);
         this.transactionLineItemDaoList.push(productObj);
         this.product = null;
@@ -437,8 +442,11 @@ items: MenuItem[];
       totalQuantity = + lineItem[i].defaultQuantity + totalQuantity;
       totalPrice = + lineItem[i].totalProductPrice + totalPrice;
 
+
       // Here totalProductPriceWithTax mean, only amount of the tax on that product dont get confuse with naming
-      tax = + (lineItem[i].totalProductPrice * this.taxPercent) / 100 + tax;
+      if(lineItem[i].tax){
+        tax = + (lineItem[i].totalProductPrice * this.taxPercent) / 100 + tax;
+      }
  
     }
 
@@ -1180,7 +1188,7 @@ export class Product {
   categoryId: number;
   brandId: number
   vendorId: number;
-  modelId: number;
+  // modelId: number;
   alternetNo: string;
   cost: number;
   retail: number;
@@ -1227,6 +1235,7 @@ export class TransactionLineItemDaoList {
   imeiNo: any;
   quantityUpdated?: boolean;
   description: string;
+  tax: boolean;
   // minQuantity: number;
   // isTax: number;
   // IsVariant: number;

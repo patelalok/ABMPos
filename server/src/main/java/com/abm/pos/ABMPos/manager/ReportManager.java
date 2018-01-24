@@ -46,8 +46,6 @@ public class ReportManager {
     @Autowired
     private VendorRepository vendorRepository;
 
-    @Autowired
-    private ModelRepository modelRepository;
 
     @Autowired
     private TransactionRepository transactionRepository;
@@ -80,12 +78,7 @@ public class ReportManager {
             List<Object[]> result = vendorRepository.getInventoryByVendor();
 
             return setDataForCommonInventory(result);
-        } else if (inventoryReportBy.equalsIgnoreCase("Model")) {
-
-            List<Object[]> result = modelRepository.getInventoryByModel();
-
-            return setDataForCommonInventory(result);
-        } else {
+        }  else {
             return null;
         }
 
@@ -203,10 +196,7 @@ public class ReportManager {
         } else if (salesReportBy.equalsIgnoreCase("Sales By Vendor")) {
             List<Object[]> result = vendorRepository.getSalesReportByVendor(startDate, endDate);
             return setDataForCommonReportBySales(result);
-        } else if (salesReportBy.equalsIgnoreCase("Sales By Model")) {
-            List<Object[]> result = modelRepository.getSalesReportByModel(startDate, endDate);
-            return setDataForCommonReportBySales(result);
-        } else if (salesReportBy.equalsIgnoreCase("Sales By Product")) {
+        }  else if (salesReportBy.equalsIgnoreCase("Sales By Product")) {
             List<Object[]> result = productRepository.getSalesReportByProduct(startDate, endDate);
             return setDataForCommonReportBySales(result);
         } else if (salesReportBy.equalsIgnoreCase("Sales By Employee")) {

@@ -4,7 +4,6 @@ import { ProductComponent } from 'app/product/product.component';
 import { CategoryComponent } from 'app/product/category/category.component';
 import { VendorComponent } from 'app/product/vendor/vendor.component';
 import { BrandComponent } from 'app/product/brand/brand.component';
-import { ModelComponent } from 'app/product/model/model.component';
 import { AddProductComponent } from 'app/product/addProduct.component';
 import { ProductTableComponent } from 'app/product/product-table/product-table.component';
 import { AddInventoryComponent } from 'app/product/add-inventory/add-inventory.component';
@@ -26,7 +25,6 @@ const routes: Routes = [
       { path: 'productTable', component:  ProductTableComponent},
       { path: 'vendor', component: VendorComponent},
       { path: 'brand', component: BrandComponent},
-      { path: 'model', component: ModelComponent},
       { path: 'addInventory', component: AddInventoryComponent},
       { path: 'category', component: CategoryComponent },
     ]

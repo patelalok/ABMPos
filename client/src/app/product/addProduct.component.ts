@@ -85,11 +85,11 @@ export class AddProductComponent implements OnInit {
         console.log('VendorList' + this.vendorDto);
       });
 
-    this.productService.getModelDetails()
-      .subscribe((models: Model[]) => {
-        this.modelDto = models;
-        console.log('ModelList' + this.modelDto);
-      });
+    // this.productService.getModelDetails()
+    //   .subscribe((models: Model[]) => {
+    //     this.modelDto = models;
+    //     console.log('ModelList' + this.modelDto);
+    //   });
 
 
     // DO NOT DELETE THIS NEED WHEN YOU HANDLE PRODUCT VARIENT
@@ -128,7 +128,6 @@ export class AddProductComponent implements OnInit {
         categoryId: formValues.category.categoryId,
         brandId: formValues.brand.brandId,
         vendorId: formValues.vendor.vendorId,
-        modelId: null,
         alternetNo: formValues.alternetNo,
         cost: formValues.cost,
         retail: formValues.retail,
@@ -182,8 +181,7 @@ export class AddProductComponent implements OnInit {
     this.form.reset(<ProductForm>{
       category: this.categoryDto[0],
       brand: this.brandDto[0],
-      vendor: this.vendorDto[0],
-      model: this.modelDto[0]
+      vendor: this.vendorDto[0]
     }); 
   }
 
@@ -212,7 +210,7 @@ export interface ProductForm {
   category: Category;
   brand: Brand
   vendor: Vendor;
-  model: Model;
+  // model: Model;
   alternetNo: string;
   cost: number;
   retail: number;

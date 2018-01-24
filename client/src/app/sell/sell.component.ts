@@ -1148,7 +1148,7 @@ export class Product {
   categoryId: number;
   brandId: number
   vendorId: number;
-  modelId: number;
+  // modelId: number;
   alternetNo: string;
   cost: number;
   retail: number;

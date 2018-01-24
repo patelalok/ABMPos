@@ -69,11 +69,11 @@ export class ProductService {
       .catch(this.handleError);
   }
 
-  getModelDetails(): Observable<Model[]> {
-    return this.http.get(this.url+'/getModel')
-      .map(this.extractData)
-      .catch(this.handleError);
-  }
+  // getModelDetails(): Observable<Model[]> {
+  //   return this.http.get(this.url+'/getModel')
+  //     .map(this.extractData)
+  //     .catch(this.handleError);
+  // }
 
   getProductVariantDetails(): Observable<ProductVariantDetail[]> {
     return this.http.get(this.url+'/getProductVariantDetails')
@@ -119,24 +119,24 @@ export class ProductService {
   editProduct(product: BackendProductDto) {
     console.log("Product Added", product.description);
     this.http.post(this.url+'/addProduct', product)
-      // .subscribe(data => {
-      //   alert('ok');
-      //   console.log(data);
-      // },
-      // error => {
-      //   console.log(JSON.stringify(error.json()));
-      // });
-      .map((updatedProduct: any) => {
-        let index = this.fullProductList.findIndex((product) => {
-          return product.productNo === (<Product>updatedProduct).productNo; 
-        })
-        if(index)
-          this.fullProductList[index] = updatedProduct; 
+      .subscribe(data => {
+        alert('ok');
+        console.log(data);
+      },
+      error => {
+        console.log(JSON.stringify(error.json()));
+      });
+      // .map((updatedProduct: any) => {
+      //   let index = this.fullProductList.findIndex((product) => {
+      //     return product.productNo === (<Product>updatedProduct).productNo; 
+      //   })
+      //   if(index)
+      //     this.fullProductList[index] = updatedProduct; 
         
-        this.fullProductList = this.fullProductList.slice(); 
+      //   this.fullProductList = this.fullProductList.slice(); 
 
-        return this.fullProductList; 
-      })
+      //   return this.fullProductList; 
+      // })
   }
 
   addProductInventory(productInventory: ProductInventory[]) {

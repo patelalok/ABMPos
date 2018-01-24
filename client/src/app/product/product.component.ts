@@ -73,12 +73,12 @@ export class ProductComponent implements OnInit {
           this.listOfProductOption = vendors;
         });
     }
-    else if (this.selectedProductDropdownOption === 'Model') {
-      this.productService.getModelDetails()
-        .subscribe((models: Model[]) => {
-          this.listOfProductOption = models;
-        });
-    }
+    // else if (this.selectedProductDropdownOption === 'Model') {
+    //   this.productService.getModelDetails()
+    //     .subscribe((models: Model[]) => {
+    //       this.listOfProductOption = models;
+    //     });
+    // }
     else {
       this.listOfProductOption = null;
     }
@@ -159,7 +159,7 @@ export class BackendProductDto {
   brandId: number;
   categoryId: number;
   vendorId: number;
-  modelId: number;
+  // modelId: number;
   tax: boolean;
   ecommerce: boolean;
   active: boolean;
