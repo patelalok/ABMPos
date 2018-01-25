@@ -7,6 +7,7 @@ import * as moment from 'moment';
 import { ProductService } from 'app/product/product.service';
 import { ProductForm } from 'app/product/addProduct.component';
 import { ActivatedRoute, Router } from '@angular/router';
+import { ToastsManager } from 'ng2-toastr';
 
 
 
@@ -33,7 +34,7 @@ export class EditProductComponent implements OnInit {
  
 
   currentProduct: BackendProductDto; 
-  constructor(private productService: ProductService, private formBuilder: FormBuilder, private route: ActivatedRoute, private router: Router) {
+  constructor(private productService: ProductService, private formBuilder: FormBuilder, private route: ActivatedRoute, private router: Router, private toastr: ToastsManager) {
   }
 
   ngOnInit() {
@@ -157,10 +158,18 @@ export class EditProductComponent implements OnInit {
         createdTimestamp: moment(Date.now()).format('YYYY-MM-DD HH:mm:ss'),
           }
 
-      this.productService.editProduct(product);
+      this.productService.editProduct(product)
+      .subscribe(data => {
+       if(data){
+         this.toastr.success('Product Updated Successfully!!', 'Success');
+       }
+      },
+      error => {
+        this.toastr.error('Something Goes Wrong!!', 'Error');
+      });
       //this.clearProductForm();
 
-      //this.router.navigate(['/product/productTable']);
+      this.router.navigate(['/product/productTable']);
       
     }
   }

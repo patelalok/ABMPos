@@ -18,7 +18,6 @@
                         <option>Brand</option>
                         <option>Category</option>
                         <option>Vendor</option>
-                        <option>Model</option>
                     </select>
 
             </div>
@@ -55,22 +54,9 @@
                     <p-column [style]="{'width': '10%'}" field="productNo" header="Product Number" filterPlaceholder="Search For Product Name"></p-column>
                     <p-column [style]="{'width': '30%', 'text-align': 'left'}" field="description" header="Description" [sortable]="true"></p-column>
                     <!-- <p-column [style]="{'width': '10%'}" field="categoryName" header="Category" [sortable]="true"></p-column> -->
-                    <p-column [style]="{'width': '10%'}" field="cost" header="Cost" [sortable]="true">
-
-                        <ng-template let-product="rowData" pTemplate="body">
-                            <a href="JavaScript:void(0);" (click)="setProductInventoryForSelectedProduct(product.productInventoryDaoList)" data-toggle="modal" data-target="#productInventory"> {{product.productInventoryDaoList[0]?.cost | currency:'USD':'true'}}</a>
-                        </ng-template>
-                    </p-column>
-                    <p-column [style]="{'width': '10%'}" field="retail" header="Retail" [editable]="true">
-                        <ng-template let-product="rowData" pTemplate="body">
-                            <a> {{product.retail | currency:'USD':'true'}}</a>
-                        </ng-template>
-                    </p-column>
-                    <p-column [style]="{'width': '8%'}" field="quantity" header="Quantity" [sortable]="true">
-                        <ng-template let-product="rowData" pTemplate="body">
-                            <a href="JavaScript:void(0);" (click)="setProductInventoryForSelectedProduct(product.productInventoryDaoList)" data-toggle="modal" data-target="#productInventory">{{product.quantity}}</a>
-                        </ng-template>
-                    </p-column>
+                    <p-column [style]="{'width': '10%'}" field="cost" header="Cost" [sortable]="true"></p-column>
+                    <p-column [style]="{'width': '10%'}" field="retail" header="Retail" [editable]="true"></p-column>
+                    <p-column [style]="{'width': '8%'}" field="quantity" header="Quantity" [sortable]="true"> </p-column>
                     <p-column [style]="{'width': '23%'}" field="action" header="Action" [sortable]="true">
                         <ng-template let-product="rowData" pTemplate="body" class="m-auto">
                             <button class="btn-blue action-button-table" mat-button [routerLink]="['/product/edit', {productNo: product.productNo}]">
@@ -134,7 +120,7 @@
 
     </mat-card-content>
 </mat-card>
-<!-- <p-growl [(value)]="msgs"></p-growl> -->
+
 
 
 <!-- Start Of Product History model -->
@@ -144,14 +130,14 @@
         <!-- Modal content-->
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
                 <h3 class="modal-title">Product History</h3>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+
             </div>
             <div class="modal-body">
-
                 <div class="row">
                     <div class="col-md-4">
-                        <select class="form-control form-control-lg" [(ngModel)]="this.productHistoryDropDown" (change)="this.getProductHistory()">
+                        <select class="form-control form-control" [(ngModel)]="this.productHistoryDropDown" (change)="this.getProductHistory()">
                             <option>Today</option>
                             <option>Yesterday</option>
                             <option>This Week</option>
@@ -167,50 +153,56 @@
                         </select>
 
                     </div>
+                    <div class="col-md-2">
+
+                    </div>
+
 
                 </div>
-
                 <div class="row">
                     <table class="table">
                         <thead>
                             <tr>
 
                                 <th>Product No</th>
+                                <th>Description</th>
                                 <th>Product Sold</th>
                                 <th>Cost</th>
                                 <th>Retail</th>
                                 <th>Date</th>
                                 <th>Time</th>
+
                             </tr>
                         </thead>
                         <tbody>
                             <tr *ngFor="let product of this.productHistoryDto">
                                 <td>{{product.productNo}}</td>
+                                <td>{{product.description}}</td>
                                 <td>{{product.quantity}}</td>
                                 <td>{{product.cost}}</td>
                                 <td>{{product.retail}}</td>
                                 <td>{{product.date}}</td>
                                 <td>{{product.time}}</td>
+
                             </tr>
                         </tbody>
                     </table>
-
-                </div>
-                <div class="row">
-                    <h5>Total Number Of Product Sold: 324(TODO CENTER)</h5>
+                    <!-- <div>
+                        <h5>Total Number Of Product Sold : {{this.productHistoryDto[0].totalQuantity}}</h5>
+                    </div> -->
                 </div>
 
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
             </div>
+
         </div>
 
 
     </div>
 
 </div>
-
 <!-- End of Prodcut Histoty Model -->
 
 <!-- Start of Delete product up -->
@@ -234,62 +226,3 @@
 </div>
 
 <!-- End of Delete product up -->
-
-
-<!-- Start Of Cost price and Quantity model -->
-<div class="modal fade" id="productInventory" role="dialog" (keyup.enter)="this.hideProductModal()">
-    <div class="modal-dialog modal-lg">
-
-        <!-- Modal content-->
-        <div class="modal-content">
-            <div class="modal-header">
-                <h4 class="modal-title">Product Inventory</h4>
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
-            </div>
-            <div class="modal-body">
-
-                <div class="row">
-                    <div class="col-md-4">
-                        <input class="form-control" [(ngModel)]="this.cost" type="number" placeholder="Cost">
-                    </div>
-                    <div class="col-md-4">
-                        <input class="form-control" [(ngModel)]="this.quantity" type="number" placeholder="Quantity">
-                    </div>
-                    <div class="col-md-4">
-                        <button type="button" mat-raised-button class="bg-primary text-white" style="width: 100%;" (click)="this.addProductInventory()" data-dismiss="modal">
-                                <i class="fa fa-plus-square" aria-hidden="true" label="Add"></i>
-                                Add Product Inventory
-                        </button>
-                    </div>
-
-                </div>
-                <div class="row p-3">
-                    <p-dataTable [value]="this.productInventoryList" [editable]="true" scrollable="true" [responsive]="true" scrollHeight="300px" (onEditComplete)="this.updateProductInventory($event)">
-                        <p-column field="cost" header="Cost" [editable]="true">
-                            <ng-template let-product="rowData" pTemplate="body">
-                                {{product.cost | currency:'USD':'true'}}
-                            </ng-template>
-                        </p-column>
-
-                        <p-column field="quantity" header="Quantity" [editable]="true"></p-column>
-
-                        <p-column field="date" header="Date"></p-column>
-
-                        <p-column field="time" header="Time"></p-column>
-
-                    </p-dataTable>
-                </div>
-
-            </div>
-
-
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-            </div>
-        </div>
-
-
-    </div>
-
-</div>
-<!-- Start Of Cost price and Quantity model -->

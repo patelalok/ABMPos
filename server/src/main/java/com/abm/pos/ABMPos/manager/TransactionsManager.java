@@ -128,28 +128,22 @@ public class TransactionsManager {
 
         else {
 
-            List<TransactionLineItemDao> transactionLineItemDaoList = new ArrayList<>();
-            List<TransactionLineItemDao> transactionLineItemDaoListNew = new ArrayList<>();
-
 
             assert transactionDao != null;
-            transactionLineItemDaoList = transactionDao.getTransactionLineItemDaoList();
+
+            if(null != transactionDao.getTransactionLineItemDaoList())
+            {
+                for(TransactionLineItemDao transactionLineItemDao: transactionDao.getTransactionLineItemDaoList()) {
+                    ProductDao productDao = productRepository.findOneByProductNo(transactionLineItemDao.getProductNo());
 
 
-            for (TransactionLineItemDao lineItemDao : transactionLineItemDaoList) {
-                // I need to set this up to keep track of the inventory, so with this i will know, whether i need to call Product inventory table again or not.
-                // So with first call if parchedQuantity == 0 that mean we can full fill this sale we do not need to check for other inventory for this product but if not
-                // Then we need to keep doing this process until parched Quantity == 0.
-                int purchasedQuantity = lineItemDao.getQuantity();
-
-
+                    if (null != productDao)
+                    {
+                        productDao.setQuantity(productDao.getQuantity() - transactionLineItemDao.getQuantity());
+                        productRepository.save(productDao);
+                    }
+                }
             }
-
-            transactionDao.setTransactionLineItemDaoList(transactionLineItemDaoListNew);
-
-//        Here i need to handle the scenario where customer is doing partial payment, or not paying right now and will pay later so
-//        Here i need to maintain his balance by just adding transaction balance to that customers account
-            // I am doing this only if customer is doing partial payment cause only in that case customers balance will be more then 0.
 
             if (null != transactionDao.getCustomerPhoneno() && transactionDao.getTransactionBalance() >= 0) {
                 setCustomerBalance(transactionDao);

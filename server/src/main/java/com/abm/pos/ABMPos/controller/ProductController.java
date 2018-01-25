@@ -86,9 +86,9 @@ public class ProductController {
 
     // Here i need to call lineitem table to get the history thats why from product i am calling lineItem manager class.
     @RequestMapping(value = "/getProductHistory", method = RequestMethod.GET, produces = "application/json")
-    public List<TransactionLineItemDao> getProductHistory(@RequestParam String productNo, @RequestParam String timeDuration)
+    public List<TransactionLineItemDao> getProductHistory(@RequestParam String startDate, @RequestParam String endDate, @RequestParam String productNo)
     {
-        return transactionLineItemManager.getProductHistory(productNo, timeDuration);
+        return transactionLineItemManager.getProductHistory(startDate, endDate, productNo);
     }
 
 

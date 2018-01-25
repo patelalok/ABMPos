@@ -8,6 +8,7 @@ import com.abm.pos.ABMPos.util.Utility;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -36,19 +37,37 @@ public class TransactionLineItemManager {
         return null;
     }
 
-    public List<TransactionLineItemDao> getProductHistory(String productNo, String duration) {
+    public List<TransactionLineItemDao> getProductHistory(String startDate, String endDate, String productNo) {
 
-        TimeIntervalDto timeIntervalDto;
+        List<Object[]> result = transactionLineItemRepository.getProductHistory(startDate,endDate,productNo);
+        List<TransactionLineItemDao> transactionLineItemDaoList = new ArrayList<>();
 
-        timeIntervalDto = utility.getDateByInputString(duration);
 
-        if(null != timeIntervalDto && null != timeIntervalDto.getStartDate() && null != timeIntervalDto.getEndDate())
+        for(Object [] j : result)
         {
-            return transactionLineItemRepository.getProductHistory(productNo, timeIntervalDto.getStartDate(), timeIntervalDto.getEndDate());
-        }
-        else {
+            TransactionLineItemDao transactionLineItemDao = new TransactionLineItemDao();
 
-            return null;
+            if(j[0] != null) {
+                for (int i = 0; i <= result.size(); i++) {
+
+
+                    transactionLineItemDao.setDate((j[0].toString()));
+                    transactionLineItemDao.setProductNo(j[1].toString());
+                    transactionLineItemDao.setDescription(j[2].toString());
+                    transactionLineItemDao.setQuantity(Integer.parseInt(j[3].toString()));
+                    if(null != j[4]){
+                        transactionLineItemDao.setImeiNo(j[4].toString());
+                    }
+                    transactionLineItemDao.setTotalQuantity(Integer.parseInt(j[5].toString()));
+                    transactionLineItemDao.setRetail(Double.parseDouble(j[6].toString()));
+                    transactionLineItemDao.setCost(Double.parseDouble(j[7].toString()));
+                    transactionLineItemDao.setDiscount(Double.parseDouble(j[8].toString()));
+
+                }
+            }
+
+            transactionLineItemDaoList.add(transactionLineItemDao);
         }
+        return  transactionLineItemDaoList;
     }
 }

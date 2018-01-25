@@ -82,7 +82,7 @@
                                 *Required!!</p>
                         </div>
                     </div>
-                    <div class="row m-2">
+                    <!-- <div class="row m-2">
                         <div class="col-md-4 product-textbox">
                             <label class="control-label"> Model Name:</label>
                         </div>
@@ -93,7 +93,7 @@
                                           </option>
                                   </select>
                         </div>
-                    </div>
+                    </div> -->
 
                 </div>
 
@@ -122,7 +122,7 @@
                                 Total Quantity:
                             </label>
                         <div class="col-md-8 product-textbox">
-                            <input type="number" class="form-control" formControlName="quantity" placeholder="Please Enter Quantity" disabled="disabled">
+                            <input type="number" class="form-control" formControlName="quantity" placeholder="Please Enter Quantity">
                             <div *ngIf="form.get('quantity').hasError('pattern') && form.get('quantity').touched" class="alert alert-danger">
                                 *Value Not Alloewd*</div>
                         </div>
@@ -224,37 +224,6 @@
 
             <!--End Main Row-->
 
-            <hr>
-
-            <div class="row">
-                <div class="col-md-12">
-                    <h4>Product Inventory Details</h4>
-                    <p-dataTable [value]="this.currentProduct.productInventoryDaoList" [editable]="true" scrollable="true" [responsive]="true" scrollHeight="300px" (onEditComplete)="this.updateProductInventory($event)">
-                        <p-column header="Cost" field="cost" [editable]="true">
-                            <ng-template let-product="rowData" pTemplate="body">
-                                {{product.cost | currency:'USD':'true'}}
-                            </ng-template>
-                        </p-column>
-
-                        <p-column field="quantity" header="Quantity" [editable]="true"></p-column>
-
-                        <p-column field="date" header="Date"></p-column>
-
-                        <p-column field="time" header="Time"></p-column>
-
-                        <p-column [style]="{'width': '5%'}" header="Action">
-                            <ng-template let-product="rowData" pTemplate="body" class="m-auto">
-
-                                <button class="btn-red action-button-table" mat-button (click)="this.setProductInventoryDetailsForDelete(product)" data-toggle="modal" data-target="#deleteProductInventory">
-                                    <i class="fa fa-trash" aria-hidden="true"></i>
-                                </button>
-
-                            </ng-template>
-                        </p-column>
-                    </p-dataTable>
-
-                </div>
-            </div>
         </mat-card-content>
         <mat-card-footer>
             <!--Submit button Row-->

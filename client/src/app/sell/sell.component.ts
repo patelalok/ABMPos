@@ -1193,6 +1193,7 @@ export class TransactionLineItemDaoList {
   imeiNo: any;
   quantityUpdated?: boolean;
   description: string;
+  totalQuantity?: number
   // minQuantity: number;
   // isTax: number;
   // IsVariant: number;

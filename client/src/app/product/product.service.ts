@@ -21,7 +21,7 @@ export class ProductService {
 
   getProductDetails(): Observable<BackendProductDto[]> {
     // if(!this.fullProductList){
-      return this.http.get(this.url+'/getProductTableDetails')
+      return this.http.get(this.url+'/getProduct')
         .map(this.extractData)
         .map((list) => {
           console.log('Caching product list...');
@@ -38,12 +38,6 @@ export class ProductService {
     //   }); 
     // }
   }
-
-  // getProductInventoryByProductNo(productNo: string) : Observable<ProductInventory[]>{
-  //  return this.http.get(this.url+'/getProductInventory?productNo='+productNo)
-  //  .map(this.extractData)
-  //  .catch(this.handleError);
-  // }
 
   getCategoryDetails(): Observable<Category[]> {
     return this.http.get(this.url+'/getCategory')
@@ -69,12 +63,6 @@ export class ProductService {
       .catch(this.handleError);
   }
 
-  // getModelDetails(): Observable<Model[]> {
-  //   return this.http.get(this.url+'/getModel')
-  //     .map(this.extractData)
-  //     .catch(this.handleError);
-  // }
-
   getProductVariantDetails(): Observable<ProductVariantDetail[]> {
     return this.http.get(this.url+'/getProductVariantDetails')
       .map(this.extractData)
@@ -93,8 +81,8 @@ export class ProductService {
       .catch(this.handleError);
   }
 
-  getProductHistory(productNo: string, timeDuration: string): Observable<TransactionLineItemDaoList[]> {
-    return this.http.get(this.url+'getProductHistory?productNo=' + productNo + '&timeDuration=' + timeDuration)
+  getProductHistory(startDate: string, endDate: string, productNo: string): Observable<TransactionLineItemDaoList[]> {
+    return this.http.get(this.url+'/getProductHistory?startDate='+startDate+'&endDate='+endDate+'&productNo='+productNo)
       .map(this.extractData)
       .catch(this.handleError);
   }
@@ -118,14 +106,8 @@ export class ProductService {
   // TODO:  This is redudant, but need to do it cause i have two obejct for backend dto and product, i need to fix this.
   editProduct(product: BackendProductDto) {
     console.log("Product Added", product.description);
-    this.http.post(this.url+'/addProduct', product)
-      .subscribe(data => {
-        alert('ok');
-        console.log(data);
-      },
-      error => {
-        console.log(JSON.stringify(error.json()));
-      });
+    return this.http.post(this.url+'/addProduct', product);
+      
       // .map((updatedProduct: any) => {
       //   let index = this.fullProductList.findIndex((product) => {
       //     return product.productNo === (<Product>updatedProduct).productNo; 

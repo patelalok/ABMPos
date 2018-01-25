@@ -44,9 +44,7 @@ export class ProductComponent implements OnInit {
       { name: 'Inventory', icon: 'fa fa-tags fa-x', link: '/product/productTable' },
       { name: 'Category', icon: 'fa fa-list fa-x', link: '/product/category' },
       { name: 'Brand', icon: 'fa fa-bookmark fa-x', link: '/product/brand' },
-      { name: 'Vendor', icon: 'fa fa-user fa-x', link: '/product/vendor' },
-      { name: 'Model', icon: 'fa fa-mobile fa-x', link: '/product/model' }
-    ];
+      { name: 'Vendor', icon: 'fa fa-user fa-x', link: '/product/vendor' }    ];
   }
 
   onProductDropdownChoose(): void {

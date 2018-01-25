@@ -29,6 +29,9 @@ public class TransactionLineItemDao {
     @Transient
     private String description;
 
+    @Transient
+    private int totalQuantity;
+
 
     public int getTransactionLineItemId() {
         return transactionLineItemId;
@@ -135,4 +138,11 @@ public class TransactionLineItemDao {
         this.imeiNo = imeiNo;
     }
 
+    public int getTotalQuantity() {
+        return totalQuantity;
+    }
+
+    public void setTotalQuantity(int totalQuantity) {
+        this.totalQuantity = totalQuantity;
+    }
 }
