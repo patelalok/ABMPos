@@ -9,6 +9,31 @@
             <form [formGroup]="closeRegisterForm">
 
                 <div class="row p-md-3">
+                    <div class="col-md-2">
+                        <select class="form-control" [(ngModel)]="this.closeRegisterDropdown" (change)="this.getCloseRegisterDetails()">
+                                  <option>Today</option>
+                                  <option>Yesterday</option>
+                                  <option>This Week</option>
+                                  <option>Last Week</option>
+                                  <option>This Month</option>
+                                  <option>Last Month</option>
+                                  <option>Last 3 Months</option>
+                                  <option>Last 6 Months</option>
+                                  <option>This Year</option>
+                                  <option>Last Year</option>
+                                  <option>Custom</option>
+                                </select>
+
+                    </div>
+
+                    <div class="col-md-2">
+
+                        <button matIcon>
+                                <i class="fa fa-print fa-3x" aria-hidden="true"></i>
+                            </button>
+                    </div>
+                </div>
+                <div class="row p-md-3">
                     <!-- Start of left side of div for payment -->
                     <div class="col-md-6">
 

@@ -60,6 +60,9 @@ public class TransactionsManager {
     @Autowired
     private EmailHtmlSender emailHtmlSender;
 
+    @Autowired
+    private StoreSetupRepository storeSetupRepository;
+
     private BaseFont bfBold;
     private BaseFont bf;
     private int pageNumber = 0;
@@ -331,6 +334,8 @@ public class TransactionsManager {
 
         // just basic java logic to get the details from db
         TransactionDao transactionDao = transactionRepository.findOne(transactionCompId);
+
+        transactionDao.setStoreSetupDao(storeSetupRepository.findOne(1));
         List<TransactionLineItemDao> transactionLineItemDaoList = new ArrayList<>();
 
         if(null != transactionDao)
@@ -347,6 +352,8 @@ public class TransactionsManager {
 
             transactionDao.setTransactionLineItemDaoList(transactionLineItemDaoList);
         }
+
+
 
         return  transactionDao;
     }

@@ -17,14 +17,14 @@ export class CloseRegisterComponent implements OnInit {
   dateDto = new DateDto();
   closeRegId: any;
   totalCloseAmount: number;
+  closeRegisterDropdown: string = 'Today';
 
 
  constructor(private sellService: SellService,  private formBuilder: FormBuilder, private dateService: DateService) { }
 
   ngOnInit() {
 
-    this.dateDto = this.dateService.getCurrentDay();
-    this.getCloseRegisterDetails(this.dateDto.startDate, this.dateDto.endDate);
+    this.getCloseRegisterDetails();
 
 
     this.closeRegisterForm = this.formBuilder.group(
@@ -77,9 +77,12 @@ export class CloseRegisterComponent implements OnInit {
     );
   }
 
-  getCloseRegisterDetails(startDate: any, endDate: any) {
+  getCloseRegisterDetails() {
 
-    this.sellService.getCloseRegisterDetails(startDate, endDate)
+
+    this.dateDto = this.dateService.getDateByInput(this.closeRegisterDropdown);
+
+    this.sellService.getCloseRegisterDetails( this.dateDto.startDate,  this.dateDto.endDate)
     .subscribe((closeReg: CloseRegisterDto) => {
       this.closeRegisterDto = closeReg;
       this.closeRegId = closeReg.id;

@@ -16,14 +16,7 @@ export class CategoryService {
     addOrUpdateCategory(category: CategoryTest)
     {
       console.log("Category Added" + category.name);
-      this.http.post('http://localhost:8080/addCategory', category)
-      .subscribe(data => {
-        alert('Category Updated !!');
-        console.log(data);
-      },
-        error => {
-      console.log(JSON.stringify(error.json()));
-    });
+     return this.http.post('http://localhost:8080/addCategory', category);
     }
 
       deleteCategory(categoryId: number)

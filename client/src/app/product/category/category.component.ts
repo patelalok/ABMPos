@@ -5,6 +5,7 @@ import { Category, CategoryTest } from "app/product/product.component";
 import {Message} from 'primeng/primeng';
 import { CategoryService } from 'app/product/category/category.service';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { ToastsManager } from 'ng2-toastr';
 
 
 @Component({
@@ -22,7 +23,7 @@ export class CategoryComponent implements OnInit {
 
   category: CategoryTest = new PrimeCategory();
 
-  constructor(private categoryService: CategoryService, private productService: ProductService,  private formBuilder: FormBuilder) { }
+  constructor(private categoryService: CategoryService, private productService: ProductService,  private formBuilder: FormBuilder, private toastr: ToastsManager) { }
 
   ngOnInit() {
 
@@ -53,7 +54,17 @@ export class CategoryComponent implements OnInit {
     addCategory() {
         
         let newCategory = this.categoryForm.value;
-        this.categoryService.addOrUpdateCategory(this.categoryForm.value);
+        this.categoryService.addOrUpdateCategory(this.categoryForm.value)
+        .subscribe(data => {
+
+            if(data){
+                this.toastr.success('Category Added Successfully!!', 'Success!!')
+            }
+            console.log(data);
+          },
+            error => {
+                this.toastr.error('Something Goes Wrong!!', 'Error!!')
+        });
         this.categoryDto.push(newCategory);
         this.categoryDto = this.categoryDto.slice();
         this.displayDialog = false;    

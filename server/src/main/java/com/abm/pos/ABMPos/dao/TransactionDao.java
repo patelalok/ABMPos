@@ -37,6 +37,9 @@ public class TransactionDao {
     @Transient
     private double totalReturn;
 
+    @Transient
+    private StoreSetupDao storeSetupDao;
+
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "transaction_com_id")
     private List<TransactionLineItemDao> transactionLineItemDaoList;
@@ -45,6 +48,8 @@ public class TransactionDao {
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "transaction_com_id")
     private List<PaymentDao> paymentDao;
+
+
 
     public int getTransactionComId() {
         return transactionComId;
@@ -195,5 +200,13 @@ public class TransactionDao {
 
     public void setTotalReturn(double totalReturn) {
         this.totalReturn = totalReturn;
+    }
+
+    public StoreSetupDao getStoreSetupDao() {
+        return storeSetupDao;
+    }
+
+    public void setStoreSetupDao(StoreSetupDao storeSetupDao) {
+        this.storeSetupDao = storeSetupDao;
     }
 }
