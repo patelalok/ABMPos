@@ -114,13 +114,16 @@ private url: string;
   }
 
   saveCloseRegisterDetail(closeRegisterObj: CloseRegisterDto) {
-    this.http.post(this.url+'/addCloseRegisterDetails', closeRegisterObj)
-    .subscribe(data => {
-      console.log("Response From Add Close Register call" + data);
-    },
-      error => {
-    console.log(JSON.stringify(error.json()));
-  });
+
+    return this.http.post(this.url+'/addCloseRegisterDetails', closeRegisterObj);
+  }
+
+  printClosingDetails(startDate:string, endDate:string){
+
+    this.http.get(this.url+'/printClosingDetails?startDate='+startDate+'&endDate='+endDate, {responseType: ResponseContentType.Blob})
+    .subscribe((data: any) => {
+      printBlob(data._body)
+    })
   }
   
   private extractData(res: Response): Product[] {

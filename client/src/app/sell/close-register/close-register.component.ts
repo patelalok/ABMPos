@@ -3,6 +3,9 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import * as moment from 'moment';
 import { DateService, DateDto } from 'app/shared/services/date.service';
 import { SellService } from 'app/sell/sell.service';
+import { ToastsManager } from 'ng2-toastr';
+import * as jspdf from "jspdf";
+
 
 
 @Component({
@@ -12,15 +15,18 @@ import { SellService } from 'app/sell/sell.service';
 })
 export class CloseRegisterComponent implements OnInit {
 
+  currentDate = new Date(); 
   closeRegisterForm: FormGroup;
   closeRegisterDto = new CloseRegisterDto();
   dateDto = new DateDto();
   closeRegId: any;
   totalCloseAmount: number;
   closeRegisterDropdown: string = 'Today';
+  document: jspdf; 
+  customDate: FormGroup;
 
 
- constructor(private sellService: SellService,  private formBuilder: FormBuilder, private dateService: DateService) { }
+ constructor(private sellService: SellService,  private formBuilder: FormBuilder, private dateService: DateService, private toastr: ToastsManager) { }
 
   ngOnInit() {
 
@@ -75,12 +81,38 @@ export class CloseRegisterComponent implements OnInit {
         });
       }
     );
+
+    this.customDate = this.formBuilder.group({
+      'fromDate' : new Date(),
+      'toDate': new Date()
+    });
+    this.customDate.valueChanges
+    .subscribe((change) => {
+      let customDateValues: {fromDate: Date} = change; 
+
+      this.dateDto.startDate = moment(customDateValues.fromDate).hour(0).format('YYYY-MM-DD HH:mm:ss');
+      this.dateDto.endDate = moment(customDateValues.fromDate).hour(23).minute(59).second(59).format('YYYY-MM-DD HH:mm:ss');
+
+
+      // this.dateDto.endDate = moment(customDateValues.toDate).hour(23).minute(59).format('YYYY-MM-DD HH:mm:ss');
+
+      this.getCloseRegisterDetails()
+    }
+  )
   }
+
+
 
   getCloseRegisterDetails() {
 
 
-    this.dateDto = this.dateService.getDateByInput(this.closeRegisterDropdown);
+    if(this.closeRegisterDropdown == 'Custom')
+    {
+      //Do not do anything
+    }
+    else{
+      this.dateDto = this.dateService.getDateByInput(this.closeRegisterDropdown);
+    }
 
     this.sellService.getCloseRegisterDetails( this.dateDto.startDate,  this.dateDto.endDate)
     .subscribe((closeReg: CloseRegisterDto) => {
@@ -132,7 +164,25 @@ export class CloseRegisterComponent implements OnInit {
     // TODO need to handle getting user name.
     this.closeRegisterDto.username = 'ALOK';
     console.log(this.closeRegisterDto);
-    this.sellService.saveCloseRegisterDetail(this.closeRegisterDto);
+    this.sellService.saveCloseRegisterDetail(this.closeRegisterDto)
+    .subscribe(data => {
+
+      if(data.statusText == 'OK'){
+        this.toastr.success('Close Register Detail Added!!', 'Success');
+      }
+      else{
+        this.toastr.error('Opps Something Goes Wrong!!', 'Error');
+      }
+    console.log('close Register date', data);
+    },
+      error => {
+        this.toastr.error('Opps Something Goes Wrong!!', 'Error')
+        console.log(JSON.stringify(error.json()));
+  });
+  }
+
+  printCloseRegisterDetail(){
+    this.sellService.printClosingDetails(this.dateDto.startDate, this.dateDto.endDate);
   }
 
 }

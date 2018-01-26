@@ -6,33 +6,41 @@
             </h3>
         </mat-card-title>
         <mat-card-content>
-            <form [formGroup]="closeRegisterForm">
 
-                <div class="row p-md-3">
-                    <div class="col-md-2">
-                        <select class="form-control" [(ngModel)]="this.closeRegisterDropdown" (change)="this.getCloseRegisterDetails()">
+
+            <div class="row p-md-3">
+                <div class="col-md-2">
+                    <select class="form-control" [(ngModel)]="this.closeRegisterDropdown" (change)="this.getCloseRegisterDetails()">
                                   <option>Today</option>
                                   <option>Yesterday</option>
-                                  <option>This Week</option>
-                                  <option>Last Week</option>
-                                  <option>This Month</option>
-                                  <option>Last Month</option>
-                                  <option>Last 3 Months</option>
-                                  <option>Last 6 Months</option>
-                                  <option>This Year</option>
-                                  <option>Last Year</option>
                                   <option>Custom</option>
                                 </select>
 
-                    </div>
-
-                    <div class="col-md-2">
-
-                        <button matIcon>
-                                <i class="fa fa-print fa-3x" aria-hidden="true"></i>
-                            </button>
-                    </div>
                 </div>
+
+                <div *ngIf="this.closeRegisterDropdown == 'Custom' " class="col-md-3 form-group d-flex align-items-center" [formGroup]="this.customDate">
+
+                    <mat-form-field class="float-never col-md-6">
+                        <input formControlName="fromDate" matInput [matDatepicker]="fromDate" placeholder="Start Date" [max]="this.currentDate">
+                        <mat-datepicker-toggle matSuffix [for]="fromDate"></mat-datepicker-toggle>
+                        <mat-datepicker #fromDate></mat-datepicker>
+                    </mat-form-field>
+                    <!-- <label class="text-center">To</label> -->
+                    <!-- <mat-form-field class="float-never col-md-6">
+                        <input class="" formControlName="toDate" matInput [matDatepicker]="toDate" placeholder="End Date" [min]="this.customDate.get('fromDate').value" [max]="this.currentDate">
+                        <mat-datepicker-toggle matSuffix [for]="toDate"></mat-datepicker-toggle>
+                        <mat-datepicker #toDate></mat-datepicker>
+                    </mat-form-field> -->
+                </div>
+
+                <div class="col-md-2">
+
+                    <button matIcon (click)="this.printCloseRegisterDetail()">
+                                <i class="fa fa-print fa-3x" aria-hidden="true"></i>
+                    </button>
+                </div>
+            </div>
+            <form [formGroup]="closeRegisterForm">
                 <div class="row p-md-3">
                     <!-- Start of left side of div for payment -->
                     <div class="col-md-6">
