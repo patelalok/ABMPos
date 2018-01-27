@@ -18,6 +18,7 @@ import { ToastsManager } from 'ng2-toastr/src/toast-manager';
 import { empty } from 'rxjs/Observer';
 import { MenuItem } from 'app/shared/top-navbar/top-navbar.component';
 import { PersistenceService } from 'app/shared/services/persistence.service';
+import { forEach } from '@angular/router/src/utils/collection';
 declare var $: JQueryStatic;
 @Component({
   selector: 'app-sale',
@@ -29,7 +30,7 @@ declare var $: JQueryStatic;
 export class SaleComponent implements OnInit, AfterViewInit {
   @HostBinding('@fadeInAnimation') fadeInAnimation;
   myControl = new FormControl();
-  product: Product[];
+  product: Product[] = [];
   customerDto: PrimeCustomer[];
   cust: any;
 
@@ -211,7 +212,7 @@ items: MenuItem[];
 
       console.log("when add product", productObj);
       this.transactionLineItemDaoList.push(productObj);
-      this.product = null;
+     this.product = null;
       this.p = null
       this.transactionLineItemDaoList[this.transactionLineItemDaoList.length -1].actualRetail = productObj.retail; 
       this.transactionLineItemDaoList = this.transactionLineItemDaoList.slice();
@@ -295,6 +296,18 @@ items: MenuItem[];
   }
   // This method helps when user try to change retial price or quanity from the sell text box.
   submitProduct(value: any) {
+ 
+    if(this.p.length > 8){
+
+      this.product.forEach((p)=>{
+
+        if(p.productNo == this.p)
+        {
+          this.addTransactionLineItem(value);
+        }
+    })
+      console.log("ok found wiht scanner");
+    }
 
     if (typeof value === 'string') {
 

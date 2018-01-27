@@ -323,38 +323,41 @@ public class CloseRegisterManager {
         }
     }
     private void generateClosingDetails(Document doc, PdfContentByte cb, int index, int y, CloseRegisterDao closeRegisterDao)  {
-        DecimalFormat df = new DecimalFormat("0.00");
-        try {
-            createContent(cb,30,600,"Credit",PdfContentByte.ALIGN_LEFT);
-            createContent(cb,30,570,"Debit",PdfContentByte.ALIGN_LEFT);
-            createContent(cb,30,540,"Cash",PdfContentByte.ALIGN_LEFT);
-            createContent(cb,30,510,"Check",PdfContentByte.ALIGN_LEFT);
+
+
+        if(null != closeRegisterDao) {
+            DecimalFormat df = new DecimalFormat("0.00");
+            try {
+                createContent(cb, 30, 600, "Credit", PdfContentByte.ALIGN_LEFT);
+                createContent(cb, 30, 570, "Debit", PdfContentByte.ALIGN_LEFT);
+                createContent(cb, 30, 540, "Cash", PdfContentByte.ALIGN_LEFT);
+                createContent(cb, 30, 510, "Check", PdfContentByte.ALIGN_LEFT);
 //            //For Credit
-            createContent(cb,200,600,"$" +Double.toString(closeRegisterDao.getCloseCredit()),PdfContentByte.ALIGN_LEFT);
-            createContent(cb,340,600,"$" +Double.toString(closeRegisterDao.getReportCredit()),PdfContentByte.ALIGN_LEFT);
-            createContent(cb,480,600,"$" +Double.toString(closeRegisterDao.getDifferenceCredit()),PdfContentByte.ALIGN_LEFT);
+                createContent(cb, 200, 600, "$" + Double.toString(closeRegisterDao.getCloseCredit()), PdfContentByte.ALIGN_LEFT);
+                createContent(cb, 340, 600, "$" + Double.toString(closeRegisterDao.getReportCredit()), PdfContentByte.ALIGN_LEFT);
+                createContent(cb, 480, 600, "$" + Double.toString(closeRegisterDao.getDifferenceCredit()), PdfContentByte.ALIGN_LEFT);
 //           // For Debit
-            createContent(cb,200,570,"$" +Double.toString(closeRegisterDao.getCloseDebit()),PdfContentByte.ALIGN_LEFT);
-            createContent(cb,340,570,"$" +Double.toString(closeRegisterDao.getReportDebit()),PdfContentByte.ALIGN_LEFT);
-            createContent(cb,480,570,"$" +Double.toString(closeRegisterDao.getDifferenceDebit()),PdfContentByte.ALIGN_LEFT);
+                createContent(cb, 200, 570, "$" + Double.toString(closeRegisterDao.getCloseDebit()), PdfContentByte.ALIGN_LEFT);
+                createContent(cb, 340, 570, "$" + Double.toString(closeRegisterDao.getReportDebit()), PdfContentByte.ALIGN_LEFT);
+                createContent(cb, 480, 570, "$" + Double.toString(closeRegisterDao.getDifferenceDebit()), PdfContentByte.ALIGN_LEFT);
 //            //For Cash
-            createContent(cb,200,540,"$" +Double.toString(closeRegisterDao.getCloseCash()),PdfContentByte.ALIGN_LEFT);
-            createContent(cb,340,540,"$" +Double.toString(closeRegisterDao.getReportCash()),PdfContentByte.ALIGN_LEFT);
-            createContent(cb,480,540,"$" +Double.toString(closeRegisterDao.getDifferenceCash()),PdfContentByte.ALIGN_LEFT);
+                createContent(cb, 200, 540, "$" + Double.toString(closeRegisterDao.getCloseCash()), PdfContentByte.ALIGN_LEFT);
+                createContent(cb, 340, 540, "$" + Double.toString(closeRegisterDao.getReportCash()), PdfContentByte.ALIGN_LEFT);
+                createContent(cb, 480, 540, "$" + Double.toString(closeRegisterDao.getDifferenceCash()), PdfContentByte.ALIGN_LEFT);
 //            //For Check
-            createContent(cb,200,510,"$" +Double.toString(closeRegisterDao.getCloseCheck()),PdfContentByte.ALIGN_LEFT);
-            createContent(cb,340,510,"$" +Double.toString(closeRegisterDao.getReportCheck()),PdfContentByte.ALIGN_LEFT);
-            createContent(cb,480,510,"$" +Double.toString(closeRegisterDao.getDifferenceCheck()),PdfContentByte.ALIGN_LEFT);
+                createContent(cb, 200, 510, "$" + Double.toString(closeRegisterDao.getCloseCheck()), PdfContentByte.ALIGN_LEFT);
+                createContent(cb, 340, 510, "$" + Double.toString(closeRegisterDao.getReportCheck()), PdfContentByte.ALIGN_LEFT);
+                createContent(cb, 480, 510, "$" + Double.toString(closeRegisterDao.getDifferenceCheck()), PdfContentByte.ALIGN_LEFT);
 
 
-            createContent(cb,30,470,"Paid Out (Sum)",PdfContentByte.ALIGN_LEFT);
-            createContent(cb,200,470,"Paid Out-1",PdfContentByte.ALIGN_LEFT);
-            createContent(cb,340,470,"Paid Out-2",PdfContentByte.ALIGN_LEFT);
-            createContent(cb,480,470,"Paid Out-3",PdfContentByte.ALIGN_LEFT);
+//            createContent(cb,30,470,"Paid Out (Sum)",PdfContentByte.ALIGN_LEFT);
+//            createContent(cb,200,470,"Paid Out-1",PdfContentByte.ALIGN_LEFT);
+//            createContent(cb,340,470,"Paid Out-2",PdfContentByte.ALIGN_LEFT);
+//            createContent(cb,480,470,"Paid Out-3",PdfContentByte.ALIGN_LEFT);
 
 
 //            //Adding paid out details from get paid out end point
-            // TODO NEED TO MANAGE WITH EXPENSE
+                // TODO NEED TO MANAGE WITH EXPENSE
 //            if(null != paidOutDtos && !paidOutDtos.isEmpty()) {
 //                createContent(cb, 30, 440, "$" + Double.toString(paidOutDtos.get(0).getPaidOutAmount1() + paidOutDtos.get(0).getPaidOutAmount2() + paidOutDtos.get(0).getPaidOutAmount3()), PdfContentByte.ALIGN_LEFT);
 //                createContent(cb, 200, 440, "$" + Double.toString(paidOutDtos.get(0).getPaidOutAmount1()), PdfContentByte.ALIGN_LEFT);
@@ -363,48 +366,50 @@ public class CloseRegisterManager {
 //            }
 
 
-            createHeadings(cb,30,400,"Actual Daily Total");
-            createHeadings(cb,200,400,"Total From User");
-            createHeadings(cb,340,400,"Total From System");
-            createHeadings(cb,480,400,"Total Difference");
+                createHeadings(cb, 30, 400, "Actual Daily Total");
+                createHeadings(cb, 200, 400, "Total From User");
+                createHeadings(cb, 340, 400, "Total From System");
+                createHeadings(cb, 480, 400, "Total Difference");
 
 //            //This just for now need to replace with the real values from service call.
-            createContent(cb,30,370,"$" +Double.toString(closeRegisterDao.getCloseTotalAmount()),PdfContentByte.ALIGN_LEFT);
-            createContent(cb,200,370,"$" +Double.toString(closeRegisterDao.getCloseTotalAmount()),PdfContentByte.ALIGN_LEFT);
-            createContent(cb,340,370,"$" +Double.toString(closeRegisterDao.getReportTotalAmount()),PdfContentByte.ALIGN_LEFT);
-            createContent(cb,480,370,"$" +Double.toString(closeRegisterDao.getDifferenceTotal()),PdfContentByte.ALIGN_LEFT);
+                createContent(cb, 30, 370, "$" + Double.toString(closeRegisterDao.getCloseTotalAmount()), PdfContentByte.ALIGN_LEFT);
+                createContent(cb, 200, 370, "$" + Double.toString(closeRegisterDao.getCloseTotalAmount()), PdfContentByte.ALIGN_LEFT);
+                createContent(cb, 340, 370, "$" + Double.toString(closeRegisterDao.getReportTotalAmount()), PdfContentByte.ALIGN_LEFT);
+                createContent(cb, 480, 370, "$" + Double.toString(closeRegisterDao.getDifferenceTotal()), PdfContentByte.ALIGN_LEFT);
 
-            createHeadings(cb,30,330,"Net Sales");
-            createHeadings(cb,200,330,"Tax");
-            createHeadings(cb,340,330,"Discount");
-            createHeadings(cb,480,330,"Gross Sales");
+                createHeadings(cb, 30, 330, "Net Sales");
+                createHeadings(cb, 200, 330, "Tax");
+                createHeadings(cb, 340, 330, "Discount");
+                createHeadings(cb, 480, 330, "Gross Sales");
 //
 //            //Net Sales = Total From System - Tax + Sum of all Paid outs because that is part of the sale
 
-            // - closeRegisterDao.getTotalTax() + paidOutDtos.get(0).getPaidOutAmount1() + paidOutDtos.get(0).getPaidOutAmount2() + paidOutDtos.get(0).getPaidOutAmount3())
+                // - closeRegisterDao.getTotalTax() + paidOutDtos.get(0).getPaidOutAmount1() + paidOutDtos.get(0).getPaidOutAmount2() + paidOutDtos.get(0).getPaidOutAmount3())
 //
-            // This wil help to show only 2 digits after decimal
-            DecimalFormat df2 = new DecimalFormat(".##");
+                // This wil help to show only 2 digits after decimal
+                DecimalFormat df2 = new DecimalFormat(".##");
 
-            createContent(cb,30,300,"$" +Double.toString(Double.parseDouble(df2.format(closeRegisterDao.getReportTotalAmount() - closeRegisterDao.getTax()))),PdfContentByte.ALIGN_LEFT);
-            createContent(cb,200,300,"$" +Double.toString(closeRegisterDao.getTax()),PdfContentByte.ALIGN_LEFT);
-            createContent(cb,340,300,"$" +Double.toString(closeRegisterDao.getTotalDiscount()),PdfContentByte.ALIGN_LEFT);
-            createContent(cb,480,300,"$" +Double.toString(closeRegisterDao.getReportTotalAmount()),PdfContentByte.ALIGN_LEFT);
+                createContent(cb, 30, 300, "$" + Double.toString(Double.parseDouble(df2.format(closeRegisterDao.getReportTotalAmount() - closeRegisterDao.getTax()))), PdfContentByte.ALIGN_LEFT);
+                createContent(cb, 200, 300, "$" + Double.toString(closeRegisterDao.getTax()), PdfContentByte.ALIGN_LEFT);
+                createContent(cb, 340, 300, "$" + Double.toString(closeRegisterDao.getTotalDiscount()), PdfContentByte.ALIGN_LEFT);
+                createContent(cb, 480, 300, "$" + Double.toString(closeRegisterDao.getReportTotalAmount()), PdfContentByte.ALIGN_LEFT);
 
-            createContent(cb,30,260,"Customer Balance",PdfContentByte.ALIGN_LEFT);
-            createContent(cb,200,260,"Commission",PdfContentByte.ALIGN_LEFT);
-            createContent(cb,340,260,"Bank Deposit",PdfContentByte.ALIGN_LEFT);
-            createContent(cb,480,260,"Cash In Hand",PdfContentByte.ALIGN_LEFT);
+                createContent(cb, 30, 260, "Customer Balance", PdfContentByte.ALIGN_LEFT);
+                createContent(cb, 200, 260, "Commission", PdfContentByte.ALIGN_LEFT);
+                createContent(cb, 340, 260, "Bank Deposit", PdfContentByte.ALIGN_LEFT);
+                createContent(cb, 480, 260, "Cash In Hand", PdfContentByte.ALIGN_LEFT);
 
 //            //This just for now need to replace with the real values from service call.
-            createContent(cb,30,230,"$" +Double.toString(closeRegisterDao.getOnAccount()),PdfContentByte.ALIGN_LEFT);
-            createContent(cb,200,230,"$" +Double.toString(0.00),PdfContentByte.ALIGN_LEFT);
-            createContent(cb,340,230,"$" +Double.toString(closeRegisterDao.getBankDeposit()),PdfContentByte.ALIGN_LEFT);
-            createContent(cb,480,230,"$" +Double.toString(0.00),PdfContentByte.ALIGN_LEFT);
+                createContent(cb, 30, 230, "$" + Double.toString(closeRegisterDao.getOnAccount()), PdfContentByte.ALIGN_LEFT);
+                createContent(cb, 200, 230, "$" + Double.toString(0.00), PdfContentByte.ALIGN_LEFT);
+                createContent(cb, 340, 230, "$" + Double.toString(closeRegisterDao.getBankDeposit()), PdfContentByte.ALIGN_LEFT);
+                createContent(cb, 480, 230, "$" + Double.toString(0.00), PdfContentByte.ALIGN_LEFT);
+            }
+            catch (Exception ex){
+                ex.printStackTrace();
+            }
         }
-        catch (Exception ex){
-            ex.printStackTrace();
-        }
+
     }
     private void createHeadings(PdfContentByte cb, float x, float y, String text){
         cb.beginText();
