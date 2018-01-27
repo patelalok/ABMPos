@@ -101,6 +101,8 @@ export class SalesHistoryComponent implements OnInit {
 
   getTransactionDetails(inputDate: any) {
 
+    this.loadingServie.loading = true;
+    
     if(inputDate == 'Today'){
       this.dateDto = this.dateService.getCurrentDay();
     }
@@ -145,7 +147,7 @@ export class SalesHistoryComponent implements OnInit {
 
     this.sellService.getTransactionDetails(this.dateDto.startDate, this.dateDto.endDate)
       .subscribe(transaction => {
-        this.loadingServie.loading = true;
+       
         transaction.forEach(trans => {
           trans.time = moment(trans.date).format('hh:mm A');
           trans.date = moment(trans.date).format('MM-DD-YYYY');
