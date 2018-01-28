@@ -116,9 +116,9 @@ export class ProductService {
   }
 
   // TODO:  This is redudant, but need to do it cause i have two obejct for backend dto and product, i need to fix this.
-  editProduct(product: BackendProductDto) {
-    console.log("Product Added", product.description);
-    this.http.post(this.url+'/addProduct', product)
+  // editProduct(product: BackendProductDto) {
+  //   console.log("Product Added", product.description);
+  //   this.http.post(this.url+'/addProduct', product)
       // .subscribe(data => {
       //   alert('ok');
       //   console.log(data);
@@ -126,18 +126,36 @@ export class ProductService {
       // error => {
       //   console.log(JSON.stringify(error.json()));
       // });
-      .map((updatedProduct: any) => {
-        let index = this.fullProductList.findIndex((product) => {
-          return product.productNo === (<Product>updatedProduct).productNo; 
-        })
-        if(index)
-          this.fullProductList[index] = updatedProduct; 
+  //     .map((updatedProduct: any) => {
+  //       let index = this.fullProductList.findIndex((product) => {
+  //         return product.productNo === (<Product>updatedProduct).productNo; 
+  //       })
+  //       if(index)
+  //         this.fullProductList[index] = updatedProduct; 
         
-        this.fullProductList = this.fullProductList.slice(); 
+  //       this.fullProductList = this.fullProductList.slice(); 
 
-        return this.fullProductList; 
-      })
-  }
+  //       return this.fullProductList; 
+  //     })
+  // }
+
+        // TODO:  This is redudant, but need to do it cause i have two obejct for backend dto and product, i need to fix this.
+        editProduct(product: BackendProductDto) {
+          console.log("Product Added", product.description);
+          return this.http.post(this.url+'/addProduct', product);
+            
+            // .map((updatedProduct: any) => {
+            //   let index = this.fullProductList.findIndex((product) => {
+            //     return product.productNo === (<Product>updatedProduct).productNo; 
+            //   })
+            //   if(index)
+            //     this.fullProductList[index] = updatedProduct; 
+              
+            //   this.fullProductList = this.fullProductList.slice(); 
+      
+            //   return this.fullProductList; 
+            // })
+        }
 
   addProductInventory(productInventory: ProductInventory[]) {
     console.log("Product Added", productInventory);
