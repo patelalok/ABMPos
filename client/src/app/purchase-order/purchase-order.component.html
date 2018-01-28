@@ -16,17 +16,14 @@
 
                 <p-autoComplete id="productsearch" [(ngModel)]="p" class="full-width m-1" [suggestions]="product" placeholder="Scan or Search Product" (completeMethod)="filterProducts($event)" name="test" [minLength]="3" (keyup.enter)="submitProduct(p)" field="description">
                 </p-autoComplete>
-                <span style="margin-left:10px"></span>
+                <!-- <span style="margin-left:10px"></span> -->
 
                 <!-- <button type="button " (click)="this.test(10)" class="btn btn-success ">Add Product</button> -->
             </div>
             <div class="col-md-3">
                 <button class="bg btn-green text-white m-3 action-button-lg" mat-raised-button (click)="this.openProductLookUpModel()">
-                        <i class="fa fa-search" aria-hidden="true">
+                        <i class="fa fa-search" aria-hidden="true"></i>
                             Product look up
-                            
-                        </i>
-
                 </button>
             </div>
 
@@ -123,8 +120,9 @@
                         <th>Description</th>
                         <th>Cost</th>
                         <th>Retail</th>
-                        <th>Qauntity</th>
+                        <th>Stock</th>
                         <th>Order Quantity</th>
+                        <th>History</th>
 
                     </tr>
                 </thead>
@@ -137,12 +135,11 @@
                         <td [ngStyle]="{'backgroundColor': (product.quantity >= 0)?'':'red'}">{{product.quantity}}</td>
                         <td>
                             <input type="number" (keyup.enter)="this.addProdutForPurchaseOrder($event, product)">
-                            <!-- <button mat-button class="btn-green action-button-table" mat-button (click)="this.setProductForHistory(product)" data-toggle="modal" data-target="#productHistoryModel">
-                                    <i class="fa fa-history" aria-hidden="true"></i>
-                                </button> -->
-                            <!-- <button class="bg-primary text-white action-button m-1" mat-raised-button>
-                                Add
-                            </button> -->
+                        </td>
+                        <td>
+                            <button mat-button class="btn-green action-button-table" mat-button (click)="this.setProductForHistory(product)" data-toggle="modal" data-target="#productHistoryModel">
+                                <i class="fa fa-history" aria-hidden="true"></i>
+                            </button>
                         </td>
 
                     </tr>
