@@ -243,6 +243,29 @@ public class TransactionsManager {
             if (null != transactionDao.getCustomerPhoneno() && transactionDao.getPaymentDao().get(0).getStoreCredit() > 0) {
                 setCustomerStoreCredit(transactionDao);
             }
+
+            // I need to do this because, if customer has some previous balance and some current transaction balance, the whole amount is going as on Account
+            // which is wrong so i just need to send current transaction as on account whihc is subtotal - discount.
+
+            if(null != transactionDao.getPaymentDao())
+            {
+                if(transactionDao.getPaymentDao().get(0).getOnAccount() > 0){
+
+                    double onAccountAmount = transactionDao.getSubtotal() - transactionDao.getTotalDiscount();
+
+                    List<PaymentDao> paymentDaoList = new ArrayList<>();
+
+                    PaymentDao paymentDao = new PaymentDao();
+
+                    paymentDao = transactionDao.getPaymentDao().get(0);
+
+                    paymentDao.setOnAccount(onAccountAmount);
+
+                    paymentDaoList.add(paymentDao);
+
+                    transactionDao.setPaymentDao(paymentDaoList);
+                }
+            }
         }
 
 

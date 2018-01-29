@@ -3140,6 +3140,8 @@ module.exports = module.exports.toString();
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_moment___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_moment__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_app_product_product_service__ = __webpack_require__("../../../../../src/app/product/product.service.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__angular_router__ = __webpack_require__("../../../router/esm5/router.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_ng2_toastr__ = __webpack_require__("../../../../ng2-toastr/ng2-toastr.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_ng2_toastr___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6_ng2_toastr__);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -3155,12 +3157,14 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
+
 var EditProductComponent = /** @class */ (function () {
-    function EditProductComponent(productService, formBuilder, route, router) {
+    function EditProductComponent(productService, formBuilder, route, router, toastr) {
         this.productService = productService;
         this.formBuilder = formBuilder;
         this.route = route;
         this.router = router;
+        this.toastr = toastr;
         this.displayDialog = false;
         this.formProduct = new __WEBPACK_IMPORTED_MODULE_2_app_sell_sell_component__["a" /* Product */]();
     }
@@ -3245,6 +3249,7 @@ var EditProductComponent = /** @class */ (function () {
         //     });
     };
     EditProductComponent.prototype.addProduct = function () {
+        var _this = this;
         {
             var formValues = this.form.value;
             var product = {
@@ -3267,10 +3272,17 @@ var EditProductComponent = /** @class */ (function () {
                 productInventoryDaoList: this.currentProduct.productInventoryDaoList,
                 variant: formValues.variant,
                 markup: 0.00,
-                createdTimestamp: ''
+                createdTimestamp: null
             };
-            this.productService.editProduct(product);
-            this.clearProductForm();
+            this.productService.editProduct(product)
+                .subscribe(function (data) {
+                if (data) {
+                    _this.toastr.success('Product Updated Successfully!!', 'Success');
+                }
+            }, function (error) {
+                _this.toastr.error('Something Goes Wrong!!', 'Error');
+            });
+            //this.clearProductForm();
             this.router.navigate(['/product/productTable']);
         }
     };
@@ -3300,7 +3312,7 @@ var EditProductComponent = /** @class */ (function () {
             template: __webpack_require__("../../../../../src/app/product/edit-product/edit-product.component.html"),
             styles: [__webpack_require__("../../../../../src/app/product/edit-product/edit-product.component.scss")]
         }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_4_app_product_product_service__["a" /* ProductService */], __WEBPACK_IMPORTED_MODULE_1__angular_forms__["FormBuilder"], __WEBPACK_IMPORTED_MODULE_5__angular_router__["ActivatedRoute"], __WEBPACK_IMPORTED_MODULE_5__angular_router__["Router"]])
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_4_app_product_product_service__["a" /* ProductService */], __WEBPACK_IMPORTED_MODULE_1__angular_forms__["FormBuilder"], __WEBPACK_IMPORTED_MODULE_5__angular_router__["ActivatedRoute"], __WEBPACK_IMPORTED_MODULE_5__angular_router__["Router"], __WEBPACK_IMPORTED_MODULE_6_ng2_toastr__["ToastsManager"]])
     ], EditProductComponent);
     return EditProductComponent;
 }());
@@ -4315,19 +4327,39 @@ var ProductService = /** @class */ (function () {
         });
     };
     // TODO:  This is redudant, but need to do it cause i have two obejct for backend dto and product, i need to fix this.
+    // editProduct(product: BackendProductDto) {
+    //   console.log("Product Added", product.description);
+    //   this.http.post(this.url+'/addProduct', product)
+    // .subscribe(data => {
+    //   alert('ok');
+    //   console.log(data);
+    // },
+    // error => {
+    //   console.log(JSON.stringify(error.json()));
+    // });
+    //     .map((updatedProduct: any) => {
+    //       let index = this.fullProductList.findIndex((product) => {
+    //         return product.productNo === (<Product>updatedProduct).productNo; 
+    //       })
+    //       if(index)
+    //         this.fullProductList[index] = updatedProduct; 
+    //       this.fullProductList = this.fullProductList.slice(); 
+    //       return this.fullProductList; 
+    //     })
+    // }
+    // TODO:  This is redudant, but need to do it cause i have two obejct for backend dto and product, i need to fix this.
     ProductService.prototype.editProduct = function (product) {
-        var _this = this;
         console.log("Product Added", product.description);
-        this.http.post(this.url + '/addProduct', product)
-            .map(function (updatedProduct) {
-            var index = _this.fullProductList.findIndex(function (product) {
-                return product.productNo === updatedProduct.productNo;
-            });
-            if (index)
-                _this.fullProductList[index] = updatedProduct;
-            _this.fullProductList = _this.fullProductList.slice();
-            return _this.fullProductList;
-        });
+        return this.http.post(this.url + '/addProduct', product);
+        // .map((updatedProduct: any) => {
+        //   let index = this.fullProductList.findIndex((product) => {
+        //     return product.productNo === (<Product>updatedProduct).productNo; 
+        //   })
+        //   if(index)
+        //     this.fullProductList[index] = updatedProduct; 
+        //   this.fullProductList = this.fullProductList.slice(); 
+        //   return this.fullProductList; 
+        // })
     };
     ProductService.prototype.addProductInventory = function (productInventory) {
         console.log("Product Added", productInventory);
