@@ -19,6 +19,7 @@ import { empty } from 'rxjs/Observer';
 import { MenuItem } from 'app/shared/top-navbar/top-navbar.component';
 import { PersistenceService } from 'app/shared/services/persistence.service';
 import { forEach } from '@angular/router/src/utils/collection';
+import { ProductService } from 'app/product/product.service';
 declare var $: JQueryStatic;
 @Component({
   selector: 'app-sale',
@@ -96,6 +97,7 @@ items: MenuItem[];
   constructor(
     private sellService: SellService, 
     private persit: PersistenceService, 
+    private productService: ProductService,
     private storeSetupService: StoreSetupService, 
     private customerService: CustomerService, 
     private sanitizer: DomSanitizer, 
@@ -176,7 +178,7 @@ items: MenuItem[];
   
   filterProducts(event) {
     let query = event.query;
-    this.sellService.getProductDetails()
+    this.productService.getProductDetails()
       .subscribe((products) => {
         // console.log(products);
         this.product = this.filterProduct(query, products);
@@ -1188,7 +1190,7 @@ items: MenuItem[];
 
 export class Product {
   productNo: string;
-  productVariantNo: number;
+  // productVariantNo: number;
   description: string;
   categoryId: number;
   brandId: number
@@ -1223,7 +1225,7 @@ export class Product {
 export class TransactionLineItemDaoList {
 
   productNo: string;
-  productVariantNo: number;
+ // productVariantNo: number;
   cost: number;
   retail: number;
   actualRetail?: number;

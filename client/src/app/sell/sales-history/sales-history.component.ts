@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { TransactionDtoList, TransactionLineItemDaoList } from 'app/sell/sell.component';
+import { TransactionDtoList } from 'app/sell/sell.component';
 import { SellService } from 'app/sell/sell.service';
 import * as moment from 'moment';
 import * as jspdf from "jspdf";
@@ -10,6 +10,7 @@ import { ResponseType, ResponseContentType } from '@angular/http';
 import { printBlob } from 'app/shared/services/util.service';
 import { ToastsManager } from 'ng2-toastr';
 import { LoadingService } from 'app/loading.service';
+import { TransactionLineItemDaoList } from 'app/sell/sale/sale.component';
 
 declare var $: JQueryStatic;
 

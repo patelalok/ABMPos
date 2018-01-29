@@ -1,13 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators, FormGroup, FormControl } from '@angular/forms';
 
-import { BackendProductDto, Category, Brand, Vendor, Model, ProductVariantDetail, ProductInventory } from 'app/product/product.component';
-import { Product } from 'app/sell/sell.component';
+import {Category, Brand, Vendor, Model, ProductVariantDetail, ProductInventory } from 'app/product/product.component';
 import * as moment from 'moment';
 import { ProductService } from 'app/product/product.service';
 import { ProductForm } from 'app/product/addProduct.component';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastsManager } from 'ng2-toastr';
+import { Product } from 'app/sell/sale/sale.component';
 
 
 
@@ -18,7 +18,7 @@ import { ToastsManager } from 'ng2-toastr';
 })
 export class EditProductComponent implements OnInit {
   form: FormGroup;
-  backendProductDto: BackendProductDto[];
+  backendProductDto: Product[];
   categoryDto: Category[];
   brandDto: Brand[];
   vendorDto: Vendor[];
@@ -34,7 +34,7 @@ export class EditProductComponent implements OnInit {
   selectedProductInventoryForDelete: ProductInventory;
  
 
-  currentProduct: BackendProductDto; 
+  currentProduct: Product; 
   constructor(private productService: ProductService, private formBuilder: FormBuilder, private route: ActivatedRoute, private router: Router, private toastr: ToastsManager) {
   }
 
@@ -70,8 +70,7 @@ export class EditProductComponent implements OnInit {
             'quantity': [this.currentProduct.quantity,''],
             'minQuantity': [this.currentProduct.minQuantity,''],
             'tax': [this.currentProduct.tax, null],
-            'ecomerce': [this.currentProduct.ecommerce, null],
-            'varaint': [this.currentProduct.variant, null]
+            'ecomerce': [this.currentProduct.ecommerce, null]
           }
 
           
@@ -144,7 +143,7 @@ export class EditProductComponent implements OnInit {
     {
 
       let formValues: ProductForm = this.form.value;
-      let product: BackendProductDto = {
+      let product: Product = {
         productNo: formValues.productNo,
         categoryId: formValues.category.categoryId,
         brandId: formValues.brand.brandId,
@@ -159,12 +158,23 @@ export class EditProductComponent implements OnInit {
         tax: formValues.tax,
         minQuantity: formValues.minQuantity,
         quantity: formValues.quantity,
-        categoryName: null,
-        customLoyaltyAmount: 0.00,
         productInventoryDaoList: this.currentProduct.productInventoryDaoList,
-        variant: formValues.variant,
         markup: 0.00,
-        createdTimestamp: null
+        createdTimestamp: null,
+        alternetNo: formValues.alternetNo,
+        date: null,
+        defaultQuantity: 0,
+        discount:0,
+        imeiNo: null,
+        retailDiscount: 0,
+        returnRule: null,
+        status: null,
+        taxAmountOnProduct: 0,
+        time:null,
+        totalProductPrice: 0,
+        transactionComId: 0,
+        varaint: null
+        
           }
 
       this.productService.editProduct(product)

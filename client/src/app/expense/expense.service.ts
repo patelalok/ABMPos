@@ -1,12 +1,12 @@
 import {Injectable } from '@angular/core';
 import {Http, Response, Headers} from '@angular/http';
 import { Observable } from 'rxjs/Observable';
-import { Product } from 'app/sell/sell.component';
 import { FormControl } from '@angular/forms/forms';
 import { ExpenseInterface, ExpenseNameDto } from "app/expense/expense.component";
 import { ClockInInterface } from "app/employee/clockin/clockin.component";
 import { EmployeeInterface } from "app/employee/employee.component";
 import { environment } from 'environments/environment';
+import { Product } from 'app/sell/sale/sale.component';
 
 
 

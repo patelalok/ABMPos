@@ -1,7 +1,6 @@
 import {Injectable } from '@angular/core';
 import {Http, Response, Headers} from '@angular/http';
 import { Observable } from 'rxjs/Observable';
-import { Product } from 'app/sell/sell.component';
 import { FormControl } from '@angular/forms/forms';
 import { CategoryTest } from "app/product/product.component";
 

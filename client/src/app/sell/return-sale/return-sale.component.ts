@@ -17,8 +17,9 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ToastsManager } from 'ng2-toastr/src/toast-manager';
 import { empty } from 'rxjs/Observer';
 import { MenuItem } from 'app/shared/top-navbar/top-navbar.component';
-import { Product, TransactionLineItemDaoList, TransactionDtoList, PaymentDto, PaymentObjectForPaymentSellTable } from 'app/sell/sale/sale.component';
+import {TransactionLineItemDaoList, TransactionDtoList, PaymentDto, PaymentObjectForPaymentSellTable, Product } from 'app/sell/sale/sale.component';
 import { PersistenceService } from 'app/shared/services/persistence.service';
+import { ProductService } from 'app/product/product.service';
 declare var $: JQueryStatic;
 
 @Component({
@@ -89,7 +90,8 @@ export class ReturnSaleComponent implements OnInit, AfterViewInit {
 printTransactionDto: TransactionDtoList = null;
 
   constructor(
-    private sellService: SellService, 
+    private sellService: SellService,
+    private productService: ProductService,
     private persit: PersistenceService, 
     private storeSetupService: StoreSetupService, 
     private customerService: CustomerService, 
@@ -132,8 +134,8 @@ printTransactionDto: TransactionDtoList = null;
 
       filterProducts(event) {
         let query = event.query;
-        this.sellService.getProductDetails()
-          .subscribe((products) => {
+        this.productService.getProductDetails()
+          .subscribe((products: Product[]) => {
             // console.log(products);
             this.product = this.filterProduct(query, products);
           });

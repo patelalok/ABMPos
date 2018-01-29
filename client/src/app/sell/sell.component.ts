@@ -18,6 +18,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ToastsManager } from 'ng2-toastr/src/toast-manager';
 import { empty } from 'rxjs/Observer';
 import { MenuItem } from 'app/shared/top-navbar/top-navbar.component';
+import { Product, TransactionLineItemDaoList } from 'app/sell/sale/sale.component';
+import { ProductService } from 'app/product/product.service';
 // import { disconnect } from 'cluster';
 declare var $: JQueryStatic;
 @Component({
@@ -41,7 +43,7 @@ export class SellComponent implements OnInit, AfterViewInit {
   transactionDtoList = new TransactionDtoList();
   paymentDto = new PaymentDto();
   a = 'sdfds';
-  selectedProduct: Product;
+  // selectedProduct: Product;
   selectedCustomer: Customer;
 
   cols: any[];
@@ -94,7 +96,8 @@ items: MenuItem[];
 
   constructor(
     private sellService: SellService, 
-    private persit: PersistenceService, 
+    private persit: PersistenceService,
+    private productService: ProductService, 
     private storeSetupService: StoreSetupService, 
     private customerService: CustomerService, 
     private sanitizer: DomSanitizer, 
@@ -165,7 +168,7 @@ items: MenuItem[];
   
   filterProducts(event) {
     let query = event.query;
-    this.sellService.getProductDetails()
+    this.productService.getProductDetails()
       .subscribe((products) => {
         // console.log(products);
         this.product = this.filterProduct(query, products);
@@ -191,89 +194,90 @@ items: MenuItem[];
 
   public addTransactionLineItem(productObj: Product): TransactionLineItemDaoList[] {
 
+    return null;
+  }
+
     // This is fisrt time when user is adding product to sell.
-    if (this.transactionLineItemDaoList.length == 0) {
+    // if (this.transactionLineItemDaoList.length == 0) {
 
-      productObj.totalProductPrice = parseFloat(productObj.retail.toFixed(2));
-      productObj.taxAmountOnProduct = (productObj.retail * 7) / 100;
-
-
-      console.log("when add product", productObj);
-      this.transactionLineItemDaoList.push(productObj);
-      this.product = null;
-      this.p = null
-
-      this.transactionLineItemDaoList = this.transactionLineItemDaoList.slice();
-      this.setTransactionDtoList(this.transactionLineItemDaoList)
-      // This will save the data into local storage.
-      this.persit.setProducts(this.transactionLineItemDaoList);
-    }
-    else {
-
-      // Checking weather user is adding same product agian or not if its true
-      //  then just update the quantity of that product by 1.
-      for (let lineItem of this.transactionLineItemDaoList) {
-
-        if (productObj.productNo === lineItem.productNo) {
-          // This flag helps to determin whether to add new product or just update the quantity
-          this.isProductExistsInSellList = true;
-
-          lineItem.defaultQuantity = + lineItem.defaultQuantity + 1;
-          lineItem.quantityUpdated = true;
-
-          // here  i need to get value of lineitem.retail becuase user might have change the retial price so, if i dont do lineitem.retail it will take old retail price.
-          lineItem.totalProductPrice = parseFloat((lineItem.retail * lineItem.defaultQuantity).toFixed(2));
-          lineItem.taxAmountOnProduct = (lineItem.retail * 7) / 100;
-
-          console.log("when add product", productObj);
-          this.transactionLineItemDaoList = this.transactionLineItemDaoList.slice();
-
-          this.product = null;
-          this.p = null
-          console.log(this.transactionLineItemDaoList);
+    //   productObj.totalProductPrice = parseFloat(productObj.retail.toFixed(2));
+    //   productObj.taxAmountOnProduct = (productObj.retail * 7) / 100;
 
 
-          this.setTransactionDtoList(this.transactionLineItemDaoList)
-          this.persit.setProducts(this.transactionLineItemDaoList);
-          setTimeout(() => {
-            lineItem.quantityUpdated = false;
-            this.persit.setProducts(this.transactionLineItemDaoList);
-            this.transactionLineItemDaoList = this.transactionLineItemDaoList.slice();
-          }, 3000);
-          break;
-        }
+    //   console.log("when add product", productObj);
+    //   this.transactionLineItemDaoList.push(productObj);
+    //   this.product = null;
+    //   this.p = null
 
-        else {
-          // This flag helps to determin whether to add new product or just update the quantity
-          this.isProductExistsInSellList = false;
-        }
+    //   this.transactionLineItemDaoList = this.transactionLineItemDaoList.slice();
+    //   this.setTransactionDtoList(this.transactionLineItemDaoList)
+    //   // This will save the data into local storage.
+    //   this.persit.setProducts(this.transactionLineItemDaoList);
+    // // }
+    // else {
 
-      }
+    //   // Checking weather user is adding same product agian or not if its true
+    //   //  then just update the quantity of that product by 1.
+    //   for (let lineItem of this.transactionLineItemDaoList) {
+
+    //     if (productObj.productNo === lineItem.productNo) {
+    //       // This flag helps to determin whether to add new product or just update the quantity
+    //       this.isProductExistsInSellList = true;
+
+    //       lineItem.defaultQuantity = + lineItem.defaultQuantity + 1;
+    //       lineItem.quantityUpdated = true;
+
+    //       // here  i need to get value of lineitem.retail becuase user might have change the retial price so, if i dont do lineitem.retail it will take old retail price.
+    //       lineItem.totalProductPrice = parseFloat((lineItem.retail * lineItem.defaultQuantity).toFixed(2));
+    //       lineItem.taxAmountOnProduct = (lineItem.retail * 7) / 100;
+
+    //       console.log("when add product", productObj);
+    //       this.transactionLineItemDaoList = this.transactionLineItemDaoList.slice();
+
+    //       this.product = null;
+    //       this.p = null
+    //       console.log(this.transactionLineItemDaoList);
+
+
+    //       this.setTransactionDtoList(this.transactionLineItemDaoList)
+    //       this.persit.setProducts(this.transactionLineItemDaoList);
+    //       setTimeout(() => {
+    //         lineItem.quantityUpdated = false;
+    //         this.persit.setProducts(this.transactionLineItemDaoList);
+    //         this.transactionLineItemDaoList = this.transactionLineItemDaoList.slice();
+    //       }, 3000);
+    //       break;
+    //     }
+
+    //     else {
+    //       // This flag helps to determin whether to add new product or just update the quantity
+    //       this.isProductExistsInSellList = false;
+    //     }
+
+     // }
 
       // This flag helps to determin whether to add new product or just update the quantity
-      if (!this.isProductExistsInSellList) {
+      // if (!this.isProductExistsInSellList) {
 
-        this.transactionLineItemDaoList = this.transactionLineItemDaoList.slice();
-        productObj.totalProductPrice = productObj.retail * productObj.defaultQuantity;
-        productObj.taxAmountOnProduct = parseFloat(((productObj.retail * 7) / 100).toFixed(2));
-        console.log("when add product", productObj);
-        this.transactionLineItemDaoList.push(productObj);
-        this.product = null;
-        this.p = null
-        console.log(this.transactionLineItemDaoList);
+      //   this.transactionLineItemDaoList = this.transactionLineItemDaoList.slice();
+      //   productObj.totalProductPrice = productObj.retail * productObj.defaultQuantity;
+      //   productObj.taxAmountOnProduct = parseFloat(((productObj.retail * 7) / 100).toFixed(2));
+      //   console.log("when add product", productObj);
+      //   this.transactionLineItemDaoList.push(productObj);
+      //   this.product = null;
+      //   this.p = null
+      //   console.log(this.transactionLineItemDaoList);
 
-        this.setTransactionDtoList(this.transactionLineItemDaoList)
-        this.persit.setProducts(this.transactionLineItemDaoList);
-      }
-    }
-    $(`lineitem${productObj.productNo}`).ready(function () {
-      // $(`lineitem${productObj.productNo}`).sc
-      document.getElementById(`lineitem${productObj.productNo}`).scrollIntoView();
-    });
-    return this.transactionLineItemDaoList;
+      //   this.setTransactionDtoList(this.transactionLineItemDaoList)
+      //   this.persit.setProducts(this.transactionLineItemDaoList);
+      // }
+    //}
+    // $(`lineitem${productObj.productNo}`).ready(function () {
+    //   // $(`lineitem${productObj.productNo}`).sc
+    //   document.getElementById(`lineitem${productObj.productNo}`).scrollIntoView();
+    // });
+   // return this.transactionLineItemDaoList;
 
-
-  }
   // #productsearch > span > input
   testFocus() {
     // document.querySelector("#productsearch > span > input").focus();
@@ -534,28 +538,28 @@ items: MenuItem[];
     console.log("Coming form print", obj);
   }
 
-  deleteProduct() {
-    console.log("inside delete");
-    let index = this.transactionLineItemDaoList.indexOf(this.selectedProduct, 0);
-    console.log("index", index);
-    if (index > -1) {
-      this.transactionLineItemDaoList.splice(index, 1);
-      this.transactionLineItemDaoList = this.transactionLineItemDaoList.slice();
-      this.setTransactionDtoList(this.transactionLineItemDaoList);
-      this.persit.setProducts(this.transactionLineItemDaoList);
-    }
-  }
+  // deleteProduct() {
+  //   console.log("inside delete");
+  //   let index = this.transactionLineItemDaoList.indexOf(this.selectedProduct, 0);
+  //   console.log("index", index);
+  //   if (index > -1) {
+  //     this.transactionLineItemDaoList.splice(index, 1);
+  //     this.transactionLineItemDaoList = this.transactionLineItemDaoList.slice();
+  //     this.setTransactionDtoList(this.transactionLineItemDaoList);
+  //     this.persit.setProducts(this.transactionLineItemDaoList);
+  //   }
+  // }
   // test(a: number) {
   //   this.calculateDiscountByAmount(a);
   //   alert("hi");
   //   console.log("insod test", event);
   // }
 
-  setProductForDelete(product: Product) {
-    this.selectedProduct = product;
-    this.popupHeader = 'Delete Product';
-    this.popupMessage = 'Are You Sure You Want To Delete Product?';
-  }
+  // setProductForDelete(product: Product) {
+  //   this.selectedProduct = product;
+  //   this.popupHeader = 'Delete Product';
+  //   this.popupMessage = 'Are You Sure You Want To Delete Product?';
+  // }
 
   //This methode will completly remove the all transaction line item and transaction details.
   disgardCompleteSale() {
@@ -1141,59 +1145,60 @@ items: MenuItem[];
 
 
 
-export class Product {
-  productNo: string;
-  productVariantNo: number;
-  description: string;
-  categoryId: number;
-  brandId: number
-  vendorId: number;
-  modelId: number;
-  alternetNo: string;
-  cost: number;
-  retail: number;
-  markup: number;
-  quantity: number;
-  minQuantity: number;
-  tax: boolean;
-  varaint: boolean;
-  active: boolean;
-  ecommerce: boolean;
-  relatedProduct: boolean;
-  defaultQuantity = 1;
-  returnRule: any;
-  createdTimestamp: any;
+// export class Product {
+//   productNo: string;
+//   // productVariantNo: number;
+//   description: string;
+//   categoryId: number;
+//   brandId: number
+//   vendorId: number;
+//   modelId: number;
+//   alternetNo: string;
+//   cost: number;
+//   retail: number;
+//   markup: number;
+//   quantity: number;
+//   minQuantity: number;
+//   tax: boolean;
+//   varaint: boolean;
+//   active: boolean;
+//   ecommerce: boolean;
+//   relatedProduct: boolean;
+//   defaultQuantity = 1;
+//   returnRule: any;
+//   createdTimestamp: any;
 
-  transactionComId: number;
-  date: any;
-  time: any;
-  status: string;
-  discount: number;
-  retailDiscount: number;
-  totalProductPrice: number;
-  taxAmountOnProduct: number;
-  imeiNo: any;
-  productInventoryDaoList: ProductInventory[];
-}
-export class TransactionLineItemDaoList {
+//   transactionComId: number;
+//   date: any;
+//   time: any;
+//   status: string;
+//   discount: number;
+//   retailDiscount: number;
+//   totalProductPrice: number;
+//   taxAmountOnProduct: number;
+//   imeiNo: any;
+//   customLoyaltyAmount: number;
+//   productInventoryDaoList: ProductInventory[];
+// }
+// export class TransactionLineItemDaoList {
 
-  productNo: string;
-  productVariantNo: number;
-  cost: number;
-  retail: number;
-  quantity: number;
-  defaultQuantity: number;
-  transactionComId: number;
-  date: any;
-  time: any;
-  status: string;
-  discount: number;
-  retailDiscount: number;
-  totalProductPrice: number;
-  taxAmountOnProduct: number;
-  imeiNo: any;
-  quantityUpdated?: boolean;
-  description: string;
+//   productNo: string;
+//   productVariantNo: number;
+//   cost: number;
+//   retail: number;
+//   quantity: number;
+//   defaultQuantity: number;
+//   transactionComId: number;
+//   date: any;
+//   time: any;
+//   status: string;
+//   discount: number;
+//   retailDiscount: number;
+//   totalProductPrice: number;
+//   taxAmountOnProduct: number;
+//   imeiNo: any;
+//   quantityUpdated?: boolean;
+//   description: string;
   // minQuantity: number;
   // isTax: number;
   // IsVariant: number;
@@ -1207,7 +1212,7 @@ export class TransactionLineItemDaoList {
   // alternetNo: string;
   // markup: number;
 
-}
+// }
 
 export class TransactionDtoList {
 

@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { ProductService } from "app/product/product.service";
-import { Product } from "app/sell/sell.component";
 // import { FormBuilder } from "@angular/forms/forms";
 import { FormBuilder, Validators, FormGroup, FormControl } from '@angular/forms';
-import { BackendProductDto, Category, Brand, Vendor, ProductVariantDetail, Model, ProductInventory } from "app/product/product.component";
+import { Category, Brand, Vendor, ProductVariantDetail, Model, ProductInventory } from "app/product/product.component";
 import * as moment from 'moment';
 import { slideInOutAnimation } from 'app/shared/animations/slide-in-out.animation';
 import { ToastsManager } from 'ng2-toastr/src/toast-manager';
+import { Product } from 'app/sell/sale/sale.component';
 
 
 
@@ -22,7 +22,7 @@ export class AddProductComponent implements OnInit {
 
 
   form: FormGroup;
-  backendProductDto: BackendProductDto[];
+  backendProductDto: Product[];
   categoryDto: Category[];
   brandDto: Brand[];
   vendorDto: Vendor[];
@@ -144,7 +144,6 @@ export class AddProductComponent implements OnInit {
         varaint: formValues.varaint,
         markup: formValues.markup,
         minQuantity: formValues.minQuantity,
-        productVariantNo: formValues.productVariantNo,
         quantity: formValues.quantity,
         retailDiscount: null,
         returnRule: formValues.returnRule,
@@ -155,7 +154,6 @@ export class AddProductComponent implements OnInit {
         time: null,
         createdTimestamp: moment(Date.now()).format('YYYY-MM-DD HH:mm:ss'),
         productInventoryDaoList: this.productInventoryList
-
       }
       this.productService.addProduct(product)
       .subscribe(

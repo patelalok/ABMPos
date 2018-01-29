@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { ProductService } from 'app/product/product.service';
-import { Product } from 'app/sell/sell.component';
-import { BackendProductDto, ProductInventory, Vendor } from 'app/product/product.component';
+import {ProductInventory, Vendor } from 'app/product/product.component';
 import { SellService } from 'app/sell/sell.service';
 import { PersistenceService } from 'app/shared/services/persistence.service';
 import * as moment from 'moment';
 import { ToastsManager } from 'ng2-toastr';
 import { Event } from '@angular/router/src/events';
+import { Product } from 'app/sell/sale/sale.component';
 
 @Component({
   selector: 'app-purchase-order',
@@ -38,7 +38,7 @@ export class PurchaseOrderComponent implements OnInit {
     this.productInventotyList = this.persit.getProductInventoryForAdd() || [];
   }
   getProductDetails() {
-    this.saleService.getProductDetails()
+    this.productService.getProductDetails()
       .subscribe((pro: Product[]) => {
         this.productDto = pro;
         this.filteredProductByVendor = this.productDto;
@@ -57,7 +57,7 @@ export class PurchaseOrderComponent implements OnInit {
   // TODO NEED TO make it common so i can use other places too.
   filterProducts(event) {
     let query = event.query;
-    this.saleService.getProductDetails()
+    this.productService.getProductDetails()
       .subscribe((products) => {
         // console.log(products);
         this.product = this.filterProduct(query, products);

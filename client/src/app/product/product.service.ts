@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
 import { Http, Response, Headers } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
-import { Product, TransactionLineItemDaoList } from 'app/sell/sell.component';
 import { FormControl } from '@angular/forms/forms';
-import { Category, Brand, Vendor, Model, ProductVariantDetail, CategoryTest, BackendProductDto, ProductInventory } from 'app/product/product.component';
+import { Category, Brand, Vendor, Model, ProductVariantDetail, CategoryTest,ProductInventory } from 'app/product/product.component';
 import { environment } from 'environments/environment';
 import { Observer } from 'rxjs';
+import { Product, TransactionLineItemDaoList } from 'app/sell/sale/sale.component';
 
 
 @Injectable()
@@ -19,7 +19,7 @@ export class ProductService {
 
    }
 
-  getProductDetails(): Observable<BackendProductDto[]> {
+  getProductDetails(): Observable<Product[]> {
     // if(!this.fullProductList){
       return this.http.get(this.url+'/getProductTableDetails')
         .map(this.extractData)
@@ -50,7 +50,7 @@ export class ProductService {
       .map(this.extractData)
       .catch(this.handleError);
   }
-  getProductDetailsById(productNo: string): Observable<BackendProductDto> {
+  getProductDetailsById(productNo: string): Observable<Product> {
     let url = this.url+`/getProductById?productNo=${productNo}`;
     return this.http.get(url)
       .map(this.extractData)
@@ -140,7 +140,7 @@ export class ProductService {
   // }
 
         // TODO:  This is redudant, but need to do it cause i have two obejct for backend dto and product, i need to fix this.
-        editProduct(product: BackendProductDto) {
+        editProduct(product: Product) {
           console.log("Product Added", product.description);
           return this.http.post(this.url+'/addProduct', product);
             

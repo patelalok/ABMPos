@@ -1,10 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ProductService } from "app/product/product.service";
-import { Product, TransactionLineItemDaoList } from 'app/sell/sell.component';
 // import { FormBuilder } from "@angular/forms/forms";
 import { FormBuilder, Validators, FormGroup, FormControl } from '@angular/forms';
 import { MenuItem, LazyLoadEvent } from 'primeng/primeng';
-import { BackendProductDto, Category, Brand, Model, Vendor, ProductCommon, ProductInventory } from "app/product/product.component";
+import {Category, Brand, Model, Vendor, ProductCommon, ProductInventory } from "app/product/product.component";
 import * as moment from 'moment';
 import { ViewChild } from '@angular/core/src/metadata/di';
 import { Element } from '@angular/compiler';
@@ -12,6 +11,7 @@ import { ElementRef } from '@angular/core/src/linker/element_ref';
 import { LoadingService } from 'app/loading.service';
 import { ToastsManager } from 'ng2-toastr';
 import { error } from 'selenium-webdriver';
+import { Product, TransactionLineItemDaoList } from 'app/sell/sale/sale.component';
 declare var $: JQueryStatic;
 
 @Component({
@@ -22,9 +22,9 @@ declare var $: JQueryStatic;
 export class ProductTableComponent implements OnInit {
   form: FormGroup;
   productFilterBox: any;
-  backendProductDto: BackendProductDto[];
-  productViewList: BackendProductDto[] = [];
-  productFullList: BackendProductDto[] = [];
+  backendProductDto:Product[];
+  productViewList: Product[] = [];
+  productFullList: Product[] = [];
   rowsToShow: number = 100;
   totalNumberProducts: number = 0;
   displayDialog = false;
@@ -38,7 +38,7 @@ export class ProductTableComponent implements OnInit {
   selectedProductDropdownOption: any = "Select All";
   listOfProductOption: ProductCommon[] = null;
   pipeFilter: string;
-  pipeFilterData: BackendProductDto[] = [];
+  pipeFilterData: Product[] = [];
   checked2: boolean = true;
   searchProductTextBox = new FormControl();
   productHistoryDto: TransactionLineItemDaoList[] = [];
@@ -71,7 +71,7 @@ export class ProductTableComponent implements OnInit {
   getProductDetails() {
     this.loadingService.loading = true;
     this.productService.getProductDetails()
-      .subscribe((pro: BackendProductDto[]) => {
+      .subscribe((pro: Product[]) => {
         // console.log(pro); 
         // this.productViewList = pro.slice(0,500);
 
@@ -115,9 +115,9 @@ export class ProductTableComponent implements OnInit {
     this.loadProductsLazy({ first: 0, rows: this.rowsToShow * 2 });
   }
 
-  nowFilterProduct(input: string, backendProductDto: BackendProductDto[]): BackendProductDto[] {
+  nowFilterProduct(input: string, backendProductDto: Product[]): Product[] {
 
-    let filtered: BackendProductDto[] = [];
+    let filtered: Product[] = [];
     // for (let i = 0; i < backendProductDto.length; i++) {
       // let p = backendProductDto[i];
       // if (p.description.toLowerCase().includes(input.toLowerCase()) || p.productNo.includes(input)) {
@@ -319,7 +319,7 @@ export class ProductTableComponent implements OnInit {
 
   updateProductInventory(event) {
 
-    let product: BackendProductDto = event.data;
+    let product: Product = event.data;
     console.log('Updating product inventory', product);
 
     console.log('event on inventoty', event.date);

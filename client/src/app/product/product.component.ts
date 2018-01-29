@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { ProductService } from 'app/product/product.service';
-import { Product } from 'app/sell/sell.component';
 // import { FormBuilder } from "@angular/forms/forms";
 import { FormBuilder, Validators, FormGroup, FormControl } from '@angular/forms';
 import { MenuItem } from 'app/shared/top-navbar/top-navbar.component';
 import { Router } from '@angular/router';
 import { fadeInAnimation } from 'app/shared/animations/fade-in.animation';
+import { Product } from 'app/sell/sale/sale.component';
 // import { MenuItem } from 'primeng/primeng';
 
 @Component({
@@ -19,7 +19,7 @@ export class ProductComponent implements OnInit {
 
 
   form: FormGroup;
-  backendProductDto: BackendProductDto[];
+  backendProductDto: Product[];
   displayDialog = false;
   products: Product[];
   categoryDto: Category[];
@@ -147,29 +147,29 @@ export class ProductVariantDetail {
   value: string;
 }
 
-export class BackendProductDto {
-  productNo: string;
-  description: string;
-  categoryName: string;
-  cost: number;
-  retail: number;
-  markup: number;
-  quantity: number;
-  minQuantity: number;
-  brandId: number;
-  categoryId: number;
-  vendorId: number;
-  modelId: number;
-  tax: boolean;
-  ecommerce: boolean;
-  active: boolean;
-  variant: boolean;
-  relatedProduct: boolean;
-  createdTimestamp: any;
-  customLoyaltyAmount: number;
+// export class BackendProductDto {
+//   productNo: string;
+//   description: string;
+//   categoryName: string;
+//   cost: number;
+//   retail: number;
+//   markup: number;
+//   quantity: number;
+//   minQuantity: number;
+//   brandId: number;
+//   categoryId: number;
+//   vendorId: number;
+//   modelId: number;
+//   tax: boolean;
+//   ecommerce: boolean;
+//   active: boolean;
+//   variant: boolean;
+//   relatedProduct: boolean;
+//   createdTimestamp: any;
+//   customLoyaltyAmount: number;
 
-  productInventoryDaoList: ProductInventory[];
-}
+//   productInventoryDaoList: ProductInventory[];
+// }
 export interface ProductCommon {
   name: string;
   id?: number;

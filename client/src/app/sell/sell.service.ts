@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Http, Response, Headers, ResponseContentType } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
-import { Product, TransactionDtoList, TransactionLineItemDaoList, PaymentDto } from 'app/sell/sell.component';
+import { TransactionDtoList, PaymentDto } from 'app/sell/sell.component';
 import { FormControl } from '@angular/forms/forms';
 import { Observer } from 'rxjs';
 import { PersistenceService } from 'app/shared/services/persistence.service';
@@ -9,6 +9,7 @@ import { Customer } from 'app/customer/customer.component';
 import { printBlob } from 'app/shared/services/util.service';
 import { environment } from 'environments/environment';
 import { CloseRegisterDto } from 'app/sell/close-register/close-register.component';
+import { Product, TransactionLineItemDaoList } from 'app/sell/sale/sale.component';
 
 
 
@@ -20,11 +21,11 @@ private url: string;
     this.url = environment.reportUrl;
   }
 
-  getProductDetails(): Observable<Product[]> {
-    return this.http.get(this.url+'/getProduct')
-      .map(this.extractData)
-      .catch(this.handleError);
-  }
+  // getProductDetails(): Observable<Product[]> {
+  //   return this.http.get(this.url+'/getProduct')
+  //     .map(this.extractData)
+  //     .catch(this.handleError);
+  // }
 
   getTransactionDetails(startDate: any, endDate: any): Observable<TransactionDtoList[]> {
     return this.http.get(this.url+'/getTransactionByDate?startDate=' + startDate+'&endDate='+endDate)
