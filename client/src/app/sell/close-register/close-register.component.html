@@ -6,8 +6,41 @@
             </h3>
         </mat-card-title>
         <mat-card-content>
-            <form [formGroup]="closeRegisterForm">
 
+
+            <div class="row p-md-3">
+                <div class="col-md-2">
+                    <select class="form-control" [(ngModel)]="this.closeRegisterDropdown" (change)="this.getCloseRegisterDetails()">
+                                      <option>Today</option>
+                                      <option>Yesterday</option>
+                                      <option>Custom</option>
+                                    </select>
+
+                </div>
+
+                <div *ngIf="this.closeRegisterDropdown == 'Custom' " class="col-md-3 form-group d-flex align-items-center" [formGroup]="this.customDate">
+
+                    <mat-form-field class="float-never col-md-6">
+                        <input formControlName="fromDate" matInput [matDatepicker]="fromDate" placeholder="Start Date" [max]="this.currentDate">
+                        <mat-datepicker-toggle matSuffix [for]="fromDate"></mat-datepicker-toggle>
+                        <mat-datepicker #fromDate></mat-datepicker>
+                    </mat-form-field>
+                    <!-- <label class="text-center">To</label> -->
+                    <!-- <mat-form-field class="float-never col-md-6">
+                            <input class="" formControlName="toDate" matInput [matDatepicker]="toDate" placeholder="End Date" [min]="this.customDate.get('fromDate').value" [max]="this.currentDate">
+                            <mat-datepicker-toggle matSuffix [for]="toDate"></mat-datepicker-toggle>
+                            <mat-datepicker #toDate></mat-datepicker>
+                        </mat-form-field> -->
+                </div>
+
+                <div class="col-md-2">
+
+                    <button matIcon (click)="this.printCloseRegisterDetail()">
+                                    <i class="fa fa-print fa-3x" aria-hidden="true"></i>
+                        </button>
+                </div>
+            </div>
+            <form [formGroup]="closeRegisterForm">
                 <div class="row p-md-3">
                     <!-- Start of left side of div for payment -->
                     <div class="col-md-6">
@@ -221,175 +254,139 @@
                     <!-- End of left side of div for payment -->
 
                     <!-- <div class="col-md-6">
-                        <h4> Close Shift </h4>
-
-                        <div class="row">
-
-                            <div class="col-md-3">
-                                <p>From User</p>
+                            <h4> Close Shift </h4>
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <p>From User</p>
+                                </div>
+                                <div class="col-md-3">
+                                    <p>From System</p>
+                                </div>
+                                <div class="col-md-3">
+                                    <p>Difference</p>
+                                </div>
                             </div>
-
-                            <div class="col-md-3">
-                                <p>From System</p>
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <input type="text">
+                                </div>
+                                <div class="col-md-3">
+                                    <input type="text">
+                                </div>
+                                <div class="col-md-3">
+                                    <input type="text">
+                                </div>
                             </div>
-
-                            <div class="col-md-3">
-                                <p>Difference</p>
+                            <div class="row">
+                                <button> Close Shift</button>
                             </div>
-
-                        </div>
-
-                        <div class="row">
-
-                            <div class="col-md-3">
-                                <input type="text">
+                            <div class="row">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th>Date</th>
+                                            <th>Time</th>
+                                            <th>Close Amount</th>
+                                            <th>Difference</th>
+                                            <th>Close By</th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td>
+                                                <i class="fa fa-pencil"></i>
+                                                <i class="fa fa-trash"></i>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
                             </div>
-
-                            <div class="col-md-3">
-                                <input type="text">
-                            </div>
-
-                            <div class="col-md-3">
-                                <input type="text">
-                            </div>
-
-                        </div>
-
-                        <div class="row">
-                            <button> Close Shift</button>
-                        </div>
-
-
-                        <div class="row">
-                            <table class="table">
-                                <thead>
-                                    <tr>
-                                        <th>Date</th>
-                                        <th>Time</th>
-                                        <th>Close Amount</th>
-                                        <th>Difference</th>
-                                        <th>Close By</th>
-                                        <th>Action</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td>
-                                            <i class="fa fa-pencil"></i>
-                                            <i class="fa fa-trash"></i>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-
-
-                    </div> -->
+                        </div> -->
 
 
                     <!-- Start of right side of div for money count -->
                     <!-- <div class="col-md-1">
-                        <div class="row">
-
-                            <div class="col-md-4">
-                                <p>$100</p>
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <p>$100</p>
+                                </div>
+                                <div class="col-md-4">
+                                    <p>*</p>
+                                </div>
+                                <div class="col-md-4">
+                                    <input type="text">
+                                </div>
                             </div>
-
-                            <div class="col-md-4">
-                                <p>*</p>
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <p>$50</p>
+                                </div>
+                                <div class="col-md-4">
+                                    <p>*</p>
+                                </div>
+                                <div class="col-md-4">
+                                    <input type="text">
+                                </div>
                             </div>
-                            <div class="col-md-4">
-                                <input type="text">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <p>$20</p>
+                                </div>
+                                <div class="col-md-4">
+                                    <p>*</p>
+                                </div>
+                                <div class="col-md-4">
+                                    <input type="text">
+                                </div>
                             </div>
-
-                        </div>
-                        <div class="row">
-
-                            <div class="col-md-4">
-                                <p>$50</p>
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <p>$10</p>
+                                </div>
+                                <div class="col-md-4">
+                                    <p>*</p>
+                                </div>
+                                <div class="col-md-4">
+                                    <input type="text">
+                                </div>
                             </div>
-
-                            <div class="col-md-4">
-                                <p>*</p>
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <p>$5</p>
+                                </div>
+                                <div class="col-md-4">
+                                    <p>*</p>
+                                </div>
+                                <div class="col-md-4">
+                                    <input type="text">
+                                </div>
                             </div>
-                            <div class="col-md-4">
-                                <input type="text">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <p>$1</p>
+                                </div>
+                                <div class="col-md-4">
+                                    <p>*</p>
+                                </div>
+                                <div class="col-md-4">
+                                    <input type="text">
+                                </div>
                             </div>
-
-                        </div>
-                        <div class="row">
-
-                            <div class="col-md-4">
-                                <p>$20</p>
+                            <div class="row">
+                                <div class="col-md-8">
+                                    <p>Total</p>
+                                </div>
+                                <div class="col-md-4">
+                                    <input type="text">
+                                </div>
                             </div>
-
-                            <div class="col-md-4">
-                                <p>*</p>
-                            </div>
-                            <div class="col-md-4">
-                                <input type="text">
-                            </div>
-
-                        </div>
-                        <div class="row">
-
-                            <div class="col-md-4">
-                                <p>$10</p>
-                            </div>
-
-                            <div class="col-md-4">
-                                <p>*</p>
-                            </div>
-                            <div class="col-md-4">
-                                <input type="text">
-                            </div>
-
-                        </div>
-                        <div class="row">
-
-                            <div class="col-md-4">
-                                <p>$5</p>
-                            </div>
-
-                            <div class="col-md-4">
-                                <p>*</p>
-                            </div>
-                            <div class="col-md-4">
-                                <input type="text">
-                            </div>
-
-                        </div>
-                        <div class="row">
-
-                            <div class="col-md-4">
-                                <p>$1</p>
-                            </div>
-
-                            <div class="col-md-4">
-                                <p>*</p>
-                            </div>
-                            <div class="col-md-4">
-                                <input type="text">
-                            </div>
-
-                        </div>
-                        <div class="row">
-
-                            <div class="col-md-8">
-                                <p>Total</p>
-                            </div>
-
-                            <div class="col-md-4">
-                                <input type="text">
-                            </div>
-
-                        </div>
-                    </div> -->
+                        </div> -->
                     <!-- End of right side of div for money count -->
 
 
@@ -398,7 +395,7 @@
             </form>
         </mat-card-content>
         <mat-card-footer>
-            <div class="d-flex align-items-center justify-content-center">
+            <div *ngIf="this.closeRegisterDropdown == 'Today' " class="d-flex align-items-center justify-content-center">
                 <button mat-raised-button class="bg-primary text-white " (click)="this.saveCloseRegisterDetails()">Close Register</button>
             </div>
         </mat-card-footer>
