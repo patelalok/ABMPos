@@ -84,6 +84,7 @@ export class SaleComponent implements OnInit, AfterViewInit {
   // This is useful in case of return where user gives store credit, i need oldtransactionId to store in store credit table as reason.
   previousTransactionId: any;
   taxPercent: number = 0.00;
+  tipAmount: number;
 
 printTransactionDto: TransactionDtoList = null;
 
@@ -995,6 +996,7 @@ items: MenuItem[];
     // I am doing this to show subtotal without line item discount, so in invoice customer wont get confuse.
     // 
     this.transactionDtoList.subtotal =  this.transactionDtoList.subtotal + this.transactionDtoList.totalDiscount;
+    this.transactionDtoList.tip = this.tipAmount;
 
 
 
@@ -1075,6 +1077,7 @@ items: MenuItem[];
      this.printTransactionDto = null;
 
      this.taxPercent = this.storeDetails.tax;
+     this.tipAmount = 0;
     }
 
     else {
@@ -1280,6 +1283,7 @@ export class TransactionDtoList {
   note: string;
   previousTransactionId: any;
   description: string;
+  tip?: number;
 
 
 }
