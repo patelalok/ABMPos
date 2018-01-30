@@ -3,6 +3,7 @@ import { CustomerService } from 'app/customer/customer.service';
 import { FormBuilder, Validators, FormGroup, FormControl } from '@angular/forms';
 import { Message } from 'primeng/primeng';
 import * as moment from 'moment';
+import { ToastsManager } from 'ng2-toastr';
 
 
 @Component({
@@ -27,9 +28,11 @@ export class CustomerComponent implements OnInit {
   storeCreditReason: string;
   storeCreditDto: StoreCreditDto[] = [];
   addStoreCreditObject = new StoreCreditDto();
+  addCustomerFlag: boolean = false;
+  customerIndexForupdate: number = 0;
+  selectedCustomerForUpdate =  new Customer();
 
-
-  constructor(private customerService: CustomerService, private formBuilder: FormBuilder) { }
+  constructor(private customerService: CustomerService, private formBuilder: FormBuilder, private toastr: ToastsManager,) { }
 
   ngOnInit() {
 
@@ -76,14 +79,68 @@ export class CustomerComponent implements OnInit {
   addCustomer() {
 
     let newCustomer = this.customerForm.value;
-    this.customerService.addOrUpdateCustomer(this.customerForm.value);
-    this.customerDto.push(newCustomer);
-    this.customerDto = this.customerDto.slice();
-    this.customerForm.reset();
+    this.customerService.addOrUpdateCustomer(this.customerForm.value)
+    .subscribe(data => {
+      if(data!= null){
+
+        this.customerDto.push(newCustomer);
+        this.customerDto = this.customerDto.slice();
+        this.toastr.success('Customer Added Successfully!!', 'Success!!');
+        console.log('cusotmer data back', data);
+      }
+    },
+      error => {
+
+    console.log(JSON.stringify(error.json()));
+    this.toastr.error('Opps Something Goes Wrong!!', 'Error!!');
+  });
+   this.customerForm.reset();
     this.displayDialog = false;
   }
 
+  updateCustomer()
+  {
+    let updateItem = this.customerDto.find(this.findIndexToUpdate, this.selectedCustomerForUpdate.phoneNo);
+    let index = this.customerDto.indexOf(updateItem);
+
+    //Seeting the value into form for UPDATE TODO WRITE SEPARETE METHOD FOR THIS.
+    // this.customerForm.get('name').setValue(this.selectedCustomerForUpdate.name);
+    // this.customerForm.get('phoneNo').setValue(this.selectedCustomerForUpdate.phoneNo);
+    // this.customerForm.get('companyName').setValue(this.selectedCustomerForUpdate.companyName);
+    // this.customerForm.get('email').setValue(this.selectedCustomerForUpdate.email);
+    // this.customerForm.get('taxId').setValue(this.selectedCustomerForUpdate.taxId);
+    // this.customerForm.get('dateOfBirth').setValue(this.selectedCustomerForUpdate.dateOfBirth);
+    // this.customerForm.get('type').setValue(this.selectedCustomerForUpdate.type);
+    // this.customerForm.get('gender').setValue(this.selectedCustomerForUpdate.gender);
+    // this.customerForm.get('street').setValue(this.selectedCustomerForUpdate.street);
+    // this.customerForm.get('city').setValue(this.selectedCustomerForUpdate.city);
+    // this.customerForm.get('state').setValue(this.selectedCustomerForUpdate.state);
+    // this.customerForm.get('zipCode').setValue(this.selectedCustomerForUpdate.zipCode);
+
+    let newCustomer = this.customerForm.value;
+    this.customerService.addOrUpdateCustomer(this.customerForm.value)
+    .subscribe(data => {
+      if(data!= null){
+        this.toastr.success('Customer Added Successfully!!', 'Success!!');
+        console.log('cusotmer data back', data);
+      }
+    },
+      error => {
+    console.log(JSON.stringify(error.json()));
+    this.toastr.error('Opps Something Goes Wrong!!', 'Error!!');
+
+  });
+
+    this.customerDto[index] = this.selectedCustomerForUpdate;
+    this.customerForm.reset();
+    this.displayDialog = false;
+
+
+  }
+
   setCustomerForDelete(cust: Customer) {
+
+    
 
     this.selectedCustomerForDelete = cust;
   }
@@ -94,7 +151,10 @@ export class CustomerComponent implements OnInit {
 
     this.displayDialog = false;
   }
+
+
   showDialogToAdd() {
+    this.addCustomerFlag = true;
     this.newCustomer = true;
     this.customer = new PrimeCustomer();
     this.showDeleteButton = false;
@@ -102,24 +162,34 @@ export class CustomerComponent implements OnInit {
 
   }
 
-  updateCusotmer(customer: Customer) {
+  setDetailForUpdateCusotmer(customer: Customer) {
 
+    this.selectedCustomerForUpdate = customer;
     this.displayDialog = true;
-    //Seeting the value into form for UPDATE TODO WRITE SEPARETE METHOD FOR THIS.
-    this.customerForm.get('name').setValue(customer.name);
-    this.customerForm.get('phoneNo').setValue(customer.phoneNo);
-    this.customerForm.get('companyName').setValue(customer.companyName);
-    this.customerForm.get('email').setValue(customer.email);
-    this.customerForm.get('taxId').setValue(customer.taxId);
-    this.customerForm.get('dateOfBirth').setValue(customer.dateOfBirth);
-    this.customerForm.get('type').setValue(customer.type);
-    this.customerForm.get('gender').setValue(customer.gender);
-    this.customerForm.get('street').setValue(customer.street);
-    this.customerForm.get('city').setValue(customer.city);
-    this.customerForm.get('state').setValue(customer.state);
-    this.customerForm.get('zipCode').setValue(customer.zipCode);
+    this.addCustomerFlag = false;
 
+    this.customerForm.get('name').setValue(this.selectedCustomerForUpdate.name);
+    this.customerForm.get('phoneNo').setValue(this.selectedCustomerForUpdate.phoneNo);
+    this.customerForm.get('companyName').setValue(this.selectedCustomerForUpdate.companyName);
+    this.customerForm.get('email').setValue(this.selectedCustomerForUpdate.email);
+    this.customerForm.get('taxId').setValue(this.selectedCustomerForUpdate.taxId);
+    this.customerForm.get('dateOfBirth').setValue(this.selectedCustomerForUpdate.dateOfBirth);
+    this.customerForm.get('type').setValue(this.selectedCustomerForUpdate.type);
+    this.customerForm.get('gender').setValue(this.selectedCustomerForUpdate.gender);
+    this.customerForm.get('street').setValue(this.selectedCustomerForUpdate.street);
+    this.customerForm.get('city').setValue(this.selectedCustomerForUpdate.city);
+    this.customerForm.get('state').setValue(this.selectedCustomerForUpdate.state);
+    this.customerForm.get('zipCode').setValue(this.selectedCustomerForUpdate.zipCode);
+
+    
+
+  
   }
+
+  findIndexToUpdate(newItem) { 
+    return newItem.id === this;
+}
+
   showSuccess(severity: string, summary: string, detail: string) {
     this.msgs = [];
     this.msgs.push({ severity: severity, summary: summary, detail: detail });

@@ -58,7 +58,7 @@ export class CloseRegisterComponent implements OnInit {
         'markup': [null],
         'bankDeposit': [null],
         'onAccount': [null],
-        'storeCredit': [null],
+        'tip': [null],
         'loyalty': [null],
         'inHandCash': [null],
         'note': [null],
@@ -137,11 +137,13 @@ export class CloseRegisterComponent implements OnInit {
       let totalWithoutTax = this.closeRegisterDto.reportTotalAmount - this.closeRegisterDto.tax;
       this.closeRegisterForm.get('totalWithoutTax').setValue(totalWithoutTax.toFixed(2));
 
-      this.closeRegisterForm.get('storeCredit').setValue(this.closeRegisterDto.storeCredit);
+      //this.closeRegisterForm.get('storeCredit').setValue(this.closeRegisterDto.storeCredit);
       this.closeRegisterForm.get('onAccount').setValue(this.closeRegisterDto.onAccount);
       this.closeRegisterForm.get('loyalty').setValue(this.closeRegisterDto.loyalty);
 
-       let closeTotalAmountWithTax = this.closeRegisterForm.get('closeCash').value + this.closeRegisterForm.get('closeCredit').value + this.closeRegisterForm.get('closeDebit').value + this.closeRegisterForm.get('closeCheck').value;
+      this.closeRegisterForm.get('tip').setValue(this.closeRegisterDto.tip);
+
+      let closeTotalAmountWithTax = this.closeRegisterForm.get('closeCash').value + this.closeRegisterForm.get('closeCredit').value + this.closeRegisterForm.get('closeDebit').value + this.closeRegisterForm.get('closeCheck').value;
       this.closeRegisterForm.get('closeTotalAmount').setValue(this.totalCloseAmount);
     });
 
@@ -167,15 +169,15 @@ export class CloseRegisterComponent implements OnInit {
     .subscribe(data => {
 
       if(data.statusText == 'OK'){
-        this.toastr.success('Close Register Detail Added!!', 'Success');
+        this.toastr.success('Close Register Detail Added!!', 'Success!!');
       }
       else{
-        this.toastr.error('Opps Something Goes Wrong!!', 'Error');
+        this.toastr.error('Opps Something Goes Wrong!!', 'Error!!');
       }
     console.log('close Register date', data);
     },
       error => {
-        this.toastr.error('Opps Something Goes Wrong!!', 'Error')
+        this.toastr.error('Opps Something Goes Wrong!!', 'Error!!')
         console.log(JSON.stringify(error.json()));
   });
   }
@@ -214,8 +216,9 @@ export class CloseRegisterDto {
   markup: number;
   bankDeposit: number;
   onAccount: number;
-  storeCredit: number;
+  storeCredit?: number;
   loyalty: number;
   inHandCash: number;
   note: string;
+  tip?: number;
 }

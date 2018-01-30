@@ -7,7 +7,7 @@
             </div>
 
             <div class="col-md-5 d-flex align-items-center justify-content-end">
-                <button type="button" class="bg-primary text-white action-button-lg m-3" (click)="showDialogToAdd()">
+                <button type="button" class="bg-primary text-white action-button-lg m-3" (click)="this.showDialogToAdd()">
                         <i class="fa fa-plus-square" aria-hidden="true" label="Add"></i>
                             Add Customer
                     </button>
@@ -39,7 +39,7 @@
                     <p-column field="action" header="Action" [sortable]="true">
 
                         <ng-template let-customer="rowData" pTemplate="body">
-                            <button mat-button class="btn-blue action-button-table" (click)="updateCusotmer(customer)">
+                            <button mat-button class="btn-blue action-button-table" (click)="this.setDetailForUpdateCusotmer(customer)">
                                 <i class="fa fa-pencil" aria-hidden="true"></i>
                             </button>
                             <button mat-button data-toggle="modal" data-target="#deleteCustomer" (click)="this.setCustomerForDelete(customer)" mat-button class="btn-red action-button-table" mat-button data-toggle="modal" data-target="#deleteCustomer">
@@ -233,9 +233,14 @@
 
         <p-footer>
             <div style="text-align: center">
-                <button type="button" (click)="addCustomer()" class="btn btn-success" [disabled]="customerForm.invalid">
+                <button *ngIf="this.addCustomerFlag" type="button" (click)="this.addCustomer()" class="btn btn-success" [disabled]="customerForm.invalid">
                             <i class="fa fa-paper-plane" aria-hidden="true" ></i>
-                            Save Customer Details
+                            Add Customer Details
+                    </button>
+
+                <button *ngIf="!this.addCustomerFlag" type="button" (click)="this.updateCustomer()" class="btn btn-success" [disabled]="customerForm.invalid">
+                            <i class="fa fa-paper-plane" aria-hidden="true" ></i>
+                            Update Customer Details
                     </button>
 
             </div>

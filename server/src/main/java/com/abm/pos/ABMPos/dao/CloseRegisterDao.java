@@ -39,6 +39,7 @@ public class CloseRegisterDao {
     private double loyalty;
     private double inHandCash;
     private String note;
+    private double tip;
 
     public int getId() {
         return id;
@@ -278,5 +279,13 @@ public class CloseRegisterDao {
 
     public void setNote(String note) {
         this.note = note;
+    }
+
+    public double getTip() {
+        return tip;
+    }
+
+    public void setTip(double tip) {
+        this.tip = tip;
     }
 }

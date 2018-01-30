@@ -31,9 +31,9 @@ public class CustomerManager {
     private TransactionRepository transactionRepository;
 
 
-    public void addCustomer(CustomerDao customerDao) {
+    public CustomerDao addCustomer(CustomerDao customerDao) {
 
-        customerRepository.save(customerDao);
+       return customerRepository.save(customerDao);
     }
 
     public List<CustomerDao> getCustomer() {

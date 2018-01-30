@@ -35,14 +35,7 @@ constructor(private http: Http) {
 
     addOrUpdateCustomer(customer: CustomerInterface)
     {
-     console.log("Customer to be Added" + customer.name);
-      this.http.post(this.url+'/addCustomer', customer)
-      .subscribe(data => {
-        console.log("Response From Add Customer call" + data);
-      },
-        error => {
-      console.log(JSON.stringify(error.json()));
-    });
+      return this.http.post(this.url+'/addCustomer', customer);
     }
 
     addStoreCredit(storeCredit: StoreCreditDto) {

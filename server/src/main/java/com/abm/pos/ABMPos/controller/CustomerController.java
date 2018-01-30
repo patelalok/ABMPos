@@ -25,11 +25,12 @@ public class CustomerController {
     CustomerManager customerManager;
 
     @RequestMapping(value = "/addCustomer", method = RequestMethod.POST, consumes = "application/json")
-    public ResponseEntity addCustomer(@RequestBody CustomerDao customerDao)
+    public CustomerDao addCustomer(@RequestBody CustomerDao customerDao)
     {
-        customerManager.addCustomer(customerDao);
         System.out.println("Customer Added or Updated Successfully!!");
-        return new ResponseEntity(HttpStatus.CREATED);
+        return customerManager.addCustomer(customerDao);
+
+       // return new ResponseEntity(HttpStatus.CREATED);
     }
 
     @RequestMapping(value = "/addCustomerStoreCredit", method = RequestMethod.POST, consumes = "application/json")
