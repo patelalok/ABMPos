@@ -44,7 +44,7 @@ export class ProductService {
       .map(this.extractData)
       .catch(this.handleError);
   }
-  getProductDetailsById(productNo: string): Observable<BackendProductDto> {
+  getProductDetailsById(productNo: string): Observable<Product> {
     let url = this.url+`/getProductById?productNo=${productNo}`;
     return this.http.get(url)
       .map(this.extractData)
@@ -104,7 +104,7 @@ export class ProductService {
   }
 
   // TODO:  This is redudant, but need to do it cause i have two obejct for backend dto and product, i need to fix this.
-  editProduct(product: BackendProductDto) {
+  editProduct(product: Product) {
     console.log("Product Added", product.description);
     return this.http.post(this.url+'/addProduct', product);
       

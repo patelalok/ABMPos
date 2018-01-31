@@ -31,9 +31,10 @@ export class EditProductComponent implements OnInit {
   products: Product[];
   formProduct = new Product();
   finalProductTosend: Product;
+  showDigitalPunchTextBox = false;
  
 
-  currentProduct: BackendProductDto; 
+  currentProduct: Product; 
   constructor(private productService: ProductService, private formBuilder: FormBuilder, private route: ActivatedRoute, private router: Router, private toastr: ToastsManager) {
   }
 
@@ -43,7 +44,7 @@ export class EditProductComponent implements OnInit {
     let productNo = this.route.snapshot.paramMap.get('productNo');
     if(productNo){
       this.productService.getProductDetailsById(productNo)
-      .subscribe((product) =>{
+      .subscribe((product: Product) =>{
         this.currentProduct=product;
 
         let currentCategory={}; 
@@ -64,7 +65,10 @@ export class EditProductComponent implements OnInit {
             'minQuantity': [this.currentProduct.minQuantity,''],
             'tax': [this.currentProduct.tax, null],
             'ecomerce': [this.currentProduct.ecommerce, null],
-            'varaint': [this.currentProduct.variant, null]
+            //'varaint': [this.currentProduct.variant, null],
+            'enableDigitalPunch':[this.currentProduct.enableDigitalPunch, null],
+            'noOfSaleForFreeService': [this.currentProduct.noOfSaleForFreeService, null]
+            
           }
 
           
@@ -132,29 +136,46 @@ export class EditProductComponent implements OnInit {
 
   
   }
+  showDigitalPunchOccurenceTextBox() {
+
+    this.showDigitalPunchTextBox = !this.showDigitalPunchTextBox;
+  }
 
   addProduct() {
     {
 
       let formValues: ProductForm = this.form.value;
-      let product: BackendProductDto = {
+      let product: Product = {
         productNo: formValues.productNo,
         categoryId: formValues.category.categoryId,
         brandId: formValues.brand.brandId,
         vendorId: formValues.vendor.vendorId,
+        alternetNo: formValues.alternetNo,
         cost: formValues.cost,
         retail: formValues.retail,
+        date: null,
+        defaultQuantity: null,
         description: formValues.description.toUpperCase(),
+        discount: null,
+        imeiNo: null,
         active: true,
         ecommerce: formValues.ecommerce,
         relatedProduct: formValues.relatedProduct,
         tax: formValues.tax,
+        varaint: formValues.varaint,
+        markup: formValues.markup,
         minQuantity: formValues.minQuantity,
+        productVariantNo: formValues.productVariantNo,
         quantity: formValues.quantity,
-        categoryName: null,
-        customLoyaltyAmount: 0.00,
-        variant: formValues.variant,
-        markup: 0.00,
+        retailDiscount: null,
+        returnRule: formValues.returnRule,
+        status: null,
+        taxAmountOnProduct: null,
+        totalProductPrice: null,
+        transactionComId: null,
+        time: null,
+        enableDigitalPunch: formValues.enableDigitalPunch,
+        noOfSaleForFreeService: formValues.noOfSaleForFreeService,
         createdTimestamp: moment(Date.now()).format('YYYY-MM-DD HH:mm:ss'),
           }
 

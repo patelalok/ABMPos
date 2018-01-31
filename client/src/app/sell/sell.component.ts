@@ -1172,6 +1172,8 @@ export class Product {
   totalProductPrice: number;
   taxAmountOnProduct: number;
   imeiNo: any;
+  enableDigitalPunch?: boolean;
+  noOfSaleForFreeService?: number;
   //productInventoryDaoList: ProductInventory[];
 }
 export class TransactionLineItemDaoList {

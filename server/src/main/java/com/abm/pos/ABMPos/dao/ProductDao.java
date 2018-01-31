@@ -18,11 +18,8 @@ public class ProductDao implements Serializable {
     private String productNo;
 
     private String description;
-
     private String categoryId;
-
     private String brandId;
-
     private String vendorId;
     private String modelId;
     private String alternetNo;
@@ -43,6 +40,8 @@ public class ProductDao implements Serializable {
     private boolean active;
     private boolean ecommerce;
     private boolean relatedProduct;
+    private boolean enableDigitalPunch;
+    private int NoOfSaleForFreeService;
 
 
     private String returnRule;
@@ -299,5 +298,21 @@ public class ProductDao implements Serializable {
 
     public void setImeiNo(String imeiNo) {
         this.imeiNo = imeiNo;
+    }
+
+    public boolean isEnableDigitalPunch() {
+        return enableDigitalPunch;
+    }
+
+    public void setEnableDigitalPunch(boolean enableDigitalPunch) {
+        this.enableDigitalPunch = enableDigitalPunch;
+    }
+
+    public int getNoOfSaleForFreeService() {
+        return NoOfSaleForFreeService;
+    }
+
+    public void setNoOfSaleForFreeService(int noOfSaleForFreeService) {
+        NoOfSaleForFreeService = noOfSaleForFreeService;
     }
 }

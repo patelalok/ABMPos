@@ -230,6 +230,29 @@
 
                         <div class="row m-2">
 
+                            <div class="col-md-4 product-textbox">
+                                <div class="checkbox">
+                                    <label>
+                                              <input type="checkbox" (click) = "this.showDigitalPunchOccurenceTextBox()" formControlName="enableDigitalPunch">
+                                               Enable Digital Punching
+                                            </label>
+                                </div>
+                            </div>
+
+                            <div *ngIf="this.showDigitalPunchTextBox" class="col-md-4 product-textbox">
+                                <label class="control-label">
+                                  #Sale For Free Service:
+                                </label>
+                            </div>
+                            <div *ngIf="this.showDigitalPunchTextBox" class="col-md-4 product-textbox">
+                                <input type="number" class="form-control" formControlName="noOfSaleForFreeService" placeholder="Please Enter Total # Service">
+                            </div>
+                        </div>
+
+
+
+                        <!-- <div class="row m-2">
+
                             <div class="col-md-12 product-textbox">
                                 <div class="checkbox">
                                     <label>
@@ -238,7 +261,7 @@
                                             </label>
                                 </div>
                             </div>
-                        </div>
+                        </div> -->
 
                         <!-- <div class="col-md-12 ">
                                     <div class="radio">

@@ -102,26 +102,12 @@ export class CustomerComponent implements OnInit {
   {
     let updateItem = this.customerDto.find(this.findIndexToUpdate, this.selectedCustomerForUpdate.phoneNo);
     let index = this.customerDto.indexOf(updateItem);
-
-    //Seeting the value into form for UPDATE TODO WRITE SEPARETE METHOD FOR THIS.
-    // this.customerForm.get('name').setValue(this.selectedCustomerForUpdate.name);
-    // this.customerForm.get('phoneNo').setValue(this.selectedCustomerForUpdate.phoneNo);
-    // this.customerForm.get('companyName').setValue(this.selectedCustomerForUpdate.companyName);
-    // this.customerForm.get('email').setValue(this.selectedCustomerForUpdate.email);
-    // this.customerForm.get('taxId').setValue(this.selectedCustomerForUpdate.taxId);
-    // this.customerForm.get('dateOfBirth').setValue(this.selectedCustomerForUpdate.dateOfBirth);
-    // this.customerForm.get('type').setValue(this.selectedCustomerForUpdate.type);
-    // this.customerForm.get('gender').setValue(this.selectedCustomerForUpdate.gender);
-    // this.customerForm.get('street').setValue(this.selectedCustomerForUpdate.street);
-    // this.customerForm.get('city').setValue(this.selectedCustomerForUpdate.city);
-    // this.customerForm.get('state').setValue(this.selectedCustomerForUpdate.state);
-    // this.customerForm.get('zipCode').setValue(this.selectedCustomerForUpdate.zipCode);
-
     let newCustomer = this.customerForm.value;
     this.customerService.addOrUpdateCustomer(this.customerForm.value)
     .subscribe(data => {
       if(data!= null){
         this.toastr.success('Customer Added Successfully!!', 'Success!!');
+        this.customerDto[index] = this.selectedCustomerForUpdate;
         console.log('cusotmer data back', data);
       }
     },
@@ -131,7 +117,7 @@ export class CustomerComponent implements OnInit {
 
   });
 
-    this.customerDto[index] = this.selectedCustomerForUpdate;
+    
     this.customerForm.reset();
     this.displayDialog = false;
 
@@ -181,9 +167,6 @@ export class CustomerComponent implements OnInit {
     this.customerForm.get('state').setValue(this.selectedCustomerForUpdate.state);
     this.customerForm.get('zipCode').setValue(this.selectedCustomerForUpdate.zipCode);
 
-    
-
-  
   }
 
   findIndexToUpdate(newItem) { 

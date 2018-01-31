@@ -36,6 +36,8 @@ export class AddProductComponent implements OnInit {
   products: Product[];
   formProduct = new Product();
   finalProductTosend: Product;
+  showDigitalPunchTextBox = false;
+
 
   constructor(private productService: ProductService, private formBuilder: FormBuilder, private toastr: ToastsManager) {
   }
@@ -58,7 +60,9 @@ export class AddProductComponent implements OnInit {
         'minQuantity': [null, [Validators.pattern('^[0-9]+$')]],
         'tax': [true, null],
         'ecommerce': [false, null],
-        'varaint': [false, null]
+        'varaint': [false, null],
+        'enableDigitalPunch':[false, null],
+        'noOfSaleForFreeService': [null]
       }
     );
 
@@ -151,6 +155,9 @@ export class AddProductComponent implements OnInit {
         transactionComId: null,
         time: null,
         createdTimestamp: moment(Date.now()).format('YYYY-MM-DD HH:mm:ss'),
+        enableDigitalPunch: formValues.enableDigitalPunch,
+        noOfSaleForFreeService: formValues.noOfSaleForFreeService
+
        // productInventoryDaoList: this.productInventoryList
 
       }
@@ -197,9 +204,11 @@ export class AddProductComponent implements OnInit {
 
   }
 
+  showDigitalPunchOccurenceTextBox() {
 
+    this.showDigitalPunchTextBox = !this.showDigitalPunchTextBox;
+  }
 }
-
 export interface ProductForm {
 
   productNo: string;
@@ -227,5 +236,7 @@ export interface ProductForm {
   ecommerce: boolean;
   variant: boolean;
   customLoyaltyAmount: number;
+  enableDigitalPunch?: boolean;
+  noOfSaleForFreeService?:number;
 
 }
