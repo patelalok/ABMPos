@@ -139,11 +139,32 @@ public class TransactionsManager {
                 for(TransactionLineItemDao transactionLineItemDao: transactionDao.getTransactionLineItemDaoList()) {
                     ProductDao productDao = productRepository.findOneByProductNo(transactionLineItemDao.getProductNo());
 
-
                     if (null != productDao)
                     {
                         productDao.setQuantity(productDao.getQuantity() - transactionLineItemDao.getQuantity());
                         productRepository.save(productDao);
+
+                        // This is the digital punching logic for EYEBROW only :)
+                        if(productDao.getProductNo().equalsIgnoreCase("100000000014") && productDao.isEnableDigitalPunch())
+                        {
+                            if(null != transactionDao.getCustomerPhoneno())
+                            {
+                                CustomerDao customerDao = customerRepository.findByPhoneNo(transactionDao.getCustomerPhoneno());
+
+                                if(null != customerDao)
+                                {
+                                    customerDao.setNoOfEyebrow(customerDao.getNoOfEyebrow() + 1);
+
+                                    // Here i need to reset the count after customer reach to final service.
+                                    if(customerDao.getNoOfEyebrow() > productDao.getNoOfSaleForFreeService())
+                                    {
+                                        customerDao.setNoOfEyebrow(0);
+                                    }
+                                    customerRepository.save(customerDao);
+                                }
+
+                            }
+                        }
                     }
                 }
             }
@@ -171,15 +192,12 @@ public class TransactionsManager {
 
                 if(storeSetupRepository.getOne(1).getLoyaltyAmountForDollar() > 0)
                 {
-                    double loyaltyAmount = (transactionDao.getSubtotal() - transactionDao.getTotalDiscount()) /storeSetupRepository.getOne(1).getLoyaltyAmountForDollar() ;
+                    double loyaltyAmount = (transactionDao.getSubtotal() - transactionDao.getTotalDiscount()) /storeSetupRepository.getOne(1).getLoyaltyAmountForDollar();
                     addCustomerLoyaltyAmount(transactionDao,loyaltyAmount);
                 }
-
-
             }
 
             }
-
 
         return transactionRepository.save(transactionDao);
 
@@ -205,7 +223,6 @@ public class TransactionsManager {
         }
 
     }
-
     private void setCustomerStoreCredit(TransactionDao transactionDao) {
 
         CustomerDao customerDao = customerRepository.findByPhoneNo(transactionDao.getCustomerPhoneno());

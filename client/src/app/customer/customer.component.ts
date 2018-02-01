@@ -232,6 +232,8 @@ export class Customer {
   password: any;
   createdDate: any;
   loyalty?: number;
+  noOfEyebrow?: number;
+
 }
 
 export interface CustomerInterface {

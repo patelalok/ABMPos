@@ -148,17 +148,8 @@ items: MenuItem[];
     this.storeSetupService.getStoreDetails().
       then((data) => {
         this.storeDetails = data;
-
-        if(this.selectedCustomer != null && this.selectedCustomer.type == 'Business')
-        {
-          this.taxPercent = 0.00;
-        }
-        else{
-          this.taxPercent = this.storeDetails.tax;
-        }
-        
+        this.taxPercent = this.storeDetails.tax;
         console.log('Store Details', this.storeDetails);
-
       });
   }
 
@@ -204,12 +195,21 @@ items: MenuItem[];
 
     
     // This is fisrt time when user is adding product to sell.
-    if (this.transactionLineItemDaoList.length == 0) {
+    // if (this.transactionLineItemDaoList.length == 0) {
 
       productObj.totalProductPrice = parseFloat(productObj.retail.toFixed(2));
 
       if(productObj.tax){
         productObj.taxAmountOnProduct = (productObj.retail * this.taxPercent) / 100;
+      }
+
+      if(this.selectedCustomer && this.selectedCustomer.noOfEyebrow == productObj.noOfSaleForFreeService){
+        productObj.retail = 0.00;
+        productObj.totalProductPrice = 0.00;
+        productObj.taxAmountOnProduct = 0.00;
+      }
+      else {
+        console.log('not satisfying the if condition', this.selectedCustomer.noOfEyebrow + productObj.noOfSaleForFreeService);
       }
       console.log("when add product", productObj);
       this.transactionLineItemDaoList.push(productObj);
@@ -220,72 +220,7 @@ items: MenuItem[];
       this.setTransactionDtoList(this.transactionLineItemDaoList)
       // This will save the data into local storage.
       this.persit.setProducts(this.transactionLineItemDaoList);
-    }
-    else {
 
-      // Checking weather user is adding same product agian or not if its true
-      //  then just update the quantity of that product by 1.
-      for (let lineItem of this.transactionLineItemDaoList) {
-
-        if (productObj.productNo === lineItem.productNo) {
-          // This flag helps to determin whether to add new product or just update the quantity
-          this.isProductExistsInSellList = true;
-
-          lineItem.defaultQuantity = + lineItem.defaultQuantity + 1;
-          lineItem.quantityUpdated = true;
-
-          // here  i need to get value of lineitem.retail becuase user might have change the retial price so, if i dont do lineitem.retail it will take old retail price.
-          lineItem.totalProductPrice = parseFloat((lineItem.retail * lineItem.defaultQuantity).toFixed(2));
-          if(productObj.tax){
-            lineItem.taxAmountOnProduct = (lineItem.retail * this.taxPercent) / 100;
-          }
-          console.log("when add product", productObj);
-          this.transactionLineItemDaoList = this.transactionLineItemDaoList.slice();
-
-          this.product = null;
-          this.p = null
-          console.log(this.transactionLineItemDaoList);
-
-          this.transactionLineItemDaoList[this.transactionLineItemDaoList.length -1].actualRetail = productObj.retail; 
-          
-
-          this.setTransactionDtoList(this.transactionLineItemDaoList)
-          this.persit.setProducts(this.transactionLineItemDaoList);
-          setTimeout(() => {
-            lineItem.quantityUpdated = false;
-            this.persit.setProducts(this.transactionLineItemDaoList);
-            this.transactionLineItemDaoList = this.transactionLineItemDaoList.slice();
-          }, 3000);
-          break;
-        }
-
-        else {
-          // This flag helps to determin whether to add new product or just update the quantity
-          this.isProductExistsInSellList = false;
-        }
-
-      }
-
-      // This flag helps to determin whether to add new product or just update the quantity
-      if (!this.isProductExistsInSellList) {
-
-        this.transactionLineItemDaoList = this.transactionLineItemDaoList.slice();
-        productObj.totalProductPrice = productObj.retail * productObj.defaultQuantity;
-
-        if(productObj.tax){
-          productObj.taxAmountOnProduct = parseFloat(((productObj.retail * this.taxPercent) / 100).toFixed(2));
-        }
-        console.log("when add product", productObj);
-        this.transactionLineItemDaoList.push(productObj);
-        this.product = null;
-        this.p = null
-        console.log(this.transactionLineItemDaoList);
-        this.transactionLineItemDaoList[this.transactionLineItemDaoList.length -1].actualRetail = productObj.retail; 
-        
-        this.setTransactionDtoList(this.transactionLineItemDaoList)
-        this.persit.setProducts(this.transactionLineItemDaoList);
-      }
-    }
     $(`lineitem${productObj.productNo}`).ready(function () {
       // $(`lineitem${productObj.productNo}`).sc
       document.getElementById(`lineitem${productObj.productNo}`).scrollIntoView();
@@ -462,7 +397,7 @@ items: MenuItem[];
     
 
     // This logic helps to manage main payment button enable or diable.
-    if (this.transactionDtoList.totalAmount == 0) {
+    if (this.transactionDtoList.totalAmount < 0) {
       this.paymentButtonOnSale = true;
     }
     else {
@@ -1011,7 +946,7 @@ items: MenuItem[];
     if (null != this.selectedCustomer && this.selectedCustomer != undefined) {
       this.transactionDtoList.customerPhoneno = this.selectedCustomer.phoneNo;
       this.transactionDtoList.customerFirstLastName = this.selectedCustomer.name;
-      //this.transactionDtoList.previousBalance = this.selectedCustomer.balance;
+      this.transactionDtoList.previousBalance = this.selectedCustomer.balance;
 
     }
     this.transactionDtoList.status = this.saleType;
@@ -1031,7 +966,7 @@ items: MenuItem[];
 
 
     // seeting current date and time using momemt.
-    this.transactionDtoList.date = moment(Date.now()).format('YYYY-MM-DD HH:mm:ss');
+    this.transactionDtoList.date = moment(Date.now()).format('YYYY-MM-DD HH:mm:ss');                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            
 
 
     // Setting payment dto into transaction dto, because can not send both as @request body mfrom angular..
@@ -1290,6 +1225,8 @@ export class Product {
   totalProductPrice: number;
   taxAmountOnProduct: number;
   imeiNo: any;
+  enableDigitalPunch?: boolean;
+  noOfSaleForFreeService?: number;
   // productInventoryDaoList: ProductInventory[];
 }
 export class TransactionLineItemDaoList {
@@ -1313,6 +1250,8 @@ export class TransactionLineItemDaoList {
   quantityUpdated?: boolean;
   description: string;
   tax: boolean;
+  noOfSaleForFreeService?: number;
+
   // minQuantity: number;
   // isTax: number;
   // IsVariant: number;

@@ -32,6 +32,7 @@ public class CustomerDao {
     private String password;
     private String customerNote;
     private String keytag;
+    private int noOfEyebrow;
 
     public String getPhoneNo() {
         return phoneNo;
@@ -179,5 +180,13 @@ public class CustomerDao {
 
     public void setKeytag(String keytag) {
         this.keytag = keytag;
+    }
+
+    public int getNoOfEyebrow() {
+        return noOfEyebrow;
+    }
+
+    public void setNoOfEyebrow(int noOfEyebrow) {
+        this.noOfEyebrow = noOfEyebrow;
     }
 }

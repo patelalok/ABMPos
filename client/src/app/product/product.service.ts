@@ -1,11 +1,12 @@
 import { Injectable } from '@angular/core';
 import { Http, Response, Headers } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
-import { Product, TransactionLineItemDaoList } from 'app/sell/sell.component';
+import { TransactionLineItemDaoList } from 'app/sell/sell.component';
 import { FormControl } from '@angular/forms/forms';
 import { Category, Brand, Vendor, Model, ProductVariantDetail, CategoryTest, BackendProductDto } from 'app/product/product.component';
 import { environment } from 'environments/environment';
 import { Observer } from 'rxjs';
+import { Product } from 'app/sell/sale/sale.component';
 
 
 @Injectable()

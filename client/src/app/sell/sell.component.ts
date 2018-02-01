@@ -17,6 +17,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ToastsManager } from 'ng2-toastr/src/toast-manager';
 import { empty } from 'rxjs/Observer';
 import { MenuItem } from 'app/shared/top-navbar/top-navbar.component';
+import { Product } from 'app/sell/sale/sale.component';
 // import { disconnect } from 'cluster';
 declare var $: JQueryStatic;
 @Component({
@@ -1140,42 +1141,42 @@ items: MenuItem[];
 
 
 
-export class Product {
-  productNo: string;
-  productVariantNo: number;
-  description: string;
-  categoryId: number;
-  brandId: number
-  vendorId: number;
-  // modelId: number;
-  alternetNo: string;
-  cost: number;
-  retail: number;
-  markup: number;
-  quantity: number;
-  minQuantity: number;
-  tax: boolean;
-  varaint: boolean;
-  active: boolean;
-  ecommerce: boolean;
-  relatedProduct: boolean;
-  defaultQuantity = 1;
-  returnRule: any;
-  createdTimestamp: any;
+// export class Product {
+//   productNo: string;
+//   productVariantNo: number;
+//   description: string;
+//   categoryId: number;
+//   brandId: number
+//   vendorId: number;
+//   // modelId: number;
+//   alternetNo: string;
+//   cost: number;
+//   retail: number;
+//   markup: number;
+//   quantity: number;
+//   minQuantity: number;
+//   tax: boolean;
+//   varaint: boolean;
+//   active: boolean;
+//   ecommerce: boolean;
+//   relatedProduct: boolean;
+//   defaultQuantity = 1;
+//   returnRule: any;
+//   createdTimestamp: any;
 
-  transactionComId: number;
-  date: any;
-  time: any;
-  status: string;
-  discount: number;
-  retailDiscount: number;
-  totalProductPrice: number;
-  taxAmountOnProduct: number;
-  imeiNo: any;
-  enableDigitalPunch?: boolean;
-  noOfSaleForFreeService?: number;
-  //productInventoryDaoList: ProductInventory[];
-}
+//   transactionComId: number;
+//   date: any;
+//   time: any;
+//   status: string;
+//   discount: number;
+//   retailDiscount: number;
+//   totalProductPrice: number;
+//   taxAmountOnProduct: number;
+//   imeiNo: any;
+//   enableDigitalPunch?: boolean;
+//   noOfSaleForFreeService?: number;
+//   //productInventoryDaoList: ProductInventory[];
+// }
 export class TransactionLineItemDaoList {
 
   productNo: string;

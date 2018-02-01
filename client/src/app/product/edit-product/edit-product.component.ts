@@ -2,12 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators, FormGroup, FormControl } from '@angular/forms';
 
 import { BackendProductDto, Category, Brand, Vendor, Model, ProductVariantDetail } from 'app/product/product.component';
-import { Product } from 'app/sell/sell.component';
 import * as moment from 'moment';
 import { ProductService } from 'app/product/product.service';
 import { ProductForm } from 'app/product/addProduct.component';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastsManager } from 'ng2-toastr';
+import { Product } from 'app/sell/sale/sale.component';
 
 
 

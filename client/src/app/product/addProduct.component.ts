@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { ProductService } from "app/product/product.service";
-import { Product } from "app/sell/sell.component";
 // import { FormBuilder } from "@angular/forms/forms";
 import { FormBuilder, Validators, FormGroup, FormControl } from '@angular/forms';
 import { BackendProductDto, Category, Brand, Vendor, ProductVariantDetail, Model } from "app/product/product.component";
 import * as moment from 'moment';
 import { slideInOutAnimation } from 'app/shared/animations/slide-in-out.animation';
 import { ToastsManager } from 'ng2-toastr/src/toast-manager';
+import { Product } from 'app/sell/sale/sale.component';
 
 
 
@@ -156,7 +156,7 @@ export class AddProductComponent implements OnInit {
         time: null,
         createdTimestamp: moment(Date.now()).format('YYYY-MM-DD HH:mm:ss'),
         enableDigitalPunch: formValues.enableDigitalPunch,
-        noOfSaleForFreeService: formValues.noOfSaleForFreeService
+        noOfSaleForFreeService: formValues.noOfSaleForFreeService,
 
        // productInventoryDaoList: this.productInventoryList
 
