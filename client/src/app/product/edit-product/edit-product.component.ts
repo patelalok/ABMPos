@@ -51,6 +51,8 @@ export class EditProductComponent implements OnInit {
         let currentBrand ={};
         let currentVendor ={}; 
         let currentModel = {}; 
+
+        this.showDigitalPunchTextBox = this.currentProduct.enableDigitalPunch;
         this.form = this.formBuilder.group(
           {
             'productNo': [this.currentProduct.productNo, [Validators.required, Validators.pattern('^[0-9]+$')]],

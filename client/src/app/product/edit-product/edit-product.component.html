@@ -15,7 +15,7 @@
                         </div>
 
                         <div class="col-md-8 product-textbox">
-                            <input type="text" class="form-control" formControlName="productNo" placeholder="Please Enter ProductNo">
+                            <input type="text" class="form-control" formControlName="productNo" placeholder="Please Enter ProductNo" disabled="true">
                             <!--<input type="submit" value="submit" [disabled]="!form.valid">-->
                             <div *ngIf="form.get('productNo').hasError('required') && form.get('productNo').touched" class="alert alert-danger">
                                 *Required!!
@@ -206,12 +206,12 @@
                             </div>
                         </div>
 
-                        <div *ngIf="form.get('enableDigitalPunch')" class="col-md-4 product-textbox">
+                        <div *ngIf="this.showDigitalPunchTextBox" class="col-md-4 product-textbox">
                             <label class="control-label">
                               #Sale For Free Service:
                             </label>
                         </div>
-                        <div *ngIf="form.get('enableDigitalPunch') " class="col-md-4 product-textbox">
+                        <div *ngIf="this.showDigitalPunchTextBox" class="col-md-4 product-textbox">
                             <input type="number" class="form-control" formControlName="noOfSaleForFreeService" placeholder="Please Enter Total # Service">
                         </div>
                     </div>
