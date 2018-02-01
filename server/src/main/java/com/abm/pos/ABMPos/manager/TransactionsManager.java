@@ -57,6 +57,9 @@ public class TransactionsManager {
     @Autowired
     private EmailHtmlSender emailHtmlSender;
 
+    @Autowired
+    private StoreSetupRepository storeSetupRepository;
+
     private BaseFont bfBold;
     private BaseFont bf;
     private int pageNumber = 0;
@@ -145,21 +148,61 @@ public class TransactionsManager {
                 }
             }
 
-            if (null != transactionDao.getCustomerPhoneno() && transactionDao.getTransactionBalance() >= 0) {
-                setCustomerBalance(transactionDao);
+            if (null != transactionDao.getCustomerPhoneno())
+            {
+                if(transactionDao.getTransactionBalance() >= 0) {
+                    setCustomerBalance(transactionDao);
+                }
+
+                // Here i need to handle the case where customer is using Store credit to pay the amount.
+                // I need to update the store credit for the customer and handle the transaction.
+                if (transactionDao.getPaymentDao().get(0).getStoreCredit() > 0) {
+                    setCustomerStoreCredit(transactionDao);
+                }
+
+                // Here i need to handle the case where customer is using Loyalty Amount to pay the amount.
+                // I need to update the Loyalty  Amount for the customer and handle the transaction.
+                if (transactionDao.getPaymentDao().get(0).getLoyalty() > 0) {
+                    setCustomerLoyalty(transactionDao);
+                }
+
+                // Now here i need to check if loyalty enable for this store or not
+                // If Yes then i need to give customer loyalty points for the amount of purchase.
+
+                if(storeSetupRepository.getOne(1).getLoyaltyAmountForDollar() > 0)
+                {
+                    double loyaltyAmount = (transactionDao.getSubtotal() - transactionDao.getTotalDiscount()) /storeSetupRepository.getOne(1).getLoyaltyAmountForDollar() ;
+                    addCustomerLoyaltyAmount(transactionDao,loyaltyAmount);
+                }
+
+
             }
 
-            // Here i need to handle the case where customer is using Store credit to pay the amount.
-            // I need to update the store credit for the customer and handle the transaction.
-
-            if (null != transactionDao.getCustomerPhoneno() && transactionDao.getPaymentDao().get(0).getStoreCredit() > 0) {
-                setCustomerStoreCredit(transactionDao);
             }
-        }
 
 
         return transactionRepository.save(transactionDao);
 
+
+        }
+
+    private void addCustomerLoyaltyAmount(TransactionDao transactionDao, double loyaltyAmount) {
+
+        CustomerDao customerDao = customerRepository.findByPhoneNo(transactionDao.getCustomerPhoneno());
+        if (null != customerDao) {
+            customerDao.setLoyalty(customerDao.getLoyalty() + loyaltyAmount);
+            customerRepository.save(customerDao);
+        }
+
+    }
+
+    private void setCustomerLoyalty(TransactionDao transactionDao) {
+
+        CustomerDao customerDao = customerRepository.findByPhoneNo(transactionDao.getCustomerPhoneno());
+        if (null != customerDao) {
+            customerDao.setLoyalty(customerDao.getLoyalty() - transactionDao.getPaymentDao().get(0).getLoyalty());
+            customerRepository.save(customerDao);
+        }
 
     }
 

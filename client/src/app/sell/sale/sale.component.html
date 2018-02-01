@@ -152,7 +152,7 @@
                                 <td>
                                     <dl class="row">
                                         <dt class="">Loyalty:</dt>
-                                        <dd class=""></dd>
+                                        <dd class="">{{this.selectedCustomer.loyalty | currency:'USD':'true'}}</dd>
                                     </dl>
 
                                 </td>
@@ -399,7 +399,7 @@
                     </div>
 
                     <div class="col-md-3">
-                        <button mat-raised-button class="secondary-button" [disabled]="true">Loyalty</button>
+                        <button mat-raised-button class="secondary-button" [disabled]="this.disableLoyaltyButton" (click)="this.setPaymentDto('Loyalty', this.selectedCustomer.loyalty)">Loyalty</button>
                     </div>
 
                     <div class="col-md-3">

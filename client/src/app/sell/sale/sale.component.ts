@@ -79,6 +79,7 @@ export class SaleComponent implements OnInit, AfterViewInit {
 
   disableOnAccountButtons: boolean = true;
   disableStoreCreditButtons: boolean = true;
+  disableLoyaltyButton: boolean = true;
 
   saleType: string = 'Complete';
   // This is useful in case of return where user gives store credit, i need oldtransactionId to store in store credit table as reason.
@@ -592,6 +593,7 @@ items: MenuItem[];
 
   setPaymentDto(paymentType: any, paymentAmount: any) {
 
+    // TODO NEED to remove this return logic from here cause i have, its own component now.
     if (this.saleType == 'Return') {
 
       this.setPaymentDtoForRetun(paymentType, this.payAmountTextBox);
@@ -672,6 +674,49 @@ items: MenuItem[];
 
         this.validatePaymentButtons(paymentAmount);
       }
+
+      else if (paymentType == 'Loyalty') {
+
+
+        // First need to check store credit already there added in payment dao or not, 
+        if (null != this.paymentDto && this.paymentDto.loyalty > 0) {
+          if (paymentAmount > this.dueAmountForTransaction) {
+            // so By doing this i am just reducing the store credit which is used for this transaction and i can update rest on customer account.
+
+            this.paymentDto.loyalty = +this.paymentDto.loyalty + this.dueAmountForTransaction;
+
+            this.paymentObjectForPaymentSellTable.push({ 'paymentType': 'Loyalty', 'paymentAmount': this.paymentDto.loyalty });
+
+            this.validatePaymentButtons(this.paymentDto.loyalty);
+          }
+          // Here i am using complete store credit of the customer
+          else {
+
+            this.paymentDto.loyalty = paymentAmount;
+            this.paymentObjectForPaymentSellTable.push({ 'paymentType': 'Loyalty', 'paymentAmount': this.paymentDto.loyalty });
+            this.validatePaymentButtons(this.paymentDto.storeCredit);
+          }
+        }
+        else {
+          if (paymentAmount > this.dueAmountForTransaction) {
+            // so By doing this i am just reducing the store credit which is used for this transaction and i can update rest on customer account.
+
+            this.paymentDto.loyalty = this.dueAmountForTransaction;
+
+            this.paymentObjectForPaymentSellTable.push({ 'paymentType': 'Loyalty', 'paymentAmount': this.paymentDto.loyalty });
+
+            this.validatePaymentButtons(this.paymentDto.loyalty);
+          }
+          // Here i am using complete store credit of the customer
+          else {
+
+            this.paymentDto.loyalty = paymentAmount;
+            this.paymentObjectForPaymentSellTable.push({ 'paymentType': 'Loyalty', 'paymentAmount': this.paymentDto.loyalty });
+            this.validatePaymentButtons(this.paymentDto.loyalty);
+          }
+        }
+      }
+
       else if (paymentType == 'StoreCredit') {
 
         // First need to check store credit already there added in payment dao or not, 
@@ -723,25 +768,15 @@ items: MenuItem[];
       else if (paymentType == 'OnAccount') {
         this.paymentDto.onAccount = paymentAmount;
         this.paymentObjectForPaymentSellTable.push({ 'paymentType': 'OnAccount', 'paymentAmount': paymentAmount })
-
-        // In this flow customer is not paying anythig or paying some amount and other amoun he is just putting on his account and will pay later
-        // So here i need to complete the transaction, thats why calling this method.
-        //this.completeSale();
-
-        //this.validatePaymentButtons(paymentAmount);
-
-
+        this.validatePaymentButtons(paymentAmount);
         this.disablePaymentButtons = true;
         this.disablePaymentButtonsWithAmount = true;
+
+
         // This mean customer has provide sufficient balance.
         this.disableCompleteSaleButton = false;
       }
-      else if (paymentType == 'Loyalty') {
-        this.paymentDto.loyalty = paymentAmount;
-      }
-
-      console.log('payment type and amount', paymentAmount);
-
+    
     }
   }
 
@@ -784,6 +819,15 @@ items: MenuItem[];
       this.validatePaymentForReturn();
     }
 
+    else if(paymentType == 'Loyalty')
+    {
+      // Converting negative amount to positive so i can add this amount in backend.
+      this.paymentDto.storeCredit = Math.abs(paymentAmount);
+      this.paymentObjectForPaymentSellTable.push({ 'paymentType': 'Loyalty', 'paymentAmount': paymentAmount })
+      this.disableStoreCreditButtons = true;
+      this.validatePaymentForReturn();
+    }
+
 
   }
 
@@ -803,7 +847,10 @@ items: MenuItem[];
     if (this.dueAmountForTransaction - paymentAmount <= 0) {
       this.dueAmountForTransaction = this.dueAmountForTransaction - paymentAmount;
       this.disablePaymentButtons = true;
-      this.disablePaymentButtonsWithAmount = true
+      this.disablePaymentButtonsWithAmount = true;
+      this.disableLoyaltyButton = true;
+      this.disableOnAccountButtons = true;
+      this.disableStoreCreditButtons = true;
 
       this.payLable = 'Paid Amount:';
       this.amountDueLable = 'Change Amount:';
@@ -830,8 +877,6 @@ items: MenuItem[];
   // This methode calls when user click on the payment button.
   setDataForPaymentModel() {
 
-
-
     // payaccountTextBox is bind with two binding so i need to intialize here, so i can show data on payment popup load.
     this.payAmountTextBox = this.dueAmountForTransaction;
     this.disablePaymentButtons = false;
@@ -840,6 +885,10 @@ items: MenuItem[];
 
     this.disableOnAccountButtons = this.selectedCustomer == null;
 
+    // This means customer has some loyalty points to redem.
+    if(this.selectedCustomer && this.selectedCustomer.loyalty > 0){
+      this.disableLoyaltyButton = false;
+    }
     // This mean this customer has some store credit to use so i need to enable store credit button.
     if (this.selectedCustomer && this.selectedCustomer.storeCredit > 0) {
       this.disableStoreCreditButtons = false;
@@ -861,6 +910,10 @@ items: MenuItem[];
 
     if (this.selectedCustomer) {
       this.disableStoreCreditButtons = false;
+
+      if(this.selectedCustomer.loyalty > 0){
+        this.disableLoyaltyButton = false;
+      }
     }
   }
 
@@ -907,6 +960,14 @@ items: MenuItem[];
         if (payment.paymentType == 'StoreCredit' && payment.paymentAmount > 0) {
           this.paymentDto.storeCredit = this.paymentDto.storeCredit - payment.paymentAmount;
         }
+        if (payment.paymentType == 'OnAccount' && payment.paymentAmount > 0) {
+          this.paymentDto.onAccount = this.paymentDto.onAccount - payment.paymentAmount;
+        }
+        if (payment.paymentType == 'Loyalty' && payment.paymentAmount > 0) {
+          this.paymentDto.loyalty = this.paymentDto.loyalty - payment.paymentAmount;
+        }
+      
+
       }
 
 
@@ -923,6 +984,20 @@ items: MenuItem[];
       this.disableCompleteSaleButton = true;
       this.disablePaymentButtons = false;
       this.disablePaymentButtonsWithAmount = false;
+
+      this.disableOnAccountButtons = this.selectedCustomer == null;
+
+      // This means customer has some loyalty points to redem.
+      if(this.selectedCustomer && this.selectedCustomer.loyalty > 0){
+        this.disableLoyaltyButton = false;
+      }
+      // This mean this customer has some store credit to use so i need to enable store credit button.
+      if (this.selectedCustomer && this.selectedCustomer.storeCredit > 0) {
+        this.disableStoreCreditButtons = false;
+      }
+      else {
+        this.disableStoreCreditButtons = true;
+      }
     }
   }
 
@@ -932,12 +1007,11 @@ items: MenuItem[];
 
 
     let totalLineItemDiscount: number = 0.00
-    console.log('sales type', this.saleType);
     // setting customer details
     if (null != this.selectedCustomer && this.selectedCustomer != undefined) {
       this.transactionDtoList.customerPhoneno = this.selectedCustomer.phoneNo;
       this.transactionDtoList.customerFirstLastName = this.selectedCustomer.name;
-      this.transactionDtoList.previousBalance = this.selectedCustomer.balance;
+      //this.transactionDtoList.previousBalance = this.selectedCustomer.balance;
 
     }
     this.transactionDtoList.status = this.saleType;
@@ -1073,6 +1147,7 @@ items: MenuItem[];
       this.transactionNotes = '';
 
      this.disableStoreCreditButtons = true;
+     this.disableLoyaltyButton = true;
   
      this.printTransactionDto = null;
 

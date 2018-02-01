@@ -36,6 +36,11 @@
                             {{customer.storeCredit | currency:'USD':'true'}}
                         </ng-template>
                     </p-column>
+                    <p-column field="loyalty" header="Loyalty" [sortable]="true">
+                        <ng-template let-customer="rowData" pTemplate="body">
+                            {{customer.loyalty | currency:'USD':'true'}}
+                        </ng-template>
+                    </p-column>
                     <p-column field="action" header="Action" [sortable]="true">
 
                         <ng-template let-customer="rowData" pTemplate="body">

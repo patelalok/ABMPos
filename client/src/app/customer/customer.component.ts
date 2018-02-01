@@ -231,6 +231,7 @@ export class Customer {
   lastUpdatedStoreCreditDate: any;
   password: any;
   createdDate: any;
+  loyalty?: number;
 }
 
 export interface CustomerInterface {
@@ -252,6 +253,7 @@ export interface CustomerInterface {
   lastUpdatedStoreCreditDate?;
   password?;
   createdDate?;
+  loyalty?;
 }
 
 export class StoreCreditDto {

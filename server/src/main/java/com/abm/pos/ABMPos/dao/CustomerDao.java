@@ -28,6 +28,7 @@ public class CustomerDao {
     private Integer zipCode;
     private double storeCredit;
     private double balance;
+    private double loyalty;
     private String password;
     private String customerNote;
     private String keytag;
@@ -154,6 +155,14 @@ public class CustomerDao {
 
     public void setBalance(double balance) {
         this.balance = balance;
+    }
+
+    public double getLoyalty() {
+        return loyalty;
+    }
+
+    public void setLoyalty(double loyalty) {
+        this.loyalty = loyalty;
     }
 
     public String getCustomerNote() {

@@ -264,6 +264,15 @@
                                     </div>
                                 </div>
 
+                                <div class="row">
+                                    <div class="col-md-6" *ngIf="receipt.paymentDao[0].loyalty != 0">
+                                        Loyalty:
+                                    </div>
+                                    <div class="col-md-6" *ngIf="receipt.paymentDao[0].loyalty != 0">
+                                        $ {{receipt.paymentDao[0].loyalty}}
+                                    </div>
+                                </div>
+
                                 <hr>
 
                                 <div class="row">
