@@ -60,8 +60,7 @@ export class ReportService {
         // .map(this.extractData)
         .catch(this.handleError);
       }
-
-
+      
       private extractData(res: Response): InventoryDto[] {
         let body = res.json();
         // console.log(body);

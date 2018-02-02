@@ -203,14 +203,15 @@ items: MenuItem[];
         productObj.taxAmountOnProduct = (productObj.retail * this.taxPercent) / 100;
       }
 
-      if(this.selectedCustomer && this.selectedCustomer.noOfEyebrow == productObj.noOfSaleForFreeService){
+      if(null != this.selectedCustomer){
+        console.log('sel cut', this.selectedCustomer);
+
+       if(this.selectedCustomer.noOfEyebrow == productObj.noOfSaleForFreeService){
         productObj.retail = 0.00;
         productObj.totalProductPrice = 0.00;
         productObj.taxAmountOnProduct = 0.00;
       }
-      else {
-        console.log('not satisfying the if condition', this.selectedCustomer.noOfEyebrow + productObj.noOfSaleForFreeService);
-      }
+    }
       console.log("when add product", productObj);
       this.transactionLineItemDaoList.push(productObj);
       this.product = null;
