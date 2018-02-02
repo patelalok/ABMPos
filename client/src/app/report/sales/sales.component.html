@@ -108,11 +108,11 @@
                         </ng-template>
                     </p-column>
                     <p-column field="quantity" header="Quantity" [sortable]="true"></p-column>
-                    <p-column field="profit" header="Profit" [sortable]="true">
+                    <!-- <p-column field="profit" header="Profit" [sortable]="true">
                         <ng-template let-sales="rowData" pTemplate="body">
                             {{sales.profit | currency:'USD':'true'}}
                         </ng-template>
-                    </p-column>
+                    </p-column> -->
                     <p-column field="markup" header="Markup %" [sortable]="true"></p-column>
                     <p-column field="perOfTotal" header="% Of Total" [sortable]="true"></p-column>
 
@@ -155,11 +155,11 @@
                             {{summary.discount | currency:'USD':'true'}}
                         </ng-template>
                     </p-column>
-                    <p-column field="profit" header="Profit" [sortable]="true">
+                    <!-- <p-column field="profit" header="Profit" [sortable]="true">
                         <ng-template let-summary="rowData" pTemplate="body">
                             {{summary.profit | currency:'USD':'true'}}
                         </ng-template>
-                    </p-column>
+                    </p-column> -->
                     <p-column field="returns" header="Returns" [sortable]="true">
                         <ng-template let-summary="rowData" pTemplate="body">
                             {{summary.returns | currency:'USD':'true'}}
@@ -168,10 +168,6 @@
 
                 </p-dataTable>
             </div>
-
-
         </div>
-
-
     </mat-card-content>
 </mat-card>

@@ -1,6 +1,7 @@
 package com.abm.pos.ABMPos.manager;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Component;
@@ -32,6 +33,9 @@ public class EmailSender {
             helper.setTo(to);
             helper.setSubject(subject);
             helper.setText(text, isHtml);
+//            helper.addAttachment("eyebrow.jpg", new ClassPathResource("eyebrow.jpg"));
+//            String inlineImage = "<img src=\"/resources/static/images/eyebrow.jpg\" />";
+//            helper.setText(inlineImage + mail.getContent(), true);
             javaMailSender.send(mail);
             System.out.println("Send email '{}' to: {}" + subject + to);
             return new EmailStatus(to, subject, text).success();

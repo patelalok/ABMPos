@@ -37,6 +37,7 @@ export class StoresetupComponent implements OnInit {
       {
         'id': [1],
         'name': [null],
+        'phoneNo':[null],
         'street': [null],
         'city': [null],
         'state': [null],
@@ -85,6 +86,7 @@ export class StoresetupComponent implements OnInit {
 export class StoreSetupDto {
   id: number;
   name: string;
+  phoneNo: string;
   tax: number;
   stree: string;
   city: string;

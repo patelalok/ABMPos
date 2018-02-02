@@ -154,6 +154,14 @@ public class TransactionsManager {
                                 if(null != customerDao)
                                 {
                                     customerDao.setNoOfEyebrow(customerDao.getNoOfEyebrow() + 1);
+                                    // Just for testing
+                                    sendEmailForEyebrowReminder(transactionDao,customerDao);
+
+                                    //Here Need to send an email to the customer on his/her 5th eyebrow, doing with 6 cause i am doing +1 before.
+                                    if(customerDao.getNoOfEyebrow() == 6 && null != customerDao.getEmail())
+                                    {
+                                        sendEmailForEyebrowReminder(transactionDao,customerDao);
+                                    }
 
                                     // Here i need to reset the count after customer reach to final service.
                                     if(customerDao.getNoOfEyebrow() > productDao.getNoOfSaleForFreeService())
@@ -203,6 +211,44 @@ public class TransactionsManager {
 
 
         }
+
+    private boolean sendEmailForEyebrowReminder(TransactionDao transactionDao, CustomerDao customerDao) {
+
+        Context context = new Context();
+        String email = null;
+
+        StoreSetupDao storeSetupDao = storeSetupRepository.findOne(1);
+
+        context = setCustomerDetailsToSendEmail(customerDao, context);
+        email = customerDao.getEmail();
+
+        if(null != storeSetupDao)
+            {
+                context.setVariable("storeDetails", storeSetupDao);
+            }
+
+
+
+        assert storeSetupDao != null;
+        EmailStatus emailStatus = emailHtmlSender.send(email, storeSetupDao.getName()+" Purchase Detail", "eyebrowNotification", context);
+
+        return  emailStatus.isSuccess();
+    }
+
+    private Context setCustomerDetailsToSendEmail(CustomerDao customerDao, Context context) {
+        if(null != customerDao && null != customerDao.getEmail())
+        {
+            context.setVariable("firstName", customerDao.getName());
+            context.setVariable("companyName",customerDao.getCompanyName() );
+            context.setVariable("addressLine", customerDao.getStreet());
+            context.setVariable("City", customerDao.getCity());
+            context.setVariable("State", customerDao.getState());
+            context.setVariable("zipcode",customerDao.getZipCode());
+            context.setVariable("phoneNo", customerDao.getPhoneNo());
+        }
+        return context;
+    }
+
 
     private void addCustomerLoyaltyAmount(TransactionDao transactionDao, double loyaltyAmount) {
 
@@ -362,6 +408,7 @@ public class TransactionsManager {
         TransactionDao transactionDao =  getTransactionById(receiptId);
 
         String email = null;
+        StoreSetupDao storeSetupDao = null;
 
         if(null != transactionDao && transactionDao.getCustomerPhoneno().length() > 1 && null != transactionDao.getTransactionLineItemDaoList() && null != transactionDao.getPaymentDao())
         {
@@ -371,22 +418,18 @@ public class TransactionsManager {
             CustomerDao customerDao = new CustomerDao();
 
             customerDao = customerRepository.findByPhoneNo(transactionDao.getCustomerPhoneno());
+            storeSetupDao = storeSetupRepository.findOne(1);
 
-            if(null != customerDao && null != customerDao.getEmail())
+            if(null != customerDao)
             {
-
+                context = setCustomerDetailsToSendEmail(customerDao, context);
                 email = customerDao.getEmail();
-                //setting shipping details
-            context.setVariable("firstName", customerDao.getName());
-            context.setVariable("companyName",customerDao.getCompanyName() );
-            context.setVariable("addressLine", customerDao.getStreet());
-            context.setVariable("City", customerDao.getCity());
-            context.setVariable("State", customerDao.getState());
-            context.setVariable("zipcode",customerDao.getZipCode());
-            context.setVariable("phoneNo", customerDao.getPhoneNo());
             }
 
-
+            if(null != storeSetupDao)
+            {
+                context.setVariable("storeDetails", storeSetupDao);
+            }
 
             //setting line item details
             context.setVariable("lineItem", transactionDao.getTransactionLineItemDaoList());
@@ -411,7 +454,8 @@ public class TransactionsManager {
 
         }
 
-        EmailStatus emailStatus = emailHtmlSender.send(email, "ExcelWireless Order Details", "template-1", context);
+        assert storeSetupDao != null;
+        EmailStatus emailStatus = emailHtmlSender.send(email, storeSetupDao.getName()+" Order Details", "template-1", context);
 
         return  emailStatus.isSuccess();
     }

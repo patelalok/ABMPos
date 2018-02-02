@@ -113,15 +113,15 @@ items: MenuItem[];
     this.items = [
       { name: 'Return', icon: 'fa fa-reply-all fa-x ', link: '/sell/return' },
       { name: 'Close Register', icon: 'fa fa-window-close-o fa-x', link: '/sell/close-register' },
-      { name: 'Close Shift', icon: 'fa fa-times fa-x', link: '/sell/close-shift' }
+      { name: 'Close Shift', icon: 'fa fa-times fa-x', link: '/sell/close-shift' },
+      {name: 'Opne Cash Drawer', icon: 'fa fa-object-group fa-x', link: '/test'}
     ];
-
     // this.toastr.success("Sell component initiated", "Nice!");
     this.storeSetupService.getStoreDetails().
       then((data) => {
         this.storeDetails = data;
       });
-
+      
     let transactionComId = this.route.snapshot.paramMap.get('transactionComId');
     if (transactionComId) {
 
