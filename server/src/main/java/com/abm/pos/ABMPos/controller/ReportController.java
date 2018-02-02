@@ -80,6 +80,24 @@ public class ReportController {
         return reportManager.getReportBySales(salesReportBy, startDate, endDate);
     }
 
+    @RequestMapping(value = "/printReportBySales", method = RequestMethod.GET, produces = "application/json")
+    public ResponseEntity<byte[]>  printReportBySales(String salesReportBy, String startDate, String endDate) throws DocumentException {
+
+        byte [] pdfDataBytes =  reportManager.printReportBySales(salesReportBy, startDate, endDate);
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.parseMediaType("application/pdf"));
+        headers.add("Access-Control-Allow-Origin", "*");
+        headers.add("Access-Control-Allow-Methods", "GET, POST, PUT");
+        headers.add("Access-Control-Allow-Headers", "Content-Type");
+        headers.add("Cache-Control", "no-cache, no-store, must-revalidate");
+        headers.add("Pragma", "no-cache");
+        headers.add("Expires", "0");
+
+        headers.setCacheControl("must-revalidate, post-check=0, pre-check=0");
+        ResponseEntity<byte[]> response = new ResponseEntity<byte[]>(pdfDataBytes, headers, HttpStatus.OK);
+        return response;
+    }
+
     @RequestMapping(value = "/getTop50SellingItem", method = RequestMethod.GET, produces = "application/json")
     public List<SalesDto> getTop50SellingItem(String productReportType, String date)
     {

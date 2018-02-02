@@ -41,8 +41,8 @@ export class ReportService {
         // .map(this.extractData)
         .catch(this.handleError);
       }
-      printSalesReportPDF(salesReportBy: string, startDate: string, endDate: string): Observable<any> {
-        let url = this.url + '/printReportBySalesSummary?salesSummaryReportBy='+salesReportBy+'&startDate='+ startDate+'&endDate='+endDate;
+      printSalesSummaryReportPDF(salesSummaryReportBy: string, startDate: string, endDate: string): Observable<any> {
+        let url = this.url + '/printReportBySalesSummary?salesSummaryReportBy='+salesSummaryReportBy+'&startDate='+ startDate+'&endDate='+endDate;
         return this.http.get(
           url, 
           {responseType: ResponseContentType.Blob }
@@ -50,6 +50,17 @@ export class ReportService {
         // .map(this.extractData)
         .catch(this.handleError);
       }
+
+      printSalesReportPDF(salesReportBy: string, startDate: string, endDate: string): Observable<any> {
+        let url = this.url + '/printReportBySales?salesReportBy='+salesReportBy+'&startDate='+ startDate+'&endDate='+endDate;
+        return this.http.get(
+          url, 
+          {responseType: ResponseContentType.Blob }
+        )
+        // .map(this.extractData)
+        .catch(this.handleError);
+      }
+
 
       private extractData(res: Response): InventoryDto[] {
         let body = res.json();

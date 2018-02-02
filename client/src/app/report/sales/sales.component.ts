@@ -128,7 +128,63 @@ export class SalesComponent implements OnInit {
     });
   }
 
-  printSalesReportBy() {    
+  printSalesReportBy() {
+    
+    if (this.salesDropdown === 'Sales Summary') {
+
+      if (this.salesSummaryDropdown === 'Sales By Year') {
+
+        if (this.salesByYearDropdown === 'This Year') {
+          this.dateDto = this.dateService.getCurrentYear();
+        }
+        else if (this.salesByYearDropdown === 'Last Year') {
+          this.dateDto = this.dateService.getLastYear();
+        }
+        // TODO NEED TO MANAGE LAST 5 and 10 YEARS
+      }
+      else if (this.salesSummaryDropdown === 'Sales By Month') {
+        this.dateDto = this.dateService.getMonthDate(this.salesSummaryMonthDropdown);
+      }
+      else if (this.salesSummaryDropdown === 'Sales By Week') {
+
+      }
+      else if (this.salesSummaryDropdown === 'Sales By Day') {
+        this.dateDto = this.dateService.getCurrentDay();
+      }
+      else if(this.salesSummaryDropdown === 'Sales By Hour') {
+        
+      }
+
+      this.reportService.printSalesSummaryReportPDF(this.salesSummaryDropdown, this.dateDto.startDate, this.dateDto.endDate)
+      .subscribe((data) => {
+        printBlob(data._body);
+        
+      });
+    }
+    else {
+
+      if(this.salesDropdown === 'Sales By Category') {
+        this.dateDto = this.dateService.getDateByInput(this.salesDateDropdown)
+      }
+      else if(this.salesDropdown === 'Sales By Vendor') {
+        this.dateDto = this.dateService.getDateByInput(this.salesDateDropdown)
+      }
+      else if(this.salesDropdown === 'Sales By Brand') {
+        this.dateDto = this.dateService.getDateByInput(this.salesDateDropdown)
+      }
+      else if(this.salesDropdown === 'Sales By Model') {
+        this.dateDto = this.dateService.getDateByInput(this.salesDateDropdown)
+      }
+      else if(this.salesDropdown === 'Sales By Product') {
+        this.dateDto = this.dateService.getDateByInput(this.salesDateDropdown)
+      }
+      else if(this.salesDropdown === 'Sales By Employee') {
+        this.dateDto = this.dateService.getDateByInput(this.salesDateDropdown)
+      }
+      else if(this.salesDropdown === 'Sales By Customer') {
+        this.dateDto = this.dateService.getDateByInput(this.salesDateDropdown)
+      }
+    
     this.reportService.printSalesReportPDF(this.salesDropdown, this.dateDto.startDate, this.dateDto.endDate)
       .subscribe((data) => {
         printBlob(data._body);
@@ -137,6 +193,7 @@ export class SalesComponent implements OnInit {
 
 
   }
+}
 
     // For D3 chart
     onSelect(event) {
