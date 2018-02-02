@@ -53,6 +53,7 @@ export class ProductTableComponent implements OnInit {
   dropdownOptionValue: number;
   cost: number;
   quantity: number;
+  totalProductHistoryCount: number = 0;
 
 
   loading: boolean = false;
@@ -290,9 +291,12 @@ export class ProductTableComponent implements OnInit {
         productHistory.forEach((history => {
           history.time = moment(history.date).format('hh:mm A');
           history.date = moment(history.date).format('MM-DD-YYYY');
+
+          this.totalProductHistoryCount =+ this.totalProductHistoryCount + history.quantity;
         }))
 
         this.productHistoryDto = productHistory;
+
 
       });
     console.log("Product data from UI for History", this.selectedProductForHistory);
