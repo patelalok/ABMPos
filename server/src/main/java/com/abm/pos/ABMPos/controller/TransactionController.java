@@ -10,6 +10,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.text.ParseException;
 import java.util.List;
 
 
@@ -50,7 +51,15 @@ public class TransactionController {
 
     }
 
+    @RequestMapping(value = "/getThermalReceipt", method = RequestMethod.GET)
+    public void getThermalReceipt(@RequestParam int receiptNo) throws DocumentException, ParseException {
+        transactionManager.printTransaction(receiptNo);
+    }
 
+    @RequestMapping(value = "/openCashDrawer", method = RequestMethod.GET)
+    public void openCashDrawer() {
+        transactionManager.openCashDrawer();
+    }
     @RequestMapping(value = "/getTransaction", method = RequestMethod.GET, produces = "application/json")
     public List<TransactionDao> getTransaction()
     {
