@@ -7,11 +7,11 @@ import com.abm.pos.ABMPos.util.Utility;
 import com.itextpdf.text.*;
 import com.itextpdf.text.pdf.*;
 
-//import jpos.JposException;
-//import jpos.POSPrinter;
-//import jpos.CashDrawer;
-//import jpos.POSPrinterConst;
-//import jpos.util.JposPropertiesConst;
+import jpos.JposException;
+import jpos.POSPrinter;
+import jpos.CashDrawer;
+import jpos.POSPrinterConst;
+import jpos.util.JposPropertiesConst;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.cache.annotation.CachePut;

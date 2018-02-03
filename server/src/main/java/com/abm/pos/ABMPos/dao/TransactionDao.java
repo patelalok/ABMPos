@@ -30,6 +30,7 @@ public class TransactionDao {
     private String customerFirstLastName;
     private String note;
     private double tip;
+    @Transient
     private StoreSetupDao storeSetupDao;
 
     //this is need to handle store credit scenario

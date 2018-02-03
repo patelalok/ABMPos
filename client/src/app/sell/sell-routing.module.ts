@@ -24,8 +24,8 @@ import { DashboardComponent } from 'app/dashboard/dashboard.component';
 
 
 const routes: Routes = [
-  { 
-    path: 'sell', 
+  {
+    path: 'sell',
     component:  SellComponent,
     canActivate: [AuthGuard],
     children: [
@@ -39,10 +39,10 @@ const routes: Routes = [
   { path: 'employee', component: EmployeeComponent},
   { path: 'clockIn/:username', component: ClockinComponent},
   { path: 'expense', component: ExpenseComponent},
-  { path: 'dashboard', component: DashboardComponent},
-  { 
-    path: 'sales-history', 
-    component: SalesHistoryComponent, 
+  // { path: 'dashboard', component: DashboardComponent},
+  {
+    path: 'sales-history',
+    component: SalesHistoryComponent,
     canActivate: [AuthGuard],
   },
   { path: 'setting', component: StoresetupComponent}

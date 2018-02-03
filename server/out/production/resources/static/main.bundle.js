@@ -178,7 +178,7 @@ var AppComponent = /** @class */ (function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_23_app_auth_auth_module__ = __webpack_require__("../../../../../src/app/auth/auth.module.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_24__loading_service__ = __webpack_require__("../../../../../src/app/loading.service.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_25_app_promotion_promotion_module__ = __webpack_require__("../../../../../src/app/promotion/promotion.module.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_26_app_purchase_order_purchase_order_module__ = __webpack_require__("../../../../../src/app/purchase-order/purchase-order.module.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_26_app_dashboard_dashboard_module__ = __webpack_require__("../../../../../src/app/dashboard/dashboard.module.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -239,7 +239,7 @@ var AppModule = /** @class */ (function () {
                 __WEBPACK_IMPORTED_MODULE_14_app_employee_employee_module__["a" /* EmployeeModule */],
                 __WEBPACK_IMPORTED_MODULE_25_app_promotion_promotion_module__["a" /* PromotionModule */],
                 __WEBPACK_IMPORTED_MODULE_17_app_report_report_module__["a" /* ReportModule */],
-                __WEBPACK_IMPORTED_MODULE_26_app_purchase_order_purchase_order_module__["a" /* PurchaseOrderModule */],
+                __WEBPACK_IMPORTED_MODULE_26_app_dashboard_dashboard_module__["a" /* DashboardModule */],
                 __WEBPACK_IMPORTED_MODULE_19__environments_environment__["a" /* environment */].production ? __WEBPACK_IMPORTED_MODULE_18__angular_service_worker__["a" /* ServiceWorkerModule */].register('/ngsw-worker.js') : [],
                 __WEBPACK_IMPORTED_MODULE_22_ng2_toastr_ng2_toastr__["ToastModule"].forRoot()
             ],
@@ -1004,7 +1004,7 @@ module.exports = module.exports.toString();
 /***/ "../../../../../src/app/customer/customer.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<mat-card>\n    <mat-card-title>\n\n        <div class=\"row d-flex align-items-center\">\n            <div class=\"col-md-7\">\n                <h4>Customer Details</h4>\n            </div>\n\n            <div class=\"col-md-5 d-flex align-items-center justify-content-end\">\n                <button type=\"button\" class=\"bg-primary text-white action-button-lg m-3\" (click)=\"showDialogToAdd()\">\n                        <i class=\"fa fa-plus-square\" aria-hidden=\"true\" label=\"Add\"></i>\n                            Add Customer\n                    </button>\n\n            </div>\n        </div>\n    </mat-card-title>\n    <mat-card-content>\n        <p-growl [(value)]=\"msgs\"></p-growl>\n\n\n        <div class=\"row\">\n            <div class=\"col-md-12\">\n\n                <p-dataTable [value]=\"this.customerDto\" [editable]=\"true\" scrollable=\"true\" [responsive]=\"true\" scrollHeight=\"500px\">\n                    <p-column field=\"name\" header=\"Name\" filterPlaceholder=\"Search For Customer Name\" [filter]=\"true\"></p-column>\n                    <p-column field=\"phoneNo\" header=\"PhoneNo\" filterPlaceholder=\"Search For Customer Phono No\" [sortable]=\"true\" [filter]=\"true\"></p-column>\n                    <p-column field=\"email\" header=\"Email\" filterPlaceholder=\"Search For Customer Email\" [sortable]=\"true\" [filter]=\"true\"></p-column>\n                    <p-column field=\"balance\" header=\"Balance\" [sortable]=\"true\">\n                        <ng-template let-customer=\"rowData\" pTemplate=\"body\">\n                            {{customer.balance | currency:'USD':'true'}}\n                        </ng-template>\n                    </p-column>\n                    <p-column field=\"storeCredit\" header=\"Store Credit\" [sortable]=\"true\">\n                        <ng-template let-customer=\"rowData\" pTemplate=\"body\">\n                            {{customer.storeCredit | currency:'USD':'true'}}\n                        </ng-template>\n                    </p-column>\n                    <p-column field=\"action\" header=\"Action\" [sortable]=\"true\">\n\n                        <ng-template let-customer=\"rowData\" pTemplate=\"body\">\n                            <button mat-button class=\"btn-blue action-button-table\" (click)=\"updateCusotmer(customer)\">\n                                <i class=\"fa fa-pencil\" aria-hidden=\"true\"></i>\n                            </button>\n                            <button mat-button data-toggle=\"modal\" data-target=\"#deleteCustomer\" (click)=\"this.setCustomerForDelete(customer)\" mat-button class=\"btn-red action-button-table\" mat-button data-toggle=\"modal\" data-target=\"#deleteCustomer\">\n                                <i class=\"fa fa-trash\" aria-hidden=\"true\"></i>\n                            </button>\n                            <button mat-button class=\"btn-green action-button-table\" data-toggle=\"modal\" data-target=\"#productHistoryModel\">\n                                <i class=\"fa fa-history\" aria-hidden=\"true\"></i>\n                            </button>\n                            <button mat-button class=\"btn-gray action-button-table\" data-toggle=\"modal\" data-target=\"#addStoreCredit\" (click)=this.selectCustomerForStoreCredit(customer)>\n                                <i class=\"fa fa-credit-card-alt\" aria-hidden=\"true\"></i>                                \n                                </button>\n                        </ng-template>\n                    </p-column>\n                </p-dataTable>\n\n            </div>\n        </div>\n    </mat-card-content>\n</mat-card>\n\n<form [formGroup]=\"customerForm\">\n    <p-dialog header=\"Add Customer Details\" appendTo=\"body\" [(visible)]=\"displayDialog\" [responsive]=\"true\" showEffect=\"fade\" [modal]=\"true\" (onHide)=\"resrtForm()\">\n\n        <div class=\"container\">\n\n            <div class=\"row\">\n\n                <div class=\"col-md-2 p-1\">\n                    <label>Customer Name:</label>\n                </div>\n\n                <div class=\"col-md-4 p-1\">\n                    <input type=\"text\" class=\"form-control\" formControlName=\"name\" placeholder=\"Enter First and Last Name\">\n                </div>\n\n                <div class=\"col-md-2 p-1\">\n                    <label>Phone Number:</label>\n                </div>\n                <div class=\"col-md-4 p-1\">\n                    <input type=\"text\" class=\"form-control\" formControlName=\"phoneNo\" placeholder=\"Enter Phone Number\">\n\n                </div>\n\n                <!-- Second row of the cusotmer -->\n\n                <div class=\"col-md-2 p-1\">\n                    <label>Company Name:</label>\n                </div>\n\n                <div class=\"col-md-4 p-1\">\n                    <input type=\"text\" class=\"form-control\" formControlName=\"companyName\" placeholder=\"Enter Company Name\">\n                </div>\n\n                <div class=\"col-md-2 p-1\">\n                    <label>Email:</label>\n                </div>\n                <div class=\"col-md-4 p-1\">\n                    <input type=\"text\" class=\"form-control\" formControlName=\"email\" placeholder=\"Enter Email\">\n\n                </div>\n\n                <!-- thirs row of customer -->\n\n                <div class=\"col-md-2 p-1\">\n                    <label>Tax Id:</label>\n                </div>\n\n                <div class=\"col-md-4 p-1\">\n                    <input type=\"text\" class=\"form-control\" formControlName=\"taxId\" placeholder=\"Enter Tax Id\">\n                </div>\n\n                <div class=\"col-md-2 p-1\">\n                    <label>Date Of Birth:</label>\n                </div>\n                <div class=\"col-md-4 p-1\">\n                    <input type=\"text\" class=\"form-control\" formControlName=\"dateOfBirth\" placeholder=\"Enter Date Of Birth\">\n\n                </div>\n\n                <!-- forth row of customer -->\n                <div class=\"col-md-2 p-1\">\n                    <label>Customer Type:</label>\n                </div>\n\n                <div class=\"col-md-4 p-1\">\n                    <select class=\"form-control\" formControlName=\"type\">\n                                <option>Retail</option>\n                                <option>Business</option>\n                            </select>\n                </div>\n\n                <div class=\"col-md-2 p-1\">\n                    <label>Gender:</label>\n                </div>\n                <div class=\"col-md-4 p-1\">\n                    <select class=\"form-control\" formControlName=\"gender\">\n                                <option>Male</option>\n                                <option>Female</option>\n                            </select>\n                </div>\n\n                <!-- Fifth row of customer -->\n\n                <div class=\"col-md-2 p-1\">\n                    <label>Street:</label>\n                </div>\n\n                <div class=\"col-md-10 p-1\">\n                    <input type=\"text\" class=\"form-control\" formControlName=\"street\" placeholder=\"Enter Street Details\">\n                </div>\n\n                <!-- Sixth row of customer -->\n\n                <div class=\"col-md-2 p-1\">\n                    <label>City:</label>\n                </div>\n\n                <div class=\"col-md-3 p-1\">\n                    <input type=\"text\" class=\"form-control\" formControlName=\"city\">\n                </div>\n\n                <div class=\"col-md-1 p-1\">\n                    <label>State:</label>\n                </div>\n\n                <div class=\"col-md-2 p-1\">\n                    <select class=\"form-control\" formControlName=\"state\">\n                        <option value=\"AL\">Alabama</option>\n                        <option value=\"AK\">Alaska</option>\n                        <option value=\"AZ\">Arizona</option>\n                        <option value=\"AR\">Arkansas</option>\n                        <option value=\"CA\">California</option>\n                        <option value=\"CO\">Colorado</option>\n                        <option value=\"CT\">Connecticut</option>\n                        <option value=\"DE\">Delaware</option>\n                        <option value=\"DC\">District Of Columbia</option>\n                        <option value=\"FL\">Florida</option>\n                        <option value=\"GA\">Georgia</option>\n                        <option value=\"HI\">Hawaii</option>\n                        <option value=\"ID\">Idaho</option>\n                        <option value=\"IL\">Illinois</option>\n                        <option value=\"IN\">Indiana</option>\n                        <option value=\"IA\">Iowa</option>\n                        <option value=\"KS\">Kansas</option>\n                        <option value=\"KY\">Kentucky</option>\n                        <option value=\"LA\">Louisiana</option>\n                        <option value=\"ME\">Maine</option>\n                        <option value=\"MD\">Maryland</option>\n                        <option value=\"MA\">Massachusetts</option>\n                        <option value=\"MI\">Michigan</option>\n                        <option value=\"MN\">Minnesota</option>\n                        <option value=\"MS\">Mississippi</option>\n                        <option value=\"MO\">Missouri</option>\n                        <option value=\"MT\">Montana</option>\n                        <option value=\"NE\">Nebraska</option>\n                        <option value=\"NV\">Nevada</option>\n                        <option value=\"NH\">New Hampshire</option>\n                        <option value=\"NJ\">New Jersey</option>\n                        <option value=\"NM\">New Mexico</option>\n                        <option value=\"NY\">New York</option>\n                        <option value=\"NC\">North Carolina</option>\n                        <option value=\"ND\">North Dakota</option>\n                        <option value=\"OH\">Ohio</option>\n                        <option value=\"OK\">Oklahoma</option>\n                        <option value=\"OR\">Oregon</option>\n                        <option value=\"PA\">Pennsylvania</option>\n                        <option value=\"RI\">Rhode Island</option>\n                        <option value=\"SC\">South Carolina</option>\n                        <option value=\"SD\">South Dakota</option>\n                        <option value=\"TN\">Tennessee</option>\n                        <option value=\"TX\">Texas</option>\n                        <option value=\"UT\">Utah</option>\n                        <option value=\"VT\">Vermont</option>\n                        <option value=\"VA\">Virginia</option>\n                        <option value=\"WA\">Washington</option>\n                        <option value=\"WV\">West Virginia</option>\n                        <option value=\"WI\">Wisconsin</option>\n                        <option value=\"WY\">Wyoming</option>\n                    </select>\n                </div>\n\n                <div class=\"col-md-1 p-1\">\n                    <label>ZipCode:</label>\n                </div>\n                <div class=\"col-md-3 p-1\">\n                    <input type=\"text\" class=\"form-control\" formControlName=\"zipCode\" placeholder=\"Enter Zipcode\">\n                </div>\n\n            </div>\n        </div>\n\n        <p-footer>\n            <div style=\"text-align: center\">\n                <button type=\"button\" (click)=\"addCustomer()\" class=\"btn btn-success\" [disabled]=\"customerForm.invalid\">\n                            <i class=\"fa fa-paper-plane\" aria-hidden=\"true\" ></i>\n                            Save Customer Details\n                    </button>\n\n            </div>\n        </p-footer>\n\n\n    </p-dialog>\n</form>\n\n\n\n\n\n<!-- Start Of Add Store Credit -->\n<div class=\"modal fade\" id=\"addStoreCredit\" role=\"dialog\">\n    <div class=\"modal-dialog modal-lg\">\n\n        <!-- Modal content-->\n        <div class=\"modal-content\">\n            <div class=\"modal-header\">\n                <h4 class=\"modal-title\">Add Store Credit</h4>\n                <button type=\"button\" class=\"close\" data-dismiss=\"modal\">&times;</button>\n            </div>\n            <div class=\"modal-body\">\n\n                <div class=\"row m-1\">\n\n                    <div class=\"col-md-12 form-group\">\n                        <label>Enter Store Credit Amount:</label>\n                        <input [(ngModel)]=\"this.storeCreditAmount\" class=\"form-control\" type=\"number\">\n                    </div>\n                </div>\n\n                <div class=\"row m-1\">\n                    <div class=\"col-md-12 form-group\">\n                        <label>Enter Store Credit Reason:</label>\n                        <input class=\"form-control\" [(ngModel)]=\"this.storeCreditReason\" type=\"text\">\n                    </div>\n                </div>\n                <div class=\"row m-2 p-2\">\n                    <button type=\"button\" mat-raised-button class=\"bg-primary text-white action-button-lg m-auto\" (click)=\"this.addStoreCredit()\" data-dismiss=\"modal\">\n                            <i class=\"fa fa-plus-square\" aria-hidden=\"true\" label=\"Add\"></i>\n                        Add Store Credit\n                    </button>\n\n                    <!-- <div class=\"col-md-12\">\n                    </div> -->\n\n                </div>\n\n                <div class=\"row\">\n                    <table class=\"table\">\n                        <thead>\n                            <tr>\n                                <th>Date</th>\n                                <th>Time</th>\n                                <th>Amount</th>\n                                <th>Reason</th>\n                                <th>Given By</th>\n                            </tr>\n                        </thead>\n                        <tbody>\n                            <tr *ngFor=\"let history of this.storeCreditDto\">\n                                <td>{{history.date}}</td>\n                                <td>{{history.time}}</td>\n                                <td>$ {{history.amount}}</td>\n                                <td>{{history.reason}}</td>\n                                <td>{{history.employeeName}}</td>\n                            </tr>\n                        </tbody>\n                    </table>\n                </div>\n\n            </div>\n\n\n            <div class=\"modal-footer\">\n                <button type=\"button\" class=\"btn btn-default\" data-dismiss=\"modal\">Close</button>\n            </div>\n        </div>\n\n\n    </div>\n\n</div>\n<!-- End of Add Store Credit Pop up -->\n\n<!-- Start of Delete Customer Popup -->\n<div class=\"modal fade\" id=\"deleteCustomer\" role=\"dialog\">\n    <div class=\"modal-dialog modal-sm\">\n        <div class=\"modal-content\">\n            <div class=\"modal-header\">\n                <h4 class=\"modal-title\">Delete Customer</h4>\n                <button type=\"button\" class=\"close\" data-dismiss=\"modal\">&times;</button>\n            </div>\n            <div class=\"modal-body\">\n                <p>Are You Sure You Want To Delete This Customer</p>\n            </div>\n            <div class=\"modal-footer\">\n\n                <button type=\"button\" class=\"btn btn-danger\" data-dismiss=\"modal\" (click)=\"this.deleteCustomer()\">Yes</button>\n                <button type=\"button\" class=\"btn btn-default\" data-dismiss=\"modal\">Cancle</button>\n            </div>\n        </div>\n    </div>\n</div>\n\n<!-- End of Delete Customer Popup -->"
+module.exports = "<mat-card>\n    <mat-card-title>\n\n        <div class=\"row d-flex align-items-center\">\n            <div class=\"col-md-7\">\n                <h4>Customer Details</h4>\n            </div>\n\n            <div class=\"col-md-5 d-flex align-items-center justify-content-end\">\n                <button type=\"button\" class=\"bg-primary text-white action-button-lg m-3\" (click)=\"this.showDialogToAdd()\">\n                        <i class=\"fa fa-plus-square\" aria-hidden=\"true\" label=\"Add\"></i>\n                            Add Customer\n                    </button>\n\n            </div>\n        </div>\n    </mat-card-title>\n    <mat-card-content>\n        <p-growl [(value)]=\"msgs\"></p-growl>\n\n\n        <div class=\"row\">\n            <div class=\"col-md-12\">\n\n                <p-dataTable [value]=\"this.customerDto\" [editable]=\"true\" scrollable=\"true\" [responsive]=\"true\" scrollHeight=\"500px\">\n                    <p-column field=\"name\" header=\"Name\" filterPlaceholder=\"Search For Customer Name\" [filter]=\"true\"></p-column>\n                    <p-column field=\"phoneNo\" header=\"PhoneNo\" filterPlaceholder=\"Search For Customer Phono No\" [sortable]=\"true\" [filter]=\"true\"></p-column>\n                    <p-column field=\"email\" header=\"Email\" filterPlaceholder=\"Search For Customer Email\" [sortable]=\"true\" [filter]=\"true\"></p-column>\n                    <p-column field=\"balance\" header=\"Balance\" [sortable]=\"true\">\n                        <ng-template let-customer=\"rowData\" pTemplate=\"body\">\n                            {{customer.balance | currency:'USD':'true'}}\n                        </ng-template>\n                    </p-column>\n                    <p-column field=\"storeCredit\" header=\"Store Credit\" [sortable]=\"true\">\n                        <ng-template let-customer=\"rowData\" pTemplate=\"body\">\n                            {{customer.storeCredit | currency:'USD':'true'}}\n                        </ng-template>\n                    </p-column>\n                    <p-column field=\"loyalty\" header=\"Loyalty\" [sortable]=\"true\">\n                        <ng-template let-customer=\"rowData\" pTemplate=\"body\">\n                            {{customer.loyalty | currency:'USD':'true'}}\n                        </ng-template>\n                    </p-column>\n                    <p-column field=\"action\" header=\"Action\" [sortable]=\"true\">\n\n                        <ng-template let-customer=\"rowData\" pTemplate=\"body\">\n                            <button mat-button class=\"btn-blue action-button-table\" (click)=\"this.setDetailForUpdateCusotmer(customer)\">\n                                <i class=\"fa fa-pencil\" aria-hidden=\"true\"></i>\n                            </button>\n                            <button mat-button data-toggle=\"modal\" data-target=\"#deleteCustomer\" (click)=\"this.setCustomerForDelete(customer)\" mat-button class=\"btn-red action-button-table\" mat-button data-toggle=\"modal\" data-target=\"#deleteCustomer\">\n                                <i class=\"fa fa-trash\" aria-hidden=\"true\"></i>\n                            </button>\n                            <button mat-button class=\"btn-green action-button-table\" data-toggle=\"modal\" data-target=\"#productHistoryModel\">\n                                <i class=\"fa fa-history\" aria-hidden=\"true\"></i>\n                            </button>\n                            <button mat-button class=\"btn-gray action-button-table\" data-toggle=\"modal\" data-target=\"#addStoreCredit\" (click)=this.selectCustomerForStoreCredit(customer)>\n                                <i class=\"fa fa-credit-card-alt\" aria-hidden=\"true\"></i>                                \n                                </button>\n                        </ng-template>\n                    </p-column>\n                </p-dataTable>\n\n            </div>\n        </div>\n    </mat-card-content>\n</mat-card>\n\n<form [formGroup]=\"customerForm\">\n    <p-dialog header=\"Add Customer Details\" appendTo=\"body\" [(visible)]=\"displayDialog\" [responsive]=\"true\" showEffect=\"fade\" [modal]=\"true\" (onHide)=\"resrtForm()\">\n\n        <div class=\"container\">\n\n            <div class=\"row\">\n\n                <div class=\"col-md-2 p-1\">\n                    <label>Customer Name:</label>\n                </div>\n\n                <div class=\"col-md-4 p-1\">\n                    <input type=\"text\" class=\"form-control\" formControlName=\"name\" placeholder=\"Enter First and Last Name\">\n                </div>\n\n                <div class=\"col-md-2 p-1\">\n                    <label>Phone Number:</label>\n                </div>\n                <div class=\"col-md-4 p-1\">\n                    <input type=\"text\" class=\"form-control\" formControlName=\"phoneNo\" placeholder=\"Enter Phone Number\">\n\n                </div>\n\n                <!-- Second row of the cusotmer -->\n\n                <div class=\"col-md-2 p-1\">\n                    <label>Company Name:</label>\n                </div>\n\n                <div class=\"col-md-4 p-1\">\n                    <input type=\"text\" class=\"form-control\" formControlName=\"companyName\" placeholder=\"Enter Company Name\">\n                </div>\n\n                <div class=\"col-md-2 p-1\">\n                    <label>Email:</label>\n                </div>\n                <div class=\"col-md-4 p-1\">\n                    <input type=\"text\" class=\"form-control\" formControlName=\"email\" placeholder=\"Enter Email\">\n\n                </div>\n\n                <!-- thirs row of customer -->\n\n                <div class=\"col-md-2 p-1\">\n                    <label>Tax Id:</label>\n                </div>\n\n                <div class=\"col-md-4 p-1\">\n                    <input type=\"text\" class=\"form-control\" formControlName=\"taxId\" placeholder=\"Enter Tax Id\">\n                </div>\n\n                <div class=\"col-md-2 p-1\">\n                    <label>Date Of Birth:</label>\n                </div>\n                <div class=\"col-md-4 p-1\">\n                    <input type=\"text\" class=\"form-control\" formControlName=\"dateOfBirth\" placeholder=\"Enter Date Of Birth\">\n\n                </div>\n\n                <!-- forth row of customer -->\n                <div class=\"col-md-2 p-1\">\n                    <label>Customer Type:</label>\n                </div>\n\n                <div class=\"col-md-4 p-1\">\n                    <select class=\"form-control\" formControlName=\"type\">\n                                <option>Retail</option>\n                                <option>Business</option>\n                            </select>\n                </div>\n\n                <div class=\"col-md-2 p-1\">\n                    <label>Gender:</label>\n                </div>\n                <div class=\"col-md-4 p-1\">\n                    <select class=\"form-control\" formControlName=\"gender\">\n                                <option>Male</option>\n                                <option>Female</option>\n                            </select>\n                </div>\n\n                <!-- Fifth row of customer -->\n\n                <div class=\"col-md-2 p-1\">\n                    <label>Street:</label>\n                </div>\n\n                <div class=\"col-md-10 p-1\">\n                    <input type=\"text\" class=\"form-control\" formControlName=\"street\" placeholder=\"Enter Street Details\">\n                </div>\n\n                <!-- Sixth row of customer -->\n\n                <div class=\"col-md-2 p-1\">\n                    <label>City:</label>\n                </div>\n\n                <div class=\"col-md-3 p-1\">\n                    <input type=\"text\" class=\"form-control\" formControlName=\"city\">\n                </div>\n\n                <div class=\"col-md-1 p-1\">\n                    <label>State:</label>\n                </div>\n\n                <div class=\"col-md-2 p-1\">\n                    <select class=\"form-control\" formControlName=\"state\">\n                        <option value=\"AL\">Alabama</option>\n                        <option value=\"AK\">Alaska</option>\n                        <option value=\"AZ\">Arizona</option>\n                        <option value=\"AR\">Arkansas</option>\n                        <option value=\"CA\">California</option>\n                        <option value=\"CO\">Colorado</option>\n                        <option value=\"CT\">Connecticut</option>\n                        <option value=\"DE\">Delaware</option>\n                        <option value=\"DC\">District Of Columbia</option>\n                        <option value=\"FL\">Florida</option>\n                        <option value=\"GA\">Georgia</option>\n                        <option value=\"HI\">Hawaii</option>\n                        <option value=\"ID\">Idaho</option>\n                        <option value=\"IL\">Illinois</option>\n                        <option value=\"IN\">Indiana</option>\n                        <option value=\"IA\">Iowa</option>\n                        <option value=\"KS\">Kansas</option>\n                        <option value=\"KY\">Kentucky</option>\n                        <option value=\"LA\">Louisiana</option>\n                        <option value=\"ME\">Maine</option>\n                        <option value=\"MD\">Maryland</option>\n                        <option value=\"MA\">Massachusetts</option>\n                        <option value=\"MI\">Michigan</option>\n                        <option value=\"MN\">Minnesota</option>\n                        <option value=\"MS\">Mississippi</option>\n                        <option value=\"MO\">Missouri</option>\n                        <option value=\"MT\">Montana</option>\n                        <option value=\"NE\">Nebraska</option>\n                        <option value=\"NV\">Nevada</option>\n                        <option value=\"NH\">New Hampshire</option>\n                        <option value=\"NJ\">New Jersey</option>\n                        <option value=\"NM\">New Mexico</option>\n                        <option value=\"NY\">New York</option>\n                        <option value=\"NC\">North Carolina</option>\n                        <option value=\"ND\">North Dakota</option>\n                        <option value=\"OH\">Ohio</option>\n                        <option value=\"OK\">Oklahoma</option>\n                        <option value=\"OR\">Oregon</option>\n                        <option value=\"PA\">Pennsylvania</option>\n                        <option value=\"RI\">Rhode Island</option>\n                        <option value=\"SC\">South Carolina</option>\n                        <option value=\"SD\">South Dakota</option>\n                        <option value=\"TN\">Tennessee</option>\n                        <option value=\"TX\">Texas</option>\n                        <option value=\"UT\">Utah</option>\n                        <option value=\"VT\">Vermont</option>\n                        <option value=\"VA\">Virginia</option>\n                        <option value=\"WA\">Washington</option>\n                        <option value=\"WV\">West Virginia</option>\n                        <option value=\"WI\">Wisconsin</option>\n                        <option value=\"WY\">Wyoming</option>\n                    </select>\n                </div>\n\n                <div class=\"col-md-1 p-1\">\n                    <label>ZipCode:</label>\n                </div>\n                <div class=\"col-md-3 p-1\">\n                    <input type=\"text\" class=\"form-control\" formControlName=\"zipCode\" placeholder=\"Enter Zipcode\">\n                </div>\n\n            </div>\n        </div>\n\n        <p-footer>\n            <div style=\"text-align: center\">\n                <button *ngIf=\"this.addCustomerFlag\" type=\"button\" (click)=\"this.addCustomer()\" class=\"btn btn-success\" [disabled]=\"customerForm.invalid\">\n                            <i class=\"fa fa-paper-plane\" aria-hidden=\"true\" ></i>\n                            Add Customer Details\n                    </button>\n\n                <button *ngIf=\"!this.addCustomerFlag\" type=\"button\" (click)=\"this.updateCustomer()\" class=\"btn btn-success\" [disabled]=\"customerForm.invalid\">\n                            <i class=\"fa fa-paper-plane\" aria-hidden=\"true\" ></i>\n                            Update Customer Details\n                    </button>\n\n            </div>\n        </p-footer>\n\n\n    </p-dialog>\n</form>\n\n\n\n\n\n<!-- Start Of Add Store Credit -->\n<div class=\"modal fade\" id=\"addStoreCredit\" role=\"dialog\">\n    <div class=\"modal-dialog modal-lg\">\n\n        <!-- Modal content-->\n        <div class=\"modal-content\">\n            <div class=\"modal-header\">\n                <h4 class=\"modal-title\">Add Store Credit</h4>\n                <button type=\"button\" class=\"close\" data-dismiss=\"modal\">&times;</button>\n            </div>\n            <div class=\"modal-body\">\n\n                <div class=\"row m-1\">\n\n                    <div class=\"col-md-12 form-group\">\n                        <label>Enter Store Credit Amount:</label>\n                        <input [(ngModel)]=\"this.storeCreditAmount\" class=\"form-control\" type=\"number\">\n                    </div>\n                </div>\n\n                <div class=\"row m-1\">\n                    <div class=\"col-md-12 form-group\">\n                        <label>Enter Store Credit Reason:</label>\n                        <input class=\"form-control\" [(ngModel)]=\"this.storeCreditReason\" type=\"text\">\n                    </div>\n                </div>\n                <div class=\"row m-2 p-2\">\n                    <button type=\"button\" mat-raised-button class=\"bg-primary text-white action-button-lg m-auto\" (click)=\"this.addStoreCredit()\" data-dismiss=\"modal\">\n                            <i class=\"fa fa-plus-square\" aria-hidden=\"true\" label=\"Add\"></i>\n                        Add Store Credit\n                    </button>\n\n                    <!-- <div class=\"col-md-12\">\n                    </div> -->\n\n                </div>\n\n                <div class=\"row\">\n                    <table class=\"table\">\n                        <thead>\n                            <tr>\n                                <th>Date</th>\n                                <th>Time</th>\n                                <th>Amount</th>\n                                <th>Reason</th>\n                                <th>Given By</th>\n                            </tr>\n                        </thead>\n                        <tbody>\n                            <tr *ngFor=\"let history of this.storeCreditDto\">\n                                <td>{{history.date}}</td>\n                                <td>{{history.time}}</td>\n                                <td>$ {{history.amount}}</td>\n                                <td>{{history.reason}}</td>\n                                <td>{{history.employeeName}}</td>\n                            </tr>\n                        </tbody>\n                    </table>\n                </div>\n\n            </div>\n\n\n            <div class=\"modal-footer\">\n                <button type=\"button\" class=\"btn btn-default\" data-dismiss=\"modal\">Close</button>\n            </div>\n        </div>\n\n\n    </div>\n\n</div>\n<!-- End of Add Store Credit Pop up -->\n\n<!-- Start of Delete Customer Popup -->\n<div class=\"modal fade\" id=\"deleteCustomer\" role=\"dialog\">\n    <div class=\"modal-dialog modal-sm\">\n        <div class=\"modal-content\">\n            <div class=\"modal-header\">\n                <h4 class=\"modal-title\">Delete Customer</h4>\n                <button type=\"button\" class=\"close\" data-dismiss=\"modal\">&times;</button>\n            </div>\n            <div class=\"modal-body\">\n                <p>Are You Sure You Want To Delete This Customer</p>\n            </div>\n            <div class=\"modal-footer\">\n\n                <button type=\"button\" class=\"btn btn-danger\" data-dismiss=\"modal\" (click)=\"this.deleteCustomer()\">Yes</button>\n                <button type=\"button\" class=\"btn btn-default\" data-dismiss=\"modal\">Cancle</button>\n            </div>\n        </div>\n    </div>\n</div>\n\n<!-- End of Delete Customer Popup -->"
 
 /***/ }),
 
@@ -1021,6 +1021,8 @@ module.exports = "<mat-card>\n    <mat-card-title>\n\n        <div class=\"row d
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_forms__ = __webpack_require__("../../../forms/esm5/forms.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_moment__ = __webpack_require__("../../../../moment/moment.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_moment___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_moment__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_ng2_toastr__ = __webpack_require__("../../../../ng2-toastr/ng2-toastr.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_ng2_toastr___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4_ng2_toastr__);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -1034,16 +1036,21 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
+
 var CustomerComponent = /** @class */ (function () {
-    function CustomerComponent(customerService, formBuilder) {
+    function CustomerComponent(customerService, formBuilder, toastr) {
         this.customerService = customerService;
         this.formBuilder = formBuilder;
+        this.toastr = toastr;
         this.displayDialog = false;
         this.customer = new PrimeCustomer();
         this.msgs = [];
         this.showDeleteButton = true;
         this.storeCreditDto = [];
         this.addStoreCreditObject = new StoreCreditDto();
+        this.addCustomerFlag = false;
+        this.customerIndexForupdate = 0;
+        this.selectedCustomerForUpdate = new Customer();
     }
     CustomerComponent.prototype.ngOnInit = function () {
         this.getCustomerDetails();
@@ -1080,10 +1087,39 @@ var CustomerComponent = /** @class */ (function () {
         this.customerForm.reset();
     };
     CustomerComponent.prototype.addCustomer = function () {
+        var _this = this;
         var newCustomer = this.customerForm.value;
-        this.customerService.addOrUpdateCustomer(this.customerForm.value);
-        this.customerDto.push(newCustomer);
-        this.customerDto = this.customerDto.slice();
+        this.customerService.addOrUpdateCustomer(this.customerForm.value)
+            .subscribe(function (data) {
+            if (data != null) {
+                _this.customerDto.push(newCustomer);
+                _this.customerDto = _this.customerDto.slice();
+                _this.toastr.success('Customer Added Successfully!!', 'Success!!');
+                console.log('cusotmer data back', data);
+            }
+        }, function (error) {
+            console.log(JSON.stringify(error.json()));
+            _this.toastr.error('Opps Something Goes Wrong!!', 'Error!!');
+        });
+        this.customerForm.reset();
+        this.displayDialog = false;
+    };
+    CustomerComponent.prototype.updateCustomer = function () {
+        var _this = this;
+        var updateItem = this.customerDto.find(this.findIndexToUpdate, this.selectedCustomerForUpdate.phoneNo);
+        var index = this.customerDto.indexOf(updateItem);
+        var newCustomer = this.customerForm.value;
+        this.customerService.addOrUpdateCustomer(this.customerForm.value)
+            .subscribe(function (data) {
+            if (data != null) {
+                _this.toastr.success('Customer Added Successfully!!', 'Success!!');
+                _this.customerDto[index] = _this.selectedCustomerForUpdate;
+                console.log('cusotmer data back', data);
+            }
+        }, function (error) {
+            console.log(JSON.stringify(error.json()));
+            _this.toastr.error('Opps Something Goes Wrong!!', 'Error!!');
+        });
         this.customerForm.reset();
         this.displayDialog = false;
     };
@@ -1096,26 +1132,31 @@ var CustomerComponent = /** @class */ (function () {
         this.displayDialog = false;
     };
     CustomerComponent.prototype.showDialogToAdd = function () {
+        this.addCustomerFlag = true;
         this.newCustomer = true;
         this.customer = new PrimeCustomer();
         this.showDeleteButton = false;
         this.displayDialog = true;
     };
-    CustomerComponent.prototype.updateCusotmer = function (customer) {
+    CustomerComponent.prototype.setDetailForUpdateCusotmer = function (customer) {
+        this.selectedCustomerForUpdate = customer;
         this.displayDialog = true;
-        //Seeting the value into form for UPDATE TODO WRITE SEPARETE METHOD FOR THIS.
-        this.customerForm.get('name').setValue(customer.name);
-        this.customerForm.get('phoneNo').setValue(customer.phoneNo);
-        this.customerForm.get('companyName').setValue(customer.companyName);
-        this.customerForm.get('email').setValue(customer.email);
-        this.customerForm.get('taxId').setValue(customer.taxId);
-        this.customerForm.get('dateOfBirth').setValue(customer.dateOfBirth);
-        this.customerForm.get('type').setValue(customer.type);
-        this.customerForm.get('gender').setValue(customer.gender);
-        this.customerForm.get('street').setValue(customer.street);
-        this.customerForm.get('city').setValue(customer.city);
-        this.customerForm.get('state').setValue(customer.state);
-        this.customerForm.get('zipCode').setValue(customer.zipCode);
+        this.addCustomerFlag = false;
+        this.customerForm.get('name').setValue(this.selectedCustomerForUpdate.name);
+        this.customerForm.get('phoneNo').setValue(this.selectedCustomerForUpdate.phoneNo);
+        this.customerForm.get('companyName').setValue(this.selectedCustomerForUpdate.companyName);
+        this.customerForm.get('email').setValue(this.selectedCustomerForUpdate.email);
+        this.customerForm.get('taxId').setValue(this.selectedCustomerForUpdate.taxId);
+        this.customerForm.get('dateOfBirth').setValue(this.selectedCustomerForUpdate.dateOfBirth);
+        this.customerForm.get('type').setValue(this.selectedCustomerForUpdate.type);
+        this.customerForm.get('gender').setValue(this.selectedCustomerForUpdate.gender);
+        this.customerForm.get('street').setValue(this.selectedCustomerForUpdate.street);
+        this.customerForm.get('city').setValue(this.selectedCustomerForUpdate.city);
+        this.customerForm.get('state').setValue(this.selectedCustomerForUpdate.state);
+        this.customerForm.get('zipCode').setValue(this.selectedCustomerForUpdate.zipCode);
+    };
+    CustomerComponent.prototype.findIndexToUpdate = function (newItem) {
+        return newItem.id === this;
     };
     CustomerComponent.prototype.showSuccess = function (severity, summary, detail) {
         this.msgs = [];
@@ -1148,7 +1189,7 @@ var CustomerComponent = /** @class */ (function () {
             template: __webpack_require__("../../../../../src/app/customer/customer.component.html"),
             styles: [__webpack_require__("../../../../../src/app/customer/customer.component.css")]
         }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_app_customer_customer_service__["a" /* CustomerService */], __WEBPACK_IMPORTED_MODULE_2__angular_forms__["FormBuilder"]])
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_app_customer_customer_service__["a" /* CustomerService */], __WEBPACK_IMPORTED_MODULE_2__angular_forms__["FormBuilder"], __WEBPACK_IMPORTED_MODULE_4_ng2_toastr__["ToastsManager"]])
     ], CustomerComponent);
     return CustomerComponent;
 }());
@@ -1297,13 +1338,7 @@ var CustomerService = /** @class */ (function () {
             .catch(this.handleError);
     };
     CustomerService.prototype.addOrUpdateCustomer = function (customer) {
-        console.log("Customer to be Added" + customer.name);
-        this.http.post(this.url + '/addCustomer', customer)
-            .subscribe(function (data) {
-            console.log("Response From Add Customer call" + data);
-        }, function (error) {
-            console.log(JSON.stringify(error.json()));
-        });
+        return this.http.post(this.url + '/addCustomer', customer);
     };
     CustomerService.prototype.addStoreCredit = function (storeCredit) {
         this.http.post(this.url + '/addCustomerStoreCredit', storeCredit)
@@ -1345,6 +1380,172 @@ var CustomerService = /** @class */ (function () {
         __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1__angular_http__["a" /* Http */]])
     ], CustomerService);
     return CustomerService;
+}());
+
+
+
+/***/ }),
+
+/***/ "../../../../../src/app/dashboard/dashboard.component.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return DashboardComponent; });
+// import { ReportService } from 'app/report/report.service';
+// import { SalesDto, SalesSummaryDto } from 'app/report/sales/sales.component';
+// import { ChartDto } from 'app/report/inventory/inventory.component';
+// import { MatTableDataSource } from '@angular/material';
+// import { Product } from 'app/sell/sale/sale.component';
+//
+// @Component({
+//   selector: 'app-dashboard',
+//   templateUrl: './dashboard.component.html',
+//   styleUrls: ['./dashboard.component.scss']
+// })
+var DashboardComponent = /** @class */ (function () {
+    function DashboardComponent() {
+    }
+    //   salesSummaryDto = new SalesSummaryDto()
+    //   numberCardChartData:  ChartDto[];
+    //   categoryPieChartData: ChartDto[];
+    //   salesDto: SalesDto[] = [];
+    //   showLegend = false;
+    //   showLabels = true;
+    //   explodeSlices = false;
+    //   doughnut = false;
+    //   productDto:  Product[] = []
+    // ;
+    // displayedColumns = ['name','cost', 'retail', 'quantity'];
+    // dataSource = new MatTableDataSource<Product>();
+    //
+    //
+    // //  colorScheme =
+    // //  {
+    // //   domain: ['#337ab7', '#28a745', '#ff6666', '#fd7e14', '#495057', '#A059B5', '#56BAD6']
+    // // };
+    //   constructor(private reportService: ReportService) {
+    //   }
+    DashboardComponent.prototype.ngOnInit = function () {
+        // this.getTop50SellingProductList();
+        // this.getSaleSummaryDetails();
+        // this.getSalesByCategoryDetails();
+    };
+    return DashboardComponent;
+}());
+
+//   onSelect(event) {
+//     console.log(event);
+//   }
+//
+//   getSaleSummaryDetails(){
+//
+//     this.reportService.getDashboardSalesSummaryReport('Sales By Year', '2018-01-01 00:00:00', '2018-12-31 23:59:59')
+//         .subscribe((sales: SalesSummaryDto) => {
+//           this.salesSummaryDto = sales;
+//           this.getNumberCardDetailsForSales();
+//         });
+//   }
+//
+//   getSalesByCategoryDetails(){
+//     this.reportService.getSalesDetails('Sales By Category','2018-01-01 00:00:00', '2018-12-31 23:59:59')
+//     .subscribe((sales: SalesDto[]) => {
+//       this.salesDto = sales;
+//       this.getPieChartForCategorySales();
+//     });
+//   }
+//   getTop50SellingProductList(){
+//     this.reportService.getTop50SellingProductList('Top50SellingItem','2018-01-01 00:00:00', '2018-12-31 23:59:59')
+//     .subscribe((product: Product[]) => {
+//       this.productDto = product;
+//       this.dataSource.data = this.productDto;
+//       //this.getPieChartForCategorySales();
+//     });
+//   }
+//
+//   getNumberCardDetailsForSales(){
+//
+//     //this.numberCardChartData = null;
+//     this.numberCardChartData = null;
+//     this.numberCardChartData = [];
+//     this.numberCardChartData.push(
+//       {
+//       name: 'Cash',value: this.salesSummaryDto.cash} ,
+//       {name: 'Credit',value: this.salesSummaryDto.credit},
+//       {name: 'Debit',value: this.salesSummaryDto.debit},
+//       {name: 'Check',value: this.salesSummaryDto.check},
+//       {name: 'Tax',value: this.salesSummaryDto.tax},
+//       {name: 'Discount',value: this.salesSummaryDto.discount},
+//       {name: 'Return',value: this.salesSummaryDto.returns},
+//       {name: 'Profit',value: this.salesSummaryDto.profit}
+//     );
+//   }
+//
+//   getPieChartForCategorySales(){
+//     this.categoryPieChartData = null;
+//     this.categoryPieChartData = [];
+//
+//     this.salesDto.forEach((sales) => {
+//       this.categoryPieChartData.push({
+//         name: sales.name,
+//         value: sales.retail
+//       });
+//     });
+//   }
+//
+// }
+//
+//
+// export interface Element {
+//   description: string;
+//   // position: number;
+//   // weight: number;
+//   // symbol: string;
+// }
+//
+// const ELEMENT_DATA: Element[] = [
+//
+//   {description: 'test'}
+// ];
+
+
+/***/ }),
+
+/***/ "../../../../../src/app/dashboard/dashboard.module.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return DashboardModule; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/esm5/core.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_common__ = __webpack_require__("../../../common/esm5/common.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__dashboard_component__ = __webpack_require__("../../../../../src/app/dashboard/dashboard.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_app_shared_shared_module__ = __webpack_require__("../../../../../src/app/shared/shared.module.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__swimlane_ngx_charts__ = __webpack_require__("../../../../@swimlane/ngx-charts/release/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__swimlane_ngx_charts___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4__swimlane_ngx_charts__);
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+
+
+
+
+
+var DashboardModule = /** @class */ (function () {
+    function DashboardModule() {
+    }
+    DashboardModule = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["NgModule"])({
+            imports: [
+                __WEBPACK_IMPORTED_MODULE_1__angular_common__["CommonModule"],
+                __WEBPACK_IMPORTED_MODULE_3_app_shared_shared_module__["a" /* SharedModule */],
+                __WEBPACK_IMPORTED_MODULE_4__swimlane_ngx_charts__["NgxChartsModule"],
+            ],
+            declarations: [__WEBPACK_IMPORTED_MODULE_2__dashboard_component__["a" /* DashboardComponent */]]
+        })
+    ], DashboardModule);
+    return DashboardModule;
 }());
 
 
@@ -2316,13 +2517,10 @@ module.exports = "<mat-card>\n    <mat-card-title>\n        Add Product Inventor
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return AddInventoryComponent; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/esm5/core.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_app_product_product_service__ = __webpack_require__("../../../../../src/app/product/product.service.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_app_product_product_component__ = __webpack_require__("../../../../../src/app/product/product.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_app_sell_sell_service__ = __webpack_require__("../../../../../src/app/sell/sell.service.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_app_shared_services_persistence_service__ = __webpack_require__("../../../../../src/app/shared/services/persistence.service.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_moment__ = __webpack_require__("../../../../moment/moment.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_moment___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5_moment__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_ng2_toastr__ = __webpack_require__("../../../../ng2-toastr/ng2-toastr.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_ng2_toastr___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6_ng2_toastr__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_app_sell_sell_service__ = __webpack_require__("../../../../../src/app/sell/sell.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_app_shared_services_persistence_service__ = __webpack_require__("../../../../../src/app/shared/services/persistence.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_ng2_toastr__ = __webpack_require__("../../../../ng2-toastr/ng2-toastr.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_ng2_toastr___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4_ng2_toastr__);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -2337,22 +2535,19 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
-
-
 var AddInventoryComponent = /** @class */ (function () {
     function AddInventoryComponent(saleService, productService, persit, toastr) {
         this.saleService = saleService;
         this.productService = productService;
         this.persit = persit;
         this.toastr = toastr;
-        this.productInventoryObject = new __WEBPACK_IMPORTED_MODULE_2_app_product_product_component__["b" /* ProductInventory */]();
         this.vendorDto = [];
         this.filteredProductByVendor = [];
     }
     AddInventoryComponent.prototype.ngOnInit = function () {
         this.getProductDetails();
         this.getVendorDetails();
-        this.productInventotyList = this.persit.getProductInventoryForAdd() || [];
+        //this.productInventotyList = this.persit.getProductInventoryForAdd() || [];
     };
     AddInventoryComponent.prototype.getProductDetails = function () {
         var _this = this;
@@ -2393,46 +2588,48 @@ var AddInventoryComponent = /** @class */ (function () {
     };
     // This method helps when user try to change retial price or quanity from the sell text box.
     AddInventoryComponent.prototype.submitProduct = function (value) {
-        console.log('This is value: ', value);
-        if (typeof value === 'string') {
-            console.log('This is value: ', value);
-            // this is the senario where user is adding new product to Add into Inventory
-            if (this.product != null && this.product.length > 0) {
-                console.log("coming here");
-                this.addProductInventory(this.product[0]);
-            }
-            else if (value !== '' && value !== undefined && value.indexOf('.') !== 0) {
-                if (value.match(/[a-z]/i))
-                    console.log('contains only charcters');
-                // this mean this is decimal value so it will change the retail price of the product
-                if (value.match(/[0-9]/i) && value.indexOf('.') > 0)
-                    this.updateCostPrice(value);
-                else if (value.match(/[0-9]/i))
-                    this.updateProductQuantityToAddInventory(value);
-            }
-        }
-        else if (value != null) {
-            this.addProductInventory(value);
-        }
-    };
-    AddInventoryComponent.prototype.addProductInventory = function (productObj) {
-        // This mean user is adding first product into grid.
-        // if(this.productInventotyList.length == 0) {
-        this.productInventotyList = this.productInventotyList.slice();
-        this.productInventoryObject = new __WEBPACK_IMPORTED_MODULE_2_app_product_product_component__["b" /* ProductInventory */]();
-        this.productInventoryObject.productNo = productObj.productNo;
-        this.productInventoryObject.description = productObj.description;
-        this.productInventoryObject.cost = productObj.cost;
-        this.productInventoryObject.retail = productObj.retail;
-        this.productInventoryObject.quantity = productObj.quantity;
-        this.productInventoryObject.markup = 0.00;
-        this.productInventotyList.push(this.productInventoryObject);
-        this.persit.setProductInventoryForAdd(this.productInventotyList);
-        this.product = null;
-        this.p = null;
+        //console.log('This is value: ', value);
+        //  if (typeof value === 'string') {
+        // console.log('This is value: ', value);
+        // this is the senario where user is adding new product to Add into Inventory
+        //  if (this.product != null && this.product.length > 0) {
+        //   console.log("coming here");
+        //  this.addProductInventory(this.product[0]);
         // }
-        return this.productInventotyList;
+        // Dont understabd this
+        // else if (value !== '' && value !== undefined && value.indexOf('.') !== 0) {
+        // if (value.match(/[a-z]/i))
+        //   console.log('contains only charcters');
+        // this mean this is decimal value so it will change the retail price of the product
+        // if (value.match(/[0-9]/i) && value.indexOf('.') > 0)
+        //  this.updateCostPrice(value);
+        // this mean this is integer value so it will change the quantity of the product
+        //  else if (value.match(/[0-9]/i))
+        //  this.updateProductQuantityToAddInventory(value);
+        //  }
+        // }
+        // else if (value != null) {
+        //   this.addProductInventory(value);
+        //  }
     };
+    // addProductInventory(productObj: Product): ProductInventory[] {
+    // This mean user is adding first product into grid.
+    // if(this.productInventotyList.length == 0) {
+    // this.productInventotyList = this.productInventotyList.slice();
+    // this.productInventoryObject = new ProductInventory();
+    // this.productInventoryObject.productNo = productObj.productNo;
+    // this.productInventoryObject.description = productObj.description;
+    // this.productInventoryObject.cost = productObj.cost;
+    // this.productInventoryObject.retail = productObj.retail;
+    // this.productInventoryObject.quantity = productObj.quantity
+    // this.productInventoryObject.markup = 0.00;
+    // this.productInventotyList.push(this.productInventoryObject);
+    // this.persit.setProductInventoryForAdd(this.productInventotyList);
+    // this.product = null;
+    // this.p = null
+    // }
+    // return this.productInventotyList;
+    //}
     // I HAVE KEEP IT CASUE MAY BE I NEED TO HANDLE THIS LOGIC WHEN EVER USER ADD SAME PRODCUT INTO TABLE.
     // else {
     // Checking weather user is adding same product agian or not if its true
@@ -2471,46 +2668,46 @@ var AddInventoryComponent = /** @class */ (function () {
     //   this.setTransactionDtoList(this.transactionLineItemDaoList)
     //   this.persit.setProducts(this.transactionLineItemDaoList);
     // }
-    AddInventoryComponent.prototype.updateCostPrice = function (value) {
-        console.log('Price change');
-        this.productInventotyList[this.productInventotyList.length - 1].cost = value;
-        // this.transactionLineItemDaoList[this.transactionLineItemDaoList.length - 1].totalProductPrice = (this.transactionLineItemDaoList[this.transactionLineItemDaoList.length - 1].retail * this.transactionLineItemDaoList[this.transactionLineItemDaoList.length - 1].defaultQuantity);
-        this.productInventotyList = this.productInventotyList.slice();
-        //this.setTransactionDtoList(this.transactionLineItemDaoList)
-        this.persit.setProductInventoryForAdd(this.productInventotyList);
-        this.p = null;
-    };
-    AddInventoryComponent.prototype.updateProductQuantityToAddInventory = function (value) {
-        console.log('Quantity change');
-        this.productInventotyList[this.productInventotyList.length - 1].quantity = value;
-        // this.transactionLineItemDaoList[this.transactionLineItemDaoList.length - 1].totalProductPrice = parseFloat((this.transactionLineItemDaoList[this.transactionLineItemDaoList.length - 1].retail * this.transactionLineItemDaoList[this.transactionLineItemDaoList.length - 1].defaultQuantity).toFixed(2));
-        this.productInventotyList = this.productInventotyList.slice();
-        // this.setTransactionDtoList(this.transactionLineItemDaoList)
-        this.persit.setProductInventoryForAdd(this.productInventotyList);
-        this.p = null;
-    };
-    AddInventoryComponent.prototype.updateInventoryDetails = function (event) {
-        this.productInventotyList[event.index].quantity = event.data.quantity;
-        this.productInventotyList[event.index].cost = event.data.cost;
-        // this.transactionLineItemDaoList[event.index].totalProductPrice = (event.data.defaultQuantity * event.data.retail);
-        // this.transactionLineItemDaoList[event.index].taxAmountOnProduct = ((event.data.defaultQuantity * event.data.retail) * 7) / 100
-        // this.setTransactionDtoList(this.transactionLineItemDaoList)
-        this.persit.setProductInventoryForAdd(this.productInventotyList);
-    };
+    //  updateCostPrice(value: any) {
+    // console.log('Price change');
+    //this.productInventotyList[this.productInventotyList.length - 1].cost = value;
+    // this.transactionLineItemDaoList[this.transactionLineItemDaoList.length - 1].totalProductPrice = (this.transactionLineItemDaoList[this.transactionLineItemDaoList.length - 1].retail * this.transactionLineItemDaoList[this.transactionLineItemDaoList.length - 1].defaultQuantity);
+    // this.productInventotyList = this.productInventotyList.slice();
+    //this.setTransactionDtoList(this.transactionLineItemDaoList)
+    // this.persit.setProductInventoryForAdd(this.productInventotyList);
+    //  this.p = null;
+    // }
+    //updateProductQuantityToAddInventory(value: any) {
+    //console.log('Quantity change');
+    //  this.productInventotyList[this.productInventotyList.length - 1].quantity = value;
+    // this.transactionLineItemDaoList[this.transactionLineItemDaoList.length - 1].totalProductPrice = parseFloat((this.transactionLineItemDaoList[this.transactionLineItemDaoList.length - 1].retail * this.transactionLineItemDaoList[this.transactionLineItemDaoList.length - 1].defaultQuantity).toFixed(2));
+    // this.productInventotyList = this.productInventotyList.slice();
+    // this.setTransactionDtoList(this.transactionLineItemDaoList)
+    // this.persit.setProductInventoryForAdd(this.productInventotyList);
+    //  this.p = null;
+    //}
+    // updateInventoryDetails(event) {
+    // this.productInventotyList[event.index].quantity = event.data.quantity;
+    // this.productInventotyList[event.index].cost = event.data.cost;
+    // this.transactionLineItemDaoList[event.index].totalProductPrice = (event.data.defaultQuantity * event.data.retail);
+    // this.transactionLineItemDaoList[event.index].taxAmountOnProduct = ((event.data.defaultQuantity * event.data.retail) * 7) / 100
+    // this.setTransactionDtoList(this.transactionLineItemDaoList)
+    //   this.persit.setProductInventoryForAdd(this.productInventotyList);
+    // }
     AddInventoryComponent.prototype.setProductForDelete = function (product) {
         this.selectedProduct = product;
         this.popupHeader = 'Remove Product Inventory';
         this.popupMessage = 'Are You Sure Remove Product Inventory ?';
     };
     AddInventoryComponent.prototype.deleteProduct = function () {
-        console.log("inside delete");
-        var index = this.productInventotyList.indexOf(this.selectedProduct, 0);
-        console.log("index", index);
-        if (index > -1) {
-            this.productInventotyList.splice(index, 1);
-            this.productInventotyList = this.productInventotyList.slice();
-            this.persit.setProductInventoryForAdd(this.productInventotyList);
-        }
+        // console.log("inside delete");
+        //let index = this.productInventotyList.indexOf(this.selectedProduct, 0);
+        // console.log("index", index);
+        // if (index > -1) {
+        // this.productInventotyList.splice(index, 1);
+        // this.productInventotyList = this.productInventotyList.slice();
+        //  this.persit.setProductInventoryForAdd(this.productInventotyList);
+        //  }
     };
     AddInventoryComponent.prototype.setHeaderForRemoveAllInventoryProduct = function () {
         this.popupHeader = 'Remove All Products Inventory';
@@ -2518,7 +2715,7 @@ var AddInventoryComponent = /** @class */ (function () {
     };
     AddInventoryComponent.prototype.removeAllProductInventory = function () {
         this.persit.clearProductInventory();
-        this.productInventotyList = [];
+        // this.productInventotyList = [];
     };
     // TO DO NEED TO FIGURE OUT FILTERTING HERE
     AddInventoryComponent.prototype.onVendorChoose = function () {
@@ -2530,28 +2727,13 @@ var AddInventoryComponent = /** @class */ (function () {
         this.popupHeader = 'Add All Product Inventory';
         this.popupMessage = 'This Will Add All Products Into Inventory';
     };
-    AddInventoryComponent.prototype.addProductInventoryToBackEnd = function () {
-        var _this = this;
-        this.productInventotyList.forEach(function (inventory) {
-            inventory.createdTimestamp = __WEBPACK_IMPORTED_MODULE_5_moment__(Date.now()).format('YYYY-MM-DD HH:mm:ss');
-        });
-        this.productService.addProductInventory(this.productInventotyList)
-            .subscribe(function (data) {
-            if (data) {
-                _this.toastr.success('Inventory Added Successfully !!', 'Success!');
-            }
-        }, function (error) {
-            _this.toastr.error('Opps Something goes wrong !!', 'Error!!');
-            console.log(JSON.stringify(error.json()));
-        });
-    };
     AddInventoryComponent = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
             selector: 'app-add-inventory',
             template: __webpack_require__("../../../../../src/app/product/add-inventory/add-inventory.component.html"),
             styles: [__webpack_require__("../../../../../src/app/product/add-inventory/add-inventory.component.css")]
         }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_3_app_sell_sell_service__["a" /* SellService */], __WEBPACK_IMPORTED_MODULE_1_app_product_product_service__["a" /* ProductService */], __WEBPACK_IMPORTED_MODULE_4_app_shared_services_persistence_service__["a" /* PersistenceService */], __WEBPACK_IMPORTED_MODULE_6_ng2_toastr__["ToastsManager"]])
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_2_app_sell_sell_service__["a" /* SellService */], __WEBPACK_IMPORTED_MODULE_1_app_product_product_service__["a" /* ProductService */], __WEBPACK_IMPORTED_MODULE_3_app_shared_services_persistence_service__["a" /* PersistenceService */], __WEBPACK_IMPORTED_MODULE_4_ng2_toastr__["ToastsManager"]])
     ], AddInventoryComponent);
     return AddInventoryComponent;
 }());
@@ -2563,7 +2745,7 @@ var AddInventoryComponent = /** @class */ (function () {
 /***/ "../../../../../src/app/product/addProduct.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"\">\n    <mat-card>\n        <form *ngIf=\"this.form != null\" [formGroup]=\"form\">\n            <mat-card-title>\n                Add Product\n            </mat-card-title>\n            <mat-card-content>\n\n                <div class=\"row\">\n\n                    <div class=\"col-md-6\">\n\n                        <div class=\"row m-2\">\n                            <div class=\"col-md-4 product-textbox\">\n                                <label>Product No:</label>\n                            </div>\n\n                            <div class=\"col-md-5 product-textbox\">\n                                <input type=\"text\" class=\"form-control\" formControlName=\"productNo\" placeholder=\"Please Enter ProductNo\">\n                                <!--<input type=\"submit\" value=\"submit\" [disabled]=\"!form.valid\">-->\n                                <div *ngIf=\"form.get('productNo').hasError('required') && form.get('productNo').touched\" class=\"alert alert-danger\">\n                                    *Required!!\n                                </div>\n                                <div *ngIf=\"form.get('productNo').hasError('pattern') && form.get('productNo').touched\" class=\"alert alert-danger\">\n                                    *Value Not Alloewd</div>\n                            </div>\n\n                            <div class=\"col-md-3 product-textbox d-flex justify-content-end\">\n                                <button class=\"btn-gray action-button\" style=\"width: 100%\" mat-raised-button (click)=\"getAutoGeneratedProductNo()\">Generate</button>\n                            </div>\n                        </div>\n\n                        <div class=\"row m-2\">\n\n                            <div class=\"col-md-4 product-textbox\">\n                                <label class=\"control-label\"> Description:</label>\n                            </div>\n\n                            <div class=\"col-md-8 product-textbox\">\n                                <input type=\"text\" class=\"form-control\" style=\"text-transform:uppercase\" formControlName=\"description\" placeholder=\"Please Enter Description\">\n                                <p *ngIf=\"form.get('description').hasError('required') && form.get('description').touched\" class=\"alert alert-danger\">\n                                    *Required!!</p>\n                            </div>\n                        </div>\n\n                        <div class=\"row m-2\">\n\n                            <div class=\"col-md-4 product-textbox\">\n                                <label class=\"control-label\">Category Name:</label>\n                            </div>\n                            <div class=\"col-md-8 product-textbox\">\n                                <select class=\"form-control\" formControlName=\"category\">\n                                            <option *ngFor=\"let category of categoryDto\" [ngValue]= \"category\">\n                                                {{category.name}}\n                                                </option>\n                                        </select>\n                                <p *ngIf=\"form.get('category').hasError('required')\" class=\"alert alert-danger\">\n                                    *Required!!</p>\n                            </div>\n                        </div>\n\n                        <div class=\"row m-2\">\n\n                            <div class=\"col-md-4 product-textbox\">\n                                <label class=\"control-label\">Brand Name:</label>\n                            </div>\n\n                            <div class=\"col-md-8 product-textbox\">\n                                <select class=\"form-control\" formControlName=\"brand\" name=\"brand\">\n                                            <option *ngFor = \"let brand of brandDto\" [ngValue]=\"brand\">\n                                                {{brand.name}}\n                                            </option>\n                                        </select>\n                                <p *ngIf=\"form.get('brand').hasError('required')\" class=\"alert alert-danger\">\n                                    *Required!!</p>\n                            </div>\n                        </div>\n\n                        <div class=\"row m-2\">\n\n                            <div class=\"col-md-4 product-textbox\">\n                                <label class=\"control-label\">Vender Name:</label>\n                            </div>\n                            <div class=\"col-md-8 product-textbox\">\n                                <select class=\"form-control\" formControlName=\"vendor\" name=\"vendor\">\n                                            <option *ngFor = \"let vendor of vendorDto\" [ngValue]=\"vendor\">\n                                                {{vendor.name}}\n                                                </option>\n                                        </select>\n                                <p *ngIf=\"form.get('vendor').hasError('required')\" class=\"alert alert-danger\">\n                                    *Required!!</p>\n                            </div>\n                        </div>\n\n                        <div class=\"row m-1\">\n\n                            <div class=\"col-md-4 product-textbox\">\n                                <label class=\"control-label\"> Model Name:</label>\n                            </div>\n                            <div class=\"col-md-8 product-textbox\">\n                                <select class=\"form-control\" name=\"model\">\n                                            <option *ngFor = \"let model of modelDto\">\n                                                {{model.name}}\n                                                </option>\n                                        </select>\n                            </div>\n                        </div>\n                        <div class=\"row m-2\">\n                            <div class=\"col-md-4 product-textbox\">\n                                <label class=\"control-label\">Alternate No:</label>\n                            </div>\n\n                            <div class=\"col-md-8 product-textbox\">\n                                <input type=\"text\" class=\"form-control\" placeholder=\"Please Enter Alternate No\">\n                            </div>\n                        </div>\n\n                    </div>\n\n\n                    <!--End of left side Div-->\n\n                    <!--Start of Right Side DIV-->\n\n                    <div class=\"col-md-6\">\n\n                        <div class=\"row m-2\">\n\n                            <div class=\"col-md-3 product-textbox\">\n                                <label>Cost Price</label>\n                                <input type=\"number\" formControlName=\"cost\" class=\"form-control\">\n                                <p *ngIf=\"form.get('cost').hasError('required') && form.get('cost').touched\" class=\"alert alert-danger\">\n                                    *Required!!</p>\n                                <p *ngIf=\"form.get('cost').hasError('pattern') && form.get('cost').touched\" class=\"alert alert-danger\">\n                                    *Value Not Alloewd*</p>\n\n\n                            </div>\n                            <div class=\"col-md-1 product-textbox\">\n                                <label>X</label>\n                            </div>\n\n                            <div class=\"col-md-3 product-textbox\">\n                                <label>Markup %</label>\n                                <input type=\"number\" formControlName=\"markup\" class=\"form-control\">\n                                <p *ngIf=\"form.get('markup').hasError('required') && form.get('markup').touched\" class=\"alert alert-danger\">\n                                    *Required!!</p>\n                                <p *ngIf=\"form.get('markup').hasError('pattern') && form.get('markup').touched\" class=\"alert alert-danger\">\n                                    *Value Not Alloewd*</p>\n                            </div>\n                            <div class=\"col-md-1 product-textbox\">\n                                <label>=</label>\n                            </div>\n\n                            <div class=\"col-md-4 product-textbox\">\n                                <label>Retail Price</label>\n                                <input type=\"number\" formControlName=\"retail\" class=\"form-control\">\n                                <p *ngIf=\"form.get('retail').hasError('required') && form.get('retail').touched\" class=\"alert alert-danger\">\n                                    *Required!!</p>\n                                <p *ngIf=\"form.get('retail').hasError('pattern') && form.get('retail').touched\" class=\"alert alert-danger\">\n                                    *Value Not Alloewd*</p>\n                            </div>\n                        </div>\n\n                        <div class=\"row m-2\">\n\n                            <label class=\"col-md-4 control-label product-textbox\">\n                                                    Quantity:\n                                                </label>\n                            <div class=\"col-md-8 product-textbox\">\n                                <input type=\"number\" class=\"form-control\" formControlName=\"quantity\" placeholder=\"Please Enter Quantity\">\n                                <div *ngIf=\"form.get('quantity').hasError('pattern') && form.get('quantity').touched\" class=\"alert alert-danger\">\n                                    *Value Not Alloewd*</div>\n                            </div>\n                        </div>\n                        <div class=\"row m-2\">\n\n\n                            <label class=\"col-md-4 control-label product-textbox\">\n                                                    Min-Quantity:\n                                                </label>\n                            <div class=\"col-md-8 product-textbox\">\n                                <input type=\"number\" class=\"form-control\" formControlName=\"minQuantity\" placeholder=\"Please Enter Min-Quantity\">\n                                <div *ngIf=\"form.get('minQuantity').hasError('pattern') && form.get('minQuantity').touched\" class=\"alert alert-danger\">\n                                    *Value Not Alloewd*</div>\n                            </div>\n                        </div>\n                        <div class=\"row m-2\">\n\n\n                            <label class=\"col-md-4 control-label product-textbox\">\n                                                    Return Rule:\n                                                </label>\n                            <div class=\"col-md-8 product-textbox\">\n                                <select class=\"form-control\">\n                                            <option>No-Return-Allowed</option>\n                                            <option>1 Day</option>\n                                            <option>1 Week</option>\n                                            <option>2 Week</option>\n                                             <option>1 Month</option>\n                                             <option>3 Months</option>\n                                             <option>6 Months</option>\n                                             <option>12 Months</option>\n                                        </select>\n\n                            </div>\n                        </div>\n                        <div class=\"row m-2\">\n                            <div class=\"col-md-12 product-textbox\">\n                                <div class=\"checkbox\">\n                                    <label>\n                                              <input type=\"checkbox\" checked formControlName=\"tax\">\n                                               Is Taxable\n                                            </label>\n                                </div>\n                            </div>\n                        </div>\n\n                        <div class=\"row m-2\">\n\n                            <div class=\"col-md-12 product-textbox\">\n                                <div class=\"checkbox\">\n                                    <label>\n                                              <input type=\"checkbox\" checked formControlName=\"ecommerce\">\n                                               Is Ecomerce\n                                            </label>\n                                </div>\n                            </div>\n                        </div>\n\n                        <div class=\"row m-2\">\n\n                            <div class=\"col-md-12 product-textbox\">\n                                <div class=\"checkbox\">\n                                    <label>\n                                              <input type=\"checkbox\" (click) = \"showDialog()\" formControlName=\"varaint\">\n                                               Is Variant\n                                            </label>\n                                </div>\n                            </div>\n                        </div>\n\n                        <!-- <div class=\"col-md-12 \">\n                                    <div class=\"radio\">\n                                        <label>\n                                            <input type=\"radio\" name=\"optradio\">$ 0.63 Default Loyalty:\n                                        </label> (based on the default Loyalty ratio of 50:1)\n                                    </div>\n                                    <div class=\"radio\">\n                                        <label><input type=\"radio\" name=\"optradio\">Customer Loyalty Of:</label>\n                                        <input type=\"text\" name=\"optradio\">\n                                    </div>\n                                </div> -->\n\n\n                    </div>\n                    <!-- end of row for right side-->\n\n\n                </div>\n                <!--End Main Row-->\n\n\n            </mat-card-content>\n            <mat-card-footer>\n                <!--Submit button Row-->\n                <div class=\"d-flex p-md-3 justify-content-center\">\n                    <button mat-raised-button class=\"bg-danger text-white m-2 action-button-lg\" routerLink=\"/product/productTable\">Cancel</button>\n                    <button mat-raised-button class=\"bg btn-green text-white m-2 action-button-lg\" type=\"submit\" (click)=\"addProduct()\" [disabled]=\"form.invalid\">\n                        <i class=\"fa fa-paper-plane\" aria-hidden=\"true\" ></i>\n                            Add Product\n                    </button>\n                </div>\n            </mat-card-footer>\n\n        </form>\n    </mat-card>\n\n\n</div>\n\n\n\n\n\n\n\n<!--********************************* VERY IMPORTANT DO NOT DELET IT *********************************-->\n\n\n<!--START OF VARIANT POPUP-->\n\n<p-dialog header=\"Product Variant Details\" [(visible)]=\"displayDialog\" [modal]=\"true\" [responsive]=\"true\">\n\n    <div class=\"container\">\n        <div class=\"row\">\n            <div class=\"col-md-2\">\n                <select class=\"form-control\">\n                                <option *ngFor = \"let variantName of productVariantDetailsDto\">\n                                    {{variantName}}\n                                    </option>\n                            </select>\n            </div>\n\n            <div class=\"col-md-3\">\n                <select class=\"form-control\">\n                                  <option *ngFor = \"let variantValue of productVariantDetailsByNameDto\"> \n                                      {{variantValue.value}}\n                                      </option>\n                                </select>\n\n            </div>\n\n            <div class=\"col-md-2\">\n                <input type=\"text\" class=\"form-control\" [(ngModel)]=\"formProduct.cost\" placeholder=\"Cost Price\">\n            </div>\n            <div class=\"col-md-2\">\n                <input type=\"text\" class=\"form-control\" [(ngModel)]=\"formProduct.markup\" placeholder=\"Markup %\">\n\n            </div>\n            <div class=\"col-md-2\">\n                <input type=\"text\" class=\"form-control\" [(ngModel)]=\"formProduct.retail\" placeholder=\"Retail Price\">\n            </div>\n            <div class=\"col-md-1\">\n                <i class=\"fa fa-trash-o\" aria-hidden=\"true\"></i>\n            </div>\n        </div>\n\n        <div class=\"row\">\n            <div class=\"col-md-2\">\n                <select class=\"form-control\">\n                                <option *ngFor = \"let variantName of productVariantDetailsDto\">\n                                    {{variantName}}\n                                    </option>\n                            </select>\n            </div>\n\n            <div class=\"col-md-3\">\n                <select class=\"form-control\">\n                                  <option *ngFor = \"let variantValue of productVariantDetailsByNameDto\"> \n                                      {{variantValue.value}}\n                                      </option>\n                                </select>\n\n            </div>\n\n            <div class=\"col-md-2\">\n                <input type=\"text\" class=\"form-control\" [(ngModel)]=\"formProduct.cost\" placeholder=\"Cost Price\">\n            </div>\n            <div class=\"col-md-2\">\n                <input type=\"text\" class=\"form-control\" [(ngModel)]=\"formProduct.markup\" placeholder=\"Markup %\">\n\n            </div>\n            <div class=\"col-md-2\">\n                <input type=\"text\" class=\"form-control\" [(ngModel)]=\"formProduct.retail\" placeholder=\"Retail Price\">\n            </div>\n            <div class=\"col-md-1\">\n                <i class=\"fa fa-trash-o\" aria-hidden=\"true\"></i>\n            </div>\n        </div>\n\n        <div class=\"row\">\n\n            <div class=\"col-md-3\">\n            </div>\n            <div class=\"col-md-3\">\n                <p><button class=\"btn btn-primary btn-block\">Add Product Variant</button></p>\n            </div>\n            <div class=\"col-md-3\">\n                <p><button class=\"btn btn-primary btn-block\">Update Product Variant</button></p>\n            </div>\n\n        </div>\n    </div>\n</p-dialog>\n\n<!--End Of variant logic-->"
+module.exports = "<div class=\"\">\n    <mat-card>\n        <form *ngIf=\"this.form != null\" [formGroup]=\"form\">\n            <mat-card-title>\n                Add Product\n            </mat-card-title>\n            <mat-card-content>\n\n                <div class=\"row\">\n\n                    <div class=\"col-md-6\">\n\n                        <div class=\"row m-2\">\n                            <div class=\"col-md-4 product-textbox\">\n                                <label>Product No:</label>\n                            </div>\n\n                            <div class=\"col-md-5 product-textbox\">\n                                <input type=\"text\" class=\"form-control\" formControlName=\"productNo\" placeholder=\"Please Enter ProductNo\">\n                                <!--<input type=\"submit\" value=\"submit\" [disabled]=\"!form.valid\">-->\n                                <div *ngIf=\"form.get('productNo').hasError('required') && form.get('productNo').touched\" class=\"alert alert-danger\">\n                                    *Required!!\n                                </div>\n                                <div *ngIf=\"form.get('productNo').hasError('pattern') && form.get('productNo').touched\" class=\"alert alert-danger\">\n                                    *Value Not Alloewd</div>\n                            </div>\n\n                            <div class=\"col-md-3 product-textbox d-flex justify-content-end\">\n                                <button class=\"btn-gray action-button\" style=\"width: 100%\" mat-raised-button (click)=\"getAutoGeneratedProductNo()\">Generate</button>\n                            </div>\n                        </div>\n\n                        <div class=\"row m-2\">\n\n                            <div class=\"col-md-4 product-textbox\">\n                                <label class=\"control-label\"> Description:</label>\n                            </div>\n\n                            <div class=\"col-md-8 product-textbox\">\n                                <input type=\"text\" class=\"form-control\" style=\"text-transform:uppercase\" formControlName=\"description\" placeholder=\"Please Enter Description\">\n                                <p *ngIf=\"form.get('description').hasError('required') && form.get('description').touched\" class=\"alert alert-danger\">\n                                    *Required!!</p>\n                            </div>\n                        </div>\n\n                        <div class=\"row m-2\">\n\n                            <div class=\"col-md-4 product-textbox\">\n                                <label class=\"control-label\">Category Name:</label>\n                            </div>\n                            <div class=\"col-md-8 product-textbox\">\n                                <select class=\"form-control\" formControlName=\"category\">\n                                            <option *ngFor=\"let category of categoryDto\" [ngValue]= \"category\">\n                                                {{category.name}}\n                                                </option>\n                                        </select>\n                                <p *ngIf=\"form.get('category').hasError('required')\" class=\"alert alert-danger\">\n                                    *Required!!</p>\n                            </div>\n                        </div>\n\n                        <div class=\"row m-2\">\n\n                            <div class=\"col-md-4 product-textbox\">\n                                <label class=\"control-label\">Brand Name:</label>\n                            </div>\n\n                            <div class=\"col-md-8 product-textbox\">\n                                <select class=\"form-control\" formControlName=\"brand\" name=\"brand\">\n                                            <option *ngFor = \"let brand of brandDto\" [ngValue]=\"brand\">\n                                                {{brand.name}}\n                                            </option>\n                                        </select>\n                                <p *ngIf=\"form.get('brand').hasError('required')\" class=\"alert alert-danger\">\n                                    *Required!!</p>\n                            </div>\n                        </div>\n\n                        <div class=\"row m-2\">\n\n                            <div class=\"col-md-4 product-textbox\">\n                                <label class=\"control-label\">Vender Name:</label>\n                            </div>\n                            <div class=\"col-md-8 product-textbox\">\n                                <select class=\"form-control\" formControlName=\"vendor\" name=\"vendor\">\n                                            <option *ngFor = \"let vendor of vendorDto\" [ngValue]=\"vendor\">\n                                                {{vendor.name}}\n                                                </option>\n                                        </select>\n                                <p *ngIf=\"form.get('vendor').hasError('required')\" class=\"alert alert-danger\">\n                                    *Required!!</p>\n                            </div>\n                        </div>\n\n                        <!-- <div class=\"row m-1\">\n\n                            <div class=\"col-md-4 product-textbox\">\n                                <label class=\"control-label\"> Model Name:</label>\n                            </div>\n                            <div class=\"col-md-8 product-textbox\">\n                                <select class=\"form-control\" name=\"model\">\n                                            <option *ngFor = \"let model of modelDto\">\n                                                {{model.name}}\n                                                </option>\n                                        </select>\n                            </div>\n                        </div> -->\n                        <div class=\"row m-2\">\n                            <div class=\"col-md-4 product-textbox\">\n                                <label class=\"control-label\">Alternate No:</label>\n                            </div>\n\n                            <div class=\"col-md-8 product-textbox\">\n                                <input type=\"text\" class=\"form-control\" placeholder=\"Please Enter Alternate No\">\n                            </div>\n                        </div>\n\n                    </div>\n\n\n                    <!--End of left side Div-->\n\n                    <!--Start of Right Side DIV-->\n\n                    <div class=\"col-md-6\">\n\n                        <div class=\"row m-2\">\n\n                            <div class=\"col-md-3 product-textbox\">\n                                <label>Cost Price</label>\n                                <input type=\"number\" formControlName=\"cost\" class=\"form-control\">\n                                <p *ngIf=\"form.get('cost').hasError('required') && form.get('cost').touched\" class=\"alert alert-danger\">\n                                    *Required!!</p>\n                                <p *ngIf=\"form.get('cost').hasError('pattern') && form.get('cost').touched\" class=\"alert alert-danger\">\n                                    *Value Not Alloewd*</p>\n\n\n                            </div>\n                            <div class=\"col-md-1 product-textbox\">\n                                <label>X</label>\n                            </div>\n\n                            <div class=\"col-md-3 product-textbox\">\n                                <label>Markup %</label>\n                                <input type=\"number\" formControlName=\"markup\" class=\"form-control\">\n                                <p *ngIf=\"form.get('markup').hasError('required') && form.get('markup').touched\" class=\"alert alert-danger\">\n                                    *Required!!</p>\n                                <p *ngIf=\"form.get('markup').hasError('pattern') && form.get('markup').touched\" class=\"alert alert-danger\">\n                                    *Value Not Alloewd*</p>\n                            </div>\n                            <div class=\"col-md-1 product-textbox\">\n                                <label>=</label>\n                            </div>\n\n                            <div class=\"col-md-4 product-textbox\">\n                                <label>Retail Price</label>\n                                <input type=\"number\" formControlName=\"retail\" class=\"form-control\">\n                                <p *ngIf=\"form.get('retail').hasError('required') && form.get('retail').touched\" class=\"alert alert-danger\">\n                                    *Required!!</p>\n                                <p *ngIf=\"form.get('retail').hasError('pattern') && form.get('retail').touched\" class=\"alert alert-danger\">\n                                    *Value Not Alloewd*</p>\n                            </div>\n                        </div>\n\n                        <div class=\"row m-2\">\n\n                            <label class=\"col-md-4 control-label product-textbox\">\n                                                    Quantity:\n                                                </label>\n                            <div class=\"col-md-8 product-textbox\">\n                                <input type=\"number\" class=\"form-control\" formControlName=\"quantity\" placeholder=\"Please Enter Quantity\">\n                                <div *ngIf=\"form.get('quantity').hasError('pattern') && form.get('quantity').touched\" class=\"alert alert-danger\">\n                                    *Value Not Alloewd*</div>\n                            </div>\n                        </div>\n                        <div class=\"row m-2\">\n\n\n                            <label class=\"col-md-4 control-label product-textbox\">\n                                                    Min-Quantity:\n                                                </label>\n                            <div class=\"col-md-8 product-textbox\">\n                                <input type=\"number\" class=\"form-control\" formControlName=\"minQuantity\" placeholder=\"Please Enter Min-Quantity\">\n                                <div *ngIf=\"form.get('minQuantity').hasError('pattern') && form.get('minQuantity').touched\" class=\"alert alert-danger\">\n                                    *Value Not Alloewd*</div>\n                            </div>\n                        </div>\n                        <div class=\"row m-2\">\n\n\n                            <label class=\"col-md-4 control-label product-textbox\">\n                                                    Return Rule:\n                                                </label>\n                            <div class=\"col-md-8 product-textbox\">\n                                <select class=\"form-control\">\n                                            <option>No-Return-Allowed</option>\n                                            <option>1 Day</option>\n                                            <option>1 Week</option>\n                                            <option>2 Week</option>\n                                             <option>1 Month</option>\n                                             <option>3 Months</option>\n                                             <option>6 Months</option>\n                                             <option>12 Months</option>\n                                        </select>\n\n                            </div>\n                        </div>\n                        <div class=\"row m-2\">\n                            <div class=\"col-md-12 product-textbox\">\n                                <div class=\"checkbox\">\n                                    <label>\n                                              <input type=\"checkbox\" checked formControlName=\"tax\">\n                                               Is Taxable\n                                            </label>\n                                </div>\n                            </div>\n                        </div>\n\n                        <div class=\"row m-2\">\n\n                            <div class=\"col-md-12 product-textbox\">\n                                <div class=\"checkbox\">\n                                    <label>\n                                              <input type=\"checkbox\" checked formControlName=\"ecommerce\">\n                                               Is Ecomerce\n                                            </label>\n                                </div>\n                            </div>\n                        </div>\n\n                        <div class=\"row m-2\">\n\n                            <div class=\"col-md-4 product-textbox\">\n                                <div class=\"checkbox\">\n                                    <label>\n                                              <input type=\"checkbox\" (click) = \"this.showDigitalPunchOccurenceTextBox()\" formControlName=\"enableDigitalPunch\">\n                                               Enable Digital Punching\n                                            </label>\n                                </div>\n                            </div>\n\n                            <div *ngIf=\"this.showDigitalPunchTextBox\" class=\"col-md-4 product-textbox\">\n                                <label class=\"control-label\">\n                                  #Sale For Free Service:\n                                </label>\n                            </div>\n                            <div *ngIf=\"this.showDigitalPunchTextBox\" class=\"col-md-4 product-textbox\">\n                                <input type=\"number\" class=\"form-control\" formControlName=\"noOfSaleForFreeService\" placeholder=\"Please Enter Total # Service\">\n                            </div>\n                        </div>\n\n\n\n                        <!-- <div class=\"row m-2\">\n\n                            <div class=\"col-md-12 product-textbox\">\n                                <div class=\"checkbox\">\n                                    <label>\n                                              <input type=\"checkbox\" (click) = \"showDialog()\" formControlName=\"varaint\">\n                                               Is Variant\n                                            </label>\n                                </div>\n                            </div>\n                        </div> -->\n\n                        <!-- <div class=\"col-md-12 \">\n                                    <div class=\"radio\">\n                                        <label>\n                                            <input type=\"radio\" name=\"optradio\">$ 0.63 Default Loyalty:\n                                        </label> (based on the default Loyalty ratio of 50:1)\n                                    </div>\n                                    <div class=\"radio\">\n                                        <label><input type=\"radio\" name=\"optradio\">Customer Loyalty Of:</label>\n                                        <input type=\"text\" name=\"optradio\">\n                                    </div>\n                                </div> -->\n\n\n                    </div>\n                    <!-- end of row for right side-->\n\n\n                </div>\n                <!--End Main Row-->\n\n\n            </mat-card-content>\n            <mat-card-footer>\n                <!--Submit button Row-->\n                <div class=\"d-flex p-md-3 justify-content-center\">\n                    <button mat-raised-button class=\"bg-danger text-white m-2 action-button-lg\" routerLink=\"/product/productTable\">Cancel</button>\n                    <button mat-raised-button class=\"bg btn-green text-white m-2 action-button-lg\" type=\"submit\" (click)=\"addProduct()\" [disabled]=\"form.invalid\">\n                        <i class=\"fa fa-paper-plane\" aria-hidden=\"true\" ></i>\n                            Add Product\n                    </button>\n                </div>\n            </mat-card-footer>\n\n        </form>\n    </mat-card>\n\n\n</div>\n\n\n\n\n\n\n\n<!--********************************* VERY IMPORTANT DO NOT DELET IT *********************************-->\n\n\n<!--START OF VARIANT POPUP-->\n\n<p-dialog header=\"Product Variant Details\" [(visible)]=\"displayDialog\" [modal]=\"true\" [responsive]=\"true\">\n\n    <div class=\"container\">\n        <div class=\"row\">\n            <div class=\"col-md-2\">\n                <select class=\"form-control\">\n                                <option *ngFor = \"let variantName of productVariantDetailsDto\">\n                                    {{variantName}}\n                                    </option>\n                            </select>\n            </div>\n\n            <div class=\"col-md-3\">\n                <select class=\"form-control\">\n                                  <option *ngFor = \"let variantValue of productVariantDetailsByNameDto\"> \n                                      {{variantValue.value}}\n                                      </option>\n                                </select>\n\n            </div>\n\n            <div class=\"col-md-2\">\n                <input type=\"text\" class=\"form-control\" [(ngModel)]=\"formProduct.cost\" placeholder=\"Cost Price\">\n            </div>\n            <div class=\"col-md-2\">\n                <input type=\"text\" class=\"form-control\" [(ngModel)]=\"formProduct.markup\" placeholder=\"Markup %\">\n\n            </div>\n            <div class=\"col-md-2\">\n                <input type=\"text\" class=\"form-control\" [(ngModel)]=\"formProduct.retail\" placeholder=\"Retail Price\">\n            </div>\n            <div class=\"col-md-1\">\n                <i class=\"fa fa-trash-o\" aria-hidden=\"true\"></i>\n            </div>\n        </div>\n\n        <div class=\"row\">\n            <div class=\"col-md-2\">\n                <select class=\"form-control\">\n                                <option *ngFor = \"let variantName of productVariantDetailsDto\">\n                                    {{variantName}}\n                                    </option>\n                            </select>\n            </div>\n\n            <div class=\"col-md-3\">\n                <select class=\"form-control\">\n                                  <option *ngFor = \"let variantValue of productVariantDetailsByNameDto\"> \n                                      {{variantValue.value}}\n                                      </option>\n                                </select>\n\n            </div>\n\n            <div class=\"col-md-2\">\n                <input type=\"text\" class=\"form-control\" [(ngModel)]=\"formProduct.cost\" placeholder=\"Cost Price\">\n            </div>\n            <div class=\"col-md-2\">\n                <input type=\"text\" class=\"form-control\" [(ngModel)]=\"formProduct.markup\" placeholder=\"Markup %\">\n\n            </div>\n            <div class=\"col-md-2\">\n                <input type=\"text\" class=\"form-control\" [(ngModel)]=\"formProduct.retail\" placeholder=\"Retail Price\">\n            </div>\n            <div class=\"col-md-1\">\n                <i class=\"fa fa-trash-o\" aria-hidden=\"true\"></i>\n            </div>\n        </div>\n\n        <div class=\"row\">\n\n            <div class=\"col-md-3\">\n            </div>\n            <div class=\"col-md-3\">\n                <p><button class=\"btn btn-primary btn-block\">Add Product Variant</button></p>\n            </div>\n            <div class=\"col-md-3\">\n                <p><button class=\"btn btn-primary btn-block\">Update Product Variant</button></p>\n            </div>\n\n        </div>\n    </div>\n</p-dialog>\n\n<!--End Of variant logic-->"
 
 /***/ }),
 
@@ -2574,13 +2756,12 @@ module.exports = "<div class=\"\">\n    <mat-card>\n        <form *ngIf=\"this.f
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return AddProductComponent; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/esm5/core.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_app_product_product_service__ = __webpack_require__("../../../../../src/app/product/product.service.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_app_sell_sell_component__ = __webpack_require__("../../../../../src/app/sell/sell.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__angular_forms__ = __webpack_require__("../../../forms/esm5/forms.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_app_product_product_component__ = __webpack_require__("../../../../../src/app/product/product.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_moment__ = __webpack_require__("../../../../moment/moment.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_moment___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5_moment__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_ng2_toastr_src_toast_manager__ = __webpack_require__("../../../../ng2-toastr/src/toast-manager.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_ng2_toastr_src_toast_manager___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6_ng2_toastr_src_toast_manager__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_forms__ = __webpack_require__("../../../forms/esm5/forms.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_moment__ = __webpack_require__("../../../../moment/moment.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_moment___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_moment__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_ng2_toastr_src_toast_manager__ = __webpack_require__("../../../../ng2-toastr/src/toast-manager.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_ng2_toastr_src_toast_manager___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4_ng2_toastr_src_toast_manager__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_app_sell_sale_sale_component__ = __webpack_require__("../../../../../src/app/sell/sale/sale.component.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -2590,7 +2771,6 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-
 
 
 // import { FormBuilder } from "@angular/forms/forms";
@@ -2604,27 +2784,28 @@ var AddProductComponent = /** @class */ (function () {
         this.formBuilder = formBuilder;
         this.toastr = toastr;
         this.displayDialog = false;
-        this.formProduct = new __WEBPACK_IMPORTED_MODULE_2_app_sell_sell_component__["a" /* Product */]();
-        this.productInventory = new __WEBPACK_IMPORTED_MODULE_4_app_product_product_component__["b" /* ProductInventory */]();
-        this.productInventoryList = [];
+        this.formProduct = new __WEBPACK_IMPORTED_MODULE_5_app_sell_sale_sale_component__["b" /* Product */]();
+        this.showDigitalPunchTextBox = false;
     }
     AddProductComponent.prototype.ngOnInit = function () {
         //this.generatedProductNo = '123213131';
         var _this = this;
         this.form = this.formBuilder.group({
-            'productNo': [null, [__WEBPACK_IMPORTED_MODULE_3__angular_forms__["Validators"].required, __WEBPACK_IMPORTED_MODULE_3__angular_forms__["Validators"].pattern('^[0-9]+$')]],
-            'description': ['', __WEBPACK_IMPORTED_MODULE_3__angular_forms__["Validators"].required],
-            'category': [null, __WEBPACK_IMPORTED_MODULE_3__angular_forms__["Validators"].required],
-            'brand': [null, __WEBPACK_IMPORTED_MODULE_3__angular_forms__["Validators"].required],
-            'vendor': [null, __WEBPACK_IMPORTED_MODULE_3__angular_forms__["Validators"].required],
-            'cost': [null, [__WEBPACK_IMPORTED_MODULE_3__angular_forms__["Validators"].required, __WEBPACK_IMPORTED_MODULE_3__angular_forms__["Validators"].pattern('^[0-9-.]+$')]],
-            'markup': [null, __WEBPACK_IMPORTED_MODULE_3__angular_forms__["Validators"].pattern('^[0-9-.]+$')],
-            'retail': [null, [__WEBPACK_IMPORTED_MODULE_3__angular_forms__["Validators"].required, __WEBPACK_IMPORTED_MODULE_3__angular_forms__["Validators"].pattern('^[0-9-.]+$')]],
-            'quantity': [null, [__WEBPACK_IMPORTED_MODULE_3__angular_forms__["Validators"].required, __WEBPACK_IMPORTED_MODULE_3__angular_forms__["Validators"].pattern('^[0-9]+$')]],
-            'minQuantity': [null, [__WEBPACK_IMPORTED_MODULE_3__angular_forms__["Validators"].pattern('^[0-9]+$')]],
+            'productNo': [null, [__WEBPACK_IMPORTED_MODULE_2__angular_forms__["Validators"].required, __WEBPACK_IMPORTED_MODULE_2__angular_forms__["Validators"].pattern('^[0-9]+$')]],
+            'description': ['', __WEBPACK_IMPORTED_MODULE_2__angular_forms__["Validators"].required],
+            'category': [null, __WEBPACK_IMPORTED_MODULE_2__angular_forms__["Validators"].required],
+            'brand': [null, __WEBPACK_IMPORTED_MODULE_2__angular_forms__["Validators"].required],
+            'vendor': [null, __WEBPACK_IMPORTED_MODULE_2__angular_forms__["Validators"].required],
+            'cost': [null, [__WEBPACK_IMPORTED_MODULE_2__angular_forms__["Validators"].pattern('^[0-9-.]+$')]],
+            'markup': [null, __WEBPACK_IMPORTED_MODULE_2__angular_forms__["Validators"].pattern('^[0-9-.]+$')],
+            'retail': [null, [__WEBPACK_IMPORTED_MODULE_2__angular_forms__["Validators"].required, __WEBPACK_IMPORTED_MODULE_2__angular_forms__["Validators"].pattern('^[0-9-.]+$')]],
+            'quantity': [null, [__WEBPACK_IMPORTED_MODULE_2__angular_forms__["Validators"].pattern('^[0-9]+$')]],
+            'minQuantity': [null, [__WEBPACK_IMPORTED_MODULE_2__angular_forms__["Validators"].pattern('^[0-9]+$')]],
             'tax': [true, null],
             'ecommerce': [false, null],
-            'varaint': [false, null]
+            'varaint': [false, null],
+            'enableDigitalPunch': [false, null],
+            'noOfSaleForFreeService': [null]
         });
         this.productService.getCategoryDetails()
             .subscribe(function (categories) {
@@ -2644,11 +2825,11 @@ var AddProductComponent = /** @class */ (function () {
             _this.form.get('vendor').setValue(_this.vendorDto[0]);
             console.log('VendorList' + _this.vendorDto);
         });
-        this.productService.getModelDetails()
-            .subscribe(function (models) {
-            _this.modelDto = models;
-            console.log('ModelList' + _this.modelDto);
-        });
+        // this.productService.getModelDetails()
+        //   .subscribe((models: Model[]) => {
+        //     this.modelDto = models;
+        //     console.log('ModelList' + this.modelDto);
+        //   });
         // DO NOT DELETE THIS NEED WHEN YOU HANDLE PRODUCT VARIENT
         // this.productService.getProductVariantDetails()
         // .subscribe((a: ProductVariantDetail[]) => {
@@ -2664,20 +2845,19 @@ var AddProductComponent = /** @class */ (function () {
     AddProductComponent.prototype.addProduct = function () {
         var _this = this;
         {
-            this.productInventoryList.push(this.productInventory);
+            // this.productInventoryList.push(this.productInventory);
             var formValues = this.form.value;
             // Here i need to add product inventory details to the product inventory table 
-            this.productInventory.productNo = formValues.productNo;
-            this.productInventory.cost = formValues.cost;
-            this.productInventory.retail = formValues.retail;
-            this.productInventory.quantity = formValues.quantity;
-            this.productInventory.createdTimestamp = __WEBPACK_IMPORTED_MODULE_5_moment__(Date.now()).format('YYYY-MM-DD HH:mm:ss');
+            // this.productInventory.productNo = formValues.productNo;
+            // this.productInventory.cost = formValues.cost;
+            // this.productInventory.retail = formValues.retail;
+            // this.productInventory.quantity = formValues.quantity;
+            //  this.productInventory.createdTimestamp = moment(Date.now()).format('YYYY-MM-DD HH:mm:ss');
             var product = {
                 productNo: formValues.productNo,
                 categoryId: formValues.category.categoryId,
                 brandId: formValues.brand.brandId,
                 vendorId: formValues.vendor.vendorId,
-                modelId: null,
                 alternetNo: formValues.alternetNo,
                 cost: formValues.cost,
                 retail: formValues.retail,
@@ -2702,8 +2882,9 @@ var AddProductComponent = /** @class */ (function () {
                 totalProductPrice: null,
                 transactionComId: null,
                 time: null,
-                createdTimestamp: __WEBPACK_IMPORTED_MODULE_5_moment__(Date.now()).format('YYYY-MM-DD HH:mm:ss'),
-                productInventoryDaoList: this.productInventoryList
+                createdTimestamp: __WEBPACK_IMPORTED_MODULE_3_moment__(Date.now()).format('YYYY-MM-DD HH:mm:ss'),
+                enableDigitalPunch: formValues.enableDigitalPunch,
+                noOfSaleForFreeService: formValues.noOfSaleForFreeService,
             };
             this.productService.addProduct(product)
                 .subscribe(function (data) {
@@ -2726,8 +2907,7 @@ var AddProductComponent = /** @class */ (function () {
         this.form.reset({
             category: this.categoryDto[0],
             brand: this.brandDto[0],
-            vendor: this.vendorDto[0],
-            model: this.modelDto[0]
+            vendor: this.vendorDto[0]
         });
     };
     AddProductComponent.prototype.getAutoGeneratedProductNo = function () {
@@ -2741,13 +2921,16 @@ var AddProductComponent = /** @class */ (function () {
     AddProductComponent.prototype.showDialog = function () {
         this.displayDialog = !this.displayDialog;
     };
+    AddProductComponent.prototype.showDigitalPunchOccurenceTextBox = function () {
+        this.showDigitalPunchTextBox = !this.showDigitalPunchTextBox;
+    };
     AddProductComponent = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
             selector: 'app-product',
             template: __webpack_require__("../../../../../src/app/product/addProduct.component.html"),
             styles: [__webpack_require__("../../../../../src/app/product/product.component.scss")],
         }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_app_product_product_service__["a" /* ProductService */], __WEBPACK_IMPORTED_MODULE_3__angular_forms__["FormBuilder"], __WEBPACK_IMPORTED_MODULE_6_ng2_toastr_src_toast_manager__["ToastsManager"]])
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_app_product_product_service__["a" /* ProductService */], __WEBPACK_IMPORTED_MODULE_2__angular_forms__["FormBuilder"], __WEBPACK_IMPORTED_MODULE_4_ng2_toastr_src_toast_manager__["ToastsManager"]])
     ], AddProductComponent);
     return AddProductComponent;
 }());
@@ -3099,7 +3282,7 @@ var CategoryService = /** @class */ (function () {
 /***/ "../../../../../src/app/product/edit-product/edit-product.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<mat-card>\n    <form *ngIf=\"this.form != null\" [formGroup]=\"form\">\n        <mat-card-title>\n            Edit Product\n        </mat-card-title>\n        <mat-card-content>\n\n            <div class=\"row\">\n\n                <div class=\"col-md-6\">\n\n                    <div class=\"row m-2\">\n                        <div class=\"col-md-4 product-textbox\">\n                            <label>Product No:</label>\n                        </div>\n\n                        <div class=\"col-md-8 product-textbox\">\n                            <input type=\"text\" class=\"form-control\" formControlName=\"productNo\" placeholder=\"Please Enter ProductNo\">\n                            <!--<input type=\"submit\" value=\"submit\" [disabled]=\"!form.valid\">-->\n                            <div *ngIf=\"form.get('productNo').hasError('required') && form.get('productNo').touched\" class=\"alert alert-danger\">\n                                *Required!!\n                            </div>\n                            <div *ngIf=\"form.get('productNo').hasError('pattern') && form.get('productNo').touched\" class=\"alert alert-danger\">\n                                *Value Not Alloewd</div>\n                        </div>\n                    </div>\n                    <div class=\"row m-2\">\n\n                        <div class=\"col-md-4 product-textbox\">\n                            <label class=\"control-label\"> Description:</label>\n                        </div>\n\n                        <div class=\"col-md-8 product-textbox\">\n                            <input type=\"text\" class=\"form-control\" style=\"text-transform:uppercase\" formControlName=\"description\" placeholder=\"Please Enter Description\">\n                            <p *ngIf=\"form.get('description').hasError('required') && form.get('description').touched\" class=\"alert alert-danger\">\n                                *Required!!</p>\n                        </div>\n                    </div>\n\n                    <div class=\"row m-2\">\n                        <div class=\"col-md-4 product-textbox\">\n                            <label class=\"control-label\">Category Name:</label>\n                        </div>\n                        <div class=\"col-md-8 product-textbox\">\n                            <select class=\"form-control\" formControlName=\"category\">\n                                      <option *ngFor=\"let category of categoryDto\" [ngValue]= \"category\">\n                                          {{category.name}}\n                                          </option>\n                                  </select>\n                            <p *ngIf=\"form.get('category').hasError('required')\" class=\"alert alert-danger\">\n                                *Required!!</p>\n                        </div>\n                    </div>\n\n                    <div class=\"row m-2\">\n\n                        <div class=\"col-md-4 product-textbox\">\n                            <label class=\"control-label\">Brand Name:</label>\n                        </div>\n\n                        <div class=\"col-md-8 product-textbox\">\n                            <select class=\"form-control\" formControlName=\"brand\" name=\"brand\">\n                                      <option *ngFor = \"let brand of brandDto\" [ngValue]=\"brand\">\n                                          {{brand.name}}\n                                      </option>\n                                  </select>\n                            <p *ngIf=\"form.get('brand').hasError('required')\" class=\"alert alert-danger\">\n                                *Required!!</p>\n                        </div>\n                    </div>\n                    <div class=\"row m-2\">\n                        <div class=\"col-md-4 product-textbox\">\n                            <label class=\"control-label\">Vender Name:</label>\n                        </div>\n                        <div class=\"col-md-8 product-textbox\">\n                            <select class=\"form-control\" formControlName=\"vendor\" name=\"vendor\">\n                                      <option *ngFor = \"let vendor of vendorDto\" [ngValue]=\"vendor\">\n                                          {{vendor.name}}\n                                          </option>\n                                  </select>\n                            <p *ngIf=\"form.get('vendor').hasError('required')\" class=\"alert alert-danger\">\n                                *Required!!</p>\n                        </div>\n                    </div>\n                    <div class=\"row m-2\">\n                        <div class=\"col-md-4 product-textbox\">\n                            <label class=\"control-label\"> Model Name:</label>\n                        </div>\n                        <div class=\"col-md-8 product-textbox\">\n                            <select class=\"form-control\" name=\"model\">\n                                      <option *ngFor = \"let model of modelDto\">\n                                          {{model.name}}\n                                          </option>\n                                  </select>\n                        </div>\n                    </div>\n\n                </div>\n\n                <!--End of left side Div-->\n\n                <!--Start of Right Side DIV-->\n\n                <div class=\"col-md-6\">\n                    <div class=\"row m-2\">\n                        <label class=\"col-md-4 control-label product-textbox\">\n                                    Retail Price:\n                                </label>\n                        <div class=\"col-md-8 product-textbox\">\n                            <input type=\"number\" formControlName=\"retail\" class=\"form-control\">\n                            <p *ngIf=\"form.get('retail').hasError('required') && form.get('retail').touched\" class=\"alert alert-danger\">\n                                *Required!!</p>\n                            <p *ngIf=\"form.get('retail').hasError('pattern') && form.get('retail').touched\" class=\"alert alert-danger\">\n                                *Value Not Alloewd*</p>\n                        </div>\n                    </div>\n\n                    <div class=\"row m-2\">\n\n\n                        <label class=\"col-md-4 control-label product-textbox\">\n                                Total Quantity:\n                            </label>\n                        <div class=\"col-md-8 product-textbox\">\n                            <input type=\"number\" class=\"form-control\" formControlName=\"quantity\" placeholder=\"Please Enter Quantity\" disabled=\"disabled\">\n                            <div *ngIf=\"form.get('quantity').hasError('pattern') && form.get('quantity').touched\" class=\"alert alert-danger\">\n                                *Value Not Alloewd*</div>\n                        </div>\n                    </div>\n                    <div class=\"row m-2\">\n\n\n                        <label class=\"col-md-4 control-label product-textbox\">\n                                ReOrder Quantity:\n                                          </label>\n                        <div class=\"col-md-8 product-textbox\">\n                            <input type=\"text\" class=\"form-control\" formControlName=\"minQuantity\" placeholder=\"Please Enter Min-Quantity\">\n                            <div *ngIf=\"form.get('minQuantity').hasError('pattern') && form.get('minQuantity').touched\" class=\"alert alert-danger\">\n                                *Value Not Alloewd*</div>\n                        </div>\n                    </div>\n\n                    <div class=\"row m-2\">\n\n                        <div class=\"col-md-4 product-textbox\">\n                            <label class=\"control-label\">Alternate No:</label>\n                        </div>\n\n                        <div class=\"col-md-8 product-textbox\">\n                            <input type=\"text\" class=\"form-control\" placeholder=\"Please Enter Alternate No\">\n                        </div>\n                    </div>\n                    <div class=\"row m-2\">\n\n\n                        <label class=\"col-md-4 control-label product-textbox\">\n                                              Return Rule:\n                                          </label>\n                        <div class=\"col-md-8 product-textbox\">\n                            <select class=\"form-control\">\n                                      <option>No-Return-Allowed</option>\n                                      <option>1 Day</option>\n                                      <option>1 Week</option>\n                                      <option>2 Week</option>\n                                       <option>1 Month</option>\n                                       <option>3 Months</option>\n                                       <option>6 Months</option>\n                                       <option>12 Months</option>\n                                  </select>\n\n                        </div>\n                    </div>\n                    <div class=\"row m-2\">\n\n                        <div class=\"col-md-12 product-textbox\">\n                            <div class=\"checkbox\">\n                                <label>\n                                        <input type=\"checkbox\" formControlName=\"tax\">\n                                         Is Taxable\n                                      </label>\n                            </div>\n                        </div>\n                    </div>\n\n                    <div class=\"row m-2\">\n\n\n                        <div class=\"col-md-12 product-textbox\">\n                            <div class=\"checkbox\">\n                                <label>\n                                        <input type=\"checkbox\" formControlName=\"ecomerce\">\n                                         Is Ecomerce\n                                      </label>\n                            </div>\n                        </div>\n                    </div>\n                    <div class=\"row m-2\">\n\n                        <div class=\"col-md-12 product-textbox\">\n                            <div class=\"checkbox\">\n                                <label>\n                                        <input type=\"checkbox\" (click) = \"showDialog()\" formControlName=\"varaint\">\n                                         Is Variant\n                                      </label>\n                            </div>\n                        </div>\n                    </div>\n\n                    <!-- <div class=\"col-md-12 \">\n                                <div class=\"radio\">\n                                    <label>\n                                      <input type=\"radio\" name=\"optradio\">$ 0.63 Default Loyalty:\n                                  </label> (based on the default Loyalty ratio of 50:1)\n                                </div>\n                                <div class=\"radio\">\n                                    <label><input type=\"radio\" name=\"optradio\">Customer Loyalty Of:</label>\n                                    <input type=\"text\" name=\"optradio\">\n                                </div>\n                            </div> -->\n\n                </div>\n                <!-- end of row for right side-->\n            </div>\n\n            <!--End Main Row-->\n\n            <hr>\n\n            <div class=\"row\">\n                <div class=\"col-md-12\">\n                    <h4>Product Inventory Details</h4>\n                    <p-dataTable [value]=\"this.currentProduct.productInventoryDaoList\" [editable]=\"true\" scrollable=\"true\" [responsive]=\"true\" scrollHeight=\"300px\" (onEditComplete)=\"this.updateProductInventory($event)\">\n                        <p-column header=\"Cost\" field=\"cost\" [editable]=\"true\">\n                            <ng-template let-product=\"rowData\" pTemplate=\"body\">\n                                {{product.cost | currency:'USD':'true'}}\n                            </ng-template>\n                        </p-column>\n\n                        <p-column field=\"quantity\" header=\"Quantity\" [editable]=\"true\"></p-column>\n\n                        <p-column field=\"date\" header=\"Date\"></p-column>\n\n                        <p-column field=\"time\" header=\"Time\"></p-column>\n\n                        <p-column [style]=\"{'width': '5%'}\" header=\"Action\">\n                            <ng-template let-product=\"rowData\" pTemplate=\"body\" class=\"m-auto\">\n\n                                <button class=\"btn-red action-button-table\" mat-button (click)=\"this.setProductInventoryDetailsForDelete(product)\" data-toggle=\"modal\" data-target=\"#deleteProductInventory\">\n                                    <i class=\"fa fa-trash\" aria-hidden=\"true\"></i>\n                                </button>\n\n                            </ng-template>\n                        </p-column>\n                    </p-dataTable>\n\n                </div>\n            </div>\n        </mat-card-content>\n        <mat-card-footer>\n            <!--Submit button Row-->\n            <div class=\"d-flex p-md-3 justify-content-center\">\n                <button mat-raised-button class=\"bg-danger text-white m-2 action-button-lg\" routerLink=\"/product/productTable\">Cancel</button>\n                <button mat-raised-button class=\"bg btn-green text-white m-2 action-button-lg\" type=\"submit\" (click)=\"addProduct()\" [disabled]=\"form.invalid\">\n                        <i class=\"fa fa-paper-plane\" aria-hidden=\"true\" ></i>\n                        \n                    Update Product</button>\n            </div>\n\n        </mat-card-footer>\n\n\n        <!-- <div class=\"col-md-2 product-textbox\">\n                      <p><button [disabled]=\"form.invalid\" (click)=\"addProduct(true)\" class=\"btn btn-primary btn-block\">Next</button></p>\n                  </div> -->\n\n\n\n\n    </form>\n\n</mat-card>\n\n<!-- Start of Delete Vendor Popup -->\n<div class=\"modal fade\" id=\"deleteProductInventory\" role=\"dialog\">\n    <div class=\"modal-dialog modal-sm\">\n        <div class=\"modal-content\">\n            <div class=\"modal-header\">\n                <h4 class=\"modal-title\">Delete Product Inventory</h4>\n                <button type=\"button\" class=\"close\" data-dismiss=\"modal\">&times;</button>\n            </div>\n            <div class=\"modal-body\">\n                <p>Are You Sure You Want To Delete This Product Inventory</p>\n            </div>\n            <div class=\"modal-footer\">\n\n                <button type=\"button\" class=\"btn btn-danger\" data-dismiss=\"modal\" (click)=\"this.deleteProductInventory()\">Yes</button>\n                <button type=\"button\" class=\"btn btn-default\" data-dismiss=\"modal\">Cancle</button>\n            </div>\n        </div>\n    </div>\n</div>\n\n<!-- End of Delete Vendor Popup -->\n\n\n\n\n\n\n\n<!--********************************* VERY IMPORTANT DO NOT DELET IT *********************************-->\n\n\n<!--START OF VARIANT POPUP-->\n\n<p-dialog header=\"Product Variant Details\" [(visible)]=\"displayDialog\" [modal]=\"true\" [responsive]=\"true\">\n\n    <div class=\"container\">\n        <div class=\"row\">\n            <div class=\"col-md-2\">\n                <select class=\"form-control\">\n                              <option *ngFor = \"let variantName of productVariantDetailsDto\">\n                                  {{variantName}}\n                                  </option>\n                          </select>\n            </div>\n\n            <div class=\"col-md-3\">\n                <select class=\"form-control\">\n                                <option *ngFor = \"let variantValue of productVariantDetailsByNameDto\"> \n                                    {{variantValue.value}}\n                                    </option>\n                              </select>\n\n            </div>\n\n            <div class=\"col-md-2\">\n                <input type=\"text\" class=\"form-control\" [(ngModel)]=\"formProduct.cost\" placeholder=\"Cost Price\">\n            </div>\n            <div class=\"col-md-2\">\n                <input type=\"text\" class=\"form-control\" [(ngModel)]=\"formProduct.markup\" placeholder=\"Markup %\">\n\n            </div>\n            <div class=\"col-md-2\">\n                <input type=\"text\" class=\"form-control\" [(ngModel)]=\"formProduct.retail\" placeholder=\"Retail Price\">\n            </div>\n            <div class=\"col-md-1\">\n                <i class=\"fa fa-trash-o\" aria-hidden=\"true\"></i>\n            </div>\n        </div>\n\n        <div class=\"row\">\n            <div class=\"col-md-2\">\n                <select class=\"form-control\">\n                              <option *ngFor = \"let variantName of productVariantDetailsDto\">\n                                  {{variantName}}\n                                  </option>\n                          </select>\n            </div>\n\n            <div class=\"col-md-3\">\n                <select class=\"form-control\">\n                                <option *ngFor = \"let variantValue of productVariantDetailsByNameDto\"> \n                                    {{variantValue.value}}\n                                    </option>\n                              </select>\n\n            </div>\n\n            <div class=\"col-md-2\">\n                <input type=\"text\" class=\"form-control\" [(ngModel)]=\"formProduct.cost\" placeholder=\"Cost Price\">\n            </div>\n            <div class=\"col-md-2\">\n                <input type=\"text\" class=\"form-control\" [(ngModel)]=\"formProduct.markup\" placeholder=\"Markup %\">\n\n            </div>\n            <div class=\"col-md-2\">\n                <input type=\"text\" class=\"form-control\" [(ngModel)]=\"formProduct.retail\" placeholder=\"Retail Price\">\n            </div>\n            <div class=\"col-md-1\">\n                <i class=\"fa fa-trash-o\" aria-hidden=\"true\"></i>\n            </div>\n        </div>\n\n        <div class=\"row\">\n\n            <div class=\"col-md-3\">\n            </div>\n            <div class=\"col-md-3\">\n                <p><button class=\"btn btn-primary btn-block\">Add Product Variant</button></p>\n            </div>\n            <div class=\"col-md-3\">\n                <p><button class=\"btn btn-primary btn-block\">Update Product Variant</button></p>\n            </div>\n\n        </div>\n    </div>\n</p-dialog>\n\n<!--End Of variant logic-->"
+module.exports = "<mat-card>\n    <form *ngIf=\"this.form != null\" [formGroup]=\"form\">\n        <mat-card-title>\n            Edit Product\n        </mat-card-title>\n        <mat-card-content>\n\n            <div class=\"row\">\n\n                <div class=\"col-md-6\">\n\n                    <div class=\"row m-2\">\n                        <div class=\"col-md-4 product-textbox\">\n                            <label>Product No:</label>\n                        </div>\n\n                        <div class=\"col-md-8 product-textbox\">\n                            <input type=\"text\" class=\"form-control\" formControlName=\"productNo\" placeholder=\"Please Enter ProductNo\" disabled=\"true\">\n                            <!--<input type=\"submit\" value=\"submit\" [disabled]=\"!form.valid\">-->\n                            <div *ngIf=\"form.get('productNo').hasError('required') && form.get('productNo').touched\" class=\"alert alert-danger\">\n                                *Required!!\n                            </div>\n                            <div *ngIf=\"form.get('productNo').hasError('pattern') && form.get('productNo').touched\" class=\"alert alert-danger\">\n                                *Value Not Alloewd</div>\n                        </div>\n                    </div>\n                    <div class=\"row m-2\">\n\n                        <div class=\"col-md-4 product-textbox\">\n                            <label class=\"control-label\"> Description:</label>\n                        </div>\n\n                        <div class=\"col-md-8 product-textbox\">\n                            <input type=\"text\" class=\"form-control\" style=\"text-transform:uppercase\" formControlName=\"description\" placeholder=\"Please Enter Description\">\n                            <p *ngIf=\"form.get('description').hasError('required') && form.get('description').touched\" class=\"alert alert-danger\">\n                                *Required!!</p>\n                        </div>\n                    </div>\n\n                    <div class=\"row m-2\">\n                        <div class=\"col-md-4 product-textbox\">\n                            <label class=\"control-label\">Category Name:</label>\n                        </div>\n                        <div class=\"col-md-8 product-textbox\">\n                            <select class=\"form-control\" formControlName=\"category\">\n                                      <option *ngFor=\"let category of categoryDto\" [ngValue]= \"category\">\n                                          {{category.name}}\n                                          </option>\n                                  </select>\n                            <p *ngIf=\"form.get('category').hasError('required')\" class=\"alert alert-danger\">\n                                *Required!!</p>\n                        </div>\n                    </div>\n\n                    <div class=\"row m-2\">\n\n                        <div class=\"col-md-4 product-textbox\">\n                            <label class=\"control-label\">Brand Name:</label>\n                        </div>\n\n                        <div class=\"col-md-8 product-textbox\">\n                            <select class=\"form-control\" formControlName=\"brand\" name=\"brand\">\n                                      <option *ngFor = \"let brand of brandDto\" [ngValue]=\"brand\">\n                                          {{brand.name}}\n                                      </option>\n                                  </select>\n                            <p *ngIf=\"form.get('brand').hasError('required')\" class=\"alert alert-danger\">\n                                *Required!!</p>\n                        </div>\n                    </div>\n                    <div class=\"row m-2\">\n                        <div class=\"col-md-4 product-textbox\">\n                            <label class=\"control-label\">Vender Name:</label>\n                        </div>\n                        <div class=\"col-md-8 product-textbox\">\n                            <select class=\"form-control\" formControlName=\"vendor\" name=\"vendor\">\n                                      <option *ngFor = \"let vendor of vendorDto\" [ngValue]=\"vendor\">\n                                          {{vendor.name}}\n                                          </option>\n                                  </select>\n                            <p *ngIf=\"form.get('vendor').hasError('required')\" class=\"alert alert-danger\">\n                                *Required!!</p>\n                        </div>\n                    </div>\n                    <!-- <div class=\"row m-2\">\n                        <div class=\"col-md-4 product-textbox\">\n                            <label class=\"control-label\"> Model Name:</label>\n                        </div>\n                        <div class=\"col-md-8 product-textbox\">\n                            <select class=\"form-control\" name=\"model\">\n                                      <option *ngFor = \"let model of modelDto\">\n                                          {{model.name}}\n                                          </option>\n                                  </select>\n                        </div>\n                    </div> -->\n\n                </div>\n\n                <!--End of left side Div-->\n\n                <!--Start of Right Side DIV-->\n\n                <div class=\"col-md-6\">\n                    <div class=\"row m-2\">\n                        <label class=\"col-md-4 control-label product-textbox\">\n                                    Retail Price:\n                                </label>\n                        <div class=\"col-md-8 product-textbox\">\n                            <input type=\"number\" formControlName=\"retail\" class=\"form-control\">\n                            <p *ngIf=\"form.get('retail').hasError('required') && form.get('retail').touched\" class=\"alert alert-danger\">\n                                *Required!!</p>\n                            <p *ngIf=\"form.get('retail').hasError('pattern') && form.get('retail').touched\" class=\"alert alert-danger\">\n                                *Value Not Alloewd*</p>\n                        </div>\n                    </div>\n\n                    <div class=\"row m-2\">\n\n\n                        <label class=\"col-md-4 control-label product-textbox\">\n                                Total Quantity:\n                            </label>\n                        <div class=\"col-md-8 product-textbox\">\n                            <input type=\"number\" class=\"form-control\" formControlName=\"quantity\" placeholder=\"Please Enter Quantity\">\n                            <div *ngIf=\"form.get('quantity').hasError('pattern') && form.get('quantity').touched\" class=\"alert alert-danger\">\n                                *Value Not Alloewd*</div>\n                        </div>\n                    </div>\n                    <div class=\"row m-2\">\n\n\n                        <label class=\"col-md-4 control-label product-textbox\">\n                                ReOrder Quantity:\n                                          </label>\n                        <div class=\"col-md-8 product-textbox\">\n                            <input type=\"text\" class=\"form-control\" formControlName=\"minQuantity\" placeholder=\"Please Enter Min-Quantity\">\n                            <div *ngIf=\"form.get('minQuantity').hasError('pattern') && form.get('minQuantity').touched\" class=\"alert alert-danger\">\n                                *Value Not Alloewd*</div>\n                        </div>\n                    </div>\n\n                    <div class=\"row m-2\">\n\n                        <div class=\"col-md-4 product-textbox\">\n                            <label class=\"control-label\">Alternate No:</label>\n                        </div>\n\n                        <div class=\"col-md-8 product-textbox\">\n                            <input type=\"text\" class=\"form-control\" placeholder=\"Please Enter Alternate No\">\n                        </div>\n                    </div>\n                    <div class=\"row m-2\">\n\n\n                        <label class=\"col-md-4 control-label product-textbox\">\n                                              Return Rule:\n                                          </label>\n                        <div class=\"col-md-8 product-textbox\">\n                            <select class=\"form-control\">\n                                      <option>No-Return-Allowed</option>\n                                      <option>1 Day</option>\n                                      <option>1 Week</option>\n                                      <option>2 Week</option>\n                                       <option>1 Month</option>\n                                       <option>3 Months</option>\n                                       <option>6 Months</option>\n                                       <option>12 Months</option>\n                                  </select>\n\n                        </div>\n                    </div>\n                    <div class=\"row m-2\">\n\n                        <div class=\"col-md-12 product-textbox\">\n                            <div class=\"checkbox\">\n                                <label>\n                                        <input type=\"checkbox\" formControlName=\"tax\">\n                                         Is Taxable\n                                      </label>\n                            </div>\n                        </div>\n                    </div>\n\n                    <div class=\"row m-2\">\n\n\n                        <div class=\"col-md-12 product-textbox\">\n                            <div class=\"checkbox\">\n                                <label>\n                                        <input type=\"checkbox\" formControlName=\"ecomerce\">\n                                         Is Ecomerce\n                                      </label>\n                            </div>\n                        </div>\n                    </div>\n\n                    <div class=\"row m-2\">\n\n                        <div class=\"col-md-4 product-textbox\">\n                            <div class=\"checkbox\">\n                                <label>\n                                    <input type=\"checkbox\" (click) = \"this.showDigitalPunchOccurenceTextBox()\" formControlName=\"enableDigitalPunch\">\n                                           Enable Digital Punching\n                                    </label>\n                            </div>\n                        </div>\n\n                        <div *ngIf=\"this.showDigitalPunchTextBox\" class=\"col-md-4 product-textbox\">\n                            <label class=\"control-label\">\n                              #Sale For Free Service:\n                            </label>\n                        </div>\n                        <div *ngIf=\"this.showDigitalPunchTextBox\" class=\"col-md-4 product-textbox\">\n                            <input type=\"number\" class=\"form-control\" formControlName=\"noOfSaleForFreeService\" placeholder=\"Please Enter Total # Service\">\n                        </div>\n                    </div>\n                    <!-- <div class=\"row m-2\">\n\n                        <div class=\"col-md-12 product-textbox\">\n                            <div class=\"checkbox\">\n                                <label>\n                                        <input type=\"checkbox\" (click) = \"showDialog()\" formControlName=\"varaint\">\n                                         Is Variant\n                                      </label>\n                            </div>\n                        </div>\n                    </div> -->\n\n                    <!-- <div class=\"col-md-12 \">\n                                <div class=\"radio\">\n                                    <label>\n                                      <input type=\"radio\" name=\"optradio\">$ 0.63 Default Loyalty:\n                                  </label> (based on the default Loyalty ratio of 50:1)\n                                </div>\n                                <div class=\"radio\">\n                                    <label><input type=\"radio\" name=\"optradio\">Customer Loyalty Of:</label>\n                                    <input type=\"text\" name=\"optradio\">\n                                </div>\n                            </div> -->\n\n                </div>\n                <!-- end of row for right side-->\n            </div>\n\n            <!--End Main Row-->\n\n        </mat-card-content>\n        <mat-card-footer>\n            <!--Submit button Row-->\n            <div class=\"d-flex p-md-3 justify-content-center\">\n                <button mat-raised-button class=\"bg-danger text-white m-2 action-button-lg\" routerLink=\"/product/productTable\">Cancel</button>\n\n                <button mat-raised-button class=\"bg btn-green text-white m-2 action-button-lg\" type=\"submit\" (click)=\"addProduct()\" [disabled]=\"form.invalid\">\n                        <i class=\"fa fa-paper-plane\" aria-hidden=\"true\" ></i>\n                        \n                    Update Product</button>\n            </div>\n\n        </mat-card-footer>\n\n\n        <!-- <div class=\"col-md-2 product-textbox\">\n                      <p><button [disabled]=\"form.invalid\" (click)=\"addProduct(true)\" class=\"btn btn-primary btn-block\">Next</button></p>\n                  </div> -->\n\n\n\n\n    </form>\n\n</mat-card>\n\n<!-- Start of Delete Vendor Popup -->\n<div class=\"modal fade\" id=\"deleteProductInventory\" role=\"dialog\">\n    <div class=\"modal-dialog modal-sm\">\n        <div class=\"modal-content\">\n            <div class=\"modal-header\">\n                <h4 class=\"modal-title\">Delete Product Inventory</h4>\n                <button type=\"button\" class=\"close\" data-dismiss=\"modal\">&times;</button>\n            </div>\n            <div class=\"modal-body\">\n                <p>Are You Sure You Want To Delete This Product Inventory</p>\n            </div>\n            <div class=\"modal-footer\">\n\n                <button type=\"button\" class=\"btn btn-danger\" data-dismiss=\"modal\" (click)=\"this.deleteProductInventory()\">Yes</button>\n                <button type=\"button\" class=\"btn btn-default\" data-dismiss=\"modal\">Cancle</button>\n            </div>\n        </div>\n    </div>\n</div>\n\n<!-- End of Delete Vendor Popup -->\n\n\n\n\n\n\n\n<!--********************************* VERY IMPORTANT DO NOT DELET IT *********************************-->\n\n\n<!--START OF VARIANT POPUP-->\n\n<p-dialog header=\"Product Variant Details\" [(visible)]=\"displayDialog\" [modal]=\"true\" [responsive]=\"true\">\n\n    <div class=\"container\">\n        <div class=\"row\">\n            <div class=\"col-md-2\">\n                <select class=\"form-control\">\n                              <option *ngFor = \"let variantName of productVariantDetailsDto\">\n                                  {{variantName}}\n                                  </option>\n                          </select>\n            </div>\n\n            <div class=\"col-md-3\">\n                <select class=\"form-control\">\n                                <option *ngFor = \"let variantValue of productVariantDetailsByNameDto\"> \n                                    {{variantValue.value}}\n                                    </option>\n                              </select>\n\n            </div>\n\n            <div class=\"col-md-2\">\n                <input type=\"text\" class=\"form-control\" [(ngModel)]=\"formProduct.cost\" placeholder=\"Cost Price\">\n            </div>\n            <div class=\"col-md-2\">\n                <input type=\"text\" class=\"form-control\" [(ngModel)]=\"formProduct.markup\" placeholder=\"Markup %\">\n\n            </div>\n            <div class=\"col-md-2\">\n                <input type=\"text\" class=\"form-control\" [(ngModel)]=\"formProduct.retail\" placeholder=\"Retail Price\">\n            </div>\n            <div class=\"col-md-1\">\n                <i class=\"fa fa-trash-o\" aria-hidden=\"true\"></i>\n            </div>\n        </div>\n\n        <div class=\"row\">\n            <div class=\"col-md-2\">\n                <select class=\"form-control\">\n                              <option *ngFor = \"let variantName of productVariantDetailsDto\">\n                                  {{variantName}}\n                                  </option>\n                          </select>\n            </div>\n\n            <div class=\"col-md-3\">\n                <select class=\"form-control\">\n                                <option *ngFor = \"let variantValue of productVariantDetailsByNameDto\"> \n                                    {{variantValue.value}}\n                                    </option>\n                              </select>\n\n            </div>\n\n            <div class=\"col-md-2\">\n                <input type=\"text\" class=\"form-control\" [(ngModel)]=\"formProduct.cost\" placeholder=\"Cost Price\">\n            </div>\n            <div class=\"col-md-2\">\n                <input type=\"text\" class=\"form-control\" [(ngModel)]=\"formProduct.markup\" placeholder=\"Markup %\">\n\n            </div>\n            <div class=\"col-md-2\">\n                <input type=\"text\" class=\"form-control\" [(ngModel)]=\"formProduct.retail\" placeholder=\"Retail Price\">\n            </div>\n            <div class=\"col-md-1\">\n                <i class=\"fa fa-trash-o\" aria-hidden=\"true\"></i>\n            </div>\n        </div>\n\n        <div class=\"row\">\n\n            <div class=\"col-md-3\">\n            </div>\n            <div class=\"col-md-3\">\n                <p><button class=\"btn btn-primary btn-block\">Add Product Variant</button></p>\n            </div>\n            <div class=\"col-md-3\">\n                <p><button class=\"btn btn-primary btn-block\">Update Product Variant</button></p>\n            </div>\n\n        </div>\n    </div>\n</p-dialog>\n\n<!--End Of variant logic-->"
 
 /***/ }),
 
@@ -3128,11 +3311,13 @@ module.exports = module.exports.toString();
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return EditProductComponent; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/esm5/core.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_forms__ = __webpack_require__("../../../forms/esm5/forms.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_app_sell_sell_component__ = __webpack_require__("../../../../../src/app/sell/sell.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_moment__ = __webpack_require__("../../../../moment/moment.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_moment___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_moment__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_app_product_product_service__ = __webpack_require__("../../../../../src/app/product/product.service.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__angular_router__ = __webpack_require__("../../../router/esm5/router.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_moment__ = __webpack_require__("../../../../moment/moment.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_moment___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_moment__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_app_product_product_service__ = __webpack_require__("../../../../../src/app/product/product.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__angular_router__ = __webpack_require__("../../../router/esm5/router.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_ng2_toastr__ = __webpack_require__("../../../../ng2-toastr/ng2-toastr.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_ng2_toastr___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5_ng2_toastr__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_app_sell_sale_sale_component__ = __webpack_require__("../../../../../src/app/sell/sale/sale.component.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -3148,14 +3333,17 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
+
 var EditProductComponent = /** @class */ (function () {
-    function EditProductComponent(productService, formBuilder, route, router) {
+    function EditProductComponent(productService, formBuilder, route, router, toastr) {
         this.productService = productService;
         this.formBuilder = formBuilder;
         this.route = route;
         this.router = router;
+        this.toastr = toastr;
         this.displayDialog = false;
-        this.formProduct = new __WEBPACK_IMPORTED_MODULE_2_app_sell_sell_component__["a" /* Product */]();
+        this.formProduct = new __WEBPACK_IMPORTED_MODULE_6_app_sell_sale_sale_component__["b" /* Product */]();
+        this.showDigitalPunchTextBox = false;
     }
     EditProductComponent.prototype.ngOnInit = function () {
         var _this = this;
@@ -3165,15 +3353,11 @@ var EditProductComponent = /** @class */ (function () {
             this.productService.getProductDetailsById(productNo)
                 .subscribe(function (product) {
                 _this.currentProduct = product;
-                _this.currentProduct.productInventoryDaoList.forEach((function (inventory) {
-                    inventory.time = __WEBPACK_IMPORTED_MODULE_3_moment__(inventory.date).format('hh:mm A');
-                    inventory.date = __WEBPACK_IMPORTED_MODULE_3_moment__(inventory.date).format('MM/DD/YYYY');
-                    _this.currentProduct.quantity = +_this.currentProduct.quantity + inventory.quantity;
-                }));
                 var currentCategory = {};
                 var currentBrand = {};
                 var currentVendor = {};
                 var currentModel = {};
+                _this.showDigitalPunchTextBox = _this.currentProduct.enableDigitalPunch;
                 _this.form = _this.formBuilder.group({
                     'productNo': [_this.currentProduct.productNo, [__WEBPACK_IMPORTED_MODULE_1__angular_forms__["Validators"].required, __WEBPACK_IMPORTED_MODULE_1__angular_forms__["Validators"].pattern('^[0-9]+$')]],
                     'description': [_this.currentProduct.description, __WEBPACK_IMPORTED_MODULE_1__angular_forms__["Validators"].required],
@@ -3187,7 +3371,9 @@ var EditProductComponent = /** @class */ (function () {
                     'minQuantity': [_this.currentProduct.minQuantity, ''],
                     'tax': [_this.currentProduct.tax, null],
                     'ecomerce': [_this.currentProduct.ecommerce, null],
-                    'varaint': [_this.currentProduct.variant, null]
+                    //'varaint': [this.currentProduct.variant, null],
+                    'enableDigitalPunch': [_this.currentProduct.enableDigitalPunch, null],
+                    'noOfSaleForFreeService': [_this.currentProduct.noOfSaleForFreeService, null]
                 });
                 _this.form.valueChanges
                     .subscribe(function (changes) {
@@ -3218,11 +3404,11 @@ var EditProductComponent = /** @class */ (function () {
                     _this.form.get('vendor').setValue(currentVendor);
                     // console.log('VendorList' + this.vendorDto);
                 });
-                _this.productService.getModelDetails()
-                    .subscribe(function (models) {
-                    _this.modelDto = models;
-                    console.log('ModelList' + _this.modelDto);
-                });
+                // this.productService.getModelDetails()
+                //   .subscribe((models: Model[]) => {
+                //     this.modelDto = models;
+                //     console.log('ModelList' + this.modelDto);
+                //   });
             });
         }
         // DO NOT DELETE THIS NEED WHEN YOU HANDLE PRODUCT VARIENT
@@ -3237,7 +3423,11 @@ var EditProductComponent = /** @class */ (function () {
         // console.log('productVariantDetailsByNameDto' + this.productVariantDetailsByNameDto);
         //     });
     };
+    EditProductComponent.prototype.showDigitalPunchOccurenceTextBox = function () {
+        this.showDigitalPunchTextBox = !this.showDigitalPunchTextBox;
+    };
     EditProductComponent.prototype.addProduct = function () {
+        var _this = this;
         {
             var formValues = this.form.value;
             var product = {
@@ -3245,37 +3435,49 @@ var EditProductComponent = /** @class */ (function () {
                 categoryId: formValues.category.categoryId,
                 brandId: formValues.brand.brandId,
                 vendorId: formValues.vendor.vendorId,
-                modelId: null,
+                alternetNo: formValues.alternetNo,
                 cost: formValues.cost,
                 retail: formValues.retail,
+                date: null,
+                defaultQuantity: null,
                 description: formValues.description.toUpperCase(),
+                discount: null,
+                imeiNo: null,
                 active: true,
                 ecommerce: formValues.ecommerce,
                 relatedProduct: formValues.relatedProduct,
                 tax: formValues.tax,
+                varaint: formValues.varaint,
+                markup: formValues.markup,
                 minQuantity: formValues.minQuantity,
+                productVariantNo: formValues.productVariantNo,
                 quantity: formValues.quantity,
-                categoryName: null,
-                customLoyaltyAmount: 0.00,
-                productInventoryDaoList: this.currentProduct.productInventoryDaoList,
-                variant: formValues.variant,
-                markup: 0.00,
-                createdTimestamp: ''
+                retailDiscount: null,
+                returnRule: formValues.returnRule,
+                status: null,
+                taxAmountOnProduct: null,
+                totalProductPrice: null,
+                transactionComId: null,
+                time: null,
+                enableDigitalPunch: formValues.enableDigitalPunch,
+                noOfSaleForFreeService: formValues.noOfSaleForFreeService,
+                createdTimestamp: __WEBPACK_IMPORTED_MODULE_2_moment__(Date.now()).format('YYYY-MM-DD HH:mm:ss'),
             };
-            this.productService.editProduct(product);
-            this.clearProductForm();
+            this.productService.editProduct(product)
+                .subscribe(function (data) {
+                if (data) {
+                    _this.toastr.success('Product Updated Successfully!!', 'Success');
+                }
+            }, function (error) {
+                _this.toastr.error('Something Goes Wrong!!', 'Error');
+            });
+            //this.clearProductForm();
             this.router.navigate(['/product/productTable']);
         }
     };
-    EditProductComponent.prototype.updateProductInventory = function (event) {
-        this.productService.updateProductInventory(event.data);
-    };
-    EditProductComponent.prototype.setProductInventoryDetailsForDelete = function (inventory) {
-        this.selectedProductInventoryForDelete = inventory;
-    };
-    EditProductComponent.prototype.deleteProductInventory = function () {
-        this.productService.deleteProductInventory(this.selectedProductInventoryForDelete);
-    };
+    // updateProductInventory(event) {
+    //   this.productService.updateProductInventory(event.data);
+    // }
     EditProductComponent.prototype.clearProductForm = function () {
         this.form.get('productNo').setValue(null);
         this.form.get('description').setValue('');
@@ -3293,179 +3495,9 @@ var EditProductComponent = /** @class */ (function () {
             template: __webpack_require__("../../../../../src/app/product/edit-product/edit-product.component.html"),
             styles: [__webpack_require__("../../../../../src/app/product/edit-product/edit-product.component.scss")]
         }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_4_app_product_product_service__["a" /* ProductService */], __WEBPACK_IMPORTED_MODULE_1__angular_forms__["FormBuilder"], __WEBPACK_IMPORTED_MODULE_5__angular_router__["ActivatedRoute"], __WEBPACK_IMPORTED_MODULE_5__angular_router__["Router"]])
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_3_app_product_product_service__["a" /* ProductService */], __WEBPACK_IMPORTED_MODULE_1__angular_forms__["FormBuilder"], __WEBPACK_IMPORTED_MODULE_4__angular_router__["ActivatedRoute"], __WEBPACK_IMPORTED_MODULE_4__angular_router__["Router"], __WEBPACK_IMPORTED_MODULE_5_ng2_toastr__["ToastsManager"]])
     ], EditProductComponent);
     return EditProductComponent;
-}());
-
-
-
-/***/ }),
-
-/***/ "../../../../../src/app/product/model/model.component.css":
-/***/ (function(module, exports, __webpack_require__) {
-
-exports = module.exports = __webpack_require__("../../../../css-loader/lib/css-base.js")(false);
-// imports
-
-
-// module
-exports.push([module.i, "", ""]);
-
-// exports
-
-
-/*** EXPORTS FROM exports-loader ***/
-module.exports = module.exports.toString();
-
-/***/ }),
-
-/***/ "../../../../../src/app/product/model/model.component.html":
-/***/ (function(module, exports) {
-
-module.exports = "<div class=\"\">\n\n    <p-growl [(value)]=\"msgs\"></p-growl>\n    <mat-card>\n        <mat-card-title>\n            <h4>\n                Model Details\n            </h4>\n        </mat-card-title>\n        <mat-card-content>\n            <div class=\"row d-flex align-items-center justify-content-end\">\n                <div class=\"col-md-6\"></div>\n                <div class=\"col-md-6 d-flex justify-content-end\">\n                    <button type=\"button\" mat-raised-button class=\"bg-primary text-white action-button-lg\" (click)=\"showDialogToAdd()\">\n                                <i class=\"fa fa-plus-square\" aria-hidden=\"true\" label=\"Add\"></i>\n                                Add Model\n                            </button>\n                </div>\n            </div>\n            <div class=\"row\">\n                <div class=\"col-md-12 p-md-3\">\n                    <!-- <p-header>Category Details</p-header> -->\n                    <p-dataTable [value]=\"this.modelDto\" scrollable=\"true\" scrollHeight=\"500px\" [responsive]=\"true\" [editable]=\"true\" (onEditComplete)=\"this.updateModel($event)\">\n                        <p-column field=\"index\" header=\"Index\" [sortable]=\"true\"></p-column>\n                        <p-column field=\"name\" header=\"Model Name\" filterPlaceholder=\"Search For Model Name\" [filter]=\"true\" [editable]=\"true\"></p-column>\n                        <p-column field=\"description\" header=\"Model Description\" [sortable]=\"true\" [editable]=\"true\"></p-column>\n                        <p-column field=\"noOfProduct\" header=\"No Of Prodcuts\" [sortable]=\"true\"></p-column>\n                        <p-column field=\"action\" header=\"Action\" [style]=\"{'width': '5%'}\">\n                            <ng-template let-model=\"rowData\" pTemplate=\"body\" class=\"m-auto\">\n                                <button class=\"btn-red action-button-table\" mat-button data-toggle=\"modal\" data-target=\"#deleteCategory\" (click)=\"this.setModelForDelete(model)\">\n                                            <i class=\"fa fa-trash\" aria-hidden=\"true\"></i>\n                                        </button>\n                            </ng-template>\n                        </p-column>\n                    </p-dataTable>\n\n                </div>\n\n                <form *ngIf=\"this.modelForm != null\" [formGroup]=\"this.modelForm\">\n\n                    <p-dialog header=\"Add Model\" appendTo=\"body\" [(visible)]=\"displayDialog\" [responsive]=\"true\" showEffect=\"fade\" [modal]=\"true\">\n                        <div class=\"ui-grid ui-grid-responsive ui-fluid\" *ngIf=\"model\">\n                            <div class=\"ui-grid-row\">\n                                <div class=\"ui-grid-col-4\">\n                                    <label for=\"name\">Name:</label>\n                                </div>\n                                <div class=\"ui-grid-col-8\">\n                                    <input class=\"form-control\" formControlName=\"name\" />\n                                </div>\n                            </div>\n                            <div class=\"ui-grid-row\">\n                                <div class=\"ui-grid-col-4\">\n                                    <label for=\"description\">Description:</label>\n                                </div>\n                                <div class=\"ui-grid-col-8\">\n                                    <input class=\"form-control\" formControlName=\"description\" />\n                                </div>\n                            </div>\n                        </div>\n                        <p-footer>\n                            <div style=\"text-align: center\">\n                                <button type=\"button\" class=\"btn btn-success\" (click)=\"this.addModel()\" [disabled]=\"this.modelForm.invalid\">\n                                        <i class=\"fa fa-paper-plane\" aria-hidden=\"true\" ></i>\n                                Add Model\n                            </button>\n                            </div>\n                        </p-footer>\n                    </p-dialog>\n                </form>\n            </div>\n        </mat-card-content>\n    </mat-card>\n\n</div>\n\n\n\n<!-- Start of Delete Model Popup -->\n<div class=\"modal fade\" id=\"deleteCategory\" role=\"dialog\">\n    <div class=\"modal-dialog modal-sm\">\n        <div class=\"modal-content\">\n            <div class=\"modal-header\">\n                <h4 class=\"modal-title\">Delete Category</h4>\n                <button type=\"button\" class=\"close\" data-dismiss=\"modal\">&times;</button>\n            </div>\n            <div class=\"modal-body\">\n                <p>Are You Sure You Want To Delete This Category</p>\n            </div>\n            <div class=\"modal-footer\">\n\n                <button type=\"button\" class=\"btn btn-danger\" data-dismiss=\"modal\" (click)=\"this.deleteModel()\">Yes</button>\n                <button type=\"button\" class=\"btn btn-default\" data-dismiss=\"modal\">Cancle</button>\n            </div>\n        </div>\n    </div>\n</div>\n\n<!-- End of Delete Model Popup -->"
-
-/***/ }),
-
-/***/ "../../../../../src/app/product/model/model.component.ts":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ModelComponent; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/esm5/core.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_app_product_model_model_service__ = __webpack_require__("../../../../../src/app/product/model/model.service.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_app_product_product_service__ = __webpack_require__("../../../../../src/app/product/product.service.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__angular_forms__ = __webpack_require__("../../../forms/esm5/forms.js");
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var __metadata = (this && this.__metadata) || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
-
-
-
-
-var ModelComponent = /** @class */ (function () {
-    function ModelComponent(modelService, productService, formBuilder) {
-        this.modelService = modelService;
-        this.productService = productService;
-        this.formBuilder = formBuilder;
-        this.msgs = [];
-        this.model = new PrimeModel();
-    }
-    ModelComponent.prototype.ngOnInit = function () {
-        this.modelForm = this.formBuilder.group({
-            'name': [null, __WEBPACK_IMPORTED_MODULE_3__angular_forms__["Validators"].required],
-            'description': ['']
-        });
-        this.getModelDetails();
-    };
-    ModelComponent.prototype.showSuccess = function (severity, summary, detail) {
-        this.msgs = [];
-        this.msgs.push({ severity: severity, summary: summary, detail: detail });
-    };
-    ModelComponent.prototype.getModelDetails = function () {
-        var _this = this;
-        this.productService.getModelDetails()
-            .subscribe(function (models) {
-            _this.modelDto = models;
-            console.log('ModelList' + _this.modelDto);
-        });
-    };
-    ModelComponent.prototype.addModel = function () {
-        var newModel = this.modelForm.value;
-        this.modelService.addOrUpdateModel(this.modelForm.value);
-        this.modelDto.push(newModel);
-        this.modelDto = this.modelDto.slice();
-        this.displayDialog = false;
-    };
-    ModelComponent.prototype.updateModel = function (event) {
-        this.modelService.addOrUpdateModel(event.data);
-    };
-    ModelComponent.prototype.setModelForDelete = function (model) {
-        this.selectedModelForDelete = model;
-    };
-    ModelComponent.prototype.deleteModel = function () {
-        var _this = this;
-        var index = this.modelDto.findIndex(function (el) { return el.name == _this.selectedModelForDelete.name; });
-        this.modelDto = this.modelDto.splice(0, index).concat(this.modelDto.splice(index));
-        this.modelService.deleteModel(this.selectedModelForDelete.modelId);
-    };
-    ModelComponent.prototype.showDialogToAdd = function () {
-        this.displayDialog = true;
-    };
-    ModelComponent = __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
-            selector: 'app-model',
-            template: __webpack_require__("../../../../../src/app/product/model/model.component.html"),
-            styles: [__webpack_require__("../../../../../src/app/product/model/model.component.css")]
-        }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_app_product_model_model_service__["a" /* ModelService */], __WEBPACK_IMPORTED_MODULE_2_app_product_product_service__["a" /* ProductService */], __WEBPACK_IMPORTED_MODULE_3__angular_forms__["FormBuilder"]])
-    ], ModelComponent);
-    return ModelComponent;
-}());
-
-var PrimeModel = /** @class */ (function () {
-    function PrimeModel(name, description) {
-        this.name = name;
-        this.description = description;
-    }
-    return PrimeModel;
-}());
-
-
-/***/ }),
-
-/***/ "../../../../../src/app/product/model/model.service.ts":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ModelService; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/esm5/core.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_http__ = __webpack_require__("../../../http/esm5/http.js");
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var __metadata = (this && this.__metadata) || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
-
-
-var ModelService = /** @class */ (function () {
-    function ModelService(http) {
-        this.http = http;
-    }
-    ModelService.prototype.addOrUpdateModel = function (model) {
-        console.log("Model Added" + model.name);
-        this.http.post('http://localhost:8080/addModel', model)
-            .subscribe(function (data) {
-            alert('Model Updated !!');
-            console.log(data);
-        }, function (error) {
-            console.log(JSON.stringify(error.json()));
-        });
-    };
-    ModelService.prototype.deleteModel = function (modelId) {
-        this.http.delete('http://localhost:8080/deleteModel?modelId=' + modelId)
-            .subscribe(function (data) {
-            alert('Model Deleted !!');
-            console.log(data);
-        }, function (error) {
-            console.log(JSON.stringify(error.json()));
-        });
-    };
-    ModelService = __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Injectable"])(),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1__angular_http__["a" /* Http */]])
-    ], ModelService);
-    return ModelService;
 }());
 
 
@@ -3483,12 +3515,11 @@ var ModelService = /** @class */ (function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_app_product_category_category_component__ = __webpack_require__("../../../../../src/app/product/category/category.component.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_app_product_vendor_vendor_component__ = __webpack_require__("../../../../../src/app/product/vendor/vendor.component.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_app_product_brand_brand_component__ = __webpack_require__("../../../../../src/app/product/brand/brand.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_app_product_model_model_component__ = __webpack_require__("../../../../../src/app/product/model/model.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_app_product_addProduct_component__ = __webpack_require__("../../../../../src/app/product/addProduct.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8_app_product_product_table_product_table_component__ = __webpack_require__("../../../../../src/app/product/product-table/product-table.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9_app_product_add_inventory_add_inventory_component__ = __webpack_require__("../../../../../src/app/product/add-inventory/add-inventory.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10_app_product_edit_product_edit_product_component__ = __webpack_require__("../../../../../src/app/product/edit-product/edit-product.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11_app_auth_auth_guard__ = __webpack_require__("../../../../../src/app/auth/auth.guard.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_app_product_addProduct_component__ = __webpack_require__("../../../../../src/app/product/addProduct.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_app_product_product_table_product_table_component__ = __webpack_require__("../../../../../src/app/product/product-table/product-table.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8_app_product_add_inventory_add_inventory_component__ = __webpack_require__("../../../../../src/app/product/add-inventory/add-inventory.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9_app_product_edit_product_edit_product_component__ = __webpack_require__("../../../../../src/app/product/edit-product/edit-product.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10_app_auth_auth_guard__ = __webpack_require__("../../../../../src/app/auth/auth.guard.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -3506,22 +3537,20 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 
 
 
-
 var routes = [
     {
         path: 'product',
         component: __WEBPACK_IMPORTED_MODULE_2_app_product_product_component__["a" /* ProductComponent */],
-        canActivate: [__WEBPACK_IMPORTED_MODULE_11_app_auth_auth_guard__["a" /* AuthGuard */]],
+        canActivate: [__WEBPACK_IMPORTED_MODULE_10_app_auth_auth_guard__["a" /* AuthGuard */]],
         // canActivateChild: [AuthGuard],
         children: [
             { path: '', redirectTo: 'productTable', pathMatch: 'prefix' },
-            { path: 'add', component: __WEBPACK_IMPORTED_MODULE_7_app_product_addProduct_component__["a" /* AddProductComponent */] },
-            { path: 'edit', component: __WEBPACK_IMPORTED_MODULE_10_app_product_edit_product_edit_product_component__["a" /* EditProductComponent */] },
-            { path: 'productTable', component: __WEBPACK_IMPORTED_MODULE_8_app_product_product_table_product_table_component__["a" /* ProductTableComponent */] },
+            { path: 'add', component: __WEBPACK_IMPORTED_MODULE_6_app_product_addProduct_component__["a" /* AddProductComponent */] },
+            { path: 'edit', component: __WEBPACK_IMPORTED_MODULE_9_app_product_edit_product_edit_product_component__["a" /* EditProductComponent */] },
+            { path: 'productTable', component: __WEBPACK_IMPORTED_MODULE_7_app_product_product_table_product_table_component__["a" /* ProductTableComponent */] },
             { path: 'vendor', component: __WEBPACK_IMPORTED_MODULE_4_app_product_vendor_vendor_component__["a" /* VendorComponent */] },
             { path: 'brand', component: __WEBPACK_IMPORTED_MODULE_5_app_product_brand_brand_component__["a" /* BrandComponent */] },
-            { path: 'model', component: __WEBPACK_IMPORTED_MODULE_6_app_product_model_model_component__["a" /* ModelComponent */] },
-            { path: 'addInventory', component: __WEBPACK_IMPORTED_MODULE_9_app_product_add_inventory_add_inventory_component__["a" /* AddInventoryComponent */] },
+            { path: 'addInventory', component: __WEBPACK_IMPORTED_MODULE_8_app_product_add_inventory_add_inventory_component__["a" /* AddInventoryComponent */] },
             { path: 'category', component: __WEBPACK_IMPORTED_MODULE_3_app_product_category_category_component__["a" /* CategoryComponent */] },
         ]
     },
@@ -3545,7 +3574,7 @@ var ProductRoutingModule = /** @class */ (function () {
 /***/ "../../../../../src/app/product/product-table/product-table.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<mat-card>\n    <mat-card-title>\n        <h4>Product Inventory</h4>\n    </mat-card-title>\n    <mat-card-content>\n        <div class=\"row d-flex align-items-center\">\n            <div class=\"col-md-3\">\n                <!-- <p-autoComplete [(ngModel)]=\"productFilterBox\" styleClass=\"wid100\" [suggestions]=\"backendProductDto\" (completeMethod)=\"filterProducts($event)\" name=\"test\" [minLength]=\"1\" (keyup.enter)=\"submitProduct(p)\"\n                        field=\"description\">\n                    </p-autoComplete> -->\n\n                <input class=\"form-control \" [formControl]=\"this.searchProductTextBox\" type=\"text\" placeholder=\"Search By Product No/ Description\">\n            </div>\n\n            <div class=\"col-md-2\">\n                <select class=\"form-control\" [(ngModel)]=\"this.selectedProductDropdownOption\" (change)=\"onProductDropdownChoose()\">\n                        <option>Select All</option>\n                        <option>Brand</option>\n                        <option>Category</option>\n                        <option>Vendor</option>\n                        <option>Model</option>\n                    </select>\n\n            </div>\n            <div class=\"col-md-2\">\n                <select *ngIf=\"this.listOfProductOption != null\" class=\"form-control \" #dropdown (change)=\"fiterProductByDropdown(dropdown.value)\">\n                        <option [value]=\"-1\">All {{this.selectedProductDropdownOption}}</option>\n                        <option *ngFor=\"let option of this.listOfProductOption\" [value]=\"option.id\">\n                            {{option.name}}\n                        </option>\n                    </select>\n            </div>\n\n            <div class=\"col-md-5 d-flex align-items-center justify-content-end\">\n                <button type=\"button\" mat-raised-button class=\"bg-primary text-white action-button-lg\" style=\"margin-right: 15px\" [routerLink]=\"['/product/add']\">\n                        <i class=\"fa fa-plus-square\" aria-hidden=\"true\" label=\"Add\"></i>\n                        Add Product\n                    </button>\n\n                <button type=\"button\" mat-raised-button class=\"bg-primary text-white action-button-lg\" [routerLink]=\"['/product/addInventory']\">\n                        <i class=\"fa fa-plus-square\" aria-hidden=\"true\" label=\"Add\"></i>\n                        Add Inventory\n                    </button>\n\n            </div>\n\n\n        </div>\n        <div class=\"row\">\n            <div class=\"col-md-12 p-md-3\">\n\n                <!-- <p-header>Product Details</p-header> -->\n                <p-dataTable [value]=\"this.productViewList\" [editable]=\"true\" scrollable=\"true\" virtualScroll=\"virtualScroll\" [rows]=\"this.rowsToShow\" [lazy]=\"true\" [totalRecords]=\"this.totalNumberProducts\" [responsive]=\"true\" scrollHeight=\"400px\" (onEditComplete)=\"this.updateRetailPrice($event)\"\n                    (onLazyLoad)=\"loadProductsLazy($event)\">\n                    <p-column [style]=\"{'width': '10%'}\" field=\"productNo\" header=\"Product Number\" filterPlaceholder=\"Search For Product Name\"></p-column>\n                    <p-column [style]=\"{'width': '30%', 'text-align': 'left'}\" field=\"description\" header=\"Description\" [sortable]=\"true\"></p-column>\n                    <!-- <p-column [style]=\"{'width': '10%'}\" field=\"categoryName\" header=\"Category\" [sortable]=\"true\"></p-column> -->\n                    <p-column [style]=\"{'width': '10%'}\" field=\"cost\" header=\"Cost\" [sortable]=\"true\">\n\n                        <ng-template let-product=\"rowData\" pTemplate=\"body\">\n                            <a href=\"JavaScript:void(0);\" (click)=\"setProductInventoryForSelectedProduct(product.productInventoryDaoList)\" data-toggle=\"modal\" data-target=\"#productInventory\"> {{product.productInventoryDaoList[0]?.cost | currency:'USD':'true'}}</a>\n                        </ng-template>\n                    </p-column>\n                    <p-column [style]=\"{'width': '10%'}\" field=\"retail\" header=\"Retail\" [editable]=\"true\">\n                        <ng-template let-product=\"rowData\" pTemplate=\"body\">\n                            <a> {{product.retail | currency:'USD':'true'}}</a>\n                        </ng-template>\n                    </p-column>\n                    <p-column [style]=\"{'width': '8%'}\" field=\"quantity\" header=\"Quantity\" [sortable]=\"true\">\n                        <ng-template let-product=\"rowData\" pTemplate=\"body\">\n                            <a href=\"JavaScript:void(0);\" (click)=\"setProductInventoryForSelectedProduct(product.productInventoryDaoList)\" data-toggle=\"modal\" data-target=\"#productInventory\">{{product.quantity}}</a>\n                        </ng-template>\n                    </p-column>\n                    <p-column [style]=\"{'width': '23%'}\" field=\"action\" header=\"Action\" [sortable]=\"true\">\n                        <ng-template let-product=\"rowData\" pTemplate=\"body\" class=\"m-auto\">\n                            <button class=\"btn-blue action-button-table\" mat-button [routerLink]=\"['/product/edit', {productNo: product.productNo}]\">\n                                    <i class=\"fa fa-pencil\" aria-hidden=\"true\"></i>\n                                </button>\n                            <button mat-button class=\"btn-red action-button-table\" mat-button (click)=\"this.setProductToDelete(product)\" data-toggle=\"modal\" data-target=\"#deleteProduct\">\n                                    <i class=\"fa fa-trash\" aria-hidden=\"true\"></i>\n                                </button>\n                            <button mat-button class=\"btn-green action-button-table\" mat-button (click)=\"this.setProductForHistory(product)\" data-toggle=\"modal\" data-target=\"#productHistoryModel\">\n                                    <i class=\"fa fa-history\" aria-hidden=\"true\"></i>\n                                </button>\n                            <button mat-button class=\"btn-gray action-button-table\" mat-button data-toggle=\"modal\" data-target=\"#productHistoryModel\">\n                                    <i class=\"fa fa-barcode\" aria-hidden=\"true\"></i>\n                                </button>\n\n                        </ng-template>\n                    </p-column>\n                </p-dataTable>\n\n\n\n                <!-- <table class=\"table\" class=\"table table-striped\">\n                    <thead>\n                        <tr>\n                            <th>Product No</th>\n                            <th>Description</th>\n                            <th>Cost</th>\n                            <th>Retail</th>\n                            <th>Quantity</th>\n                            <th>Action</th>\n                        </tr>\n                    </thead>\n                    <tbody>\n                        <tr *ngFor=\"let product of this.backendProductDto\">\n                            <td>{{product.productNo}}</td>\n                            <td>{{product.description}}</td>\n                            <td>{{product.cost}}</td>\n                            <td>{{product.retail}}</td>\n                            <td>{{product.quantity}}</td> -->\n                <!-- <td>\n                                <button class=\"btn-blue action-button-table\" mat-button [routerLink]=\"['/product/edit', {productNo: product.productNo}]\">\n                                    <i class=\"fa fa-pencil\" aria-hidden=\"true\"></i>\n                                </button>\n                                <button mat-button class=\"btn-red action-button-table\" mat-button (click)=\"this.setProductToDelete(product)\" data-toggle=\"modal\" data-target=\"#deleteProduct\">\n                                    <i class=\"fa fa-trash\" aria-hidden=\"true\"></i>\n                                </button>\n                                <button mat-button class=\"btn-green action-button-table\" mat-button (click)=\"this.setProductForHistory(product)\" data-toggle=\"modal\" data-target=\"#productHistoryModel\">\n                                    <i class=\"fa fa-history\" aria-hidden=\"true\"></i>\n                                </button>\n                                <button mat-button class=\"btn-gray action-button-table\" mat-button data-toggle=\"modal\" data-target=\"#productHistoryModel\">\n                                    <i class=\"fa fa-barcode\" aria-hidden=\"true\"></i>\n                                </button>\n                            </td> -->\n                <!-- </tr>\n\n                    </tbody>\n                </table> -->\n\n\n\n            </div>\n        </div>\n\n    </mat-card-content>\n</mat-card>\n<!-- <p-growl [(value)]=\"msgs\"></p-growl> -->\n\n\n<!-- Start Of Product History model -->\n<div class=\"modal fade\" id=\"productHistoryModel\" role=\"dialog\">\n    <div class=\"modal-dialog modal-lg\">\n\n        <!-- Modal content-->\n        <div class=\"modal-content\">\n            <div class=\"modal-header\">\n                <button type=\"button\" class=\"close\" data-dismiss=\"modal\">&times;</button>\n                <h3 class=\"modal-title\">Product History</h3>\n            </div>\n            <div class=\"modal-body\">\n\n                <div class=\"row\">\n                    <div class=\"col-md-4\">\n                        <select class=\"form-control form-control-lg\" [(ngModel)]=\"this.productHistoryDropDown\" (change)=\"this.getProductHistory()\">\n                            <option>Today</option>\n                            <option>Yesterday</option>\n                            <option>This Week</option>\n                            <option>Last Week</option>\n                            <option>This Month</option>\n                            <option>Last Month</option>\n                            <option>Last 3 Months</option>\n                            <option>Last 6 Months</option>\n                            <option>This Year</option>\n                            <option>Last Year</option>\n                            <option>Custom</option>\n\n                        </select>\n\n                    </div>\n\n                </div>\n\n                <div class=\"row\">\n                    <table class=\"table\">\n                        <thead>\n                            <tr>\n\n                                <th>Product No</th>\n                                <th>Product Sold</th>\n                                <th>Cost</th>\n                                <th>Retail</th>\n                                <th>Date</th>\n                                <th>Time</th>\n                            </tr>\n                        </thead>\n                        <tbody>\n                            <tr *ngFor=\"let product of this.productHistoryDto\">\n                                <td>{{product.productNo}}</td>\n                                <td>{{product.quantity}}</td>\n                                <td>{{product.cost}}</td>\n                                <td>{{product.retail}}</td>\n                                <td>{{product.date}}</td>\n                                <td>{{product.time}}</td>\n                            </tr>\n                        </tbody>\n                    </table>\n\n                </div>\n                <div class=\"row\">\n                    <h5>Total Number Of Product Sold: 324(TODO CENTER)</h5>\n                </div>\n\n            </div>\n            <div class=\"modal-footer\">\n                <button type=\"button\" class=\"btn btn-default\" data-dismiss=\"modal\">Close</button>\n            </div>\n        </div>\n\n\n    </div>\n\n</div>\n\n<!-- End of Prodcut Histoty Model -->\n\n<!-- Start of Delete product up -->\n<div class=\"modal fade\" id=\"deleteProduct\" role=\"dialog\">\n    <div class=\"modal-dialog modal-sm\">\n        <div class=\"modal-content\">\n            <div class=\"modal-header\">\n                <h4 class=\"modal-title\">Delete Product</h4>\n                <button type=\"button\" class=\"close\" data-dismiss=\"modal\">&times;</button>\n            </div>\n            <div class=\"modal-body\">\n                <p>Are You Sure You Want To Delete This Product</p>\n            </div>\n            <div class=\"modal-footer\">\n\n                <button type=\"button\" class=\"btn btn-danger\" data-dismiss=\"modal\" (click)=\"this.deleteProduct()\">Yes</button>\n                <button type=\"button\" class=\"btn btn-default\" data-dismiss=\"modal\">Cancle</button>\n            </div>\n        </div>\n    </div>\n</div>\n\n<!-- End of Delete product up -->\n\n\n<!-- Start Of Cost price and Quantity model -->\n<div class=\"modal fade\" id=\"productInventory\" role=\"dialog\" (keyup.enter)=\"this.hideProductModal()\">\n    <div class=\"modal-dialog modal-lg\">\n\n        <!-- Modal content-->\n        <div class=\"modal-content\">\n            <div class=\"modal-header\">\n                <h4 class=\"modal-title\">Product Inventory</h4>\n                <button type=\"button\" class=\"close\" data-dismiss=\"modal\">&times;</button>\n            </div>\n            <div class=\"modal-body\">\n\n                <div class=\"row\">\n                    <div class=\"col-md-4\">\n                        <input class=\"form-control\" [(ngModel)]=\"this.cost\" type=\"number\" placeholder=\"Cost\">\n                    </div>\n                    <div class=\"col-md-4\">\n                        <input class=\"form-control\" [(ngModel)]=\"this.quantity\" type=\"number\" placeholder=\"Quantity\">\n                    </div>\n                    <div class=\"col-md-4\">\n                        <button type=\"button\" mat-raised-button class=\"bg-primary text-white\" style=\"width: 100%;\" (click)=\"this.addProductInventory()\" data-dismiss=\"modal\">\n                                <i class=\"fa fa-plus-square\" aria-hidden=\"true\" label=\"Add\"></i>\n                                Add Product Inventory\n                        </button>\n                    </div>\n\n                </div>\n                <div class=\"row p-3\">\n                    <p-dataTable [value]=\"this.productInventoryList\" [editable]=\"true\" scrollable=\"true\" [responsive]=\"true\" scrollHeight=\"300px\" (onEditComplete)=\"this.updateProductInventory($event)\">\n                        <p-column field=\"cost\" header=\"Cost\" [editable]=\"true\">\n                            <ng-template let-product=\"rowData\" pTemplate=\"body\">\n                                {{product.cost | currency:'USD':'true'}}\n                            </ng-template>\n                        </p-column>\n\n                        <p-column field=\"quantity\" header=\"Quantity\" [editable]=\"true\"></p-column>\n\n                        <p-column field=\"date\" header=\"Date\"></p-column>\n\n                        <p-column field=\"time\" header=\"Time\"></p-column>\n\n                    </p-dataTable>\n                </div>\n\n            </div>\n\n\n            <div class=\"modal-footer\">\n                <button type=\"button\" class=\"btn btn-default\" data-dismiss=\"modal\">Close</button>\n            </div>\n        </div>\n\n\n    </div>\n\n</div>\n<!-- Start Of Cost price and Quantity model -->"
+module.exports = "<mat-card>\n    <mat-card-title>\n        <h4>Product Inventory</h4>\n    </mat-card-title>\n    <mat-card-content>\n        <div class=\"row d-flex align-items-center\">\n            <div class=\"col-md-3\">\n                <!-- <p-autoComplete [(ngModel)]=\"productFilterBox\" styleClass=\"wid100\" [suggestions]=\"backendProductDto\" (completeMethod)=\"filterProducts($event)\" name=\"test\" [minLength]=\"1\" (keyup.enter)=\"submitProduct(p)\"\n                        field=\"description\">\n                    </p-autoComplete> -->\n\n                <input class=\"form-control \" [formControl]=\"this.searchProductTextBox\" type=\"text\" placeholder=\"Search By Product No/ Description\">\n            </div>\n\n            <div class=\"col-md-2\">\n                <select class=\"form-control\" [(ngModel)]=\"this.selectedProductDropdownOption\" (change)=\"onProductDropdownChoose()\">\n                        <option>Select All</option>\n                        <option>Brand</option>\n                        <option>Category</option>\n                        <option>Vendor</option>\n                    </select>\n\n            </div>\n            <div class=\"col-md-2\">\n                <select *ngIf=\"this.listOfProductOption != null\" class=\"form-control \" #dropdown (change)=\"fiterProductByDropdown(dropdown.value)\">\n                        <option [value]=\"-1\">All {{this.selectedProductDropdownOption}}</option>\n                        <option *ngFor=\"let option of this.listOfProductOption\" [value]=\"option.id\">\n                            {{option.name}}\n                        </option>\n                    </select>\n            </div>\n\n            <div class=\"col-md-5 d-flex align-items-center justify-content-end\">\n                <button type=\"button\" mat-raised-button class=\"bg-primary text-white action-button-lg\" style=\"margin-right: 15px\" [routerLink]=\"['/product/add']\">\n                        <i class=\"fa fa-plus-square\" aria-hidden=\"true\" label=\"Add\"></i>\n                        Add Product\n                    </button>\n\n                <button type=\"button\" mat-raised-button class=\"bg-primary text-white action-button-lg\" [routerLink]=\"['/product/addInventory']\">\n                        <i class=\"fa fa-plus-square\" aria-hidden=\"true\" label=\"Add\"></i>\n                        Add Inventory\n                    </button>\n\n            </div>\n\n\n        </div>\n        <div class=\"row\">\n            <div class=\"col-md-12 p-md-3\">\n\n                <!-- <p-header>Product Details</p-header> -->\n                <p-dataTable [value]=\"this.productViewList\" [editable]=\"true\" scrollable=\"true\" virtualScroll=\"virtualScroll\" [rows]=\"this.rowsToShow\" [lazy]=\"true\" [totalRecords]=\"this.totalNumberProducts\" [responsive]=\"true\" scrollHeight=\"400px\" (onEditComplete)=\"this.updateRetailPrice($event)\"\n                    (onLazyLoad)=\"loadProductsLazy($event)\">\n                    <p-column [style]=\"{'width': '10%'}\" field=\"productNo\" header=\"Product Number\" filterPlaceholder=\"Search For Product Name\"></p-column>\n                    <p-column [style]=\"{'width': '30%', 'text-align': 'left'}\" field=\"description\" header=\"Description\" [sortable]=\"true\"></p-column>\n                    <!-- <p-column [style]=\"{'width': '10%'}\" field=\"categoryName\" header=\"Category\" [sortable]=\"true\"></p-column> -->\n                    <p-column [style]=\"{'width': '10%'}\" field=\"cost\" header=\"Cost\" [sortable]=\"true\"></p-column>\n                    <p-column [style]=\"{'width': '10%'}\" field=\"retail\" header=\"Retail\" [editable]=\"true\"></p-column>\n                    <p-column [style]=\"{'width': '8%'}\" field=\"quantity\" header=\"Quantity\" [sortable]=\"true\"> </p-column>\n                    <p-column [style]=\"{'width': '23%'}\" field=\"action\" header=\"Action\" [sortable]=\"true\">\n                        <ng-template let-product=\"rowData\" pTemplate=\"body\" class=\"m-auto\">\n                            <button class=\"btn-blue action-button-table\" mat-button [routerLink]=\"['/product/edit', {productNo: product.productNo}]\">\n                                    <i class=\"fa fa-pencil\" aria-hidden=\"true\"></i>\n                                </button>\n                            <button mat-button class=\"btn-red action-button-table\" mat-button (click)=\"this.setProductToDelete(product)\" data-toggle=\"modal\" data-target=\"#deleteProduct\">\n                                    <i class=\"fa fa-trash\" aria-hidden=\"true\"></i>\n                                </button>\n                            <button mat-button class=\"btn-green action-button-table\" mat-button (click)=\"this.setProductForHistory(product)\" data-toggle=\"modal\" data-target=\"#productHistoryModel\">\n                                    <i class=\"fa fa-history\" aria-hidden=\"true\"></i>\n                                </button>\n                            <button mat-button class=\"btn-gray action-button-table\" mat-button data-toggle=\"modal\" data-target=\"#productHistoryModel\">\n                                    <i class=\"fa fa-barcode\" aria-hidden=\"true\"></i>\n                                </button>\n\n                        </ng-template>\n                    </p-column>\n                </p-dataTable>\n\n                <!-- <table class=\"table\" class=\"table table-striped\">\n                    <thead>\n                        <tr>\n                            <th>Product No</th>\n                            <th>Description</th>\n                            <th>Cost</th>\n                            <th>Retail</th>\n                            <th>Quantity</th>\n                            <th>Action</th>\n                        </tr>\n                    </thead>\n                    <tbody>\n                        <tr *ngFor=\"let product of this.backendProductDto\">\n                            <td>{{product.productNo}}</td>\n                            <td>{{product.description}}</td>\n                            <td>{{product.cost}}</td>\n                            <td>{{product.retail}}</td>\n                            <td>{{product.quantity}}</td> -->\n                <!-- <td>\n                                <button class=\"btn-blue action-button-table\" mat-button [routerLink]=\"['/product/edit', {productNo: product.productNo}]\">\n                                    <i class=\"fa fa-pencil\" aria-hidden=\"true\"></i>\n                                </button>\n                                <button mat-button class=\"btn-red action-button-table\" mat-button (click)=\"this.setProductToDelete(product)\" data-toggle=\"modal\" data-target=\"#deleteProduct\">\n                                    <i class=\"fa fa-trash\" aria-hidden=\"true\"></i>\n                                </button>\n                                <button mat-button class=\"btn-green action-button-table\" mat-button (click)=\"this.setProductForHistory(product)\" data-toggle=\"modal\" data-target=\"#productHistoryModel\">\n                                    <i class=\"fa fa-history\" aria-hidden=\"true\"></i>\n                                </button>\n                                <button mat-button class=\"btn-gray action-button-table\" mat-button data-toggle=\"modal\" data-target=\"#productHistoryModel\">\n                                    <i class=\"fa fa-barcode\" aria-hidden=\"true\"></i>\n                                </button>\n                            </td> -->\n                <!-- </tr>\n\n                    </tbody>\n                </table> -->\n\n\n\n            </div>\n        </div>\n\n    </mat-card-content>\n</mat-card>\n\n\n\n<!-- Start Of Product History model -->\n<div class=\"modal fade\" id=\"productHistoryModel\" role=\"dialog\">\n    <div class=\"modal-dialog modal-lg\">\n\n        <!-- Modal content-->\n        <div class=\"modal-content\">\n            <div class=\"modal-header\">\n                <h3 class=\"modal-title\">Product History</h3>\n                <button type=\"button\" class=\"close\" data-dismiss=\"modal\">&times;</button>\n\n            </div>\n            <div class=\"modal-body\">\n                <div class=\"row\">\n                    <div class=\"col-md-4\">\n                        <select class=\"form-control form-control\" [(ngModel)]=\"this.productHistoryDropDown\" (change)=\"this.getProductHistory()\">\n                            <option>Today</option>\n                            <option>Yesterday</option>\n                            <option>This Week</option>\n                            <option>Last Week</option>\n                            <option>This Month</option>\n                            <option>Last Month</option>\n                            <option>Last 3 Months</option>\n                            <option>Last 6 Months</option>\n                            <option>This Year</option>\n                            <option>Last Year</option>\n                            <option>Custom</option>\n\n                        </select>\n\n                    </div>\n\n                    <div class=\"col-md-8\">\n\n                        <span> Total No Of Product Sold:</span>\n                        <span>{{this.totalProductHistoryCount}}</span>\n                    </div>\n\n\n                </div>\n                <div class=\"row\">\n                    <table class=\"table\">\n                        <thead>\n                            <tr>\n\n                                <th>Product No</th>\n                                <th>Description</th>\n                                <th>Product Sold</th>\n                                <th>Cost</th>\n                                <th>Retail</th>\n                                <th>Date</th>\n                                <th>Time</th>\n\n                            </tr>\n                        </thead>\n                        <tbody>\n                            <tr *ngFor=\"let product of this.productHistoryDto\">\n                                <td>{{product.productNo}}</td>\n                                <td>{{product.description}}</td>\n                                <td>{{product.quantity}}</td>\n                                <td>{{product.cost}}</td>\n                                <td>{{product.retail}}</td>\n                                <td>{{product.date}}</td>\n                                <td>{{product.time}}</td>\n\n                            </tr>\n                        </tbody>\n                    </table>\n                    <!-- <div>\n                        <h5>Total Number Of Product Sold : {{this.productHistoryDto[0].totalQuantity}}</h5>\n                    </div> -->\n                </div>\n\n            </div>\n            <div class=\"modal-footer\">\n                <button type=\"button\" class=\"btn btn-default\" data-dismiss=\"modal\">Close</button>\n            </div>\n\n        </div>\n\n\n    </div>\n\n</div>\n<!-- End of Prodcut Histoty Model -->\n\n<!-- Start of Delete product up -->\n<div class=\"modal fade\" id=\"deleteProduct\" role=\"dialog\">\n    <div class=\"modal-dialog modal-sm\">\n        <div class=\"modal-content\">\n            <div class=\"modal-header\">\n                <h4 class=\"modal-title\">Delete Product</h4>\n                <button type=\"button\" class=\"close\" data-dismiss=\"modal\">&times;</button>\n            </div>\n            <div class=\"modal-body\">\n                <p>Are You Sure You Want To Delete This Product</p>\n            </div>\n            <div class=\"modal-footer\">\n\n                <button type=\"button\" class=\"btn btn-danger\" data-dismiss=\"modal\" (click)=\"this.deleteProduct()\">Yes</button>\n                <button type=\"button\" class=\"btn btn-default\" data-dismiss=\"modal\">Cancle</button>\n            </div>\n        </div>\n    </div>\n</div>\n\n<!-- End of Delete product up -->"
 
 /***/ }),
 
@@ -3575,20 +3604,12 @@ module.exports = module.exports.toString();
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/esm5/core.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_app_product_product_service__ = __webpack_require__("../../../../../src/app/product/product.service.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_forms__ = __webpack_require__("../../../forms/esm5/forms.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_app_product_product_component__ = __webpack_require__("../../../../../src/app/product/product.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_moment__ = __webpack_require__("../../../../moment/moment.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_moment___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4_moment__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_app_loading_service__ = __webpack_require__("../../../../../src/app/loading.service.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_ng2_toastr__ = __webpack_require__("../../../../ng2-toastr/ng2-toastr.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_ng2_toastr___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6_ng2_toastr__);
-var __assign = (this && this.__assign) || Object.assign || function(t) {
-    for (var s, i = 1, n = arguments.length; i < n; i++) {
-        s = arguments[i];
-        for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
-            t[p] = s[p];
-    }
-    return t;
-};
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_moment__ = __webpack_require__("../../../../moment/moment.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_moment___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_moment__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_app_loading_service__ = __webpack_require__("../../../../../src/app/loading.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_ng2_toastr__ = __webpack_require__("../../../../ng2-toastr/ng2-toastr.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_ng2_toastr___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5_ng2_toastr__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_app_shared_services_date_service__ = __webpack_require__("../../../../../src/app/shared/services/date.service.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -3607,10 +3628,11 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 var ProductTableComponent = /** @class */ (function () {
-    function ProductTableComponent(productService, loadingService, toastr) {
+    function ProductTableComponent(productService, loadingService, toastr, dateService) {
         this.productService = productService;
         this.loadingService = loadingService;
         this.toastr = toastr;
+        this.dateService = dateService;
         this.productViewList = [];
         this.productFullList = [];
         this.rowsToShow = 100;
@@ -3623,7 +3645,8 @@ var ProductTableComponent = /** @class */ (function () {
         this.searchProductTextBox = new __WEBPACK_IMPORTED_MODULE_2__angular_forms__["FormControl"]();
         this.productHistoryDto = [];
         this.productHistoryDropDown = 'Today';
-        this.productInventoryList = [];
+        this.dateDto = new __WEBPACK_IMPORTED_MODULE_6_app_shared_services_date_service__["a" /* DateDto */]();
+        this.totalProductHistoryCount = 0;
         this.loading = false;
     }
     ProductTableComponent.prototype.ngOnInit = function () {
@@ -3703,9 +3726,9 @@ var ProductTableComponent = /** @class */ (function () {
         else if (this.selectedProductDropdownOption === 'Vendor') {
             this.productFullList = this.backendProductDto.filter(function (ven) { return ven.vendorId == obj; });
         }
-        else if (this.selectedProductDropdownOption === 'Model') {
-            this.productFullList = this.backendProductDto.filter(function (mod) { return mod.modelId == obj; });
-        }
+        // else if (this.selectedProductDropdownOption === 'Model') {
+        //   this.productFullList = this.backendProductDto.filter((mod) => mod.modelId == obj)
+        // }
         // console.log('Product full list here', this.productFullList);
         this.loadProductsLazy({ first: 0, rows: this.rowsToShow * 2 });
     };
@@ -3745,16 +3768,6 @@ var ProductTableComponent = /** @class */ (function () {
                 }); });
             });
         }
-        else if (this.selectedProductDropdownOption === 'Model') {
-            this.productService.getModelDetails()
-                .subscribe(function (models) {
-                _this.listOfProductOption = [];
-                models.forEach(function (el) { return _this.listOfProductOption.push({
-                    id: el.modelId,
-                    name: el.name
-                }); });
-            });
-        }
         else {
             this.listOfProductOption = null;
             this.productFullList = this.backendProductDto;
@@ -3781,17 +3794,48 @@ var ProductTableComponent = /** @class */ (function () {
     };
     ProductTableComponent.prototype.setProductForHistory = function (product) {
         this.selectedProductForHistory = product;
+        console.log('product history', this.selectedProductForHistory);
         // I need to do this becuase after, after setting product, its opens the model and if i dont call this method user wont see anything on popup.
         this.getProductHistory();
     };
     ProductTableComponent.prototype.getProductHistory = function () {
-        //TODO NEED TO write service call to get the product history!!
         var _this = this;
-        this.productService.getProductHistory(this.selectedProductForHistory.productNo, this.productHistoryDropDown)
+        if (this.productHistoryDropDown == 'Today') {
+            this.dateDto = this.dateService.getCurrentDay();
+        }
+        else if (this.productHistoryDropDown == 'Yesterday') {
+            this.dateDto = this.dateService.getPreviousDay();
+        }
+        else if (this.productHistoryDropDown == 'This Week') {
+            this.dateDto = this.dateService.getLast7Day();
+        }
+        else if (this.productHistoryDropDown == 'Last Week') {
+            this.dateDto = this.dateService.getLast7Day();
+        }
+        else if (this.productHistoryDropDown == 'This Month') {
+            this.dateDto = this.dateService.getCurrentMonth();
+        }
+        else if (this.productHistoryDropDown == 'Last Month') {
+            this.dateDto = this.dateService.getLastMonth();
+        }
+        else if (this.productHistoryDropDown == 'Last 3 Months') {
+            this.dateDto = this.dateService.getLast3Months();
+        }
+        else if (this.productHistoryDropDown == 'Last 6 Months') {
+            this.dateDto = this.dateService.getLast6Months();
+        }
+        else if (this.productHistoryDropDown == 'This Year') {
+            this.dateDto = this.dateService.getCurrentYear();
+        }
+        else if (this.productHistoryDropDown == 'Last Year') {
+            this.dateDto = this.dateService.getLastYear();
+        }
+        this.productService.getProductHistory(this.dateDto.startDate, this.dateDto.endDate, this.selectedProductForHistory.productNo)
             .subscribe(function (productHistory) {
             productHistory.forEach((function (history) {
-                history.time = __WEBPACK_IMPORTED_MODULE_4_moment__(history.date).format('hh:mm A');
-                history.date = __WEBPACK_IMPORTED_MODULE_4_moment__(history.date).format('MM/DD/YYYY');
+                history.time = __WEBPACK_IMPORTED_MODULE_3_moment__(history.date).format('hh:mm A');
+                history.date = __WEBPACK_IMPORTED_MODULE_3_moment__(history.date).format('MM-DD-YYYY');
+                _this.totalProductHistoryCount = +_this.totalProductHistoryCount + history.quantity;
             }));
             _this.productHistoryDto = productHistory;
         });
@@ -3804,65 +3848,67 @@ var ProductTableComponent = /** @class */ (function () {
         console.log(event);
     };
     // This method helps to set the perticualr product inventory details to show on popup when user click on the cost price.
-    ProductTableComponent.prototype.setProductInventoryForSelectedProduct = function (productInventoryList1) {
-        var _this = this;
-        // First need to get real inventory details from the db, cause when you add inventory and if you dont do this call, it wont show you,
-        // Newly added inventory details.
-        this.productService.getProductInventoryByProductNo(productInventoryList1[0].productNo)
-            .subscribe(function (inventory) {
-            _this.productInventoryList = inventory;
-            _this.productInventoryList.forEach(function (inventory) {
-                inventory.time = __WEBPACK_IMPORTED_MODULE_4_moment__(inventory.createdTimestamp).format('hh:mm A');
-                inventory.date = __WEBPACK_IMPORTED_MODULE_4_moment__(inventory.createdTimestamp).format('MM-DD-YYYY');
-            });
-        });
-    };
-    ProductTableComponent.prototype.addProductInventory = function () {
-        var _this = this;
-        var productInventoryObj = new __WEBPACK_IMPORTED_MODULE_3_app_product_product_component__["b" /* ProductInventory */]();
-        productInventoryObj.productNo = this.productInventoryList[0].productNo;
-        productInventoryObj.cost = this.cost;
-        productInventoryObj.retail = this.productInventoryList[0].retail;
-        productInventoryObj.quantity = this.quantity;
-        productInventoryObj.createdTimestamp = __WEBPACK_IMPORTED_MODULE_4_moment__(Date.now()).format('YYYY-MM-DD HH:mm:ss');
-        this.productInventoryList.push(productInventoryObj);
-        this.productService.addProductInventory(this.productInventoryList)
-            .subscribe(function (productInventory) {
-            if (null != productInventory) {
-                _this.toastr.success('Inventory Added Successfully !!', 'Success!');
-            }
-            else {
-                _this.toastr.error('Opps Something Goes Wrong !!', 'Error!');
-            }
-        }, function (error) {
-            _this.toastr.error('Opps Something goes wrong !!', 'Error!!');
-            console.log(JSON.stringify(error.json()));
-        });
-        this.cost = null;
-        this.quantity = null;
-    };
-    ProductTableComponent.prototype.updateProductInventory = function (event) {
-        var _this = this;
-        var product = event.data;
-        console.log('Updating product inventory', product);
-        console.log('event on inventoty', event.date);
-        var productInventory = [];
-        productInventory.push(event.data);
-        console.log('product invetrory object', productInventory);
-        this.productService.updateProductInventory(productInventory)
-            .subscribe(function (data) {
-            if (data) {
-                _this.toastr.success('Inventory Updated Successfully !!', 'Success!');
-            }
-        }, function (error) {
-            _this.toastr.error('Opps Something goes wrong !!', 'Error!!');
-            console.log(JSON.stringify(error.json()));
-        });
-        var index = this.productViewList.findIndex(function (el) { return el.productNo == product.productNo; });
-        this.productViewList[index] = __assign({}, this.productViewList[index], product);
-        this.productViewList = this.productViewList.slice();
-        this.hideProductModal();
-    };
+    //setProductInventoryForSelectedProduct(productInventoryList1: ProductInventory[]) {
+    // First need to get real inventory details from the db, cause when you add inventory and if you dont do this call, it wont show you,
+    // Newly added inventory details.
+    //   this.productService.getProductInventoryByProductNo(productInventoryList1[0].productNo)
+    //   .subscribe((inventory: ProductInventory[]) => {
+    //     this.productInventoryList = inventory;
+    //     this.productInventoryList.forEach((inventory) => {
+    //       inventory.time = moment(inventory.createdTimestamp).format('hh:mm A');
+    //       inventory.date = moment(inventory.createdTimestamp).format('MM-DD-YYYY');
+    //     })
+    //   });
+    // }
+    // addProductInventory(){
+    //   let productInventoryObj: ProductInventory = new ProductInventory();
+    //   productInventoryObj.productNo = this.productInventoryList[0].productNo;
+    //   productInventoryObj.cost = this.cost;
+    //   productInventoryObj.retail = this.productInventoryList[0].retail;
+    //   productInventoryObj.quantity = this.quantity;
+    //   productInventoryObj.createdTimestamp = moment(Date.now()).format('YYYY-MM-DD HH:mm:ss');
+    //   this.productInventoryList.push(productInventoryObj);
+    //   this.productService.addProductInventory(this.productInventoryList)
+    //   .subscribe((productInventory) => {
+    //     if(null != productInventory){
+    //       this.toastr.success('Inventory Added Successfully !!', 'Success!');
+    //     }
+    //     else{
+    //       this.toastr.error('Opps Something Goes Wrong !!', 'Error!');
+    //     }
+    //   },
+    //   error => {
+    //     this.toastr.error('Opps Something goes wrong !!', 'Error!!');
+    //     console.log(JSON.stringify(error.json()));
+    //   });
+    //   this.cost = null;
+    //   this.quantity = null;
+    //   }
+    // updateProductInventory(event) {
+    //   let product: BackendProductDto = event.data;
+    //   console.log('Updating product inventory', product);
+    //   console.log('event on inventoty', event.date);
+    //   let productInventory: ProductInventory[] = []; 
+    //   productInventory.push(event.data);
+    //   console.log('product invetrory object', productInventory);
+    //   this.productService.updateProductInventory(productInventory)
+    //   .subscribe(data => {
+    //     if(data){
+    //       this.toastr.success('Inventory Updated Successfully !!', 'Success!');
+    //     }
+    //   },
+    //   error => {
+    //     this.toastr.error('Opps Something goes wrong !!', 'Error!!');
+    //     console.log(JSON.stringify(error.json()));
+    //   });
+    //   let index = this.productViewList.findIndex((el) => el.productNo == product.productNo);
+    //   this.productViewList[index] = {
+    //     ...this.productViewList[index],
+    //     ...product
+    //   };
+    //   this.productViewList = this.productViewList.slice();
+    //   this.hideProductModal();
+    // }
     ProductTableComponent.prototype.hideProductModal = function () {
         console.log('Hiding modal');
         $('#productInventory').modal('hide');
@@ -3873,7 +3919,7 @@ var ProductTableComponent = /** @class */ (function () {
             template: __webpack_require__("../../../../../src/app/product/product-table/product-table.component.html"),
             styles: [__webpack_require__("../../../../../src/app/product/product-table/product-table.component.sass")]
         }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_app_product_product_service__["a" /* ProductService */], __WEBPACK_IMPORTED_MODULE_5_app_loading_service__["a" /* LoadingService */], __WEBPACK_IMPORTED_MODULE_6_ng2_toastr__["ToastsManager"]])
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_app_product_product_service__["a" /* ProductService */], __WEBPACK_IMPORTED_MODULE_4_app_loading_service__["a" /* LoadingService */], __WEBPACK_IMPORTED_MODULE_5_ng2_toastr__["ToastsManager"], __WEBPACK_IMPORTED_MODULE_6_app_shared_services_date_service__["b" /* DateService */]])
     ], ProductTableComponent);
     return ProductTableComponent;
 }());
@@ -3920,7 +3966,6 @@ module.exports = module.exports.toString();
 /* unused harmony export ProductVariantDetail */
 /* unused harmony export BackendProductDto */
 /* unused harmony export ProductCommonTest */
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return ProductInventory; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/esm5/core.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_app_product_product_service__ = __webpack_require__("../../../../../src/app/product/product.service.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_forms__ = __webpack_require__("../../../forms/esm5/forms.js");
@@ -3958,8 +4003,7 @@ var ProductComponent = /** @class */ (function () {
             { name: 'Inventory', icon: 'fa fa-tags fa-x', link: '/product/productTable' },
             { name: 'Category', icon: 'fa fa-list fa-x', link: '/product/category' },
             { name: 'Brand', icon: 'fa fa-bookmark fa-x', link: '/product/brand' },
-            { name: 'Vendor', icon: 'fa fa-user fa-x', link: '/product/vendor' },
-            { name: 'Model', icon: 'fa fa-mobile fa-x', link: '/product/model' }
+            { name: 'Vendor', icon: 'fa fa-user fa-x', link: '/product/vendor' }
         ];
     };
     ProductComponent.prototype.onProductDropdownChoose = function () {
@@ -3983,12 +4027,6 @@ var ProductComponent = /** @class */ (function () {
             this.productService.getVendorDetails()
                 .subscribe(function (vendors) {
                 _this.listOfProductOption = vendors;
-            });
-        }
-        else if (this.selectedProductDropdownOption === 'Model') {
-            this.productService.getModelDetails()
-                .subscribe(function (models) {
-                _this.listOfProductOption = models;
             });
         }
         else {
@@ -4056,12 +4094,18 @@ var ProductCommonTest = /** @class */ (function () {
     return ProductCommonTest;
 }());
 
-var ProductInventory = /** @class */ (function () {
-    function ProductInventory() {
-    }
-    return ProductInventory;
-}());
-
+// export class ProductInventory {
+//   productNo: string;
+//   description:string;
+//   cost: number;
+//   retail: number;
+//   markup: number;
+//   quantity: number;
+//   createdTimestamp: any;
+//   vendorId: number;
+//   date: any;
+//   time: any;
+// }
 // markup: '',
 // brandName: '',
 // vendorName: '',
@@ -4107,23 +4151,19 @@ var ProductInventory = /** @class */ (function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_11_app_product_category_category_service__ = __webpack_require__("../../../../../src/app/product/category/category.service.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__brand_brand_component__ = __webpack_require__("../../../../../src/app/product/brand/brand.component.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_13_app_product_brand_brand_service__ = __webpack_require__("../../../../../src/app/product/brand/brand.service.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_14__model_model_component__ = __webpack_require__("../../../../../src/app/product/model/model.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_15_app_product_model_model_service__ = __webpack_require__("../../../../../src/app/product/model/model.service.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_16_app_product_addProduct_component__ = __webpack_require__("../../../../../src/app/product/addProduct.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_17__product_table_product_table_component__ = __webpack_require__("../../../../../src/app/product/product-table/product-table.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_18_app_product_product_routing_module__ = __webpack_require__("../../../../../src/app/product/product-routing.module.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_19__add_inventory_add_inventory_component__ = __webpack_require__("../../../../../src/app/product/add-inventory/add-inventory.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_20_app_shared_shared_module__ = __webpack_require__("../../../../../src/app/shared/shared.module.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_21__edit_product_edit_product_component__ = __webpack_require__("../../../../../src/app/product/edit-product/edit-product.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_22__angular_platform_browser_animations__ = __webpack_require__("../../../platform-browser/esm5/animations.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_14_app_product_addProduct_component__ = __webpack_require__("../../../../../src/app/product/addProduct.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_15__product_table_product_table_component__ = __webpack_require__("../../../../../src/app/product/product-table/product-table.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_16_app_product_product_routing_module__ = __webpack_require__("../../../../../src/app/product/product-routing.module.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_17__add_inventory_add_inventory_component__ = __webpack_require__("../../../../../src/app/product/add-inventory/add-inventory.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_18_app_shared_shared_module__ = __webpack_require__("../../../../../src/app/shared/shared.module.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_19__edit_product_edit_product_component__ = __webpack_require__("../../../../../src/app/product/edit-product/edit-product.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_20__angular_platform_browser_animations__ = __webpack_require__("../../../platform-browser/esm5/animations.js");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
-
-
 
 
 
@@ -4159,33 +4199,32 @@ var ProductModule = /** @class */ (function () {
             imports: [
                 __WEBPACK_IMPORTED_MODULE_1__angular_common__["CommonModule"],
                 __WEBPACK_IMPORTED_MODULE_2__angular_platform_browser__["BrowserModule"],
-                __WEBPACK_IMPORTED_MODULE_22__angular_platform_browser_animations__["a" /* BrowserAnimationsModule */],
+                __WEBPACK_IMPORTED_MODULE_20__angular_platform_browser_animations__["a" /* BrowserAnimationsModule */],
                 __WEBPACK_IMPORTED_MODULE_5__angular_forms__["ReactiveFormsModule"],
                 __WEBPACK_IMPORTED_MODULE_5__angular_forms__["FormsModule"],
                 __WEBPACK_IMPORTED_MODULE_6_primeng_primeng__["DialogModule"],
                 __WEBPACK_IMPORTED_MODULE_6_primeng_primeng__["DataTableModule"],
-                __WEBPACK_IMPORTED_MODULE_20_app_shared_shared_module__["a" /* SharedModule */],
+                __WEBPACK_IMPORTED_MODULE_18_app_shared_shared_module__["a" /* SharedModule */],
                 __WEBPACK_IMPORTED_MODULE_6_primeng_primeng__["MessagesModule"],
                 __WEBPACK_IMPORTED_MODULE_6_primeng_primeng__["GrowlModule"],
                 __WEBPACK_IMPORTED_MODULE_6_primeng_primeng__["TabMenuModule"],
-                __WEBPACK_IMPORTED_MODULE_18_app_product_product_routing_module__["a" /* ProductRoutingModule */],
+                __WEBPACK_IMPORTED_MODULE_16_app_product_product_routing_module__["a" /* ProductRoutingModule */],
                 __WEBPACK_IMPORTED_MODULE_6_primeng_primeng__["InputSwitchModule"],
                 __WEBPACK_IMPORTED_MODULE_6_primeng_primeng__["AutoCompleteModule"],
                 __WEBPACK_IMPORTED_MODULE_7_primeng_table__["TableModule"]
             ],
             declarations: [
                 __WEBPACK_IMPORTED_MODULE_3_app_product_product_component__["a" /* ProductComponent */],
-                __WEBPACK_IMPORTED_MODULE_16_app_product_addProduct_component__["a" /* AddProductComponent */],
+                __WEBPACK_IMPORTED_MODULE_14_app_product_addProduct_component__["a" /* AddProductComponent */],
                 __WEBPACK_IMPORTED_MODULE_8_app_product_category_category_component__["a" /* CategoryComponent */],
                 __WEBPACK_IMPORTED_MODULE_9_app_product_vendor_vendor_component__["a" /* VendorComponent */],
                 __WEBPACK_IMPORTED_MODULE_12__brand_brand_component__["a" /* BrandComponent */],
-                __WEBPACK_IMPORTED_MODULE_14__model_model_component__["a" /* ModelComponent */],
-                __WEBPACK_IMPORTED_MODULE_17__product_table_product_table_component__["a" /* ProductTableComponent */],
-                __WEBPACK_IMPORTED_MODULE_19__add_inventory_add_inventory_component__["a" /* AddInventoryComponent */],
-                __WEBPACK_IMPORTED_MODULE_21__edit_product_edit_product_component__["a" /* EditProductComponent */]
+                __WEBPACK_IMPORTED_MODULE_15__product_table_product_table_component__["a" /* ProductTableComponent */],
+                __WEBPACK_IMPORTED_MODULE_17__add_inventory_add_inventory_component__["a" /* AddInventoryComponent */],
+                __WEBPACK_IMPORTED_MODULE_19__edit_product_edit_product_component__["a" /* EditProductComponent */]
             ],
-            providers: [__WEBPACK_IMPORTED_MODULE_4_app_product_product_service__["a" /* ProductService */], __WEBPACK_IMPORTED_MODULE_10_app_product_vendor_vendor_service__["a" /* VendorService */], __WEBPACK_IMPORTED_MODULE_11_app_product_category_category_service__["a" /* CategoryService */], __WEBPACK_IMPORTED_MODULE_13_app_product_brand_brand_service__["a" /* BrandService */], __WEBPACK_IMPORTED_MODULE_15_app_product_model_model_service__["a" /* ModelService */]],
-            bootstrap: [__WEBPACK_IMPORTED_MODULE_3_app_product_product_component__["a" /* ProductComponent */], __WEBPACK_IMPORTED_MODULE_16_app_product_addProduct_component__["a" /* AddProductComponent */], __WEBPACK_IMPORTED_MODULE_19__add_inventory_add_inventory_component__["a" /* AddInventoryComponent */]]
+            providers: [__WEBPACK_IMPORTED_MODULE_4_app_product_product_service__["a" /* ProductService */], __WEBPACK_IMPORTED_MODULE_10_app_product_vendor_vendor_service__["a" /* VendorService */], __WEBPACK_IMPORTED_MODULE_11_app_product_category_category_service__["a" /* CategoryService */], __WEBPACK_IMPORTED_MODULE_13_app_product_brand_brand_service__["a" /* BrandService */]],
+            bootstrap: [__WEBPACK_IMPORTED_MODULE_3_app_product_product_component__["a" /* ProductComponent */], __WEBPACK_IMPORTED_MODULE_14_app_product_addProduct_component__["a" /* AddProductComponent */], __WEBPACK_IMPORTED_MODULE_17__add_inventory_add_inventory_component__["a" /* AddInventoryComponent */]]
         })
     ], ProductModule);
     return ProductModule;
@@ -4225,7 +4264,7 @@ var ProductService = /** @class */ (function () {
     ProductService.prototype.getProductDetails = function () {
         var _this = this;
         // if(!this.fullProductList){
-        return this.http.get(this.url + '/getProductTableDetails')
+        return this.http.get(this.url + '/getProduct')
             .map(this.extractData)
             .map(function (list) {
             console.log('Caching product list...');
@@ -4241,11 +4280,6 @@ var ProductService = /** @class */ (function () {
         //     observer.complete();  
         //   }); 
         // }
-    };
-    ProductService.prototype.getProductInventoryByProductNo = function (productNo) {
-        return this.http.get(this.url + '/getProductInventory?productNo=' + productNo)
-            .map(this.extractData)
-            .catch(this.handleError);
     };
     ProductService.prototype.getCategoryDetails = function () {
         return this.http.get(this.url + '/getCategory')
@@ -4268,11 +4302,6 @@ var ProductService = /** @class */ (function () {
             .map(this.extractData)
             .catch(this.handleError);
     };
-    ProductService.prototype.getModelDetails = function () {
-        return this.http.get(this.url + '/getModel')
-            .map(this.extractData)
-            .catch(this.handleError);
-    };
     ProductService.prototype.getProductVariantDetails = function () {
         return this.http.get(this.url + '/getProductVariantDetails')
             .map(this.extractData)
@@ -4288,8 +4317,8 @@ var ProductService = /** @class */ (function () {
             .map(function (res) { return res.text(); })
             .catch(this.handleError);
     };
-    ProductService.prototype.getProductHistory = function (productNo, timeDuration) {
-        return this.http.get(this.url + 'getProductHistory?productNo=' + productNo + '&timeDuration=' + timeDuration)
+    ProductService.prototype.getProductHistory = function (startDate, endDate, productNo) {
+        return this.http.get(this.url + '/getProductHistory?startDate=' + startDate + '&endDate=' + endDate + '&productNo=' + productNo)
             .map(this.extractData)
             .catch(this.handleError);
     };
@@ -4309,23 +4338,22 @@ var ProductService = /** @class */ (function () {
     };
     // TODO:  This is redudant, but need to do it cause i have two obejct for backend dto and product, i need to fix this.
     ProductService.prototype.editProduct = function (product) {
-        var _this = this;
         console.log("Product Added", product.description);
-        this.http.post(this.url + '/addProduct', product)
-            .map(function (updatedProduct) {
-            var index = _this.fullProductList.findIndex(function (product) {
-                return product.productNo === updatedProduct.productNo;
-            });
-            if (index)
-                _this.fullProductList[index] = updatedProduct;
-            _this.fullProductList = _this.fullProductList.slice();
-            return _this.fullProductList;
-        });
+        return this.http.post(this.url + '/addProduct', product);
+        // .map((updatedProduct: any) => {
+        //   let index = this.fullProductList.findIndex((product) => {
+        //     return product.productNo === (<Product>updatedProduct).productNo; 
+        //   })
+        //   if(index)
+        //     this.fullProductList[index] = updatedProduct; 
+        //   this.fullProductList = this.fullProductList.slice(); 
+        //   return this.fullProductList; 
+        // })
     };
-    ProductService.prototype.addProductInventory = function (productInventory) {
-        console.log("Product Added", productInventory);
-        return this.http.post(this.url + '/addProductInventory', productInventory);
-    };
+    // addProductInventory(productInventory: ProductInventory[]) {
+    //   console.log("Product Added", productInventory);
+    //   return this.http.post(this.url+'/addProductInventory', productInventory);
+    // }
     ProductService.prototype.updateProductRetailPrice = function (product) {
         this.http.post(this.url + '/addProduct', product)
             .subscribe(function (data) {
@@ -4335,9 +4363,9 @@ var ProductService = /** @class */ (function () {
             console.log(JSON.stringify(error.json()));
         });
     };
-    ProductService.prototype.updateProductInventory = function (productInventory) {
-        return this.http.post(this.url + '/addProductInventory', productInventory);
-    };
+    // updateProductInventory(productInventory: ProductInventory[]) {
+    //   return this.http.post(this.url+'/addProductInventory', productInventory);
+    // }
     ProductService.prototype.deleteProduct = function (deletedProduct) {
         this.http.put(this.url + '/deleteProduct', deletedProduct)
             .subscribe(function (data) {
@@ -4347,15 +4375,16 @@ var ProductService = /** @class */ (function () {
             console.log(JSON.stringify(error.json()));
         });
     };
-    ProductService.prototype.deleteProductInventory = function (deletedInvetory) {
-        this.http.post(this.url + '/deleteProductInventory', deletedInvetory)
-            .subscribe(function (data) {
-            alert('deleted');
-            console.log(data);
-        }, function (error) {
-            console.log(JSON.stringify(error.json()));
-        });
-    };
+    // deleteProductInventory(deletedInvetory: ProductInventory) {
+    //   this.http.post(this.url+'/deleteProductInventory', deletedInvetory)
+    //     .subscribe(data => {
+    //       alert('deleted');
+    //       console.log(data);
+    //     },
+    //     error => {
+    //       console.log(JSON.stringify(error.json()));
+    //     });
+    // }
     ProductService.prototype.extractData = function (res) {
         var body = res.json();
         // console.log(body);
@@ -4601,7 +4630,7 @@ var VendorService = /** @class */ (function () {
 /***/ "../../../../../src/app/promotion/email/email.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<p>\n  email works!\n</p>\n"
+module.exports = "<p>\n    Coming Soon!!\n</p>"
 
 /***/ }),
 
@@ -4662,7 +4691,7 @@ var EmailComponent = /** @class */ (function () {
 /***/ "../../../../../src/app/promotion/facebook/facebook.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<p>\n  facebook works!\n</p>\n"
+module.exports = "<p>\n    Coming Soon!!\n</p>"
 
 /***/ }),
 
@@ -4908,7 +4937,7 @@ var PromotionModule = /** @class */ (function () {
 /***/ "../../../../../src/app/promotion/sms/sms.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<p>\n  sms works!\n</p>\n"
+module.exports = "<p>\n    Coming Soon!!\n</p>"
 
 /***/ }),
 
@@ -4966,390 +4995,10 @@ var SmsComponent = /** @class */ (function () {
 
 /***/ }),
 
-/***/ "../../../../../src/app/purchase-order/purchase-order-routing.module.ts":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return PurchaseOrderRoutingModule; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/esm5/core.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_router__ = __webpack_require__("../../../router/esm5/router.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_app_auth_auth_guard__ = __webpack_require__("../../../../../src/app/auth/auth.guard.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_app_purchase_order_purchase_order_component__ = __webpack_require__("../../../../../src/app/purchase-order/purchase-order.component.ts");
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-
-
-
-
-var routes = [
-    {
-        path: 'purchase-order',
-        component: __WEBPACK_IMPORTED_MODULE_3_app_purchase_order_purchase_order_component__["a" /* PurchaseOrderComponent */],
-        canActivate: [__WEBPACK_IMPORTED_MODULE_2_app_auth_auth_guard__["a" /* AuthGuard */]]
-    },
-];
-var PurchaseOrderRoutingModule = /** @class */ (function () {
-    function PurchaseOrderRoutingModule() {
-    }
-    PurchaseOrderRoutingModule = __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["NgModule"])({
-            imports: [__WEBPACK_IMPORTED_MODULE_1__angular_router__["RouterModule"].forChild(routes)],
-            exports: [__WEBPACK_IMPORTED_MODULE_1__angular_router__["RouterModule"]]
-        })
-    ], PurchaseOrderRoutingModule);
-    return PurchaseOrderRoutingModule;
-}());
-
-
-
-/***/ }),
-
-/***/ "../../../../../src/app/purchase-order/purchase-order.component.html":
-/***/ (function(module, exports) {
-
-module.exports = "<mat-card>\n    <mat-card-title>\n        Purchase Order\n    </mat-card-title>\n    <mat-card-content>\n        <div class=\"row\">\n            <div class=\"col-md-5\">\n                <select class=\"form-control form-control-lg\" [(ngModel)]=\"this.selectedVendor\" (change)=\"this.onVendorChoose()\">\n                                    <option>Please Select Vendor</option>\n                                 <option *ngFor=\"let vendor of this.vendorDto\">\n                                     {{vendor.name}}\n                                 </option>\n                                </select>\n            </div>\n            <div class=\"col-md-4\">\n\n                <p-autoComplete id=\"productsearch\" [(ngModel)]=\"p\" class=\"full-width m-1\" [suggestions]=\"product\" placeholder=\"Scan or Search Product\" (completeMethod)=\"filterProducts($event)\" name=\"test\" [minLength]=\"3\" (keyup.enter)=\"submitProduct(p)\" field=\"description\">\n                </p-autoComplete>\n                <span style=\"margin-left:10px\"></span>\n\n                <!-- <button type=\"button \" (click)=\"this.test(10)\" class=\"btn btn-success \">Add Product</button> -->\n            </div>\n            <div class=\"col-md-3\">\n                <button class=\"bg btn-green text-white m-3 action-button-lg\" mat-raised-button (click)=\"this.openProductLookUpModel()\">\n                        <i class=\"fa fa-search\" aria-hidden=\"true\">\n                            Product look up\n                            \n                        </i>\n\n                </button>\n            </div>\n\n        </div>\n\n        <div class=\"row\">\n            <!-- Product Table -->\n            <p-dataTable [value]=\"this.productInventotyList\" scrollable=\"true\" [responsive]=\"true\" scrollHeight=\"300px\" [editable]=\"true\" (onEditComplete)=\"updateInventoryDetails($event)\">\n                <p-header>Add Purchase Order Details</p-header>\n\n                <p-column field=\"productNo\" header=\"ProductNo\" [style]=\"{'width':'15%','text-align':'center', 'overflow':'visible'}\"></p-column>\n                <p-column field=\"description\" header=\"Description\" [style]=\"{'width':'50%','text-align':'center', 'overflow':'visible'}\"></p-column>\n                <p-column field=\"defaultQuantity\" header=\"Quantity\" [editable]=\"true\"></p-column>\n                <p-column field=\"cost\" header=\"Cost\" [editable]=\"true\"></p-column>\n                <p-column field=\"retail\" header=\"Retail\" [editable]=\"true\"></p-column>\n                <p-column field=\"quantity\" header=\"In-Stock\"></p-column>\n                <p-column field=\"totalProductPrice\" header=\"Total\"></p-column>\n                <p-column header=\"\" styleClass=\"col-button\" [style]=\"{'width':'3%','text-align':'center', 'overflow':'visible'}\">\n                    <!-- <ng-template pTemplate=\"header\">\n                                        <button type=\"button\" pButton icon=\"fa-refresh\"></button>\n                                    </ng-template> -->\n                    <ng-template let-product=\"rowData\" pTemplate=\"body\">\n\n                        <button mat-button class=\"btn-red action-button-table\" mat-button (click)=\"this.setProductForDelete(product)\" data-toggle=\"modal\" data-target=\"#removeProductInventory\">\n                                    <i class=\"fa fa-trash\" aria-hidden=\"true\"></i>\n                                </button>\n                    </ng-template>\n                </p-column>\n\n\n            </p-dataTable>\n        </div>\n    </mat-card-content>\n\n    <mat-card-footer class=\"d-flex justify-content-md-center\">\n\n        <button class=\"bg-danger text-white m-3 action-button-lg\" mat-raised-button data-toggle=\"modal\" data-target=\"#removeProductInventory\" (click)=\"this.setHeaderForRemoveAllInventoryProduct()\">\n                        <i class=\"fa fa-trash\">\n                            Discard Order\n                        </i>\n                    </button>\n\n        <button class=\"bg btn-green text-white m-3 action-button-lg\" mat-raised-button data-toggle=\"modal\" data-target=\"#removeProductInventory\" (click)=\"this.setHeaderForAddProductInventory()\"> \n                            <i class=\"fa fa-paper-plane\" aria-hidden=\"true\" >\n                                    Add Order\n                            </i>\n                         \n                    </button>\n    </mat-card-footer>\n</mat-card>\n\n\n\n\n<!-- Start of Product and Sale discard Pop up -->\n\n<div class=\"modal fade\" id=\"removeProductInventory\" role=\"dialog\">\n    <div class=\"modal-dialog modal-sm\">\n        <div class=\"modal-content\">\n            <div class=\"modal-header\">\n                <h4 class=\"modal-title\">{{this.popupHeader}}</h4>\n                <button type=\"button\" class=\"close\" data-dismiss=\"modal\">&times;</button>\n            </div>\n            <div class=\"modal-body\">\n                <p>{{this.popupMessage}}</p>\n            </div>\n            <div class=\"modal-footer\">\n\n                <!-- This logic to reuse the model code cause i need popup for delete single product and also delete complete sale -->\n                <button *ngIf=\"this.popupHeader == 'Remove Product Inventory' \" type=\"button\" class=\"btn btn-danger\" data-dismiss=\"modal\" (click)=\"this.deleteProduct()\">Yes</button>\n                <button *ngIf=\"this.popupHeader == 'Remove All Products Inventory'\" type=\"button\" class=\"btn btn-danger\" data-dismiss=\"modal\" (click)=\"this.removeAllProductInventory()\">Yes</button>\n\n                <button *ngIf=\"this.popupHeader == 'Add All Product Inventory' \" type=\"button\" class=\"btn btn-success\" data-dismiss=\"modal\" (click)=\"this.addProductInventoryToBackEnd()\">Yes</button>\n\n                <!-- TODO Add one more button for add product if it does not exists -->\n                <button type=\"button\" class=\"btn btn-default\" data-dismiss=\"modal\">Cancle</button>\n            </div>\n        </div>\n    </div>\n</div>\n\n<!-- End of Product and Sale discard Pop up -->\n\n<p-dialog header=\"Product Details\" appendTo=\"body\" [(visible)]=\"displayDialog\" [responsive]=\"true\" showEffect=\"fade\" [modal]=\"true\">\n\n    <div class=\"container\">\n\n        <div class=\"row\">\n\n            <table class=\"table table-striped\">\n                <thead>\n                    <tr>\n                        <th>Product No</th>\n                        <th>Description</th>\n                        <th>Cost</th>\n                        <th>Retail</th>\n                        <th>Qauntity</th>\n                        <th>Order Quantity</th>\n\n                    </tr>\n                </thead>\n                <tbody>\n                    <tr *ngFor=\"let product of this.filteredProductByVendor\">\n                        <td>{{product.productNo}}</td>\n                        <td>{{product.description}}</td>\n                        <td>{{product.cost}}</td>\n                        <td>{{product.retail}}</td>\n                        <td [ngStyle]=\"{'backgroundColor': (product.quantity >= 0)?'':'red'}\">{{product.quantity}}</td>\n                        <td>\n                            <input type=\"number\" (keyup.enter)=\"this.addProdutForPurchaseOrder($event, product)\">\n                            <!-- <button mat-button class=\"btn-green action-button-table\" mat-button (click)=\"this.setProductForHistory(product)\" data-toggle=\"modal\" data-target=\"#productHistoryModel\">\n                                    <i class=\"fa fa-history\" aria-hidden=\"true\"></i>\n                                </button> -->\n                            <!-- <button class=\"bg-primary text-white action-button m-1\" mat-raised-button>\n                                Add\n                            </button> -->\n                        </td>\n\n                    </tr>\n                </tbody>\n            </table>\n\n        </div>\n    </div>\n\n    <p-footer>\n        <div style=\"text-align: center\">\n\n        </div>\n    </p-footer>\n\n\n</p-dialog>"
-
-/***/ }),
-
-/***/ "../../../../../src/app/purchase-order/purchase-order.component.scss":
-/***/ (function(module, exports, __webpack_require__) {
-
-exports = module.exports = __webpack_require__("../../../../css-loader/lib/css-base.js")(false);
-// imports
-
-
-// module
-exports.push([module.i, "", ""]);
-
-// exports
-
-
-/*** EXPORTS FROM exports-loader ***/
-module.exports = module.exports.toString();
-
-/***/ }),
-
-/***/ "../../../../../src/app/purchase-order/purchase-order.component.ts":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return PurchaseOrderComponent; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/esm5/core.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_app_product_product_service__ = __webpack_require__("../../../../../src/app/product/product.service.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_app_product_product_component__ = __webpack_require__("../../../../../src/app/product/product.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_app_sell_sell_service__ = __webpack_require__("../../../../../src/app/sell/sell.service.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_app_shared_services_persistence_service__ = __webpack_require__("../../../../../src/app/shared/services/persistence.service.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_moment__ = __webpack_require__("../../../../moment/moment.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_moment___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5_moment__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_ng2_toastr__ = __webpack_require__("../../../../ng2-toastr/ng2-toastr.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_ng2_toastr___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6_ng2_toastr__);
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var __metadata = (this && this.__metadata) || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
-
-
-
-
-
-
-
-var PurchaseOrderComponent = /** @class */ (function () {
-    function PurchaseOrderComponent(saleService, productService, persit, toastr) {
-        this.saleService = saleService;
-        this.productService = productService;
-        this.persit = persit;
-        this.toastr = toastr;
-        this.productInventoryObject = new __WEBPACK_IMPORTED_MODULE_2_app_product_product_component__["b" /* ProductInventory */]();
-        this.vendorDto = [];
-        this.filteredProductByVendor = [];
-        this.displayDialog = false;
-    }
-    PurchaseOrderComponent.prototype.ngOnInit = function () {
-        this.getProductDetails();
-        this.getVendorDetails();
-        this.productInventotyList = this.persit.getProductInventoryForAdd() || [];
-    };
-    PurchaseOrderComponent.prototype.getProductDetails = function () {
-        var _this = this;
-        this.saleService.getProductDetails()
-            .subscribe(function (pro) {
-            _this.productDto = pro;
-            _this.filteredProductByVendor = _this.productDto;
-            console.log('ProductList' + _this.productDto);
-        });
-    };
-    PurchaseOrderComponent.prototype.getVendorDetails = function () {
-        var _this = this;
-        this.productService.getVendorDetails()
-            .subscribe(function (vendors) {
-            _this.vendorDto = vendors;
-            // this.form.get('vendor').setValue(this.vendorDto[0]);
-        });
-    };
-    // TODO NEED TO make it common so i can use other places too.
-    PurchaseOrderComponent.prototype.filterProducts = function (event) {
-        var _this = this;
-        var query = event.query;
-        this.saleService.getProductDetails()
-            .subscribe(function (products) {
-            // console.log(products);
-            _this.product = _this.filterProduct(query, products);
-        });
-    };
-    PurchaseOrderComponent.prototype.filterProduct = function (query, products) {
-        var filtered = [];
-        for (var i = 0; i < products.length; i++) {
-            var p = products[i];
-            if (p.description.toLowerCase().includes(query.toLowerCase())) {
-                filtered.push(p);
-            }
-        }
-        return filtered;
-    };
-    // This method helps when user try to change retial price or quanity from the sell text box.
-    PurchaseOrderComponent.prototype.submitProduct = function (value) {
-        console.log('This is value: ', value);
-        if (typeof value === 'string') {
-            console.log('This is value: ', value);
-            // this is the senario where user is adding new product to Add into Inventory
-            if (this.product != null && this.product.length > 0) {
-                console.log("coming here");
-                this.addProductInventory(this.product[0]);
-            }
-            else if (value !== '' && value !== undefined && value.indexOf('.') !== 0) {
-                if (value.match(/[a-z]/i))
-                    console.log('contains only charcters');
-                // this mean this is decimal value so it will change the retail price of the product
-                if (value.match(/[0-9]/i) && value.indexOf('.') > 0)
-                    this.updateCostPrice(value);
-                else if (value.match(/[0-9]/i))
-                    this.updateProductQuantityToAddInventory(value);
-            }
-        }
-        else if (value != null) {
-            this.addProductInventory(value);
-        }
-    };
-    PurchaseOrderComponent.prototype.addProductInventory = function (productObj) {
-        // This mean user is adding first product into grid.
-        // if(this.productInventotyList.length == 0) {
-        this.productInventotyList = this.productInventotyList.slice();
-        this.productInventoryObject = new __WEBPACK_IMPORTED_MODULE_2_app_product_product_component__["b" /* ProductInventory */]();
-        this.productInventoryObject.productNo = productObj.productNo;
-        this.productInventoryObject.description = productObj.description;
-        this.productInventoryObject.cost = productObj.cost;
-        this.productInventoryObject.retail = productObj.retail;
-        this.productInventoryObject.quantity = productObj.quantity;
-        this.productInventoryObject.markup = 0.00;
-        this.productInventotyList.push(this.productInventoryObject);
-        this.persit.setProductInventoryForAdd(this.productInventotyList);
-        this.product = null;
-        this.p = null;
-        // }
-        return this.productInventotyList;
-    };
-    PurchaseOrderComponent.prototype.openProductLookUpModel = function () {
-        this.displayDialog = !this.displayDialog;
-    };
-    PurchaseOrderComponent.prototype.addProdutForPurchaseOrder = function (event, product) {
-        product.quantity = event.target.value;
-        this.addProductInventory(product);
-        console.log('purchase order Product No', event.target.value);
-        console.log('purchase order quantity', event);
-    };
-    // I HAVE KEEP IT CASUE MAY BE I NEED TO HANDLE THIS LOGIC WHEN EVER USER ADD SAME PRODCUT INTO TABLE.
-    // else {
-    // Checking weather user is adding same product agian or not if its true
-    //  then just update the quantity of that product by 1.
-    // for (let lineItem of this.transactionLineItemDaoList) {
-    //   if (productObj.productNo === lineItem.productNo) {
-    //     // This flag helps to determin whether to add new product or just update the quantity
-    //     this.isProductExistsInSellList = true;
-    //     lineItem.defaultQuantity = + lineItem.defaultQuantity + 1;
-    //     this.transactionLineItemDaoList = this.transactionLineItemDaoList.slice();
-    //     productObj.totalProductPrice = parseFloat((productObj.retail * lineItem.defaultQuantity).toFixed(2));
-    //     productObj.taxAmountOnProduct = (productObj.retail * 7) / 100;
-    //     console.log("when add product", productObj);
-    //     this.product = null;
-    //     this.p = null
-    //     console.log(this.transactionLineItemDaoList);
-    //     this.setTransactionDtoList(this.transactionLineItemDaoList)
-    //     this.persit.setProducts(this.transactionLineItemDaoList);
-    //     break;
-    //   }
-    //   else {
-    //     // This flag helps to determin whether to add new product or just update the quantity
-    //     this.isProductExistsInSellList = false;
-    //   }
-    // }
-    // This flag helps to determin whether to add new product or just update the quantity
-    // else (!this.isProductExistsInSellList) {
-    //   this.transactionLineItemDaoList = this.transactionLineItemDaoList.slice();
-    //   productObj.totalProductPrice = productObj.retail * productObj.defaultQuantity;
-    //   productObj.taxAmountOnProduct = parseFloat(((productObj.retail * 7) / 100).toFixed(2));
-    //   console.log("when add product", productObj);
-    //   this.transactionLineItemDaoList.push(productObj);
-    //   this.product = null;
-    //   this.p = null
-    //   console.log(this.transactionLineItemDaoList);
-    //   this.setTransactionDtoList(this.transactionLineItemDaoList)
-    //   this.persit.setProducts(this.transactionLineItemDaoList);
-    // }
-    PurchaseOrderComponent.prototype.updateCostPrice = function (value) {
-        console.log('Price change');
-        this.productInventotyList[this.productInventotyList.length - 1].cost = value;
-        // this.transactionLineItemDaoList[this.transactionLineItemDaoList.length - 1].totalProductPrice = (this.transactionLineItemDaoList[this.transactionLineItemDaoList.length - 1].retail * this.transactionLineItemDaoList[this.transactionLineItemDaoList.length - 1].defaultQuantity);
-        this.productInventotyList = this.productInventotyList.slice();
-        //this.setTransactionDtoList(this.transactionLineItemDaoList)
-        this.persit.setProductInventoryForAdd(this.productInventotyList);
-        this.p = null;
-    };
-    PurchaseOrderComponent.prototype.updateProductQuantityToAddInventory = function (value) {
-        console.log('Quantity change');
-        this.productInventotyList[this.productInventotyList.length - 1].quantity = value;
-        // this.transactionLineItemDaoList[this.transactionLineItemDaoList.length - 1].totalProductPrice = parseFloat((this.transactionLineItemDaoList[this.transactionLineItemDaoList.length - 1].retail * this.transactionLineItemDaoList[this.transactionLineItemDaoList.length - 1].defaultQuantity).toFixed(2));
-        this.productInventotyList = this.productInventotyList.slice();
-        // this.setTransactionDtoList(this.transactionLineItemDaoList)
-        this.persit.setProductInventoryForAdd(this.productInventotyList);
-        this.p = null;
-    };
-    PurchaseOrderComponent.prototype.updateInventoryDetails = function (event) {
-        this.productInventotyList[event.index].quantity = event.data.quantity;
-        this.productInventotyList[event.index].cost = event.data.cost;
-        // this.transactionLineItemDaoList[event.index].totalProductPrice = (event.data.defaultQuantity * event.data.retail);
-        // this.transactionLineItemDaoList[event.index].taxAmountOnProduct = ((event.data.defaultQuantity * event.data.retail) * 7) / 100
-        // this.setTransactionDtoList(this.transactionLineItemDaoList)
-        this.persit.setProductInventoryForAdd(this.productInventotyList);
-    };
-    PurchaseOrderComponent.prototype.setProductForDelete = function (product) {
-        this.selectedProduct = product;
-        this.popupHeader = 'Remove Product Inventory';
-        this.popupMessage = 'Are You Sure Remove Product Inventory ?';
-    };
-    PurchaseOrderComponent.prototype.deleteProduct = function () {
-        console.log("inside delete");
-        var index = this.productInventotyList.indexOf(this.selectedProduct, 0);
-        console.log("index", index);
-        if (index > -1) {
-            this.productInventotyList.splice(index, 1);
-            this.productInventotyList = this.productInventotyList.slice();
-            this.persit.setProductInventoryForAdd(this.productInventotyList);
-        }
-    };
-    PurchaseOrderComponent.prototype.setHeaderForRemoveAllInventoryProduct = function () {
-        this.popupHeader = 'Remove All Products Inventory';
-        this.popupMessage = 'Are Sure You Want To Remove All Product Inventory ?';
-    };
-    PurchaseOrderComponent.prototype.removeAllProductInventory = function () {
-        this.persit.clearProductInventory();
-        this.productInventotyList = [];
-    };
-    // TO DO NEED TO FIGURE OUT FILTERTING HERE
-    PurchaseOrderComponent.prototype.onVendorChoose = function () {
-        this.productDto.filter(function (product) {
-            // return product.vendorId = thi
-        });
-    };
-    PurchaseOrderComponent.prototype.setHeaderForAddProductInventory = function () {
-        this.popupHeader = 'Add All Product Inventory';
-        this.popupMessage = 'This Will Add All Products Into Inventory';
-    };
-    PurchaseOrderComponent.prototype.addProductInventoryToBackEnd = function () {
-        var _this = this;
-        this.productInventotyList.forEach(function (inventory) {
-            inventory.createdTimestamp = __WEBPACK_IMPORTED_MODULE_5_moment__(Date.now()).format('YYYY-MM-DD HH:mm:ss');
-        });
-        this.productService.addProductInventory(this.productInventotyList)
-            .subscribe(function (data) {
-            if (data) {
-                _this.toastr.success('Inventory Added Successfully !!', 'Success!');
-            }
-        }, function (error) {
-            _this.toastr.error('Opps Something goes wrong !!', 'Error!!');
-            console.log(JSON.stringify(error.json()));
-        });
-    };
-    PurchaseOrderComponent = __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
-            selector: 'app-purchase-order',
-            template: __webpack_require__("../../../../../src/app/purchase-order/purchase-order.component.html"),
-            styles: [__webpack_require__("../../../../../src/app/purchase-order/purchase-order.component.scss")]
-        }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_3_app_sell_sell_service__["a" /* SellService */], __WEBPACK_IMPORTED_MODULE_1_app_product_product_service__["a" /* ProductService */], __WEBPACK_IMPORTED_MODULE_4_app_shared_services_persistence_service__["a" /* PersistenceService */], __WEBPACK_IMPORTED_MODULE_6_ng2_toastr__["ToastsManager"]])
-    ], PurchaseOrderComponent);
-    return PurchaseOrderComponent;
-}());
-
-
-
-/***/ }),
-
-/***/ "../../../../../src/app/purchase-order/purchase-order.module.ts":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return PurchaseOrderModule; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/esm5/core.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_common__ = __webpack_require__("../../../common/esm5/common.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__purchase_order_component__ = __webpack_require__("../../../../../src/app/purchase-order/purchase-order.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_app_purchase_order_purchase_order_routing_module__ = __webpack_require__("../../../../../src/app/purchase-order/purchase-order-routing.module.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_app_shared_shared_module__ = __webpack_require__("../../../../../src/app/shared/shared.module.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__angular_forms__ = __webpack_require__("../../../forms/esm5/forms.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_primeng_primeng__ = __webpack_require__("../../../../primeng/primeng.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_primeng_primeng___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6_primeng_primeng__);
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-
-
-
-
-
-
-
-var PurchaseOrderModule = /** @class */ (function () {
-    function PurchaseOrderModule() {
-    }
-    PurchaseOrderModule = __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["NgModule"])({
-            imports: [
-                __WEBPACK_IMPORTED_MODULE_1__angular_common__["CommonModule"],
-                __WEBPACK_IMPORTED_MODULE_3_app_purchase_order_purchase_order_routing_module__["a" /* PurchaseOrderRoutingModule */],
-                __WEBPACK_IMPORTED_MODULE_4_app_shared_shared_module__["a" /* SharedModule */],
-                __WEBPACK_IMPORTED_MODULE_6_primeng_primeng__["DataTableModule"],
-                __WEBPACK_IMPORTED_MODULE_5__angular_forms__["FormsModule"],
-                __WEBPACK_IMPORTED_MODULE_5__angular_forms__["ReactiveFormsModule"],
-                __WEBPACK_IMPORTED_MODULE_6_primeng_primeng__["AutoCompleteModule"],
-                __WEBPACK_IMPORTED_MODULE_6_primeng_primeng__["DropdownModule"],
-                __WEBPACK_IMPORTED_MODULE_6_primeng_primeng__["DialogModule"]
-            ],
-            declarations: [__WEBPACK_IMPORTED_MODULE_2__purchase_order_component__["a" /* PurchaseOrderComponent */]]
-        })
-    ], PurchaseOrderModule);
-    return PurchaseOrderModule;
-}());
-
-
-
-/***/ }),
-
 /***/ "../../../../../src/app/report/inventory/inventory.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<mat-card>\n    <mat-card-title>\n        <h4>Inventory Reports</h4>\n    </mat-card-title>\n\n    <mat-card-content>\n\n        <div class=\"row d-flex align-items-center\">\n\n            <!-- DO NOT DELETE THIS CAUSE I NEED TO USE IT FOR TWO DIFFERENT REPORT -->\n\n            <!-- <div class=\"col-md-2\">\n\n                <select class=\"form-control\">\n                    <option>Inventory Report</option>\n                    <option>Low Stock Inventory Report</option>\n                </select>\n            </div> -->\n\n            <div class=\"col-md-2\">\n\n                <select class=\"form-control\" [(ngModel)]=\"this.inventoryDropdown\" (change)=\"getInventoryReport(this.inventoryDropdown)\">\n                    <option>Category</option>\n                    <option>Vendor</option>\n                    <option>Brand</option>\n                    <option>Model</option>\n                </select>\n            </div>\n\n\n            <div class=\"col-md-2\">\n                <button matIcon (click)=\"this.printInventoryReportBy(this.inventoryDropdown.toLowerCase())\">\n                    <i class=\"fa fa-print fa-3x\" aria-hidden=\"true\"></i>\n                </button>\n            </div>\n\n        </div>\n\n        <div class=\"row\" *ngIf=\"this.pieChartData\" style=\"height: 250px\">\n            <ngx-charts-advanced-pie-chart class=\"\" [scheme]=\"colorScheme\" [results]=\"pieChartData\" [view]=\"null\" (select)=\"onSelect($event)\">\n            </ngx-charts-advanced-pie-chart>\n        </div>\n\n        <div class=\"row d-flex align-items-center\">\n            <div class=\"col-md-12 p-md-3\">\n                <p-dataTable [value]=\"this.inventoryDto\" scrollable=\"true\" [responsive]=\"true\" scrollHeight=\"500px\">\n                    <p-column field=\"name\" header=\"Name\" [style]=\"{'height': '46px', 'width': '25%', 'text-align': 'left'}\"></p-column>\n                    <p-column field=\"cost\" header=\"Total Cost\" [sortable]=\"true\">\n                        <ng-template let-inventory=\"rowData\" pTemplate=\"body\">\n                            {{inventory.cost | currency:'USD':'true'}}\n                        </ng-template>\n                    </p-column>\n                    <p-column field=\"retail\" header=\"Total Retail\" [sortable]=\"true\">\n                        <ng-template let-inventory=\"rowData\" pTemplate=\"body\">\n                            {{inventory.retail | currency:'USD':'true'}}\n                        </ng-template>\n                    </p-column>\n                    <p-column field=\"markup\" header=\"Total Markup %\" [sortable]=\"true\"></p-column>\n                    <p-column field=\"quantity\" header=\"Total Quantity\" [sortable]=\"true\"></p-column>\n                </p-dataTable>\n\n            </div>\n        </div>\n\n    </mat-card-content>\n</mat-card>"
+module.exports = "<mat-card>\n    <mat-card-title>\n        <h4>Inventory Reports</h4>\n    </mat-card-title>\n\n    <mat-card-content>\n\n        <div class=\"row d-flex align-items-center\">\n\n            <!-- DO NOT DELETE THIS CAUSE I NEED TO USE IT FOR TWO DIFFERENT REPORT -->\n\n            <!-- <div class=\"col-md-2\">\n\n                <select class=\"form-control\">\n                    <option>Inventory Report</option>\n                    <option>Low Stock Inventory Report</option>\n                </select>\n            </div> -->\n\n            <div class=\"col-md-2\">\n\n                <select class=\"form-control\" [(ngModel)]=\"this.inventoryDropdown\" (change)=\"getInventoryReport(this.inventoryDropdown)\">\n                    <option>Category</option>\n                    <option>Vendor</option>\n                    <option>Brand</option>\n                </select>\n            </div>\n\n\n            <div class=\"col-md-2\">\n                <button matIcon (click)=\"this.printInventoryReportBy(this.inventoryDropdown.toLowerCase())\">\n                    <i class=\"fa fa-print fa-3x\" aria-hidden=\"true\"></i>\n                </button>\n            </div>\n\n        </div>\n\n        <div class=\"row\" *ngIf=\"this.pieChartData\" style=\"height: 250px\">\n            <ngx-charts-advanced-pie-chart class=\"\" [scheme]=\"colorScheme\" [results]=\"pieChartData\" [view]=\"null\" (select)=\"onSelect($event)\">\n            </ngx-charts-advanced-pie-chart>\n        </div>\n\n        <div class=\"row d-flex align-items-center\">\n            <div class=\"col-md-12 p-md-3\">\n                <p-dataTable [value]=\"this.inventoryDto\" scrollable=\"true\" [responsive]=\"true\" scrollHeight=\"500px\">\n                    <p-column field=\"name\" header=\"Name\" [style]=\"{'height': '46px', 'width': '25%', 'text-align': 'left'}\"></p-column>\n                    <p-column field=\"cost\" header=\"Total Cost\" [sortable]=\"true\">\n                        <ng-template let-inventory=\"rowData\" pTemplate=\"body\">\n                            {{inventory.cost | currency:'USD':'true'}}\n                        </ng-template>\n                    </p-column>\n                    <p-column field=\"retail\" header=\"Total Retail\" [sortable]=\"true\">\n                        <ng-template let-inventory=\"rowData\" pTemplate=\"body\">\n                            {{inventory.retail | currency:'USD':'true'}}\n                        </ng-template>\n                    </p-column>\n                    <p-column field=\"markup\" header=\"Total Markup %\" [sortable]=\"true\"></p-column>\n                    <p-column field=\"quantity\" header=\"Total Quantity\" [sortable]=\"true\"></p-column>\n                </p-dataTable>\n\n            </div>\n        </div>\n\n    </mat-card-content>\n</mat-card>"
 
 /***/ }),
 
@@ -5770,14 +5419,29 @@ var ReportService = /** @class */ (function () {
             .map(this.extractData)
             .catch(this.handleError);
     };
+    ReportService.prototype.getDashboardSalesSummaryReport = function (salesSummaryReportBy, startDate, endDate) {
+        return this.http.get(this.url + '/getDashboardReportBySalesSummary?salesSummaryReportBy=' + salesSummaryReportBy + '&startDate=' + startDate + '&endDate=' + endDate)
+            .map(this.extractData)
+            .catch(this.handleError);
+    };
+    ReportService.prototype.getTop50SellingProductList = function (productReportType, startDate, endDate) {
+        return this.http.get(this.url + '/getTop50SellingItem?productReportType=' + productReportType + '&startDate=' + startDate + '&endDate=' + endDate)
+            .map(this.extractData)
+            .catch(this.handleError);
+    };
     ReportService.prototype.printInventoryReportPDF = function (options) {
         var inventoryReportBy = options.inventoryReportBy;
         var url = this.url + ("/printReportByInventory?inventoryReportBy=" + inventoryReportBy);
         return this.http.get(url, { responseType: __WEBPACK_IMPORTED_MODULE_1__angular_http__["d" /* ResponseContentType */].Blob })
             .catch(this.handleError);
     };
+    ReportService.prototype.printSalesSummaryReportPDF = function (salesSummaryReportBy, startDate, endDate) {
+        var url = this.url + '/printReportBySalesSummary?salesSummaryReportBy=' + salesSummaryReportBy + '&startDate=' + startDate + '&endDate=' + endDate;
+        return this.http.get(url, { responseType: __WEBPACK_IMPORTED_MODULE_1__angular_http__["d" /* ResponseContentType */].Blob })
+            .catch(this.handleError);
+    };
     ReportService.prototype.printSalesReportPDF = function (salesReportBy, startDate, endDate) {
-        var url = this.url + '/printReportBySalesSummary?salesSummaryReportBy=' + salesReportBy + '&startDate=' + startDate + '&endDate=' + endDate;
+        var url = this.url + '/printReportBySales?salesReportBy=' + salesReportBy + '&startDate=' + startDate + '&endDate=' + endDate;
         return this.http.get(url, { responseType: __WEBPACK_IMPORTED_MODULE_1__angular_http__["d" /* ResponseContentType */].Blob })
             .catch(this.handleError);
     };
@@ -5815,7 +5479,7 @@ var ReportService = /** @class */ (function () {
 /***/ "../../../../../src/app/report/sales/sales.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<mat-card>\n    <mat-card-title>\n        <h4>Sales Reports</h4>\n    </mat-card-title>\n\n    <mat-card-content>\n\n        <div class=\"row d-flex align-items-center\">\n\n            <div class=\"col-md-2\">\n\n                <select class=\"form-control\" [(ngModel)]=\"this.salesDropdown\" (change)=\"this.getReportDetails()\">\n                    <option>Sales Summary</option>\n                    <option>Sales By Category</option>\n                    <option>Sales By Vendor</option>\n                    <option>Sales By Brand</option>\n                    <option>Sales By Model</option>\n                    <option>Sales By Product</option>\n                    <option>Sales By Employee</option>\n                    <option>Sales By Customer</option>\n                </select>\n            </div>\n\n            <div *ngIf=\"this.salesDropdown == 'Sales Summary'\" class=\"col-md-2\">\n                <select class=\"form-control\" [(ngModel)]=\"this.salesSummaryDropdown\" (change)=\"this.getReportDetails()\">\n                          <option>Sales By Year</option>\n                          <option>Sales By Month</option>\n                          <option>Sales By Week</option>\n                          <option>Sales By Day</option>\n                          <option>Sales By Hour</option>\n                </select>\n\n            </div>\n\n            <div *ngIf=\"this.salesDropdown == 'Sales Summary' && this.salesSummaryDropdown == 'Sales By Year'\" class=\"col-md-2\">\n                <select class=\"form-control\" [(ngModel)]=\"this.salesByYearDropdown\" (change)=\"this.getReportDetails()\">\n                              <option>This Year</option>\n                              <option>Last Year</option>\n                              <option>Last 5 Years</option>\n                              <option>Last 10 Years</option>\n                    </select>\n\n            </div>\n\n            <div *ngIf=\"this.salesSummaryDropdown == 'Sales By Month'\" class=\"col-md-2\">\n                <select class=\"form-control\" [(ngModel)]=\"this.salesSummaryMonthDropdown\" (change)=\"this.getReportDetails()\">\n                              <option>January</option>\n                              <option>February</option>\n                              <option>March</option>\n                              <option>April</option>\n                              <option>May</option>\n                              <option>June</option>\n                              <option>July</option>\n                              <option>August</option>\n                              <option>September</option>\n                              <option>October</option>\n                              <option>November</option>\n                              <option>December</option>\n                </select>\n\n            </div>\n\n            <div *ngIf=\"this.salesDropdown != 'Sales Summary' \" class=\"col-md-2\">\n                <select class=\"form-control\" [(ngModel)]=\"this.salesDateDropdown\" (change)=\"this.getReportDetails()\">\n                  <option>Today</option>\n                  <option>Yesterday</option>\n                  <option>This Week</option>\n                  <option>Last Week</option>\n                  <option>This Month</option>\n                  <option>Last Month</option>\n                  <option>Last 3 Months</option>\n                  <option>Last 6 Months</option>\n                  <option>This Year</option>\n                  <option>Last Year</option>\n                  <option>Custom</option>\n                </select>\n\n            </div>\n\n            <div class=\"col-md-2\">\n\n                <button matIcon (click)=\"this.printSalesReportBy()\">\n                    <i class=\"fa fa-print fa-3x\" aria-hidden=\"true\"></i>\n                </button>\n            </div>\n\n        </div>\n\n        <div class=\"row d-flex align-items-center\" *ngIf=\"this.pieChartData\" style=\"height: 250px\">\n\n            <ngx-charts-advanced-pie-chart class=\"\" [scheme]=\"this.colorScheme\" [results]=\"pieChartData\" [view]=\"null\" (select)=\"onSelect($event)\">\n            </ngx-charts-advanced-pie-chart>\n        </div>\n\n        <div class=\"row d-flex align-items-center\">\n\n            <!-- Showing this table for sales by reports -->\n            <div *ngIf=\"this.salesDropdown != 'Sales Summary'\" class=\"col-md-12 p-md-3\">\n                <p-dataTable [value]=\"this.salesDto\" scrollable=\"true\" [responsive]=\"true\" scrollHeight=\"500px\">\n                    <p-column field=\"name\" header=\"Name\" [style]=\"{'height': '46px', 'width': '25%', 'text-align': 'left'}\"></p-column>\n                    <p-column field=\"cost\" header=\"Cost\" [sortable]=\"true\">\n                        <ng-template let-sales=\"rowData\" pTemplate=\"body\">\n                            {{sales.cost | currency:'USD':'true'}}\n                        </ng-template>\n                    </p-column>\n                    <p-column field=\"retail\" header=\"Retail\" [sortable]=\"true\">\n                        <ng-template let-sales=\"rowData\" pTemplate=\"body\">\n                            {{sales.retail | currency:'USD':'true'}}\n                        </ng-template>\n                    </p-column>\n                    <p-column field=\"quantity\" header=\"Quantity\" [sortable]=\"true\"></p-column>\n                    <p-column field=\"profit\" header=\"Profit\" [sortable]=\"true\">\n                        <ng-template let-sales=\"rowData\" pTemplate=\"body\">\n                            {{sales.profit | currency:'USD':'true'}}\n                        </ng-template>\n                    </p-column>\n                    <p-column field=\"markup\" header=\"Markup %\" [sortable]=\"true\"></p-column>\n                    <p-column field=\"perOfTotal\" header=\"% Of Total\" [sortable]=\"true\"></p-column>\n\n                </p-dataTable>\n            </div>\n\n\n            <!-- Showing this table for sales summary Reports -->\n            <div *ngIf=\"this.salesDropdown == 'Sales Summary'\" class=\"col-md-12 p-md-3\">\n                <p-dataTable [value]=\"this.salesSummaryDto\" scrollable=\"true\" [responsive]=\"true\" scrollHeight=\"500px\">\n                    <p-column field=\"name\" header=\"Name\" [style]=\"{'height': '46px', 'width': '10%', 'text-align': 'left'}\"></p-column>\n                    <p-column field=\"cash\" header=\"Cash\" [sortable]=\"true\">\n                        <ng-template let-summary=\"rowData\" pTemplate=\"body\">\n                            {{summary.cash | currency:'USD':'true'}}\n                        </ng-template>\n                    </p-column>\n                    <p-column field=\"credit\" header=\"Credit\" [sortable]=\"true\">\n                        <ng-template let-summary=\"rowData\" pTemplate=\"body\">\n                            {{summary.credit | currency:'USD':'true'}}\n                        </ng-template>\n                    </p-column>\n                    <p-column field=\"debit\" header=\"Debit\" [sortable]=\"true\">\n                        <ng-template let-summary=\"rowData\" pTemplate=\"body\">\n                            {{summary.debit | currency:'USD':'true'}}\n                        </ng-template>\n                    </p-column>\n\n                    <p-column field=\"check\" header=\"Check\" [sortable]=\"true\">\n                        <ng-template let-summary=\"rowData\" pTemplate=\"body\">\n                            {{summary.check | currency:'USD':'true'}}\n                        </ng-template>\n                    </p-column>\n                    <p-column field=\"tax\" header=\"Tax\" [sortable]=\"true\">\n                        <ng-template let-summary=\"rowData\" pTemplate=\"body\">\n                            {{summary.tax | currency:'USD':'true'}}\n                        </ng-template>\n                    </p-column>\n                    <p-column field=\"discount\" header=\"Discount\" [sortable]=\"true\">\n                        <ng-template let-summary=\"rowData\" pTemplate=\"body\">\n                            {{summary.discount | currency:'USD':'true'}}\n                        </ng-template>\n                    </p-column>\n                    <p-column field=\"profit\" header=\"Profit\" [sortable]=\"true\">\n                        <ng-template let-summary=\"rowData\" pTemplate=\"body\">\n                            {{summary.profit | currency:'USD':'true'}}\n                        </ng-template>\n                    </p-column>\n                    <p-column field=\"returns\" header=\"Returns\" [sortable]=\"true\">\n                        <ng-template let-summary=\"rowData\" pTemplate=\"body\">\n                            {{summary.returns | currency:'USD':'true'}}\n                        </ng-template>\n                    </p-column>\n\n                </p-dataTable>\n            </div>\n\n\n        </div>\n\n\n    </mat-card-content>\n</mat-card>"
+module.exports = "<mat-card>\n    <mat-card-title>\n        <h4>Sales Reports</h4>\n    </mat-card-title>\n\n    <mat-card-content>\n\n        <div class=\"row d-flex align-items-center\">\n\n            <div class=\"col-md-2\">\n\n                <select class=\"form-control\" [(ngModel)]=\"this.salesDropdown\" (change)=\"this.getReportDetails()\">\n                    <option>Sales Summary</option>\n                    <option>Sales By Category</option>\n                    <option>Sales By Vendor</option>\n                    <option>Sales By Brand</option>\n                    <option>Sales By Product</option>\n                    <option>Sales By Employee</option>\n                    <option>Sales By Customer</option>\n                </select>\n            </div>\n\n            <div *ngIf=\"this.salesDropdown == 'Sales Summary'\" class=\"col-md-2\">\n                <select class=\"form-control\" [(ngModel)]=\"this.salesSummaryDropdown\" (change)=\"this.getReportDetails()\">\n                          <option>Sales By Year</option>\n                          <option>Sales By Month</option>\n                          <option>Sales By Week</option>\n                          <option>Sales By Day</option>\n                          <option>Sales By Hour</option>\n                </select>\n\n            </div>\n\n            <div *ngIf=\"this.salesDropdown == 'Sales Summary' && this.salesSummaryDropdown == 'Sales By Year'\" class=\"col-md-2\">\n                <select class=\"form-control\" [(ngModel)]=\"this.salesByYearDropdown\" (change)=\"this.getReportDetails()\">\n                              <option>This Year</option>\n                              <option>Last Year</option>\n                              <option>Last 5 Years</option>\n                              <option>Last 10 Years</option>\n                    </select>\n\n            </div>\n\n            <div *ngIf=\"this.salesSummaryDropdown == 'Sales By Month'\" class=\"col-md-2\">\n                <select class=\"form-control\" [(ngModel)]=\"this.salesSummaryMonthDropdown\" (change)=\"this.getReportDetails()\">\n                              <option>January</option>\n                              <option>February</option>\n                              <option>March</option>\n                              <option>April</option>\n                              <option>May</option>\n                              <option>June</option>\n                              <option>July</option>\n                              <option>August</option>\n                              <option>September</option>\n                              <option>October</option>\n                              <option>November</option>\n                              <option>December</option>\n                </select>\n\n            </div>\n\n            <div *ngIf=\"this.salesDropdown != 'Sales Summary' \" class=\"col-md-2\">\n                <select class=\"form-control\" [(ngModel)]=\"this.salesDateDropdown\" (change)=\"this.getReportDetails()\">\n                  <option>Today</option>\n                  <option>Yesterday</option>\n                  <option>This Week</option>\n                  <option>Last Week</option>\n                  <option>This Month</option>\n                  <option>Last Month</option>\n                  <option>Last 3 Months</option>\n                  <option>Last 6 Months</option>\n                  <option>This Year</option>\n                  <option>Last Year</option>\n                  <option>Custom</option>\n                </select>\n\n            </div>\n\n            <div class=\"col-md-2\">\n\n                <button matIcon (click)=\"this.printSalesReportBy()\">\n                    <i class=\"fa fa-print fa-3x\" aria-hidden=\"true\"></i>\n                </button>\n            </div>\n\n        </div>\n\n        <div class=\"row d-flex align-items-center\" *ngIf=\"this.pieChartData\" style=\"height: 250px\">\n\n            <ngx-charts-advanced-pie-chart class=\"\" [scheme]=\"this.colorScheme\" [results]=\"pieChartData\" [view]=\"null\" (select)=\"onSelect($event)\">\n            </ngx-charts-advanced-pie-chart>\n        </div>\n\n        <div class=\"row d-flex align-items-center\">\n\n            <!-- Showing this table for sales by reports -->\n            <div *ngIf=\"this.salesDropdown != 'Sales Summary'\" class=\"col-md-12 p-md-3\">\n                <p-dataTable [value]=\"this.salesDto\" scrollable=\"true\" [responsive]=\"true\" scrollHeight=\"500px\">\n                    <p-column field=\"name\" header=\"Name\" [style]=\"{'height': '46px', 'width': '25%', 'text-align': 'left'}\"></p-column>\n                    <p-column field=\"cost\" header=\"Cost\" [sortable]=\"true\">\n                        <ng-template let-sales=\"rowData\" pTemplate=\"body\">\n                            {{sales.cost | currency:'USD':'true'}}\n                        </ng-template>\n                    </p-column>\n                    <p-column field=\"retail\" header=\"Retail\" [sortable]=\"true\">\n                        <ng-template let-sales=\"rowData\" pTemplate=\"body\">\n                            {{sales.retail | currency:'USD':'true'}}\n                        </ng-template>\n                    </p-column>\n                    <p-column field=\"quantity\" header=\"Quantity\" [sortable]=\"true\"></p-column>\n                    <!-- <p-column field=\"profit\" header=\"Profit\" [sortable]=\"true\">\n                        <ng-template let-sales=\"rowData\" pTemplate=\"body\">\n                            {{sales.profit | currency:'USD':'true'}}\n                        </ng-template>\n                    </p-column> -->\n                    <p-column field=\"markup\" header=\"Markup %\" [sortable]=\"true\"></p-column>\n                    <p-column field=\"perOfTotal\" header=\"% Of Total\" [sortable]=\"true\"></p-column>\n\n                </p-dataTable>\n            </div>\n\n\n            <!-- Showing this table for sales summary Reports -->\n            <div *ngIf=\"this.salesDropdown == 'Sales Summary'\" class=\"col-md-12 p-md-3\">\n                <p-dataTable [value]=\"this.salesSummaryDto\" scrollable=\"true\" [responsive]=\"true\" scrollHeight=\"500px\">\n                    <p-column field=\"name\" header=\"Name\" [style]=\"{'height': '46px', 'width': '10%', 'text-align': 'left'}\"></p-column>\n                    <p-column field=\"cash\" header=\"Cash\" [sortable]=\"true\">\n                        <ng-template let-summary=\"rowData\" pTemplate=\"body\">\n                            {{summary.cash | currency:'USD':'true'}}\n                        </ng-template>\n                    </p-column>\n                    <p-column field=\"credit\" header=\"Credit\" [sortable]=\"true\">\n                        <ng-template let-summary=\"rowData\" pTemplate=\"body\">\n                            {{summary.credit | currency:'USD':'true'}}\n                        </ng-template>\n                    </p-column>\n                    <p-column field=\"debit\" header=\"Debit\" [sortable]=\"true\">\n                        <ng-template let-summary=\"rowData\" pTemplate=\"body\">\n                            {{summary.debit | currency:'USD':'true'}}\n                        </ng-template>\n                    </p-column>\n\n                    <p-column field=\"check\" header=\"Check\" [sortable]=\"true\">\n                        <ng-template let-summary=\"rowData\" pTemplate=\"body\">\n                            {{summary.check | currency:'USD':'true'}}\n                        </ng-template>\n                    </p-column>\n                    <p-column field=\"tax\" header=\"Tax\" [sortable]=\"true\">\n                        <ng-template let-summary=\"rowData\" pTemplate=\"body\">\n                            {{summary.tax | currency:'USD':'true'}}\n                        </ng-template>\n                    </p-column>\n                    <p-column field=\"discount\" header=\"Discount\" [sortable]=\"true\">\n                        <ng-template let-summary=\"rowData\" pTemplate=\"body\">\n                            {{summary.discount | currency:'USD':'true'}}\n                        </ng-template>\n                    </p-column>\n                    <!-- <p-column field=\"profit\" header=\"Profit\" [sortable]=\"true\">\n                        <ng-template let-summary=\"rowData\" pTemplate=\"body\">\n                            {{summary.profit | currency:'USD':'true'}}\n                        </ng-template>\n                    </p-column> -->\n                    <p-column field=\"returns\" header=\"Returns\" [sortable]=\"true\">\n                        <ng-template let-summary=\"rowData\" pTemplate=\"body\">\n                            {{summary.returns | currency:'USD':'true'}}\n                        </ng-template>\n                    </p-column>\n\n                </p-dataTable>\n            </div>\n        </div>\n    </mat-card-content>\n</mat-card>"
 
 /***/ }),
 
@@ -5901,6 +5565,7 @@ var SalesComponent = /** @class */ (function () {
                 this.dateDto = this.dateService.getCurrentDay();
             }
             else if (this.salesSummaryDropdown === 'Sales By Hour') {
+                this.dateDto = this.dateService.getCurrentDay();
             }
             this.reportService.getSalesSummaryReport(this.salesSummaryDropdown, this.dateDto.startDate, this.dateDto.endDate)
                 .subscribe(function (summary) {
@@ -5962,10 +5627,59 @@ var SalesComponent = /** @class */ (function () {
         });
     };
     SalesComponent.prototype.printSalesReportBy = function () {
-        this.reportService.printSalesReportPDF(this.salesDropdown, this.dateDto.startDate, this.dateDto.endDate)
-            .subscribe(function (data) {
-            Object(__WEBPACK_IMPORTED_MODULE_3_app_shared_services_util_service__["b" /* printBlob */])(data._body);
-        });
+        if (this.salesDropdown === 'Sales Summary') {
+            if (this.salesSummaryDropdown === 'Sales By Year') {
+                if (this.salesByYearDropdown === 'This Year') {
+                    this.dateDto = this.dateService.getCurrentYear();
+                }
+                else if (this.salesByYearDropdown === 'Last Year') {
+                    this.dateDto = this.dateService.getLastYear();
+                }
+                // TODO NEED TO MANAGE LAST 5 and 10 YEARS
+            }
+            else if (this.salesSummaryDropdown === 'Sales By Month') {
+                this.dateDto = this.dateService.getMonthDate(this.salesSummaryMonthDropdown);
+            }
+            else if (this.salesSummaryDropdown === 'Sales By Week') {
+            }
+            else if (this.salesSummaryDropdown === 'Sales By Day') {
+                this.dateDto = this.dateService.getCurrentDay();
+            }
+            else if (this.salesSummaryDropdown === 'Sales By Hour') {
+                this.dateDto = this.dateService.getCurrentDay();
+            }
+            this.reportService.printSalesSummaryReportPDF(this.salesSummaryDropdown, this.dateDto.startDate, this.dateDto.endDate)
+                .subscribe(function (data) {
+                Object(__WEBPACK_IMPORTED_MODULE_3_app_shared_services_util_service__["b" /* printBlob */])(data._body);
+            });
+        }
+        else {
+            if (this.salesDropdown === 'Sales By Category') {
+                this.dateDto = this.dateService.getDateByInput(this.salesDateDropdown);
+            }
+            else if (this.salesDropdown === 'Sales By Vendor') {
+                this.dateDto = this.dateService.getDateByInput(this.salesDateDropdown);
+            }
+            else if (this.salesDropdown === 'Sales By Brand') {
+                this.dateDto = this.dateService.getDateByInput(this.salesDateDropdown);
+            }
+            else if (this.salesDropdown === 'Sales By Model') {
+                this.dateDto = this.dateService.getDateByInput(this.salesDateDropdown);
+            }
+            else if (this.salesDropdown === 'Sales By Product') {
+                this.dateDto = this.dateService.getDateByInput(this.salesDateDropdown);
+            }
+            else if (this.salesDropdown === 'Sales By Employee') {
+                this.dateDto = this.dateService.getDateByInput(this.salesDateDropdown);
+            }
+            else if (this.salesDropdown === 'Sales By Customer') {
+                this.dateDto = this.dateService.getDateByInput(this.salesDateDropdown);
+            }
+            this.reportService.printSalesReportPDF(this.salesDropdown, this.dateDto.startDate, this.dateDto.endDate)
+                .subscribe(function (data) {
+                Object(__WEBPACK_IMPORTED_MODULE_3_app_shared_services_util_service__["b" /* printBlob */])(data._body);
+            });
+        }
     };
     // For D3 chart
     SalesComponent.prototype.onSelect = function (event) {
@@ -6001,7 +5715,7 @@ var SalesSummaryDto = /** @class */ (function () {
 /***/ "../../../../../src/app/sell/close-register/close-register.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div>\n    <mat-card>\n        <mat-card-title>\n            <h3>\n                Close Register\n            </h3>\n        </mat-card-title>\n        <mat-card-content>\n            <form [formGroup]=\"closeRegisterForm\">\n\n                <div class=\"row p-md-3\">\n                    <!-- Start of left side of div for payment -->\n                    <div class=\"col-md-6\">\n\n                        <div class=\"row product-textbox\">\n                            <div class=\"col-md-3\">\n                                <p>Payment Type</p>\n                            </div>\n\n                            <div class=\"col-md-3\">\n                                <p>Manual Count</p>\n                            </div>\n\n                            <div class=\"col-md-3\">\n                                <p>System Count</p>\n                            </div>\n\n                            <div class=\"col-md-3\">\n                                <p>Difference</p>\n                            </div>\n                        </div>\n\n                        <div class=\"row close-row\">\n\n                            <div class=\"col-md-3\">\n                                <p>Cash</p>\n                            </div>\n\n                            <div class=\"col-md-3\">\n                                <input type=\"number\" class=\"form-control\" formControlName=\"closeCash\">\n                            </div>\n\n                            <div class=\"col-md-3\">\n                                <input type=\"number\" class=\"form-control\" disabled=\"true\" formControlName=\"reportCash\">\n                            </div>\n\n                            <div class=\"col-md-3\">\n                                <input [style.color]=\"this.closeRegisterForm.get('differenceCash').value >=0 ? 'green' : 'red' \" type=\"number\" class=\"form-control\" disabled=\"true\" formControlName=\"differenceCash\">\n                            </div>\n\n                        </div>\n\n                        <div class=\"row close-row \">\n\n                            <div class=\"col-md-3\">\n                                <p>Credit</p>\n                            </div>\n\n                            <div class=\"col-md-3\">\n                                <input type=\"number\" class=\"form-control\" formControlName=\"closeCredit\">\n                            </div>\n\n                            <div class=\"col-md-3\">\n                                <input type=\"number\" class=\"form-control\" disabled=\"true\" formControlName=\"reportCredit\">\n                            </div>\n\n                            <div class=\"col-md-3\">\n                                <input [style.color]=\"this.closeRegisterForm.get('differenceCredit').value >=0 ? 'green' : 'red' \" type=\"number\" class=\"form-control\" disabled=\"true\" formControlName=\"differenceCredit\">\n                            </div>\n\n                        </div>\n\n                        <div class=\"row close-row \">\n\n                            <div class=\"col-md-3\">\n                                <p>Debit</p>\n                            </div>\n\n                            <div class=\"col-md-3\">\n                                <input type=\"number\" class=\"form-control\" formControlName=\"closeDebit\">\n                            </div>\n\n                            <div class=\"col-md-3\">\n                                <input type=\"number\" class=\"form-control\" disabled=\"true\" formControlName=\"reportDebit\">\n                            </div>\n\n                            <div class=\"col-md-3\">\n                                <input [style.color]=\"this.closeRegisterForm.get('differenceDebit').value >=0 ? 'green' : 'red' \" type=\"number\" class=\"form-control\" disabled=\"true\" formControlName=\"differenceDebit\">\n                            </div>\n\n                        </div>\n\n                        <div class=\"row close-row \">\n\n                            <div class=\"col-md-3\">\n                                <p>Check</p>\n                            </div>\n\n                            <div class=\"col-md-3\">\n                                <input type=\"number\" class=\"form-control\" formControlName=\"closeCheck\">\n                            </div>\n\n                            <div class=\"col-md-3\">\n                                <input type=\"number\" class=\"form-control\" disabled=\"true\" formControlName=\"reportCheck\">\n                            </div>\n\n                            <div class=\"col-md-3\">\n                                <input [style.color]=\"this.closeRegisterForm.get('differenceCheck').value >=0 ? 'green' : 'red' \" class=\"form-control\" disabled=\"true\" type=\"number\" formControlName=\"differenceCheck\">\n                            </div>\n\n                        </div>\n\n                        <div class=\"row close-row \">\n\n                            <div class=\"col-md-3\">\n                                <p>Other Payment</p>\n                            </div>\n                            <div class=\"col-md-3\">\n                                <p>Store Credit</p>\n                            </div>\n\n                            <div class=\"col-md-3\">\n                                <p>On Account</p>\n                            </div>\n\n                            <div class=\"col-md-3\">\n                                <p>Loyalty</p>\n                            </div>\n\n\n                        </div>\n\n                        <div class=\"row\">\n\n                            <div class=\"col-md-3\">\n                            </div>\n                            <div class=\"col-md-3\">\n                                <input type=\"text\" class=\"form-control\" disabled=\"true\" formControlName=\"storeCredit\">\n                            </div>\n\n                            <div class=\"col-md-3\">\n                                <input type=\"text\" class=\"form-control\" disabled=\"true\" formControlName=\"onAccount\">\n                            </div>\n\n                            <div class=\"col-md-3\">\n                                <input type=\"text\" class=\"form-control\" disabled=\"true\" formControlName=\"loyalty\">\n                            </div>\n\n\n\n                        </div>\n                        <hr>\n                        <div class=\"row\">\n\n                            <div class=\"col-md-3\">\n                                <p>Total With Tax</p>\n                            </div>\n\n\n                            <div class=\"col-md-3\">\n                                <input type=\"number\" class=\"form-control\" disabled=\"true\" formControlName=\"closeTotalAmount\">\n                            </div>\n\n                            <div class=\"col-md-3\">\n                                <input type=\"number\" class=\"form-control\" disabled=\"true\" formControlName=\"reportTotalAmount\">\n                            </div>\n\n                            <div class=\"col-md-3\">\n                                <input [style.color]=\"this.closeRegisterForm.get('differenceTotal').value >=0 ? 'green' : 'red' \" type=\"number\" class=\"form-control\" disabled=\"true\" formControlName=\"differenceTotal\">\n                            </div>\n\n                        </div>\n\n                        <hr>\n\n                        <div class=\"row\">\n\n                            <div class=\"col-md-3\">\n                                <p>Total Without Tax</p>\n                            </div>\n\n                            <div class=\"col-md-3\">\n                                <p>Total Tax</p>\n                            </div>\n\n                            <div class=\"col-md-3\">\n                                <p>Total Discount</p>\n                            </div>\n                            <div class=\"col-md-3\">\n                                <p>Total Return</p>\n                            </div>\n\n                        </div>\n\n                        <div class=\"row\">\n\n                            <div class=\"col-md-3\">\n                                <input type=\"number\" class=\"form-control\" disabled=\"true\" formControlName=\"totalWithoutTax\">\n                            </div>\n\n                            <div class=\"col-md-3\">\n                                <input type=\"number\" class=\"form-control\" disabled=\"true\" formControlName=\"tax\">\n                            </div>\n\n                            <div class=\"col-md-3\">\n                                <input style=\"color: green;\" type=\"number\" class=\"form-control\" disabled=\"true\" formControlName=\"totalDiscount\">\n                            </div>\n\n                            <div class=\"col-md-3\">\n                                <input style=\"color: red;\" type=\"number\" disabled=\"true\" class=\"form-control\" formControlName=\"totalReturn\">\n                            </div>\n\n                        </div>\n\n                        <hr>\n\n\n\n\n                    </div>\n                    <!-- End of left side of div for payment -->\n\n                    <!-- <div class=\"col-md-6\">\n                        <h4> Close Shift </h4>\n\n                        <div class=\"row\">\n\n                            <div class=\"col-md-3\">\n                                <p>From User</p>\n                            </div>\n\n                            <div class=\"col-md-3\">\n                                <p>From System</p>\n                            </div>\n\n                            <div class=\"col-md-3\">\n                                <p>Difference</p>\n                            </div>\n\n                        </div>\n\n                        <div class=\"row\">\n\n                            <div class=\"col-md-3\">\n                                <input type=\"text\">\n                            </div>\n\n                            <div class=\"col-md-3\">\n                                <input type=\"text\">\n                            </div>\n\n                            <div class=\"col-md-3\">\n                                <input type=\"text\">\n                            </div>\n\n                        </div>\n\n                        <div class=\"row\">\n                            <button> Close Shift</button>\n                        </div>\n\n\n                        <div class=\"row\">\n                            <table class=\"table\">\n                                <thead>\n                                    <tr>\n                                        <th>Date</th>\n                                        <th>Time</th>\n                                        <th>Close Amount</th>\n                                        <th>Difference</th>\n                                        <th>Close By</th>\n                                        <th>Action</th>\n                                    </tr>\n                                </thead>\n                                <tbody>\n                                    <tr>\n                                        <td></td>\n                                        <td></td>\n                                        <td></td>\n                                        <td></td>\n                                        <td></td>\n                                        <td>\n                                            <i class=\"fa fa-pencil\"></i>\n                                            <i class=\"fa fa-trash\"></i>\n                                        </td>\n                                    </tr>\n                                </tbody>\n                            </table>\n                        </div>\n\n\n                    </div> -->\n\n\n                    <!-- Start of right side of div for money count -->\n                    <!-- <div class=\"col-md-1\">\n                        <div class=\"row\">\n\n                            <div class=\"col-md-4\">\n                                <p>$100</p>\n                            </div>\n\n                            <div class=\"col-md-4\">\n                                <p>*</p>\n                            </div>\n                            <div class=\"col-md-4\">\n                                <input type=\"text\">\n                            </div>\n\n                        </div>\n                        <div class=\"row\">\n\n                            <div class=\"col-md-4\">\n                                <p>$50</p>\n                            </div>\n\n                            <div class=\"col-md-4\">\n                                <p>*</p>\n                            </div>\n                            <div class=\"col-md-4\">\n                                <input type=\"text\">\n                            </div>\n\n                        </div>\n                        <div class=\"row\">\n\n                            <div class=\"col-md-4\">\n                                <p>$20</p>\n                            </div>\n\n                            <div class=\"col-md-4\">\n                                <p>*</p>\n                            </div>\n                            <div class=\"col-md-4\">\n                                <input type=\"text\">\n                            </div>\n\n                        </div>\n                        <div class=\"row\">\n\n                            <div class=\"col-md-4\">\n                                <p>$10</p>\n                            </div>\n\n                            <div class=\"col-md-4\">\n                                <p>*</p>\n                            </div>\n                            <div class=\"col-md-4\">\n                                <input type=\"text\">\n                            </div>\n\n                        </div>\n                        <div class=\"row\">\n\n                            <div class=\"col-md-4\">\n                                <p>$5</p>\n                            </div>\n\n                            <div class=\"col-md-4\">\n                                <p>*</p>\n                            </div>\n                            <div class=\"col-md-4\">\n                                <input type=\"text\">\n                            </div>\n\n                        </div>\n                        <div class=\"row\">\n\n                            <div class=\"col-md-4\">\n                                <p>$1</p>\n                            </div>\n\n                            <div class=\"col-md-4\">\n                                <p>*</p>\n                            </div>\n                            <div class=\"col-md-4\">\n                                <input type=\"text\">\n                            </div>\n\n                        </div>\n                        <div class=\"row\">\n\n                            <div class=\"col-md-8\">\n                                <p>Total</p>\n                            </div>\n\n                            <div class=\"col-md-4\">\n                                <input type=\"text\">\n                            </div>\n\n                        </div>\n                    </div> -->\n                    <!-- End of right side of div for money count -->\n\n\n\n                </div>\n            </form>\n        </mat-card-content>\n        <mat-card-footer>\n            <div class=\"d-flex align-items-center justify-content-center\">\n                <button mat-raised-button class=\"bg-primary text-white \" (click)=\"this.saveCloseRegisterDetails()\">Close Register</button>\n            </div>\n        </mat-card-footer>\n    </mat-card>\n</div>"
+module.exports = "<div>\n    <mat-card>\n        <mat-card-title>\n            <h3>\n                Close Register\n            </h3>\n        </mat-card-title>\n        <mat-card-content>\n\n\n            <div class=\"row p-md-3\">\n                <div class=\"col-md-2\">\n                    <select class=\"form-control\" [(ngModel)]=\"this.closeRegisterDropdown\" (change)=\"this.getCloseRegisterDetails()\">\n                                      <option>Today</option>\n                                      <option>Yesterday</option>\n                                      <option>Custom</option>\n                                    </select>\n\n                </div>\n\n                <div *ngIf=\"this.closeRegisterDropdown == 'Custom' \" class=\"col-md-3 form-group d-flex align-items-center\" [formGroup]=\"this.customDate\">\n\n                    <mat-form-field class=\"float-never col-md-6\">\n                        <input formControlName=\"fromDate\" matInput [matDatepicker]=\"fromDate\" placeholder=\"Start Date\" [max]=\"this.currentDate\">\n                        <mat-datepicker-toggle matSuffix [for]=\"fromDate\"></mat-datepicker-toggle>\n                        <mat-datepicker #fromDate></mat-datepicker>\n                    </mat-form-field>\n                    <!-- <label class=\"text-center\">To</label> -->\n                    <!-- <mat-form-field class=\"float-never col-md-6\">\n                            <input class=\"\" formControlName=\"toDate\" matInput [matDatepicker]=\"toDate\" placeholder=\"End Date\" [min]=\"this.customDate.get('fromDate').value\" [max]=\"this.currentDate\">\n                            <mat-datepicker-toggle matSuffix [for]=\"toDate\"></mat-datepicker-toggle>\n                            <mat-datepicker #toDate></mat-datepicker>\n                        </mat-form-field> -->\n                </div>\n\n                <div class=\"col-md-2\">\n\n                    <button matIcon (click)=\"this.printCloseRegisterDetail()\">\n                                    <i class=\"fa fa-print fa-3x\" aria-hidden=\"true\"></i>\n                        </button>\n                </div>\n            </div>\n            <form [formGroup]=\"closeRegisterForm\">\n                <div class=\"row p-md-3\">\n                    <!-- Start of left side of div for payment -->\n                    <div class=\"col-md-6\">\n\n                        <div class=\"row product-textbox\">\n                            <div class=\"col-md-3\">\n                                <p>Payment Type</p>\n                            </div>\n\n                            <div class=\"col-md-3\">\n                                <p>Manual Count</p>\n                            </div>\n\n                            <div class=\"col-md-3\">\n                                <p>System Count</p>\n                            </div>\n\n                            <div class=\"col-md-3\">\n                                <p>Difference</p>\n                            </div>\n                        </div>\n\n                        <div class=\"row close-row\">\n\n                            <div class=\"col-md-3\">\n                                <p>Cash</p>\n                            </div>\n\n                            <div class=\"col-md-3\">\n                                <input type=\"number\" class=\"form-control\" formControlName=\"closeCash\">\n                            </div>\n\n                            <div class=\"col-md-3\">\n                                <input type=\"number\" class=\"form-control\" disabled=\"true\" formControlName=\"reportCash\">\n                            </div>\n\n                            <div class=\"col-md-3\">\n                                <input [style.color]=\"this.closeRegisterForm.get('differenceCash').value >=0 ? 'green' : 'red' \" type=\"number\" class=\"form-control\" disabled=\"true\" formControlName=\"differenceCash\">\n                            </div>\n\n                        </div>\n\n                        <div class=\"row close-row \">\n\n                            <div class=\"col-md-3\">\n                                <p>Credit</p>\n                            </div>\n\n                            <div class=\"col-md-3\">\n                                <input type=\"number\" class=\"form-control\" formControlName=\"closeCredit\">\n                            </div>\n\n                            <div class=\"col-md-3\">\n                                <input type=\"number\" class=\"form-control\" disabled=\"true\" formControlName=\"reportCredit\">\n                            </div>\n\n                            <div class=\"col-md-3\">\n                                <input [style.color]=\"this.closeRegisterForm.get('differenceCredit').value >=0 ? 'green' : 'red' \" type=\"number\" class=\"form-control\" disabled=\"true\" formControlName=\"differenceCredit\">\n                            </div>\n\n                        </div>\n\n                        <div class=\"row close-row \">\n\n                            <div class=\"col-md-3\">\n                                <p>Debit</p>\n                            </div>\n\n                            <div class=\"col-md-3\">\n                                <input type=\"number\" class=\"form-control\" formControlName=\"closeDebit\">\n                            </div>\n\n                            <div class=\"col-md-3\">\n                                <input type=\"number\" class=\"form-control\" disabled=\"true\" formControlName=\"reportDebit\">\n                            </div>\n\n                            <div class=\"col-md-3\">\n                                <input [style.color]=\"this.closeRegisterForm.get('differenceDebit').value >=0 ? 'green' : 'red' \" type=\"number\" class=\"form-control\" disabled=\"true\" formControlName=\"differenceDebit\">\n                            </div>\n\n                        </div>\n\n                        <div class=\"row close-row \">\n\n                            <div class=\"col-md-3\">\n                                <p>Check</p>\n                            </div>\n\n                            <div class=\"col-md-3\">\n                                <input type=\"number\" class=\"form-control\" formControlName=\"closeCheck\">\n                            </div>\n\n                            <div class=\"col-md-3\">\n                                <input type=\"number\" class=\"form-control\" disabled=\"true\" formControlName=\"reportCheck\">\n                            </div>\n\n                            <div class=\"col-md-3\">\n                                <input [style.color]=\"this.closeRegisterForm.get('differenceCheck').value >=0 ? 'green' : 'red' \" class=\"form-control\" disabled=\"true\" type=\"number\" formControlName=\"differenceCheck\">\n                            </div>\n\n                        </div>\n\n                        <div class=\"row close-row \">\n\n                            <div class=\"col-md-3\">\n                                <p>Other Payment</p>\n                            </div>\n                            <div class=\"col-md-3\">\n                                <p>Tip</p>\n                            </div>\n\n                            <div class=\"col-md-3\">\n                                <p>On Account</p>\n                            </div>\n\n                            <div class=\"col-md-3\">\n                                <p>Loyalty</p>\n                            </div>\n\n\n                        </div>\n\n                        <div class=\"row\">\n\n                            <div class=\"col-md-3\">\n                            </div>\n                            <div class=\"col-md-3\">\n                                <input type=\"text\" class=\"form-control\" disabled=\"true\" formControlName=\"tip\">\n                            </div>\n\n                            <div class=\"col-md-3\">\n                                <input type=\"text\" class=\"form-control\" disabled=\"true\" formControlName=\"onAccount\">\n                            </div>\n\n                            <div class=\"col-md-3\">\n                                <input type=\"text\" class=\"form-control\" disabled=\"true\" formControlName=\"loyalty\">\n                            </div>\n\n\n\n                        </div>\n                        <hr>\n                        <div class=\"row\">\n\n                            <div class=\"col-md-3\">\n                                <p>Total With Tax</p>\n                            </div>\n\n\n                            <div class=\"col-md-3\">\n                                <input type=\"number\" class=\"form-control\" disabled=\"true\" formControlName=\"closeTotalAmount\">\n                            </div>\n\n                            <div class=\"col-md-3\">\n                                <input type=\"number\" class=\"form-control\" disabled=\"true\" formControlName=\"reportTotalAmount\">\n                            </div>\n\n                            <div class=\"col-md-3\">\n                                <input [style.color]=\"this.closeRegisterForm.get('differenceTotal').value >=0 ? 'green' : 'red' \" type=\"number\" class=\"form-control\" disabled=\"true\" formControlName=\"differenceTotal\">\n                            </div>\n\n                        </div>\n\n                        <hr>\n\n                        <div class=\"row\">\n\n                            <div class=\"col-md-3\">\n                                <p>Total Without Tax</p>\n                            </div>\n\n                            <div class=\"col-md-3\">\n                                <p>Total Tax</p>\n                            </div>\n\n                            <div class=\"col-md-3\">\n                                <p>Total Discount</p>\n                            </div>\n                            <div class=\"col-md-3\">\n                                <p>Total Return</p>\n                            </div>\n\n                        </div>\n\n                        <div class=\"row\">\n\n                            <div class=\"col-md-3\">\n                                <input type=\"number\" class=\"form-control\" disabled=\"true\" formControlName=\"totalWithoutTax\">\n                            </div>\n\n                            <div class=\"col-md-3\">\n                                <input type=\"number\" class=\"form-control\" disabled=\"true\" formControlName=\"tax\">\n                            </div>\n\n                            <div class=\"col-md-3\">\n                                <input style=\"color: green;\" type=\"number\" class=\"form-control\" disabled=\"true\" formControlName=\"totalDiscount\">\n                            </div>\n\n                            <div class=\"col-md-3\">\n                                <input style=\"color: red;\" type=\"number\" disabled=\"true\" class=\"form-control\" formControlName=\"totalReturn\">\n                            </div>\n\n                        </div>\n\n                        <hr>\n\n\n\n\n                    </div>\n                    <!-- End of left side of div for payment -->\n\n                    <!-- <div class=\"col-md-6\">\n                            <h4> Close Shift </h4>\n                            <div class=\"row\">\n                                <div class=\"col-md-3\">\n                                    <p>From User</p>\n                                </div>\n                                <div class=\"col-md-3\">\n                                    <p>From System</p>\n                                </div>\n                                <div class=\"col-md-3\">\n                                    <p>Difference</p>\n                                </div>\n                            </div>\n                            <div class=\"row\">\n                                <div class=\"col-md-3\">\n                                    <input type=\"text\">\n                                </div>\n                                <div class=\"col-md-3\">\n                                    <input type=\"text\">\n                                </div>\n                                <div class=\"col-md-3\">\n                                    <input type=\"text\">\n                                </div>\n                            </div>\n                            <div class=\"row\">\n                                <button> Close Shift</button>\n                            </div>\n                            <div class=\"row\">\n                                <table class=\"table\">\n                                    <thead>\n                                        <tr>\n                                            <th>Date</th>\n                                            <th>Time</th>\n                                            <th>Close Amount</th>\n                                            <th>Difference</th>\n                                            <th>Close By</th>\n                                            <th>Action</th>\n                                        </tr>\n                                    </thead>\n                                    <tbody>\n                                        <tr>\n                                            <td></td>\n                                            <td></td>\n                                            <td></td>\n                                            <td></td>\n                                            <td></td>\n                                            <td>\n                                                <i class=\"fa fa-pencil\"></i>\n                                                <i class=\"fa fa-trash\"></i>\n                                            </td>\n                                        </tr>\n                                    </tbody>\n                                </table>\n                            </div>\n                        </div> -->\n\n\n                    <!-- Start of right side of div for money count -->\n                    <!-- <div class=\"col-md-1\">\n                            <div class=\"row\">\n                                <div class=\"col-md-4\">\n                                    <p>$100</p>\n                                </div>\n                                <div class=\"col-md-4\">\n                                    <p>*</p>\n                                </div>\n                                <div class=\"col-md-4\">\n                                    <input type=\"text\">\n                                </div>\n                            </div>\n                            <div class=\"row\">\n                                <div class=\"col-md-4\">\n                                    <p>$50</p>\n                                </div>\n                                <div class=\"col-md-4\">\n                                    <p>*</p>\n                                </div>\n                                <div class=\"col-md-4\">\n                                    <input type=\"text\">\n                                </div>\n                            </div>\n                            <div class=\"row\">\n                                <div class=\"col-md-4\">\n                                    <p>$20</p>\n                                </div>\n                                <div class=\"col-md-4\">\n                                    <p>*</p>\n                                </div>\n                                <div class=\"col-md-4\">\n                                    <input type=\"text\">\n                                </div>\n                            </div>\n                            <div class=\"row\">\n                                <div class=\"col-md-4\">\n                                    <p>$10</p>\n                                </div>\n                                <div class=\"col-md-4\">\n                                    <p>*</p>\n                                </div>\n                                <div class=\"col-md-4\">\n                                    <input type=\"text\">\n                                </div>\n                            </div>\n                            <div class=\"row\">\n                                <div class=\"col-md-4\">\n                                    <p>$5</p>\n                                </div>\n                                <div class=\"col-md-4\">\n                                    <p>*</p>\n                                </div>\n                                <div class=\"col-md-4\">\n                                    <input type=\"text\">\n                                </div>\n                            </div>\n                            <div class=\"row\">\n                                <div class=\"col-md-4\">\n                                    <p>$1</p>\n                                </div>\n                                <div class=\"col-md-4\">\n                                    <p>*</p>\n                                </div>\n                                <div class=\"col-md-4\">\n                                    <input type=\"text\">\n                                </div>\n                            </div>\n                            <div class=\"row\">\n                                <div class=\"col-md-8\">\n                                    <p>Total</p>\n                                </div>\n                                <div class=\"col-md-4\">\n                                    <input type=\"text\">\n                                </div>\n                            </div>\n                        </div> -->\n                    <!-- End of right side of div for money count -->\n\n\n\n                </div>\n            </form>\n        </mat-card-content>\n        <mat-card-footer>\n            <div *ngIf=\"this.closeRegisterDropdown == 'Today' \" class=\"d-flex align-items-center justify-content-center\">\n                <button mat-raised-button class=\"bg-primary text-white \" (click)=\"this.saveCloseRegisterDetails()\">Close Register</button>\n            </div>\n        </mat-card-footer>\n    </mat-card>\n</div>"
 
 /***/ }),
 
@@ -6035,6 +5749,8 @@ module.exports = module.exports.toString();
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_moment___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_moment__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_app_shared_services_date_service__ = __webpack_require__("../../../../../src/app/shared/services/date.service.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_app_sell_sell_service__ = __webpack_require__("../../../../../src/app/sell/sell.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_ng2_toastr__ = __webpack_require__("../../../../ng2-toastr/ng2-toastr.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_ng2_toastr___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5_ng2_toastr__);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -6049,18 +5765,21 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
+
 var CloseRegisterComponent = /** @class */ (function () {
-    function CloseRegisterComponent(sellService, formBuilder, dateService) {
+    function CloseRegisterComponent(sellService, formBuilder, dateService, toastr) {
         this.sellService = sellService;
         this.formBuilder = formBuilder;
         this.dateService = dateService;
+        this.toastr = toastr;
+        this.currentDate = new Date();
         this.closeRegisterDto = new CloseRegisterDto();
         this.dateDto = new __WEBPACK_IMPORTED_MODULE_3_app_shared_services_date_service__["a" /* DateDto */]();
+        this.closeRegisterDropdown = 'Today';
     }
     CloseRegisterComponent.prototype.ngOnInit = function () {
         var _this = this;
-        this.dateDto = this.dateService.getCurrentDay();
-        this.getCloseRegisterDetails(this.dateDto.startDate, this.dateDto.endDate);
+        this.getCloseRegisterDetails();
         this.closeRegisterForm = this.formBuilder.group({
             'reportCash': [null],
             'reportCredit': [null],
@@ -6085,7 +5804,7 @@ var CloseRegisterComponent = /** @class */ (function () {
             'markup': [null],
             'bankDeposit': [null],
             'onAccount': [null],
-            'storeCredit': [null],
+            'tip': [null],
             'loyalty': [null],
             'inHandCash': [null],
             'note': [null],
@@ -6104,10 +5823,28 @@ var CloseRegisterComponent = /** @class */ (function () {
                 emitEvent: false
             });
         });
+        this.customDate = this.formBuilder.group({
+            'fromDate': new Date(),
+            'toDate': new Date()
+        });
+        this.customDate.valueChanges
+            .subscribe(function (change) {
+            var customDateValues = change;
+            _this.dateDto.startDate = __WEBPACK_IMPORTED_MODULE_2_moment__(customDateValues.fromDate).hour(0).format('YYYY-MM-DD HH:mm:ss');
+            _this.dateDto.endDate = __WEBPACK_IMPORTED_MODULE_2_moment__(customDateValues.fromDate).hour(23).minute(59).second(59).format('YYYY-MM-DD HH:mm:ss');
+            // this.dateDto.endDate = moment(customDateValues.toDate).hour(23).minute(59).format('YYYY-MM-DD HH:mm:ss');
+            _this.getCloseRegisterDetails();
+        });
     };
-    CloseRegisterComponent.prototype.getCloseRegisterDetails = function (startDate, endDate) {
+    CloseRegisterComponent.prototype.getCloseRegisterDetails = function () {
         var _this = this;
-        this.sellService.getCloseRegisterDetails(startDate, endDate)
+        if (this.closeRegisterDropdown == 'Custom') {
+            //Do not do anything
+        }
+        else {
+            this.dateDto = this.dateService.getDateByInput(this.closeRegisterDropdown);
+        }
+        this.sellService.getCloseRegisterDetails(this.dateDto.startDate, this.dateDto.endDate)
             .subscribe(function (closeReg) {
             _this.closeRegisterDto = closeReg;
             _this.closeRegId = closeReg.id;
@@ -6125,9 +5862,10 @@ var CloseRegisterComponent = /** @class */ (function () {
             _this.closeRegisterForm.get('totalReturn').setValue(_this.closeRegisterDto.totalReturn);
             var totalWithoutTax = _this.closeRegisterDto.reportTotalAmount - _this.closeRegisterDto.tax;
             _this.closeRegisterForm.get('totalWithoutTax').setValue(totalWithoutTax.toFixed(2));
-            _this.closeRegisterForm.get('storeCredit').setValue(_this.closeRegisterDto.storeCredit);
+            //this.closeRegisterForm.get('storeCredit').setValue(this.closeRegisterDto.storeCredit);
             _this.closeRegisterForm.get('onAccount').setValue(_this.closeRegisterDto.onAccount);
             _this.closeRegisterForm.get('loyalty').setValue(_this.closeRegisterDto.loyalty);
+            _this.closeRegisterForm.get('tip').setValue(_this.closeRegisterDto.tip);
             var closeTotalAmountWithTax = _this.closeRegisterForm.get('closeCash').value + _this.closeRegisterForm.get('closeCredit').value + _this.closeRegisterForm.get('closeDebit').value + _this.closeRegisterForm.get('closeCheck').value;
             _this.closeRegisterForm.get('closeTotalAmount').setValue(_this.totalCloseAmount);
         });
@@ -6136,13 +5874,29 @@ var CloseRegisterComponent = /** @class */ (function () {
         this.totalCloseAmount = this.closeRegisterForm.get('closeCash').value + this.closeRegisterForm.get('closeCredit').value + this.closeRegisterForm.get('closeDebit').value + this.closeRegisterForm.get('closeCheck').value;
     };
     CloseRegisterComponent.prototype.saveCloseRegisterDetails = function () {
+        var _this = this;
         this.closeRegisterDto = this.closeRegisterForm.value;
         this.closeRegisterDto.date = __WEBPACK_IMPORTED_MODULE_2_moment__(Date.now()).format('YYYY-MM-DD HH:mm:ss');
         this.closeRegisterDto.id = this.closeRegId;
         // TODO need to handle getting user name.
         this.closeRegisterDto.username = 'ALOK';
         console.log(this.closeRegisterDto);
-        this.sellService.saveCloseRegisterDetail(this.closeRegisterDto);
+        this.sellService.saveCloseRegisterDetail(this.closeRegisterDto)
+            .subscribe(function (data) {
+            if (data.statusText == 'OK') {
+                _this.toastr.success('Close Register Detail Added!!', 'Success!!');
+            }
+            else {
+                _this.toastr.error('Opps Something Goes Wrong!!', 'Error!!');
+            }
+            console.log('close Register date', data);
+        }, function (error) {
+            _this.toastr.error('Opps Something Goes Wrong!!', 'Error!!');
+            console.log(JSON.stringify(error.json()));
+        });
+    };
+    CloseRegisterComponent.prototype.printCloseRegisterDetail = function () {
+        this.sellService.printClosingDetails(this.dateDto.startDate, this.dateDto.endDate);
     };
     CloseRegisterComponent = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
@@ -6150,7 +5904,7 @@ var CloseRegisterComponent = /** @class */ (function () {
             template: __webpack_require__("../../../../../src/app/sell/close-register/close-register.component.html"),
             styles: [__webpack_require__("../../../../../src/app/sell/close-register/close-register.component.scss")]
         }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_4_app_sell_sell_service__["a" /* SellService */], __WEBPACK_IMPORTED_MODULE_1__angular_forms__["FormBuilder"], __WEBPACK_IMPORTED_MODULE_3_app_shared_services_date_service__["b" /* DateService */]])
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_4_app_sell_sell_service__["a" /* SellService */], __WEBPACK_IMPORTED_MODULE_1__angular_forms__["FormBuilder"], __WEBPACK_IMPORTED_MODULE_3_app_shared_services_date_service__["b" /* DateService */], __WEBPACK_IMPORTED_MODULE_5_ng2_toastr__["ToastsManager"]])
     ], CloseRegisterComponent);
     return CloseRegisterComponent;
 }());
@@ -6510,7 +6264,7 @@ var ReturnSaleComponent = /** @class */ (function () {
         this.toastr = toastr;
         this.isProductExistsInSellList = false;
         this.transactionLineItemDaoList = [];
-        this.transactionDtoList = new __WEBPACK_IMPORTED_MODULE_9_app_sell_sale_sale_component__["c" /* TransactionDtoList */]();
+        this.transactionDtoList = new __WEBPACK_IMPORTED_MODULE_9_app_sell_sale_sale_component__["d" /* TransactionDtoList */]();
         this.paymentDto = new __WEBPACK_IMPORTED_MODULE_9_app_sell_sale_sale_component__["a" /* PaymentDto */]();
         this.a = 'sdfds';
         this.taxPercent = 0.00;
@@ -6927,7 +6681,7 @@ var ReturnSaleComponent = /** @class */ (function () {
 /***/ "../../../../../src/app/sell/sale/sale.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"row\">\n    <div class=\"col-lg-9\">\n        <mat-card>\n            <div class=\"row\">\n                <div class=\"align-self-center col-lg-7\" style=\"max-height: 500px !important;\">\n\n                    <p-autoComplete id=\"productsearch\" [(ngModel)]=\"p\" class=\"full-width m-1\" [suggestions]=\"product\" placeholder=\"Scan or Search Product\" (onFocus)=\"print($event)\" (onBlur)=\"print($event)\" (completeMethod)=\"filterProducts($event)\" name=\"test\" [minLength]=\"3\"\n                        (keyup.enter)=\"submitProduct(p)\" field=\"description\">\n                        <ng-template>\n                            <span style=\"max-width:500px !important\">\n                                </span>\n                        </ng-template>\n                    </p-autoComplete>\n                    <!-- <button (click)=\"this.testFocus()\">Click me</button> -->\n\n                </div>\n                <div class=\"col-lg-0\"></div>\n                <div class=\"col-lg-5 d-flex justify-content-end\">\n                    <!-- Buttons go here  -->\n                    <button (click)=\"this.parkSale()\" class=\"bg-primary text-white action-button m-1\" mat-raised-button [disabled]=\"this.paymentButtonOnSale\">\n                        <span>\n                            <i class=\"fa fa-history\">\n                                Park Sale\n                            </i>\n                        </span>\n                    </button>\n                    <button class=\"bg-danger text-white action-button m-1\" mat-raised-button data-toggle=\"modal\" data-target=\"#deleteProduct\" (click)=\"this.setHeaderAndMessageForDisgardPopup()\" [disabled]=\"this.paymentButtonOnSale\">\n                        <span>\n                            <i class=\"fa fa-trash\">\n                                Discard Sale\n                            </i>\n                        </span>\n                    </button>\n                    <button class=\"bg-primary text-white  action-button m-1\" mat-raised-button>\n                        <span>\n                            <i class=\"fa fa-th\">\n                                Show Grid\n                            </i>\n                        </span>\n                    </button>\n                    <!-- <button class=\"bg-primary text-white  action-button m-1\" mat-raised-button (click)=\"this.openSellCustomerView()\">\n                        <span>\n                            <i class=\"fa fa-user\">\n                                Customer View\n                            </i>\n                        </span>\n                    </button> -->\n                </div>\n            </div>\n            <!-- <div class=\"row m-2\">\n                <app-receipt [data]=\"this.recieptData\"></app-receipt>\n            </div> -->\n        </mat-card>\n        <!-- <br/> -->\n        <mat-card>\n            <!-- <mat-card-title></mat-card-title> -->\n            <mat-card-content>\n                <div class=\"row p-md-3\">\n                    <!-- Product Table -->\n                    <p-dataTable [value]=\"this.transactionLineItemDaoList\" scrollable=\"true\" [responsive]=\"true\" scrollHeight=\"300px\" [editable]=\"true\" (onEditComplete)=\"updateLineItemDetails($event)\">\n                        <p-header>Product Sale Table</p-header>\n\n                        <p-column field=\"productNo\" header=\"ProductNo\" [style]=\"{'width':'15%','text-align':'center', 'overflow':'visible'}\"></p-column>\n                        <p-column field=\"description\" header=\"Description\" [style]=\"{'width':'45%','text-align':'center', 'overflow':'visible'}\"></p-column>\n                        <p-column field=\"defaultQuantity\" header=\"Quantity\" [editable]=\"true\">\n                            <ng-template let-product=\"rowData\" pTemplate=\"body\">\n                                <div id=\"lineitem{{product.productNo}}\" [ngClass]=\"{'quantity-updated': product.quantityUpdated }\">\n                                    {{product.defaultQuantity}}\n                                </div>\n                            </ng-template>\n                        </p-column>\n                        <p-column field=\"actualRetail\" header=\"Retail\"></p-column>\n                        <p-column field=\"retail\" header=\"RetWtDis\" [editable]=\"true\"></p-column>\n                        <p-column field=\"quantity\" header=\"Stock\"></p-column>\n                        <p-column field=\"totalProductPrice\" header=\"Total\"></p-column>\n                        <p-column header=\"\" styleClass=\"col-button\" [style]=\"{'width':'5%','text-align':'center', 'overflow':'visible'}\">\n\n                            <ng-template let-product=\"rowData\" pTemplate=\"body\">\n                                <button mat-button class=\"btn-red action-button-table\" mat-button (click)=\"this.setProductForDelete(product)\" data-toggle=\"modal\" data-target=\"#deleteProduct\">\n                                    <i class=\"fa fa-trash\" aria-hidden=\"true\"></i>\n                                </button>\n                            </ng-template>\n                        </p-column>\n\n\n                    </p-dataTable>\n                </div>\n            </mat-card-content>\n        </mat-card>\n\n    </div>\n    <div class=\"col-lg-3\">\n        <mat-card>\n            <mat-card-content>\n                <div class=\"row\">\n                    <div class=\"input-group\">\n                        <span class=\"input-group-addon\" id=\"basic-addon1\">\n                            <i class=\"fa fa-user-plus\" aria-hidden=\"true\"></i>\n                        </span>\n                        <p-autoComplete id =\"customerSearch\" [(ngModel)]=\"this.selectedCustomer\" [field]=\"'name'\" [suggestions]=\"filteredCustomer\" (completeMethod)=\"this.filterCustomers($event)\" class=\"full-width\" [minLength]=\"1\" (keyup.enter)=\"this.submitCustomer()\" (onClear)=\"this.removeCustomerOnSale()\">\n                            <ng-template let-c pTemplate=\"item\">\n                                <div class=\"ui-helper-clearfix\" style=\"border-bottom:1px solid #D5D5D5\">\n                                    <div style=\"width:32px;display:inline-block;margin:5px 0 2px 5px\">{{c.name}}</div>\n                                    <div style=\"font-size:18px;float:right;margin:10px 10px 0 0\">{{c.phoneNo}}</div>\n                                </div>\n                            </ng-template>\n\n                        </p-autoComplete>\n\n                    </div>\n                </div>\n                <br/>\n                <div *ngIf=\"this.selectedCustomer\">\n                    <table class=\"table table-bordered customer\">\n\n                        <tbody>\n                            <tr>\n                                <td>\n                                    <dl class=\"row\">\n                                        <dt class=\"\">Name:</dt>\n                                        <dd class=\"\">{{this.selectedCustomer.name}}</dd>\n                                    </dl>\n                                </td>\n                                <td>\n                                    <dl class=\"row\">\n                                        <dt class=\"\">Phone:</dt>\n                                        <dd class=\"\">{{this.selectedCustomer.phoneNo}}</dd>\n                                    </dl>\n                                </td>\n                            </tr>\n                            <tr>\n                                <td>\n                                    <dl class=\"row\">\n                                        <dt class=\"\">Balance:</dt>\n                                        <dd class=\"\">{{this.selectedCustomer.balance | currency:'USD':'true'}}</dd>\n                                    </dl>\n                                </td>\n                                <td>\n                                    <dl class=\"row\">\n                                        <dt class=\"\">Credit:</dt>\n                                        <dd class=\"\">{{this.selectedCustomer.storeCredit | currency:'USD':'true'}}</dd>\n                                    </dl>\n                                </td>\n                            </tr>\n                            <tr>\n                                <td>\n                                    <dl class=\"row\">\n                                        <dt class=\"\">Spending:</dt>\n                                        <dd class=\"\"></dd>\n                                    </dl>\n                                </td>\n                                <td>\n                                    <dl class=\"row\">\n                                        <dt class=\"\">Loyalty:</dt>\n                                        <dd class=\"\"></dd>\n                                    </dl>\n\n                                </td>\n                            </tr>\n                        </tbody>\n                    </table>\n                </div>\n\n                <div class=\"sales-total p-md-4\">\n\n                    <dl class=\"row\">\n                        <dt class=\"\">Sub-total</dt>\n                        <dd class=\"\">{{this.transactionDtoList.subtotal | currency:'USD':'true'}}</dd>\n                    </dl>\n                    <dl class=\"row\">\n                        <dt class=\"\">\n                            <a #discount id=\"discount-popover\" href=\"javascript:void(0)\" (click)=\"this.showPopover(discount)\">\n                                Discount\n                            </a>\n                        </dt>\n                        <dd class=\"\">{{this.transactionDtoList.totalDiscount | currency:'USD':'true'}}</dd>\n                    </dl>\n                    <dl class=\"row\">\n                        <dt *ngIf=\"this.taxPercent == 7\">\n                        <a  href=\"javascript:void(0)\" (click)=\"this.taxPercent = 0\">\n                                Tax ({{this.taxPercent}}%)\n                        </a>\n                        </dt>\n\n                        <dt *ngIf=\"this.taxPercent == 0\">\n\n                            <a  href=\"javascript:void(0)\" (click)=\"this.taxPercent = 7\">\n                                    No Tax\n                                    <!-- ({{this.taxPercent}}%) -->\n                            </a>\n                        </dt>\n                        <dd class=\"\">{{this.transactionDtoList.tax | currency:'USD':'true'}}</dd>\n                    </dl>\n                    <dl class=\"row\">\n                        <dt class=\"\">Quantity</dt>\n                        <dd class=\"\">{{this.transactionDtoList.quantity}}</dd>\n                    </dl>\n                    <dl class=\"row\" *ngIf=\"this.selectedCustomer != null && this.selectedCustomer.balance > 0\">\n                        <dt class=\"\">Pre Balance</dt>\n                        <dd class=\"\">{{this.selectedCustomer.balance | currency:'USD':'true'}}</dd>\n                    </dl>\n                    <dl class=\"row\">\n                        <dt class=\"\">Total</dt>\n                        <dd class=\"\">{{this.transactionDtoList.totalAmount | currency:'USD':'true'}}</dd>\n                    </dl>\n                </div>\n                <button *ngIf=\"this.saleType == 'Complete' \" mat-raised-button [disabled]=\"this.paymentButtonOnSale\" type=\"button\" (click)=\"this.setDataForPaymentModel()\" data-toggle=\"modal\" data-target=\"#paymentModel\" style=\"width: 100%; font-size: 20px\" class=\"btn btn-green btn-lg text-white m-md-1 p-md-2\">\n                    <div class=\"row p-md-1 font-weight-bold\">\n                        <div class=\"col-md-6 text-left\">Payment</div>\n                        <div class=\"col-md-6 text-right\">{{this.transactionDtoList.totalAmount | currency:'USD':'true'}}</div>\n                    </div>\n                </button>\n\n                <button *ngIf=\"this.saleType == 'Return' \" mat-raised-button [disabled]=\"this.paymentButtonOnSale\" type=\"button\" (click)=\"this.setDataForPaymentModelForReturnSale()\" data-toggle=\"modal\" data-target=\"#paymentModel\" style=\"width: 100%; font-size: 20px\"\n                    class=\"btn btn-red btn-lg text-white m-md-1 p-md-2\">\n                    <div class=\"row p-md-1 font-weight-bold\">\n                        <div class=\"col-md-6 text-left\">Return</div>\n                        <div class=\"col-md-6 text-right\">{{this.transactionDtoList.totalAmount | currency:'USD':'true'}}</div>\n                    </div>\n                </button>\n\n            </mat-card-content>\n        </mat-card>\n\n\n    </div>\n</div>\n\n<!-- Popover -->\n<div #popover *ngIf=\"this.popoverStyle\" class=\"popover fade bs-popover-left show\" role=\"tooltip\" [style]=\"this.popoverStyle\">\n    <div class=\"arrow\" style=\"top: 82px;\"></div>\n    <h3 class=\"popover-header\">\n        Apply Discount For Sale\n    </h3>\n    <div class=\"popover-body\">\n        <!-- <button mat-raised-button class=\"action-button\" (click)=\"this.setDiscountType('By Percentage')\"> % </button>\n        <button mat-raised-button class=\"action-button\" (click)=\"this.setDiscountType('By Amount')\"> $ </button> -->\n        <div class=\"row\">\n            <div class=\"col-md-5\">\n                <mat-input-container>\n                    <input matInput [(ngModel)]=\"this.discountValue\" type=\"text\" placeholder=\"Add Discount\">\n                </mat-input-container>\n            </div>\n            <div class=\"col-md-7\">\n                <mat-radio-group class=\"m-t-5\" [(ngModel)]=\"this.discountType\">\n                    <mat-radio-button class=\"p-md-2 m-r-20\" value=\"By Amount\"> $</mat-radio-button>\n                    <mat-radio-button class=\"p-md-2 m-r-20\" value=\"By Percentage\"> %</mat-radio-button>\n                </mat-radio-group>\n            </div>\n        </div>\n    </div>\n    <div class=\"d-flex justify-content-center  p-md-3\">\n        <button mat-button class=\"btn-red action-button-table\" (click)=\"this.calculateDiscount(this.discountValue)\">\n                        Apply\n            </button>\n\n\n    </div>\n</div>\n<!-- End of Discount pophover -->\n\n\n\n<!-- Start of Product and Sale discard Pop up -->\n\n<div class=\"modal fade\" id=\"deleteProduct\" role=\"dialog\">\n    <div class=\"modal-dialog modal-sm\">\n        <div class=\"modal-content\">\n            <div class=\"modal-header\">\n                <h4 class=\"modal-title\">{{this.popupHeader}}</h4>\n                <button type=\"button\" class=\"close\" data-dismiss=\"modal\">&times;</button>\n\n            </div>\n            <div class=\"modal-body\">\n                <p>{{this.popupMessage}}</p>\n            </div>\n            <div class=\"modal-footer\">\n\n                <!-- This logic to reuse the model code cause i need popup for delete single product and also delete complete sale -->\n                <button *ngIf=\"this.popupHeader == 'Delete Product' \" type=\"button\" class=\"btn btn-danger\" data-dismiss=\"modal\" (click)=\"this.deleteProduct()\">Yes</button>\n                <button *ngIf=\"this.popupHeader == 'Discard Sale' \" type=\"button\" class=\"btn btn-danger\" data-dismiss=\"modal\" (click)=\"this.disgardCompleteSale()\">Yes</button>\n                <!-- TODO Add one more button for add product if it does not exists -->\n                <button type=\"button\" class=\"btn btn-default\" data-dismiss=\"modal\">Cancle</button>\n            </div>\n        </div>\n    </div>\n</div>\n\n<!-- End of Product and Sale discard Pop up -->\n\n\n<!-- Start Of payment model -->\n<div class=\"modal fade\" id=\"paymentModel\" role=\"dialog\">\n    <div class=\"modal-dialog modal-lg\">\n\n        <!-- Modal content-->\n        <div class=\"modal-content\">\n            <div class=\"modal-header\">\n                <h3 class=\"modal-title\">Manage Payment</h3>\n                <button type=\"button\" class=\"close\" data-dismiss=\"modal\">&times;</button>\n\n            </div>\n            <div class=\"modal-body\">\n\n                <div class=\"row\">\n\n                    <div class=\"col-md-3\">\n                        <h3>{{this.payLable}}</h3>\n                    </div>\n\n                    <div class=\"col-md-2\">\n                        <input [(ngModel)]=\"this.payAmountTextBox\" class=\"form-control\" type=\"number\" [style.color]=\"this.dueAmountForTransaction <=0 ? 'green' : 'red' \">\n                    </div>\n\n\n                    <div class=\"col-md-4\">\n                        <h3>{{this.amountDueLable}}</h3>\n                    </div>\n\n                    <div class=\"col-md-3\">\n                        <h3 [style.color]=\"this.dueAmountForTransaction <=0 ? 'green' : 'red' \">$ {{this.dueAmountForTransaction | number:'1.2-2'}}</h3>\n                    </div>\n\n                </div>\n\n                <div *ngIf=\"this.paymentObjectForPaymentSellTable.length > 0\" class=\"row\">\n                    <table class=\"table\">\n                        <thead>\n                            <tr>\n                                <th>Payment Type</th>\n                                <th>Amount</th>\n                                <th>Action</th>\n                            </tr>\n                        </thead>\n                        <tbody>\n                            <tr *ngFor=\"let payment of this.paymentObjectForPaymentSellTable\">\n                                <td>{{payment.paymentType}}</td>\n                                <td>$ {{payment.paymentAmount}}</td>\n                                <td (click)=\"this.deletePaymentFromPaymentModel(payment)\">\n                                    <i class=\"fa fa-trash\"></i>\n                                </td>\n                            </tr>\n                        </tbody>\n                    </table>\n                </div>\n\n\n                <div class=\"row\" style=\"margin-top: 30px\">\n                    <div class=\"col-lg-3\">\n                        <button mat-raised-button class=\"primary-button\" (click)=\"this.setPaymentDto('Cash',this.payAmountTextBox)\" [disabled]=\"this.disablePaymentButtons\">Cash</button>\n                    </div>\n\n                    <div class=\"col-lg-3\">\n                        <button mat-raised-button class=\"primary-button\" (click)=\"this.setPaymentDto('Credit',this.payAmountTextBox)\" [disabled]=\"this.disablePaymentButtons\">Credit</button>\n                    </div>\n\n                    <div class=\"col-lg-3\">\n                        <button mat-raised-button class=\"primary-button\" (click)=\"this.setPaymentDto('Debit',this.payAmountTextBox)\" [disabled]=\"this.disablePaymentButtons\">Debit</button>\n                    </div>\n\n                    <div class=\"col-lg-3\">\n                        <button mat-raised-button class=\"primary-button\" (click)=\"this.setPaymentDto('Check',this.payAmountTextBox)\" [disabled]=\"this.disablePaymentButtons\">Check</button>\n                    </div>\n                </div>\n                <div class=\"row\" style=\"margin-top: 30px\">\n\n                    <div class=\"col-md-2\">\n                        <button mat-raised-button class=\"primary-button\" (click)=\"this.setPaymentDto('Cash', 1)\" [disabled]=\"this.disablePaymentButtonsWithAmount\">$1</button>\n                    </div>\n\n                    <div class=\"col-md-2\">\n                        <button mat-raised-button class=\"primary-button\" (click)=\"this.setPaymentDto('Cash', 5)\" [disabled]=\"this.disablePaymentButtonsWithAmount\">$5</button>\n                    </div>\n\n                    <div class=\"col-md-2\">\n                        <button mat-raised-button class=\"primary-button\" (click)=\"this.setPaymentDto('Cash', 10)\" [disabled]=\"this.disablePaymentButtonsWithAmount\">$10</button>\n                    </div>\n\n                    <div class=\"col-md-2\">\n                        <button mat-raised-button class=\"primary-button\" (click)=\"this.setPaymentDto('Cash', 20)\" [disabled]=\"this.disablePaymentButtonsWithAmount\">$20</button>\n                    </div>\n\n                    <div class=\"col-md-2\">\n                        <button mat-raised-button class=\"primary-button\" (click)=\"this.setPaymentDto('Cash', 50)\" [disabled]=\"this.disablePaymentButtonsWithAmount\">$50</button>\n                    </div>\n\n                    <div class=\"col-md-2\">\n                        <button mat-raised-button class=\"primary-button\" (click)=\"this.setPaymentDto('Cash', 100)\" [disabled]=\"this.disablePaymentButtonsWithAmount\">$100</button>\n                    </div>\n                </div>\n                <div class=\"row\" style=\"margin-top: 30px\">\n\n                    <div class=\"col-md-3\">\n                        <button (click)=\"this.setPaymentDto('OnAccount', this.payAmountTextBox)\" mat-raised-button class=\"secondary-button\" [disabled]=\"this.disableOnAccountButtons\">On Account</button>\n                    </div>\n\n                    <div class=\"col-md-3\">\n                        <button mat-raised-button class=\"secondary-button\" [disabled]=\"this.disableStoreCreditButtons\" (click)=\"this.setPaymentDto('StoreCredit', this.selectedCustomer.storeCredit)\">Store Credit</button>\n                    </div>\n\n                    <div class=\"col-md-3\">\n                        <button mat-raised-button class=\"secondary-button\" [disabled]=\"false\">Loyalty($ 2.70)</button>\n                    </div>\n\n                    <div class=\"col-md-3\">\n                        <button mat-raised-button class=\"secondary-button\" [disabled]=\"true\">Layby</button>\n                    </div>\n                </div>\n\n                <div class=\"row\" style=\"margin-top: 30px\">\n                    <div class=\"col-md-12\">\n                        <input [(ngModel)]=\"this.transactionNotes\" class=\"form-control form-control-lg\" type=\"text\" placeholder=\"Add Sales Notes\">\n                    </div>\n                </div>\n\n                <div class=\"row\" style=\"margin-top: 30px\">\n                    <div class=\"col-md-3\">\n\n                    </div>\n\n                    <div class=\"col-md-6\">\n                        <button mat-raised-button [ngClass]=\"{'primary-button': this.saleType == 'Complete', 'danger-button': this.saleType == 'Return' }\" (click)=\"this.completeSale()\" [disabled]=\"this.disableCompleteSaleButton\">Complete Sale</button>\n                    </div>\n\n                    <div class=\"col-md-3\">\n\n                    </div>\n                </div>\n\n                <div class=\"row\" style=\"margin-top: 30px\" *ngIf=\"null != this.printTransactionDto\">\n                    <div class=\"col-md-3\">\n\n                    </div>\n\n                    <div class=\"col-md-6\">\n                        <button mat-raised-button [ngClass]=\"{'primary-button': this.saleType == 'Complete', 'danger-button': this.saleType == 'Return' }\" (click)=\"this.printReciept()\" data-dismiss=\"modal\" data-toggle=\"modal\">Print Reciept</button>\n                    </div>\n\n                    <div class=\"col-md-3\">\n\n                    </div>\n                </div>\n\n            </div>\n            <div class=\"modal-footer\">\n                <button type=\"button\" class=\"btn btn-default\" data-dismiss=\"modal\" (click)=\"this.clearAllDateAfterTransactionComplete()\">Close</button>\n            </div>\n\n        </div>\n\n\n    </div>\n\n</div>\n<!-- End of Payment Pop up -->"
+module.exports = "<div class=\"row\">\n    <div class=\"col-lg-9\">\n        <mat-card>\n            <div class=\"row\">\n                <div class=\"align-self-center col-lg-7\" style=\"max-height: 500px !important;\">\n\n                    <p-autoComplete id=\"productsearch\" [(ngModel)]=\"p\" class=\"full-width m-1\" [suggestions]=\"product\" placeholder=\"Please Enter Service Name\" (onFocus)=\"print($event)\" (onBlur)=\"print($event)\" (completeMethod)=\"filterProducts($event)\" name=\"test\" [minLength]=\"3\"\n                        (keyup.enter)=\"submitProduct(p)\" field=\"description\">\n                        <ng-template>\n                            <span style=\"max-width:500px !important\">\n                                </span>\n                        </ng-template>\n                    </p-autoComplete>\n                    <!-- <button (click)=\"this.testFocus()\">Click me</button> -->\n\n                </div>\n                <div class=\"col-lg-0\"></div>\n                <div class=\"col-lg-5 d-flex justify-content-end\">\n                    <!-- Buttons go here  -->\n                    <button (click)=\"this.parkSale()\" class=\"bg-primary text-white action-button m-1\" mat-raised-button [disabled]=\"this.paymentButtonOnSale\">\n                        <span>\n                            <i class=\"fa fa-history\">\n                                Park Sale\n                            </i>\n                        </span>\n                    </button>\n                    <button class=\"bg-danger text-white action-button m-1\" mat-raised-button data-toggle=\"modal\" data-target=\"#deleteProduct\" (click)=\"this.setHeaderAndMessageForDisgardPopup()\" [disabled]=\"this.paymentButtonOnSale\">\n                        <span>\n                            <i class=\"fa fa-trash\">\n                                Discard Sale\n                            </i>\n                        </span>\n                    </button>\n                    <button class=\"bg-primary text-white  action-button m-1\" mat-raised-button (click)=\"this.openCashDrawer()\">\n                        <span>\n                            <i class=\"fa fa-th\">\n                                No Sale\n                            </i>\n                        </span>\n                    </button>\n                    <!-- <button class=\"bg-primary text-white  action-button m-1\" mat-raised-button (click)=\"this.openSellCustomerView()\">\n                        <span>\n                            <i class=\"fa fa-user\">\n                                Customer View\n                            </i>\n                        </span>\n                    </button> -->\n                </div>\n            </div>\n            <!-- <div class=\"row m-2\">\n                <app-receipt [data]=\"this.recieptData\"></app-receipt>\n            </div> -->\n        </mat-card>\n        <!-- <br/> -->\n        <mat-card>\n            <!-- <mat-card-title></mat-card-title> -->\n            <mat-card-content>\n                <div class=\"row p-md-3\">\n                    <!-- Product Table -->\n                    <p-dataTable [value]=\"this.transactionLineItemDaoList\" scrollable=\"true\" [responsive]=\"true\" scrollHeight=\"300px\" [editable]=\"true\" (onEditComplete)=\"updateLineItemDetails($event)\">\n                        <p-header>Product Sale Table</p-header>\n\n                        <p-column field=\"productNo\" header=\"ProductNo\" [style]=\"{'width':'15%','text-align':'center', 'overflow':'visible'}\"></p-column>\n                        <p-column field=\"description\" header=\"Description\" [style]=\"{'width':'45%','text-align':'center', 'overflow':'visible'}\"></p-column>\n                        <p-column field=\"defaultQuantity\" header=\"Quantity\" [editable]=\"true\">\n                            <ng-template let-product=\"rowData\" pTemplate=\"body\">\n                                <div id=\"lineitem{{product.productNo}}\" [ngClass]=\"{'quantity-updated': product.quantityUpdated }\">\n                                    {{product.defaultQuantity}}\n                                </div>\n                            </ng-template>\n                        </p-column>\n                        <p-column field=\"actualRetail\" header=\"Retail\"></p-column>\n                        <p-column field=\"retail\" header=\"RetWtDis\" [editable]=\"true\"></p-column>\n                        <!-- <p-column field=\"quantity\" header=\"Stock\"></p-column> -->\n                        <p-column field=\"totalProductPrice\" header=\"Total\"></p-column>\n                        <p-column header=\"\" styleClass=\"col-button\" [style]=\"{'width':'5%','text-align':'center', 'overflow':'visible'}\">\n\n                            <ng-template let-product=\"rowData\" pTemplate=\"body\">\n                                <button mat-button class=\"btn-red action-button-table\" mat-button (click)=\"this.setProductForDelete(product)\" data-toggle=\"modal\" data-target=\"#deleteProduct\">\n                                    <i class=\"fa fa-trash\" aria-hidden=\"true\"></i>\n                                </button>\n                            </ng-template>\n                        </p-column>\n\n\n                    </p-dataTable>\n                </div>\n            </mat-card-content>\n        </mat-card>\n\n    </div>\n    <div class=\"col-lg-3\">\n        <mat-card>\n            <mat-card-content>\n                <div class=\"row\">\n                    <div class=\"input-group\">\n                        <span class=\"input-group-addon\" id=\"basic-addon1\">\n                            <i class=\"fa fa-user-plus\" aria-hidden=\"true\"></i>\n                        </span>\n                        <p-autoComplete id=\"customerSearch\" [(ngModel)]=\"this.selectedCustomer\" [field]=\"'name'\" [suggestions]=\"filteredCustomer\" (completeMethod)=\"this.filterCustomers($event)\" class=\"full-width\" [minLength]=\"1\" (keyup.enter)=\"this.submitCustomer()\" (onClear)=\"this.removeCustomerOnSale()\">\n                            <ng-template let-c pTemplate=\"item\">\n                                <div class=\"ui-helper-clearfix\" style=\"border-bottom:1px solid #D5D5D5\">\n                                    <div style=\"width:32px;display:inline-block;margin:5px 0 2px 5px\">{{c.name}}</div>\n                                    <div style=\"font-size:18px;float:right;margin:10px 10px 0 0\">{{c.phoneNo}}</div>\n                                </div>\n                            </ng-template>\n\n                        </p-autoComplete>\n\n                    </div>\n                </div>\n                <br/>\n                <div *ngIf=\"this.selectedCustomer\">\n                    <table class=\"table table-bordered customer\">\n\n                        <tbody>\n                            <tr>\n                                <td>\n                                    <dl class=\"row\">\n                                        <dt class=\"\">Name:</dt>\n                                        <dd class=\"\">{{this.selectedCustomer.name}}</dd>\n                                    </dl>\n                                </td>\n                                <td>\n                                    <dl class=\"row\">\n                                        <dt class=\"\">Phone:</dt>\n                                        <dd class=\"\">{{this.selectedCustomer.phoneNo}}</dd>\n                                    </dl>\n                                </td>\n                            </tr>\n                            <tr>\n                                <td>\n                                    <dl class=\"row\">\n                                        <dt class=\"\">Balance:</dt>\n                                        <dd class=\"\">{{this.selectedCustomer.balance | currency:'USD':'true'}}</dd>\n                                    </dl>\n                                </td>\n                                <td>\n                                    <dl class=\"row\">\n                                        <dt class=\"\">Credit:</dt>\n                                        <dd class=\"\">{{this.selectedCustomer.storeCredit | currency:'USD':'true'}}</dd>\n                                    </dl>\n                                </td>\n                            </tr>\n                            <tr>\n                                <td>\n                                    <dl class=\"row\">\n                                        <dt class=\"\">Spending:</dt>\n                                        <dd class=\"\"></dd>\n                                    </dl>\n                                </td>\n                                <td>\n                                    <dl class=\"row\">\n                                        <dt class=\"\">Loyalty:</dt>\n                                        <dd class=\"\">{{this.selectedCustomer.loyalty | currency:'USD':'true'}}</dd>\n                                    </dl>\n\n                                </td>\n                            </tr>\n                        </tbody>\n                    </table>\n                </div>\n\n                <div class=\"sales-total p-md-4\">\n\n                    <dl class=\"row\">\n                        <dt class=\"\">Sub-total</dt>\n                        <dd class=\"\">{{this.transactionDtoList.subtotal | currency:'USD':'true'}}</dd>\n                    </dl>\n                    <dl class=\"row\">\n                        <dt class=\"\">\n                            <a #discount id=\"discount-popover\" href=\"javascript:void(0)\" (click)=\"this.showPopover(discount)\">\n                                Discount\n                            </a>\n                        </dt>\n                        <dd class=\"\">{{this.transactionDtoList.totalDiscount | currency:'USD':'true'}}</dd>\n                    </dl>\n                    <dl class=\"row\">\n                        <dt *ngIf=\"this.taxPercent != 0\">\n                        <a  href=\"javascript:void(0)\" (click)=\"this.taxPercent = 0\">\n                                Tax ({{this.taxPercent}}%)\n                        </a>\n                        </dt>\n\n                        <dt *ngIf=\"this.taxPercent == 0\">\n\n                            <a  href=\"javascript:void(0)\" (click)=\"this.taxPercent = 7\">\n                                    No Tax\n                                    <!-- ({{this.taxPercent}}%) -->\n                            </a>\n                        </dt>\n                        <dd class=\"\">{{this.transactionDtoList.tax | currency:'USD':'true'}}</dd>\n                    </dl>\n                    <dl class=\"row\">\n                        <dt class=\"\">Quantity</dt>\n                        <dd class=\"\">{{this.transactionDtoList.quantity}}</dd>\n                    </dl>\n                    <dl class=\"row\" *ngIf=\"this.selectedCustomer != null && this.selectedCustomer.balance > 0\">\n                        <dt class=\"\">Pre Balance</dt>\n                        <dd class=\"\">{{this.selectedCustomer.balance | currency:'USD':'true'}}</dd>\n                    </dl>\n                    <dl class=\"row\">\n                        <dt class=\"\">Total</dt>\n                        <dd class=\"\">{{this.transactionDtoList.totalAmount | currency:'USD':'true'}}</dd>\n                    </dl>\n                </div>\n                <button *ngIf=\"this.saleType == 'Complete' \" mat-raised-button [disabled]=\"this.paymentButtonOnSale\" type=\"button\" (click)=\"this.setDataForPaymentModel()\" data-toggle=\"modal\" data-target=\"#paymentModel\" style=\"width: 100%; font-size: 20px\" class=\"btn btn-green btn-lg text-white m-md-1 p-md-2\">\n                    <div class=\"row p-md-1 font-weight-bold\">\n                        <div class=\"col-md-6 text-left\">Payment</div>\n                        <div class=\"col-md-6 text-right\">{{this.transactionDtoList.totalAmount | currency:'USD':'true'}}</div>\n                    </div>\n                </button>\n\n                <button *ngIf=\"this.saleType == 'Return' \" mat-raised-button [disabled]=\"this.paymentButtonOnSale\" type=\"button\" (click)=\"this.setDataForPaymentModelForReturnSale()\" data-toggle=\"modal\" data-target=\"#paymentModel\" style=\"width: 100%; font-size: 20px\"\n                    class=\"btn btn-red btn-lg text-white m-md-1 p-md-2\">\n                    <div class=\"row p-md-1 font-weight-bold\">\n                        <div class=\"col-md-6 text-left\">Return</div>\n                        <div class=\"col-md-6 text-right\">{{this.transactionDtoList.totalAmount | currency:'USD':'true'}}</div>\n                    </div>\n                </button>\n\n            </mat-card-content>\n        </mat-card>\n\n\n    </div>\n</div>\n\n<!-- Popover -->\n<div #popover *ngIf=\"this.popoverStyle\" class=\"popover fade bs-popover-left show\" role=\"tooltip\" [style]=\"this.popoverStyle\">\n    <div class=\"arrow\" style=\"top: 82px;\"></div>\n    <h3 class=\"popover-header\">\n        Apply Discount For Sale\n    </h3>\n    <div class=\"popover-body\">\n        <!-- <button mat-raised-button class=\"action-button\" (click)=\"this.setDiscountType('By Percentage')\"> % </button>\n        <button mat-raised-button class=\"action-button\" (click)=\"this.setDiscountType('By Amount')\"> $ </button> -->\n        <div class=\"row\">\n            <div class=\"col-md-5\">\n                <mat-input-container>\n                    <input matInput [(ngModel)]=\"this.discountValue\" type=\"text\" placeholder=\"Add Discount\">\n                </mat-input-container>\n            </div>\n            <div class=\"col-md-7\">\n                <mat-radio-group class=\"m-t-5\" [(ngModel)]=\"this.discountType\">\n                    <mat-radio-button class=\"p-md-2 m-r-20\" value=\"By Amount\"> $</mat-radio-button>\n                    <mat-radio-button class=\"p-md-2 m-r-20\" value=\"By Percentage\"> %</mat-radio-button>\n                </mat-radio-group>\n            </div>\n        </div>\n    </div>\n    <div class=\"d-flex justify-content-center  p-md-3\">\n        <button mat-button class=\"btn-red action-button-table\" (click)=\"this.calculateDiscount(this.discountValue)\">\n                        Apply\n            </button>\n\n\n    </div>\n</div>\n<!-- End of Discount pophover -->\n\n\n\n<!-- Start of Product and Sale discard Pop up -->\n\n<div class=\"modal fade\" id=\"deleteProduct\" role=\"dialog\">\n    <div class=\"modal-dialog modal-sm\">\n        <div class=\"modal-content\">\n            <div class=\"modal-header\">\n                <h4 class=\"modal-title\">{{this.popupHeader}}</h4>\n                <button type=\"button\" class=\"close\" data-dismiss=\"modal\">&times;</button>\n\n            </div>\n            <div class=\"modal-body\">\n                <p>{{this.popupMessage}}</p>\n            </div>\n            <div class=\"modal-footer\">\n\n                <!-- This logic to reuse the model code cause i need popup for delete single product and also delete complete sale -->\n                <button *ngIf=\"this.popupHeader == 'Delete Product' \" type=\"button\" class=\"btn btn-danger\" data-dismiss=\"modal\" (click)=\"this.deleteProduct()\">Yes</button>\n                <button *ngIf=\"this.popupHeader == 'Discard Sale' \" type=\"button\" class=\"btn btn-danger\" data-dismiss=\"modal\" (click)=\"this.disgardCompleteSale()\">Yes</button>\n                <!-- TODO Add one more button for add product if it does not exists -->\n                <button type=\"button\" class=\"btn btn-default\" data-dismiss=\"modal\">Cancle</button>\n            </div>\n        </div>\n    </div>\n</div>\n\n<!-- End of Product and Sale discard Pop up -->\n\n\n<!-- Start Of payment model -->\n<div class=\"modal fade\" id=\"paymentModel\" role=\"dialog\">\n    <div class=\"modal-dialog modal-lg\">\n\n        <!-- Modal content-->\n        <div class=\"modal-content\">\n            <div class=\"modal-header\">\n                <h3 class=\"modal-title\">Manage Payment</h3>\n                <button type=\"button\" class=\"close\" data-dismiss=\"modal\">&times;</button>\n\n            </div>\n            <div class=\"modal-body\">\n\n                <div class=\"row\">\n\n                    <div class=\"col-md-3\">\n                        <h3>{{this.payLable}}</h3>\n                    </div>\n\n                    <div class=\"col-md-2\">\n                        <input [(ngModel)]=\"this.payAmountTextBox\" class=\"form-control\" type=\"number\" [style.color]=\"this.dueAmountForTransaction <=0 ? 'green' : 'red' \">\n                    </div>\n\n\n                    <div class=\"col-md-4\">\n                        <h3>{{this.amountDueLable}}</h3>\n                    </div>\n\n                    <div class=\"col-md-3\">\n                        <h3 [style.color]=\"this.dueAmountForTransaction <=0 ? 'green' : 'red' \">$ {{this.dueAmountForTransaction | number:'1.2-2'}}</h3>\n                    </div>\n\n                </div>\n\n                <div *ngIf=\"this.paymentObjectForPaymentSellTable.length > 0\" class=\"row\">\n                    <table class=\"table\">\n                        <thead>\n                            <tr>\n                                <th>Payment Type</th>\n                                <th>Amount</th>\n                                <th>Action</th>\n                            </tr>\n                        </thead>\n                        <tbody>\n                            <tr *ngFor=\"let payment of this.paymentObjectForPaymentSellTable\">\n                                <td>{{payment.paymentType}}</td>\n                                <td>$ {{payment.paymentAmount}}</td>\n                                <td (click)=\"this.deletePaymentFromPaymentModel(payment)\">\n                                    <i class=\"fa fa-trash\"></i>\n                                </td>\n                            </tr>\n                        </tbody>\n                    </table>\n                </div>\n\n\n                <div class=\"row\" style=\"margin-top: 30px\">\n                    <div class=\"col-lg-3\">\n                        <button mat-raised-button class=\"primary-button\" (click)=\"this.setPaymentDto('Cash',this.payAmountTextBox)\" [disabled]=\"this.disablePaymentButtons\">Cash</button>\n                    </div>\n\n                    <div class=\"col-lg-3\">\n                        <button mat-raised-button class=\"primary-button\" (click)=\"this.setPaymentDto('Credit',this.payAmountTextBox)\" [disabled]=\"this.disablePaymentButtons\">Credit</button>\n                    </div>\n\n                    <div class=\"col-lg-3\">\n                        <button mat-raised-button class=\"primary-button\" (click)=\"this.setPaymentDto('Debit',this.payAmountTextBox)\" [disabled]=\"this.disablePaymentButtons\">Debit</button>\n                    </div>\n\n                    <div class=\"col-lg-3\">\n                        <button mat-raised-button class=\"primary-button\" (click)=\"this.setPaymentDto('Check',this.payAmountTextBox)\" [disabled]=\"this.disablePaymentButtons\">Check</button>\n                    </div>\n                </div>\n                <div class=\"row\" style=\"margin-top: 30px\">\n\n                    <div class=\"col-md-2\">\n                        <button mat-raised-button class=\"primary-button\" (click)=\"this.setPaymentDto('Cash', 1)\" [disabled]=\"this.disablePaymentButtonsWithAmount\">$1</button>\n                    </div>\n\n                    <div class=\"col-md-2\">\n                        <button mat-raised-button class=\"primary-button\" (click)=\"this.setPaymentDto('Cash', 5)\" [disabled]=\"this.disablePaymentButtonsWithAmount\">$5</button>\n                    </div>\n\n                    <div class=\"col-md-2\">\n                        <button mat-raised-button class=\"primary-button\" (click)=\"this.setPaymentDto('Cash', 10)\" [disabled]=\"this.disablePaymentButtonsWithAmount\">$10</button>\n                    </div>\n\n                    <div class=\"col-md-2\">\n                        <button mat-raised-button class=\"primary-button\" (click)=\"this.setPaymentDto('Cash', 20)\" [disabled]=\"this.disablePaymentButtonsWithAmount\">$20</button>\n                    </div>\n\n                    <div class=\"col-md-2\">\n                        <button mat-raised-button class=\"primary-button\" (click)=\"this.setPaymentDto('Cash', 50)\" [disabled]=\"this.disablePaymentButtonsWithAmount\">$50</button>\n                    </div>\n\n                    <div class=\"col-md-2\">\n                        <button mat-raised-button class=\"primary-button\" (click)=\"this.setPaymentDto('Cash', 100)\" [disabled]=\"this.disablePaymentButtonsWithAmount\">$100</button>\n                    </div>\n                </div>\n                <div class=\"row\" style=\"margin-top: 30px\">\n\n                    <div class=\"col-md-3\">\n                        <button (click)=\"this.setPaymentDto('OnAccount', this.payAmountTextBox)\" mat-raised-button class=\"secondary-button\" [disabled]=\"this.disableOnAccountButtons\">On Account</button>\n                    </div>\n\n                    <div class=\"col-md-3\">\n                        <button mat-raised-button class=\"secondary-button\" [disabled]=\"this.disableStoreCreditButtons\" (click)=\"this.setPaymentDto('StoreCredit', this.selectedCustomer.storeCredit)\">Store Credit</button>\n                    </div>\n\n                    <div class=\"col-md-3\">\n                        <button mat-raised-button class=\"secondary-button\" [disabled]=\"this.disableLoyaltyButton\" (click)=\"this.setPaymentDto('Loyalty', this.selectedCustomer.loyalty)\">Loyalty</button>\n                    </div>\n\n                    <div class=\"col-md-3\">\n                        <button mat-raised-button class=\"secondary-button\" [disabled]=\"true\">Layby</button>\n                    </div>\n                </div>\n\n\n                <div class=\"row\" style=\"margin-top: 30px\">\n                    <h5 style=\"margin-left: 15px;\">Tip Amount:</h5>\n                    <div class=\"col-md-12\">\n                        <input [(ngModel)]=\"this.tipAmount\" class=\"form-control form-control-lg\" type=\"number\" placeholder=\"Please Enter Tip Amount\">\n                    </div>\n                </div>\n\n                <div class=\"row\" style=\"margin-top: 30px\">\n                    <div class=\"col-md-12\">\n                        <input [(ngModel)]=\"this.transactionNotes\" class=\"form-control form-control-lg\" type=\"text\" placeholder=\"Add Sales Notes\">\n                    </div>\n                </div>\n\n                <div class=\"row\" style=\"margin-top: 30px\">\n                    <div class=\"col-md-3\">\n\n                    </div>\n\n                    <div class=\"col-md-6\">\n                        <button mat-raised-button [ngClass]=\"{'primary-button': this.saleType == 'Complete', 'danger-button': this.saleType == 'Return' }\" (click)=\"this.completeSale()\" [disabled]=\"this.disableCompleteSaleButton\">Complete Sale</button>\n                    </div>\n\n                    <div class=\"col-md-3\">\n\n                    </div>\n                </div>\n\n                <div class=\"row\" style=\"margin-top: 30px\" *ngIf=\"null != this.printTransactionDto\">\n                    <div class=\"col-md-3\">\n\n                    </div>\n\n                    <div class=\"col-md-6\">\n                        <button mat-raised-button [ngClass]=\"{'primary-button': this.saleType == 'Complete', 'danger-button': this.saleType == 'Return' }\" (click)=\"this.printReciept()\" data-dismiss=\"modal\" data-toggle=\"modal\">Print Reciept</button>\n                    </div>\n\n                    <div class=\"col-md-3\">\n\n                    </div>\n                </div>\n\n            </div>\n            <div class=\"modal-footer\">\n                <button type=\"button\" class=\"btn btn-default\" data-dismiss=\"modal\" (click)=\"this.clearAllDateAfterTransactionComplete()\">Close</button>\n            </div>\n\n        </div>\n\n\n    </div>\n\n</div>\n<!-- End of Payment Pop up -->"
 
 /***/ }),
 
@@ -6953,10 +6707,10 @@ module.exports = module.exports.toString();
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return SaleComponent; });
-/* unused harmony export Product */
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return SaleComponent; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return Product; });
 /* unused harmony export TransactionLineItemDaoList */
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return TransactionDtoList; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "d", function() { return TransactionDtoList; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return PaymentDto; });
 /* unused harmony export PaymentObjectForPaymentSellTable */
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/esm5/core.js");
@@ -7028,6 +6782,7 @@ var SaleComponent = /** @class */ (function () {
         this.transactionNotes = '';
         this.disableOnAccountButtons = true;
         this.disableStoreCreditButtons = true;
+        this.disableLoyaltyButton = true;
         this.saleType = 'Complete';
         this.taxPercent = 0.00;
         this.printTransactionDto = null;
@@ -7065,12 +6820,7 @@ var SaleComponent = /** @class */ (function () {
         this.storeSetupService.getStoreDetails().
             then(function (data) {
             _this.storeDetails = data;
-            if (_this.selectedCustomer != null && _this.selectedCustomer.type == 'Business') {
-                _this.taxPercent = 0.00;
-            }
-            else {
-                _this.taxPercent = _this.storeDetails.tax;
-            }
+            _this.taxPercent = _this.storeDetails.tax;
             console.log('Store Details', _this.storeDetails);
         });
     };
@@ -7107,76 +6857,33 @@ var SaleComponent = /** @class */ (function () {
             _this.customerDto = customer;
         });
     };
+    SaleComponent.prototype.openCashDrawer = function () {
+        this.sellService.opneCashDrawer();
+    };
     SaleComponent.prototype.addTransactionLineItem = function (productObj) {
-        var _this = this;
         // This is fisrt time when user is adding product to sell.
-        if (this.transactionLineItemDaoList.length == 0) {
-            productObj.totalProductPrice = parseFloat(productObj.retail.toFixed(2));
+        // if (this.transactionLineItemDaoList.length == 0) {
+        productObj.totalProductPrice = parseFloat(productObj.retail.toFixed(2));
+        if (productObj.tax) {
             productObj.taxAmountOnProduct = (productObj.retail * this.taxPercent) / 100;
-            console.log("when add product", productObj);
-            this.transactionLineItemDaoList.push(productObj);
-            this.product = null;
-            this.p = null;
-            this.transactionLineItemDaoList[this.transactionLineItemDaoList.length - 1].actualRetail = productObj.retail;
-            this.transactionLineItemDaoList = this.transactionLineItemDaoList.slice();
-            this.setTransactionDtoList(this.transactionLineItemDaoList);
-            // This will save the data into local storage.
-            this.persit.setProducts(this.transactionLineItemDaoList);
         }
-        else {
-            var _loop_1 = function (lineItem) {
-                if (productObj.productNo === lineItem.productNo) {
-                    // This flag helps to determin whether to add new product or just update the quantity
-                    this_1.isProductExistsInSellList = true;
-                    lineItem.defaultQuantity = +lineItem.defaultQuantity + 1;
-                    lineItem.quantityUpdated = true;
-                    // here  i need to get value of lineitem.retail becuase user might have change the retial price so, if i dont do lineitem.retail it will take old retail price.
-                    lineItem.totalProductPrice = parseFloat((lineItem.retail * lineItem.defaultQuantity).toFixed(2));
-                    lineItem.taxAmountOnProduct = (lineItem.retail * this_1.taxPercent) / 100;
-                    console.log("when add product", productObj);
-                    this_1.transactionLineItemDaoList = this_1.transactionLineItemDaoList.slice();
-                    this_1.product = null;
-                    this_1.p = null;
-                    console.log(this_1.transactionLineItemDaoList);
-                    this_1.transactionLineItemDaoList[this_1.transactionLineItemDaoList.length - 1].actualRetail = productObj.retail;
-                    this_1.setTransactionDtoList(this_1.transactionLineItemDaoList);
-                    this_1.persit.setProducts(this_1.transactionLineItemDaoList);
-                    setTimeout(function () {
-                        lineItem.quantityUpdated = false;
-                        _this.persit.setProducts(_this.transactionLineItemDaoList);
-                        _this.transactionLineItemDaoList = _this.transactionLineItemDaoList.slice();
-                    }, 3000);
-                    return "break";
-                }
-                else {
-                    // This flag helps to determin whether to add new product or just update the quantity
-                    this_1.isProductExistsInSellList = false;
-                }
-            };
-            var this_1 = this;
-            // Checking weather user is adding same product agian or not if its true
-            //  then just update the quantity of that product by 1.
-            for (var _i = 0, _a = this.transactionLineItemDaoList; _i < _a.length; _i++) {
-                var lineItem = _a[_i];
-                var state_1 = _loop_1(lineItem);
-                if (state_1 === "break")
-                    break;
-            }
-            // This flag helps to determin whether to add new product or just update the quantity
-            if (!this.isProductExistsInSellList) {
-                this.transactionLineItemDaoList = this.transactionLineItemDaoList.slice();
-                productObj.totalProductPrice = productObj.retail * productObj.defaultQuantity;
-                productObj.taxAmountOnProduct = parseFloat(((productObj.retail * this.taxPercent) / 100).toFixed(2));
-                console.log("when add product", productObj);
-                this.transactionLineItemDaoList.push(productObj);
-                this.product = null;
-                this.p = null;
-                console.log(this.transactionLineItemDaoList);
-                this.transactionLineItemDaoList[this.transactionLineItemDaoList.length - 1].actualRetail = productObj.retail;
-                this.setTransactionDtoList(this.transactionLineItemDaoList);
-                this.persit.setProducts(this.transactionLineItemDaoList);
+        if (null != this.selectedCustomer) {
+            console.log('sel cut', this.selectedCustomer);
+            if (this.selectedCustomer.noOfEyebrow == productObj.noOfSaleForFreeService) {
+                productObj.retail = 0.00;
+                productObj.totalProductPrice = 0.00;
+                productObj.taxAmountOnProduct = 0.00;
             }
         }
+        console.log("when add product", productObj);
+        this.transactionLineItemDaoList.push(productObj);
+        this.product = null;
+        this.p = null;
+        this.transactionLineItemDaoList[this.transactionLineItemDaoList.length - 1].actualRetail = productObj.retail;
+        this.transactionLineItemDaoList = this.transactionLineItemDaoList.slice();
+        this.setTransactionDtoList(this.transactionLineItemDaoList);
+        // This will save the data into local storage.
+        this.persit.setProducts(this.transactionLineItemDaoList);
         $("lineitem" + productObj.productNo).ready(function () {
             // $(`lineitem${productObj.productNo}`).sc
             document.getElementById("lineitem" + productObj.productNo).scrollIntoView();
@@ -7285,7 +6992,9 @@ var SaleComponent = /** @class */ (function () {
             totalQuantity = +lineItem[i].defaultQuantity + totalQuantity;
             totalPrice = +lineItem[i].totalProductPrice + totalPrice;
             // Here totalProductPriceWithTax mean, only amount of the tax on that product dont get confuse with naming
-            tax = +(lineItem[i].totalProductPrice * this.taxPercent) / 100 + tax;
+            if (lineItem[i].tax) {
+                tax = +(lineItem[i].totalProductPrice * this.taxPercent) / 100 + tax;
+            }
         }
         this.transactionDtoList.quantity = parseFloat(totalQuantity.toFixed(2));
         this.transactionDtoList.subtotal = parseFloat(totalPrice.toFixed(2));
@@ -7294,7 +7003,7 @@ var SaleComponent = /** @class */ (function () {
         // This will add line item discount as well as total discount to show final discount amount on invoice.
         this.transactionDtoList.totalDiscount = +this.transactionDtoList.totalDiscount + totalLineItemDiscount;
         // This logic helps to manage main payment button enable or diable.
-        if (this.transactionDtoList.totalAmount == 0) {
+        if (this.transactionDtoList.totalAmount < 0) {
             this.paymentButtonOnSale = true;
         }
         else {
@@ -7394,6 +7103,7 @@ var SaleComponent = /** @class */ (function () {
         this.popupMessage = 'Are You Sure You Want To Delete Complete Sale?';
     };
     SaleComponent.prototype.setPaymentDto = function (paymentType, paymentAmount) {
+        // TODO NEED to remove this return logic from here cause i have, its own component now.
         if (this.saleType == 'Return') {
             this.setPaymentDtoForRetun(paymentType, this.payAmountTextBox);
         }
@@ -7464,6 +7174,35 @@ var SaleComponent = /** @class */ (function () {
                 this.paymentObjectForPaymentSellTable.push({ 'paymentType': 'Check', 'paymentAmount': paymentAmount });
                 this.validatePaymentButtons(paymentAmount);
             }
+            else if (paymentType == 'Loyalty') {
+                // First need to check store credit already there added in payment dao or not, 
+                if (null != this.paymentDto && this.paymentDto.loyalty > 0) {
+                    if (paymentAmount > this.dueAmountForTransaction) {
+                        // so By doing this i am just reducing the store credit which is used for this transaction and i can update rest on customer account.
+                        this.paymentDto.loyalty = +this.paymentDto.loyalty + this.dueAmountForTransaction;
+                        this.paymentObjectForPaymentSellTable.push({ 'paymentType': 'Loyalty', 'paymentAmount': this.paymentDto.loyalty });
+                        this.validatePaymentButtons(this.paymentDto.loyalty);
+                    }
+                    else {
+                        this.paymentDto.loyalty = paymentAmount;
+                        this.paymentObjectForPaymentSellTable.push({ 'paymentType': 'Loyalty', 'paymentAmount': this.paymentDto.loyalty });
+                        this.validatePaymentButtons(this.paymentDto.storeCredit);
+                    }
+                }
+                else {
+                    if (paymentAmount > this.dueAmountForTransaction) {
+                        // so By doing this i am just reducing the store credit which is used for this transaction and i can update rest on customer account.
+                        this.paymentDto.loyalty = this.dueAmountForTransaction;
+                        this.paymentObjectForPaymentSellTable.push({ 'paymentType': 'Loyalty', 'paymentAmount': this.paymentDto.loyalty });
+                        this.validatePaymentButtons(this.paymentDto.loyalty);
+                    }
+                    else {
+                        this.paymentDto.loyalty = paymentAmount;
+                        this.paymentObjectForPaymentSellTable.push({ 'paymentType': 'Loyalty', 'paymentAmount': this.paymentDto.loyalty });
+                        this.validatePaymentButtons(this.paymentDto.loyalty);
+                    }
+                }
+            }
             else if (paymentType == 'StoreCredit') {
                 // First need to check store credit already there added in payment dao or not, 
                 if (null != this.paymentDto && this.paymentDto.storeCredit > 0) {
@@ -7500,19 +7239,12 @@ var SaleComponent = /** @class */ (function () {
             else if (paymentType == 'OnAccount') {
                 this.paymentDto.onAccount = paymentAmount;
                 this.paymentObjectForPaymentSellTable.push({ 'paymentType': 'OnAccount', 'paymentAmount': paymentAmount });
-                // In this flow customer is not paying anythig or paying some amount and other amoun he is just putting on his account and will pay later
-                // So here i need to complete the transaction, thats why calling this method.
-                //this.completeSale();
-                //this.validatePaymentButtons(paymentAmount);
+                this.validatePaymentButtons(paymentAmount);
                 this.disablePaymentButtons = true;
                 this.disablePaymentButtonsWithAmount = true;
                 // This mean customer has provide sufficient balance.
                 this.disableCompleteSaleButton = false;
             }
-            else if (paymentType == 'Loyalty') {
-                this.paymentDto.loyalty = paymentAmount;
-            }
-            console.log('payment type and amount', paymentAmount);
         }
     };
     SaleComponent.prototype.setPaymentDtoForRetun = function (paymentType, paymentAmount) {
@@ -7545,6 +7277,13 @@ var SaleComponent = /** @class */ (function () {
             this.disableStoreCreditButtons = true;
             this.validatePaymentForReturn();
         }
+        else if (paymentType == 'Loyalty') {
+            // Converting negative amount to positive so i can add this amount in backend.
+            this.paymentDto.storeCredit = Math.abs(paymentAmount);
+            this.paymentObjectForPaymentSellTable.push({ 'paymentType': 'Loyalty', 'paymentAmount': paymentAmount });
+            this.disableStoreCreditButtons = true;
+            this.validatePaymentForReturn();
+        }
     };
     SaleComponent.prototype.validatePaymentForReturn = function () {
         this.disablePaymentButtons = true;
@@ -7557,6 +7296,9 @@ var SaleComponent = /** @class */ (function () {
             this.dueAmountForTransaction = this.dueAmountForTransaction - paymentAmount;
             this.disablePaymentButtons = true;
             this.disablePaymentButtonsWithAmount = true;
+            this.disableLoyaltyButton = true;
+            this.disableOnAccountButtons = true;
+            this.disableStoreCreditButtons = true;
             this.payLable = 'Paid Amount:';
             this.amountDueLable = 'Change Amount:';
             // This mean customer has provide sufficient balance.
@@ -7582,6 +7324,10 @@ var SaleComponent = /** @class */ (function () {
         this.disablePaymentButtonsWithAmount = false;
         this.disableCompleteSaleButton = true;
         this.disableOnAccountButtons = this.selectedCustomer == null;
+        // This means customer has some loyalty points to redem.
+        if (this.selectedCustomer && this.selectedCustomer.loyalty > 0) {
+            this.disableLoyaltyButton = false;
+        }
         // This mean this customer has some store credit to use so i need to enable store credit button.
         if (this.selectedCustomer && this.selectedCustomer.storeCredit > 0) {
             this.disableStoreCreditButtons = false;
@@ -7599,6 +7345,9 @@ var SaleComponent = /** @class */ (function () {
         this.disableOnAccountButtons = true;
         if (this.selectedCustomer) {
             this.disableStoreCreditButtons = false;
+            if (this.selectedCustomer.loyalty > 0) {
+                this.disableLoyaltyButton = false;
+            }
         }
     };
     // This method helps to delete payment type and recaculate all other parameters.
@@ -7634,6 +7383,12 @@ var SaleComponent = /** @class */ (function () {
                 if (payment.paymentType == 'StoreCredit' && payment.paymentAmount > 0) {
                     this.paymentDto.storeCredit = this.paymentDto.storeCredit - payment.paymentAmount;
                 }
+                if (payment.paymentType == 'OnAccount' && payment.paymentAmount > 0) {
+                    this.paymentDto.onAccount = this.paymentDto.onAccount - payment.paymentAmount;
+                }
+                if (payment.paymentType == 'Loyalty' && payment.paymentAmount > 0) {
+                    this.paymentDto.loyalty = this.paymentDto.loyalty - payment.paymentAmount;
+                }
             }
             // This is because of stupid type script,  + it concatting the two variables.  DO NOT FORGET THIS. 
             this.dueAmountForTransaction = +payment.paymentAmount + this.dueAmountForTransaction;
@@ -7646,13 +7401,24 @@ var SaleComponent = /** @class */ (function () {
             this.disableCompleteSaleButton = true;
             this.disablePaymentButtons = false;
             this.disablePaymentButtonsWithAmount = false;
+            this.disableOnAccountButtons = this.selectedCustomer == null;
+            // This means customer has some loyalty points to redem.
+            if (this.selectedCustomer && this.selectedCustomer.loyalty > 0) {
+                this.disableLoyaltyButton = false;
+            }
+            // This mean this customer has some store credit to use so i need to enable store credit button.
+            if (this.selectedCustomer && this.selectedCustomer.storeCredit > 0) {
+                this.disableStoreCreditButtons = false;
+            }
+            else {
+                this.disableStoreCreditButtons = true;
+            }
         }
     };
     // This is the method which handle completing the transaction and reset the all flag and other data.
     SaleComponent.prototype.completeSale = function () {
         var _this = this;
         var totalLineItemDiscount = 0.00;
-        console.log('sales type', this.saleType);
         // setting customer details
         if (null != this.selectedCustomer && this.selectedCustomer != undefined) {
             this.transactionDtoList.customerPhoneno = this.selectedCustomer.phoneNo;
@@ -7703,6 +7469,7 @@ var SaleComponent = /** @class */ (function () {
         // I am doing this to show subtotal without line item discount, so in invoice customer wont get confuse.
         // 
         this.transactionDtoList.subtotal = this.transactionDtoList.subtotal + this.transactionDtoList.totalDiscount;
+        this.transactionDtoList.tip = this.tipAmount;
         // NOW MAKING SERVICE CALL TO ADD TRANSACTION AND LINE ITEM DETAILS AND WILL ADD LINE ITEM DETAILS ONLY IF ADD TRANASACTION CALL IS SUCCESS !!!
         this.sellService.addTransactionDetails(this.transactionDtoList)
             .subscribe(function (data) {
@@ -7752,8 +7519,10 @@ var SaleComponent = /** @class */ (function () {
             // Need set it null cause its showing in next transaction also.
             this.transactionNotes = '';
             this.disableStoreCreditButtons = true;
+            this.disableLoyaltyButton = true;
             this.printTransactionDto = null;
             this.taxPercent = this.storeDetails.tax;
+            this.tipAmount = 0;
         }
         else {
             console.log('just close the model.');
@@ -7852,6 +7621,7 @@ var SaleComponent = /** @class */ (function () {
 var Product = /** @class */ (function () {
     function Product() {
         this.defaultQuantity = 1;
+        // productInventoryDaoList: ProductInventory[];
     }
     return Product;
 }());
@@ -7913,7 +7683,7 @@ module.exports = module.exports.toString();
 /***/ "../../../../../src/app/sell/sales-history/sales-history.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<mat-card>\n    <mat-card-title>\n        <h4>Sales History</h4>\n    </mat-card-title>\n\n    <mat-card-content>\n\n        <div class=\"row d-flex align-items-center\">\n\n            <div class=\"col-md-2\">\n                <select class=\"form-control form-control\" [(ngModel)]=\"this.salesHistoryDropdown\" (change)=\"this.getTransactionDetails(this.salesHistoryDropdown)\">\n                    <option>Today</option>\n                    <option>Yesterday</option>\n                    <option>This Week</option>\n                    <option>Last Week</option>\n                    <option>This Month</option>\n                    <option>Last Month</option>\n                    <option>Last 3 Months</option>\n                    <option>Last 6 Months</option>\n                    <option>This Year</option>\n                    <option>Last Year</option>\n                    <option>Custom</option>\n\n                </select>\n\n            </div>\n            <div *ngIf=\"this.salesHistoryDropdown == 'Custom' \" class=\"col-md-3 form-group d-flex align-items-center\" [formGroup]=\"this.customDate\">\n\n                <mat-form-field class=\"float-never col-md-6\">\n                    <input formControlName=\"fromDate\" matInput [matDatepicker]=\"fromDate\" placeholder=\"Start Date\" [max]=\"this.currentDate\">\n                    <mat-datepicker-toggle matSuffix [for]=\"fromDate\"></mat-datepicker-toggle>\n                    <mat-datepicker #fromDate></mat-datepicker>\n                </mat-form-field>\n                <label class=\"text-center\">To</label>\n                <mat-form-field class=\"float-never col-md-6\">\n                    <input class=\"\" formControlName=\"toDate\" matInput [matDatepicker]=\"toDate\" placeholder=\"End Date\" [min]=\"this.customDate.get('fromDate').value\" [max]=\"this.currentDate\">\n                    <mat-datepicker-toggle matSuffix [for]=\"toDate\"></mat-datepicker-toggle>\n                    <mat-datepicker #toDate></mat-datepicker>\n                </mat-form-field>\n            </div>\n\n            <div class=\"col-md-2\">\n                <select class=\"form-control\" [(ngModel)]=\"this.searchByTransactionType\" (change)=\"onTransactionTypeDropdownChoose()\">\n                    <option>All Transaction Status</option>\n                    <option>Complete</option>\n                    <option>Return</option>\n                    <option>Void</option>\n                    <option>Park</option>\n                    <option>Online</option>\n                </select>\n\n            </div>\n\n\n            <div class=\"col-md-3\">\n                <input [formControl]=\"this.searchByCustomerInputBox\" class=\"form-control form-control\" type=\"text\" placeholder=\"Search By Customer Name Or PhoneNo\">\n\n            </div>\n            <div class=\"col-md-2\">\n                <input [formControl]=\"this.searchByReceiptNoInputBox\" class=\"form-control form-control\" type=\"text\" placeholder=\"Search By Recipt Number\">\n\n            </div>\n\n        </div>\n\n        <div class=\"row p-md-3\">\n            <p-dataTable [value]=\"this.transactionDetails\" scrollable=\"true\" scrollHeight=\"500px\" expandableRows=\"true\" [responsive]=\"true\">\n                <p-column expander=\"true\" styleClass=\"col-icon\" [style]=\"{'width': '3%'}\"></p-column>\n                <p-column field=\"transactionComId\" header=\"Receipt No\" [style]=\"{'width': '7%'}\"></p-column>\n                <p-column field=\"date\" header=\"Date\" [sortable]=\"true\" [style]=\"{'width': '6%'}\"></p-column>\n                <p-column field=\"time\" header=\"Time\" [sortable]=\"true\" [style]=\"{'width': '6%'}\"></p-column>\n                <p-column field=\"customerPhoneno\" header=\"Customer Phone\"></p-column>\n                <p-column field=\"customerFirstLastName\" header=\"Customer Name\"></p-column>\n                <!-- <p-column field=\"username\" header=\"User Name\"></p-column> -->\n                <p-column field=\"tax\" header=\"Tax\" [style]=\"{'width': '8%'}\"></p-column>\n                <p-column field=\"totalDiscount\" header=\"Discount\" [style]=\"{'width': '8%'}\"></p-column>\n                <p-column field=\"subtotal\" header=\"Subtotal\" [style]=\"{'width': '8%'}\"></p-column>\n                <p-column field=\"totalAmount\" header=\"Total Amount\" [sortable]=\"true\" [style]=\"{'width': '10%'}\"></p-column>\n                <p-column field=\"status\" header=\"Status\" [sortable]=\"true\" [style]=\"{'width': '8%'}\">\n\n                    <ng-template let-transaction=\"rowData\" pTemplate=\"body\">\n                        <mat-chip-list>\n                            <mat-chip color=\"secondary\" selected=\"true\">{{transaction.status}}</mat-chip>\n                        </mat-chip-list>\n                    </ng-template>\n\n                </p-column>\n                <p-column field=\"status\" header=\"Action\" [style]=\"{'width': '10%'}\">\n\n                    <ng-template let-transaction=\"rowData\" pTemplate=\"body\">\n                        <button class=\"btn-blue action-button-table\" mat-button (click)=\"this.printReceipt(transaction)\">\n                            <i class=\"fa fa-print\" aria-hidden=\"true\"></i>\n                        </button>\n                        <button class=\"btn-green action-button-table\" mat-button (click)='this.sendEmail(transaction)'>\n                            <i class=\"fa fa-envelope\" aria-hidden=\"true\"></i>\n                        </button>\n\n                        <!-- // Do not remove this, this is for park sales where i can redirect user to start the transaction. -->\n                        <!-- <button *ngIf=\"transaction.status != 'Return' \" class=\"btn-red action-button-table\" mat-button [routerLink]=\"['/sell', {transactionComId: transaction.transactionComId}]\"> -->\n                        <button *ngIf=\"transaction.status == 'Complete' || transaction.status == 'Void' \" class=\"btn-red action-button-table\" mat-button (click)=\"setTransactoinToVoid(transaction)\" data-toggle=\"modal\" data-target=\"#voidTransaction\">\n                                \n                            <i class=\"fa fa-ban\" aria-hidden=\"true\"></i>\n                        </button>\n                        <button *ngIf=\"transaction.status == 'Park' || transaction.status == 'Online' \" class=\"btn-red action-button-table\" mat-button [routerLink]=\"['/sell/sale', {transactionComId: transaction.transactionComId}]\">\n                                <i class=\"fa fa-reply-all\" aria-hidden=\"true\"></i>\n                        </button>\n\n\n                    </ng-template>\n                </p-column>\n\n\n                <ng-template let-receipt pTemplate=\"rowexpansion\">\n                    <div class=\"ui-grid ui-grid-responsive ui-fluid\" style=\"font-size:16px;padding:20px\">\n                        <div class=\"ui-grid-row\">\n                            <div class=\"ui-grid-col-12\">\n                                <div class=\"ui-grid ui-grid-responsive ui-grid-pad\">\n\n                                    <table class=\"table table-striped\">\n                                        <thead>\n                                            <tr>\n                                                <th>Product No</th>\n                                                <th>Description</th>\n                                                <th>Retail</th>\n                                                <th>Discount</th>\n                                                <th>Quantity</th>\n                                                <th>Total</th>\n                                            </tr>\n                                        </thead>\n                                        <tbody>\n                                            <tr *ngFor=\"let lineItem of receipt.transactionLineItemDaoList\">\n                                                <td>{{this.lineItem.productNo}}</td>\n                                                <td>{{this.lineItem.description}}</td>\n                                                <td>{{this.lineItem.retail}}</td>\n                                                <td>{{this.lineItem.discount}}</td>\n                                                <td>{{this.lineItem.quantity}}</td>\n                                                <td>{{this.lineItem.totalProductPrice}}</td>\n                                            </tr>\n                                        </tbody>\n                                    </table>\n                                </div>\n                            </div>\n                        </div>\n                        <div class=\"row\">\n\n                            <div class=\"col-md-10 text-left\">\n                                <div>\n                                    Transaction Notes :\n                                </div>\n                                <textarea rows=\"3\" cols=\"150\">\n                            {{receipt.note}}\n                        </textarea>\n                            </div>\n                            <div class=\"col-md-2\">\n\n                                <div class=\"row\">\n                                    <div class=\"col-md-6\">\n                                        Subtotal:\n                                    </div>\n                                    <div class=\"col-md-6\">\n                                        $ {{receipt.subtotal}}\n                                    </div>\n                                </div>\n\n                                <div class=\"row\">\n                                    <div class=\"col-md-6\" *ngIf=\"receipt.totalDiscount != 0\">\n                                        Discount:\n                                    </div>\n                                    <div class=\"col-md-6\" *ngIf=\"receipt.totalDiscount != 0\">\n                                        $ {{receipt.totalDiscount}}\n                                    </div>\n                                </div>\n\n                                <div class=\"row\">\n                                    <div class=\"col-md-6\">\n                                        Tax:\n                                    </div>\n                                    <div class=\"col-md-6\">\n                                        $ {{receipt.tax}}\n                                    </div>\n                                </div>\n\n                                <div class=\"row\">\n                                    <div class=\"col-md-6\" *ngIf=\"receipt.previousBalance != 0\">\n                                        Pre Balance:\n                                    </div>\n                                    <div class=\"col-md-6\" *ngIf=\"receipt.previousBalance != 0\">\n                                        $ {{receipt.previousBalance}}\n                                    </div>\n                                </div>\n\n                                <hr>\n\n                                <div class=\"row\">\n                                    <div class=\"col-md-6\">\n                                        TOTAL:\n                                    </div>\n                                    <div class=\"col-md-6\">\n                                        $ {{receipt.totalAmount}}\n                                    </div>\n                                </div>\n\n                                <hr>\n                                <div class=\"row\">\n                                    <div class=\"col-md-6\" *ngIf=\"receipt.paymentDao[0].cash != 0\">\n                                        Cash:\n                                    </div>\n                                    <div class=\"col-md-6\" *ngIf=\"receipt.paymentDao[0].cash != 0\">\n                                        $ {{receipt.paymentDao[0].cash + receipt.paymentDao[0].changeForCash}}\n                                    </div>\n                                </div>\n\n                                <div class=\"row\">\n                                    <div class=\"col-md-6\" *ngIf=\"receipt.paymentDao[0].changeForCash != 0\">\n                                        Change:\n                                    </div>\n                                    <div class=\"col-md-6\" *ngIf=\"receipt.paymentDao[0].changeForCash != 0\">\n                                        $ {{receipt.paymentDao[0].changeForCash}}\n                                    </div>\n                                </div>\n\n                                <div class=\"row\">\n                                    <div class=\"col-md-6\" *ngIf=\"receipt.paymentDao[0].credit != 0\">\n                                        Credit:\n                                    </div>\n                                    <div class=\"col-md-6\" *ngIf=\"receipt.paymentDao[0].credit != 0\">\n                                        $ {{receipt.paymentDao[0].credit}}\n                                    </div>\n                                </div>\n\n                                <div class=\"row\">\n                                    <div class=\"col-md-6\" *ngIf=\"receipt.paymentDao[0].debit != 0\">\n                                        Debit:\n                                    </div>\n                                    <div class=\"col-md-6\" *ngIf=\"receipt.paymentDao[0].debit != 0\">\n                                        $ {{receipt.paymentDao[0].debit}}\n                                    </div>\n                                </div>\n\n                                <div class=\"row\">\n                                    <div class=\"col-md-6\" *ngIf=\"receipt.paymentDao[0].checkAmount != 0\">\n                                        Check:\n                                    </div>\n                                    <div class=\"col-md-6\" *ngIf=\"receipt.paymentDao[0].checkAmount != 0\">\n                                        $ {{receipt.paymentDao[0].checkAmount}}\n                                    </div>\n                                </div>\n\n                                <div class=\"row\">\n                                    <div class=\"col-md-6\" *ngIf=\"receipt.paymentDao[0].storeCredit != 0\">\n                                        Store Credit:\n                                    </div>\n                                    <div class=\"col-md-6\" *ngIf=\"receipt.paymentDao[0].storeCredit != 0\">\n                                        $ {{receipt.paymentDao[0].storeCredit}}\n                                    </div>\n                                </div>\n\n                                <div class=\"row\">\n                                    <div class=\"col-md-6\" *ngIf=\"receipt.paymentDao[0].onAccount != 0\">\n                                        On Account:\n                                    </div>\n                                    <div class=\"col-md-6\" *ngIf=\"receipt.paymentDao[0].onAccount != 0\">\n                                        $ {{receipt.paymentDao[0].onAccount}}\n                                    </div>\n                                </div>\n\n                                <hr>\n\n                                <div class=\"row\">\n                                    <div class=\"col-md-6\">\n                                        Balance:\n                                    </div>\n                                    <div class=\"col-md-6\">\n                                        $ {{receipt.transactionBalance}}\n                                    </div>\n                                </div>\n\n\n\n                            </div>\n                        </div>\n\n                    </div>\n                </ng-template>\n            </p-dataTable>\n\n        </div>\n    </mat-card-content>\n</mat-card>\n\n\n\n<!-- Start of Void Transacton -->\n<div class=\"modal fade\" id=\"voidTransaction\" role=\"dialog\">\n    <div class=\"modal-dialog modal-sm\">\n        <div class=\"modal-content\">\n            <div class=\"modal-header\">\n                <h4 class=\"modal-title\">Void Sale</h4>\n                <button type=\"button\" class=\"close\" data-dismiss=\"modal\">&times;</button>\n            </div>\n            <div class=\"modal-body\">\n                <p>Are You Sure You Want To Void This Sale</p>\n            </div>\n            <div class=\"modal-footer\">\n\n                <button type=\"button\" class=\"btn btn-danger\" data-dismiss=\"modal\" (click)=\"this.voidTransaction()\">Yes</button>\n                <button type=\"button\" class=\"btn btn-default\" data-dismiss=\"modal\">Cancle</button>\n            </div>\n        </div>\n    </div>\n</div>\n\n<!-- End of Void Transacton -->"
+module.exports = "<mat-card>\n    <mat-card-title>\n        <h4>Sales History</h4>\n    </mat-card-title>\n\n    <mat-card-content>\n\n        <div class=\"row d-flex align-items-center\">\n\n            <div class=\"col-md-2\">\n                <select class=\"form-control form-control\" [(ngModel)]=\"this.salesHistoryDropdown\" (change)=\"this.getTransactionDetails(this.salesHistoryDropdown)\">\n                    <option>Today</option>\n                    <option>Yesterday</option>\n                    <option>This Week</option>\n                    <option>Last Week</option>\n                    <option>This Month</option>\n                    <option>Last Month</option>\n                    <option>Last 3 Months</option>\n                    <option>Last 6 Months</option>\n                    <option>This Year</option>\n                    <option>Last Year</option>\n                    <option>Custom</option>\n\n                </select>\n\n            </div>\n            <div *ngIf=\"this.salesHistoryDropdown == 'Custom' \" class=\"col-md-3 form-group d-flex align-items-center\" [formGroup]=\"this.customDate\">\n\n                <mat-form-field class=\"float-never col-md-6\">\n                    <input formControlName=\"fromDate\" matInput [matDatepicker]=\"fromDate\" placeholder=\"Start Date\" [max]=\"this.currentDate\">\n                    <mat-datepicker-toggle matSuffix [for]=\"fromDate\"></mat-datepicker-toggle>\n                    <mat-datepicker #fromDate></mat-datepicker>\n                </mat-form-field>\n                <label class=\"text-center\">To</label>\n                <mat-form-field class=\"float-never col-md-6\">\n                    <input class=\"\" formControlName=\"toDate\" matInput [matDatepicker]=\"toDate\" placeholder=\"End Date\" [min]=\"this.customDate.get('fromDate').value\" [max]=\"this.currentDate\">\n                    <mat-datepicker-toggle matSuffix [for]=\"toDate\"></mat-datepicker-toggle>\n                    <mat-datepicker #toDate></mat-datepicker>\n                </mat-form-field>\n            </div>\n\n            <div class=\"col-md-2\">\n                <select class=\"form-control\" [(ngModel)]=\"this.searchByTransactionType\" (change)=\"onTransactionTypeDropdownChoose()\">\n                    <option>All Transaction Status</option>\n                    <option>Complete</option>\n                    <option>Return</option>\n                    <option>Void</option>\n                    <option>Park</option>\n                    <option>Online</option>\n                </select>\n\n            </div>\n\n\n            <div class=\"col-md-3\">\n                <input [formControl]=\"this.searchByCustomerInputBox\" class=\"form-control form-control\" type=\"text\" placeholder=\"Search By Customer Name Or PhoneNo\">\n\n            </div>\n            <div class=\"col-md-2\">\n                <input [formControl]=\"this.searchByReceiptNoInputBox\" class=\"form-control form-control\" type=\"text\" placeholder=\"Search By Recipt Number\">\n\n            </div>\n\n        </div>\n\n        <div class=\"row p-md-3\">\n            <p-dataTable [value]=\"this.transactionDetails\" scrollable=\"true\" scrollHeight=\"500px\" expandableRows=\"true\" [responsive]=\"true\">\n                <p-column expander=\"true\" styleClass=\"col-icon\" [style]=\"{'width': '3%'}\"></p-column>\n                <p-column field=\"transactionComId\" header=\"Receipt No\" [style]=\"{'width': '7%'}\"></p-column>\n                <p-column field=\"date\" header=\"Date\" [sortable]=\"true\" [style]=\"{'width': '6%'}\"></p-column>\n                <p-column field=\"time\" header=\"Time\" [sortable]=\"true\" [style]=\"{'width': '6%'}\"></p-column>\n                <p-column field=\"customerPhoneno\" header=\"Customer Phone\"></p-column>\n                <p-column field=\"customerFirstLastName\" header=\"Customer Name\"></p-column>\n                <!-- <p-column field=\"username\" header=\"User Name\"></p-column> -->\n                <p-column field=\"tax\" header=\"Tax\" [style]=\"{'width': '8%'}\"></p-column>\n                <p-column field=\"totalDiscount\" header=\"Discount\" [style]=\"{'width': '8%'}\"></p-column>\n                <p-column field=\"subtotal\" header=\"Subtotal\" [style]=\"{'width': '8%'}\"></p-column>\n                <p-column field=\"totalAmount\" header=\"Total Amount\" [sortable]=\"true\" [style]=\"{'width': '10%'}\"></p-column>\n                <p-column field=\"status\" header=\"Status\" [sortable]=\"true\" [style]=\"{'width': '8%'}\">\n\n                    <ng-template let-transaction=\"rowData\" pTemplate=\"body\">\n                        <mat-chip-list>\n                            <mat-chip color=\"secondary\" selected=\"true\">{{transaction.status}}</mat-chip>\n                        </mat-chip-list>\n                    </ng-template>\n\n                </p-column>\n                <p-column field=\"status\" header=\"Action\" [style]=\"{'width': '10%'}\">\n\n                    <ng-template let-transaction=\"rowData\" pTemplate=\"body\">\n                        <button class=\"btn-blue action-button-table\" mat-button (click)=\"this.printReceipt(transaction)\">\n                            <i class=\"fa fa-print\" aria-hidden=\"true\"></i>\n                        </button>\n                        <button class=\"btn-green action-button-table\" mat-button (click)='this.sendEmail(transaction)'>\n                            <i class=\"fa fa-envelope\" aria-hidden=\"true\"></i>\n                        </button>\n\n                        <!-- // Do not remove this, this is for park sales where i can redirect user to start the transaction. -->\n                        <!-- <button *ngIf=\"transaction.status != 'Return' \" class=\"btn-red action-button-table\" mat-button [routerLink]=\"['/sell', {transactionComId: transaction.transactionComId}]\"> -->\n                        <button *ngIf=\"transaction.status == 'Complete' || transaction.status == 'Void' \" class=\"btn-red action-button-table\" mat-button (click)=\"setTransactoinToVoid(transaction)\" data-toggle=\"modal\" data-target=\"#voidTransaction\">\n                                \n                            <i class=\"fa fa-ban\" aria-hidden=\"true\"></i>\n                        </button>\n                        <button *ngIf=\"transaction.status == 'Park' || transaction.status == 'Online' \" class=\"btn-red action-button-table\" mat-button [routerLink]=\"['/sell/sale', {transactionComId: transaction.transactionComId}]\">\n                                <i class=\"fa fa-reply-all\" aria-hidden=\"true\"></i>\n                        </button>\n\n\n                    </ng-template>\n                </p-column>\n\n\n                <ng-template let-receipt pTemplate=\"rowexpansion\">\n                    <div class=\"ui-grid ui-grid-responsive ui-fluid\" style=\"font-size:16px;padding:20px\">\n                        <div class=\"ui-grid-row\">\n                            <div class=\"ui-grid-col-12\">\n                                <div class=\"ui-grid ui-grid-responsive ui-grid-pad\">\n\n                                    <table class=\"table table-striped\">\n                                        <thead>\n                                            <tr>\n                                                <th>Product No</th>\n                                                <th>Description</th>\n                                                <th>Retail</th>\n                                                <th>Discount</th>\n                                                <th>Quantity</th>\n                                                <th>Total</th>\n                                            </tr>\n                                        </thead>\n                                        <tbody>\n                                            <tr *ngFor=\"let lineItem of receipt.transactionLineItemDaoList\">\n                                                <td>{{this.lineItem.productNo}}</td>\n                                                <td>{{this.lineItem.description}}</td>\n                                                <td>{{this.lineItem.retail}}</td>\n                                                <td>{{this.lineItem.discount}}</td>\n                                                <td>{{this.lineItem.quantity}}</td>\n                                                <td>{{this.lineItem.totalProductPrice}}</td>\n                                            </tr>\n                                        </tbody>\n                                    </table>\n                                </div>\n                            </div>\n                        </div>\n                        <div class=\"row\">\n\n                            <div class=\"col-md-10 text-left\">\n                                <div>\n                                    Transaction Notes :\n                                </div>\n                                <textarea rows=\"3\" cols=\"150\">\n                            {{receipt.note}}\n                        </textarea>\n                            </div>\n                            <div class=\"col-md-2\">\n\n                                <div class=\"row\">\n                                    <div class=\"col-md-6\">\n                                        Subtotal:\n                                    </div>\n                                    <div class=\"col-md-6\">\n                                        $ {{receipt.subtotal}}\n                                    </div>\n                                </div>\n\n                                <div class=\"row\">\n                                    <div class=\"col-md-6\" *ngIf=\"receipt.totalDiscount != 0\">\n                                        Discount:\n                                    </div>\n                                    <div class=\"col-md-6\" *ngIf=\"receipt.totalDiscount != 0\">\n                                        $ {{receipt.totalDiscount}}\n                                    </div>\n                                </div>\n\n                                <div class=\"row\">\n                                    <div class=\"col-md-6\">\n                                        Tax:\n                                    </div>\n                                    <div class=\"col-md-6\">\n                                        $ {{receipt.tax}}\n                                    </div>\n                                </div>\n\n                                <div class=\"row\">\n                                    <div class=\"col-md-6\" *ngIf=\"receipt.previousBalance != 0\">\n                                        Pre Balance:\n                                    </div>\n                                    <div class=\"col-md-6\" *ngIf=\"receipt.previousBalance != 0\">\n                                        $ {{receipt.previousBalance}}\n                                    </div>\n                                </div>\n\n                                <hr>\n\n                                <div class=\"row\">\n                                    <div class=\"col-md-6\">\n                                        TOTAL:\n                                    </div>\n                                    <div class=\"col-md-6\">\n                                        $ {{receipt.totalAmount}}\n                                    </div>\n                                </div>\n\n                                <hr>\n                                <div class=\"row\">\n                                    <div class=\"col-md-6\" *ngIf=\"receipt.paymentDao[0].cash != 0\">\n                                        Cash:\n                                    </div>\n                                    <div class=\"col-md-6\" *ngIf=\"receipt.paymentDao[0].cash != 0\">\n                                        $ {{receipt.paymentDao[0].cash + receipt.paymentDao[0].changeForCash}}\n                                    </div>\n                                </div>\n\n                                <div class=\"row\">\n                                    <div class=\"col-md-6\" *ngIf=\"receipt.paymentDao[0].changeForCash != 0\">\n                                        Change:\n                                    </div>\n                                    <div class=\"col-md-6\" *ngIf=\"receipt.paymentDao[0].changeForCash != 0\">\n                                        $ {{receipt.paymentDao[0].changeForCash}}\n                                    </div>\n                                </div>\n\n                                <div class=\"row\">\n                                    <div class=\"col-md-6\" *ngIf=\"receipt.paymentDao[0].credit != 0\">\n                                        Credit:\n                                    </div>\n                                    <div class=\"col-md-6\" *ngIf=\"receipt.paymentDao[0].credit != 0\">\n                                        $ {{receipt.paymentDao[0].credit}}\n                                    </div>\n                                </div>\n\n                                <div class=\"row\">\n                                    <div class=\"col-md-6\" *ngIf=\"receipt.paymentDao[0].debit != 0\">\n                                        Debit:\n                                    </div>\n                                    <div class=\"col-md-6\" *ngIf=\"receipt.paymentDao[0].debit != 0\">\n                                        $ {{receipt.paymentDao[0].debit}}\n                                    </div>\n                                </div>\n\n                                <div class=\"row\">\n                                    <div class=\"col-md-6\" *ngIf=\"receipt.paymentDao[0].checkAmount != 0\">\n                                        Check:\n                                    </div>\n                                    <div class=\"col-md-6\" *ngIf=\"receipt.paymentDao[0].checkAmount != 0\">\n                                        $ {{receipt.paymentDao[0].checkAmount}}\n                                    </div>\n                                </div>\n\n                                <div class=\"row\">\n                                    <div class=\"col-md-6\" *ngIf=\"receipt.paymentDao[0].storeCredit != 0\">\n                                        Store Credit:\n                                    </div>\n                                    <div class=\"col-md-6\" *ngIf=\"receipt.paymentDao[0].storeCredit != 0\">\n                                        $ {{receipt.paymentDao[0].storeCredit}}\n                                    </div>\n                                </div>\n\n                                <div class=\"row\">\n                                    <div class=\"col-md-6\" *ngIf=\"receipt.paymentDao[0].onAccount != 0\">\n                                        On Account:\n                                    </div>\n                                    <div class=\"col-md-6\" *ngIf=\"receipt.paymentDao[0].onAccount != 0\">\n                                        $ {{receipt.paymentDao[0].onAccount}}\n                                    </div>\n                                </div>\n\n                                <div class=\"row\">\n                                    <div class=\"col-md-6\" *ngIf=\"receipt.paymentDao[0].loyalty != 0\">\n                                        Loyalty:\n                                    </div>\n                                    <div class=\"col-md-6\" *ngIf=\"receipt.paymentDao[0].loyalty != 0\">\n                                        $ {{receipt.paymentDao[0].loyalty}}\n                                    </div>\n                                </div>\n\n                                <hr>\n\n                                <div class=\"row\">\n                                    <div class=\"col-md-6\">\n                                        Balance:\n                                    </div>\n                                    <div class=\"col-md-6\">\n                                        $ {{receipt.transactionBalance}}\n                                    </div>\n                                </div>\n\n\n\n                            </div>\n                        </div>\n\n                    </div>\n                </ng-template>\n            </p-dataTable>\n\n        </div>\n    </mat-card-content>\n</mat-card>\n\n\n\n<!-- Start of Void Transacton -->\n<div class=\"modal fade\" id=\"voidTransaction\" role=\"dialog\">\n    <div class=\"modal-dialog modal-sm\">\n        <div class=\"modal-content\">\n            <div class=\"modal-header\">\n                <h4 class=\"modal-title\">Void Sale</h4>\n                <button type=\"button\" class=\"close\" data-dismiss=\"modal\">&times;</button>\n            </div>\n            <div class=\"modal-body\">\n                <p>Are You Sure You Want To Void This Sale</p>\n            </div>\n            <div class=\"modal-footer\">\n\n                <button type=\"button\" class=\"btn btn-danger\" data-dismiss=\"modal\" (click)=\"this.voidTransaction()\">Yes</button>\n                <button type=\"button\" class=\"btn btn-default\" data-dismiss=\"modal\">Cancle</button>\n            </div>\n        </div>\n    </div>\n</div>\n\n<!-- End of Void Transacton -->"
 
 /***/ }),
 
@@ -8193,19 +7963,20 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var routes = [
     {
         path: 'sell',
-        component: __WEBPACK_IMPORTED_MODULE_2_app_sell_sell_component__["b" /* SellComponent */],
+        component: __WEBPACK_IMPORTED_MODULE_2_app_sell_sell_component__["a" /* SellComponent */],
         canActivate: [__WEBPACK_IMPORTED_MODULE_8_app_auth_auth_guard__["a" /* AuthGuard */]],
         children: [
             { path: '', redirectTo: 'sale', pathMatch: 'prefix' },
             { path: 'close-shift', component: __WEBPACK_IMPORTED_MODULE_11_app_sell_close_register_close_register_component__["a" /* CloseRegisterComponent */] },
             { path: 'return', component: __WEBPACK_IMPORTED_MODULE_9_app_sell_return_sale_return_sale_component__["a" /* ReturnSaleComponent */] },
             { path: 'close-register', component: __WEBPACK_IMPORTED_MODULE_11_app_sell_close_register_close_register_component__["a" /* CloseRegisterComponent */] },
-            { path: 'sale', component: __WEBPACK_IMPORTED_MODULE_10_app_sell_sale_sale_component__["b" /* SaleComponent */] }
+            { path: 'sale', component: __WEBPACK_IMPORTED_MODULE_10_app_sell_sale_sale_component__["c" /* SaleComponent */] }
         ]
     },
     { path: 'employee', component: __WEBPACK_IMPORTED_MODULE_3_app_employee_employee_component__["a" /* EmployeeComponent */] },
     { path: 'clockIn/:username', component: __WEBPACK_IMPORTED_MODULE_4_app_employee_clockin_clockin_component__["b" /* ClockinComponent */] },
     { path: 'expense', component: __WEBPACK_IMPORTED_MODULE_5_app_expense_expense_component__["a" /* ExpenseComponent */] },
+    // { path: 'dashboard', component: DashboardComponent},
     {
         path: 'sales-history',
         component: __WEBPACK_IMPORTED_MODULE_6_app_sell_sales_history_sales_history_component__["a" /* SalesHistoryComponent */],
@@ -8258,8 +8029,7 @@ module.exports = module.exports.toString();
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return SellComponent; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return Product; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return SellComponent; });
 /* unused harmony export TransactionLineItemDaoList */
 /* unused harmony export TransactionDtoList */
 /* unused harmony export PaymentDto */
@@ -8344,7 +8114,7 @@ var SellComponent = /** @class */ (function () {
         this.items = [
             { name: 'Return', icon: 'fa fa-reply-all fa-x ', link: '/sell/return' },
             { name: 'Close Register', icon: 'fa fa-window-close-o fa-x', link: '/sell/close-register' },
-            { name: 'Close Shift', icon: 'fa fa-times fa-x', link: '/sell/close-shift' }
+            { name: 'Close Shift', icon: 'fa fa-times fa-x', link: '/sell/close-shift' },
         ];
         // this.toastr.success("Sell component initiated", "Nice!");
         this.storeSetupService.getStoreDetails().
@@ -9134,13 +8904,41 @@ var SellComponent = /** @class */ (function () {
     return SellComponent;
 }());
 
-var Product = /** @class */ (function () {
-    function Product() {
-        this.defaultQuantity = 1;
-    }
-    return Product;
-}());
-
+// export class Product {
+//   productNo: string;
+//   productVariantNo: number;
+//   description: string;
+//   categoryId: number;
+//   brandId: number
+//   vendorId: number;
+//   // modelId: number;
+//   alternetNo: string;
+//   cost: number;
+//   retail: number;
+//   markup: number;
+//   quantity: number;
+//   minQuantity: number;
+//   tax: boolean;
+//   varaint: boolean;
+//   active: boolean;
+//   ecommerce: boolean;
+//   relatedProduct: boolean;
+//   defaultQuantity = 1;
+//   returnRule: any;
+//   createdTimestamp: any;
+//   transactionComId: number;
+//   date: any;
+//   time: any;
+//   status: string;
+//   discount: number;
+//   retailDiscount: number;
+//   totalProductPrice: number;
+//   taxAmountOnProduct: number;
+//   imeiNo: any;
+//   enableDigitalPunch?: boolean;
+//   noOfSaleForFreeService?: number;
+//   //productInventoryDaoList: ProductInventory[];
+// }
 var TransactionLineItemDaoList = /** @class */ (function () {
     function TransactionLineItemDaoList() {
     }
@@ -9227,9 +9025,9 @@ var SellModule = /** @class */ (function () {
                 __WEBPACK_IMPORTED_MODULE_2_primeng_primeng__["DropdownModule"],
                 __WEBPACK_IMPORTED_MODULE_7_app_shared_shared_module__["a" /* SharedModule */]
             ],
-            declarations: [__WEBPACK_IMPORTED_MODULE_5_app_sell_sell_component__["b" /* SellComponent */], __WEBPACK_IMPORTED_MODULE_8__receipt_receipt_component__["a" /* ReceiptComponent */], __WEBPACK_IMPORTED_MODULE_10__sales_history_sales_history_component__["a" /* SalesHistoryComponent */], __WEBPACK_IMPORTED_MODULE_11__return_sale_return_sale_component__["a" /* ReturnSaleComponent */], __WEBPACK_IMPORTED_MODULE_12__sale_sale_component__["b" /* SaleComponent */], __WEBPACK_IMPORTED_MODULE_13__close_register_close_register_component__["a" /* CloseRegisterComponent */]],
+            declarations: [__WEBPACK_IMPORTED_MODULE_5_app_sell_sell_component__["a" /* SellComponent */], __WEBPACK_IMPORTED_MODULE_8__receipt_receipt_component__["a" /* ReceiptComponent */], __WEBPACK_IMPORTED_MODULE_10__sales_history_sales_history_component__["a" /* SalesHistoryComponent */], __WEBPACK_IMPORTED_MODULE_11__return_sale_return_sale_component__["a" /* ReturnSaleComponent */], __WEBPACK_IMPORTED_MODULE_12__sale_sale_component__["c" /* SaleComponent */], __WEBPACK_IMPORTED_MODULE_13__close_register_close_register_component__["a" /* CloseRegisterComponent */]],
             providers: [__WEBPACK_IMPORTED_MODULE_6_app_sell_sell_service__["a" /* SellService */], __WEBPACK_IMPORTED_MODULE_9_app_customer_customer_service__["a" /* CustomerService */]],
-            bootstrap: [__WEBPACK_IMPORTED_MODULE_5_app_sell_sell_component__["b" /* SellComponent */]]
+            bootstrap: [__WEBPACK_IMPORTED_MODULE_5_app_sell_sell_component__["a" /* SellComponent */]]
         })
     ], SellModule);
     return SellModule;
@@ -9291,6 +9089,9 @@ var SellService = /** @class */ (function () {
             .map(this.extractData)
             .catch(this.handleError);
     };
+    SellService.prototype.opneCashDrawer = function () {
+        this.http.get(this.url + '/openCashDrawer');
+    };
     SellService.prototype.getCurrentSaleTransactions = function () {
         var _this = this;
         var details$;
@@ -9347,11 +9148,12 @@ var SellService = /** @class */ (function () {
             .catch(this.handleError);
     };
     SellService.prototype.saveCloseRegisterDetail = function (closeRegisterObj) {
-        this.http.post(this.url + '/addCloseRegisterDetails', closeRegisterObj)
+        return this.http.post(this.url + '/addCloseRegisterDetails', closeRegisterObj);
+    };
+    SellService.prototype.printClosingDetails = function (startDate, endDate) {
+        this.http.get(this.url + '/printClosingDetails?startDate=' + startDate + '&endDate=' + endDate, { responseType: __WEBPACK_IMPORTED_MODULE_1__angular_http__["d" /* ResponseContentType */].Blob })
             .subscribe(function (data) {
-            console.log("Response From Add Close Register call" + data);
-        }, function (error) {
-            console.log(JSON.stringify(error.json()));
+            Object(__WEBPACK_IMPORTED_MODULE_4_app_shared_services_util_service__["b" /* printBlob */])(data._body);
         });
     };
     SellService.prototype.extractData = function (res) {
@@ -9524,7 +9326,7 @@ var FooterComponent = /** @class */ (function () {
 /***/ "../../../../../src/app/shared/header/header.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"header mat-elevation-z18 text-white\">\n    <div class=\"row\">\n        <div class=\"col-md-2\">\n            <div class=\"text-left\">\n                <img class=\"p-1 logo\" src=\"assets/images/final-logo.png\" alt=\"ABM\">\n            </div>\n        </div>\n        <div class=\"col-md-4\">\n\n        </div>\n        <div class=\"col-md-6 align-items-center d-flex justify-content-end text-right\">\n\n            <a class=\"m-3\" data-toggle=\"modal\" data-target=\"#clockIn\">\n                <i class=\"fa fa-clock-o\"></i>\n            </a>\n            <a class=\"m-3\">\n                <i class=\"fa fa-bell\"></i>\n            </a>\n            <a class=\"m-3\" href=\"javascript:void(0)\" (click)=\"this.logout()\">\n                <i class=\"fa fa-sign-out\"></i> Log out\n            </a>\n\n        </div>\n    </div>\n</div>\n\n\n\n\n<div class=\"modal fade\" id=\"clockIn\" role=\"dialog\">\n    <div class=\"modal-dialog modal-lg\">\n\n        <!-- Modal content-->\n\n        <div class=\"modal-content\">\n            <div class=\"modal-header\">\n                <h4 class=\"modal-title\">Clock In</h4>\n                <button type=\"button\" class=\"close\" data-dismiss=\"modal\">&times;</button>\n            </div>\n            <div class=\"modal-body\">\n\n                <form [formGroup]=\"this.clockInForm\">\n                    <div class=\"row m-1\">\n\n                        <div class=\"col-md-12\">\n                            <label>Username</label>\n                            <select class=\"form-control\" formControlName=\"username\">\n                            <option *ngFor=\"let emp of this.employeeDto\">\n                                {{emp.username}}</option> \n                        </select>\n                        </div>\n                    </div>\n\n                    <div class=\"row m-1\">\n\n                        <div class=\"col-md-12\">\n                            <label>Password</label>\n                            <input class=\"form-control\" type=\"password\" formControlName=\"password\">\n                        </div>\n                    </div>\n\n                    <div class=\"row m-1\">\n\n                        <!-- <div class=\"col-md-6\">\n                            <label>ClockIn  </label>\n                            <label>{{this.clockInObj.clockIn}}</label>\n                        </div>\n                        <div class=\"col-md-6\">\n                            <label>Hour:  </label>\n                            <label> {{this.clockInObj.noOfHours}}   Minute : {{this.clockInObj.noOfMinute}}</label>\n                        </div> -->\n                        <table class=\"table table-striped\">\n                            <thead>\n                                <tr>\n                                    <th>ClockIn</th>\n                                    <th>ClockOut</th>\n                                    <th>Total</th>\n                                </tr>\n                            </thead>\n                            <tbody>\n                                <tr *ngFor=\"let clockIn of this.clockInViewList\">\n\n                                    <td>{{clockIn.clockIn}}</td>\n                                    <td>{{clockIn.clockOut}}</td>\n                                    <td>{{clockIn.noOfHours}} Hour : {{clockIn.noOfMinute}} Minute</td>\n                                </tr>\n                            </tbody>\n                        </table>\n                    </div>\n\n                    <div class=\"row m-2 p-2\">\n                        <button *ngIf=\"this.isClockIn == false\" type=\"button\" (click)=\"this.validateAndAddClockInDetails()\" mat-raised-button class=\"bg-primary text-white action-button-lg m-auto\" data-dismiss=\"modal\">\n                                    Clock In\n                                </button>\n                        <button *ngIf=\"this.isClockIn == true\" type=\"button\" (click)=\"this.validateAndAddClockInDetails()\" mat-raised-button class=\"bg-primary text-white action-button-lg m-auto\" data-dismiss=\"modal\">\n                            Clock Out\n                        </button>\n\n                    </div>\n\n                </form>\n\n            </div>\n\n            <div class=\"modal-footer\">\n                <button type=\"button\" class=\"btn btn-default\" data-dismiss=\"modal\">Close</button>\n            </div>\n        </div>\n\n\n    </div>\n\n</div>"
+module.exports = "<div class=\"header mat-elevation-z18 text-white\">\n    <div class=\"row\">\n        <div class=\"col-md-2\">\n            <div class=\"text-left\">\n                <img class=\"p-1 logo\" src=\"assets/image/final-logo.png\" alt=\"ABM\">\n            </div>\n        </div>\n        <div class=\"col-md-4\">\n\n        </div>\n        <div class=\"col-md-6 align-items-center d-flex justify-content-end text-right\">\n\n            <a class=\"m-3\" data-toggle=\"modal\" data-target=\"#clockIn\">\n                <i class=\"fa fa-clock-o\"></i>\n            </a>\n            <a class=\"m-3\">\n                <i class=\"fa fa-bell\"></i>\n            </a>\n            <a class=\"m-3\" href=\"javascript:void(0)\" (click)=\"this.logout()\">\n                <i class=\"fa fa-sign-out\"></i> Log out\n            </a>\n\n        </div>\n    </div>\n</div>\n\n\n\n\n<div class=\"modal fade\" id=\"clockIn\" role=\"dialog\">\n    <div class=\"modal-dialog modal-lg\">\n\n        <!-- Modal content-->\n\n        <div class=\"modal-content\">\n            <div class=\"modal-header\">\n                <h4 class=\"modal-title\">Clock In</h4>\n                <button type=\"button\" class=\"close\" data-dismiss=\"modal\">&times;</button>\n            </div>\n            <div class=\"modal-body\">\n\n                <form [formGroup]=\"this.clockInForm\">\n                    <div class=\"row m-1\">\n\n                        <div class=\"col-md-12\">\n                            <label>Username</label>\n                            <select class=\"form-control\" formControlName=\"username\">\n                            <option *ngFor=\"let emp of this.employeeDto\">\n                                {{emp.username}}</option> \n                        </select>\n                        </div>\n                    </div>\n\n                    <div class=\"row m-1\">\n\n                        <div class=\"col-md-12\">\n                            <label>Password</label>\n                            <input class=\"form-control\" type=\"password\" formControlName=\"password\">\n                        </div>\n                    </div>\n\n                    <div class=\"row m-1\">\n\n                        <!-- <div class=\"col-md-6\">\n                            <label>ClockIn  </label>\n                            <label>{{this.clockInObj.clockIn}}</label>\n                        </div>\n                        <div class=\"col-md-6\">\n                            <label>Hour:  </label>\n                            <label> {{this.clockInObj.noOfHours}}   Minute : {{this.clockInObj.noOfMinute}}</label>\n                        </div> -->\n                        <table class=\"table table-striped\">\n                            <thead>\n                                <tr>\n                                    <th>ClockIn</th>\n                                    <th>ClockOut</th>\n                                    <th>Total</th>\n                                </tr>\n                            </thead>\n                            <tbody>\n                                <tr *ngFor=\"let clockIn of this.clockInViewList\">\n\n                                    <td>{{clockIn.clockIn}}</td>\n                                    <td>{{clockIn.clockOut}}</td>\n                                    <td>{{clockIn.noOfHours}} Hour : {{clockIn.noOfMinute}} Minute</td>\n                                </tr>\n                            </tbody>\n                        </table>\n                    </div>\n\n                    <div class=\"row m-2 p-2\">\n                        <button *ngIf=\"this.isClockIn == false\" type=\"button\" (click)=\"this.validateAndAddClockInDetails()\" mat-raised-button class=\"bg-primary text-white action-button-lg m-auto\" data-dismiss=\"modal\">\n                                    Clock In\n                                </button>\n                        <button *ngIf=\"this.isClockIn == true\" type=\"button\" (click)=\"this.validateAndAddClockInDetails()\" mat-raised-button class=\"bg-primary text-white action-button-lg m-auto\" data-dismiss=\"modal\">\n                            Clock Out\n                        </button>\n\n                    </div>\n\n                </form>\n\n            </div>\n\n            <div class=\"modal-footer\">\n                <button type=\"button\" class=\"btn btn-default\" data-dismiss=\"modal\">Close</button>\n            </div>\n        </div>\n\n\n    </div>\n\n</div>"
 
 /***/ }),
 
@@ -10207,7 +10009,8 @@ var SharedModule = /** @class */ (function () {
                 __WEBPACK_IMPORTED_MODULE_11_app_shared_top_sub_navbar_top_sub_navbar_component__["a" /* TopSubNavbarComponent */],
                 __WEBPACK_IMPORTED_MODULE_5__header_header_component__["a" /* HeaderComponent */],
                 __WEBPACK_IMPORTED_MODULE_8__footer_footer_component__["a" /* FooterComponent */],
-                __WEBPACK_IMPORTED_MODULE_6__angular_material__["c" /* MatChipsModule */]
+                __WEBPACK_IMPORTED_MODULE_6__angular_material__["c" /* MatChipsModule */],
+                __WEBPACK_IMPORTED_MODULE_6__angular_material__["l" /* MatTableModule */]
             ],
             providers: [__WEBPACK_IMPORTED_MODULE_2__services_persistence_service__["a" /* PersistenceService */], __WEBPACK_IMPORTED_MODULE_9_app_shared_services_date_service__["b" /* DateService */], __WEBPACK_IMPORTED_MODULE_12__services_util_service__["a" /* UtilService */]]
         })
@@ -10222,7 +10025,7 @@ var SharedModule = /** @class */ (function () {
 /***/ "../../../../../src/app/shared/storesetup/storesetup.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<p>\n    <app-top-navbar [menu]=\"this.items\" isSubMenu=\"true\"></app-top-navbar>\n    <router-outlet></router-outlet>\n</p>\n\n\n<mat-card>\n    <mat-card-title>\n        <h3>\n            Store Details\n        </h3>\n    </mat-card-title>\n\n    <mat-card-content>\n        <form [formGroup]=\"storeForm\">\n\n            <div class=\"container\">\n\n\n                <div class=\"row\">\n\n                    <div class=\"col-md-3\">\n\n                    </div>\n\n                    <div class=\"col-md-2\">\n                        <label>Store Name  </label>\n                    </div>\n                    <div class=\"col-md-4\">\n                        <input type=\"text\" class=\"form-control\" formControlName=\"name\">\n                    </div>\n\n                    <div class=\"col-md-3\">\n\n                    </div>\n\n                </div>\n\n                <div class=\"row store-row\">\n\n                    <div class=\"col-md-3\">\n\n                    </div>\n\n                    <div class=\"col-md-2\">\n                        <label>Street  </label>\n                    </div>\n                    <div class=\"col-md-4\">\n                        <input type=\"text\" class=\"form-control\" formControlName=\"street\">\n                    </div>\n\n                    <div class=\"col-md-3\">\n\n                    </div>\n                </div>\n\n                <div class=\"row store-row\">\n\n                    <div class=\"col-md-3\">\n\n                    </div>\n\n                    <div class=\"col-md-2\">\n                        <label>City  </label>\n                    </div>\n                    <div class=\"col-md-4\">\n                        <input type=\"text\" class=\"form-control\" formControlName=\"city\">\n                    </div>\n\n                    <div class=\"col-md-3\">\n\n                    </div>\n                </div>\n\n                <div class=\"row store-row\">\n\n                    <div class=\"col-md-3\">\n\n                    </div>\n\n                    <div class=\"col-md-2\">\n                        <label>State  </label>\n                    </div>\n                    <div class=\"col-md-4\">\n                        <input type=\"text\" class=\"form-control\" formControlName=\"state\">\n                    </div>\n\n                    <div class=\"col-md-3\">\n\n                    </div>\n                </div>\n\n                <div class=\"row store-row\">\n\n                    <div class=\"col-md-3\">\n\n                    </div>\n\n                    <div class=\"col-md-2\">\n                        <label>Zipcode  </label>\n                    </div>\n                    <div class=\"col-md-4\">\n                        <input type=\"text\" class=\"form-control\" formControlName=\"zipcode\">\n                    </div>\n\n                    <div class=\"col-md-3\">\n\n                    </div>\n                </div>\n                <div class=\"row store-row\">\n\n                    <div class=\"col-md-3\">\n\n                    </div>\n\n                    <div class=\"col-md-2\">\n                        <label>Email  </label>\n                    </div>\n                    <div class=\"col-md-4\">\n                        <input type=\"text\" class=\"form-control\" formControlName=\"email\">\n                    </div>\n\n                    <div class=\"col-md-3\">\n\n                    </div>\n                </div>\n                <div class=\"row store-row\">\n\n                    <div class=\"col-md-3\">\n\n                    </div>\n\n                    <div class=\"col-md-2\">\n                        <label>Tax  </label>\n                    </div>\n                    <div class=\"col-md-4\">\n                        <input type=\"text\" class=\"form-control\" formControlName=\"tax\">\n                    </div>\n\n                    <div class=\"col-md-3\">\n\n                    </div>\n                </div>\n\n                <div class=\"row store-row\">\n\n                    <div class=\"col-md-3\">\n\n                    </div>\n\n                    <div class=\"col-md-2\">\n                        <label> $1 Loyalty  = </label>\n                    </div>\n                    <div class=\"col-md-4\">\n                        <input type=\"number\" class=\"form-control\" formControlName=\"loyaltyAmountForDollar\" placeholder=\"Enter Loyalty Amount For $1 Loyalty\">\n                    </div>\n\n                    <div class=\"col-md-3\">\n\n                    </div>\n                </div>\n\n\n\n            </div>\n        </form>\n\n    </mat-card-content>\n    <mat-card-footer>\n        <div class=\"d-flex align-items-center justify-content-center\">\n            <button mat-raised-button class=\"bg-primary text-white \" (click)=\"this.saveStoreDetails()\">Save Store Details</button>\n        </div>\n    </mat-card-footer>\n</mat-card>"
+module.exports = "<p>\n    <app-top-navbar [menu]=\"this.items\" isSubMenu=\"true\"></app-top-navbar>\n    <router-outlet></router-outlet>\n</p>\n\n\n<mat-card>\n    <mat-card-title>\n        <h3>\n            Store Details\n        </h3>\n    </mat-card-title>\n\n    <mat-card-content>\n        <form [formGroup]=\"storeForm\">\n\n            <div class=\"container\">\n\n\n                <div class=\"row\">\n\n                    <div class=\"col-md-3\">\n\n                    </div>\n\n                    <div class=\"col-md-2\">\n                        <label>Store Name  </label>\n                    </div>\n                    <div class=\"col-md-4\">\n                        <input type=\"text\" class=\"form-control\" formControlName=\"name\">\n                    </div>\n\n                    <div class=\"col-md-3\">\n\n                    </div>\n\n                </div>\n\n                <div class=\"row store-row\">\n\n                    <div class=\"col-md-3\">\n\n                    </div>\n\n                    <div class=\"col-md-2\">\n                        <label>Street  </label>\n                    </div>\n                    <div class=\"col-md-4\">\n                        <input type=\"text\" class=\"form-control\" formControlName=\"street\">\n                    </div>\n\n                    <div class=\"col-md-3\">\n\n                    </div>\n                </div>\n\n                <div class=\"row store-row\">\n\n                    <div class=\"col-md-3\">\n\n                    </div>\n\n                    <div class=\"col-md-2\">\n                        <label>City  </label>\n                    </div>\n                    <div class=\"col-md-4\">\n                        <input type=\"text\" class=\"form-control\" formControlName=\"city\">\n                    </div>\n\n                    <div class=\"col-md-3\">\n\n                    </div>\n                </div>\n\n                <div class=\"row store-row\">\n\n                    <div class=\"col-md-3\">\n\n                    </div>\n\n                    <div class=\"col-md-2\">\n                        <label>State  </label>\n                    </div>\n                    <div class=\"col-md-4\">\n                        <input type=\"text\" class=\"form-control\" formControlName=\"state\">\n                    </div>\n\n                    <div class=\"col-md-3\">\n\n                    </div>\n                </div>\n\n                <div class=\"row store-row\">\n\n                    <div class=\"col-md-3\">\n\n                    </div>\n\n                    <div class=\"col-md-2\">\n                        <label>Zipcode  </label>\n                    </div>\n                    <div class=\"col-md-4\">\n                        <input type=\"text\" class=\"form-control\" formControlName=\"zipcode\">\n                    </div>\n\n                    <div class=\"col-md-3\">\n\n                    </div>\n                </div>\n\n                <div class=\"row store-row\">\n\n                    <div class=\"col-md-3\">\n\n                    </div>\n\n                    <div class=\"col-md-2\">\n                        <label>PhoneNo  </label>\n                    </div>\n                    <div class=\"col-md-4\">\n                        <input type=\"text\" class=\"form-control\" formControlName=\"phoneNo\">\n                    </div>\n\n                    <div class=\"col-md-3\">\n\n                    </div>\n                </div>\n\n                <div class=\"row store-row\">\n\n                    <div class=\"col-md-3\">\n\n                    </div>\n\n                    <div class=\"col-md-2\">\n                        <label>Email  </label>\n                    </div>\n                    <div class=\"col-md-4\">\n                        <input type=\"text\" class=\"form-control\" formControlName=\"email\">\n                    </div>\n\n                    <div class=\"col-md-3\">\n\n                    </div>\n                </div>\n\n                <div class=\"row store-row\">\n\n                    <div class=\"col-md-3\">\n\n                    </div>\n\n                    <div class=\"col-md-2\">\n                        <label>Tax  </label>\n                    </div>\n                    <div class=\"col-md-4\">\n                        <input type=\"text\" class=\"form-control\" formControlName=\"tax\">\n                    </div>\n\n                    <div class=\"col-md-3\">\n\n                    </div>\n                </div>\n\n                <div class=\"row store-row\">\n\n                    <div class=\"col-md-3\">\n\n                    </div>\n\n                    <div class=\"col-md-2\">\n                        <label> $1 Loyalty  = </label>\n                    </div>\n                    <div class=\"col-md-4\">\n                        <input type=\"number\" class=\"form-control\" formControlName=\"loyaltyAmountForDollar\" placeholder=\"Enter Loyalty Amount For $1 Loyalty\">\n                    </div>\n\n                    <div class=\"col-md-3\">\n\n                    </div>\n                </div>\n\n\n\n            </div>\n        </form>\n\n    </mat-card-content>\n    <mat-card-footer>\n        <div class=\"d-flex align-items-center justify-content-center\">\n            <button mat-raised-button class=\"bg-primary text-white \" (click)=\"this.saveStoreDetails()\">Save Store Details</button>\n        </div>\n    </mat-card-footer>\n</mat-card>"
 
 /***/ }),
 
@@ -10293,6 +10096,7 @@ var StoresetupComponent = /** @class */ (function () {
         this.storeForm = this.formBuilder.group({
             'id': [1],
             'name': [null],
+            'phoneNo': [null],
             'street': [null],
             'city': [null],
             'state': [null],
@@ -10518,11 +10322,11 @@ var TopNavbarComponent = /** @class */ (function () {
     TopNavbarComponent.prototype.ngOnInit = function () {
         if (!this.menu) {
             this.menu = [
-                { name: 'Dashboard', link: '/home', icon: 'fa fa-tachometer fa-2x text-blue' },
+                { name: 'Dashboard', link: '/dashboard', icon: 'fa fa-tachometer fa-2x text-blue' },
                 { name: 'Sell', link: '/sell', icon: 'fa fa-usd fa-2x text-green' },
                 { name: 'Sales History', link: '/sales-history', icon: 'fa fa-history fa-2x text-bittersweet ' },
                 { name: 'Product', link: '/product', icon: 'fa fa-tag fa-2x text-blue' },
-                { name: 'Purchase Order', link: '/purchase-order', icon: 'fa fa-first-order fa-x fa-2x text-green' },
+                // { name: 'Purchase Order', link: '/purchase-order', icon: 'fa fa-first-order fa-x fa-2x text-green' },
                 { name: 'Customer', link: '/customer', icon: 'fa fa-user fa-2x text-bittersweet' },
                 { name: 'Report', link: '/report', icon: 'fa fa-line-chart fa-2x text-orange' },
                 // {name: 'Repair', link: '/repair', icon: 'fa fa-wrench fa-2x text-violet', show: false},

@@ -40,12 +40,12 @@ public class ProductController {
         System.out.println("Product added or updated successfully ");
          return productManager.addProductTest(productDao);
     }
-
-    @RequestMapping(value = "/getProductTableDetails", method = RequestMethod.GET, produces = "application/json")
-    public List<ProductDao> getProductTableDetails()
-    {
-        return null;
-    }
+//
+//    @RequestMapping(value = "/getProductTableDetails", method = RequestMethod.GET, produces = "application/json")
+//    public List<ProductDao> getProductTableDetails()
+//    {
+//        return productManager.getProductForProductTable();
+//    }
 
 //    @RequestMapping(value = "/getProductForProductTable", method = RequestMethod.GET, produces = "application/json")
 //    public List<ProductDao> getProductForProductTable()
