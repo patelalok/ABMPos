@@ -16,6 +16,8 @@ import {
   MatProgressSpinnerModule,
   MatRadioModule,
   MatChipsModule,
+  MatTableDataSource,
+  MatTableModule,
 } from "@angular/material";
 import { Routes, RouterModule } from '@angular/router';
 import { SellRoutingModule } from 'app/sell/sell-routing.module';
@@ -45,7 +47,8 @@ import { UtilService } from './services/util.service';
     TopSubNavbarComponent, 
     HeaderComponent, 
     FooterComponent,
-    MatChipsModule
+    MatChipsModule,
+    MatTableModule
   ],
   providers: [PersistenceService, DateService, UtilService]
 })

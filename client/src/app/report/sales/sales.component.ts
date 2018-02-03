@@ -215,16 +215,16 @@ export class SalesDto {
 }
 
 export class SalesSummaryDto {
-  name: string;
-  cash: number;
-  credit: number;
-  debit: number;
-  check: number;
-  tax: number;
-  subtotal: number;
-  discount: number;
-  profit: number;
-  returns: number;
+  name?: string;
+  cash?: number;
+  credit?: number;
+  debit?: number;
+  check?: number;
+  tax?: number;
+  subtotal?: number;
+  discount?: number;
+  profit?: number;
+  returns?: number;
 }
 
 

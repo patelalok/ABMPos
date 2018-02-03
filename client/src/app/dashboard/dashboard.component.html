@@ -1,0 +1,70 @@
+<mat-card>
+    <mat-card-title>
+        <div class="row">
+            <div class="col-md-8">
+                <h4>Retail Dashboard</h4>
+            </div>
+            <div class="col-md-4">
+                <div class="btn-group" role="group" aria-label="Basic example">
+                    <button type="button" class="btn btn-secondary">Today</button>
+                    <button type="button" class="btn btn-secondary">Week</button>
+                    <button type="button" class="btn btn-secondary">Month</button>
+                    <button type="button" class="btn btn-secondary">Custom</button>
+                </div>
+
+            </div>
+        </div>
+
+    </mat-card-title>
+
+    <mat-card-content>
+        <div class="row">
+            <div class="col-md-12" *ngIf="this.numberCardChartData">
+                <ngx-charts-number-card [view]="null" [scheme]="this.colorScheme" [results]="this.numberCardChartData" (select)="onSelect($event)">
+                </ngx-charts-number-card>
+            </div>
+
+        </div>
+        <div class="row">
+            <div class="col-md-6 example-container mat-elevation-z8">
+                <h5>Best Selling Items</h5>
+                <div class="example-container mat-elevation-z8">
+                    <mat-table #table [dataSource]="dataSource">
+
+                        <!--- Note that these columns can be defined in any order.
+                                The actual rendered columns are set as a property on the row definition" -->
+
+                        <!-- Position Column -->
+                        <ng-container matColumnDef="name">
+                            <mat-header-cell *matHeaderCellDef> Description </mat-header-cell>
+                            <mat-cell *matCellDef="let productDto"> {{productDto.name}} </mat-cell>
+                        </ng-container>
+
+                        <ng-container matColumnDef="cost">
+                            <mat-header-cell *matHeaderCellDef> Cost </mat-header-cell>
+                            <mat-cell *matCellDef="let productDto"> {{productDto.cost}} </mat-cell>
+                        </ng-container>
+
+                        <ng-container matColumnDef="retail">
+                            <mat-header-cell *matHeaderCellDef> Retail </mat-header-cell>
+                            <mat-cell *matCellDef="let productDto"> {{productDto.retail}} </mat-cell>
+                        </ng-container>
+
+                        <ng-container matColumnDef="quantity">
+                            <mat-header-cell *matHeaderCellDef> Quantity </mat-header-cell>
+                            <mat-cell *matCellDef="let productDto"> {{productDto.quantity}} </mat-cell>
+                        </ng-container>
+
+                        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+                        <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+                    </mat-table>
+                </div>
+            </div>
+            <div class="col-md-6" style="height: 350px">
+                <h5>Category Sales Graph</h5>
+                <ngx-charts-pie-chart [view]="null" [scheme]="colorScheme" [results]="this.categoryPieChartData" [legend]="showLegend" [explodeSlices]="explodeSlices" [labels]="showLabels" [doughnut]="doughnut" (select)="onSelect($event)">
+                </ngx-charts-pie-chart>
+            </div>
+        </div>
+    </mat-card-content>
+</mat-card>

@@ -13,7 +13,7 @@ export class TopNavbarComponent implements OnInit {
   ngOnInit() {
     if (!this.menu) {
       this.menu = [
-        { name: 'Dashboard', link: '/home', icon: 'fa fa-tachometer fa-2x text-blue' },
+        { name: 'Dashboard', link: '/dashboard', icon: 'fa fa-tachometer fa-2x text-blue' },
         { name: 'Sell', link: '/sell', icon: 'fa fa-usd fa-2x text-green' },
         { name: 'Sales History', link: '/sales-history', icon: 'fa fa-history fa-2x text-bittersweet ' },
         { name: 'Product', link: '/product', icon: 'fa fa-tag fa-2x text-blue' },

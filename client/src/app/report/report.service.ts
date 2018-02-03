@@ -5,6 +5,7 @@ import { InventoryDto } from 'app/report/inventory/inventory.component';
 import { SalesDto, SalesSummaryDto } from 'app/report/sales/sales.component';
 import { environment } from 'environments/environment';
 import { ResponseContentType } from '@angular/http';
+import { Product } from 'app/sell/sale/sale.component';
 
 @Injectable()
 export class ReportService {
@@ -27,6 +28,16 @@ export class ReportService {
       }
       getSalesSummaryReport(salesSummaryReportBy: string, startDate: string, endDate: string): Observable<SalesSummaryDto[]> {
         return this.http.get(this.url+'/getReportBySalesSummary?salesSummaryReportBy=' + salesSummaryReportBy+'&startDate='+startDate+'&endDate='+endDate)
+        .map(this.extractData)
+        .catch(this.handleError);
+      }
+      getDashboardSalesSummaryReport(salesSummaryReportBy: string, startDate: string, endDate: string): Observable<SalesSummaryDto> {
+        return this.http.get(this.url+'/getDashboardReportBySalesSummary?salesSummaryReportBy=' + salesSummaryReportBy+'&startDate='+startDate+'&endDate='+endDate)
+        .map(this.extractData)
+        .catch(this.handleError);
+      }
+      getTop50SellingProductList(productReportType:string, startDate:string, endDate:string): Observable<Product[]> {
+        return this.http.get(this.url+'/getTop50SellingItem?productReportType=' + productReportType+'&startDate='+startDate+'&endDate='+endDate)
         .map(this.extractData)
         .catch(this.handleError);
       }

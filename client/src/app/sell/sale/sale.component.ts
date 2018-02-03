@@ -1228,6 +1228,7 @@ export class Product {
   imeiNo: any;
   enableDigitalPunch?: boolean;
   noOfSaleForFreeService?: number;
+  name?: string;
   // productInventoryDaoList: ProductInventory[];
 }
 export class TransactionLineItemDaoList {
