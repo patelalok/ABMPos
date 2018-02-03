@@ -31,10 +31,10 @@
                             </i>
                         </span>
                     </button>
-                    <button class="bg-primary text-white  action-button m-1" mat-raised-button>
+                    <button class="bg-primary text-white  action-button m-1" mat-raised-button (click)="this.openCashDrawer()">
                         <span>
                             <i class="fa fa-th">
-                                Show Grid
+                                No Sale
                             </i>
                         </span>
                     </button>
@@ -176,7 +176,7 @@
                         <dd class="">{{this.transactionDtoList.totalDiscount | currency:'USD':'true'}}</dd>
                     </dl>
                     <dl class="row">
-                        <dt *ngIf="this.taxPercent == 7">
+                        <dt *ngIf="this.taxPercent != 0">
                         <a  href="javascript:void(0)" (click)="this.taxPercent = 0">
                                 Tax ({{this.taxPercent}}%)
                         </a>

@@ -7,11 +7,11 @@ import com.abm.pos.ABMPos.util.Utility;
 import com.itextpdf.text.*;
 import com.itextpdf.text.pdf.*;
 
-import jpos.JposException;
-import jpos.POSPrinter;
-import jpos.CashDrawer;
-import jpos.POSPrinterConst;
-import jpos.util.JposPropertiesConst;
+//import jpos.JposException;
+//import jpos.POSPrinter;
+//import jpos.CashDrawer;
+//import jpos.POSPrinterConst;
+//import jpos.util.JposPropertiesConst;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.cache.annotation.CachePut;
@@ -802,9 +802,10 @@ public class TransactionsManager {
 
 
                 TransactionDao transactionDao = new TransactionDao();
+                //StoreSetupDao storeSetupDao = new StoreSetupDao();
 
                 transactionDao = getTransactionById(transactionId);
-                // transactionDao.setStoreSetupDao(storeSetupRepository.findOne(1));
+                transactionDao.setStoreSetupDao(storeSetupRepository.findOne(1));
 
                 String date_s = transactionDao.getDate();
                 //2018-01-19 09:27:01.0
@@ -819,9 +820,9 @@ public class TransactionsManager {
                         new SimpleDateFormat("MM/dd/yyyy").format(date) + " \n" + new SimpleDateFormat("hh:mma").format(date), 0, 23, ReceiptFormatter.TextAlign.LEFT,
                         "Ref No. "+String.valueOf(transactionDao.getTransactionComId())+" \nStation 1", 0, 23, ReceiptFormatter.TextAlign.RIGHT);
 
-                formatter.addLineBreak(1);
-                //formatter.addLines("%s \n%s \n%s, %s %s".format(transactionDao.getStoreSetupDao().getName(), transactionDao.getStoreSetupDao().getStreet(), transactionDao.getStoreSetupDao().getCity(), transactionDao.getStoreSetupDao().getState(), transactionDao.getStoreSetupDao().getZipcode()), 46, ReceiptFormatter.TextAlign.CENTER);
-                // formatter.addLines(transactionDao.getStoreSetupDao().getName() + " \n" + transactionDao.getStoreSetupDao().getStreet() + " \n" + transactionDao.getStoreSetupDao().getCity() + ", " + transactionDao.getStoreSetupDao().getState() + " \n" + transactionDao.getStoreSetupDao().getZipcode(), 46, ReceiptFormatter.TextAlign.CENTER);
+                //formatter.addLineBreak(1);
+               // formatter.addLines("%s \n%s \n%s, %s %s".format(transactionDao.getStoreSetupDao().getName(), transactionDao.getStoreSetupDao().getStreet(), transactionDao.getStoreSetupDao().getCity(), transactionDao.getStoreSetupDao().getState(), transactionDao.getStoreSetupDao().getZipcode()), 46, ReceiptFormatter.TextAlign.CENTER);
+                formatter.addLines(transactionDao.getStoreSetupDao().getName() + " \n" + transactionDao.getStoreSetupDao().getStreet() + " \n" + transactionDao.getStoreSetupDao().getCity() + ", " + transactionDao.getStoreSetupDao().getState() + " \n" + transactionDao.getStoreSetupDao().getZipcode(), 46, ReceiptFormatter.TextAlign.CENTER);
                 formatter.addLineBreak(1);
                 formatter.add2Columns("Clerk", 0, 15, transactionDao.getUsername(), 0, 20);
                 formatter.addLineBreak(1);
@@ -881,7 +882,7 @@ public class TransactionsManager {
         }
         TransactionDao print = new TransactionDao();
 
-        // print.setStoreSetupDao(storeSetupRepository.findOne(1));
+        print.setStoreSetupDao(storeSetupRepository.findOne(1));
 
         print = transactionRepository.findOne(7);
 

@@ -26,17 +26,18 @@ displayedColumns = ['name','cost', 'retail', 'quantity'];
 dataSource = new MatTableDataSource<Product>();
 
 
- colorScheme = {
-  domain: ['#337ab7', '#28a745', '#ff6666', '#fd7e14', '#495057', '#A059B5', '#56BAD6']
-};
+//  colorScheme = 
+//  {
+//   domain: ['#337ab7', '#28a745', '#ff6666', '#fd7e14', '#495057', '#A059B5', '#56BAD6']
+// };
   constructor(private reportService: ReportService) { 
   }
 
   ngOnInit() {
 
+    this.getTop50SellingProductList();
     this.getSaleSummaryDetails();
     this.getSalesByCategoryDetails();
-    this.getTop50SellingProductList();
   }
 
   onSelect(event) {

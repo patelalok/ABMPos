@@ -19,13 +19,15 @@
 
     <mat-card-content>
         <div class="row">
+
             <div class="col-md-12" *ngIf="this.numberCardChartData">
-                <ngx-charts-number-card [view]="null" [scheme]="this.colorScheme" [results]="this.numberCardChartData" (select)="onSelect($event)">
+                <ngx-charts-number-card [view]="null" [results]="this.numberCardChartData" (select)="onSelect($event)">
                 </ngx-charts-number-card>
             </div>
 
         </div>
         <div class="row">
+
             <div class="col-md-6 example-container mat-elevation-z8">
                 <h5>Best Selling Items</h5>
                 <div class="example-container mat-elevation-z8">
@@ -60,11 +62,14 @@
                     </mat-table>
                 </div>
             </div>
+
             <div class="col-md-6" style="height: 350px">
                 <h5>Category Sales Graph</h5>
-                <ngx-charts-pie-chart [view]="null" [scheme]="colorScheme" [results]="this.categoryPieChartData" [legend]="showLegend" [explodeSlices]="explodeSlices" [labels]="showLabels" [doughnut]="doughnut" (select)="onSelect($event)">
+                <ngx-charts-pie-chart [view]="null" [results]="this.categoryPieChartData" (select)="onSelect($event)">
                 </ngx-charts-pie-chart>
             </div>
         </div>
     </mat-card-content>
+
+
 </mat-card>

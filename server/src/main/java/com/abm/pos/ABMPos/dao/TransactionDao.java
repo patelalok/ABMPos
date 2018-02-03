@@ -30,6 +30,7 @@ public class TransactionDao {
     private String customerFirstLastName;
     private String note;
     private double tip;
+    private StoreSetupDao storeSetupDao;
 
     //this is need to handle store credit scenario
     @Transient
@@ -204,5 +205,13 @@ public class TransactionDao {
 
     public void setTip(double tip) {
         this.tip = tip;
+    }
+
+    public StoreSetupDao getStoreSetupDao() {
+        return storeSetupDao;
+    }
+
+    public void setStoreSetupDao(StoreSetupDao storeSetupDao) {
+        this.storeSetupDao = storeSetupDao;
     }
 }

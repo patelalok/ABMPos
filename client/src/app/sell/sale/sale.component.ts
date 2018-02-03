@@ -191,6 +191,9 @@ items: MenuItem[];
       });
   }
 
+  openCashDrawer(){
+    this.sellService.opneCashDrawer();
+  }
   public addTransactionLineItem(productObj: Product): TransactionLineItemDaoList[] {
 
     
