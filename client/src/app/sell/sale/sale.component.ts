@@ -1189,7 +1189,7 @@ items: MenuItem[];
 
   printReciept(){
 
-    this.sellService.printReceipt(this.printTransactionDto);
+    this.sellService.printThermalReceipt(this.printTransactionDto);
     this.clearAllDateAfterTransactionComplete();
     $('#paymentModel').modal('toggle');
   }

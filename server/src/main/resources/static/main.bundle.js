@@ -1386,126 +1386,136 @@ var CustomerService = /** @class */ (function () {
 
 /***/ }),
 
+/***/ "../../../../../src/app/dashboard/dashboard.component.html":
+/***/ (function(module, exports) {
+
+module.exports = "<!--<mat-card>-->\n    <!--<mat-card-title>-->\n        <!--<div class=\"row\">-->\n            <!--<div class=\"col-md-8\">-->\n                <!--<h4>Retail Dashboard</h4>-->\n            <!--</div>-->\n            <!--<div class=\"col-md-4\">-->\n                <!--<div class=\"btn-group\" role=\"group\" aria-label=\"Basic example\">-->\n                    <!--<button type=\"button\" class=\"btn btn-secondary\">Today</button>-->\n                    <!--<button type=\"button\" class=\"btn btn-secondary\">Week</button>-->\n                    <!--<button type=\"button\" class=\"btn btn-secondary\">Month</button>-->\n                    <!--<button type=\"button\" class=\"btn btn-secondary\">Custom</button>-->\n                <!--</div>-->\n\n            <!--</div>-->\n        <!--</div>-->\n\n    <!--</mat-card-title>-->\n\n    <!--<mat-card-content>-->\n        <!--<div class=\"row\">-->\n\n            <!--<div class=\"col-md-12\" *ngIf=\"this.numberCardChartData\">-->\n                <!--<ngx-charts-number-card [view]=\"null\" [results]=\"this.numberCardChartData\" (select)=\"onSelect($event)\">-->\n                <!--</ngx-charts-number-card>-->\n            <!--</div>-->\n\n        <!--</div>-->\n        <!--<div class=\"row\">-->\n\n            <!--<div class=\"col-md-6 example-container mat-elevation-z8\">-->\n                <!--<h5>Best Selling Items</h5>-->\n                <!--<div class=\"example-container mat-elevation-z8\">-->\n                    <!--<mat-table #table [dataSource]=\"dataSource\">-->\n\n                        <!--&lt;!&ndash;- Note that these columns can be defined in any order.-->\n                                <!--The actual rendered columns are set as a property on the row definition\" &ndash;&gt;-->\n\n                        <!--&lt;!&ndash; Position Column &ndash;&gt;-->\n                        <!--<ng-container matColumnDef=\"name\">-->\n                            <!--<mat-header-cell *matHeaderCellDef> Description </mat-header-cell>-->\n                            <!--<mat-cell *matCellDef=\"let productDto\"> {{productDto.name}} </mat-cell>-->\n                        <!--</ng-container>-->\n\n                        <!--<ng-container matColumnDef=\"cost\">-->\n                            <!--<mat-header-cell *matHeaderCellDef> Cost </mat-header-cell>-->\n                            <!--<mat-cell *matCellDef=\"let productDto\"> {{productDto.cost}} </mat-cell>-->\n                        <!--</ng-container>-->\n\n                        <!--<ng-container matColumnDef=\"retail\">-->\n                            <!--<mat-header-cell *matHeaderCellDef> Retail </mat-header-cell>-->\n                            <!--<mat-cell *matCellDef=\"let productDto\"> {{productDto.retail}} </mat-cell>-->\n                        <!--</ng-container>-->\n\n                        <!--<ng-container matColumnDef=\"quantity\">-->\n                            <!--<mat-header-cell *matHeaderCellDef> Quantity </mat-header-cell>-->\n                            <!--<mat-cell *matCellDef=\"let productDto\"> {{productDto.quantity}} </mat-cell>-->\n                        <!--</ng-container>-->\n\n                        <!--<mat-header-row *matHeaderRowDef=\"displayedColumns\"></mat-header-row>-->\n                        <!--<mat-row *matRowDef=\"let row; columns: displayedColumns;\"></mat-row>-->\n                    <!--</mat-table>-->\n                <!--</div>-->\n            <!--</div>-->\n\n            <!--<div class=\"col-md-6\" style=\"height: 350px\">-->\n                <!--<h5>Category Sales Graph</h5>-->\n                <!--<ngx-charts-pie-chart [view]=\"null\" [results]=\"this.categoryPieChartData\" (select)=\"onSelect($event)\">-->\n                <!--</ngx-charts-pie-chart>-->\n            <!--</div>-->\n        <!--</div>-->\n    <!--</mat-card-content>-->\n\n\n<!--</mat-card>-->\n"
+
+/***/ }),
+
+/***/ "../../../../../src/app/dashboard/dashboard.component.scss":
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__("../../../../css-loader/lib/css-base.js")(false);
+// imports
+
+
+// module
+exports.push([module.i, ".btn-secondary {\n  color: black;\n  background-color: white;\n  border-color: lightgrey; }\n\n.example-container {\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-orient: vertical;\n  -webkit-box-direction: normal;\n      -ms-flex-direction: column;\n          flex-direction: column;\n  max-height: 500px;\n  min-width: 300px; }\n\n.mat-table {\n  overflow: auto;\n  max-height: 500px; }\n", ""]);
+
+// exports
+
+
+/*** EXPORTS FROM exports-loader ***/
+module.exports = module.exports.toString();
+
+/***/ }),
+
 /***/ "../../../../../src/app/dashboard/dashboard.component.ts":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return DashboardComponent; });
-// import { ReportService } from 'app/report/report.service';
-// import { SalesDto, SalesSummaryDto } from 'app/report/sales/sales.component';
-// import { ChartDto } from 'app/report/inventory/inventory.component';
-// import { MatTableDataSource } from '@angular/material';
-// import { Product } from 'app/sell/sale/sale.component';
-//
-// @Component({
-//   selector: 'app-dashboard',
-//   templateUrl: './dashboard.component.html',
-//   styleUrls: ['./dashboard.component.scss']
-// })
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/esm5/core.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_app_report_report_service__ = __webpack_require__("../../../../../src/app/report/report.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_app_report_sales_sales_component__ = __webpack_require__("../../../../../src/app/report/sales/sales.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__angular_material__ = __webpack_require__("../../../material/esm5/material.es5.js");
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+
+
 var DashboardComponent = /** @class */ (function () {
-    function DashboardComponent() {
+    //  colorScheme = 
+    //  {
+    //   domain: ['#337ab7', '#28a745', '#ff6666', '#fd7e14', '#495057', '#A059B5', '#56BAD6']
+    // };
+    function DashboardComponent(reportService) {
+        this.reportService = reportService;
+        this.salesSummaryDto = new __WEBPACK_IMPORTED_MODULE_2_app_report_sales_sales_component__["b" /* SalesSummaryDto */]();
+        this.salesDto = [];
+        this.showLegend = false;
+        this.showLabels = true;
+        this.explodeSlices = false;
+        this.doughnut = false;
+        this.productDto = [];
+        this.displayedColumns = ['name', 'cost', 'retail', 'quantity'];
+        this.dataSource = new __WEBPACK_IMPORTED_MODULE_3__angular_material__["l" /* MatTableDataSource */]();
     }
-    //   salesSummaryDto = new SalesSummaryDto()
-    //   numberCardChartData:  ChartDto[];
-    //   categoryPieChartData: ChartDto[];
-    //   salesDto: SalesDto[] = [];
-    //   showLegend = false;
-    //   showLabels = true;
-    //   explodeSlices = false;
-    //   doughnut = false;
-    //   productDto:  Product[] = []
-    // ;
-    // displayedColumns = ['name','cost', 'retail', 'quantity'];
-    // dataSource = new MatTableDataSource<Product>();
-    //
-    //
-    // //  colorScheme =
-    // //  {
-    // //   domain: ['#337ab7', '#28a745', '#ff6666', '#fd7e14', '#495057', '#A059B5', '#56BAD6']
-    // // };
-    //   constructor(private reportService: ReportService) {
-    //   }
     DashboardComponent.prototype.ngOnInit = function () {
-        // this.getTop50SellingProductList();
-        // this.getSaleSummaryDetails();
-        // this.getSalesByCategoryDetails();
+        this.getTop50SellingProductList();
+        this.getSaleSummaryDetails();
+        this.getSalesByCategoryDetails();
     };
+    DashboardComponent.prototype.onSelect = function (event) {
+        console.log(event);
+    };
+    DashboardComponent.prototype.getSaleSummaryDetails = function () {
+        var _this = this;
+        this.reportService.getDashboardSalesSummaryReport('Sales By Year', '2018-01-01 00:00:00', '2018-12-31 23:59:59')
+            .subscribe(function (sales) {
+            _this.salesSummaryDto = sales;
+            _this.getNumberCardDetailsForSales();
+        });
+    };
+    DashboardComponent.prototype.getSalesByCategoryDetails = function () {
+        var _this = this;
+        this.reportService.getSalesDetails('Sales By Category', '2018-01-01 00:00:00', '2018-12-31 23:59:59')
+            .subscribe(function (sales) {
+            _this.salesDto = sales;
+            _this.getPieChartForCategorySales();
+        });
+    };
+    DashboardComponent.prototype.getTop50SellingProductList = function () {
+        var _this = this;
+        this.reportService.getTop50SellingProductList('Top50SellingItem', '2018-01-01 00:00:00', '2018-12-31 23:59:59')
+            .subscribe(function (product) {
+            _this.productDto = product;
+            _this.dataSource.data = _this.productDto;
+            //this.getPieChartForCategorySales();
+        });
+    };
+    DashboardComponent.prototype.getNumberCardDetailsForSales = function () {
+        //this.numberCardChartData = null;
+        this.numberCardChartData = null;
+        this.numberCardChartData = [];
+        this.numberCardChartData.push({
+            name: 'Cash', value: this.salesSummaryDto.cash
+        }, { name: 'Credit', value: this.salesSummaryDto.credit }, { name: 'Debit', value: this.salesSummaryDto.debit }, { name: 'Check', value: this.salesSummaryDto.check }, { name: 'Tax', value: this.salesSummaryDto.tax }, { name: 'Discount', value: this.salesSummaryDto.discount }, { name: 'Return', value: this.salesSummaryDto.returns }, { name: 'Profit', value: this.salesSummaryDto.profit });
+    };
+    DashboardComponent.prototype.getPieChartForCategorySales = function () {
+        var _this = this;
+        this.categoryPieChartData = null;
+        this.categoryPieChartData = [];
+        this.salesDto.forEach(function (sales) {
+            _this.categoryPieChartData.push({
+                name: sales.name,
+                value: sales.retail
+            });
+        });
+    };
+    DashboardComponent = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
+            selector: 'app-dashboard',
+            template: __webpack_require__("../../../../../src/app/dashboard/dashboard.component.html"),
+            styles: [__webpack_require__("../../../../../src/app/dashboard/dashboard.component.scss")]
+        }),
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_app_report_report_service__["a" /* ReportService */]])
+    ], DashboardComponent);
     return DashboardComponent;
 }());
 
-//   onSelect(event) {
-//     console.log(event);
-//   }
-//
-//   getSaleSummaryDetails(){
-//
-//     this.reportService.getDashboardSalesSummaryReport('Sales By Year', '2018-01-01 00:00:00', '2018-12-31 23:59:59')
-//         .subscribe((sales: SalesSummaryDto) => {
-//           this.salesSummaryDto = sales;
-//           this.getNumberCardDetailsForSales();
-//         });
-//   }
-//
-//   getSalesByCategoryDetails(){
-//     this.reportService.getSalesDetails('Sales By Category','2018-01-01 00:00:00', '2018-12-31 23:59:59')
-//     .subscribe((sales: SalesDto[]) => {
-//       this.salesDto = sales;
-//       this.getPieChartForCategorySales();
-//     });
-//   }
-//   getTop50SellingProductList(){
-//     this.reportService.getTop50SellingProductList('Top50SellingItem','2018-01-01 00:00:00', '2018-12-31 23:59:59')
-//     .subscribe((product: Product[]) => {
-//       this.productDto = product;
-//       this.dataSource.data = this.productDto;
-//       //this.getPieChartForCategorySales();
-//     });
-//   }
-//
-//   getNumberCardDetailsForSales(){
-//
-//     //this.numberCardChartData = null;
-//     this.numberCardChartData = null;
-//     this.numberCardChartData = [];
-//     this.numberCardChartData.push(
-//       {
-//       name: 'Cash',value: this.salesSummaryDto.cash} ,
-//       {name: 'Credit',value: this.salesSummaryDto.credit},
-//       {name: 'Debit',value: this.salesSummaryDto.debit},
-//       {name: 'Check',value: this.salesSummaryDto.check},
-//       {name: 'Tax',value: this.salesSummaryDto.tax},
-//       {name: 'Discount',value: this.salesSummaryDto.discount},
-//       {name: 'Return',value: this.salesSummaryDto.returns},
-//       {name: 'Profit',value: this.salesSummaryDto.profit}
-//     );
-//   }
-//
-//   getPieChartForCategorySales(){
-//     this.categoryPieChartData = null;
-//     this.categoryPieChartData = [];
-//
-//     this.salesDto.forEach((sales) => {
-//       this.categoryPieChartData.push({
-//         name: sales.name,
-//         value: sales.retail
-//       });
-//     });
-//   }
-//
-// }
-//
-//
-// export interface Element {
-//   description: string;
-//   // position: number;
-//   // weight: number;
-//   // symbol: string;
-// }
-//
-// const ELEMENT_DATA: Element[] = [
-//
-//   {description: 'test'}
-// ];
+var ELEMENT_DATA = [
+    { description: 'test' }
+];
 
 
 /***/ }),
@@ -5507,7 +5517,7 @@ module.exports = module.exports.toString();
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return SalesComponent; });
 /* unused harmony export SalesDto */
-/* unused harmony export SalesSummaryDto */
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return SalesSummaryDto; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/esm5/core.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_app_report_report_service__ = __webpack_require__("../../../../../src/app/report/report.service.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_app_shared_services_date_service__ = __webpack_require__("../../../../../src/app/shared/services/date.service.ts");
@@ -7591,7 +7601,7 @@ var SaleComponent = /** @class */ (function () {
         });
     };
     SaleComponent.prototype.printReciept = function () {
-        this.sellService.printReceipt(this.printTransactionDto);
+        this.sellService.printThermalReceipt(this.printTransactionDto);
         this.clearAllDateAfterTransactionComplete();
         $('#paymentModel').modal('toggle');
     };
@@ -9138,6 +9148,10 @@ var SellService = /** @class */ (function () {
             Object(__WEBPACK_IMPORTED_MODULE_4_app_shared_services_util_service__["b" /* printBlob */])(data._body);
         });
     };
+    SellService.prototype.printThermalReceipt = function (transaction) {
+        // this.document.
+        this.http.get(this.url + '/getThermalReceipt?receiptNo=' + transaction.transactionComId);
+    };
     SellService.prototype.sendEmail = function (transactionCompId) {
         return this.http.get(this.url + '/sendEmail?transactionCompId=' + transactionCompId);
     };
@@ -10010,7 +10024,7 @@ var SharedModule = /** @class */ (function () {
                 __WEBPACK_IMPORTED_MODULE_5__header_header_component__["a" /* HeaderComponent */],
                 __WEBPACK_IMPORTED_MODULE_8__footer_footer_component__["a" /* FooterComponent */],
                 __WEBPACK_IMPORTED_MODULE_6__angular_material__["c" /* MatChipsModule */],
-                __WEBPACK_IMPORTED_MODULE_6__angular_material__["l" /* MatTableModule */]
+                __WEBPACK_IMPORTED_MODULE_6__angular_material__["m" /* MatTableModule */]
             ],
             providers: [__WEBPACK_IMPORTED_MODULE_2__services_persistence_service__["a" /* PersistenceService */], __WEBPACK_IMPORTED_MODULE_9_app_shared_services_date_service__["b" /* DateService */], __WEBPACK_IMPORTED_MODULE_12__services_util_service__["a" /* UtilService */]]
         })

@@ -104,6 +104,10 @@ private url: string;
          printBlob(data._body)
        })
   }
+  printThermalReceipt(transaction: TransactionDtoList) {
+    // this.document.
+    this.http.get(this.url+'/getThermalReceipt?receiptNo='+transaction.transactionComId);
+}
 
   sendEmail(transactionCompId: number) {
     return this.http.get(this.url+'/sendEmail?transactionCompId='+transactionCompId);

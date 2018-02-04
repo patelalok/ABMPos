@@ -4,9 +4,9 @@ buildscript {
 	}
 	repositories {
 		mavenCentral()
-		flatDir {
-			dirs '/Users/apatel2/Desktop/lib'
-		}
+//		flatDir {
+//			dirs '/Users/apatel2/Desktop/lib'
+//		}
 	}
 	dependencies {
 		classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
@@ -45,7 +45,6 @@ task buildDocker(type: Docker, dependsOn: build) {
 
 dependencies {
 
-	compile fileTree(dir: '/Users/apatel2/Desktop/lib', include: ['*.jar'])
 	compile('org.springframework.boot:spring-boot-starter-data-jpa')
 	compile('org.springframework.boot:spring-boot-starter-data-rest')
 	compile('org.springframework.boot:spring-boot-starter-jdbc')
