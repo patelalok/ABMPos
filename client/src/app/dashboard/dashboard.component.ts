@@ -13,8 +13,8 @@ import { Product } from 'app/sell/sale/sale.component';
 export class DashboardComponent implements OnInit {
 
   salesSummaryDto = new SalesSummaryDto()
-  numberCardChartData:  ChartDto[];
-  categoryPieChartData: ChartDto[];
+  numberCardChartData:  ChartDto[] =[];
+  categoryPieChartData: ChartDto[]=[];
   salesDto: SalesDto[] = [];
   showLegend = false;
   showLabels = true;
@@ -25,12 +25,14 @@ export class DashboardComponent implements OnInit {
 displayedColumns = ['name','cost', 'retail', 'quantity'];
 dataSource = new MatTableDataSource<Product>();
 
+view: any[] = [700, 400];
 
-//  colorScheme = 
-//  {
-//   domain: ['#337ab7', '#28a745', '#ff6666', '#fd7e14', '#495057', '#A059B5', '#56BAD6']
-// };
+colorScheme = {
+  domain: ['#5AA454', '#A10A28', '#C7B42C', '#AAAAAA']
+};
+
   constructor(private reportService: ReportService) { 
+
   }
 
   ngOnInit() {
@@ -101,15 +103,17 @@ dataSource = new MatTableDataSource<Product>();
   
 }
 
-
-export interface Element {
-  description: string;
-  // position: number;
-  // weight: number;
-  // symbol: string;
-}
-
-const ELEMENT_DATA: Element[] = [
-
-  {description: 'test'}
+export var single = [
+  {
+    "name": "Germany",
+    "value": 8940000
+  },
+  {
+    "name": "USA",
+    "value": 5000000
+  },
+  {
+    "name": "France",
+    "value": 7200000
+  }
 ];

@@ -14,7 +14,6 @@ import jpos.POSPrinterConst;
 import jpos.util.JposPropertiesConst;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import org.springframework.cache.annotation.CachePut;
 import org.springframework.stereotype.Component;
 
 import java.io.ByteArrayOutputStream;

@@ -39,7 +39,7 @@ const routes: Routes = [
   { path: 'employee', component: EmployeeComponent},
   { path: 'clockIn/:username', component: ClockinComponent},
   { path: 'expense', component: ExpenseComponent},
-  // { path: 'dashboard', component: DashboardComponent},
+  { path: 'dashboard', component: DashboardComponent},
   {
     path: 'sales-history',
     component: SalesHistoryComponent,
