@@ -108,7 +108,9 @@ private url: string;
   }
   printThermalReceipt(transaction: TransactionDtoList) {
     // this.document.
-    this.http.get(this.url+'/getThermalReceipt?receiptNo='+transaction.transactionComId);
+    return this.http.get(this.url+'/getThermalReceipt?receiptNo='+transaction.transactionComId)
+    .map(this.extractData)
+    .catch(this.handleError);
 }
 
   sendEmail(transactionCompId: number) {

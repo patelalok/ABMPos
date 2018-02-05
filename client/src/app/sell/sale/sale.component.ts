@@ -1195,13 +1195,15 @@ items: MenuItem[];
 
   printReciept(){
 
-    this.sellService.printThermalReceipt(this.printTransactionDto);
+    console.log('coming for thermal print');
+    this.sellService.printThermalReceipt(this.printTransactionDto)
+    .subscribe(() => {
+  
+        });
     this.clearAllDateAfterTransactionComplete();
     $('#paymentModel').modal('toggle');
   }
-
 }
-
 
 export class Product {
   productNo: string;

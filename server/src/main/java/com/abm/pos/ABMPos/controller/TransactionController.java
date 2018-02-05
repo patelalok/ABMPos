@@ -53,6 +53,8 @@ public class TransactionController {
 
     @RequestMapping(value = "/getThermalReceipt", method = RequestMethod.GET)
     public void getThermalReceipt(@RequestParam int receiptNo) throws DocumentException, ParseException {
+
+        System.out.println("coming for thermal print");
         transactionManager.printTransaction(receiptNo);
     }
 
