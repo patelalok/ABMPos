@@ -31,7 +31,7 @@
                             </i>
                         </span>
                     </button>
-                    <button class="bg-primary text-white  action-button m-1" mat-raised-button (click)="this.openCashDrawer()">
+                    <button class="bg-primary text-white  action-button m-1" mat-raised-button (click)="this.opneCashDrawer()">
                         <span>
                             <i class="fa fa-th">
                                 No Sale
@@ -241,6 +241,7 @@
                     <input matInput [(ngModel)]="this.discountValue" type="text" placeholder="Add Discount">
                 </mat-input-container>
             </div>
+
             <div class="col-md-7">
                 <mat-radio-group class="m-t-5" [(ngModel)]="this.discountType">
                     <mat-radio-button class="p-md-2 m-r-20" value="By Amount"> $</mat-radio-button>
@@ -258,9 +259,6 @@
     </div>
 </div>
 <!-- End of Discount pophover -->
-
-
-
 <!-- Start of Product and Sale discard Pop up -->
 
 <div class="modal fade" id="deleteProduct" role="dialog">

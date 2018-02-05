@@ -1,5 +1,7 @@
 package com.abm.pos.ABMPos;
 
+import com.abm.pos.ABMPos.util.ManageSMS;
+import com.twilio.rest.api.v2010.account.Message;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cache.annotation.EnableCaching;
@@ -20,6 +22,11 @@ public class AbmPosApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(AbmPosApplication.class, args);
+
+		//ManageSMS ms = new ManageSMS();
+
+		//ms.sendSMS();
+
 	}
 
 }

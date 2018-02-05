@@ -58,6 +58,7 @@ public class TransactionController {
 
     @RequestMapping(value = "/openCashDrawer", method = RequestMethod.GET)
     public void openCashDrawer() {
+        System.out.println("coming to open open cash drawer");
         transactionManager.openCashDrawer();
     }
     @RequestMapping(value = "/getTransaction", method = RequestMethod.GET, produces = "application/json")

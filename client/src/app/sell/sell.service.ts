@@ -44,10 +44,12 @@ private url: string;
       .map(this.extractData)
       .catch(this.handleError);
   }
-  opneCashDrawer(){
-    this.http.get(this.url+'/openCashDrawer');
+  
+  opneCashDrawer() {
+    return this.http.get(this.url+'/openCashDrawer')
+    .map(this.extractData)
+    .catch(this.handleError);
   }
-
   getCurrentSaleTransactions(){
     let details$: Observable<TransactionLineItemDaoList[]>; 
 

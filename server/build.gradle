@@ -49,6 +49,8 @@ dependencies {
 	compile('org.springframework.boot:spring-boot-starter-data-rest')
 	compile('org.springframework.boot:spring-boot-starter-jdbc')
 	compile('org.springframework.boot:spring-boot-starter-web')
+	compile group: "com.twilio.sdk", name: "twilio", version: "7.17.+"
+
 	//http://mvnrepository.com/artifact/com.itextpdf/itextpdf
 	compile group: 'com.itextpdf', name: 'itextpdf', version: '5.4.0'
 
@@ -59,6 +61,7 @@ dependencies {
 
 	// https://mvnrepository.com/artifact/nz.net.ultraq.thymeleaf/thymeleaf-layout-dialect
 	compile group: 'nz.net.ultraq.thymeleaf', name: 'thymeleaf-layout-dialect', version: '1.2'
+	compile fileTree(dir: '/Users/apatel2/Desktop/lib', include: '*.jar')
 	runtime('mysql:mysql-connector-java')
 	testCompile('org.springframework.boot:spring-boot-starter-test')
 }

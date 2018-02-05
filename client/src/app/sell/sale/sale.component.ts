@@ -191,9 +191,15 @@ items: MenuItem[];
       });
   }
 
-  openCashDrawer(){
-    this.sellService.opneCashDrawer();
+  public opneCashDrawer()
+  {
+    console.log('Coming into cash drawer');
+    this.sellService.opneCashDrawer()
+    .subscribe(() => {
+      console.log('inside after caling opoen cash drawer');
+    });
   }
+
   public addTransactionLineItem(productObj: Product): TransactionLineItemDaoList[] {
 
     

@@ -33,6 +33,8 @@ public class CustomerDao {
     private String customerNote;
     private String keytag;
     private int noOfEyebrow;
+    private boolean enableSms;
+    private boolean enableEmail;
 
     public String getPhoneNo() {
         return phoneNo;
@@ -148,8 +150,6 @@ public class CustomerDao {
         this.password = password;
     }
 
-
-
     public double getBalance() {
         return balance;
     }
@@ -188,5 +188,21 @@ public class CustomerDao {
 
     public void setNoOfEyebrow(int noOfEyebrow) {
         this.noOfEyebrow = noOfEyebrow;
+    }
+
+    public boolean isEnableSms() {
+        return enableSms;
+    }
+
+    public void setEnableSms(boolean enableSms) {
+        this.enableSms = enableSms;
+    }
+
+    public boolean isEnableEmail() {
+        return enableEmail;
+    }
+
+    public void setEnableEmail(boolean enableEmail) {
+        this.enableEmail = enableEmail;
     }
 }

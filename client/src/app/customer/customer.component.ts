@@ -53,8 +53,9 @@ export class CustomerComponent implements OnInit {
         'city': [''],
         'state': [''],
         'type': [''],
-        'companyName': ['']
-
+        'companyName': [''],
+        'enableSms':[''],
+        'enableEmail':['']
       }
     );
   }
@@ -166,6 +167,8 @@ export class CustomerComponent implements OnInit {
     this.customerForm.get('city').setValue(this.selectedCustomerForUpdate.city);
     this.customerForm.get('state').setValue(this.selectedCustomerForUpdate.state);
     this.customerForm.get('zipCode').setValue(this.selectedCustomerForUpdate.zipCode);
+    this.customerForm.get('enableSms').setValue(this.selectedCustomerForUpdate.enableSms);
+    this.customerForm.get('enableEmail').setValue(this.selectedCustomerForUpdate.enableEmail);
 
   }
 
@@ -233,7 +236,8 @@ export class Customer {
   createdDate: any;
   loyalty?: number;
   noOfEyebrow?: number;
-
+  enableSms?:boolean;
+  enableEmail?:boolean;
 }
 
 export interface CustomerInterface {
@@ -256,6 +260,9 @@ export interface CustomerInterface {
   password?;
   createdDate?;
   loyalty?;
+  noOfEyebrow?: number;
+  enableSms?:boolean;
+  enableEmail?:boolean;
 }
 
 export class StoreCreditDto {
