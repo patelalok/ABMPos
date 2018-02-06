@@ -3,6 +3,8 @@ import {Http, Response, Headers} from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import { FormControl } from '@angular/forms/forms';
 import { CategoryTest, VendorTest } from "app/product/product.component";
+import { environment } from 'environments/environment';
+
 
 
 
@@ -10,30 +12,19 @@ import { CategoryTest, VendorTest } from "app/product/product.component";
 @Injectable()
 export class VendorService {
 
-    constructor(private http: Http) { }
+  private url: string;
+
+    constructor(private http: Http) { 
+      this.url = environment.reportUrl; 
+    }
 
     addOrUpdateVendor(vendor: VendorTest)
     {
-      console.log("Category Added" + vendor.name);
-      this.http.post('http://localhost:8080/addVendor', vendor)
-      .subscribe(data => {
-        alert('Vendor Updated !!');
-        console.log(data);
-      },
-        error => {
-      console.log(JSON.stringify(error.json()));
-    });
+     return this.http.post(this.url+'/addVendor', vendor);
     }
 
       deleteVendor(vendorId: number)
     {
-      this.http.delete('http://localhost:8080/deleteVendor?vendorId=' + vendorId)
-      .subscribe(data => {
-        alert('Vendor Deleted !!');
-        console.log(data);
-      },
-        error => {
-      console.log(JSON.stringify(error.json()));
-    });
+      return this.http.delete(this.url+'/deleteVendor?vendorId=' + vendorId);
     }
 }

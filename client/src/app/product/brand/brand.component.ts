@@ -4,6 +4,7 @@ import { ProductService } from "app/product/product.service";
 import { Message } from "primeng/primeng";
 import { BrandService } from "app/product/brand/brand.service";
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { ToastsManager } from 'ng2-toastr';
 
 @Component({
     selector: 'app-brand',
@@ -20,7 +21,7 @@ export class BrandComponent implements OnInit {
 
     brand: BrandTest = new PrimeBrand();
 
-    constructor(private brandService: BrandService, private productService: ProductService, private formBuilder: FormBuilder) { }
+    constructor(private brandService: BrandService, private productService: ProductService, private formBuilder: FormBuilder, private toastr: ToastsManager) { }
 
     ngOnInit() {
 
@@ -50,7 +51,19 @@ export class BrandComponent implements OnInit {
 
     addBrand() {
         let newBrand = this.brandForm.value; 
-        this.brandService.addOrUpdateBrand(this.brandForm.value);
+        this.brandService.addOrUpdateBrand(this.brandForm.value)
+        .subscribe(data => {
+            if(data){
+                this.toastr.success('Brand Added Successfully!!');
+            }
+            else{
+                this.toastr.error('Opps Something Goes Wrong!!');
+            }
+          },
+            error => {
+          console.log(JSON.stringify(error.json()));
+          this.toastr.error('Opps Something Goes Wrong!!');
+        });
         this.brandDto.push(newBrand);
 
         this.brandDto = this.brandDto.slice();
@@ -58,7 +71,19 @@ export class BrandComponent implements OnInit {
     }
 
     updateBrand(event) {
-        this.brandService.addOrUpdateBrand(event.data);
+        this.brandService.addOrUpdateBrand(event.data)
+        .subscribe(data => {
+            if(data){
+                this.toastr.success('Brand Updated Successfully!!');
+            }
+            else{
+                this.toastr.error('Opps Something Goes Wrong!!');
+            }
+          },
+            error => {
+          console.log(JSON.stringify(error.json()));
+          this.toastr.error('Opps Something Goes Wrong!!');
+        });
     }
 
     setBrandForDetete(brand: Brand) {

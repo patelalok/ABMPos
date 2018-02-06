@@ -5,6 +5,7 @@ import { Category, CategoryTest, VendorTest, Vendor } from 'app/product/product.
 import { Message } from 'primeng/primeng';
 import { VendorService } from 'app/product/vendor/vendor.service';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { ToastsManager } from 'ng2-toastr';
 
 
 @Component({
@@ -25,7 +26,7 @@ export class VendorComponent implements OnInit {
 
     vendor: VendorTest = new PrimeVendor();
 
-    constructor(private vendorService: VendorService, private productService: ProductService, private formBuilder: FormBuilder) { }
+    constructor(private vendorService: VendorService, private productService: ProductService, private formBuilder: FormBuilder, private toastr: ToastsManager) { }
 
     ngOnInit() {
 
@@ -56,35 +57,48 @@ export class VendorComponent implements OnInit {
                 console.log('VendorList' + this.vendorDto);
             });
     }
+// REady to Delete
+    // save() {
+    //     let newVendorDto = [...this.vendorDto];
 
-    save() {
-        let newVendorDto = [...this.vendorDto];
+    //     if (this.newVendor) {
+    //         newVendorDto.push(this.vendor);
 
-        if (this.newVendor) {
-            newVendorDto.push(this.vendor);
-
-            this.vendorService.addOrUpdateVendor(this.vendor);
-            this.showSuccess('success', 'Insert', 'Vendor Added Successfully!!');
-            this.getVendorDetails();
-            this.displayDialog = false;
-
-        } else {
-            newVendorDto[this.findSelectedCarIndex()] = this.vendor;
-            this.vendorDto = newVendorDto;
-
-            this.vendorService.addOrUpdateVendor(this.vendor);
-            this.vendor = null;
-            this.getVendorDetails();
-            this.showSuccess('success', 'Update', 'Vendor Updated Successfully!!');
-            this.displayDialog = false;
-        }
-    }
+    //         this.vendorService.addOrUpdateVendor(this.vendor)
+    //         .subscribe(data => {
+    //             if(data){
+    //                 this.toastr.success('Vendor Added Successfully!!');
+    //             }
+    //             else{
+    //                 this.toastr.error('Opps Something Goes Wrong!!');
+    //             }
+    //           },
+    //             error => {
+    //           console.log(JSON.stringify(error.json()));
+    //           this.toastr.error('Opps Something Goes Wrong!!');
+    //         });
+    //         this.getVendorDetails();
+    //         this.displayDialog = false;
+    //     } 
+    // }
 
     addVendor() {
 
         let newVendor = this.vendorForm.value;
        
-        this.vendorService.addOrUpdateVendor(this.vendorForm.value); 
+        this.vendorService.addOrUpdateVendor(this.vendorForm.value)
+        .subscribe(data => {
+            if(data){
+                this.toastr.success('Vendor Added Successfully!!');
+            }
+            else{
+                this.toastr.error('Opps Something Goes Wrong!!');
+            }
+          },
+            error => {
+          console.log(JSON.stringify(error.json()));
+          this.toastr.error('Opps Something Goes Wrong!!');
+        });
         this.vendorDto.push(newVendor);
         this.vendorDto = this.vendorDto.slice();
 
@@ -93,7 +107,19 @@ export class VendorComponent implements OnInit {
     }
     updateVendor(event) {
 
-        this.vendorService.addOrUpdateVendor(event.data);
+        this.vendorService.addOrUpdateVendor(event.data)
+        .subscribe(data => {
+            if(data){
+                this.toastr.success('Vendor Updated Successfully!!');
+            }
+            else{
+                this.toastr.error('Opps Something Goes Wrong!!');
+            }
+          },
+            error => {
+          console.log(JSON.stringify(error.json()));
+          this.toastr.error('Opps Something Goes Wrong!!');
+        });
 
     }
 
@@ -103,9 +129,21 @@ export class VendorComponent implements OnInit {
     }
     deleteVendor() {
 
-        let index = this.vendorDto.findIndex((el) => el.name == this.selectedVendorForDelete.name);
-        this.vendorDto = this.vendorDto.splice(0, index).concat(this.vendorDto.splice(index));
-        this.vendorService.deleteVendor(this.selectedVendorForDelete.vendorId);
+        this.vendorService.deleteVendor(this.selectedVendorForDelete.vendorId)
+        .subscribe(data => {
+            if(data){
+                let index = this.vendorDto.findIndex((el) => el.name == this.selectedVendorForDelete.name);
+                this.vendorDto = this.vendorDto.splice(0, index).concat(this.vendorDto.splice(index));
+                this.toastr.success('Vendor Deleted Successfully!!');
+            }
+            else{
+                this.toastr.error('Opps Something Goes Wrong!!');
+            }
+          },
+            error => {
+          console.log(JSON.stringify(error.json()));
+          this.toastr.error('Opps Something Goes Wrong!!');
+        });
     }
 
     showDialogToAdd() {

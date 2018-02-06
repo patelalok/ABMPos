@@ -5,6 +5,7 @@ import { Category, CategoryTest } from "app/product/product.component";
 import {Message} from 'primeng/primeng';
 import { CategoryService } from 'app/product/category/category.service';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { ToastsManager } from 'ng2-toastr';
 
 
 @Component({
@@ -22,7 +23,7 @@ export class CategoryComponent implements OnInit {
 
   category: CategoryTest = new PrimeCategory();
 
-  constructor(private categoryService: CategoryService, private productService: ProductService,  private formBuilder: FormBuilder) { }
+  constructor(private categoryService: CategoryService, private productService: ProductService,  private formBuilder: FormBuilder, private toastr: ToastsManager) { }
 
   ngOnInit() {
 
@@ -53,7 +54,19 @@ export class CategoryComponent implements OnInit {
     addCategory() {
         
         let newCategory = this.categoryForm.value;
-        this.categoryService.addOrUpdateCategory(this.categoryForm.value);
+        this.categoryService.addOrUpdateCategory(this.categoryForm.value)
+        .subscribe(data => {
+            if(data){
+                this.toastr.success('Category Added Successfully!!');
+            }
+            else{
+                this.toastr.error('Opps Something Goes Wrong!!');
+            }
+          },
+            error => {
+          console.log(JSON.stringify(error.json()));
+          this.toastr.error('Opps Something Goes Wrong!!');
+        });
         this.categoryDto.push(newCategory);
         this.categoryDto = this.categoryDto.slice();
         this.displayDialog = false;    
@@ -61,7 +74,19 @@ export class CategoryComponent implements OnInit {
     }
 
     updateCategory(event) {
-        this.categoryService.addOrUpdateCategory(event.data);
+        this.categoryService.addOrUpdateCategory(event.data)
+        .subscribe(data => {
+            if(data){
+                this.toastr.success('Category Updated Successfully!!');
+            }
+            else{
+                this.toastr.error('Opps Something Goes Wrong!!');
+            }
+          },
+            error => {
+          console.log(JSON.stringify(error.json()));
+          this.toastr.error('Opps Something Goes Wrong!!');
+        });
     }
 
 
@@ -71,9 +96,21 @@ export class CategoryComponent implements OnInit {
     }
     deleteCategory() {
 
-        let index = this.categoryDto.findIndex((el) => el.name == this.selectedCategoryForDelete.name); 
-        this.categoryDto = this.categoryDto.splice(0, index).concat(this.categoryDto.splice(index));
-        this.categoryService.deleteCategory(this.selectedCategoryForDelete.categoryId);
+        this.categoryService.deleteCategory(this.selectedCategoryForDelete.categoryId)
+        .subscribe(data => {
+            if(data){
+                let index = this.categoryDto.findIndex((el) => el.name == this.selectedCategoryForDelete.name); 
+                this.categoryDto = this.categoryDto.splice(0, index).concat(this.categoryDto.splice(index));
+                this.toastr.success('Category Deleted Successfully!!');
+            }
+            else{
+                this.toastr.error('Opps Something Goes Wrong!!');
+            }
+          },
+            error => {
+          console.log(JSON.stringify(error.json()));
+          this.toastr.error('Opps Something Goes Wrong!!');
+        });
     } 
 
     showDialogToAdd() {
