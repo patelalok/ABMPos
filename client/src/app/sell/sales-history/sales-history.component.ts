@@ -90,8 +90,10 @@ export class SalesHistoryComponent implements OnInit {
 
   printReceipt(transaction: TransactionDtoList){
 
-    this.sellService.printReceipt(transaction);
-  
+    this.sellService.printThermalReceipt(transaction)
+    .subscribe((data) => {
+      console.log(data);
+            });
   }
 
   onTransactionTypeDropdownChoose(){

@@ -1197,8 +1197,8 @@ items: MenuItem[];
 
     console.log('coming for thermal print');
     this.sellService.printThermalReceipt(this.printTransactionDto)
-    .subscribe(() => {
-  
+    .subscribe((data) => {
+  console.log(data);
         });
     this.clearAllDateAfterTransactionComplete();
     $('#paymentModel').modal('toggle');
