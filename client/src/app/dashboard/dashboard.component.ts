@@ -28,7 +28,7 @@ dataSource = new MatTableDataSource<Product>();
 view: any[] = [700, 400];
 
 colorScheme = {
-  domain: ['#5AA454', '#A10A28', '#C7B42C', '#AAAAAA']
+  domain: ['#337ab7','#43a047','#e53935', '#fb8c00']
 };
 
   constructor(private reportService: ReportService) { 

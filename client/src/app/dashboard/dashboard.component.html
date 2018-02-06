@@ -29,35 +29,44 @@
         <div class="row">
 
             <div class="col-md-6 example-container mat-elevation-z8">
-                <h5>Best Selling Items</h5>
-                <table class="table table-striped">
-                    <thead>
-                        <tr>
-                            <th scope="col">ProductNo</th>
-                            <th scope="col">Description</th>
-                            <th scope="col">Cost</th>
-                            <th scope="col">Retail</th>
-                            <th scope="col">Quantity</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr *ngFor="let product of this.productDto">
-                            <td>{{product.productNo}}</td>
-                            <td>{{product.name}}</td>
-                            <td>$ {{product.cost}}</td>
-                            <td>$ {{product.retail}}</td>
-                            <td>{{product.quantity}}</td>
-                        </tr>
+                <div class="row" style="margin: 0 auto; height: 40px;  margin-top: 7.5px;">
+                    <h5>Best Selling Items</h5>
+                </div>
+                <div class="row">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th scope="col">ProductNo</th>
+                                <th scope="col">Description</th>
+                                <th scope="col">Cost</th>
+                                <th scope="col">Retail</th>
+                                <th scope="col">Quantity</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let product of this.productDto">
+                                <td>{{product.productNo}}</td>
+                                <td>{{product.name}}</td>
+                                <td>$ {{product.cost}}</td>
+                                <td>$ {{product.retail}}</td>
+                                <td>{{product.quantity}}</td>
+                            </tr>
 
 
-                    </tbody>
-                </table>
+                        </tbody>
+                    </table>
+                </div>
+
             </div>
 
             <div class="col-md-6 example-container mat-elevation-z8">
-                <h5>Category Sales Graph</h5>
-                <ngx-charts-pie-chart [view]="view" [scheme]="colorScheme" [results]="categoryPieChartData" [legend]="showLegend" [explodeSlices]="explodeSlices" [labels]="showLabels" [doughnut]="doughnut" [gradient]="gradient" (select)="onSelect($event)">
-                </ngx-charts-pie-chart>
+                <div class="row" style="margin: 0 auto; height: 40px;  margin-top: 7.5px;">
+                    <h5>Category Sales Graph</h5>
+                </div>
+                <div class="row">
+                    <ngx-charts-pie-chart [view]="view" [scheme]="colorScheme" [results]="categoryPieChartData" [legend]="showLegend" [explodeSlices]="explodeSlices" [labels]="showLabels" [doughnut]="doughnut" [gradient]="gradient" (select)="onSelect($event)">
+                    </ngx-charts-pie-chart>
+                </div>
             </div>
         </div>
         <div class="row">
