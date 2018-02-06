@@ -50,14 +50,7 @@ constructor(private http: Http) {
 
     deleteCustomer(phoneNo: string)
     {
-      this.http.delete(this.url+'/deleteCustomer?phoneNo=' + phoneNo)
-       .subscribe(data => {
-        console.log('Customer Deleted With this !!' + phoneNo);
-      },
-        error => {
-      console.log(JSON.stringify(error.json()));
-    });
-
+      return this.http.delete(this.url+'/deleteCustomer?phoneNo=' + phoneNo);
     }
 
     private extractData(res: Response): Product[] {

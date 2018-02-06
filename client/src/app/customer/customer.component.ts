@@ -101,15 +101,15 @@ export class CustomerComponent implements OnInit {
 
   updateCustomer()
   {
-    let updateItem = this.customerDto.find(this.findIndexToUpdate, this.selectedCustomerForUpdate.phoneNo);
-    let index = this.customerDto.indexOf(updateItem);
+  
     let newCustomer = this.customerForm.value;
     this.customerService.addOrUpdateCustomer(this.customerForm.value)
     .subscribe(data => {
       if(data!= null){
-        this.toastr.success('Customer Added Successfully!!', 'Success!!');
+        let updateItem = this.customerDto.find(this.findIndexToUpdate, this.selectedCustomerForUpdate.phoneNo);
+        let index = this.customerDto.indexOf(updateItem);
         this.customerDto[index] = this.selectedCustomerForUpdate;
-        console.log('cusotmer data back', data);
+        this.toastr.success('Customer Added Successfully!!', 'Success!!');
       }
     },
       error => {
@@ -127,13 +127,23 @@ export class CustomerComponent implements OnInit {
 
   setCustomerForDelete(cust: Customer) {
 
-    
-
     this.selectedCustomerForDelete = cust;
   }
 
   deleteCustomer() {
-    this.customerService.deleteCustomer(this.selectedCustomerForDelete.phoneNo);
+    this.customerService.deleteCustomer(this.selectedCustomerForDelete.phoneNo)
+    .subscribe(data => {
+      if(data.status == 200){
+          this.toastr.success('Customer Deleted Successfully!!');
+      }
+      else{
+          this.toastr.error('Opps Something Goes Wrong!!');
+      }
+    },
+      error => {
+    console.log(JSON.stringify(error.json()));
+    this.toastr.error('Opps Something Goes Wrong!!');
+  });
     this.getCustomerDetails();
 
     this.displayDialog = false;
