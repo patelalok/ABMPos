@@ -3,6 +3,9 @@ import { CustomerService } from 'app/customer/customer.service';
 import { Customer, PrimeCustomer } from 'app/customer/customer.component';
 import { PromotionService } from 'app/promotion/promotion.service';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { ToastsManager } from 'ng2-toastr';
+declare var $: JQueryStatic;
+
 
 @Component({
   selector: 'app-sms',
@@ -17,7 +20,7 @@ export class SmsComponent implements OnInit {
   smsTemplateList: SmsTemplate[] = [];
   smsTemplateForm: FormGroup;
 
-  constructor(private customerService: CustomerService, private promotionService: PromotionService, private formBuilder: FormBuilder) { }
+  constructor(private customerService: CustomerService, private promotionService: PromotionService, private formBuilder: FormBuilder, private toastr: ToastsManager) { }
 
   ngOnInit() {
 
@@ -67,11 +70,19 @@ export class SmsComponent implements OnInit {
 
   addOrUpdateSmsTemplate(){
     this.promotionService.addOrUpdateSmsTemplate(this.smsTemplateForm.value)
-    .subscribe((data) =>{
+    .subscribe(data => {
       if(data){
-
+          this.toastr.success('Sms Template Added Successfully!!');
+          $('#smsTemplateModel').modal('hide');
       }
-    });
+      else{
+          this.toastr.error('Opps Something Goes Wrong!!');
+      }
+    },
+      error => {
+    console.log(JSON.stringify(error.json()));
+    this.toastr.error('Opps Something Goes Wrong!!');
+  });
   }
 
   getAllSmsTemplate(){
