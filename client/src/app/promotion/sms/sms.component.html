@@ -26,31 +26,40 @@
                     <tr *ngFor="let template of this.smsTemplateList">
                         <td>{{template.name}}</td>
                         <td>{{template.description}}</td>
-                        <td>
-                            <button>Edit</button>
-                            <button>Apply</button>
+                        <td style='white-space: nowrap'>
+                            <button mat-button class="btn-green" style="min-width: 0px; border-radius: 5px !important;" mat-button (click)="this.applyTemplateFromTemplateList(template)">
+                                <i class="fa fa-check" aria-hidden="true"></i>
+                            </button>
+                            <button mat-button class="btn-blue" style="min-width: 0px; border-radius: 5px !important;" mat-button (click)="this.updateTemplate(template)" data-toggle="modal" data-target="#smsTemplateModel">
+                                <i class="fa fa-pencil" aria-hidden="true"></i>
+                            </button>
+                            <button mat-button class="btn-red" style="min-width: 0px; border-radius: 5px !important;" mat-button data-toggle="modal" data-target="#deleteSmsTemplate" (click)="this.setDeleteSmsTemplate(template)">
+                                    <i class="fa fa-trash" aria-hidden="true"></i>
+                                </button>
+
                         </td>
                     </tr>
                 </tbody>
             </table>
         </div>
         <div class="col-md-7">
-            <div class="form-group">
-                <label for="exampleFormControlInput1">Search Customer</label>
-                <input type="email" class="form-control" placeholder="Enter PhoneNo Or Email">
-            </div>
-            <div class="form-group">
-                <label for="exampleFormControlTextarea1">Please Type Message Here</label>
-                <textarea class="form-control" rows="3"></textarea>
-            </div>
-            <div class="form-group">
-                <button mat-raised-button type="button" style="width: 100%; font-size: 20px" class="btn btn-green btn-lg text-white m-md-1 p-md-2" (click)="this.sendMarketingSms()">
+            <form *ngIf="this.smsForm != null" [formGroup]="this.smsForm">
+                <div class="form-group">
+                    <label for="exampleFormControlInput1">Search Customer</label>
+                    <input type="email" class="form-control" formControlName="phoneNo" placeholder="Enter PhoneNo Or Email">
+                </div>
+                <div class="form-group">
+                    <label for="exampleFormControlTextarea1">Please Type Message Here</label>
+                    <textarea class="form-control" formControlName="messageBody" rows="4"></textarea>
+                </div>
+                <div class="form-group">
+                    <button mat-raised-button type="button" style="width: 100%; font-size: 20px" class="btn btn-green btn-lg text-white m-md-1 p-md-2" (click)="this.sendMarketingSms()">
                     <i aria-hidden="true" class="fa fa-paper-plane">
                         Send Message
                     </i>
                 </button>
-            </div>
-
+                </div>
+            </form>
         </div>
 
     </div>
@@ -69,7 +78,7 @@
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
 
                 </div>
-                <form *ngIf="this.smsTemplateForm != null" [formGroup]="smsTemplateForm">
+                <form *ngIf="this.smsTemplateForm != null" [formGroup]="this.smsTemplateForm">
                     <div class="modal-body">
 
                         <div class="form-group">
@@ -100,3 +109,25 @@
         </div>
 
     </div>
+
+    <!-- Start of Delete Sms Template -->
+    <div class="modal fade" id="deleteSmsTemplate" role="dialog">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Delete Template</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <p>Are You Sure You Want To Delete This Template??</p>
+                </div>
+                <div class="modal-footer">
+
+                    <button type="button" class="btn btn-danger" data-dismiss="modal" (click)="this.deleteSmsTemplate()">Yes</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancle</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- End of Delete Sms Template  -->

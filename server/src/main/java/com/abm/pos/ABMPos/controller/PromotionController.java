@@ -27,6 +27,12 @@ public class PromotionController {
     {
         return promotionManager.getAllSmsPromotionTemplate();
     }
+    @RequestMapping(value = "/deleteSmsTemplate", method = RequestMethod.DELETE, produces = "application/json")
+    public void deleteSmsTemplate(@RequestParam int templateId)
+    {
+        promotionManager.deleteSmsTemplate(templateId);
+    }
+
 
     @RequestMapping(value = "/sendPromotionBySms", method = RequestMethod.POST, consumes = "application/json")
     public void sendPromotionBySms(@RequestBody List<CustomerDao> customerDaoList, @RequestParam String messageBody)

@@ -39,4 +39,9 @@ public class PromotionManager {
 
         return smsTemplateRepository.findAll();
     }
+
+    public void deleteSmsTemplate(int templateId) {
+
+        smsTemplateRepository.delete(templateId);
+    }
 }

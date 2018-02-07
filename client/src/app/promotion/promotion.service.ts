@@ -13,14 +13,20 @@ export class PromotionService {
    }
 
 
-   addOrUpdateSmsTemplate(template: SmsTemplate){
-    return this.http.post(this.url+'/addSmsPromotionTemplate',template);
+   addOrUpdateSmsTemplate(template: SmsTemplate): Observable<SmsTemplate>{
+    return this.http.post(this.url+'/addSmsPromotionTemplate',template)
+    .map(this.extractData)
+    .catch(this.handleError);
    }
 
    getAllSmsTemplate(): Observable<SmsTemplate[]>{
      return this.http.get(this.url+'/getAllSmsPromotionTemplate') 
      .map(this.extractData)
      .catch(this.handleError);
+   }
+
+   deleteSmsTemplate(smsTemplate: SmsTemplate){
+     return this.http.delete(this.url+'/deleteSmsTemplate?templateId='+smsTemplate.id);
    }
 
    private extractData(res: Response): any[] {
