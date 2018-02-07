@@ -53,11 +53,16 @@ constructor(private http: Http) {
       return this.http.delete(this.url+'/deleteCustomer?phoneNo=' + phoneNo);
     }
 
+    sendMarketingSms(customerDaoList: Customer[], messageBody: string){
+      return this.http.post(this.url+'/sendPromotionBySms?messageBody='+messageBody, customerDaoList, messageBody);
+    }
+
     private extractData(res: Response): Product[] {
     let body = res.json();
     // console.log(body);
     return body || {};
   }
+
 
     private handleError(error: Response | any) {
     // In a real world app, you might use a remote logging infrastructure

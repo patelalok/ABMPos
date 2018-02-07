@@ -36,6 +36,8 @@ public class CustomerDao {
     private boolean enableSms;
     private boolean enableEmail;
 
+    private Integer groupId;
+
     public String getPhoneNo() {
         return phoneNo;
     }
@@ -204,5 +206,13 @@ public class CustomerDao {
 
     public void setEnableEmail(boolean enableEmail) {
         this.enableEmail = enableEmail;
+    }
+
+    public Integer getGroupId() {
+        return groupId;
+    }
+
+    public void setGroupId(Integer groupId) {
+        this.groupId = groupId;
     }
 }

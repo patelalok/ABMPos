@@ -1004,7 +1004,7 @@ module.exports = module.exports.toString();
 /***/ "../../../../../src/app/customer/customer.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<mat-card>\n    <mat-card-title>\n\n        <div class=\"row d-flex align-items-center\">\n            <div class=\"col-md-7\">\n                <h4>Customer Details</h4>\n            </div>\n\n            <div class=\"col-md-5 d-flex align-items-center justify-content-end\">\n                <button type=\"button\" class=\"bg-primary text-white action-button-lg m-3\" (click)=\"this.showDialogToAdd()\">\n                        <i class=\"fa fa-plus-square\" aria-hidden=\"true\" label=\"Add\"></i>\n                            Add Customer\n                    </button>\n\n            </div>\n        </div>\n    </mat-card-title>\n    <mat-card-content>\n        <p-growl [(value)]=\"msgs\"></p-growl>\n\n\n        <div class=\"row\">\n            <div class=\"col-md-12\">\n\n                <p-dataTable [value]=\"this.customerDto\" [editable]=\"true\" scrollable=\"true\" [responsive]=\"true\" scrollHeight=\"500px\">\n                    <p-column field=\"name\" header=\"Name\" filterPlaceholder=\"Search For Customer Name\" [filter]=\"true\"></p-column>\n                    <p-column field=\"phoneNo\" header=\"PhoneNo\" filterPlaceholder=\"Search For Customer Phono No\" [sortable]=\"true\" [filter]=\"true\"></p-column>\n                    <p-column field=\"email\" header=\"Email\" filterPlaceholder=\"Search For Customer Email\" [sortable]=\"true\" [filter]=\"true\"></p-column>\n                    <p-column field=\"balance\" header=\"Balance\" [sortable]=\"true\">\n                        <ng-template let-customer=\"rowData\" pTemplate=\"body\">\n                            {{customer.balance | currency:'USD':'true'}}\n                        </ng-template>\n                    </p-column>\n                    <p-column field=\"storeCredit\" header=\"Store Credit\" [sortable]=\"true\">\n                        <ng-template let-customer=\"rowData\" pTemplate=\"body\">\n                            {{customer.storeCredit | currency:'USD':'true'}}\n                        </ng-template>\n                    </p-column>\n                    <p-column field=\"loyalty\" header=\"Loyalty\" [sortable]=\"true\">\n                        <ng-template let-customer=\"rowData\" pTemplate=\"body\">\n                            {{customer.loyalty | currency:'USD':'true'}}\n                        </ng-template>\n                    </p-column>\n                    <p-column field=\"action\" header=\"Action\" [sortable]=\"true\">\n\n                        <ng-template let-customer=\"rowData\" pTemplate=\"body\">\n                            <button mat-button class=\"btn-blue action-button-table\" (click)=\"this.setDetailForUpdateCusotmer(customer)\">\n                                <i class=\"fa fa-pencil\" aria-hidden=\"true\"></i>\n                            </button>\n                            <button mat-button data-toggle=\"modal\" data-target=\"#deleteCustomer\" (click)=\"this.setCustomerForDelete(customer)\" mat-button class=\"btn-red action-button-table\" mat-button data-toggle=\"modal\" data-target=\"#deleteCustomer\">\n                                <i class=\"fa fa-trash\" aria-hidden=\"true\"></i>\n                            </button>\n                            <button mat-button class=\"btn-green action-button-table\" data-toggle=\"modal\" data-target=\"#productHistoryModel\">\n                                <i class=\"fa fa-history\" aria-hidden=\"true\"></i>\n                            </button>\n                            <button mat-button class=\"btn-gray action-button-table\" data-toggle=\"modal\" data-target=\"#addStoreCredit\" (click)=this.selectCustomerForStoreCredit(customer)>\n                                <i class=\"fa fa-credit-card-alt\" aria-hidden=\"true\"></i>                                \n                                </button>\n                        </ng-template>\n                    </p-column>\n                </p-dataTable>\n\n            </div>\n        </div>\n    </mat-card-content>\n</mat-card>\n\n<form [formGroup]=\"customerForm\">\n    <p-dialog header=\"Add Customer Details\" appendTo=\"body\" [(visible)]=\"displayDialog\" [responsive]=\"true\" showEffect=\"fade\" [modal]=\"true\" (onHide)=\"resrtForm()\">\n\n        <div class=\"container\">\n\n            <div class=\"row\">\n\n                <div class=\"col-md-2 p-1\">\n                    <label>Customer Name:</label>\n                </div>\n\n                <div class=\"col-md-4 p-1\">\n                    <input type=\"text\" class=\"form-control\" formControlName=\"name\" placeholder=\"Enter First and Last Name\">\n                </div>\n\n                <div class=\"col-md-2 p-1\">\n                    <label>Phone Number:</label>\n                </div>\n                <div class=\"col-md-4 p-1\">\n                    <input type=\"text\" class=\"form-control\" formControlName=\"phoneNo\" placeholder=\"Enter Phone Number\">\n\n                </div>\n\n                <!-- Second row of the cusotmer -->\n\n                <div class=\"col-md-2 p-1\">\n                    <label>Company Name:</label>\n                </div>\n\n                <div class=\"col-md-4 p-1\">\n                    <input type=\"text\" class=\"form-control\" formControlName=\"companyName\" placeholder=\"Enter Company Name\">\n                </div>\n\n                <div class=\"col-md-2 p-1\">\n                    <label>Email:</label>\n                </div>\n                <div class=\"col-md-4 p-1\">\n                    <input type=\"text\" class=\"form-control\" formControlName=\"email\" placeholder=\"Enter Email\">\n\n                </div>\n\n                <!-- thirs row of customer -->\n\n                <div class=\"col-md-2 p-1\">\n                    <label>Tax Id:</label>\n                </div>\n\n                <div class=\"col-md-4 p-1\">\n                    <input type=\"text\" class=\"form-control\" formControlName=\"taxId\" placeholder=\"Enter Tax Id\">\n                </div>\n\n                <div class=\"col-md-2 p-1\">\n                    <label>Date Of Birth:</label>\n                </div>\n                <div class=\"col-md-4 p-1\">\n                    <input type=\"text\" class=\"form-control\" formControlName=\"dateOfBirth\" placeholder=\"Enter Date Of Birth\">\n\n                </div>\n\n                <!-- forth row of customer -->\n                <div class=\"col-md-2 p-1\">\n                    <label>Customer Type:</label>\n                </div>\n\n                <div class=\"col-md-4 p-1\">\n                    <select class=\"form-control\" formControlName=\"type\">\n                                <option>Retail</option>\n                                <option>Business</option>\n                            </select>\n                </div>\n\n                <div class=\"col-md-2 p-1\">\n                    <label>Gender:</label>\n                </div>\n                <div class=\"col-md-4 p-1\">\n                    <select class=\"form-control\" formControlName=\"gender\">\n                                <option>Male</option>\n                                <option>Female</option>\n                            </select>\n                </div>\n\n                <!-- Fifth row of customer -->\n\n                <div class=\"col-md-2 p-1\">\n                    <label>Street:</label>\n                </div>\n\n                <div class=\"col-md-10 p-1\">\n                    <input type=\"text\" class=\"form-control\" formControlName=\"street\" placeholder=\"Enter Street Details\">\n                </div>\n\n                <!-- Sixth row of customer -->\n\n                <div class=\"col-md-2 p-1\">\n                    <label>City:</label>\n                </div>\n\n                <div class=\"col-md-3 p-1\">\n                    <input type=\"text\" class=\"form-control\" formControlName=\"city\">\n                </div>\n\n                <div class=\"col-md-1 p-1\">\n                    <label>State:</label>\n                </div>\n\n                <div class=\"col-md-2 p-1\">\n                    <select class=\"form-control\" formControlName=\"state\">\n                        <option value=\"AL\">Alabama</option>\n                        <option value=\"AK\">Alaska</option>\n                        <option value=\"AZ\">Arizona</option>\n                        <option value=\"AR\">Arkansas</option>\n                        <option value=\"CA\">California</option>\n                        <option value=\"CO\">Colorado</option>\n                        <option value=\"CT\">Connecticut</option>\n                        <option value=\"DE\">Delaware</option>\n                        <option value=\"DC\">District Of Columbia</option>\n                        <option value=\"FL\">Florida</option>\n                        <option value=\"GA\">Georgia</option>\n                        <option value=\"HI\">Hawaii</option>\n                        <option value=\"ID\">Idaho</option>\n                        <option value=\"IL\">Illinois</option>\n                        <option value=\"IN\">Indiana</option>\n                        <option value=\"IA\">Iowa</option>\n                        <option value=\"KS\">Kansas</option>\n                        <option value=\"KY\">Kentucky</option>\n                        <option value=\"LA\">Louisiana</option>\n                        <option value=\"ME\">Maine</option>\n                        <option value=\"MD\">Maryland</option>\n                        <option value=\"MA\">Massachusetts</option>\n                        <option value=\"MI\">Michigan</option>\n                        <option value=\"MN\">Minnesota</option>\n                        <option value=\"MS\">Mississippi</option>\n                        <option value=\"MO\">Missouri</option>\n                        <option value=\"MT\">Montana</option>\n                        <option value=\"NE\">Nebraska</option>\n                        <option value=\"NV\">Nevada</option>\n                        <option value=\"NH\">New Hampshire</option>\n                        <option value=\"NJ\">New Jersey</option>\n                        <option value=\"NM\">New Mexico</option>\n                        <option value=\"NY\">New York</option>\n                        <option value=\"NC\">North Carolina</option>\n                        <option value=\"ND\">North Dakota</option>\n                        <option value=\"OH\">Ohio</option>\n                        <option value=\"OK\">Oklahoma</option>\n                        <option value=\"OR\">Oregon</option>\n                        <option value=\"PA\">Pennsylvania</option>\n                        <option value=\"RI\">Rhode Island</option>\n                        <option value=\"SC\">South Carolina</option>\n                        <option value=\"SD\">South Dakota</option>\n                        <option value=\"TN\">Tennessee</option>\n                        <option value=\"TX\">Texas</option>\n                        <option value=\"UT\">Utah</option>\n                        <option value=\"VT\">Vermont</option>\n                        <option value=\"VA\">Virginia</option>\n                        <option value=\"WA\">Washington</option>\n                        <option value=\"WV\">West Virginia</option>\n                        <option value=\"WI\">Wisconsin</option>\n                        <option value=\"WY\">Wyoming</option>\n                    </select>\n                </div>\n\n                <div class=\"col-md-1 p-1\">\n                    <label>ZipCode:</label>\n                </div>\n                <div class=\"col-md-3 p-1\">\n                    <input type=\"text\" class=\"form-control\" formControlName=\"zipCode\" placeholder=\"Enter Zipcode\">\n                </div>\n\n                <div class=\"col-md-3 p-1\">\n                    <div class=\"checkbox\">\n                        <label>\n                                <input type=\"checkbox\" formControlName=\"enableSms\">\n                                    Opt In For SMS\n                            </label>\n                    </div>\n                </div>\n\n                <div class=\"col-md-3 p-1\">\n                    <div class=\"checkbox\">\n                        <label>\n                                    <input type=\"checkbox\" formControlName=\"enableEmail\">\n                                        Opt In For Email\n                                </label>\n                    </div>\n                </div>\n\n            </div>\n        </div>\n\n        <p-footer>\n            <div style=\"text-align: center\">\n                <button *ngIf=\"this.addCustomerFlag\" type=\"button\" (click)=\"this.addCustomer()\" class=\"btn btn-success\" [disabled]=\"customerForm.invalid\">\n                            <i class=\"fa fa-paper-plane\" aria-hidden=\"true\" ></i>\n                            Add Customer Details\n                    </button>\n\n                <button *ngIf=\"!this.addCustomerFlag\" type=\"button\" (click)=\"this.updateCustomer()\" class=\"btn btn-success\" [disabled]=\"customerForm.invalid\">\n                            <i class=\"fa fa-paper-plane\" aria-hidden=\"true\" ></i>\n                            Update Customer Details\n                    </button>\n\n            </div>\n        </p-footer>\n\n\n    </p-dialog>\n</form>\n\n\n\n\n\n<!-- Start Of Add Store Credit -->\n<div class=\"modal fade\" id=\"addStoreCredit\" role=\"dialog\">\n    <div class=\"modal-dialog modal-lg\">\n\n        <!-- Modal content-->\n        <div class=\"modal-content\">\n            <div class=\"modal-header\">\n                <h4 class=\"modal-title\">Add Store Credit</h4>\n                <button type=\"button\" class=\"close\" data-dismiss=\"modal\">&times;</button>\n            </div>\n            <div class=\"modal-body\">\n\n                <div class=\"row m-1\">\n\n                    <div class=\"col-md-12 form-group\">\n                        <label>Enter Store Credit Amount:</label>\n                        <input [(ngModel)]=\"this.storeCreditAmount\" class=\"form-control\" type=\"number\">\n                    </div>\n                </div>\n\n                <div class=\"row m-1\">\n                    <div class=\"col-md-12 form-group\">\n                        <label>Enter Store Credit Reason:</label>\n                        <input class=\"form-control\" [(ngModel)]=\"this.storeCreditReason\" type=\"text\">\n                    </div>\n                </div>\n                <div class=\"row m-2 p-2\">\n                    <button type=\"button\" mat-raised-button class=\"bg-primary text-white action-button-lg m-auto\" (click)=\"this.addStoreCredit()\" data-dismiss=\"modal\">\n                            <i class=\"fa fa-plus-square\" aria-hidden=\"true\" label=\"Add\"></i>\n                        Add Store Credit\n                    </button>\n\n                    <!-- <div class=\"col-md-12\">\n                    </div> -->\n\n                </div>\n\n                <div class=\"row\">\n                    <table class=\"table\">\n                        <thead>\n                            <tr>\n                                <th>Date</th>\n                                <th>Time</th>\n                                <th>Amount</th>\n                                <th>Reason</th>\n                                <th>Given By</th>\n                            </tr>\n                        </thead>\n                        <tbody>\n                            <tr *ngFor=\"let history of this.storeCreditDto\">\n                                <td>{{history.date}}</td>\n                                <td>{{history.time}}</td>\n                                <td>$ {{history.amount}}</td>\n                                <td>{{history.reason}}</td>\n                                <td>{{history.employeeName}}</td>\n                            </tr>\n                        </tbody>\n                    </table>\n                </div>\n\n            </div>\n\n\n            <div class=\"modal-footer\">\n                <button type=\"button\" class=\"btn btn-default\" data-dismiss=\"modal\">Close</button>\n            </div>\n        </div>\n\n\n    </div>\n\n</div>\n<!-- End of Add Store Credit Pop up -->\n\n<!-- Start of Delete Customer Popup -->\n<div class=\"modal fade\" id=\"deleteCustomer\" role=\"dialog\">\n    <div class=\"modal-dialog modal-sm\">\n        <div class=\"modal-content\">\n            <div class=\"modal-header\">\n                <h4 class=\"modal-title\">Delete Customer</h4>\n                <button type=\"button\" class=\"close\" data-dismiss=\"modal\">&times;</button>\n            </div>\n            <div class=\"modal-body\">\n                <p>Are You Sure You Want To Delete This Customer</p>\n            </div>\n            <div class=\"modal-footer\">\n\n                <button type=\"button\" class=\"btn btn-danger\" data-dismiss=\"modal\" (click)=\"this.deleteCustomer()\">Yes</button>\n                <button type=\"button\" class=\"btn btn-default\" data-dismiss=\"modal\">Cancle</button>\n            </div>\n        </div>\n    </div>\n</div>\n\n<!-- End of Delete Customer Popup -->"
+module.exports = "<mat-card>\n    <mat-card-title>\n\n        <div class=\"row d-flex align-items-center\">\n            <div class=\"col-md-7\">\n                <h4>Customer Details</h4>\n            </div>\n\n            <div class=\"col-md-5 d-flex align-items-center justify-content-end\">\n                <button type=\"button\" class=\"bg-primary text-white action-button-lg m-3\" (click)=\"this.showDialogToAdd()\">\n                        <i class=\"fa fa-plus-square\" aria-hidden=\"true\" label=\"Add\"></i>\n                            Add Customer\n                    </button>\n\n            </div>\n        </div>\n    </mat-card-title>\n    <mat-card-content>\n        <p-growl [(value)]=\"msgs\"></p-growl>\n\n\n        <div class=\"row\">\n            <div class=\"col-md-12\">\n\n                <p-dataTable [value]=\"this.customerDto\" [editable]=\"true\" scrollable=\"true\" [responsive]=\"true\" scrollHeight=\"500px\">\n                    <p-column [style]=\"{'width': '15%'}\" field=\"name\" header=\"Name\" filterPlaceholder=\"Search For Customer Name\" [filter]=\"true\"></p-column>\n                    <p-column [style]=\"{'width': '15%'}\" field=\"phoneNo\" header=\"PhoneNo\" filterPlaceholder=\"Search For Customer Phono No\" [sortable]=\"true\" [filter]=\"true\"></p-column>\n                    <p-column [style]=\"{'width': '23%'}\" field=\"email\" header=\"Email\" filterPlaceholder=\"Search For Customer Email\" [sortable]=\"true\" [filter]=\"true\"></p-column>\n                    <p-column [style]=\"{'width': '10%'}\" field=\"noOfEyebrow\" header=\"No Of Eyebrow\" [sortable]=\"true\">\n                        <ng-template let-customer=\"rowData\" pTemplate=\"body\">\n                            {{customer.noOfEyebrow}}\n                        </ng-template>\n                    </p-column>\n                    <p-column [style]=\"{'width': '10%'}\" field=\"storeCredit\" header=\"Store Credit\" [sortable]=\"true\">\n                        <ng-template let-customer=\"rowData\" pTemplate=\"body\">\n                            {{customer.storeCredit | currency:'USD':'true'}}\n                        </ng-template>\n                    </p-column>\n                    <p-column [style]=\"{'width': '10%'}\" field=\"loyalty\" header=\"Loyalty\" [sortable]=\"true\">\n                        <ng-template let-customer=\"rowData\" pTemplate=\"body\">\n                            {{customer.loyalty | currency:'USD':'true'}}\n                        </ng-template>\n                    </p-column>\n                    <p-column field=\"action\" header=\"Action\" [sortable]=\"true\">\n\n                        <ng-template let-customer=\"rowData\" pTemplate=\"body\">\n                            <button mat-button class=\"btn-blue action-button-table\" (click)=\"this.setDetailForUpdateCusotmer(customer)\">\n                                <i class=\"fa fa-pencil\" aria-hidden=\"true\"></i>\n                            </button>\n                            <button mat-button data-toggle=\"modal\" data-target=\"#deleteCustomer\" (click)=\"this.setCustomerForDelete(customer)\" mat-button class=\"btn-red action-button-table\" mat-button data-toggle=\"modal\" data-target=\"#deleteCustomer\">\n                                <i class=\"fa fa-trash\" aria-hidden=\"true\"></i>\n                            </button>\n                            <button mat-button class=\"btn-green action-button-table\" data-toggle=\"modal\" data-target=\"#productHistoryModel\">\n                                <i class=\"fa fa-history\" aria-hidden=\"true\"></i>\n                            </button>\n                            <button mat-button class=\"btn-gray action-button-table\" data-toggle=\"modal\" data-target=\"#addStoreCredit\" (click)=this.selectCustomerForStoreCredit(customer)>\n                                <i class=\"fa fa-credit-card-alt\" aria-hidden=\"true\"></i>                                \n                                </button>\n                        </ng-template>\n                    </p-column>\n                </p-dataTable>\n\n            </div>\n        </div>\n    </mat-card-content>\n</mat-card>\n\n<form [formGroup]=\"customerForm\">\n    <p-dialog header=\"Add Customer Details\" appendTo=\"body\" [(visible)]=\"displayDialog\" [responsive]=\"true\" showEffect=\"fade\" [modal]=\"true\" (onHide)=\"resrtForm()\">\n\n        <div class=\"container\">\n\n            <div class=\"row\">\n\n                <div class=\"col-md-2 p-1\">\n                    <label>Customer Name:</label>\n                </div>\n\n                <div class=\"col-md-4 p-1\">\n                    <input type=\"text\" class=\"form-control\" formControlName=\"name\" placeholder=\"Enter First and Last Name\">\n                </div>\n\n                <div class=\"col-md-2 p-1\">\n                    <label>Phone Number:</label>\n                </div>\n                <div class=\"col-md-4 p-1\">\n                    <input type=\"text\" class=\"form-control\" formControlName=\"phoneNo\" placeholder=\"Enter Phone Number\">\n\n                </div>\n\n                <!-- Second row of the cusotmer -->\n\n                <div class=\"col-md-2 p-1\">\n                    <label>Company Name:</label>\n                </div>\n\n                <div class=\"col-md-4 p-1\">\n                    <input type=\"text\" class=\"form-control\" formControlName=\"companyName\" placeholder=\"Enter Company Name\">\n                </div>\n\n                <div class=\"col-md-2 p-1\">\n                    <label>Email:</label>\n                </div>\n                <div class=\"col-md-4 p-1\">\n                    <input type=\"text\" class=\"form-control\" formControlName=\"email\" placeholder=\"Enter Email\">\n\n                </div>\n\n                <!-- thirs row of customer -->\n\n                <div class=\"col-md-2 p-1\">\n                    <label>Tax Id:</label>\n                </div>\n\n                <div class=\"col-md-4 p-1\">\n                    <input type=\"text\" class=\"form-control\" formControlName=\"taxId\" placeholder=\"Enter Tax Id\">\n                </div>\n\n                <div class=\"col-md-2 p-1\">\n                    <label>Date Of Birth:</label>\n                </div>\n                <div class=\"col-md-4 p-1\">\n                    <input type=\"text\" class=\"form-control\" formControlName=\"dateOfBirth\" placeholder=\"Enter Date Of Birth\">\n\n                </div>\n\n                <!-- forth row of customer -->\n                <div class=\"col-md-2 p-1\">\n                    <label>Customer Type:</label>\n                </div>\n\n                <div class=\"col-md-4 p-1\">\n                    <select class=\"form-control\" formControlName=\"type\">\n                                <option>Retail</option>\n                                <option>Business</option>\n                            </select>\n                </div>\n\n                <div class=\"col-md-2 p-1\">\n                    <label>Gender:</label>\n                </div>\n                <div class=\"col-md-4 p-1\">\n                    <select class=\"form-control\" formControlName=\"gender\">\n                                <option>Male</option>\n                                <option>Female</option>\n                            </select>\n                </div>\n\n                <!-- Fifth row of customer -->\n\n                <div class=\"col-md-2 p-1\">\n                    <label>Street:</label>\n                </div>\n\n                <div class=\"col-md-10 p-1\">\n                    <input type=\"text\" class=\"form-control\" formControlName=\"street\" placeholder=\"Enter Street Details\">\n                </div>\n\n                <!-- Sixth row of customer -->\n\n                <div class=\"col-md-2 p-1\">\n                    <label>City:</label>\n                </div>\n\n                <div class=\"col-md-3 p-1\">\n                    <input type=\"text\" class=\"form-control\" formControlName=\"city\">\n                </div>\n\n                <div class=\"col-md-1 p-1\">\n                    <label>State:</label>\n                </div>\n\n                <div class=\"col-md-2 p-1\">\n                    <select class=\"form-control\" formControlName=\"state\">\n                        <option value=\"AL\">Alabama</option>\n                        <option value=\"AK\">Alaska</option>\n                        <option value=\"AZ\">Arizona</option>\n                        <option value=\"AR\">Arkansas</option>\n                        <option value=\"CA\">California</option>\n                        <option value=\"CO\">Colorado</option>\n                        <option value=\"CT\">Connecticut</option>\n                        <option value=\"DE\">Delaware</option>\n                        <option value=\"DC\">District Of Columbia</option>\n                        <option value=\"FL\">Florida</option>\n                        <option value=\"GA\">Georgia</option>\n                        <option value=\"HI\">Hawaii</option>\n                        <option value=\"ID\">Idaho</option>\n                        <option value=\"IL\">Illinois</option>\n                        <option value=\"IN\">Indiana</option>\n                        <option value=\"IA\">Iowa</option>\n                        <option value=\"KS\">Kansas</option>\n                        <option value=\"KY\">Kentucky</option>\n                        <option value=\"LA\">Louisiana</option>\n                        <option value=\"ME\">Maine</option>\n                        <option value=\"MD\">Maryland</option>\n                        <option value=\"MA\">Massachusetts</option>\n                        <option value=\"MI\">Michigan</option>\n                        <option value=\"MN\">Minnesota</option>\n                        <option value=\"MS\">Mississippi</option>\n                        <option value=\"MO\">Missouri</option>\n                        <option value=\"MT\">Montana</option>\n                        <option value=\"NE\">Nebraska</option>\n                        <option value=\"NV\">Nevada</option>\n                        <option value=\"NH\">New Hampshire</option>\n                        <option value=\"NJ\">New Jersey</option>\n                        <option value=\"NM\">New Mexico</option>\n                        <option value=\"NY\">New York</option>\n                        <option value=\"NC\">North Carolina</option>\n                        <option value=\"ND\">North Dakota</option>\n                        <option value=\"OH\">Ohio</option>\n                        <option value=\"OK\">Oklahoma</option>\n                        <option value=\"OR\">Oregon</option>\n                        <option value=\"PA\">Pennsylvania</option>\n                        <option value=\"RI\">Rhode Island</option>\n                        <option value=\"SC\">South Carolina</option>\n                        <option value=\"SD\">South Dakota</option>\n                        <option value=\"TN\">Tennessee</option>\n                        <option value=\"TX\">Texas</option>\n                        <option value=\"UT\">Utah</option>\n                        <option value=\"VT\">Vermont</option>\n                        <option value=\"VA\">Virginia</option>\n                        <option value=\"WA\">Washington</option>\n                        <option value=\"WV\">West Virginia</option>\n                        <option value=\"WI\">Wisconsin</option>\n                        <option value=\"WY\">Wyoming</option>\n                    </select>\n                </div>\n\n                <div class=\"col-md-1 p-1\">\n                    <label>ZipCode:</label>\n                </div>\n                <div class=\"col-md-3 p-1\">\n                    <input type=\"text\" class=\"form-control\" formControlName=\"zipCode\" placeholder=\"Enter Zipcode\">\n                </div>\n\n                <div class=\"col-md-3 p-1\">\n                    <div class=\"checkbox\">\n                        <label>\n                                <input type=\"checkbox\" formControlName=\"enableSms\">\n                                    Opt In For SMS\n                            </label>\n                    </div>\n                </div>\n\n                <div class=\"col-md-3 p-1\">\n                    <div class=\"checkbox\">\n                        <label>\n                                    <input type=\"checkbox\" formControlName=\"enableEmail\">\n                                        Opt In For Email\n                                </label>\n                    </div>\n                </div>\n\n            </div>\n        </div>\n\n        <p-footer>\n            <div style=\"text-align: center\">\n                <button *ngIf=\"this.addCustomerFlag\" type=\"button\" (click)=\"this.addCustomer()\" class=\"btn btn-success\" [disabled]=\"customerForm.invalid\">\n                            <i class=\"fa fa-paper-plane\" aria-hidden=\"true\" ></i>\n                            Add Customer Details\n                    </button>\n\n                <button *ngIf=\"!this.addCustomerFlag\" type=\"button\" (click)=\"this.updateCustomer()\" class=\"btn btn-success\" [disabled]=\"customerForm.invalid\">\n                            <i class=\"fa fa-paper-plane\" aria-hidden=\"true\" ></i>\n                            Update Customer Details\n                    </button>\n\n            </div>\n        </p-footer>\n\n\n    </p-dialog>\n</form>\n\n\n\n\n\n<!-- Start Of Add Store Credit -->\n<div class=\"modal fade\" id=\"addStoreCredit\" role=\"dialog\">\n    <div class=\"modal-dialog modal-lg\">\n\n        <!-- Modal content-->\n        <div class=\"modal-content\">\n            <div class=\"modal-header\">\n                <h4 class=\"modal-title\">Add Store Credit</h4>\n                <button type=\"button\" class=\"close\" data-dismiss=\"modal\">&times;</button>\n            </div>\n            <div class=\"modal-body\">\n\n                <div class=\"row m-1\">\n\n                    <div class=\"col-md-12 form-group\">\n                        <label>Enter Store Credit Amount:</label>\n                        <input [(ngModel)]=\"this.storeCreditAmount\" class=\"form-control\" type=\"number\">\n                    </div>\n                </div>\n\n                <div class=\"row m-1\">\n                    <div class=\"col-md-12 form-group\">\n                        <label>Enter Store Credit Reason:</label>\n                        <input class=\"form-control\" [(ngModel)]=\"this.storeCreditReason\" type=\"text\">\n                    </div>\n                </div>\n                <div class=\"row m-2 p-2\">\n                    <button type=\"button\" mat-raised-button class=\"bg-primary text-white action-button-lg m-auto\" (click)=\"this.addStoreCredit()\" data-dismiss=\"modal\">\n                            <i class=\"fa fa-plus-square\" aria-hidden=\"true\" label=\"Add\"></i>\n                        Add Store Credit\n                    </button>\n\n                    <!-- <div class=\"col-md-12\">\n                    </div> -->\n\n                </div>\n\n                <div class=\"row\">\n                    <table class=\"table\">\n                        <thead>\n                            <tr>\n                                <th>Date</th>\n                                <th>Time</th>\n                                <th>Amount</th>\n                                <th>Reason</th>\n                                <th>Given By</th>\n                            </tr>\n                        </thead>\n                        <tbody>\n                            <tr *ngFor=\"let history of this.storeCreditDto\">\n                                <td>{{history.date}}</td>\n                                <td>{{history.time}}</td>\n                                <td>$ {{history.amount}}</td>\n                                <td>{{history.reason}}</td>\n                                <td>{{history.employeeName}}</td>\n                            </tr>\n                        </tbody>\n                    </table>\n                </div>\n\n            </div>\n\n\n            <div class=\"modal-footer\">\n                <button type=\"button\" class=\"btn btn-default\" data-dismiss=\"modal\">Close</button>\n            </div>\n        </div>\n\n\n    </div>\n\n</div>\n<!-- End of Add Store Credit Pop up -->\n\n<!-- Start of Delete Customer Popup -->\n<div class=\"modal fade\" id=\"deleteCustomer\" role=\"dialog\">\n    <div class=\"modal-dialog modal-sm\">\n        <div class=\"modal-content\">\n            <div class=\"modal-header\">\n                <h4 class=\"modal-title\">Delete Customer</h4>\n                <button type=\"button\" class=\"close\" data-dismiss=\"modal\">&times;</button>\n            </div>\n            <div class=\"modal-body\">\n                <p>Are You Sure You Want To Delete This Customer</p>\n            </div>\n            <div class=\"modal-footer\">\n\n                <button type=\"button\" class=\"btn btn-danger\" data-dismiss=\"modal\" (click)=\"this.deleteCustomer()\">Yes</button>\n                <button type=\"button\" class=\"btn btn-default\" data-dismiss=\"modal\">Cancle</button>\n            </div>\n        </div>\n    </div>\n</div>\n\n<!-- End of Delete Customer Popup -->"
 
 /***/ }),
 
@@ -1108,15 +1108,14 @@ var CustomerComponent = /** @class */ (function () {
     };
     CustomerComponent.prototype.updateCustomer = function () {
         var _this = this;
-        var updateItem = this.customerDto.find(this.findIndexToUpdate, this.selectedCustomerForUpdate.phoneNo);
-        var index = this.customerDto.indexOf(updateItem);
         var newCustomer = this.customerForm.value;
         this.customerService.addOrUpdateCustomer(this.customerForm.value)
             .subscribe(function (data) {
             if (data != null) {
-                _this.toastr.success('Customer Added Successfully!!', 'Success!!');
+                var updateItem = _this.customerDto.find(_this.findIndexToUpdate, _this.selectedCustomerForUpdate.phoneNo);
+                var index = _this.customerDto.indexOf(updateItem);
                 _this.customerDto[index] = _this.selectedCustomerForUpdate;
-                console.log('cusotmer data back', data);
+                _this.toastr.success('Customer Added Successfully!!', 'Success!!');
             }
         }, function (error) {
             console.log(JSON.stringify(error.json()));
@@ -1129,7 +1128,19 @@ var CustomerComponent = /** @class */ (function () {
         this.selectedCustomerForDelete = cust;
     };
     CustomerComponent.prototype.deleteCustomer = function () {
-        this.customerService.deleteCustomer(this.selectedCustomerForDelete.phoneNo);
+        var _this = this;
+        this.customerService.deleteCustomer(this.selectedCustomerForDelete.phoneNo)
+            .subscribe(function (data) {
+            if (data.status == 200) {
+                _this.toastr.success('Customer Deleted Successfully!!');
+            }
+            else {
+                _this.toastr.error('Opps Something Goes Wrong!!');
+            }
+        }, function (error) {
+            console.log(JSON.stringify(error.json()));
+            _this.toastr.error('Opps Something Goes Wrong!!');
+        });
         this.getCustomerDetails();
         this.displayDialog = false;
     };
@@ -1353,12 +1364,7 @@ var CustomerService = /** @class */ (function () {
         });
     };
     CustomerService.prototype.deleteCustomer = function (phoneNo) {
-        this.http.delete(this.url + '/deleteCustomer?phoneNo=' + phoneNo)
-            .subscribe(function (data) {
-            console.log('Customer Deleted With this !!' + phoneNo);
-        }, function (error) {
-            console.log(JSON.stringify(error.json()));
-        });
+        return this.http.delete(this.url + '/deleteCustomer?phoneNo=' + phoneNo);
     };
     CustomerService.prototype.extractData = function (res) {
         var body = res.json();
@@ -1393,7 +1399,7 @@ var CustomerService = /** @class */ (function () {
 /***/ "../../../../../src/app/dashboard/dashboard.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<mat-card>\n    <mat-card-title>\n        <div class=\"row\">\n            <div class=\"col-md-8\">\n                <h4>Retail Dashboard</h4>\n            </div>\n            <div class=\"col-md-4\">\n                <div class=\"btn-group\" role=\"group\" aria-label=\"Basic example\">\n                    <button type=\"button\" class=\"btn btn-secondary\">Today</button>\n                    <button type=\"button\" class=\"btn btn-secondary\">Week</button>\n                    <button type=\"button\" class=\"btn btn-secondary\">Month</button>\n                    <button type=\"button\" class=\"btn btn-secondary\">Custom</button>\n                </div>\n\n            </div>\n        </div>\n\n    </mat-card-title>\n\n    <mat-card-content>\n        <div class=\"row\">\n\n            <div class=\"col-md-12\" *ngIf=\"this.numberCardChartData\">\n                <ngx-charts-number-card [view]=\"null\" [results]=\"this.numberCardChartData\" [scheme]=\"colorScheme\" (select)=\"onSelect($event)\">\n                </ngx-charts-number-card>\n            </div>\n\n        </div>\n        <div class=\"row\">\n\n            <div class=\"col-md-6 example-container mat-elevation-z8\">\n                <h5>Best Selling Items</h5>\n                <table class=\"table table-striped\">\n                    <thead>\n                        <tr>\n                            <th scope=\"col\">ProductNo</th>\n                            <th scope=\"col\">Description</th>\n                            <th scope=\"col\">Cost</th>\n                            <th scope=\"col\">Retail</th>\n                            <th scope=\"col\">Quantity</th>\n                        </tr>\n                    </thead>\n                    <tbody>\n                        <tr *ngFor=\"let product of this.productDto\">\n                            <td>{{product.productNo}}</td>\n                            <td>{{product.name}}</td>\n                            <td>$ {{product.cost}}</td>\n                            <td>$ {{product.retail}}</td>\n                            <td>{{product.quantity}}</td>\n                        </tr>\n\n\n                    </tbody>\n                </table>\n            </div>\n\n            <div class=\"col-md-6 example-container mat-elevation-z8\">\n                <h5>Category Sales Graph</h5>\n                <ngx-charts-pie-chart [view]=\"view\" [scheme]=\"colorScheme\" [results]=\"categoryPieChartData\" [legend]=\"showLegend\" [explodeSlices]=\"explodeSlices\" [labels]=\"showLabels\" [doughnut]=\"doughnut\" [gradient]=\"gradient\" (select)=\"onSelect($event)\">\n                </ngx-charts-pie-chart>\n            </div>\n        </div>\n        <div class=\"row\">\n\n            <div class=\"col-md-6 example-container mat-elevation-z8\">\n                <h5>Sales Year Over Year</h5>\n                <table class=\"table table-striped\">\n                    <thead>\n                        <tr>\n                            <th scope=\"col\">#</th>\n                            <th scope=\"col\">This Year</th>\n                            <th scope=\"col\">Last Year</th>\n                            <th scope=\"col\">Change</th>\n                        </tr>\n                    </thead>\n                    <tbody>\n                        <tr>\n                            <td></td>\n                            <td></td>\n                            <td></td>\n                            <td></td>\n                            <td></td>\n                        </tr>\n\n\n                    </tbody>\n                </table>\n            </div>\n            <div class=\"col-md-6 example-container mat-elevation-z8\">\n                <h5>Sale Over Time</h5>\n            </div>\n        </div>\n    </mat-card-content>\n\n\n</mat-card>"
+module.exports = "<mat-card>\n    <mat-card-title>\n        <div class=\"row\">\n            <div class=\"col-md-8\">\n                <h4>Retail Dashboard</h4>\n            </div>\n            <div class=\"col-md-4\">\n                <div class=\"btn-group\" role=\"group\" aria-label=\"Basic example\">\n                    <button type=\"button\" class=\"btn btn-secondary\">Today</button>\n                    <button type=\"button\" class=\"btn btn-secondary\">Week</button>\n                    <button type=\"button\" class=\"btn btn-secondary\">Month</button>\n                    <button type=\"button\" class=\"btn btn-secondary\">Custom</button>\n                </div>\n\n            </div>\n        </div>\n\n    </mat-card-title>\n\n    <mat-card-content>\n        <div class=\"row\">\n            <div class=\"col-md-12\" *ngIf=\"this.numberCardChartData\">\n                <ngx-charts-number-card [view]=\"null\" [results]=\"this.numberCardChartData\" [scheme]=\"colorScheme\" (select)=\"onSelect($event)\">\n                </ngx-charts-number-card>\n            </div>\n\n        </div>\n        <div class=\"row\">\n\n            <div class=\"col-md-6 example-container mat-elevation-z8\">\n                <div class=\"row\" style=\"margin: 0 auto; height: 40px;  margin-top: 7.5px;\">\n                    <h5>Best Selling Items</h5>\n                </div>\n                <div class=\"row\">\n                    <table class=\"table table-striped\">\n                        <thead>\n                            <tr>\n                                <th scope=\"col\">ProductNo</th>\n                                <th scope=\"col\">Description</th>\n                                <th scope=\"col\">Cost</th>\n                                <th scope=\"col\">Retail</th>\n                                <th scope=\"col\">Quantity</th>\n                            </tr>\n                        </thead>\n                        <tbody>\n                            <tr *ngFor=\"let product of this.productDto\">\n                                <td>{{product.productNo}}</td>\n                                <td>{{product.name}}</td>\n                                <td>$ {{product.cost}}</td>\n                                <td>$ {{product.retail}}</td>\n                                <td>{{product.quantity}}</td>\n                            </tr>\n\n\n                        </tbody>\n                    </table>\n                </div>\n\n            </div>\n\n            <div class=\"col-md-6 example-container mat-elevation-z8\">\n                <div class=\"row\" style=\"margin: 0 auto; height: 40px;  margin-top: 7.5px;\">\n                    <h5>Category Sales Graph</h5>\n                </div>\n                <div class=\"row\">\n                    <ngx-charts-pie-chart [view]=\"view\" [scheme]=\"colorScheme\" [results]=\"categoryPieChartData\" [legend]=\"showLegend\" [explodeSlices]=\"explodeSlices\" [labels]=\"showLabels\" [doughnut]=\"doughnut\" [gradient]=\"gradient\" (select)=\"onSelect($event)\">\n                    </ngx-charts-pie-chart>\n                </div>\n            </div>\n        </div>\n        <div class=\"row\">\n\n            <div class=\"col-md-6 example-container mat-elevation-z8\">\n                <h5>Sales Year Over Year</h5>\n                <table class=\"table table-striped\">\n                    <thead>\n                        <tr>\n                            <th scope=\"col\">#</th>\n                            <th scope=\"col\">This Year</th>\n                            <th scope=\"col\">Last Year</th>\n                            <th scope=\"col\">Change</th>\n                        </tr>\n                    </thead>\n                    <tbody>\n                        <tr>\n                            <td></td>\n                            <td></td>\n                            <td></td>\n                            <td></td>\n                            <td></td>\n                        </tr>\n\n\n                    </tbody>\n                </table>\n            </div>\n            <div class=\"col-md-6 example-container mat-elevation-z8\">\n                <h5>Sale Over Time</h5>\n            </div>\n        </div>\n    </mat-card-content>\n\n\n</mat-card>"
 
 /***/ }),
 
@@ -1454,7 +1460,7 @@ var DashboardComponent = /** @class */ (function () {
         this.dataSource = new __WEBPACK_IMPORTED_MODULE_3__angular_material__["l" /* MatTableDataSource */]();
         this.view = [700, 400];
         this.colorScheme = {
-            domain: ['#5AA454', '#A10A28', '#C7B42C', '#AAAAAA']
+            domain: ['#337ab7', '#43a047', '#e53935', '#fb8c00']
         };
     }
     DashboardComponent.prototype.ngOnInit = function () {
@@ -3007,6 +3013,8 @@ module.exports = "<div class=\"\">\n\n    <p-growl [(value)]=\"msgs\"></p-growl>
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_app_product_product_service__ = __webpack_require__("../../../../../src/app/product/product.service.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_app_product_brand_brand_service__ = __webpack_require__("../../../../../src/app/product/brand/brand.service.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__angular_forms__ = __webpack_require__("../../../forms/esm5/forms.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_ng2_toastr__ = __webpack_require__("../../../../ng2-toastr/ng2-toastr.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_ng2_toastr___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4_ng2_toastr__);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -3020,11 +3028,13 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
+
 var BrandComponent = /** @class */ (function () {
-    function BrandComponent(brandService, productService, formBuilder) {
+    function BrandComponent(brandService, productService, formBuilder, toastr) {
         this.brandService = brandService;
         this.productService = productService;
         this.formBuilder = formBuilder;
+        this.toastr = toastr;
         this.msgs = [];
         this.brand = new PrimeBrand();
     }
@@ -3048,14 +3058,38 @@ var BrandComponent = /** @class */ (function () {
         });
     };
     BrandComponent.prototype.addBrand = function () {
+        var _this = this;
         var newBrand = this.brandForm.value;
-        this.brandService.addOrUpdateBrand(this.brandForm.value);
+        this.brandService.addOrUpdateBrand(this.brandForm.value)
+            .subscribe(function (data) {
+            if (data) {
+                _this.toastr.success('Brand Added Successfully!!');
+            }
+            else {
+                _this.toastr.error('Opps Something Goes Wrong!!');
+            }
+        }, function (error) {
+            console.log(JSON.stringify(error.json()));
+            _this.toastr.error('Opps Something Goes Wrong!!');
+        });
         this.brandDto.push(newBrand);
         this.brandDto = this.brandDto.slice();
         this.displayDialog = false;
     };
     BrandComponent.prototype.updateBrand = function (event) {
-        this.brandService.addOrUpdateBrand(event.data);
+        var _this = this;
+        this.brandService.addOrUpdateBrand(event.data)
+            .subscribe(function (data) {
+            if (data) {
+                _this.toastr.success('Brand Updated Successfully!!');
+            }
+            else {
+                _this.toastr.error('Opps Something Goes Wrong!!');
+            }
+        }, function (error) {
+            console.log(JSON.stringify(error.json()));
+            _this.toastr.error('Opps Something Goes Wrong!!');
+        });
     };
     BrandComponent.prototype.setBrandForDetete = function (brand) {
         this.selectedBrandForDelete = brand;
@@ -3075,7 +3109,7 @@ var BrandComponent = /** @class */ (function () {
             template: __webpack_require__("../../../../../src/app/product/brand/brand.component.html"),
             styles: [__webpack_require__("../../../../../src/app/product/brand/brand.component.css")]
         }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_2_app_product_brand_brand_service__["a" /* BrandService */], __WEBPACK_IMPORTED_MODULE_1_app_product_product_service__["a" /* ProductService */], __WEBPACK_IMPORTED_MODULE_3__angular_forms__["FormBuilder"]])
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_2_app_product_brand_brand_service__["a" /* BrandService */], __WEBPACK_IMPORTED_MODULE_1_app_product_product_service__["a" /* ProductService */], __WEBPACK_IMPORTED_MODULE_3__angular_forms__["FormBuilder"], __WEBPACK_IMPORTED_MODULE_4_ng2_toastr__["ToastsManager"]])
     ], BrandComponent);
     return BrandComponent;
 }());
@@ -3098,6 +3132,7 @@ var PrimeBrand = /** @class */ (function () {
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return BrandService; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/esm5/core.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_http__ = __webpack_require__("../../../http/esm5/http.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_environments_environment__ = __webpack_require__("../../../../../src/environments/environment.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -3109,22 +3144,17 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 
 
+
 var BrandService = /** @class */ (function () {
     function BrandService(http) {
         this.http = http;
+        this.url = __WEBPACK_IMPORTED_MODULE_2_environments_environment__["a" /* environment */].reportUrl;
     }
     BrandService.prototype.addOrUpdateBrand = function (brand) {
-        console.log("Brand Added" + brand.name);
-        this.http.post('http://localhost:8080/addBrand', brand)
-            .subscribe(function (data) {
-            alert('Brand Updated !!');
-            console.log(data);
-        }, function (error) {
-            console.log(JSON.stringify(error.json()));
-        });
+        return this.http.post(this.url + '/addBrand', brand);
     };
     BrandService.prototype.deleteBrand = function (brandId) {
-        this.http.delete('http://localhost:8080/deleteBrand?brandId=' + brandId)
+        this.http.delete(this.url + '/deleteBrand?brandId=' + brandId)
             .subscribe(function (data) {
             alert('Brand Deleted !!');
             console.log(data);
@@ -3177,6 +3207,8 @@ module.exports = "<div class=\"\">\n\n    <p-growl [(value)]=\"msgs\"></p-growl>
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_app_product_product_service__ = __webpack_require__("../../../../../src/app/product/product.service.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_app_product_category_category_service__ = __webpack_require__("../../../../../src/app/product/category/category.service.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__angular_forms__ = __webpack_require__("../../../forms/esm5/forms.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_ng2_toastr__ = __webpack_require__("../../../../ng2-toastr/ng2-toastr.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_ng2_toastr___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4_ng2_toastr__);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -3190,11 +3222,13 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
+
 var CategoryComponent = /** @class */ (function () {
-    function CategoryComponent(categoryService, productService, formBuilder) {
+    function CategoryComponent(categoryService, productService, formBuilder, toastr) {
         this.categoryService = categoryService;
         this.productService = productService;
         this.formBuilder = formBuilder;
+        this.toastr = toastr;
         this.msgs = [];
         this.category = new PrimeCategory();
     }
@@ -3218,23 +3252,58 @@ var CategoryComponent = /** @class */ (function () {
         });
     };
     CategoryComponent.prototype.addCategory = function () {
+        var _this = this;
         var newCategory = this.categoryForm.value;
-        this.categoryService.addOrUpdateCategory(this.categoryForm.value);
+        this.categoryService.addOrUpdateCategory(this.categoryForm.value)
+            .subscribe(function (data) {
+            if (data) {
+                _this.toastr.success('Category Added Successfully!!');
+            }
+            else {
+                _this.toastr.error('Opps Something Goes Wrong!!');
+            }
+        }, function (error) {
+            console.log(JSON.stringify(error.json()));
+            _this.toastr.error('Opps Something Goes Wrong!!');
+        });
         this.categoryDto.push(newCategory);
         this.categoryDto = this.categoryDto.slice();
         this.displayDialog = false;
     };
     CategoryComponent.prototype.updateCategory = function (event) {
-        this.categoryService.addOrUpdateCategory(event.data);
+        var _this = this;
+        this.categoryService.addOrUpdateCategory(event.data)
+            .subscribe(function (data) {
+            if (data) {
+                _this.toastr.success('Category Updated Successfully!!');
+            }
+            else {
+                _this.toastr.error('Opps Something Goes Wrong!!');
+            }
+        }, function (error) {
+            console.log(JSON.stringify(error.json()));
+            _this.toastr.error('Opps Something Goes Wrong!!');
+        });
     };
     CategoryComponent.prototype.setCategoryForDelete = function (cate) {
         this.selectedCategoryForDelete = cate;
     };
     CategoryComponent.prototype.deleteCategory = function () {
         var _this = this;
-        var index = this.categoryDto.findIndex(function (el) { return el.name == _this.selectedCategoryForDelete.name; });
-        this.categoryDto = this.categoryDto.splice(0, index).concat(this.categoryDto.splice(index));
-        this.categoryService.deleteCategory(this.selectedCategoryForDelete.categoryId);
+        this.categoryService.deleteCategory(this.selectedCategoryForDelete.categoryId)
+            .subscribe(function (data) {
+            if (data) {
+                var index = _this.categoryDto.findIndex(function (el) { return el.name == _this.selectedCategoryForDelete.name; });
+                _this.categoryDto = _this.categoryDto.splice(0, index).concat(_this.categoryDto.splice(index));
+                _this.toastr.success('Category Deleted Successfully!!');
+            }
+            else {
+                _this.toastr.error('Opps Something Goes Wrong!!');
+            }
+        }, function (error) {
+            console.log(JSON.stringify(error.json()));
+            _this.toastr.error('Opps Something Goes Wrong!!');
+        });
     };
     CategoryComponent.prototype.showDialogToAdd = function () {
         this.displayDialog = true;
@@ -3245,7 +3314,7 @@ var CategoryComponent = /** @class */ (function () {
             template: __webpack_require__("../../../../../src/app/product/category/category.component.html"),
             styles: [__webpack_require__("../../../../../src/app/product/category/category.component.css")]
         }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_2_app_product_category_category_service__["a" /* CategoryService */], __WEBPACK_IMPORTED_MODULE_1_app_product_product_service__["a" /* ProductService */], __WEBPACK_IMPORTED_MODULE_3__angular_forms__["FormBuilder"]])
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_2_app_product_category_category_service__["a" /* CategoryService */], __WEBPACK_IMPORTED_MODULE_1_app_product_product_service__["a" /* ProductService */], __WEBPACK_IMPORTED_MODULE_3__angular_forms__["FormBuilder"], __WEBPACK_IMPORTED_MODULE_4_ng2_toastr__["ToastsManager"]])
     ], CategoryComponent);
     return CategoryComponent;
 }());
@@ -3268,6 +3337,7 @@ var PrimeCategory = /** @class */ (function () {
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return CategoryService; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/esm5/core.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_http__ = __webpack_require__("../../../http/esm5/http.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_environments_environment__ = __webpack_require__("../../../../../src/environments/environment.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -3279,28 +3349,17 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 
 
+
 var CategoryService = /** @class */ (function () {
     function CategoryService(http) {
         this.http = http;
+        this.url = __WEBPACK_IMPORTED_MODULE_2_environments_environment__["a" /* environment */].reportUrl;
     }
     CategoryService.prototype.addOrUpdateCategory = function (category) {
-        console.log("Category Added" + category.name);
-        this.http.post('http://localhost:8080/addCategory', category)
-            .subscribe(function (data) {
-            alert('Category Updated !!');
-            console.log(data);
-        }, function (error) {
-            console.log(JSON.stringify(error.json()));
-        });
+        return this.http.post(this.url + '/addCategory', category);
     };
     CategoryService.prototype.deleteCategory = function (categoryId) {
-        this.http.delete('http://localhost:8080/deleteCategory?categoryId=' + categoryId)
-            .subscribe(function (data) {
-            alert('Category Deleted !!');
-            console.log(data);
-        }, function (error) {
-            console.log(JSON.stringify(error.json()));
-        });
+        return this.http.delete(this.url + '/deleteCategory?categoryId=' + categoryId);
     };
     CategoryService = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Injectable"])(),
@@ -3608,7 +3667,7 @@ var ProductRoutingModule = /** @class */ (function () {
 /***/ "../../../../../src/app/product/product-table/product-table.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<mat-card>\n    <mat-card-title>\n        <h4>Product Inventory</h4>\n    </mat-card-title>\n    <mat-card-content>\n        <div class=\"row d-flex align-items-center\">\n            <div class=\"col-md-3\">\n                <!-- <p-autoComplete [(ngModel)]=\"productFilterBox\" styleClass=\"wid100\" [suggestions]=\"backendProductDto\" (completeMethod)=\"filterProducts($event)\" name=\"test\" [minLength]=\"1\" (keyup.enter)=\"submitProduct(p)\"\n                        field=\"description\">\n                    </p-autoComplete> -->\n\n                <input class=\"form-control \" [formControl]=\"this.searchProductTextBox\" type=\"text\" placeholder=\"Search By Product No/ Description\">\n            </div>\n\n            <div class=\"col-md-2\">\n                <select class=\"form-control\" [(ngModel)]=\"this.selectedProductDropdownOption\" (change)=\"onProductDropdownChoose()\">\n                        <option>Select All</option>\n                        <option>Brand</option>\n                        <option>Category</option>\n                        <option>Vendor</option>\n                    </select>\n\n            </div>\n            <div class=\"col-md-2\">\n                <select *ngIf=\"this.listOfProductOption != null\" class=\"form-control \" #dropdown (change)=\"fiterProductByDropdown(dropdown.value)\">\n                        <option [value]=\"-1\">All {{this.selectedProductDropdownOption}}</option>\n                        <option *ngFor=\"let option of this.listOfProductOption\" [value]=\"option.id\">\n                            {{option.name}}\n                        </option>\n                    </select>\n            </div>\n\n            <div class=\"col-md-5 d-flex align-items-center justify-content-end\">\n                <button type=\"button\" mat-raised-button class=\"bg-primary text-white action-button-lg\" style=\"margin-right: 15px\" [routerLink]=\"['/product/add']\">\n                        <i class=\"fa fa-plus-square\" aria-hidden=\"true\" label=\"Add\"></i>\n                        Add Product\n                    </button>\n\n                <button type=\"button\" mat-raised-button class=\"bg-primary text-white action-button-lg\" [routerLink]=\"['/product/addInventory']\">\n                        <i class=\"fa fa-plus-square\" aria-hidden=\"true\" label=\"Add\"></i>\n                        Add Inventory\n                    </button>\n\n            </div>\n\n\n        </div>\n        <div class=\"row\">\n            <div class=\"col-md-12 p-md-3\">\n\n                <!-- <p-header>Product Details</p-header> -->\n                <p-dataTable [value]=\"this.productViewList\" [editable]=\"true\" scrollable=\"true\" virtualScroll=\"virtualScroll\" [rows]=\"this.rowsToShow\" [lazy]=\"true\" [totalRecords]=\"this.totalNumberProducts\" [responsive]=\"true\" scrollHeight=\"400px\" (onEditComplete)=\"this.updateRetailPrice($event)\"\n                    (onLazyLoad)=\"loadProductsLazy($event)\">\n                    <p-column [style]=\"{'width': '10%'}\" field=\"productNo\" header=\"Product Number\" filterPlaceholder=\"Search For Product Name\"></p-column>\n                    <p-column [style]=\"{'width': '30%', 'text-align': 'left'}\" field=\"description\" header=\"Description\" [sortable]=\"true\"></p-column>\n                    <!-- <p-column [style]=\"{'width': '10%'}\" field=\"categoryName\" header=\"Category\" [sortable]=\"true\"></p-column> -->\n                    <p-column [style]=\"{'width': '10%'}\" field=\"cost\" header=\"Cost\" [sortable]=\"true\"></p-column>\n                    <p-column [style]=\"{'width': '10%'}\" field=\"retail\" header=\"Retail\" [editable]=\"true\"></p-column>\n                    <p-column [style]=\"{'width': '8%'}\" field=\"quantity\" header=\"Quantity\" [sortable]=\"true\"> </p-column>\n                    <p-column [style]=\"{'width': '23%'}\" field=\"action\" header=\"Action\" [sortable]=\"true\">\n                        <ng-template let-product=\"rowData\" pTemplate=\"body\" class=\"m-auto\">\n                            <button class=\"btn-blue action-button-table\" mat-button [routerLink]=\"['/product/edit', {productNo: product.productNo}]\">\n                                    <i class=\"fa fa-pencil\" aria-hidden=\"true\"></i>\n                                </button>\n                            <button mat-button class=\"btn-red action-button-table\" mat-button (click)=\"this.setProductToDelete(product)\" data-toggle=\"modal\" data-target=\"#deleteProduct\">\n                                    <i class=\"fa fa-trash\" aria-hidden=\"true\"></i>\n                                </button>\n                            <button mat-button class=\"btn-green action-button-table\" mat-button (click)=\"this.setProductForHistory(product)\" data-toggle=\"modal\" data-target=\"#productHistoryModel\">\n                                    <i class=\"fa fa-history\" aria-hidden=\"true\"></i>\n                                </button>\n                            <button mat-button class=\"btn-gray action-button-table\" mat-button data-toggle=\"modal\" data-target=\"#productHistoryModel\">\n                                    <i class=\"fa fa-barcode\" aria-hidden=\"true\"></i>\n                                </button>\n\n                        </ng-template>\n                    </p-column>\n                </p-dataTable>\n\n                <!-- <table class=\"table\" class=\"table table-striped\">\n                    <thead>\n                        <tr>\n                            <th>Product No</th>\n                            <th>Description</th>\n                            <th>Cost</th>\n                            <th>Retail</th>\n                            <th>Quantity</th>\n                            <th>Action</th>\n                        </tr>\n                    </thead>\n                    <tbody>\n                        <tr *ngFor=\"let product of this.backendProductDto\">\n                            <td>{{product.productNo}}</td>\n                            <td>{{product.description}}</td>\n                            <td>{{product.cost}}</td>\n                            <td>{{product.retail}}</td>\n                            <td>{{product.quantity}}</td> -->\n                <!-- <td>\n                                <button class=\"btn-blue action-button-table\" mat-button [routerLink]=\"['/product/edit', {productNo: product.productNo}]\">\n                                    <i class=\"fa fa-pencil\" aria-hidden=\"true\"></i>\n                                </button>\n                                <button mat-button class=\"btn-red action-button-table\" mat-button (click)=\"this.setProductToDelete(product)\" data-toggle=\"modal\" data-target=\"#deleteProduct\">\n                                    <i class=\"fa fa-trash\" aria-hidden=\"true\"></i>\n                                </button>\n                                <button mat-button class=\"btn-green action-button-table\" mat-button (click)=\"this.setProductForHistory(product)\" data-toggle=\"modal\" data-target=\"#productHistoryModel\">\n                                    <i class=\"fa fa-history\" aria-hidden=\"true\"></i>\n                                </button>\n                                <button mat-button class=\"btn-gray action-button-table\" mat-button data-toggle=\"modal\" data-target=\"#productHistoryModel\">\n                                    <i class=\"fa fa-barcode\" aria-hidden=\"true\"></i>\n                                </button>\n                            </td> -->\n                <!-- </tr>\n\n                    </tbody>\n                </table> -->\n\n\n\n            </div>\n        </div>\n\n    </mat-card-content>\n</mat-card>\n\n\n\n<!-- Start Of Product History model -->\n<div class=\"modal fade\" id=\"productHistoryModel\" role=\"dialog\">\n    <div class=\"modal-dialog modal-lg\">\n\n        <!-- Modal content-->\n        <div class=\"modal-content\">\n            <div class=\"modal-header\">\n                <h3 class=\"modal-title\">Product History</h3>\n                <button type=\"button\" class=\"close\" data-dismiss=\"modal\">&times;</button>\n\n            </div>\n            <div class=\"modal-body\">\n                <div class=\"row\">\n                    <div class=\"col-md-4\">\n                        <select class=\"form-control form-control\" [(ngModel)]=\"this.productHistoryDropDown\" (change)=\"this.getProductHistory()\">\n                            <option>Today</option>\n                            <option>Yesterday</option>\n                            <option>This Week</option>\n                            <option>Last Week</option>\n                            <option>This Month</option>\n                            <option>Last Month</option>\n                            <option>Last 3 Months</option>\n                            <option>Last 6 Months</option>\n                            <option>This Year</option>\n                            <option>Last Year</option>\n                            <option>Custom</option>\n\n                        </select>\n\n                    </div>\n\n                    <div class=\"col-md-8\">\n\n                        <span> Total No Of Product Sold:</span>\n                        <span>{{this.totalProductHistoryCount}}</span>\n                    </div>\n\n\n                </div>\n                <div class=\"row\">\n                    <table class=\"table\">\n                        <thead>\n                            <tr>\n\n                                <th>Product No</th>\n                                <th>Description</th>\n                                <th>Product Sold</th>\n                                <th>Cost</th>\n                                <th>Retail</th>\n                                <th>Date</th>\n                                <th>Time</th>\n\n                            </tr>\n                        </thead>\n                        <tbody>\n                            <tr *ngFor=\"let product of this.productHistoryDto\">\n                                <td>{{product.productNo}}</td>\n                                <td>{{product.description}}</td>\n                                <td>{{product.quantity}}</td>\n                                <td>{{product.cost}}</td>\n                                <td>{{product.retail}}</td>\n                                <td>{{product.date}}</td>\n                                <td>{{product.time}}</td>\n\n                            </tr>\n                        </tbody>\n                    </table>\n                    <!-- <div>\n                        <h5>Total Number Of Product Sold : {{this.productHistoryDto[0].totalQuantity}}</h5>\n                    </div> -->\n                </div>\n\n            </div>\n            <div class=\"modal-footer\">\n                <button type=\"button\" class=\"btn btn-default\" data-dismiss=\"modal\">Close</button>\n            </div>\n\n        </div>\n\n\n    </div>\n\n</div>\n<!-- End of Prodcut Histoty Model -->\n\n<!-- Start of Delete product up -->\n<div class=\"modal fade\" id=\"deleteProduct\" role=\"dialog\">\n    <div class=\"modal-dialog modal-sm\">\n        <div class=\"modal-content\">\n            <div class=\"modal-header\">\n                <h4 class=\"modal-title\">Delete Product</h4>\n                <button type=\"button\" class=\"close\" data-dismiss=\"modal\">&times;</button>\n            </div>\n            <div class=\"modal-body\">\n                <p>Are You Sure You Want To Delete This Product</p>\n            </div>\n            <div class=\"modal-footer\">\n\n                <button type=\"button\" class=\"btn btn-danger\" data-dismiss=\"modal\" (click)=\"this.deleteProduct()\">Yes</button>\n                <button type=\"button\" class=\"btn btn-default\" data-dismiss=\"modal\">Cancle</button>\n            </div>\n        </div>\n    </div>\n</div>\n\n<!-- End of Delete product up -->"
+module.exports = "<mat-card>\n    <mat-card-title>\n        <h4>Product Inventory</h4>\n    </mat-card-title>\n    <mat-card-content>\n        <div class=\"row d-flex align-items-center\">\n            <div class=\"col-md-3\">\n                <!-- <p-autoComplete [(ngModel)]=\"productFilterBox\" styleClass=\"wid100\" [suggestions]=\"backendProductDto\" (completeMethod)=\"filterProducts($event)\" name=\"test\" [minLength]=\"1\" (keyup.enter)=\"submitProduct(p)\"\n                        field=\"description\">\n                    </p-autoComplete> -->\n\n                <input class=\"form-control \" [formControl]=\"this.searchProductTextBox\" type=\"text\" placeholder=\"Search By Product No/ Description\">\n            </div>\n\n            <div class=\"col-md-2\">\n                <select class=\"form-control\" [(ngModel)]=\"this.selectedProductDropdownOption\" (change)=\"onProductDropdownChoose()\">\n                        <option>Select All</option>\n                        <option>Brand</option>\n                        <option>Category</option>\n                        <option>Vendor</option>\n                    </select>\n\n            </div>\n            <div class=\"col-md-2\">\n                <select *ngIf=\"this.listOfProductOption != null\" class=\"form-control \" #dropdown (change)=\"fiterProductByDropdown(dropdown.value)\">\n                        <option [value]=\"-1\">All {{this.selectedProductDropdownOption}}</option>\n                        <option *ngFor=\"let option of this.listOfProductOption\" [value]=\"option.id\">\n                            {{option.name}}\n                        </option>\n                    </select>\n            </div>\n\n            <div class=\"col-md-5 d-flex align-items-center justify-content-end\">\n                <button type=\"button\" mat-raised-button class=\"bg-primary text-white action-button-lg\" style=\"margin-right: 15px\" [routerLink]=\"['/product/add']\">\n                        <i class=\"fa fa-plus-square\" aria-hidden=\"true\" label=\"Add\"></i>\n                        Add Product\n                    </button>\n\n                <!-- <button type=\"button\" mat-raised-button class=\"bg-primary text-white action-button-lg\" [routerLink]=\"['/product/addInventory']\">\n                        <i class=\"fa fa-plus-square\" aria-hidden=\"true\" label=\"Add\"></i>\n                        Add Inventory\n                    </button> -->\n\n            </div>\n\n\n        </div>\n        <div class=\"row\">\n            <div class=\"col-md-12 p-md-3\">\n\n                <!-- <p-header>Product Details</p-header> -->\n                <p-dataTable [value]=\"this.productViewList\" [editable]=\"true\" scrollable=\"true\" virtualScroll=\"virtualScroll\" [rows]=\"this.rowsToShow\" [lazy]=\"true\" [totalRecords]=\"this.totalNumberProducts\" [responsive]=\"true\" scrollHeight=\"400px\" (onEditComplete)=\"this.updateRetailPrice($event)\"\n                    (onLazyLoad)=\"loadProductsLazy($event)\">\n                    <p-column [style]=\"{'width': '10%'}\" field=\"productNo\" header=\"Product Number\" filterPlaceholder=\"Search For Product Name\"></p-column>\n                    <p-column [style]=\"{'width': '30%', 'text-align': 'left'}\" field=\"description\" header=\"Description\" [sortable]=\"true\"></p-column>\n                    <!-- <p-column [style]=\"{'width': '10%'}\" field=\"categoryName\" header=\"Category\" [sortable]=\"true\"></p-column> -->\n                    <p-column [style]=\"{'width': '10%'}\" field=\"cost\" header=\"Cost\" [sortable]=\"true\"></p-column>\n                    <p-column [style]=\"{'width': '10%'}\" field=\"retail\" header=\"Retail\" [editable]=\"true\"></p-column>\n                    <p-column [style]=\"{'width': '8%'}\" field=\"quantity\" header=\"Quantity\" [sortable]=\"true\"> </p-column>\n                    <p-column [style]=\"{'width': '23%'}\" field=\"action\" header=\"Action\" [sortable]=\"true\">\n                        <ng-template let-product=\"rowData\" pTemplate=\"body\" class=\"m-auto\">\n                            <button class=\"btn-blue action-button-table\" mat-button [routerLink]=\"['/product/edit', {productNo: product.productNo}]\">\n                                    <i class=\"fa fa-pencil\" aria-hidden=\"true\"></i>\n                                </button>\n                            <button mat-button class=\"btn-red action-button-table\" mat-button (click)=\"this.setProductToDelete(product)\" data-toggle=\"modal\" data-target=\"#deleteProduct\">\n                                    <i class=\"fa fa-trash\" aria-hidden=\"true\"></i>\n                                </button>\n                            <button mat-button class=\"btn-green action-button-table\" mat-button (click)=\"this.setProductForHistory(product)\" data-toggle=\"modal\" data-target=\"#productHistoryModel\">\n                                    <i class=\"fa fa-history\" aria-hidden=\"true\"></i>\n                                </button>\n                            <button mat-button class=\"btn-gray action-button-table\" mat-button data-toggle=\"modal\" data-target=\"#productHistoryModel\">\n                                    <i class=\"fa fa-barcode\" aria-hidden=\"true\"></i>\n                                </button>\n\n                        </ng-template>\n                    </p-column>\n                </p-dataTable>\n\n                <!-- <table class=\"table\" class=\"table table-striped\">\n                    <thead>\n                        <tr>\n                            <th>Product No</th>\n                            <th>Description</th>\n                            <th>Cost</th>\n                            <th>Retail</th>\n                            <th>Quantity</th>\n                            <th>Action</th>\n                        </tr>\n                    </thead>\n                    <tbody>\n                        <tr *ngFor=\"let product of this.backendProductDto\">\n                            <td>{{product.productNo}}</td>\n                            <td>{{product.description}}</td>\n                            <td>{{product.cost}}</td>\n                            <td>{{product.retail}}</td>\n                            <td>{{product.quantity}}</td> -->\n                <!-- <td>\n                                <button class=\"btn-blue action-button-table\" mat-button [routerLink]=\"['/product/edit', {productNo: product.productNo}]\">\n                                    <i class=\"fa fa-pencil\" aria-hidden=\"true\"></i>\n                                </button>\n                                <button mat-button class=\"btn-red action-button-table\" mat-button (click)=\"this.setProductToDelete(product)\" data-toggle=\"modal\" data-target=\"#deleteProduct\">\n                                    <i class=\"fa fa-trash\" aria-hidden=\"true\"></i>\n                                </button>\n                                <button mat-button class=\"btn-green action-button-table\" mat-button (click)=\"this.setProductForHistory(product)\" data-toggle=\"modal\" data-target=\"#productHistoryModel\">\n                                    <i class=\"fa fa-history\" aria-hidden=\"true\"></i>\n                                </button>\n                                <button mat-button class=\"btn-gray action-button-table\" mat-button data-toggle=\"modal\" data-target=\"#productHistoryModel\">\n                                    <i class=\"fa fa-barcode\" aria-hidden=\"true\"></i>\n                                </button>\n                            </td> -->\n                <!-- </tr>\n\n                    </tbody>\n                </table> -->\n\n\n\n            </div>\n        </div>\n\n    </mat-card-content>\n</mat-card>\n\n\n\n<!-- Start Of Product History model -->\n<div class=\"modal fade\" id=\"productHistoryModel\" role=\"dialog\">\n    <div class=\"modal-dialog modal-lg\">\n\n        <!-- Modal content-->\n        <div class=\"modal-content\">\n            <div class=\"modal-header\">\n                <h3 class=\"modal-title\">Product History</h3>\n                <button type=\"button\" class=\"close\" data-dismiss=\"modal\">&times;</button>\n\n            </div>\n            <div class=\"modal-body\">\n                <div class=\"row\">\n                    <div class=\"col-md-4\">\n                        <select class=\"form-control form-control\" [(ngModel)]=\"this.productHistoryDropDown\" (change)=\"this.getProductHistory()\">\n                            <option>Today</option>\n                            <option>Yesterday</option>\n                            <option>This Week</option>\n                            <option>Last Week</option>\n                            <option>This Month</option>\n                            <option>Last Month</option>\n                            <option>Last 3 Months</option>\n                            <option>Last 6 Months</option>\n                            <option>This Year</option>\n                            <option>Last Year</option>\n                            <option>Custom</option>\n\n                        </select>\n\n                    </div>\n\n                    <div class=\"col-md-8\">\n\n                        <span> Total No Of Product Sold:</span>\n                        <span>{{this.totalProductHistoryCount}}</span>\n                    </div>\n\n\n                </div>\n                <div class=\"row\">\n                    <table class=\"table\">\n                        <thead>\n                            <tr>\n\n                                <th>Product No</th>\n                                <th>Description</th>\n                                <th>Product Sold</th>\n                                <th>Cost</th>\n                                <th>Retail</th>\n                                <th>Date</th>\n                                <th>Time</th>\n\n                            </tr>\n                        </thead>\n                        <tbody>\n                            <tr *ngFor=\"let product of this.productHistoryDto\">\n                                <td>{{product.productNo}}</td>\n                                <td>{{product.description}}</td>\n                                <td>{{product.quantity}}</td>\n                                <td>{{product.cost}}</td>\n                                <td>{{product.retail}}</td>\n                                <td>{{product.date}}</td>\n                                <td>{{product.time}}</td>\n\n                            </tr>\n                        </tbody>\n                    </table>\n                    <!-- <div>\n                        <h5>Total Number Of Product Sold : {{this.productHistoryDto[0].totalQuantity}}</h5>\n                    </div> -->\n                </div>\n\n            </div>\n            <div class=\"modal-footer\">\n                <button type=\"button\" class=\"btn btn-default\" data-dismiss=\"modal\">Close</button>\n            </div>\n\n        </div>\n\n\n    </div>\n\n</div>\n<!-- End of Prodcut Histoty Model -->\n\n<!-- Start of Delete product up -->\n<div class=\"modal fade\" id=\"deleteProduct\" role=\"dialog\">\n    <div class=\"modal-dialog modal-sm\">\n        <div class=\"modal-content\">\n            <div class=\"modal-header\">\n                <h4 class=\"modal-title\">Delete Product</h4>\n                <button type=\"button\" class=\"close\" data-dismiss=\"modal\">&times;</button>\n            </div>\n            <div class=\"modal-body\">\n                <p>Are You Sure You Want To Delete This Product</p>\n            </div>\n            <div class=\"modal-footer\">\n\n                <button type=\"button\" class=\"btn btn-danger\" data-dismiss=\"modal\" (click)=\"this.deleteProduct()\">Yes</button>\n                <button type=\"button\" class=\"btn btn-default\" data-dismiss=\"modal\">Cancle</button>\n            </div>\n        </div>\n    </div>\n</div>\n\n<!-- End of Delete product up -->"
 
 /***/ }),
 
@@ -4483,6 +4542,8 @@ module.exports = "<p-growl [(value)]=\"msgs\"></p-growl>\n<mat-card>\n    <mat-c
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_app_product_product_service__ = __webpack_require__("../../../../../src/app/product/product.service.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_app_product_vendor_vendor_service__ = __webpack_require__("../../../../../src/app/product/vendor/vendor.service.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__angular_forms__ = __webpack_require__("../../../forms/esm5/forms.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_ng2_toastr__ = __webpack_require__("../../../../ng2-toastr/ng2-toastr.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_ng2_toastr___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4_ng2_toastr__);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -4496,11 +4557,13 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
+
 var VendorComponent = /** @class */ (function () {
-    function VendorComponent(vendorService, productService, formBuilder) {
+    function VendorComponent(vendorService, productService, formBuilder, toastr) {
         this.vendorService = vendorService;
         this.productService = productService;
         this.formBuilder = formBuilder;
+        this.toastr = toastr;
         this.msgs = [];
         this.vendor = new PrimeVendor();
     }
@@ -4526,43 +4589,81 @@ var VendorComponent = /** @class */ (function () {
             console.log('VendorList' + _this.vendorDto);
         });
     };
-    VendorComponent.prototype.save = function () {
-        var newVendorDto = this.vendorDto.slice();
-        if (this.newVendor) {
-            newVendorDto.push(this.vendor);
-            this.vendorService.addOrUpdateVendor(this.vendor);
-            this.showSuccess('success', 'Insert', 'Vendor Added Successfully!!');
-            this.getVendorDetails();
-            this.displayDialog = false;
-        }
-        else {
-            newVendorDto[this.findSelectedCarIndex()] = this.vendor;
-            this.vendorDto = newVendorDto;
-            this.vendorService.addOrUpdateVendor(this.vendor);
-            this.vendor = null;
-            this.getVendorDetails();
-            this.showSuccess('success', 'Update', 'Vendor Updated Successfully!!');
-            this.displayDialog = false;
-        }
-    };
+    // REady to Delete
+    // save() {
+    //     let newVendorDto = [...this.vendorDto];
+    //     if (this.newVendor) {
+    //         newVendorDto.push(this.vendor);
+    //         this.vendorService.addOrUpdateVendor(this.vendor)
+    //         .subscribe(data => {
+    //             if(data){
+    //                 this.toastr.success('Vendor Added Successfully!!');
+    //             }
+    //             else{
+    //                 this.toastr.error('Opps Something Goes Wrong!!');
+    //             }
+    //           },
+    //             error => {
+    //           console.log(JSON.stringify(error.json()));
+    //           this.toastr.error('Opps Something Goes Wrong!!');
+    //         });
+    //         this.getVendorDetails();
+    //         this.displayDialog = false;
+    //     } 
+    // }
     VendorComponent.prototype.addVendor = function () {
+        var _this = this;
         var newVendor = this.vendorForm.value;
-        this.vendorService.addOrUpdateVendor(this.vendorForm.value);
+        this.vendorService.addOrUpdateVendor(this.vendorForm.value)
+            .subscribe(function (data) {
+            if (data) {
+                _this.toastr.success('Vendor Added Successfully!!');
+            }
+            else {
+                _this.toastr.error('Opps Something Goes Wrong!!');
+            }
+        }, function (error) {
+            console.log(JSON.stringify(error.json()));
+            _this.toastr.error('Opps Something Goes Wrong!!');
+        });
         this.vendorDto.push(newVendor);
         this.vendorDto = this.vendorDto.slice();
         this.displayDialog = false;
     };
     VendorComponent.prototype.updateVendor = function (event) {
-        this.vendorService.addOrUpdateVendor(event.data);
+        var _this = this;
+        this.vendorService.addOrUpdateVendor(event.data)
+            .subscribe(function (data) {
+            if (data) {
+                _this.toastr.success('Vendor Updated Successfully!!');
+            }
+            else {
+                _this.toastr.error('Opps Something Goes Wrong!!');
+            }
+        }, function (error) {
+            console.log(JSON.stringify(error.json()));
+            _this.toastr.error('Opps Something Goes Wrong!!');
+        });
     };
     VendorComponent.prototype.setVendorForDelete = function (vendor) {
         this.selectedVendorForDelete = vendor;
     };
     VendorComponent.prototype.deleteVendor = function () {
         var _this = this;
-        var index = this.vendorDto.findIndex(function (el) { return el.name == _this.selectedVendorForDelete.name; });
-        this.vendorDto = this.vendorDto.splice(0, index).concat(this.vendorDto.splice(index));
-        this.vendorService.deleteVendor(this.selectedVendorForDelete.vendorId);
+        this.vendorService.deleteVendor(this.selectedVendorForDelete.vendorId)
+            .subscribe(function (data) {
+            if (data) {
+                var index = _this.vendorDto.findIndex(function (el) { return el.name == _this.selectedVendorForDelete.name; });
+                _this.vendorDto = _this.vendorDto.splice(0, index).concat(_this.vendorDto.splice(index));
+                _this.toastr.success('Vendor Deleted Successfully!!');
+            }
+            else {
+                _this.toastr.error('Opps Something Goes Wrong!!');
+            }
+        }, function (error) {
+            console.log(JSON.stringify(error.json()));
+            _this.toastr.error('Opps Something Goes Wrong!!');
+        });
     };
     VendorComponent.prototype.showDialogToAdd = function () {
         this.newVendor = true;
@@ -4593,7 +4694,7 @@ var VendorComponent = /** @class */ (function () {
             template: __webpack_require__("../../../../../src/app/product/vendor/vendor.component.html"),
             styles: [__webpack_require__("../../../../../src/app/product/vendor/vendor.component.css")]
         }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_2_app_product_vendor_vendor_service__["a" /* VendorService */], __WEBPACK_IMPORTED_MODULE_1_app_product_product_service__["a" /* ProductService */], __WEBPACK_IMPORTED_MODULE_3__angular_forms__["FormBuilder"]])
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_2_app_product_vendor_vendor_service__["a" /* VendorService */], __WEBPACK_IMPORTED_MODULE_1_app_product_product_service__["a" /* ProductService */], __WEBPACK_IMPORTED_MODULE_3__angular_forms__["FormBuilder"], __WEBPACK_IMPORTED_MODULE_4_ng2_toastr__["ToastsManager"]])
     ], VendorComponent);
     return VendorComponent;
 }());
@@ -4616,6 +4717,7 @@ var PrimeVendor = /** @class */ (function () {
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return VendorService; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/esm5/core.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_http__ = __webpack_require__("../../../http/esm5/http.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_environments_environment__ = __webpack_require__("../../../../../src/environments/environment.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -4627,28 +4729,17 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 
 
+
 var VendorService = /** @class */ (function () {
     function VendorService(http) {
         this.http = http;
+        this.url = __WEBPACK_IMPORTED_MODULE_2_environments_environment__["a" /* environment */].reportUrl;
     }
     VendorService.prototype.addOrUpdateVendor = function (vendor) {
-        console.log("Category Added" + vendor.name);
-        this.http.post('http://localhost:8080/addVendor', vendor)
-            .subscribe(function (data) {
-            alert('Vendor Updated !!');
-            console.log(data);
-        }, function (error) {
-            console.log(JSON.stringify(error.json()));
-        });
+        return this.http.post(this.url + '/addVendor', vendor);
     };
     VendorService.prototype.deleteVendor = function (vendorId) {
-        this.http.delete('http://localhost:8080/deleteVendor?vendorId=' + vendorId)
-            .subscribe(function (data) {
-            alert('Vendor Deleted !!');
-            console.log(data);
-        }, function (error) {
-            console.log(JSON.stringify(error.json()));
-        });
+        return this.http.delete(this.url + '/deleteVendor?vendorId=' + vendorId);
     };
     VendorService = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Injectable"])(),
@@ -7631,7 +7722,8 @@ var SaleComponent = /** @class */ (function () {
     SaleComponent.prototype.printReciept = function () {
         console.log('coming for thermal print');
         this.sellService.printThermalReceipt(this.printTransactionDto)
-            .subscribe(function () {
+            .subscribe(function (data) {
+            console.log(data);
         });
         this.clearAllDateAfterTransactionComplete();
         $('#paymentModel').modal('toggle');
@@ -7817,7 +7909,10 @@ var SalesHistoryComponent = /** @class */ (function () {
         });
     };
     SalesHistoryComponent.prototype.printReceipt = function (transaction) {
-        this.sellService.printReceipt(transaction);
+        this.sellService.printThermalReceipt(transaction)
+            .subscribe(function (data) {
+            console.log(data);
+        });
     };
     SalesHistoryComponent.prototype.onTransactionTypeDropdownChoose = function () {
         this.filterTransactionDetails(this.searchByTransactionType, 'Transaction-Type');

@@ -1,9 +1,7 @@
 package com.abm.pos.ABMPos.manager;
 
-import com.abm.pos.ABMPos.dao.CustomerDao;
-import com.abm.pos.ABMPos.dao.EmployeeDao;
-import com.abm.pos.ABMPos.dao.StoreCreditDao;
-import com.abm.pos.ABMPos.dao.TransactionDao;
+import com.abm.pos.ABMPos.dao.*;
+import com.abm.pos.ABMPos.repository.CustomerGroupRepository;
 import com.abm.pos.ABMPos.repository.CustomerRepository;
 import com.abm.pos.ABMPos.repository.StoreCreditRepository;
 import com.abm.pos.ABMPos.repository.TransactionRepository;
@@ -29,6 +27,9 @@ public class CustomerManager {
 
     @Autowired
     private TransactionRepository transactionRepository;
+
+    @Autowired
+    private CustomerGroupRepository customerGroupRepository;
 
 
     public CustomerDao addCustomer(CustomerDao customerDao) {
@@ -97,5 +98,10 @@ public class CustomerManager {
     public CustomerDao getCustomerByPhoneNo(String phoneNo) {
 
        return customerRepository.findByPhoneNo(phoneNo);
+    }
+
+    public CustomerGroupDao addCustomerGroup(CustomerGroupDao customerGroupDao) {
+
+        return customerGroupRepository.save(customerGroupDao);
     }
 }

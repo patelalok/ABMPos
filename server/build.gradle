@@ -4,9 +4,6 @@ buildscript {
 	}
 	repositories {
 		mavenCentral()
-//		flatDir {
-//			dirs 'lib'
-//		}
 	}
 	dependencies {
 		classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
@@ -61,6 +58,8 @@ dependencies {
 
 	// https://mvnrepository.com/artifact/nz.net.ultraq.thymeleaf/thymeleaf-layout-dialect
 	compile group: 'nz.net.ultraq.thymeleaf', name: 'thymeleaf-layout-dialect', version: '1.2'
+
+	// This helps to add local jars from the project, in this  case these are EPSON printer jars
 	compile fileTree(dir: 'libs', include: '*.jar')
 	runtime('mysql:mysql-connector-java')
 	testCompile('org.springframework.boot:spring-boot-starter-test')

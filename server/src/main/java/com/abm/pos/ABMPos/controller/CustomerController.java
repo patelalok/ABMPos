@@ -1,7 +1,7 @@
 package com.abm.pos.ABMPos.controller;
 
 import com.abm.pos.ABMPos.dao.CustomerDao;
-import com.abm.pos.ABMPos.dao.EmployeeDao;
+import com.abm.pos.ABMPos.dao.CustomerGroupDao;
 import com.abm.pos.ABMPos.dao.StoreCreditDao;
 import com.abm.pos.ABMPos.manager.CustomerManager;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,13 +41,17 @@ public class CustomerController {
         return new ResponseEntity(HttpStatus.CREATED);
     }
 
+    @RequestMapping(value = "/addCustomerGroup", method = RequestMethod.POST, consumes = "application/json")
+    public CustomerGroupDao addCustomerGroup(@RequestBody CustomerGroupDao customerGroupDao)
+    {
+        return customerManager.addCustomerGroup(customerGroupDao);
+    }
 
     @RequestMapping(value = "/getCustomerStoreCreditHistory", method = RequestMethod.GET, produces = "application/json")
     public List<StoreCreditDao> getCustomerStoreCreditHistory(@RequestParam String phoneNo)
     {
         return customerManager.getCustomerStoreCreditHistory(phoneNo);
     }
-
     @RequestMapping(value = "/getCustomer", method = RequestMethod.GET, produces = "application/json")
     public List<CustomerDao> getCustomer()
     {

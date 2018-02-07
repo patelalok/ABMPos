@@ -19,6 +19,7 @@ import { PromotionComponent } from 'app/promotion/promotion.component';
 import { SmsComponent } from 'app/promotion/sms/sms.component';
 import { EmailComponent } from 'app/promotion/email/email.component';
 import { FacebookComponent } from 'app/promotion/facebook/facebook.component';
+import { PromotionService } from 'app/promotion/promotion.service';
 
 @NgModule({
   imports: [
@@ -35,6 +36,7 @@ import { FacebookComponent } from 'app/promotion/facebook/facebook.component';
     EmailComponent, 
     FacebookComponent
   ],
-  bootstrap: [PromotionComponent]
+  bootstrap: [PromotionComponent],
+  providers:[PromotionService]
 })
 export class PromotionModule { }
