@@ -75,18 +75,8 @@ public class TransactionsManager {
 
             // Managing inventory for the RETURN or VOID
 
-            ProductInventoryDao productInventoryDao = new ProductInventoryDao();
 
-            for (TransactionLineItemDao lineItemDao : transactionDao.getTransactionLineItemDaoList()) {
-                productInventoryDao.setProductNo(lineItemDao.getProductNo());
-                productInventoryDao.setCost(Math.abs(lineItemDao.getCost()));
-                productInventoryDao.setRetail(Math.abs((lineItemDao.getRetail())));
-                productInventoryDao.setQuantity(lineItemDao.getQuantity());
-                productInventoryDao.setCreatedTimestamp(transactionDao.getDate());
-
-
-                productInventoryRepository.save(productInventoryDao);
-            }
+            manageProductInventoryAfterSale(transactionDao);
 
 
             // Handing store credit here
@@ -274,6 +264,28 @@ public class TransactionsManager {
 
     }
 
+    public void manageProductInventoryAfterSale(TransactionDao transactionDao) {
+
+        for (TransactionLineItemDao lineItemDao : transactionDao.getTransactionLineItemDaoList()) {
+
+            ProductInventoryDao productInventoryDao = productInventoryRepository.findFirstByProductNoOrderByCreatedTimestampAsc(lineItemDao.getProductNo());
+
+
+            // This is very important, if i dont do this then it will messed up complete count of the quantity.
+            ProductInventoryDao productInventoryDaoFinal = new ProductInventoryDao();
+            if(null != productInventoryDao)
+            {
+                productInventoryDaoFinal.setCost(productInventoryDao.getCost());
+                productInventoryDaoFinal.setProductNo(lineItemDao.getProductNo());
+                productInventoryDaoFinal.setRetail(Math.abs((lineItemDao.getRetail())));
+                productInventoryDaoFinal.setQuantity(lineItemDao.getQuantity());
+                productInventoryDaoFinal.setCreatedTimestamp(transactionDao.getDate());
+            }
+
+            productInventoryRepository.save(productInventoryDaoFinal);
+        }
+    }
+
     private void setCustomerStoreCredit(TransactionDao transactionDao) {
 
         CustomerDao customerDao = customerRepository.findByPhoneNo(transactionDao.getCustomerPhoneno());
@@ -427,15 +439,7 @@ public class TransactionsManager {
 
         ProductInventoryDao productInventoryDao = new ProductInventoryDao();
 
-        for (TransactionLineItemDao lineItemDao : transactionDao.getTransactionLineItemDaoList()) {
-            productInventoryDao.setProductNo(lineItemDao.getProductNo());
-            productInventoryDao.setCost(Math.abs(lineItemDao.getCost()));
-            productInventoryDao.setRetail(Math.abs((lineItemDao.getRetail())));
-            productInventoryDao.setQuantity(lineItemDao.getQuantity());
-            productInventoryDao.setCreatedTimestamp(transactionDao.getDate());
-
-            productInventoryRepository.save(productInventoryDao);
-        }
+        manageProductInventoryAfterSale(transactionDao);
 
 
         return transactionRepository.save(transactionDao);

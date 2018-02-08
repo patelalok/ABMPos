@@ -235,6 +235,7 @@ printTransactionDto: TransactionDtoList = null;
               this.p = null
         
               this.transactionLineItemDaoList = this.transactionLineItemDaoList.slice();
+              console.log('after slice line item', this.transactionLineItemDaoList);
               this.setTransactionDtoList(this.transactionLineItemDaoList)
               // This will save the data into local storage.
               //this.persit.setProducts(this.transactionLineItemDaoList);
@@ -244,6 +245,7 @@ printTransactionDto: TransactionDtoList = null;
           }
 
           setTransactionDtoList(lineItem: TransactionLineItemDaoList[]) {
+            console.log('line item in settransaction', lineItem);
             let totalQuantity = 0;
             let totalPrice = 0.00;
             let tax: number = 0.00;
