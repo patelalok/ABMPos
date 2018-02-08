@@ -26,3 +26,6 @@ nbdist/
 classes/
 /server/out/production
 /server/src/main/resources/*
+.DS_Store
+server/.DS_Store
+
