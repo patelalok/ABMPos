@@ -2356,7 +2356,7 @@ var AddInventoryComponent = /** @class */ (function () {
     };
     AddInventoryComponent.prototype.getProductDetails = function () {
         var _this = this;
-        this.saleService.getProductDetails()
+        this.productService.getProductDetails()
             .subscribe(function (pro) {
             _this.productDto = pro;
             _this.filteredProductByVendor = _this.productDto;
@@ -2375,7 +2375,7 @@ var AddInventoryComponent = /** @class */ (function () {
     AddInventoryComponent.prototype.filterProducts = function (event) {
         var _this = this;
         var query = event.query;
-        this.saleService.getProductDetails()
+        this.productService.getProductDetails()
             .subscribe(function (products) {
             // console.log(products);
             _this.product = _this.filterProduct(query, products);
@@ -2574,13 +2574,13 @@ module.exports = "<div class=\"\">\n    <mat-card>\n        <form *ngIf=\"this.f
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return AddProductComponent; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/esm5/core.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_app_product_product_service__ = __webpack_require__("../../../../../src/app/product/product.service.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_app_sell_sell_component__ = __webpack_require__("../../../../../src/app/sell/sell.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__angular_forms__ = __webpack_require__("../../../forms/esm5/forms.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_app_product_product_component__ = __webpack_require__("../../../../../src/app/product/product.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_moment__ = __webpack_require__("../../../../moment/moment.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_moment___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5_moment__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_ng2_toastr_src_toast_manager__ = __webpack_require__("../../../../ng2-toastr/src/toast-manager.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_ng2_toastr_src_toast_manager___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6_ng2_toastr_src_toast_manager__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_forms__ = __webpack_require__("../../../forms/esm5/forms.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_app_product_product_component__ = __webpack_require__("../../../../../src/app/product/product.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_moment__ = __webpack_require__("../../../../moment/moment.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_moment___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4_moment__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_ng2_toastr_src_toast_manager__ = __webpack_require__("../../../../ng2-toastr/src/toast-manager.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_ng2_toastr_src_toast_manager___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5_ng2_toastr_src_toast_manager__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_app_sell_sale_sale_component__ = __webpack_require__("../../../../../src/app/sell/sale/sale.component.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -2592,8 +2592,8 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 
 
-
 // import { FormBuilder } from "@angular/forms/forms";
+
 
 
 
@@ -2604,24 +2604,24 @@ var AddProductComponent = /** @class */ (function () {
         this.formBuilder = formBuilder;
         this.toastr = toastr;
         this.displayDialog = false;
-        this.formProduct = new __WEBPACK_IMPORTED_MODULE_2_app_sell_sell_component__["a" /* Product */]();
-        this.productInventory = new __WEBPACK_IMPORTED_MODULE_4_app_product_product_component__["b" /* ProductInventory */]();
+        this.formProduct = new __WEBPACK_IMPORTED_MODULE_6_app_sell_sale_sale_component__["b" /* Product */]();
+        this.productInventory = new __WEBPACK_IMPORTED_MODULE_3_app_product_product_component__["b" /* ProductInventory */]();
         this.productInventoryList = [];
     }
     AddProductComponent.prototype.ngOnInit = function () {
         //this.generatedProductNo = '123213131';
         var _this = this;
         this.form = this.formBuilder.group({
-            'productNo': [null, [__WEBPACK_IMPORTED_MODULE_3__angular_forms__["Validators"].required, __WEBPACK_IMPORTED_MODULE_3__angular_forms__["Validators"].pattern('^[0-9]+$')]],
-            'description': ['', __WEBPACK_IMPORTED_MODULE_3__angular_forms__["Validators"].required],
-            'category': [null, __WEBPACK_IMPORTED_MODULE_3__angular_forms__["Validators"].required],
-            'brand': [null, __WEBPACK_IMPORTED_MODULE_3__angular_forms__["Validators"].required],
-            'vendor': [null, __WEBPACK_IMPORTED_MODULE_3__angular_forms__["Validators"].required],
-            'cost': [null, [__WEBPACK_IMPORTED_MODULE_3__angular_forms__["Validators"].required, __WEBPACK_IMPORTED_MODULE_3__angular_forms__["Validators"].pattern('^[0-9-.]+$')]],
-            'markup': [null, __WEBPACK_IMPORTED_MODULE_3__angular_forms__["Validators"].pattern('^[0-9-.]+$')],
-            'retail': [null, [__WEBPACK_IMPORTED_MODULE_3__angular_forms__["Validators"].required, __WEBPACK_IMPORTED_MODULE_3__angular_forms__["Validators"].pattern('^[0-9-.]+$')]],
-            'quantity': [null, [__WEBPACK_IMPORTED_MODULE_3__angular_forms__["Validators"].required, __WEBPACK_IMPORTED_MODULE_3__angular_forms__["Validators"].pattern('^[0-9]+$')]],
-            'minQuantity': [null, [__WEBPACK_IMPORTED_MODULE_3__angular_forms__["Validators"].pattern('^[0-9]+$')]],
+            'productNo': [null, [__WEBPACK_IMPORTED_MODULE_2__angular_forms__["Validators"].required, __WEBPACK_IMPORTED_MODULE_2__angular_forms__["Validators"].pattern('^[0-9]+$')]],
+            'description': ['', __WEBPACK_IMPORTED_MODULE_2__angular_forms__["Validators"].required],
+            'category': [null, __WEBPACK_IMPORTED_MODULE_2__angular_forms__["Validators"].required],
+            'brand': [null, __WEBPACK_IMPORTED_MODULE_2__angular_forms__["Validators"].required],
+            'vendor': [null, __WEBPACK_IMPORTED_MODULE_2__angular_forms__["Validators"].required],
+            'cost': [null, [__WEBPACK_IMPORTED_MODULE_2__angular_forms__["Validators"].required, __WEBPACK_IMPORTED_MODULE_2__angular_forms__["Validators"].pattern('^[0-9-.]+$')]],
+            'markup': [null, __WEBPACK_IMPORTED_MODULE_2__angular_forms__["Validators"].pattern('^[0-9-.]+$')],
+            'retail': [null, [__WEBPACK_IMPORTED_MODULE_2__angular_forms__["Validators"].required, __WEBPACK_IMPORTED_MODULE_2__angular_forms__["Validators"].pattern('^[0-9-.]+$')]],
+            'quantity': [null, [__WEBPACK_IMPORTED_MODULE_2__angular_forms__["Validators"].required, __WEBPACK_IMPORTED_MODULE_2__angular_forms__["Validators"].pattern('^[0-9]+$')]],
+            'minQuantity': [null, [__WEBPACK_IMPORTED_MODULE_2__angular_forms__["Validators"].pattern('^[0-9]+$')]],
             'tax': [true, null],
             'ecommerce': [false, null],
             'varaint': [false, null]
@@ -2671,7 +2671,7 @@ var AddProductComponent = /** @class */ (function () {
             this.productInventory.cost = formValues.cost;
             this.productInventory.retail = formValues.retail;
             this.productInventory.quantity = formValues.quantity;
-            this.productInventory.createdTimestamp = __WEBPACK_IMPORTED_MODULE_5_moment__(Date.now()).format('YYYY-MM-DD HH:mm:ss');
+            this.productInventory.createdTimestamp = __WEBPACK_IMPORTED_MODULE_4_moment__(Date.now()).format('YYYY-MM-DD HH:mm:ss');
             var product = {
                 productNo: formValues.productNo,
                 categoryId: formValues.category.categoryId,
@@ -2693,7 +2693,6 @@ var AddProductComponent = /** @class */ (function () {
                 varaint: formValues.varaint,
                 markup: formValues.markup,
                 minQuantity: formValues.minQuantity,
-                productVariantNo: formValues.productVariantNo,
                 quantity: formValues.quantity,
                 retailDiscount: null,
                 returnRule: formValues.returnRule,
@@ -2702,7 +2701,7 @@ var AddProductComponent = /** @class */ (function () {
                 totalProductPrice: null,
                 transactionComId: null,
                 time: null,
-                createdTimestamp: __WEBPACK_IMPORTED_MODULE_5_moment__(Date.now()).format('YYYY-MM-DD HH:mm:ss'),
+                createdTimestamp: __WEBPACK_IMPORTED_MODULE_4_moment__(Date.now()).format('YYYY-MM-DD HH:mm:ss'),
                 productInventoryDaoList: this.productInventoryList
             };
             this.productService.addProduct(product)
@@ -2747,7 +2746,7 @@ var AddProductComponent = /** @class */ (function () {
             template: __webpack_require__("../../../../../src/app/product/addProduct.component.html"),
             styles: [__webpack_require__("../../../../../src/app/product/product.component.scss")],
         }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_app_product_product_service__["a" /* ProductService */], __WEBPACK_IMPORTED_MODULE_3__angular_forms__["FormBuilder"], __WEBPACK_IMPORTED_MODULE_6_ng2_toastr_src_toast_manager__["ToastsManager"]])
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_app_product_product_service__["a" /* ProductService */], __WEBPACK_IMPORTED_MODULE_2__angular_forms__["FormBuilder"], __WEBPACK_IMPORTED_MODULE_5_ng2_toastr_src_toast_manager__["ToastsManager"]])
     ], AddProductComponent);
     return AddProductComponent;
 }());
@@ -3106,7 +3105,7 @@ var CategoryService = /** @class */ (function () {
 /***/ "../../../../../src/app/product/edit-product/edit-product.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<mat-card>\n    <form *ngIf=\"this.form != null\" [formGroup]=\"form\">\n        <mat-card-title>\n            Edit Product\n        </mat-card-title>\n        <mat-card-content>\n\n            <div class=\"row\">\n\n                <div class=\"col-md-6\">\n\n                    <div class=\"row m-2\">\n                        <div class=\"col-md-4 product-textbox\">\n                            <label>Product No:</label>\n                        </div>\n\n                        <div class=\"col-md-8 product-textbox\">\n                            <input type=\"text\" class=\"form-control\" formControlName=\"productNo\" placeholder=\"Please Enter ProductNo\">\n                            <!--<input type=\"submit\" value=\"submit\" [disabled]=\"!form.valid\">-->\n                            <div *ngIf=\"form.get('productNo').hasError('required') && form.get('productNo').touched\" class=\"alert alert-danger\">\n                                *Required!!\n                            </div>\n                            <div *ngIf=\"form.get('productNo').hasError('pattern') && form.get('productNo').touched\" class=\"alert alert-danger\">\n                                *Value Not Alloewd</div>\n                        </div>\n                    </div>\n                    <div class=\"row m-2\">\n\n                        <div class=\"col-md-4 product-textbox\">\n                            <label class=\"control-label\"> Description:</label>\n                        </div>\n\n                        <div class=\"col-md-8 product-textbox\">\n                            <input type=\"text\" class=\"form-control\" style=\"text-transform:uppercase\" formControlName=\"description\" placeholder=\"Please Enter Description\">\n                            <p *ngIf=\"form.get('description').hasError('required') && form.get('description').touched\" class=\"alert alert-danger\">\n                                *Required!!</p>\n                        </div>\n                    </div>\n\n                    <div class=\"row m-2\">\n                        <div class=\"col-md-4 product-textbox\">\n                            <label class=\"control-label\">Category Name:</label>\n                        </div>\n                        <div class=\"col-md-8 product-textbox\">\n                            <select class=\"form-control\" formControlName=\"category\">\n                                      <option *ngFor=\"let category of categoryDto\" [ngValue]= \"category\">\n                                          {{category.name}}\n                                          </option>\n                                  </select>\n                            <p *ngIf=\"form.get('category').hasError('required')\" class=\"alert alert-danger\">\n                                *Required!!</p>\n                        </div>\n                    </div>\n\n                    <div class=\"row m-2\">\n\n                        <div class=\"col-md-4 product-textbox\">\n                            <label class=\"control-label\">Brand Name:</label>\n                        </div>\n\n                        <div class=\"col-md-8 product-textbox\">\n                            <select class=\"form-control\" formControlName=\"brand\" name=\"brand\">\n                                      <option *ngFor = \"let brand of brandDto\" [ngValue]=\"brand\">\n                                          {{brand.name}}\n                                      </option>\n                                  </select>\n                            <p *ngIf=\"form.get('brand').hasError('required')\" class=\"alert alert-danger\">\n                                *Required!!</p>\n                        </div>\n                    </div>\n                    <div class=\"row m-2\">\n                        <div class=\"col-md-4 product-textbox\">\n                            <label class=\"control-label\">Vender Name:</label>\n                        </div>\n                        <div class=\"col-md-8 product-textbox\">\n                            <select class=\"form-control\" formControlName=\"vendor\" name=\"vendor\">\n                                      <option *ngFor = \"let vendor of vendorDto\" [ngValue]=\"vendor\">\n                                          {{vendor.name}}\n                                          </option>\n                                  </select>\n                            <p *ngIf=\"form.get('vendor').hasError('required')\" class=\"alert alert-danger\">\n                                *Required!!</p>\n                        </div>\n                    </div>\n                    <div class=\"row m-2\">\n                        <div class=\"col-md-4 product-textbox\">\n                            <label class=\"control-label\"> Model Name:</label>\n                        </div>\n                        <div class=\"col-md-8 product-textbox\">\n                            <select class=\"form-control\" name=\"model\">\n                                      <option *ngFor = \"let model of modelDto\">\n                                          {{model.name}}\n                                          </option>\n                                  </select>\n                        </div>\n                    </div>\n\n                </div>\n\n                <!--End of left side Div-->\n\n                <!--Start of Right Side DIV-->\n\n                <div class=\"col-md-6\">\n                    <div class=\"row m-2\">\n                        <label class=\"col-md-4 control-label product-textbox\">\n                                    Retail Price:\n                                </label>\n                        <div class=\"col-md-8 product-textbox\">\n                            <input type=\"number\" formControlName=\"retail\" class=\"form-control\">\n                            <p *ngIf=\"form.get('retail').hasError('required') && form.get('retail').touched\" class=\"alert alert-danger\">\n                                *Required!!</p>\n                            <p *ngIf=\"form.get('retail').hasError('pattern') && form.get('retail').touched\" class=\"alert alert-danger\">\n                                *Value Not Alloewd*</p>\n                        </div>\n                    </div>\n\n                    <div class=\"row m-2\">\n\n\n                        <label class=\"col-md-4 control-label product-textbox\">\n                                Total Quantity:\n                            </label>\n                        <div class=\"col-md-8 product-textbox\">\n                            <input type=\"number\" class=\"form-control\" formControlName=\"quantity\" placeholder=\"Please Enter Quantity\" disabled=\"disabled\">\n                            <div *ngIf=\"form.get('quantity').hasError('pattern') && form.get('quantity').touched\" class=\"alert alert-danger\">\n                                *Value Not Alloewd*</div>\n                        </div>\n                    </div>\n                    <div class=\"row m-2\">\n\n\n                        <label class=\"col-md-4 control-label product-textbox\">\n                                ReOrder Quantity:\n                                          </label>\n                        <div class=\"col-md-8 product-textbox\">\n                            <input type=\"text\" class=\"form-control\" formControlName=\"minQuantity\" placeholder=\"Please Enter Min-Quantity\">\n                            <div *ngIf=\"form.get('minQuantity').hasError('pattern') && form.get('minQuantity').touched\" class=\"alert alert-danger\">\n                                *Value Not Alloewd*</div>\n                        </div>\n                    </div>\n\n                    <div class=\"row m-2\">\n\n                        <div class=\"col-md-4 product-textbox\">\n                            <label class=\"control-label\">Alternate No:</label>\n                        </div>\n\n                        <div class=\"col-md-8 product-textbox\">\n                            <input type=\"text\" class=\"form-control\" placeholder=\"Please Enter Alternate No\">\n                        </div>\n                    </div>\n                    <div class=\"row m-2\">\n\n\n                        <label class=\"col-md-4 control-label product-textbox\">\n                                              Return Rule:\n                                          </label>\n                        <div class=\"col-md-8 product-textbox\">\n                            <select class=\"form-control\">\n                                      <option>No-Return-Allowed</option>\n                                      <option>1 Day</option>\n                                      <option>1 Week</option>\n                                      <option>2 Week</option>\n                                       <option>1 Month</option>\n                                       <option>3 Months</option>\n                                       <option>6 Months</option>\n                                       <option>12 Months</option>\n                                  </select>\n\n                        </div>\n                    </div>\n                    <div class=\"row m-2\">\n\n                        <div class=\"col-md-12 product-textbox\">\n                            <div class=\"checkbox\">\n                                <label>\n                                        <input type=\"checkbox\" formControlName=\"tax\">\n                                         Is Taxable\n                                      </label>\n                            </div>\n                        </div>\n                    </div>\n\n                    <div class=\"row m-2\">\n\n\n                        <div class=\"col-md-12 product-textbox\">\n                            <div class=\"checkbox\">\n                                <label>\n                                        <input type=\"checkbox\" formControlName=\"ecomerce\">\n                                         Is Ecomerce\n                                      </label>\n                            </div>\n                        </div>\n                    </div>\n                    <div class=\"row m-2\">\n\n                        <div class=\"col-md-12 product-textbox\">\n                            <div class=\"checkbox\">\n                                <label>\n                                        <input type=\"checkbox\" (click) = \"showDialog()\" formControlName=\"varaint\">\n                                         Is Variant\n                                      </label>\n                            </div>\n                        </div>\n                    </div>\n\n                    <!-- <div class=\"col-md-12 \">\n                                <div class=\"radio\">\n                                    <label>\n                                      <input type=\"radio\" name=\"optradio\">$ 0.63 Default Loyalty:\n                                  </label> (based on the default Loyalty ratio of 50:1)\n                                </div>\n                                <div class=\"radio\">\n                                    <label><input type=\"radio\" name=\"optradio\">Customer Loyalty Of:</label>\n                                    <input type=\"text\" name=\"optradio\">\n                                </div>\n                            </div> -->\n\n                </div>\n                <!-- end of row for right side-->\n            </div>\n\n            <!--End Main Row-->\n\n            <hr>\n\n            <div class=\"row\">\n                <div class=\"col-md-12\">\n                    <h4>Product Inventory Details</h4>\n                    <p-dataTable [value]=\"this.currentProduct.productInventoryDaoList\" [editable]=\"true\" scrollable=\"true\" [responsive]=\"true\" scrollHeight=\"300px\" (onEditComplete)=\"this.updateProductInventory($event)\">\n                        <p-column header=\"Cost\" field=\"cost\" [editable]=\"true\">\n                            <ng-template let-product=\"rowData\" pTemplate=\"body\">\n                                {{product.cost | currency:'USD':'true'}}\n                            </ng-template>\n                        </p-column>\n\n                        <p-column field=\"quantity\" header=\"Quantity\" [editable]=\"true\"></p-column>\n\n                        <p-column field=\"date\" header=\"Date\"></p-column>\n\n                        <p-column field=\"time\" header=\"Time\"></p-column>\n\n                        <p-column [style]=\"{'width': '5%'}\" header=\"Action\">\n                            <ng-template let-product=\"rowData\" pTemplate=\"body\" class=\"m-auto\">\n\n                                <button class=\"btn-red action-button-table\" mat-button (click)=\"this.setProductInventoryDetailsForDelete(product)\" data-toggle=\"modal\" data-target=\"#deleteProductInventory\">\n                                    <i class=\"fa fa-trash\" aria-hidden=\"true\"></i>\n                                </button>\n\n                            </ng-template>\n                        </p-column>\n                    </p-dataTable>\n\n                </div>\n            </div>\n        </mat-card-content>\n        <mat-card-footer>\n            <!--Submit button Row-->\n            <div class=\"d-flex p-md-3 justify-content-center\">\n                <button mat-raised-button class=\"bg-danger text-white m-2 action-button-lg\" routerLink=\"/product/productTable\">Cancel</button>\n                <button mat-raised-button class=\"bg btn-green text-white m-2 action-button-lg\" type=\"submit\" (click)=\"addProduct()\" [disabled]=\"form.invalid\">\n                        <i class=\"fa fa-paper-plane\" aria-hidden=\"true\" ></i>\n                        \n                    Update Product</button>\n            </div>\n\n        </mat-card-footer>\n\n\n        <!-- <div class=\"col-md-2 product-textbox\">\n                      <p><button [disabled]=\"form.invalid\" (click)=\"addProduct(true)\" class=\"btn btn-primary btn-block\">Next</button></p>\n                  </div> -->\n\n\n\n\n    </form>\n\n</mat-card>\n\n<!-- Start of Delete Vendor Popup -->\n<div class=\"modal fade\" id=\"deleteProductInventory\" role=\"dialog\">\n    <div class=\"modal-dialog modal-sm\">\n        <div class=\"modal-content\">\n            <div class=\"modal-header\">\n                <h4 class=\"modal-title\">Delete Product Inventory</h4>\n                <button type=\"button\" class=\"close\" data-dismiss=\"modal\">&times;</button>\n            </div>\n            <div class=\"modal-body\">\n                <p>Are You Sure You Want To Delete This Product Inventory</p>\n            </div>\n            <div class=\"modal-footer\">\n\n                <button type=\"button\" class=\"btn btn-danger\" data-dismiss=\"modal\" (click)=\"this.deleteProductInventory()\">Yes</button>\n                <button type=\"button\" class=\"btn btn-default\" data-dismiss=\"modal\">Cancle</button>\n            </div>\n        </div>\n    </div>\n</div>\n\n<!-- End of Delete Vendor Popup -->\n\n\n\n\n\n\n\n<!--********************************* VERY IMPORTANT DO NOT DELET IT *********************************-->\n\n\n<!--START OF VARIANT POPUP-->\n\n<p-dialog header=\"Product Variant Details\" [(visible)]=\"displayDialog\" [modal]=\"true\" [responsive]=\"true\">\n\n    <div class=\"container\">\n        <div class=\"row\">\n            <div class=\"col-md-2\">\n                <select class=\"form-control\">\n                              <option *ngFor = \"let variantName of productVariantDetailsDto\">\n                                  {{variantName}}\n                                  </option>\n                          </select>\n            </div>\n\n            <div class=\"col-md-3\">\n                <select class=\"form-control\">\n                                <option *ngFor = \"let variantValue of productVariantDetailsByNameDto\"> \n                                    {{variantValue.value}}\n                                    </option>\n                              </select>\n\n            </div>\n\n            <div class=\"col-md-2\">\n                <input type=\"text\" class=\"form-control\" [(ngModel)]=\"formProduct.cost\" placeholder=\"Cost Price\">\n            </div>\n            <div class=\"col-md-2\">\n                <input type=\"text\" class=\"form-control\" [(ngModel)]=\"formProduct.markup\" placeholder=\"Markup %\">\n\n            </div>\n            <div class=\"col-md-2\">\n                <input type=\"text\" class=\"form-control\" [(ngModel)]=\"formProduct.retail\" placeholder=\"Retail Price\">\n            </div>\n            <div class=\"col-md-1\">\n                <i class=\"fa fa-trash-o\" aria-hidden=\"true\"></i>\n            </div>\n        </div>\n\n        <div class=\"row\">\n            <div class=\"col-md-2\">\n                <select class=\"form-control\">\n                              <option *ngFor = \"let variantName of productVariantDetailsDto\">\n                                  {{variantName}}\n                                  </option>\n                          </select>\n            </div>\n\n            <div class=\"col-md-3\">\n                <select class=\"form-control\">\n                                <option *ngFor = \"let variantValue of productVariantDetailsByNameDto\"> \n                                    {{variantValue.value}}\n                                    </option>\n                              </select>\n\n            </div>\n\n            <div class=\"col-md-2\">\n                <input type=\"text\" class=\"form-control\" [(ngModel)]=\"formProduct.cost\" placeholder=\"Cost Price\">\n            </div>\n            <div class=\"col-md-2\">\n                <input type=\"text\" class=\"form-control\" [(ngModel)]=\"formProduct.markup\" placeholder=\"Markup %\">\n\n            </div>\n            <div class=\"col-md-2\">\n                <input type=\"text\" class=\"form-control\" [(ngModel)]=\"formProduct.retail\" placeholder=\"Retail Price\">\n            </div>\n            <div class=\"col-md-1\">\n                <i class=\"fa fa-trash-o\" aria-hidden=\"true\"></i>\n            </div>\n        </div>\n\n        <div class=\"row\">\n\n            <div class=\"col-md-3\">\n            </div>\n            <div class=\"col-md-3\">\n                <p><button class=\"btn btn-primary btn-block\">Add Product Variant</button></p>\n            </div>\n            <div class=\"col-md-3\">\n                <p><button class=\"btn btn-primary btn-block\">Update Product Variant</button></p>\n            </div>\n\n        </div>\n    </div>\n</p-dialog>\n\n<!--End Of variant logic-->"
+module.exports = "<mat-card>\n    <form *ngIf=\"this.form != null\" [formGroup]=\"form\">\n        <mat-card-title>\n            Edit Product\n        </mat-card-title>\n        <mat-card-content>\n\n            <div class=\"row\">\n\n                <div class=\"col-md-6\">\n\n                    <div class=\"row m-2\">\n                        <div class=\"col-md-4 product-textbox\">\n                            <label>Product No:</label>\n                        </div>\n\n                        <div class=\"col-md-8 product-textbox\">\n                            <input type=\"text\" class=\"form-control\" formControlName=\"productNo\" placeholder=\"Please Enter ProductNo\">\n                            <!--<input type=\"submit\" value=\"submit\" [disabled]=\"!form.valid\">-->\n                            <div *ngIf=\"form.get('productNo').hasError('required') && form.get('productNo').touched\" class=\"alert alert-danger\">\n                                *Required!!\n                            </div>\n                            <div *ngIf=\"form.get('productNo').hasError('pattern') && form.get('productNo').touched\" class=\"alert alert-danger\">\n                                *Value Not Alloewd</div>\n                        </div>\n                    </div>\n                    <div class=\"row m-2\">\n\n                        <div class=\"col-md-4 product-textbox\">\n                            <label class=\"control-label\"> Description:</label>\n                        </div>\n\n                        <div class=\"col-md-8 product-textbox\">\n                            <input type=\"text\" class=\"form-control\" style=\"text-transform:uppercase\" formControlName=\"description\" placeholder=\"Please Enter Description\">\n                            <p *ngIf=\"form.get('description').hasError('required') && form.get('description').touched\" class=\"alert alert-danger\">\n                                *Required!!</p>\n                        </div>\n                    </div>\n\n                    <div class=\"row m-2\">\n                        <div class=\"col-md-4 product-textbox\">\n                            <label class=\"control-label\">Category Name:</label>\n                        </div>\n                        <div class=\"col-md-8 product-textbox\">\n                            <select class=\"form-control\" formControlName=\"category\">\n                                      <option *ngFor=\"let category of categoryDto\" [ngValue]= \"category\">\n                                          {{category.name}}\n                                          </option>\n                                  </select>\n                            <p *ngIf=\"form.get('category').hasError('required')\" class=\"alert alert-danger\">\n                                *Required!!</p>\n                        </div>\n                    </div>\n\n                    <div class=\"row m-2\">\n\n                        <div class=\"col-md-4 product-textbox\">\n                            <label class=\"control-label\">Brand Name:</label>\n                        </div>\n\n                        <div class=\"col-md-8 product-textbox\">\n                            <select class=\"form-control\" formControlName=\"brand\" name=\"brand\">\n                                      <option *ngFor = \"let brand of brandDto\" [ngValue]=\"brand\">\n                                          {{brand.name}}\n                                      </option>\n                                  </select>\n                            <p *ngIf=\"form.get('brand').hasError('required')\" class=\"alert alert-danger\">\n                                *Required!!</p>\n                        </div>\n                    </div>\n                    <div class=\"row m-2\">\n                        <div class=\"col-md-4 product-textbox\">\n                            <label class=\"control-label\">Vender Name:</label>\n                        </div>\n                        <div class=\"col-md-8 product-textbox\">\n                            <select class=\"form-control\" formControlName=\"vendor\" name=\"vendor\">\n                                      <option *ngFor = \"let vendor of vendorDto\" [ngValue]=\"vendor\">\n                                          {{vendor.name}}\n                                          </option>\n                                  </select>\n                            <p *ngIf=\"form.get('vendor').hasError('required')\" class=\"alert alert-danger\">\n                                *Required!!</p>\n                        </div>\n                    </div>\n                    <div class=\"row m-2\">\n                        <div class=\"col-md-4 product-textbox\">\n                            <label class=\"control-label\"> Model Name:</label>\n                        </div>\n                        <div class=\"col-md-8 product-textbox\">\n                            <select class=\"form-control\" name=\"model\">\n                                      <option *ngFor = \"let model of modelDto\">\n                                          {{model.name}}\n                                          </option>\n                                  </select>\n                        </div>\n                    </div>\n\n                </div>\n\n                <!--End of left side Div-->\n\n                <!--Start of Right Side DIV-->\n\n                <div class=\"col-md-6\">\n                    <div class=\"row m-2\">\n                        <label class=\"col-md-4 control-label product-textbox\">\n                                    Retail Price:\n                                </label>\n                        <div class=\"col-md-8 product-textbox\">\n                            <input type=\"number\" formControlName=\"retail\" class=\"form-control\">\n                            <p *ngIf=\"form.get('retail').hasError('required') && form.get('retail').touched\" class=\"alert alert-danger\">\n                                *Required!!</p>\n                            <p *ngIf=\"form.get('retail').hasError('pattern') && form.get('retail').touched\" class=\"alert alert-danger\">\n                                *Value Not Alloewd*</p>\n                        </div>\n                    </div>\n\n                    <div class=\"row m-2\">\n\n\n                        <label class=\"col-md-4 control-label product-textbox\">\n                                Total Quantity:\n                            </label>\n                        <div class=\"col-md-8 product-textbox\">\n                            <input type=\"number\" class=\"form-control\" formControlName=\"quantity\" placeholder=\"Please Enter Quantity\" disabled=\"disabled\">\n                            <div *ngIf=\"form.get('quantity').hasError('pattern') && form.get('quantity').touched\" class=\"alert alert-danger\">\n                                *Value Not Alloewd*</div>\n                        </div>\n                    </div>\n                    <div class=\"row m-2\">\n\n\n                        <label class=\"col-md-4 control-label product-textbox\">\n                                ReOrder Quantity:\n                                          </label>\n                        <div class=\"col-md-8 product-textbox\">\n                            <input type=\"text\" class=\"form-control\" formControlName=\"minQuantity\" placeholder=\"Please Enter Min-Quantity\">\n                            <div *ngIf=\"form.get('minQuantity').hasError('pattern') && form.get('minQuantity').touched\" class=\"alert alert-danger\">\n                                *Value Not Alloewd*</div>\n                        </div>\n                    </div>\n\n                    <div class=\"row m-2\">\n\n                        <div class=\"col-md-4 product-textbox\">\n                            <label class=\"control-label\">Alternate No:</label>\n                        </div>\n\n                        <div class=\"col-md-8 product-textbox\">\n                            <input type=\"text\" class=\"form-control\" placeholder=\"Please Enter Alternate No\">\n                        </div>\n                    </div>\n                    <div class=\"row m-2\">\n\n\n                        <label class=\"col-md-4 control-label product-textbox\">\n                                              Return Rule:\n                                          </label>\n                        <div class=\"col-md-8 product-textbox\">\n                            <select class=\"form-control\">\n                                      <option>No-Return-Allowed</option>\n                                      <option>1 Day</option>\n                                      <option>1 Week</option>\n                                      <option>2 Week</option>\n                                       <option>1 Month</option>\n                                       <option>3 Months</option>\n                                       <option>6 Months</option>\n                                       <option>12 Months</option>\n                                  </select>\n\n                        </div>\n                    </div>\n                    <div class=\"row m-2\">\n\n                        <div class=\"col-md-12 product-textbox\">\n                            <div class=\"checkbox\">\n                                <label>\n                                        <input type=\"checkbox\" formControlName=\"tax\">\n                                         Is Taxable\n                                      </label>\n                            </div>\n                        </div>\n                    </div>\n\n                    <div class=\"row m-2\">\n\n\n                        <div class=\"col-md-12 product-textbox\">\n                            <div class=\"checkbox\">\n                                <label>\n                                        <input type=\"checkbox\" formControlName=\"ecomerce\">\n                                         Is Ecomerce\n                                      </label>\n                            </div>\n                        </div>\n                    </div>\n                    <div class=\"row m-2\">\n\n                        <div class=\"col-md-12 product-textbox\">\n                            <div class=\"checkbox\">\n                                <label>\n                                        <input type=\"checkbox\" (click) = \"showDialog()\">\n                                         Is Variant\n                                      </label>\n                            </div>\n                        </div>\n                    </div>\n\n                    <!-- <div class=\"col-md-12 \">\n                                <div class=\"radio\">\n                                    <label>\n                                      <input type=\"radio\" name=\"optradio\">$ 0.63 Default Loyalty:\n                                  </label> (based on the default Loyalty ratio of 50:1)\n                                </div>\n                                <div class=\"radio\">\n                                    <label><input type=\"radio\" name=\"optradio\">Customer Loyalty Of:</label>\n                                    <input type=\"text\" name=\"optradio\">\n                                </div>\n                            </div> -->\n\n                </div>\n                <!-- end of row for right side-->\n            </div>\n\n            <!--End Main Row-->\n\n            <hr>\n\n            <div class=\"row\">\n                <div class=\"col-md-12\">\n                    <h4>Product Inventory Details</h4>\n                    <p-dataTable [value]=\"this.currentProduct.productInventoryDaoList\" [editable]=\"true\" scrollable=\"true\" [responsive]=\"true\" scrollHeight=\"300px\" (onEditComplete)=\"this.updateProductInventory($event)\">\n                        <p-column header=\"Cost\" field=\"cost\" [editable]=\"true\">\n                            <ng-template let-product=\"rowData\" pTemplate=\"body\">\n                                {{product.cost | currency:'USD':'true'}}\n                            </ng-template>\n                        </p-column>\n\n                        <p-column field=\"quantity\" header=\"Quantity\" [editable]=\"true\"></p-column>\n\n                        <p-column field=\"date\" header=\"Date\"></p-column>\n\n                        <p-column field=\"time\" header=\"Time\"></p-column>\n\n                        <p-column [style]=\"{'width': '5%'}\" header=\"Action\">\n                            <ng-template let-product=\"rowData\" pTemplate=\"body\" class=\"m-auto\">\n\n                                <button class=\"btn-red action-button-table\" mat-button (click)=\"this.setProductInventoryDetailsForDelete(product)\" data-toggle=\"modal\" data-target=\"#deleteProductInventory\">\n                                    <i class=\"fa fa-trash\" aria-hidden=\"true\"></i>\n                                </button>\n\n                            </ng-template>\n                        </p-column>\n                    </p-dataTable>\n\n                </div>\n            </div>\n        </mat-card-content>\n        <mat-card-footer>\n            <!--Submit button Row-->\n            <div class=\"d-flex p-md-3 justify-content-center\">\n                <button mat-raised-button class=\"bg-danger text-white m-2 action-button-lg\" routerLink=\"/product/productTable\">Cancel</button>\n                <button mat-raised-button class=\"bg btn-green text-white m-2 action-button-lg\" type=\"submit\" (click)=\"addProduct()\" [disabled]=\"form.invalid\">\n                        <i class=\"fa fa-paper-plane\" aria-hidden=\"true\" ></i>\n                        \n                    Update Product</button>\n            </div>\n\n        </mat-card-footer>\n\n\n        <!-- <div class=\"col-md-2 product-textbox\">\n                      <p><button [disabled]=\"form.invalid\" (click)=\"addProduct(true)\" class=\"btn btn-primary btn-block\">Next</button></p>\n                  </div> -->\n\n\n\n\n    </form>\n\n</mat-card>\n\n<!-- Start of Delete Vendor Popup -->\n<div class=\"modal fade\" id=\"deleteProductInventory\" role=\"dialog\">\n    <div class=\"modal-dialog modal-sm\">\n        <div class=\"modal-content\">\n            <div class=\"modal-header\">\n                <h4 class=\"modal-title\">Delete Product Inventory</h4>\n                <button type=\"button\" class=\"close\" data-dismiss=\"modal\">&times;</button>\n            </div>\n            <div class=\"modal-body\">\n                <p>Are You Sure You Want To Delete This Product Inventory</p>\n            </div>\n            <div class=\"modal-footer\">\n\n                <button type=\"button\" class=\"btn btn-danger\" data-dismiss=\"modal\" (click)=\"this.deleteProductInventory()\">Yes</button>\n                <button type=\"button\" class=\"btn btn-default\" data-dismiss=\"modal\">Cancle</button>\n            </div>\n        </div>\n    </div>\n</div>\n\n<!-- End of Delete Vendor Popup -->\n\n\n\n\n\n\n\n<!--********************************* VERY IMPORTANT DO NOT DELET IT *********************************-->\n\n<!-- DO NOT DELETE THIS -->\n\n<!--START OF VARIANT POPUP-->\n\n<!-- <p-dialog header=\"Product Variant Details\" [(visible)]=\"displayDialog\" [modal]=\"true\" [responsive]=\"true\">\n\n    <div class=\"container\">\n        <div class=\"row\">\n            <div class=\"col-md-2\">\n                <select class=\"form-control\">\n                              <option *ngFor = \"let variantName of productVariantDetailsDto\">\n                                  {{variantName}}\n                                  </option>\n                          </select>\n            </div>\n\n            <div class=\"col-md-3\">\n                <select class=\"form-control\">\n                                <option *ngFor = \"let variantValue of productVariantDetailsByNameDto\"> \n                                    {{variantValue.value}}\n                                    </option>\n                              </select>\n\n            </div>\n\n            <div class=\"col-md-2\">\n                <input type=\"text\" class=\"form-control\" [(ngModel)]=\"formProduct.cost\" placeholder=\"Cost Price\">\n            </div>\n            <div class=\"col-md-2\">\n                <input type=\"text\" class=\"form-control\" [(ngModel)]=\"formProduct.markup\" placeholder=\"Markup %\">\n\n            </div>\n            <div class=\"col-md-2\">\n                <input type=\"text\" class=\"form-control\" [(ngModel)]=\"formProduct.retail\" placeholder=\"Retail Price\">\n            </div>\n            <div class=\"col-md-1\">\n                <i class=\"fa fa-trash-o\" aria-hidden=\"true\"></i>\n            </div>\n        </div>\n\n        <div class=\"row\">\n            <div class=\"col-md-2\">\n                <select class=\"form-control\">\n                              <option *ngFor = \"let variantName of productVariantDetailsDto\">\n                                  {{variantName}}\n                                  </option>\n                          </select>\n            </div>\n\n            <div class=\"col-md-3\">\n                <select class=\"form-control\">\n                                <option *ngFor = \"let variantValue of productVariantDetailsByNameDto\"> \n                                    {{variantValue.value}}\n                                    </option>\n                              </select>\n\n            </div>\n\n            <div class=\"col-md-2\">\n                <input type=\"text\" class=\"form-control\" [(ngModel)]=\"formProduct.cost\" placeholder=\"Cost Price\">\n            </div>\n            <div class=\"col-md-2\">\n                <input type=\"text\" class=\"form-control\" [(ngModel)]=\"formProduct.markup\" placeholder=\"Markup %\">\n\n            </div>\n            <div class=\"col-md-2\">\n                <input type=\"text\" class=\"form-control\" [(ngModel)]=\"formProduct.retail\" placeholder=\"Retail Price\">\n            </div>\n            <div class=\"col-md-1\">\n                <i class=\"fa fa-trash-o\" aria-hidden=\"true\"></i>\n            </div>\n        </div>\n\n        <div class=\"row\">\n\n            <div class=\"col-md-3\">\n            </div>\n            <div class=\"col-md-3\">\n                <p><button class=\"btn btn-primary btn-block\">Add Product Variant</button></p>\n            </div>\n            <div class=\"col-md-3\">\n                <p><button class=\"btn btn-primary btn-block\">Update Product Variant</button></p>\n            </div>\n\n        </div>\n    </div>\n</p-dialog> -->\n\n<!--End Of variant logic-->"
 
 /***/ }),
 
@@ -3135,13 +3134,13 @@ module.exports = module.exports.toString();
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return EditProductComponent; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/esm5/core.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_forms__ = __webpack_require__("../../../forms/esm5/forms.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_app_sell_sell_component__ = __webpack_require__("../../../../../src/app/sell/sell.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_moment__ = __webpack_require__("../../../../moment/moment.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_moment___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_moment__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_app_product_product_service__ = __webpack_require__("../../../../../src/app/product/product.service.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__angular_router__ = __webpack_require__("../../../router/esm5/router.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_ng2_toastr__ = __webpack_require__("../../../../ng2-toastr/ng2-toastr.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_ng2_toastr___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6_ng2_toastr__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_moment__ = __webpack_require__("../../../../moment/moment.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_moment___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_moment__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_app_product_product_service__ = __webpack_require__("../../../../../src/app/product/product.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__angular_router__ = __webpack_require__("../../../router/esm5/router.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_ng2_toastr__ = __webpack_require__("../../../../ng2-toastr/ng2-toastr.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_ng2_toastr___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5_ng2_toastr__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_app_sell_sale_sale_component__ = __webpack_require__("../../../../../src/app/sell/sale/sale.component.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -3166,7 +3165,7 @@ var EditProductComponent = /** @class */ (function () {
         this.router = router;
         this.toastr = toastr;
         this.displayDialog = false;
-        this.formProduct = new __WEBPACK_IMPORTED_MODULE_2_app_sell_sell_component__["a" /* Product */]();
+        this.formProduct = new __WEBPACK_IMPORTED_MODULE_6_app_sell_sale_sale_component__["b" /* Product */]();
     }
     EditProductComponent.prototype.ngOnInit = function () {
         var _this = this;
@@ -3177,8 +3176,8 @@ var EditProductComponent = /** @class */ (function () {
                 .subscribe(function (product) {
                 _this.currentProduct = product;
                 _this.currentProduct.productInventoryDaoList.forEach((function (inventory) {
-                    inventory.time = __WEBPACK_IMPORTED_MODULE_3_moment__(inventory.date).format('hh:mm A');
-                    inventory.date = __WEBPACK_IMPORTED_MODULE_3_moment__(inventory.date).format('MM/DD/YYYY');
+                    inventory.time = __WEBPACK_IMPORTED_MODULE_2_moment__(inventory.date).format('hh:mm A');
+                    inventory.date = __WEBPACK_IMPORTED_MODULE_2_moment__(inventory.date).format('MM/DD/YYYY');
                     _this.currentProduct.quantity = +_this.currentProduct.quantity + inventory.quantity;
                 }));
                 var currentCategory = {};
@@ -3197,8 +3196,7 @@ var EditProductComponent = /** @class */ (function () {
                     'quantity': [_this.currentProduct.quantity, ''],
                     'minQuantity': [_this.currentProduct.minQuantity, ''],
                     'tax': [_this.currentProduct.tax, null],
-                    'ecomerce': [_this.currentProduct.ecommerce, null],
-                    'varaint': [_this.currentProduct.variant, null]
+                    'ecomerce': [_this.currentProduct.ecommerce, null]
                 });
                 _this.form.valueChanges
                     .subscribe(function (changes) {
@@ -3267,12 +3265,22 @@ var EditProductComponent = /** @class */ (function () {
                 tax: formValues.tax,
                 minQuantity: formValues.minQuantity,
                 quantity: formValues.quantity,
-                categoryName: null,
-                customLoyaltyAmount: 0.00,
                 productInventoryDaoList: this.currentProduct.productInventoryDaoList,
-                variant: formValues.variant,
                 markup: 0.00,
-                createdTimestamp: null
+                createdTimestamp: null,
+                alternetNo: formValues.alternetNo,
+                date: null,
+                defaultQuantity: 0,
+                discount: 0,
+                imeiNo: null,
+                retailDiscount: 0,
+                returnRule: null,
+                status: null,
+                taxAmountOnProduct: 0,
+                time: null,
+                totalProductPrice: 0,
+                transactionComId: 0,
+                varaint: null
             };
             this.productService.editProduct(product)
                 .subscribe(function (data) {
@@ -3312,7 +3320,7 @@ var EditProductComponent = /** @class */ (function () {
             template: __webpack_require__("../../../../../src/app/product/edit-product/edit-product.component.html"),
             styles: [__webpack_require__("../../../../../src/app/product/edit-product/edit-product.component.scss")]
         }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_4_app_product_product_service__["a" /* ProductService */], __WEBPACK_IMPORTED_MODULE_1__angular_forms__["FormBuilder"], __WEBPACK_IMPORTED_MODULE_5__angular_router__["ActivatedRoute"], __WEBPACK_IMPORTED_MODULE_5__angular_router__["Router"], __WEBPACK_IMPORTED_MODULE_6_ng2_toastr__["ToastsManager"]])
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_3_app_product_product_service__["a" /* ProductService */], __WEBPACK_IMPORTED_MODULE_1__angular_forms__["FormBuilder"], __WEBPACK_IMPORTED_MODULE_4__angular_router__["ActivatedRoute"], __WEBPACK_IMPORTED_MODULE_4__angular_router__["Router"], __WEBPACK_IMPORTED_MODULE_5_ng2_toastr__["ToastsManager"]])
     ], EditProductComponent);
     return EditProductComponent;
 }());
@@ -3937,7 +3945,6 @@ module.exports = module.exports.toString();
 /* unused harmony export Model */
 /* unused harmony export ModelTest */
 /* unused harmony export ProductVariantDetail */
-/* unused harmony export BackendProductDto */
 /* unused harmony export ProductCommonTest */
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return ProductInventory; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/esm5/core.js");
@@ -4061,12 +4068,6 @@ var ProductVariantDetail = /** @class */ (function () {
     function ProductVariantDetail() {
     }
     return ProductVariantDetail;
-}());
-
-var BackendProductDto = /** @class */ (function () {
-    function BackendProductDto() {
-    }
-    return BackendProductDto;
 }());
 
 var ProductCommonTest = /** @class */ (function () {
@@ -5120,7 +5121,7 @@ var PurchaseOrderComponent = /** @class */ (function () {
     };
     PurchaseOrderComponent.prototype.getProductDetails = function () {
         var _this = this;
-        this.saleService.getProductDetails()
+        this.productService.getProductDetails()
             .subscribe(function (pro) {
             _this.productDto = pro;
             _this.filteredProductByVendor = _this.productDto;
@@ -5139,7 +5140,7 @@ var PurchaseOrderComponent = /** @class */ (function () {
     PurchaseOrderComponent.prototype.filterProducts = function (event) {
         var _this = this;
         var query = event.query;
-        this.saleService.getProductDetails()
+        this.productService.getProductDetails()
             .subscribe(function (products) {
             // console.log(products);
             _this.product = _this.filterProduct(query, products);
@@ -6556,6 +6557,7 @@ module.exports = module.exports.toString();
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8_ng2_toastr_src_toast_manager___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_8_ng2_toastr_src_toast_manager__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_9_app_sell_sale_sale_component__ = __webpack_require__("../../../../../src/app/sell/sale/sale.component.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_10_app_shared_services_persistence_service__ = __webpack_require__("../../../../../src/app/shared/services/persistence.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11_app_product_product_service__ = __webpack_require__("../../../../../src/app/product/product.service.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -6576,9 +6578,11 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
+
 var ReturnSaleComponent = /** @class */ (function () {
-    function ReturnSaleComponent(sellService, persit, storeSetupService, customerService, sanitizer, route, router, toastr) {
+    function ReturnSaleComponent(sellService, productService, persit, storeSetupService, customerService, sanitizer, route, router, toastr) {
         this.sellService = sellService;
+        this.productService = productService;
         this.persit = persit;
         this.storeSetupService = storeSetupService;
         this.customerService = customerService;
@@ -6588,7 +6592,7 @@ var ReturnSaleComponent = /** @class */ (function () {
         this.toastr = toastr;
         this.isProductExistsInSellList = false;
         this.transactionLineItemDaoList = [];
-        this.transactionDtoList = new __WEBPACK_IMPORTED_MODULE_9_app_sell_sale_sale_component__["c" /* TransactionDtoList */]();
+        this.transactionDtoList = new __WEBPACK_IMPORTED_MODULE_9_app_sell_sale_sale_component__["d" /* TransactionDtoList */]();
         this.paymentDto = new __WEBPACK_IMPORTED_MODULE_9_app_sell_sale_sale_component__["a" /* PaymentDto */]();
         this.a = 'sdfds';
         this.taxPercent = 0.00;
@@ -6638,7 +6642,7 @@ var ReturnSaleComponent = /** @class */ (function () {
     ReturnSaleComponent.prototype.filterProducts = function (event) {
         var _this = this;
         var query = event.query;
-        this.sellService.getProductDetails()
+        this.productService.getProductDetails()
             .subscribe(function (products) {
             // console.log(products);
             _this.product = _this.filterProduct(query, products);
@@ -6713,12 +6717,14 @@ var ReturnSaleComponent = /** @class */ (function () {
         this.product = null;
         this.p = null;
         this.transactionLineItemDaoList = this.transactionLineItemDaoList.slice();
+        console.log('after slice line item', this.transactionLineItemDaoList);
         this.setTransactionDtoList(this.transactionLineItemDaoList);
         // This will save the data into local storage.
         //this.persit.setProducts(this.transactionLineItemDaoList);
         return this.transactionLineItemDaoList;
     };
     ReturnSaleComponent.prototype.setTransactionDtoList = function (lineItem) {
+        console.log('line item in settransaction', lineItem);
         var totalQuantity = 0;
         var totalPrice = 0.00;
         var tax = 0.00;
@@ -6987,6 +6993,7 @@ var ReturnSaleComponent = /** @class */ (function () {
             styles: [__webpack_require__("../../../../../src/app/sell/return-sale/return-sale.component.scss")]
         }),
         __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_app_sell_sell_service__["a" /* SellService */],
+            __WEBPACK_IMPORTED_MODULE_11_app_product_product_service__["a" /* ProductService */],
             __WEBPACK_IMPORTED_MODULE_10_app_shared_services_persistence_service__["a" /* PersistenceService */],
             __WEBPACK_IMPORTED_MODULE_3_app_shared_storesetup_storesetup_service__["a" /* StoreSetupService */],
             __WEBPACK_IMPORTED_MODULE_4_app_customer_customer_service__["a" /* CustomerService */],
@@ -7031,10 +7038,10 @@ module.exports = module.exports.toString();
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return SaleComponent; });
-/* unused harmony export Product */
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return SaleComponent; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return Product; });
 /* unused harmony export TransactionLineItemDaoList */
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return TransactionDtoList; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "d", function() { return TransactionDtoList; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return PaymentDto; });
 /* unused harmony export PaymentObjectForPaymentSellTable */
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/esm5/core.js");
@@ -7052,6 +7059,7 @@ module.exports = module.exports.toString();
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_11_ng2_toastr_src_toast_manager__ = __webpack_require__("../../../../ng2-toastr/src/toast-manager.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_11_ng2_toastr_src_toast_manager___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_11_ng2_toastr_src_toast_manager__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_12_app_shared_services_persistence_service__ = __webpack_require__("../../../../../src/app/shared/services/persistence.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_13_app_product_product_service__ = __webpack_require__("../../../../../src/app/product/product.service.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -7074,10 +7082,12 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
+
 var SaleComponent = /** @class */ (function () {
-    function SaleComponent(sellService, persit, storeSetupService, customerService, sanitizer, route, router, toastr) {
+    function SaleComponent(sellService, persit, productService, storeSetupService, customerService, sanitizer, route, router, toastr) {
         this.sellService = sellService;
         this.persit = persit;
+        this.productService = productService;
         this.storeSetupService = storeSetupService;
         this.customerService = customerService;
         this.sanitizer = sanitizer;
@@ -7164,7 +7174,7 @@ var SaleComponent = /** @class */ (function () {
     SaleComponent.prototype.filterProducts = function (event) {
         var _this = this;
         var query = event.query;
-        this.sellService.getProductDetails()
+        this.productService.getProductDetails()
             .subscribe(function (products) {
             // console.log(products);
             _this.product = _this.filterProduct(query, products);
@@ -7927,6 +7937,7 @@ var SaleComponent = /** @class */ (function () {
         }),
         __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_app_sell_sell_service__["a" /* SellService */],
             __WEBPACK_IMPORTED_MODULE_12_app_shared_services_persistence_service__["a" /* PersistenceService */],
+            __WEBPACK_IMPORTED_MODULE_13_app_product_product_service__["a" /* ProductService */],
             __WEBPACK_IMPORTED_MODULE_4_app_shared_storesetup_storesetup_service__["a" /* StoreSetupService */],
             __WEBPACK_IMPORTED_MODULE_5_app_customer_customer_service__["a" /* CustomerService */],
             __WEBPACK_IMPORTED_MODULE_8__angular_platform_browser__["DomSanitizer"],
@@ -8281,14 +8292,14 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var routes = [
     {
         path: 'sell',
-        component: __WEBPACK_IMPORTED_MODULE_2_app_sell_sell_component__["b" /* SellComponent */],
+        component: __WEBPACK_IMPORTED_MODULE_2_app_sell_sell_component__["a" /* SellComponent */],
         canActivate: [__WEBPACK_IMPORTED_MODULE_8_app_auth_auth_guard__["a" /* AuthGuard */]],
         children: [
             { path: '', redirectTo: 'sale', pathMatch: 'prefix' },
             { path: 'close-shift', component: __WEBPACK_IMPORTED_MODULE_11_app_sell_close_register_close_register_component__["a" /* CloseRegisterComponent */] },
             { path: 'return', component: __WEBPACK_IMPORTED_MODULE_9_app_sell_return_sale_return_sale_component__["a" /* ReturnSaleComponent */] },
             { path: 'close-register', component: __WEBPACK_IMPORTED_MODULE_11_app_sell_close_register_close_register_component__["a" /* CloseRegisterComponent */] },
-            { path: 'sale', component: __WEBPACK_IMPORTED_MODULE_10_app_sell_sale_sale_component__["b" /* SaleComponent */] }
+            { path: 'sale', component: __WEBPACK_IMPORTED_MODULE_10_app_sell_sale_sale_component__["c" /* SaleComponent */] }
         ]
     },
     { path: 'employee', component: __WEBPACK_IMPORTED_MODULE_3_app_employee_employee_component__["a" /* EmployeeComponent */] },
@@ -8346,9 +8357,7 @@ module.exports = module.exports.toString();
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return SellComponent; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return Product; });
-/* unused harmony export TransactionLineItemDaoList */
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return SellComponent; });
 /* unused harmony export TransactionDtoList */
 /* unused harmony export PaymentDto */
 /* unused harmony export PaymentObjectForPaymentSellTable */
@@ -8367,6 +8376,7 @@ module.exports = module.exports.toString();
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__angular_router__ = __webpack_require__("../../../router/esm5/router.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_12_ng2_toastr_src_toast_manager__ = __webpack_require__("../../../../ng2-toastr/src/toast-manager.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_12_ng2_toastr_src_toast_manager___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_12_ng2_toastr_src_toast_manager__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_13_app_product_product_service__ = __webpack_require__("../../../../../src/app/product/product.service.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -8389,10 +8399,12 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
+
 var SellComponent = /** @class */ (function () {
-    function SellComponent(sellService, persit, storeSetupService, customerService, sanitizer, route, router, toastr) {
+    function SellComponent(sellService, persit, productService, storeSetupService, customerService, sanitizer, route, router, toastr) {
         this.sellService = sellService;
         this.persit = persit;
+        this.productService = productService;
         this.storeSetupService = storeSetupService;
         this.customerService = customerService;
         this.sanitizer = sanitizer;
@@ -8472,7 +8484,7 @@ var SellComponent = /** @class */ (function () {
     SellComponent.prototype.filterProducts = function (event) {
         var _this = this;
         var query = event.query;
-        this.sellService.getProductDetails()
+        this.productService.getProductDetails()
             .subscribe(function (products) {
             // console.log(products);
             _this.product = _this.filterProduct(query, products);
@@ -8495,78 +8507,71 @@ var SellComponent = /** @class */ (function () {
         });
     };
     SellComponent.prototype.addTransactionLineItem = function (productObj) {
-        var _this = this;
-        // This is fisrt time when user is adding product to sell.
-        if (this.transactionLineItemDaoList.length == 0) {
-            productObj.totalProductPrice = parseFloat(productObj.retail.toFixed(2));
-            productObj.taxAmountOnProduct = (productObj.retail * 7) / 100;
-            console.log("when add product", productObj);
-            this.transactionLineItemDaoList.push(productObj);
-            this.product = null;
-            this.p = null;
-            this.transactionLineItemDaoList = this.transactionLineItemDaoList.slice();
-            this.setTransactionDtoList(this.transactionLineItemDaoList);
-            // This will save the data into local storage.
-            this.persit.setProducts(this.transactionLineItemDaoList);
-        }
-        else {
-            var _loop_1 = function (lineItem) {
-                if (productObj.productNo === lineItem.productNo) {
-                    // This flag helps to determin whether to add new product or just update the quantity
-                    this_1.isProductExistsInSellList = true;
-                    lineItem.defaultQuantity = +lineItem.defaultQuantity + 1;
-                    lineItem.quantityUpdated = true;
-                    // here  i need to get value of lineitem.retail becuase user might have change the retial price so, if i dont do lineitem.retail it will take old retail price.
-                    lineItem.totalProductPrice = parseFloat((lineItem.retail * lineItem.defaultQuantity).toFixed(2));
-                    lineItem.taxAmountOnProduct = (lineItem.retail * 7) / 100;
-                    console.log("when add product", productObj);
-                    this_1.transactionLineItemDaoList = this_1.transactionLineItemDaoList.slice();
-                    this_1.product = null;
-                    this_1.p = null;
-                    console.log(this_1.transactionLineItemDaoList);
-                    this_1.setTransactionDtoList(this_1.transactionLineItemDaoList);
-                    this_1.persit.setProducts(this_1.transactionLineItemDaoList);
-                    setTimeout(function () {
-                        lineItem.quantityUpdated = false;
-                        _this.persit.setProducts(_this.transactionLineItemDaoList);
-                        _this.transactionLineItemDaoList = _this.transactionLineItemDaoList.slice();
-                    }, 3000);
-                    return "break";
-                }
-                else {
-                    // This flag helps to determin whether to add new product or just update the quantity
-                    this_1.isProductExistsInSellList = false;
-                }
-            };
-            var this_1 = this;
-            // Checking weather user is adding same product agian or not if its true
-            //  then just update the quantity of that product by 1.
-            for (var _i = 0, _a = this.transactionLineItemDaoList; _i < _a.length; _i++) {
-                var lineItem = _a[_i];
-                var state_1 = _loop_1(lineItem);
-                if (state_1 === "break")
-                    break;
-            }
-            // This flag helps to determin whether to add new product or just update the quantity
-            if (!this.isProductExistsInSellList) {
-                this.transactionLineItemDaoList = this.transactionLineItemDaoList.slice();
-                productObj.totalProductPrice = productObj.retail * productObj.defaultQuantity;
-                productObj.taxAmountOnProduct = parseFloat(((productObj.retail * 7) / 100).toFixed(2));
-                console.log("when add product", productObj);
-                this.transactionLineItemDaoList.push(productObj);
-                this.product = null;
-                this.p = null;
-                console.log(this.transactionLineItemDaoList);
-                this.setTransactionDtoList(this.transactionLineItemDaoList);
-                this.persit.setProducts(this.transactionLineItemDaoList);
-            }
-        }
-        $("lineitem" + productObj.productNo).ready(function () {
-            // $(`lineitem${productObj.productNo}`).sc
-            document.getElementById("lineitem" + productObj.productNo).scrollIntoView();
-        });
-        return this.transactionLineItemDaoList;
+        return null;
     };
+    // This is fisrt time when user is adding product to sell.
+    // if (this.transactionLineItemDaoList.length == 0) {
+    //   productObj.totalProductPrice = parseFloat(productObj.retail.toFixed(2));
+    //   productObj.taxAmountOnProduct = (productObj.retail * 7) / 100;
+    //   console.log("when add product", productObj);
+    //   this.transactionLineItemDaoList.push(productObj);
+    //   this.product = null;
+    //   this.p = null
+    //   this.transactionLineItemDaoList = this.transactionLineItemDaoList.slice();
+    //   this.setTransactionDtoList(this.transactionLineItemDaoList)
+    //   // This will save the data into local storage.
+    //   this.persit.setProducts(this.transactionLineItemDaoList);
+    // // }
+    // else {
+    //   // Checking weather user is adding same product agian or not if its true
+    //   //  then just update the quantity of that product by 1.
+    //   for (let lineItem of this.transactionLineItemDaoList) {
+    //     if (productObj.productNo === lineItem.productNo) {
+    //       // This flag helps to determin whether to add new product or just update the quantity
+    //       this.isProductExistsInSellList = true;
+    //       lineItem.defaultQuantity = + lineItem.defaultQuantity + 1;
+    //       lineItem.quantityUpdated = true;
+    //       // here  i need to get value of lineitem.retail becuase user might have change the retial price so, if i dont do lineitem.retail it will take old retail price.
+    //       lineItem.totalProductPrice = parseFloat((lineItem.retail * lineItem.defaultQuantity).toFixed(2));
+    //       lineItem.taxAmountOnProduct = (lineItem.retail * 7) / 100;
+    //       console.log("when add product", productObj);
+    //       this.transactionLineItemDaoList = this.transactionLineItemDaoList.slice();
+    //       this.product = null;
+    //       this.p = null
+    //       console.log(this.transactionLineItemDaoList);
+    //       this.setTransactionDtoList(this.transactionLineItemDaoList)
+    //       this.persit.setProducts(this.transactionLineItemDaoList);
+    //       setTimeout(() => {
+    //         lineItem.quantityUpdated = false;
+    //         this.persit.setProducts(this.transactionLineItemDaoList);
+    //         this.transactionLineItemDaoList = this.transactionLineItemDaoList.slice();
+    //       }, 3000);
+    //       break;
+    //     }
+    //     else {
+    //       // This flag helps to determin whether to add new product or just update the quantity
+    //       this.isProductExistsInSellList = false;
+    //     }
+    // }
+    // This flag helps to determin whether to add new product or just update the quantity
+    // if (!this.isProductExistsInSellList) {
+    //   this.transactionLineItemDaoList = this.transactionLineItemDaoList.slice();
+    //   productObj.totalProductPrice = productObj.retail * productObj.defaultQuantity;
+    //   productObj.taxAmountOnProduct = parseFloat(((productObj.retail * 7) / 100).toFixed(2));
+    //   console.log("when add product", productObj);
+    //   this.transactionLineItemDaoList.push(productObj);
+    //   this.product = null;
+    //   this.p = null
+    //   console.log(this.transactionLineItemDaoList);
+    //   this.setTransactionDtoList(this.transactionLineItemDaoList)
+    //   this.persit.setProducts(this.transactionLineItemDaoList);
+    // }
+    //}
+    // $(`lineitem${productObj.productNo}`).ready(function () {
+    //   // $(`lineitem${productObj.productNo}`).sc
+    //   document.getElementById(`lineitem${productObj.productNo}`).scrollIntoView();
+    // });
+    // return this.transactionLineItemDaoList;
     // #productsearch > span > input
     SellComponent.prototype.testFocus = function () {
         // document.querySelector("#productsearch > span > input").focus();
@@ -8755,27 +8760,27 @@ var SellComponent = /** @class */ (function () {
     SellComponent.prototype.print = function (obj) {
         console.log("Coming form print", obj);
     };
-    SellComponent.prototype.deleteProduct = function () {
-        console.log("inside delete");
-        var index = this.transactionLineItemDaoList.indexOf(this.selectedProduct, 0);
-        console.log("index", index);
-        if (index > -1) {
-            this.transactionLineItemDaoList.splice(index, 1);
-            this.transactionLineItemDaoList = this.transactionLineItemDaoList.slice();
-            this.setTransactionDtoList(this.transactionLineItemDaoList);
-            this.persit.setProducts(this.transactionLineItemDaoList);
-        }
-    };
+    // deleteProduct() {
+    //   console.log("inside delete");
+    //   let index = this.transactionLineItemDaoList.indexOf(this.selectedProduct, 0);
+    //   console.log("index", index);
+    //   if (index > -1) {
+    //     this.transactionLineItemDaoList.splice(index, 1);
+    //     this.transactionLineItemDaoList = this.transactionLineItemDaoList.slice();
+    //     this.setTransactionDtoList(this.transactionLineItemDaoList);
+    //     this.persit.setProducts(this.transactionLineItemDaoList);
+    //   }
+    // }
     // test(a: number) {
     //   this.calculateDiscountByAmount(a);
     //   alert("hi");
     //   console.log("insod test", event);
     // }
-    SellComponent.prototype.setProductForDelete = function (product) {
-        this.selectedProduct = product;
-        this.popupHeader = 'Delete Product';
-        this.popupMessage = 'Are You Sure You Want To Delete Product?';
-    };
+    // setProductForDelete(product: Product) {
+    //   this.selectedProduct = product;
+    //   this.popupHeader = 'Delete Product';
+    //   this.popupMessage = 'Are You Sure You Want To Delete Product?';
+    // }
     //This methode will completly remove the all transaction line item and transaction details.
     SellComponent.prototype.disgardCompleteSale = function () {
         this.persit.clearProducts();
@@ -9212,6 +9217,7 @@ var SellComponent = /** @class */ (function () {
         }),
         __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_app_sell_sell_service__["a" /* SellService */],
             __WEBPACK_IMPORTED_MODULE_4__shared_services_persistence_service__["a" /* PersistenceService */],
+            __WEBPACK_IMPORTED_MODULE_13_app_product_product_service__["a" /* ProductService */],
             __WEBPACK_IMPORTED_MODULE_5_app_shared_storesetup_storesetup_service__["a" /* StoreSetupService */],
             __WEBPACK_IMPORTED_MODULE_6_app_customer_customer_service__["a" /* CustomerService */],
             __WEBPACK_IMPORTED_MODULE_9__angular_platform_browser__["DomSanitizer"],
@@ -9222,19 +9228,71 @@ var SellComponent = /** @class */ (function () {
     return SellComponent;
 }());
 
-var Product = /** @class */ (function () {
-    function Product() {
-        this.defaultQuantity = 1;
-    }
-    return Product;
-}());
-
-var TransactionLineItemDaoList = /** @class */ (function () {
-    function TransactionLineItemDaoList() {
-    }
-    return TransactionLineItemDaoList;
-}());
-
+// export class Product {
+//   productNo: string;
+//   // productVariantNo: number;
+//   description: string;
+//   categoryId: number;
+//   brandId: number
+//   vendorId: number;
+//   modelId: number;
+//   alternetNo: string;
+//   cost: number;
+//   retail: number;
+//   markup: number;
+//   quantity: number;
+//   minQuantity: number;
+//   tax: boolean;
+//   varaint: boolean;
+//   active: boolean;
+//   ecommerce: boolean;
+//   relatedProduct: boolean;
+//   defaultQuantity = 1;
+//   returnRule: any;
+//   createdTimestamp: any;
+//   transactionComId: number;
+//   date: any;
+//   time: any;
+//   status: string;
+//   discount: number;
+//   retailDiscount: number;
+//   totalProductPrice: number;
+//   taxAmountOnProduct: number;
+//   imeiNo: any;
+//   customLoyaltyAmount: number;
+//   productInventoryDaoList: ProductInventory[];
+// }
+// export class TransactionLineItemDaoList {
+//   productNo: string;
+//   productVariantNo: number;
+//   cost: number;
+//   retail: number;
+//   quantity: number;
+//   defaultQuantity: number;
+//   transactionComId: number;
+//   date: any;
+//   time: any;
+//   status: string;
+//   discount: number;
+//   retailDiscount: number;
+//   totalProductPrice: number;
+//   taxAmountOnProduct: number;
+//   imeiNo: any;
+//   quantityUpdated?: boolean;
+//   description: string;
+// minQuantity: number;
+// isTax: number;
+// IsVariant: number;
+// IsActive: number;
+// IsEcomerce: number;
+// IsRelatedProduct: number;
+// categoryName: string;
+// brandName: string;
+// vendorName: string;
+// modelName: string;
+// alternetNo: string;
+// markup: number;
+// }
 var TransactionDtoList = /** @class */ (function () {
     function TransactionDtoList() {
     }
@@ -9315,9 +9373,9 @@ var SellModule = /** @class */ (function () {
                 __WEBPACK_IMPORTED_MODULE_2_primeng_primeng__["DropdownModule"],
                 __WEBPACK_IMPORTED_MODULE_7_app_shared_shared_module__["a" /* SharedModule */]
             ],
-            declarations: [__WEBPACK_IMPORTED_MODULE_5_app_sell_sell_component__["b" /* SellComponent */], __WEBPACK_IMPORTED_MODULE_8__receipt_receipt_component__["a" /* ReceiptComponent */], __WEBPACK_IMPORTED_MODULE_10__sales_history_sales_history_component__["a" /* SalesHistoryComponent */], __WEBPACK_IMPORTED_MODULE_11__return_sale_return_sale_component__["a" /* ReturnSaleComponent */], __WEBPACK_IMPORTED_MODULE_12__sale_sale_component__["b" /* SaleComponent */], __WEBPACK_IMPORTED_MODULE_13__close_register_close_register_component__["a" /* CloseRegisterComponent */]],
+            declarations: [__WEBPACK_IMPORTED_MODULE_5_app_sell_sell_component__["a" /* SellComponent */], __WEBPACK_IMPORTED_MODULE_8__receipt_receipt_component__["a" /* ReceiptComponent */], __WEBPACK_IMPORTED_MODULE_10__sales_history_sales_history_component__["a" /* SalesHistoryComponent */], __WEBPACK_IMPORTED_MODULE_11__return_sale_return_sale_component__["a" /* ReturnSaleComponent */], __WEBPACK_IMPORTED_MODULE_12__sale_sale_component__["c" /* SaleComponent */], __WEBPACK_IMPORTED_MODULE_13__close_register_close_register_component__["a" /* CloseRegisterComponent */]],
             providers: [__WEBPACK_IMPORTED_MODULE_6_app_sell_sell_service__["a" /* SellService */], __WEBPACK_IMPORTED_MODULE_9_app_customer_customer_service__["a" /* CustomerService */]],
-            bootstrap: [__WEBPACK_IMPORTED_MODULE_5_app_sell_sell_component__["b" /* SellComponent */]]
+            bootstrap: [__WEBPACK_IMPORTED_MODULE_5_app_sell_sell_component__["a" /* SellComponent */]]
         })
     ], SellModule);
     return SellModule;
@@ -9359,11 +9417,11 @@ var SellService = /** @class */ (function () {
         this.persit = persit;
         this.url = __WEBPACK_IMPORTED_MODULE_5_environments_environment__["a" /* environment */].reportUrl;
     }
-    SellService.prototype.getProductDetails = function () {
-        return this.http.get(this.url + '/getProduct')
-            .map(this.extractData)
-            .catch(this.handleError);
-    };
+    // getProductDetails(): Observable<Product[]> {
+    //   return this.http.get(this.url+'/getProduct')
+    //     .map(this.extractData)
+    //     .catch(this.handleError);
+    // }
     SellService.prototype.getTransactionDetails = function (startDate, endDate) {
         return this.http.get(this.url + '/getTransactionByDate?startDate=' + startDate + '&endDate=' + endDate)
             .map(this.extractData)
