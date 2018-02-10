@@ -3,7 +3,6 @@ import {Http, Response, Headers} from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import { FormControl } from '@angular/forms/forms';
 import { Category, Brand, Vendor, Model, ProductVariantDetail, CategoryTest, BackendProductDto } from 'app/product/product.component';
-import { CustomerInterface } from 'app/customer/customer.component';
 import { EmployeeInterface, Employee } from 'app/employee/employee.component';
 import { ClockInInterface, ClockIn } from "app/employee/clockin/clockin.component";
 import { environment } from 'environments/environment';

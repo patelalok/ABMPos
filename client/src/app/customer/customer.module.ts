@@ -10,10 +10,12 @@ import { DialogModule } from 'primeng/primeng';
 import {DataTableModule} from 'primeng/primeng';
 import {MessagesModule} from 'primeng/primeng';
 import {GrowlModule} from 'primeng/primeng';
-import { CustomerComponent } from 'app/customer/customer.component';
 import { CustomerService } from 'app/customer/customer.service';
 import { SharedModule } from 'app/shared/shared.module';
 import { CustomerRoutingModule } from 'app/customer/customer-routing.module';
+import { GroupComponent } from './group/group.component';
+import { SubcustomerComponent } from './subcustomer/subcustomer.component';
+import { CustomerComponent } from 'app/customer/customer.component';
 
 @NgModule({
   imports: [
@@ -31,7 +33,7 @@ import { CustomerRoutingModule } from 'app/customer/customer-routing.module';
 
 
   ],
-  declarations: [CustomerComponent],
+  declarations: [GroupComponent, SubcustomerComponent, CustomerComponent],
    providers: [CustomerService],
 
 })

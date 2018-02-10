@@ -8,7 +8,6 @@ import { SelectItem } from 'primeng/primeng';
 import { StoreSetupService } from 'app/shared/storesetup/storesetup.service';
 import { StoreSetupDto } from 'app/shared/storesetup/storesetup.component';
 import { CustomerService } from 'app/customer/customer.service';
-import { Customer, CustomerInterface, PrimeCustomer } from 'app/customer/customer.component';
 import * as moment from 'moment';
 import { DomSanitizer } from '@angular/platform-browser';
 import { fadeInAnimation } from 'app/shared/animations/fade-in.animation';
@@ -17,6 +16,7 @@ import { ToastsManager } from 'ng2-toastr/src/toast-manager';
 import { empty } from 'rxjs/Observer';
 import { MenuItem } from 'app/shared/top-navbar/top-navbar.component';
 import { PersistenceService } from 'app/shared/services/persistence.service';
+import { PrimeCustomer, Customer } from 'app/customer/subcustomer/subcustomer.component';
 declare var $: JQueryStatic;
 @Component({
   selector: 'app-sale',

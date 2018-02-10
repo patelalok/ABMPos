@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { CustomerService } from 'app/customer/customer.service';
-import { Customer, PrimeCustomer } from 'app/customer/customer.component';
 import { PromotionService } from 'app/promotion/promotion.service';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { Customer, PrimeCustomer } from 'app/customer/subcustomer/subcustomer.component';
 import { ToastsManager } from 'ng2-toastr';
 declare var $: JQueryStatic;
 

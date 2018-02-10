@@ -79,7 +79,6 @@ public class CustomerDao {
     }
 
 
-
     public String getType() {
         return type;
     }
@@ -216,3 +215,5 @@ public class CustomerDao {
         this.groupId = groupId;
     }
 }
+
+

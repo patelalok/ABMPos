@@ -5,11 +5,11 @@ import { TransactionDtoList, TransactionLineItemDaoList, PaymentDto } from 'app/
 import { FormControl } from '@angular/forms/forms';
 import { Observer } from 'rxjs';
 import { PersistenceService } from 'app/shared/services/persistence.service';
-import { Customer } from 'app/customer/customer.component';
 import { printBlob } from 'app/shared/services/util.service';
 import { environment } from 'environments/environment';
 import { CloseRegisterDto } from 'app/sell/close-register/close-register.component';
 import { Product } from 'app/sell/sale/sale.component';
+import { Customer } from 'app/customer/subcustomer/subcustomer.component';
 
 
 
