@@ -74,6 +74,12 @@ public class ReportController {
         return response;
     }
 
+    @RequestMapping(value = "/getDashboardReportBySalesSummary", method = RequestMethod.GET, produces = "application/json")
+    public SalesSummaryDto getDashboardReportBySalesSummary(String salesSummaryReportBy, String startDate, String endDate)
+    {
+        return reportManager.getDashboardReportBySalesSummary(salesSummaryReportBy, startDate, endDate);
+    }
+
     @RequestMapping(value = "/getReportBySales", method = RequestMethod.GET, produces = "application/json")
     public List<SalesDto> getReportBySales(String salesReportBy, String startDate, String endDate)
     {
@@ -81,9 +87,9 @@ public class ReportController {
     }
 
     @RequestMapping(value = "/getTop50SellingItem", method = RequestMethod.GET, produces = "application/json")
-    public List<SalesDto> getTop50SellingItem(String productReportType, String date)
+    public List<SalesDto> getTop50SellingItem(String productReportType, String startDate, String endDate)
     {
-        return reportManager.getTop50SellingItem(productReportType,date);
+        return reportManager.getTop50SellingItem(productReportType,startDate, endDate);
     }
 
 }

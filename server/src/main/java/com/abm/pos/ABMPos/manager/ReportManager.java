@@ -262,7 +262,8 @@ public class ReportManager {
             salesDto.setProfit(totalProfit);
             salesDto.setDiscount(totalDiscount);
 
-            salesDtoList.add(salesDto);
+            // Commenting this cause this is showing wrong data on graph
+           // salesDtoList.add(salesDto);
 
         }
 
@@ -270,16 +271,16 @@ public class ReportManager {
 
     }
 
-    public List<SalesDto> getTop50SellingItem(String productReportType, String date) {
-        TimeIntervalDto timeIntervalDto;
+    public List<SalesDto> getTop50SellingItem(String productReportType, String startDate, String endDate) {
+        //TimeIntervalDto timeIntervalDto;
 
         if (productReportType.equalsIgnoreCase("Top50SellingItem")) {
-            timeIntervalDto = utility.getDateByInputString(date);
-            List<Object[]> result = productRepository.getTop50SellingItem(timeIntervalDto.getStartDate(), timeIntervalDto.getEndDate());
+            //timeIntervalDto = utility.getDateByInputString(date);
+            List<Object[]> result = productRepository.getTop50SellingItem(startDate,endDate);
             return setDataForCommonProductReports(result);
         } else if (productReportType.equalsIgnoreCase("Top50MostProfitableItem")) {
-            timeIntervalDto = utility.getDateByInputString(date);
-            List<Object[]> result = productRepository.getTop50MostProfitableItem(timeIntervalDto.getStartDate(), timeIntervalDto.getEndDate());
+            //timeIntervalDto = utility.getDateByInputString(date);
+            List<Object[]> result = productRepository.getTop50MostProfitableItem(startDate, endDate);
             return setDataForCommonProductReports(result);
         }
 
@@ -716,6 +717,45 @@ public class ReportManager {
         cb.setFontAndSize(bf, 12);
         cb.showTextAligned(align, text.trim(), x, y, 0);
         cb.endText();
+
+    }
+
+    public SalesSummaryDto getDashboardReportBySalesSummary(String salesSummaryReportBy, String startDate, String endDate) {
+
+        List<SalesSummaryDto> salesSummaryDtoList = new ArrayList<>();
+        SalesSummaryDto salesSummaryDto = new SalesSummaryDto();
+        SalesSummaryDto salesSummaryDtoFinal = new SalesSummaryDto();
+
+        salesSummaryDtoList = getReportBySalesSummary(salesSummaryReportBy,startDate,endDate);
+
+        if(null != salesSummaryDtoList)
+        {
+            for(SalesSummaryDto salesSummaryDtoLocal: salesSummaryDtoList)
+            {
+                salesSummaryDto.setCash(salesSummaryDto.getCash() + salesSummaryDtoLocal.getCash());
+                salesSummaryDto.setCredit(salesSummaryDto.getCredit() + salesSummaryDtoLocal.getCredit());
+                salesSummaryDto.setDebit(salesSummaryDto.getDebit() + salesSummaryDtoLocal.getDebit());
+                salesSummaryDto.setCheck(salesSummaryDto.getCheck() + salesSummaryDtoLocal.getCheck());
+                salesSummaryDto.setTax(salesSummaryDto.getTax() + salesSummaryDtoLocal.getTax());
+                salesSummaryDto.setDiscount(salesSummaryDto.getDiscount() + salesSummaryDtoLocal.getDiscount());
+                salesSummaryDto.setReturns(salesSummaryDto.getReturns() + salesSummaryDtoLocal.getReturns());
+                salesSummaryDto.setProfit(salesSummaryDto.getProfit() + salesSummaryDtoLocal.getProfit());
+                salesSummaryDto.setSubtotal(salesSummaryDto.getSubtotal() + salesSummaryDtoLocal.getSubtotal());
+            }
+
+            salesSummaryDtoFinal.setCash(salesSummaryDto.getCash());
+            salesSummaryDtoFinal.setCredit(salesSummaryDto.getCredit());
+            salesSummaryDtoFinal.setDebit(salesSummaryDto.getDebit());
+            salesSummaryDtoFinal.setCheck(salesSummaryDto.getCheck());
+            salesSummaryDtoFinal.setTax(salesSummaryDto.getTax());
+            salesSummaryDtoFinal.setDiscount(salesSummaryDto.getDiscount());
+            salesSummaryDtoFinal.setReturns(salesSummaryDto.getReturns());
+            salesSummaryDtoFinal.setProfit(salesSummaryDto.getProfit());
+            salesSummaryDtoFinal.setSubtotal(salesSummaryDto.getSubtotal());
+
+        }
+
+        return salesSummaryDtoFinal;
 
     }
 }
