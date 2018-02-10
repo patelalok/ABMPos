@@ -64,8 +64,7 @@
         </div>
 
         <div class="row p-md-3">
-            <p-dataTable [value]="this.transactionDetails" scrollable="true" scrollHeight="500px" expandableRows="true" [responsive]="true">
-                <p-column expander="true" styleClass="col-icon" [style]="{'width': '3%'}"></p-column>
+            <p-dataTable [value]="this.transactionDetails" scrollable="true" scrollHeight="500px" [responsive]="true">
                 <p-column field="transactionComId" header="Receipt No" [style]="{'width': '7%'}"></p-column>
                 <p-column field="date" header="Date" [sortable]="true" [style]="{'width': '6%'}"></p-column>
                 <p-column field="time" header="Time" [sortable]="true" [style]="{'width': '6%'}"></p-column>
@@ -109,7 +108,7 @@
                     </ng-template>
                 </p-column>
 
-
+                <!-- 
                 <ng-template let-receipt pTemplate="rowexpansion">
                     <div class="ui-grid ui-grid-responsive ui-fluid" style="font-size:16px;padding:20px">
                         <div class="ui-grid-row">
@@ -281,7 +280,7 @@
                         </div>
 
                     </div>
-                </ng-template>
+                </ng-template> -->
             </p-dataTable>
 
         </div>

@@ -17,7 +17,7 @@ declare var $: JQueryStatic;
 @Component({
   selector: 'app-sales-history',
   templateUrl: './sales-history.component.html',
-  styleUrls: ['./sales-history.component.css']
+  styleUrls: ['./sales-history.component.scss']
 })
 export class SalesHistoryComponent implements OnInit {
   currentDate = new Date(); 
