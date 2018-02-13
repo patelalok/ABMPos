@@ -129,7 +129,10 @@ items: MenuItem[];
     this.getCustomerDetails();
 
     // Here i am checking that customer already selected on sale page or not.
-    this.selectedCustomer = this.persit.getCustomerDetailsForSale();
+
+    // I have commented this just to make sure this is not causing balance issue.
+    
+   this.selectedCustomer = this.persit.getCustomerDetailsForSale();
 
     this.cols = [
       { field: 'productNo', header: 'ProductNo' },
@@ -728,14 +731,10 @@ items: MenuItem[];
 
       }
       else if (paymentType == 'OnAccount') {
+
         this.paymentDto.onAccount = paymentAmount;
-        this.paymentObjectForPaymentSellTable.push({ 'paymentType': 'OnAccount', 'paymentAmount': paymentAmount })
-
-        // In this flow customer is not paying anythig or paying some amount and other amoun he is just putting on his account and will pay later
-        // So here i need to complete the transaction, thats why calling this method.
-        //this.completeSale();
-
-        //this.validatePaymentButtons(paymentAmount);
+        this.paymentObjectForPaymentSellTable.push({ 'paymentType': 'OnAccount', 'paymentAmount': paymentAmount });
+       // this.validatePaymentButtons(this.paymentDto.onAccount);
 
 
         this.disablePaymentButtons = true;
@@ -874,8 +873,6 @@ items: MenuItem[];
   // This method helps to delete payment type and recaculate all other parameters.
   deletePaymentFromPaymentModel(payment: PaymentObjectForPaymentSellTable) {
 
-
-
     if (this.saleType == 'Return') {
 
       let index = this.paymentObjectForPaymentSellTable.indexOf(payment);
@@ -913,6 +910,11 @@ items: MenuItem[];
         }
         if (payment.paymentType == 'StoreCredit' && payment.paymentAmount > 0) {
           this.paymentDto.storeCredit = this.paymentDto.storeCredit - payment.paymentAmount;
+        }
+        if (payment.paymentType == 'OnAccount' && payment.paymentAmount > 0) {
+          this.paymentDto.onAccount = this.paymentDto.onAccount - payment.paymentAmount;
+
+          console.log('Inside On account for delete')
         }
       }
 

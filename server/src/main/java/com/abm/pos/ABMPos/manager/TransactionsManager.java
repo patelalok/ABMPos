@@ -237,25 +237,27 @@ public class TransactionsManager {
             // I need to do this because, if customer has some previous balance and some current transaction balance, the whole amount is going as on Account
             // which is wrong so i just need to send current transaction as on account whihc is subtotal - discount.
 
-            if(null != transactionDao.getPaymentDao())
-            {
-                if(transactionDao.getPaymentDao().get(0).getOnAccount() > 0){
 
-                    double onAccountAmount = transactionDao.getSubtotal() - transactionDao.getTotalDiscount();
-
-                    List<PaymentDao> paymentDaoList = new ArrayList<>();
-
-                    PaymentDao paymentDao = new PaymentDao();
-
-                    paymentDao = transactionDao.getPaymentDao().get(0);
-
-                    paymentDao.setOnAccount(onAccountAmount);
-
-                    paymentDaoList.add(paymentDao);
-
-                    transactionDao.setPaymentDao(paymentDaoList);
-                }
-            }
+            // Commented just for testing.
+//            if(null != transactionDao.getPaymentDao())
+//            {
+//                if(transactionDao.getPaymentDao().get(0).getOnAccount() > 0){
+//
+//                    double onAccountAmount = transactionDao.getSubtotal() - transactionDao.getTotalDiscount();
+//
+//                    List<PaymentDao> paymentDaoList = new ArrayList<>();
+//
+//                    PaymentDao paymentDao = new PaymentDao();
+//
+//                    paymentDao = transactionDao.getPaymentDao().get(0);
+//
+//                    paymentDao.setOnAccount(onAccountAmount);
+//
+//                    paymentDaoList.add(paymentDao);
+//
+//                    transactionDao.setPaymentDao(paymentDaoList);
+//                }
+//            }
         }
 
 
@@ -336,33 +338,38 @@ public class TransactionsManager {
         List<TransactionDao> transactionDaoList = new ArrayList<>();
 
         transactionDaoList = transactionRepository.findAll();
-        List<TransactionDao> transactionDaoFinal = new ArrayList<>();
+
+        return transactionDaoList;
 
 
-        if(null != transactionDaoList)
-        {
-            ProductDao productDao = new ProductDao();
-            List<TransactionLineItemDao> transactionLineItemDaoList = new ArrayList<>();
 
-            for(TransactionDao transactionDao: transactionDaoList)
-            {
-                for(TransactionLineItemDao lineItem: transactionDao.getTransactionLineItemDaoList())
-                {
-                    productDao = productRepository.findOneByProductNo(lineItem.getProductNo());
+       // List<TransactionDao> transactionDaoFinal = new ArrayList<>();
 
-                    if (null != productDao) {
-                        lineItem.setDescription(productDao.getDescription());
-                        transactionLineItemDaoList.add(lineItem);
-                    }
-                }
 
-                transactionDao.setTransactionLineItemDaoList(transactionLineItemDaoList);
+//        if(null != transactionDaoList)
+//        {
+//            ProductDao productDao = new ProductDao();
+//            List<TransactionLineItemDao> transactionLineItemDaoList = new ArrayList<>();
+//
+//            for(TransactionDao transactionDao: transactionDaoList)
+//            {
+//                for(TransactionLineItemDao lineItem: transactionDao.getTransactionLineItemDaoList())
+//                {
+//                    productDao = productRepository.findOneByProductNo(lineItem.getProductNo());
+//
+//                    if (null != productDao) {
+//                        lineItem.setDescription(productDao.getDescription());
+//                        transactionLineItemDaoList.add(lineItem);
+//                    }
+//                }
+//
+//                transactionDao.setTransactionLineItemDaoList(transactionLineItemDaoList);
+//
+//                transactionDaoFinal.add(transactionDao);
+//            }
+//        }
 
-                transactionDaoFinal.add(transactionDao);
-            }
-        }
-
-        return transactionDaoFinal;
+      //  return transactionDaoFinal;
     }
 
     public TransactionDao getTransactionById(int transactionCompId) {
