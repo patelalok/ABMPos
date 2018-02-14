@@ -551,10 +551,6 @@ public class TransactionsManager {
     private void printTransactionDetails(Document doc, PdfContentByte cb, TransactionDao transactionDao) {
 
         try {
-
-
-            if (transactionDao.getTransactionLineItemDaoList().size() > 0) {
-
                 float[] columnWidths = {3, 7, 2, 2, 2, 2};
                 float[] colWidht2 = {4, 4, 4, 4};
 
@@ -678,7 +674,7 @@ public class TransactionsManager {
 
                 doc.add(totalTable);
 
-            }
+
 
         } catch (Exception ex) {
             ex.printStackTrace();
