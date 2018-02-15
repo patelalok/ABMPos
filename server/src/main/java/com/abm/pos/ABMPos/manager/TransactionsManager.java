@@ -144,8 +144,12 @@ public class TransactionsManager {
 
                     if (null != productDao)
                     {
-                        productDao.setQuantity(productDao.getQuantity() - transactionLineItemDao.getQuantity());
-                        productRepository.save(productDao);
+                        // Here I am assuming when TAX = 0, that mean do not count inventory at all, so no need to Reduce the quantity.
+                        if(productDao.isTax())
+                        {
+                            productDao.setQuantity(productDao.getQuantity() - transactionLineItemDao.getQuantity());
+                            productRepository.save(productDao);
+                        }
 
                         // This is the digital punching logic for EYEBROW only :)
                         if(productDao.getProductNo().equalsIgnoreCase("100000000014") && productDao.isEnableDigitalPunch())

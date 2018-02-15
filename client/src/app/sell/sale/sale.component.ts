@@ -1220,6 +1220,7 @@ export class Product {
   quantity: number;
   minQuantity: number;
   tax: boolean;
+  // service: boolean;
   varaint: boolean;
   active: boolean;
   ecommerce: boolean;
