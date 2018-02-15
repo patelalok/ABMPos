@@ -26,6 +26,8 @@ import java.text.DateFormat;
 import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -53,6 +55,20 @@ public class CloseRegisterManager {
     private StoreSetupRepository storeSetupRepository;
 
     public void addCloseRegisterDetails(CloseRegisterDao closeRegisterDao) {
+
+        // Blindly deleting close register details for the current day then adding value by user,
+        // So now i dont need to worried about adding values two time for close register.
+
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        LocalDateTime now = LocalDateTime.now();
+        System.out.println(dtf.format(now));
+
+        String currentDate = dtf.format(now);
+
+        String startDate = currentDate + " 00:00:00";
+        String endDate = currentDate + " 23:59:59";
+
+        closeRegisterRepository.deleteClosingDetailsForDate(startDate, endDate);
 
         this.closeRegisterRepository.save(closeRegisterDao);
     }
