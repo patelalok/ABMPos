@@ -63,6 +63,9 @@ public class TransactionsManager {
     @Autowired
     private StoreSetupRepository storeSetupRepository;
 
+    @Autowired
+    private CustomerProductPriceRepository customerProductPriceRepository;
+
     private BaseFont bfBold;
     private BaseFont bf;
     private int pageNumber = 0;
@@ -258,6 +261,29 @@ public class TransactionsManager {
 //                    transactionDao.setPaymentDao(paymentDaoList);
 //                }
 //            }
+
+
+            // Here I am handling the logic for the customer price lock where customers price will be saved after every transactions. No matter how is the retail price.
+            // Here is the problem though, on return i need to manage this logic on ui, otherwise customer get profited when he does the return.
+
+            if(null != transactionDao.getCustomerPhoneno() && transactionDao.getCustomerPhoneno().length() > 9 && null != transactionDao.getTransactionLineItemDaoList())
+            {
+                for(TransactionLineItemDao lineItem: transactionDao.getTransactionLineItemDaoList())
+                {
+                    CustomerProductPrice customerProductPrice = new CustomerProductPrice();
+                    CustomerProductPricePK customerProductPricePK = new CustomerProductPricePK();
+
+                    customerProductPricePK.setPhoneNo(transactionDao.getCustomerPhoneno());
+                    customerProductPricePK.setProductNo(lineItem.getProductNo());
+                    customerProductPrice.setRetail(lineItem.getRetail());
+                    customerProductPrice.setCost(lineItem.getCost());
+                    customerProductPrice.setLastUpdatedTimestamp(transactionDao.getDate());
+
+                    customerProductPrice.setCustomerProductPricePK(customerProductPricePK);
+
+                    customerProductPriceRepository.save(customerProductPrice);
+                }
+            }
         }
 
 

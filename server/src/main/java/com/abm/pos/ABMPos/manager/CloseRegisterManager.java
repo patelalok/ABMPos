@@ -89,17 +89,29 @@ public class CloseRegisterManager {
             // Here i need to check if there is any data from user, this happens when user close the register more then 2 times or
             // User is trying to get details for previous days.
 
-            CloseRegisterDao closeRegisterDao1 = closeRegisterRepository.getCloseRegisterDetailsByDate(startDate,endDate);
+            List<Object[]> result = closeRegisterRepository.getCloseRegisterDetailsByDate(startDate,endDate);
 
-            if(null != closeRegisterDao1)
+            for(Object [] j : result)
             {
-                closeRegisterDao.setCloseCash(closeRegisterDao1.getCloseCash());
-                closeRegisterDao.setCloseCredit(closeRegisterDao1.getCloseCredit());
-                closeRegisterDao.setCloseDebit(closeRegisterDao1.getCloseDebit());
-                closeRegisterDao.setCloseCheck(closeRegisterDao1.getCloseCheck());
-                closeRegisterDao.setId(closeRegisterDao1.getId());
-
+                if(j[0] != null) {
+                    for (int i = 0; i <= result.size(); i++) {
+                    closeRegisterDao.setCloseCash((Double.parseDouble(j[0].toString())));
+                    closeRegisterDao.setCloseCredit((Double.parseDouble(j[1].toString())));
+                    closeRegisterDao.setCloseDebit((Double.parseDouble(j[2].toString())));
+                    closeRegisterDao.setCloseCheck(Double.parseDouble(j[3].toString()));
+                }
             }
+        }
+
+//            if(null != closeRegisterDao1)
+//            {
+//                closeRegisterDao.setCloseCash(closeRegisterDao1.getCloseCash());
+//                closeRegisterDao.setCloseCredit(closeRegisterDao1.getCloseCredit());
+//                closeRegisterDao.setCloseDebit(closeRegisterDao1.getCloseDebit());
+//                closeRegisterDao.setCloseCheck(closeRegisterDao1.getCloseCheck());
+//                closeRegisterDao.setId(closeRegisterDao1.getId());
+//
+//            }
 
             return closeRegisterDao;
                     //closeRegisterRepository.getCloseRegisterDetailsByDate(timeIntervalDto.getStartDate(), timeIntervalDto.getEndDate());
@@ -168,17 +180,8 @@ public class CloseRegisterManager {
 
         PdfWriter writer = PdfWriter.getInstance(doc, byteArrayOutputStream);
 
-        CloseRegisterDao closeRegisterDao = new CloseRegisterDao();
 
-//        List<PaidOutDto> paidOutDtoList = new ArrayList<>();
-
-
-        closeRegisterDao = closeRegisterRepository.getCloseRegisterDetailsByDate(startDate,endDate);
-        //closeRegisterDao = getCloseRegisterDetailsByDate(startDate, endDate);
-
-        //Calling getPaid out details to get paid out details
-        //paidOutDtoList = getPaidOutDetails(startDate, endDate);
-
+        CloseRegisterDao closeRegisterDao = getCloseRegisterDetailsByDate(startDate,endDate);
 
         doc.open();
 

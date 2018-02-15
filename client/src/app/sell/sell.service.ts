@@ -9,7 +9,7 @@ import { Customer } from 'app/customer/customer.component';
 import { printBlob } from 'app/shared/services/util.service';
 import { environment } from 'environments/environment';
 import { CloseRegisterDto } from 'app/sell/close-register/close-register.component';
-import { Product, TransactionLineItemDaoList } from 'app/sell/sale/sale.component';
+import { Product, TransactionLineItemDaoList, CustomerProductPrice } from 'app/sell/sale/sale.component';
 
 
 
@@ -125,6 +125,12 @@ private url: string;
     .subscribe((data: any) => {
       printBlob(data._body)
     })
+  }
+
+  getProductPriceByCustomer(phoneNo: string): Observable<any[]>{
+    return this.http.get(this.url+'/getProductPriceByCustomer?phoneNo='+phoneNo)
+    .map(this.extractData)
+    .catch(this.handleError);
   }
   
   private extractData(res: Response): Product[] {

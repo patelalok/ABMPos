@@ -37,6 +37,8 @@ public class ProductManager{
     @Autowired
     private ProductInventoryRepository productInventoryRepository;
 
+    @Autowired
+    private CustomerProductPriceRepository customerProductPriceRepository;
 
     @Autowired
     private Utility utility;
@@ -126,23 +128,6 @@ public class ProductManager{
           //  return productDaoArrayList;
 
         }
-//        else if(getProductBy.equalsIgnoreCase("Brand"))
-//        {
-//            return productRepository.getAllActivePrductByBrandId(searchValue);
-//        }
-//        else if(getProductBy.equalsIgnoreCase("Category"))
-//        {
-//            return productRepository.getAllActivePrductByCategoryId(searchValue);
-//        }
-//        else if(getProductBy.equalsIgnoreCase("Vendor"))
-//        {
-//            return productRepository.getAllActivePrductByVendorId(searchValue);
-//        }
-//        else if(getProductBy.equalsIgnoreCase("Model"))
-//        {
-//            return productRepository.getAllActivePrductByModelId(searchValue);
-//        }
-
 
     public List<ProductDao> getProductForSellPage() {
 
@@ -327,5 +312,10 @@ public class ProductManager{
     public List<ProductInventoryDao> getProductInventory(String productNo) {
 
         return productInventoryRepository.findAllByProductNo(productNo);
+    }
+
+    public List<CustomerProductPrice> getProductPriceByCustomer(String phoneNo) {
+
+        return customerProductPriceRepository.findAllByPhoneNo(phoneNo);
     }
 }

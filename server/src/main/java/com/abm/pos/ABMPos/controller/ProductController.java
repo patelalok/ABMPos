@@ -79,6 +79,12 @@ public class ProductController {
         return productManager.getProductById(productNo);
     }
 
+    @RequestMapping(value = "/getProductPriceByCustomer", method = RequestMethod.GET, produces = "application/json")
+    public List<CustomerProductPrice> getProductPriceByCustomer(@RequestParam String phoneNo){
+
+        return productManager.getProductPriceByCustomer(phoneNo);
+    }
+
     @RequestMapping(value = "/deleteProduct", method = RequestMethod.PUT, consumes = "application/json")
     public ResponseEntity<String> deleteProduct(@RequestBody ProductDao productDao)
     {

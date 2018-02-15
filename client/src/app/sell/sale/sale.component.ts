@@ -87,6 +87,7 @@ export class SaleComponent implements OnInit, AfterViewInit {
   // This is useful in case of return where user gives store credit, i need oldtransactionId to store in store credit table as reason.
   previousTransactionId: any;
   taxPercent: number = 0.00;
+  productPriceArryByCustomer: Array<any[]>;
 
 printTransactionDto: TransactionDtoList = null;
 
@@ -133,6 +134,10 @@ items: MenuItem[];
     // I have commented this just to make sure this is not causing balance issue.
     
    this.selectedCustomer = this.persit.getCustomerDetailsForSale();
+   // This will help to get customer product price, cause its cusotmer is selected then definetly the price is stored in local storage.
+   if(this.selectedCustomer){
+     this.productPriceArryByCustomer = this.persit.getCustomerDetailsForSale();
+   }
 
     this.cols = [
       { field: 'productNo', header: 'ProductNo' },
@@ -207,9 +212,25 @@ items: MenuItem[];
 
   public addTransactionLineItem(productObj: Product): TransactionLineItemDaoList[] {
 
-    
+    // This logic helps to manage the price lock for the customer,
+    // here i am checking weather this customer has predefind price or not, if yes then give old price otherwise regular price.
+
+    // Writing this logic here so i dont need to write this logic for all other conditions.
+    if(null != this.selectedCustomer && this.selectedCustomer != undefined){
+      if(this.productPriceArryByCustomer){
+
+        this.productPriceArryByCustomer.forEach((product) =>{
+          // here product[1] is the product no coming from back end, i am sending only 2 values prodcut no and retail.  like this--->["23424234234", 12.99]
+          if(product[0] == productObj.productNo){
+            productObj.retail = product[1];
+          }
+        })
+      }
+    }
     // This is fisrt time when user is adding product to sell.
     if (this.transactionLineItemDaoList.length == 0) {
+
+    
 
       productObj.totalProductPrice = parseFloat(productObj.retail.toFixed(2));
       productObj.taxAmountOnProduct = (productObj.retail * this.taxPercent) / 100;
@@ -518,13 +539,23 @@ items: MenuItem[];
       this.taxPercent = 0;
     }
 
-
     // Storing customer detials into local storage.
     this.persit.setCustomerDetailsForSale(this.selectedCustomer);
+
+  
 
     // Need to do this to add balance into transaction details
     this.setTransactionDtoList(this.transactionLineItemDaoList);
 
+    this.sellService.getProductPriceByCustomer(this.selectedCustomer.phoneNo)
+    .subscribe((productPrice) => {
+      this.productPriceArryByCustomer = productPrice;
+
+      //Storing customer product Price in Local storage so i can help on refresh and on other consditions.
+      this.persit.setCustomerProductPriceForSale(this.productPriceArryByCustomer);
+
+      // console.log('customerProductPrice', this.productPriceArryByCustomer);
+    });
     console.log('customer', this.selectedCustomer);
   }
 
@@ -532,6 +563,7 @@ items: MenuItem[];
   removeCustomerOnSale() {
 
     this.persit.clearCustomer();
+    this.persit.clearCustomerPriceForSale();
     this.selectedCustomer = null;
     this.cust = null;
     // this.disableCustomerSearchTextbox = false;
@@ -582,6 +614,7 @@ items: MenuItem[];
 
     this.persit.clearProducts();
     this.persit.clearCustomer();
+    this.persit.clearCustomerPriceForSale();
 
     this.transactionLineItemDaoList = [];
 
@@ -1061,6 +1094,7 @@ items: MenuItem[];
 
       this.persit.clearProducts();
       this.persit.clearCustomer();
+      this.persit.clearCustomerPriceForSale();
   
       // Very importa can not assign to null
       this.paymentDto = new PaymentDto();
@@ -1095,6 +1129,8 @@ items: MenuItem[];
    this.saleType = 'Complete';
   }
 
+
+  // TODO< NEED TO CHECK AND UNDERSTAND AGAIN.
   handleParkedTransactionFromSalesHistory(transactionComId: any) {
 
 
@@ -1139,6 +1175,9 @@ items: MenuItem[];
                         console.log('Customer detils for park sale', this.selectedCustomer);
                         this.persit.setCustomerDetailsForSale(this.selectedCustomer);
                         this.selectedCustomer = this.persit.getCustomerDetailsForSale();
+
+                        // TODO NEED TO CHECK HOW THIS WILL WORK
+                        this.productPriceArryByCustomer = this.persit.getCustomerDetailsForSale();
                         }
 
                         this.setTransactionDtoList(this.transactionLineItemDaoList);
@@ -1320,4 +1359,18 @@ export class PaymentObjectForPaymentSellTable {
   // }
   paymentType: string;
   paymentAmount: number;
+}
+export class CustomerProductPrice {
+  productNo?: string;
+  phoneNo?: string;
+  retail?: number;
+  cost?: number;
+  lastUpdatedTimestamp?: string;
+
+
+
+
+
+
+
 }

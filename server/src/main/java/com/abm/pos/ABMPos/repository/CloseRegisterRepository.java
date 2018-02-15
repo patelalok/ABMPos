@@ -10,6 +10,6 @@ public interface CloseRegisterRepository extends JpaRepository<CloseRegisterDao,
 
     List<CloseRegisterDao> findAll();
 
-    @Query("SELECT c FROM CloseRegisterDao c where c.date BETWEEN ?1 AND ?2")
-    CloseRegisterDao getCloseRegisterDetailsByDate(String startDate, String endDate);
+    @Query("SELECT SUM(c.closeCash), SUM(c.closeCredit), SUM(c.closeDebit), SUM(c.closeCheck) FROM CloseRegisterDao c where c.date BETWEEN ?1 AND ?2")
+    List<Object[]> getCloseRegisterDetailsByDate(String startDate, String endDate);
 }
