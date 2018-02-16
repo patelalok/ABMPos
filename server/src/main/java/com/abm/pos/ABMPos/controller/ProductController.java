@@ -38,7 +38,7 @@ public class ProductController {
     public ProductDao addProduct(@RequestBody ProductDao productDao)
     {
         System.out.println("Product added or updated successfully ");
-         return productManager.addProductTest(productDao);
+         return productManager.addProduct(productDao);
     }
 
     @RequestMapping(value = "/addProductInventory", method = RequestMethod.POST, consumes = "application/json")
@@ -58,7 +58,7 @@ public class ProductController {
     @RequestMapping(value = "/getProductTableDetails", method = RequestMethod.GET, produces = "application/json")
     public List<ProductDao> getProductTableDetails()
     {
-        return productManager.getProductTableDetails();
+        return productManager.getProductForSellPage();
     }
 
 //    @RequestMapping(value = "/getProductForProductTable", method = RequestMethod.GET, produces = "application/json")

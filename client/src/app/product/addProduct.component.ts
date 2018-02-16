@@ -153,7 +153,8 @@ export class AddProductComponent implements OnInit {
         transactionComId: null,
         time: null,
         createdTimestamp: moment(Date.now()).format('YYYY-MM-DD HH:mm:ss'),
-        productInventoryDaoList: this.productInventoryList
+        productInventoryDaoList: this.productInventoryList,
+        operationType: 'Add'
       }
       this.productService.addProduct(product)
       .subscribe(

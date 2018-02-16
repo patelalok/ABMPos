@@ -1262,6 +1262,7 @@ export class Product {
   taxAmountOnProduct: number;
   imeiNo: any;
   productInventoryDaoList: ProductInventory[];
+  operationType?:string;
 }
 export class TransactionLineItemDaoList {
 

@@ -47,11 +47,13 @@ export class EditProductComponent implements OnInit {
       .subscribe((product) =>{
         this.currentProduct=product;
 
-        this.currentProduct.productInventoryDaoList.forEach((inventory => {
-          inventory.time = moment(inventory.date).format('hh:mm A');
-          inventory.date = moment(inventory.date).format('MM/DD/YYYY');
-          this.currentProduct.quantity = +this.currentProduct.quantity + inventory.quantity;
-        }));
+        // TODO HERE I NEED TO ADD LOGIC TO SHOW INVENTORY DETAILS.
+        
+        // this.currentProduct.productInventoryDaoList.forEach((inventory => {
+        //   inventory.time = moment(inventory.date).format('hh:mm A');
+        //   inventory.date = moment(inventory.date).format('MM/DD/YYYY');
+        //   this.currentProduct.quantity = +this.currentProduct.quantity + inventory.quantity;
+        // }));
 
         let currentCategory={}; 
         let currentBrand ={};
@@ -72,8 +74,6 @@ export class EditProductComponent implements OnInit {
             'tax': [this.currentProduct.tax, null],
             'ecomerce': [this.currentProduct.ecommerce, null]
           }
-
-          
         );
 
         this.form.valueChanges
@@ -173,7 +173,9 @@ export class EditProductComponent implements OnInit {
         time:null,
         totalProductPrice: 0,
         transactionComId: 0,
-        varaint: null
+        varaint: null,
+        operationType: 'Edit'
+
         
           }
 

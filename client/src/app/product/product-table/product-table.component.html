@@ -58,7 +58,7 @@
                     <p-column [style]="{'width': '10%'}" field="cost" header="Cost" [sortable]="true">
 
                         <ng-template let-product="rowData" pTemplate="body">
-                            <a href="JavaScript:void(0);" (click)="setProductInventoryForSelectedProduct(product.productInventoryDaoList)" data-toggle="modal" data-target="#productInventory"> {{product.productInventoryDaoList[0]?.cost | currency:'USD':'true'}}</a>
+                            <a href="JavaScript:void(0);" (click)="setProductInventoryForSelectedProduct(product.productNo)" data-toggle="modal" data-target="#productInventory"> {{product.cost | currency:'USD':'true'}}</a>
                         </ng-template>
                     </p-column>
                     <p-column [style]="{'width': '10%'}" field="retail" header="Retail" [editable]="true">
@@ -68,7 +68,7 @@
                     </p-column>
                     <p-column [style]="{'width': '8%'}" field="quantity" header="Quantity" [sortable]="true">
                         <ng-template let-product="rowData" pTemplate="body">
-                            <a href="JavaScript:void(0);" (click)="setProductInventoryForSelectedProduct(product.productInventoryDaoList)" data-toggle="modal" data-target="#productInventory">{{product.quantity}}</a>
+                            <a href="JavaScript:void(0);" (click)="setProductInventoryForSelectedProduct(product.productNo)" data-toggle="modal" data-target="#productInventory">{{product.quantity}}</a>
                         </ng-template>
                     </p-column>
                     <p-column [style]="{'width': '23%'}" field="action" header="Action" [sortable]="true">

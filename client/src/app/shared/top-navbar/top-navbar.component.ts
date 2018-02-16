@@ -20,13 +20,14 @@ export class TopNavbarComponent implements OnInit {
         { name: 'Purchase Order', link: '/purchase-order', icon: 'fa fa-first-order fa-x fa-2x text-green' },
        { name: 'Customer', link: '/customer', icon: 'fa fa-user fa-2x text-bittersweet' },
        { name: 'Report', link: '/report', icon: 'fa fa-line-chart fa-2x text-orange' },
-        // {name: 'Repair', link: '/repair', icon: 'fa fa-wrench fa-2x text-violet', show: false},
         { name: 'Employee', link: '/employee', icon: 'fa fa-user-circle-o fa-2x text-blue' },
-        { name: 'Expense', link: '/expense', icon: 'fa fa-money fa-2x text-green' },        
-        { name: 'Setting', link: '/setting', icon: 'fa fa-cogs fa-2x text-dark-grey', },
+        { name: 'Expense', link: '/expense', icon: 'fa fa-money fa-2x text-green' },
+        {name: 'Repair', link: '/repair', icon: 'fa fa-wrench fa-2x text-bittersweet', show: false},
        // { name: 'Ecomerce', link: '/ecommerce', icon: 'fa fa-cart-arrow-down fa-2x text-green' },
-        { name: 'Rewards', link: '/ecommerce', icon: 'fa fa-trophy fa-2x text-green' },
-        { name: 'Promotion', link: '/promotion', icon: 'fa fa-bullhorn fa-2x text-bittersweet' }
+        // { name: 'Rewards', link: '/ecommerce', icon: 'fa fa-trophy fa-2x text-green' },
+        { name: 'Promotion', link: '/promotion', icon: 'fa fa-bullhorn fa-2x text-blue' },
+        { name: 'Setting', link: '/setting', icon: 'fa fa-cogs fa-2x text-dark-grey', },
+
       ];
     }
   }

@@ -268,11 +268,11 @@ export class ProductTableComponent implements OnInit {
   }
 
   // This method helps to set the perticualr product inventory details to show on popup when user click on the cost price.
-  setProductInventoryForSelectedProduct(productInventoryList1: ProductInventory[]) {
+  setProductInventoryForSelectedProduct(productNo: string) {
 
     // First need to get real inventory details from the db, cause when you add inventory and if you dont do this call, it wont show you,
     // Newly added inventory details.
-    this.productService.getProductInventoryByProductNo(productInventoryList1[0].productNo)
+    this.productService.getProductInventoryByProductNo(productNo)
     .subscribe((inventory: ProductInventory[]) => {
       this.productInventoryList = inventory;
 

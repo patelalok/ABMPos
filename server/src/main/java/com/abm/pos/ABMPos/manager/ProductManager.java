@@ -48,22 +48,48 @@ public class ProductManager{
 
 
     //@CachePut("products")
-    public void addProduct(ProductDao productDao)
+    public ProductDao addProduct(ProductDao productDao)
     {
-
         ProductDao productDao1 = new ProductDao();
 
-        productDao1 = productRepository.findOne(productDao.getProductNo());
-
-        // I need to do this cause i need to maintain retail price of the product in both product and product inventory Table.
-        // So this is really important.
-        if(null != productDao1 && productDao.getRetail() != productDao1.getRetail())
+        // I need to do this, cause that is the only way to add the inventory into inventory table, if i wont do it then user can not sale this product.
+        if(null != productDao && productDao.getOperationType().equalsIgnoreCase("Add"))
         {
-            productInventoryRepository.updateProductRetailPrice(productDao.getRetail(), productDao.getProductNo());
-        }
-        // Then update the product.
 
-        productRepository.save(productDao);
+            // First I need to add the product then i need to inventory details
+
+            productDao1 = productRepository.save(productDao);
+
+            // Now i need to add inventory for this product, need to do this manually cause the JPA is gives problem in get so i need handle manually.
+            ProductInventoryDao productInventoryDao = new ProductInventoryDao();
+
+            productInventoryDao.setProductNo(productDao.getProductNo());
+            productInventoryDao.setCreatedTimestamp(productDao.getCreatedTimestamp());
+            productInventoryDao.setCost(productDao.getCost());
+            productInventoryDao.setRetail(productDao.getRetail());
+            productInventoryDao.setQuantity(productDao.getQuantity());
+
+            productInventoryRepository.save(productInventoryDao);
+
+            // Need to add mark up logic, for now let it be.
+//            productInventoryDao.setMarkup(productDao);
+        }
+
+        else if((null != productDao && productDao.getOperationType().equalsIgnoreCase("Edit")))
+        {
+             productDao1 = productRepository.findOne(productDao.getProductNo());
+
+            // I need to do this cause i need to maintain retail price of the product in both product and product inventory Table.
+            // So this is really important.
+            if(null != productDao1 && productDao.getRetail() != productDao1.getRetail())
+            {
+                productInventoryRepository.updateProductRetailPrice(productDao.getRetail(), productDao.getProductNo());
+            }
+
+            productDao1 = productRepository.save(productDao);
+        }
+
+        return productDao1;
     }
     //@CachePut(value = "products", key = "#productDao.productNo")
    // @CacheEvict(value = "products",  key = "#root.target.KEY")
@@ -84,6 +110,8 @@ public class ProductManager{
         {
             productInventoryDaoList1 = productInventoryRepository.findAllByProductNo(productInventoryDaoList.get(0).getProductNo());
 
+            int totalProduct = 0;
+
             for(ProductInventoryDao productInventoryDao1:productInventoryDaoList1 )
             {
                 // this will delete inventory details with negative quantity.
@@ -92,8 +120,17 @@ public class ProductManager{
                 {
                     productInventoryRepository.delete(productInventoryDao1);
                 }
+
+                // Now I need to update product table here, I need to do this, JUST SHOW CORRECT STOCK ON THE PRODUCT PAGE, CAUSE I CAN NOT CALCULATE FROM THE INVENTORY,
+                // SO I NEED MAKE SURE WHEN EVER INVENTORY CHANGES I NEED TO CHANGE THE QUANTITY IN PRODUCT TABLE.
+
+                totalProduct = totalProduct + productInventoryDao1.getQuantity();
+
             }
+            // Now i need to update quantity in product table
+            productRepository.updateQuantityAfterInventoryUpdate(totalProduct,productInventoryDaoList.get(0).getCost(),productInventoryDaoList.get(0).getProductNo());
         }
+
         return productInventoryDaoList;
 
     }
@@ -102,25 +139,27 @@ public class ProductManager{
     public List<ProductDao> getProductTableDetails() {
 
             List<ProductDao> productDaoArrayList = new ArrayList<>();
+
+
             List<ProductDao> productDaoArrayListNew = new ArrayList<>();
 
             productDaoArrayList = productRepository.getAllActiveProduct();
 
             //return productDaoArrayList;
 
-            for(ProductDao p :productDaoArrayList)
-            {
-                int quantity = 0;
-                for(ProductInventoryDao i : p.getProductInventoryDaoList())
-                {
-                    quantity = quantity + i.getQuantity();
-                }
-
-                p.setQuantity(quantity);
-
-                productDaoArrayListNew.add(p);
-
-            }
+//            for(ProductDao p :productDaoArrayList)
+//            {
+//                int quantity = 0;
+//                for(ProductInventoryDao i : p.getProductInventoryDaoList())
+//                {
+//                    quantity = quantity + i.getQuantity();
+//                }
+//
+//                p.setQuantity(quantity);
+//
+//                productDaoArrayListNew.add(p);
+//
+//            }
 
 
             return productDaoArrayListNew;

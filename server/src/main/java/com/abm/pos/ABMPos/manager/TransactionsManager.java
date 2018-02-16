@@ -77,8 +77,6 @@ public class TransactionsManager {
         if (null != transactionDao && (transactionDao.getStatus().equalsIgnoreCase("Return") || transactionDao.getStatus().equalsIgnoreCase("Void"))) {
 
             // Managing inventory for the RETURN or VOID
-
-
             manageProductInventoryAfterSale(transactionDao);
 
 
@@ -151,6 +149,9 @@ public class TransactionsManager {
 
 
             for (TransactionLineItemDao lineItemDao : transactionLineItemDaoList) {
+
+
+
                 // I need to set this up to keep track of the inventory, so with this i will know, whether i need to call Product inventory table again or not.
                 // So with first call if parchedQuantity == 0 that mean we can full fill this sale we do not need to check for other inventory for this product but if not
                 // Then we need to keep doing this process until parched Quantity == 0.
@@ -173,6 +174,9 @@ public class TransactionsManager {
                             lineItemDao.setCost(productInventoryDao.getCost());
                             transactionLineItemDaoListNew.add(lineItemDao);
 
+
+                            // Here I need to update the Product Inventory Table AS WELL AS PRODUCT TABLE : to keep up with quantity in Product Inventory Table
+                            // VERY IMPORT LOGIC.
                             reduceQuantityFromProductInventoryTable(productInventoryDao, productInventoryDao.getQuantity() - purchasedQuantity);
 
                             purchasedQuantity = 0;
@@ -237,31 +241,6 @@ public class TransactionsManager {
                 setCustomerStoreCredit(transactionDao);
             }
 
-            // I need to do this because, if customer has some previous balance and some current transaction balance, the whole amount is going as on Account
-            // which is wrong so i just need to send current transaction as on account whihc is subtotal - discount.
-
-
-            // Commented just for testing.
-//            if(null != transactionDao.getPaymentDao())
-//            {
-//                if(transactionDao.getPaymentDao().get(0).getOnAccount() > 0){
-//
-//                    double onAccountAmount = transactionDao.getSubtotal() - transactionDao.getTotalDiscount();
-//
-//                    List<PaymentDao> paymentDaoList = new ArrayList<>();
-//
-//                    PaymentDao paymentDao = new PaymentDao();
-//
-//                    paymentDao = transactionDao.getPaymentDao().get(0);
-//
-//                    paymentDao.setOnAccount(onAccountAmount);
-//
-//                    paymentDaoList.add(paymentDao);
-//
-//                    transactionDao.setPaymentDao(paymentDaoList);
-//                }
-//            }
-
 
             // Here I am handling the logic for the customer price lock where customers price will be saved after every transactions. No matter how is the retail price.
             // Here is the problem though, on return i need to manage this logic on ui, otherwise customer get profited when he does the return.
@@ -296,8 +275,8 @@ public class TransactionsManager {
 
         for (TransactionLineItemDao lineItemDao : transactionDao.getTransactionLineItemDaoList()) {
 
-            ProductInventoryDao productInventoryDao = productInventoryRepository.findFirstByProductNoOrderByCreatedTimestampAsc(lineItemDao.getProductNo());
 
+            ProductInventoryDao productInventoryDao = productInventoryRepository.findFirstByProductNoOrderByCreatedTimestampAsc(lineItemDao.getProductNo());
 
             // This is very important, if i dont do this then it will messed up complete count of the quantity.
             ProductInventoryDao productInventoryDaoFinal = new ProductInventoryDao();
@@ -310,7 +289,31 @@ public class TransactionsManager {
                 productInventoryDaoFinal.setCreatedTimestamp(transactionDao.getDate());
             }
 
-            productInventoryRepository.save(productInventoryDaoFinal);
+            ProductInventoryDao productInventoryDao1 = productInventoryRepository.save(productInventoryDaoFinal);
+
+            // I need to recalculate the product inventory from inventory table and then set the quantity to PRODUCT tabel to sync product table stock and inventory Table.
+            // This is real method who updated the PRODUCT TABLE.
+            updateQuantityInProductTable(productInventoryDao1);
+        }
+    }
+
+    // VERY IMPORT :::: HELPS TO SYNC PRODUCT INVENTORY TABLE AND PRODUCT TABLE.
+    private void updateQuantityInProductTable(ProductInventoryDao productInventoryDao) {
+        int totalProduct = 0;
+
+        if (null != productInventoryDao) {
+
+            List<ProductInventoryDao> productInventoryDaoList = productInventoryRepository.findAllByProductNo(productInventoryDao.getProductNo());
+
+            if (null != productInventoryDaoList && productInventoryDaoList.size() > 0)
+            {
+                for (ProductInventoryDao productInventoryDao2 : productInventoryDaoList)
+                {
+                    totalProduct = totalProduct + productInventoryDao2.getQuantity();
+                }
+                // Now i need to update quantity in product table
+                productRepository.updateQuantityAfterInventoryUpdate(totalProduct, productInventoryDaoList.get(0).getCost(), productInventoryDaoList.get(0).getProductNo());
+            }
         }
     }
 
@@ -352,10 +355,17 @@ public class TransactionsManager {
 
 
     private void reduceQuantityFromProductInventoryTable(ProductInventoryDao productInventoryDao, int newQuantityAfterSubtractionFromPurchasedQuantity) {
+
         // Here i am just reducing purchasedQuantity from current inventory and updating into table.
         // Need to set purchasedQuantity cause that what customer has bought.(purchasedQuantity i)
         productInventoryDao.setQuantity(newQuantityAfterSubtractionFromPurchasedQuantity);
-        productInventoryRepository.save(productInventoryDao);
+        ProductInventoryDao productInventoryDao1 = productInventoryRepository.save(productInventoryDao);
+
+        // Here I need to update the Product Table to keep up with quantity in Product Inventory Table
+        // VERY IMPORT LOGIC.
+        updateQuantityInProductTable(productInventoryDao1);
+
+
     }
 
 
@@ -366,8 +376,6 @@ public class TransactionsManager {
         transactionDaoList = transactionRepository.findAll();
 
         return transactionDaoList;
-
-
 
        // List<TransactionDao> transactionDaoFinal = new ArrayList<>();
 

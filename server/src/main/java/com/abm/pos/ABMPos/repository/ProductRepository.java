@@ -39,8 +39,14 @@ public interface ProductRepository extends JpaRepository<ProductDao, String> {
     ProductDao findOneByProductNo(String productNo);
 
     @Modifying
+    @Query("UPDATE ProductDao SET quantity = ?1, cost = ?2 WHERE productNo = ?3")
+    void updateQuantityAfterInventoryUpdate(int quantity, double cost, String productNo);
+
+    @Modifying
     @Query("UPDATE ProductDao SET active = false WHERE productNo = ?1")
     void deleteProduct(String productNo);
+
+
 
     @Query(value = "SELECT distinct p.description,\n" +
             "SUM(l.quantity) quantity,\n" +

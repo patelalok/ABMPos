@@ -50,9 +50,9 @@ public class ProductDao implements Serializable {
     private String createdTimestamp;
 
 
-    @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "productNo")
-    private List<ProductInventoryDao> productInventoryDaoList;
+//    @OneToMany(cascade = CascadeType.ALL)
+//    @JoinColumn(name = "productNo")
+//    private List<ProductInventoryDao> productInventoryDaoList;
 
 
     @Transient
@@ -71,6 +71,11 @@ public class ProductDao implements Serializable {
     private double taxAmountOnProduct;
     @Transient
     private String imeiNo;
+
+
+    // This helps to know, that it is add or update operation, need to do it for product inventory problem
+    @Transient
+    private String operationType;
 
 
     public String getProductNo() {
@@ -241,13 +246,13 @@ public class ProductDao implements Serializable {
         this.createdTimestamp = createdTimestamp;
     }
 
-    public List<ProductInventoryDao> getProductInventoryDaoList() {
-        return productInventoryDaoList;
-    }
-
-    public void setProductInventoryDaoList(List<ProductInventoryDao> productInventoryDaoList) {
-        this.productInventoryDaoList = productInventoryDaoList;
-    }
+//    public List<ProductInventoryDao> getProductInventoryDaoList() {
+//        return productInventoryDaoList;
+//    }
+//
+//    public void setProductInventoryDaoList(List<ProductInventoryDao> productInventoryDaoList) {
+//        this.productInventoryDaoList = productInventoryDaoList;
+//    }
 
     public String getTransactionComId() {
         return transactionComId;
@@ -311,5 +316,13 @@ public class ProductDao implements Serializable {
 
     public void setImeiNo(String imeiNo) {
         this.imeiNo = imeiNo;
+    }
+
+    public String getOperationType() {
+        return operationType;
+    }
+
+    public void setOperationType(String operationType) {
+        this.operationType = operationType;
     }
 }
