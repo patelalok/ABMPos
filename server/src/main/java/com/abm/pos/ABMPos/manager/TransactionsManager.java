@@ -1,6 +1,7 @@
 package com.abm.pos.ABMPos.manager;
 
 import com.abm.pos.ABMPos.dao.*;
+import com.abm.pos.ABMPos.dao.ReportDao.SalesDto;
 import com.abm.pos.ABMPos.repository.*;
 import com.abm.pos.ABMPos.util.Utility;
 import com.itextpdf.text.*;
@@ -436,10 +437,32 @@ public class TransactionsManager {
 
     public List<TransactionDao> getTransactionByDate(String startDate, String endDate) {
 
-        List<TransactionDao> transactionDaoList;
+        List<TransactionDao> transactionDaoList = new ArrayList<>();
 
-        transactionDaoList = transactionRepository.getTransactionByDate(startDate, endDate);
+        List<Object[]> result  = transactionRepository.getTransactionByDate(startDate, endDate);
 
+
+        if (null != result) {
+            for (Object[] j : result) {
+                TransactionDao transactionDao = new TransactionDao();
+
+                transactionDao.setTransactionComId((Integer) j[0]);
+                transactionDao.setDate(String.valueOf(j[1]));
+                transactionDao.setTotalAmount(Double.parseDouble(j[2].toString()));
+                transactionDao.setTax(Double.parseDouble(j[3].toString()));
+                transactionDao.setTotalDiscount(Double.parseDouble(j[4].toString()));
+                transactionDao.setSubtotal(Double.parseDouble(j[5].toString()));
+                transactionDao.setQuantity((Integer) j[6]);
+                transactionDao.setCustomerPhoneno(String.valueOf(j[7]));
+                transactionDao.setStatus(String.valueOf(j[8]));
+                transactionDao.setPreviousBalance(Double.parseDouble(j[9].toString()));
+                transactionDao.setTransactionBalance(Double.parseDouble(j[10].toString()));
+                transactionDao.setUsername(String.valueOf(j[11]));
+                transactionDao.setCustomerFirstLastName(String.valueOf(j[12]));
+
+                transactionDaoList.add(transactionDao);
+            }
+        }
 
         return transactionDaoList;
 
@@ -662,6 +685,9 @@ public class TransactionsManager {
 
                 totalTable.addCell(new Phrase("Discount", new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
                 totalTable.addCell(new Phrase("$ " + String.valueOf(transactionDao.getTotalDiscount()), new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
+
+                totalTable.addCell(new Phrase("Quantity", new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
+                totalTable.addCell(new Phrase(String.valueOf(transactionDao.getQuantity()), new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
 
                 if(transactionDao.getPreviousBalance() != 0) {
 

@@ -180,12 +180,14 @@ var AppComponent = /** @class */ (function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_25_app_promotion_promotion_module__ = __webpack_require__("../../../../../src/app/promotion/promotion.module.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_26_app_purchase_order_purchase_order_module__ = __webpack_require__("../../../../../src/app/purchase-order/purchase-order.module.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_27__dashboard_dashboard_module__ = __webpack_require__("../../../../../src/app/dashboard/dashboard.module.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_28__repair_repair_module__ = __webpack_require__("../../../../../src/app/repair/repair.module.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
+
 
 
 
@@ -243,6 +245,7 @@ var AppModule = /** @class */ (function () {
                 __WEBPACK_IMPORTED_MODULE_17_app_report_report_module__["a" /* ReportModule */],
                 __WEBPACK_IMPORTED_MODULE_26_app_purchase_order_purchase_order_module__["a" /* PurchaseOrderModule */],
                 __WEBPACK_IMPORTED_MODULE_27__dashboard_dashboard_module__["a" /* DashboardModule */],
+                __WEBPACK_IMPORTED_MODULE_28__repair_repair_module__["a" /* RepairModule */],
                 __WEBPACK_IMPORTED_MODULE_19__environments_environment__["a" /* environment */].production ? __WEBPACK_IMPORTED_MODULE_18__angular_service_worker__["a" /* ServiceWorkerModule */].register('/ngsw-worker.js') : [],
                 __WEBPACK_IMPORTED_MODULE_22_ng2_toastr_ng2_toastr__["ToastModule"].forRoot()
             ],
@@ -2924,7 +2927,8 @@ var AddProductComponent = /** @class */ (function () {
                 transactionComId: null,
                 time: null,
                 createdTimestamp: __WEBPACK_IMPORTED_MODULE_4_moment__(Date.now()).format('YYYY-MM-DD HH:mm:ss'),
-                productInventoryDaoList: this.productInventoryList
+                productInventoryDaoList: this.productInventoryList,
+                operationType: 'Add'
             };
             this.productService.addProduct(product)
                 .subscribe(function (data) {
@@ -3356,13 +3360,11 @@ module.exports = module.exports.toString();
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return EditProductComponent; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/esm5/core.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_forms__ = __webpack_require__("../../../forms/esm5/forms.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_moment__ = __webpack_require__("../../../../moment/moment.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_moment___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_moment__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_app_product_product_service__ = __webpack_require__("../../../../../src/app/product/product.service.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__angular_router__ = __webpack_require__("../../../router/esm5/router.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_ng2_toastr__ = __webpack_require__("../../../../ng2-toastr/ng2-toastr.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_ng2_toastr___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5_ng2_toastr__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_app_sell_sale_sale_component__ = __webpack_require__("../../../../../src/app/sell/sale/sale.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_app_product_product_service__ = __webpack_require__("../../../../../src/app/product/product.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__angular_router__ = __webpack_require__("../../../router/esm5/router.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_ng2_toastr__ = __webpack_require__("../../../../ng2-toastr/ng2-toastr.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_ng2_toastr___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4_ng2_toastr__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_app_sell_sale_sale_component__ = __webpack_require__("../../../../../src/app/sell/sale/sale.component.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -3378,7 +3380,6 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
-
 var EditProductComponent = /** @class */ (function () {
     function EditProductComponent(productService, formBuilder, route, router, toastr) {
         this.productService = productService;
@@ -3387,7 +3388,7 @@ var EditProductComponent = /** @class */ (function () {
         this.router = router;
         this.toastr = toastr;
         this.displayDialog = false;
-        this.formProduct = new __WEBPACK_IMPORTED_MODULE_6_app_sell_sale_sale_component__["b" /* Product */]();
+        this.formProduct = new __WEBPACK_IMPORTED_MODULE_5_app_sell_sale_sale_component__["b" /* Product */]();
     }
     EditProductComponent.prototype.ngOnInit = function () {
         var _this = this;
@@ -3397,11 +3398,12 @@ var EditProductComponent = /** @class */ (function () {
             this.productService.getProductDetailsById(productNo)
                 .subscribe(function (product) {
                 _this.currentProduct = product;
-                _this.currentProduct.productInventoryDaoList.forEach((function (inventory) {
-                    inventory.time = __WEBPACK_IMPORTED_MODULE_2_moment__(inventory.date).format('hh:mm A');
-                    inventory.date = __WEBPACK_IMPORTED_MODULE_2_moment__(inventory.date).format('MM/DD/YYYY');
-                    _this.currentProduct.quantity = +_this.currentProduct.quantity + inventory.quantity;
-                }));
+                // TODO HERE I NEED TO ADD LOGIC TO SHOW INVENTORY DETAILS.
+                // this.currentProduct.productInventoryDaoList.forEach((inventory => {
+                //   inventory.time = moment(inventory.date).format('hh:mm A');
+                //   inventory.date = moment(inventory.date).format('MM/DD/YYYY');
+                //   this.currentProduct.quantity = +this.currentProduct.quantity + inventory.quantity;
+                // }));
                 var currentCategory = {};
                 var currentBrand = {};
                 var currentVendor = {};
@@ -3502,7 +3504,8 @@ var EditProductComponent = /** @class */ (function () {
                 time: null,
                 totalProductPrice: 0,
                 transactionComId: 0,
-                varaint: null
+                varaint: null,
+                operationType: 'Edit'
             };
             this.productService.editProduct(product)
                 .subscribe(function (data) {
@@ -3542,7 +3545,7 @@ var EditProductComponent = /** @class */ (function () {
             template: __webpack_require__("../../../../../src/app/product/edit-product/edit-product.component.html"),
             styles: [__webpack_require__("../../../../../src/app/product/edit-product/edit-product.component.scss")]
         }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_3_app_product_product_service__["a" /* ProductService */], __WEBPACK_IMPORTED_MODULE_1__angular_forms__["FormBuilder"], __WEBPACK_IMPORTED_MODULE_4__angular_router__["ActivatedRoute"], __WEBPACK_IMPORTED_MODULE_4__angular_router__["Router"], __WEBPACK_IMPORTED_MODULE_5_ng2_toastr__["ToastsManager"]])
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_2_app_product_product_service__["a" /* ProductService */], __WEBPACK_IMPORTED_MODULE_1__angular_forms__["FormBuilder"], __WEBPACK_IMPORTED_MODULE_3__angular_router__["ActivatedRoute"], __WEBPACK_IMPORTED_MODULE_3__angular_router__["Router"], __WEBPACK_IMPORTED_MODULE_4_ng2_toastr__["ToastsManager"]])
     ], EditProductComponent);
     return EditProductComponent;
 }());
@@ -3794,7 +3797,7 @@ var ProductRoutingModule = /** @class */ (function () {
 /***/ "../../../../../src/app/product/product-table/product-table.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<mat-card>\n    <mat-card-title>\n        <h4>Product Inventory</h4>\n    </mat-card-title>\n    <mat-card-content>\n        <div class=\"row d-flex align-items-center\">\n            <div class=\"col-md-3\">\n                <!-- <p-autoComplete [(ngModel)]=\"productFilterBox\" styleClass=\"wid100\" [suggestions]=\"backendProductDto\" (completeMethod)=\"filterProducts($event)\" name=\"test\" [minLength]=\"1\" (keyup.enter)=\"submitProduct(p)\"\n                        field=\"description\">\n                    </p-autoComplete> -->\n\n                <input class=\"form-control \" [formControl]=\"this.searchProductTextBox\" type=\"text\" placeholder=\"Search By Product No/ Description\">\n            </div>\n\n            <div class=\"col-md-2\">\n                <select class=\"form-control\" [(ngModel)]=\"this.selectedProductDropdownOption\" (change)=\"onProductDropdownChoose()\">\n                        <option>Select All</option>\n                        <option>Brand</option>\n                        <option>Category</option>\n                        <option>Vendor</option>\n                        <option>Model</option>\n                    </select>\n\n            </div>\n            <div class=\"col-md-2\">\n                <select *ngIf=\"this.listOfProductOption != null\" class=\"form-control \" #dropdown (change)=\"fiterProductByDropdown(dropdown.value)\">\n                        <option [value]=\"-1\">All {{this.selectedProductDropdownOption}}</option>\n                        <option *ngFor=\"let option of this.listOfProductOption\" [value]=\"option.id\">\n                            {{option.name}}\n                        </option>\n                    </select>\n            </div>\n\n            <div class=\"col-md-5 d-flex align-items-center justify-content-end\">\n                <button type=\"button\" mat-raised-button class=\"bg-primary text-white action-button-lg\" style=\"margin-right: 15px\" [routerLink]=\"['/product/add']\">\n                        <i class=\"fa fa-plus-square\" aria-hidden=\"true\" label=\"Add\"></i>\n                        Add Product\n                    </button>\n\n                <button type=\"button\" mat-raised-button class=\"bg-primary text-white action-button-lg\" [routerLink]=\"['/product/addInventory']\">\n                        <i class=\"fa fa-plus-square\" aria-hidden=\"true\" label=\"Add\"></i>\n                        Add Inventory\n                    </button>\n\n            </div>\n\n\n        </div>\n        <div class=\"row\">\n            <div class=\"col-md-12 p-md-3\">\n\n                <!-- <p-header>Product Details</p-header> -->\n                <p-dataTable [value]=\"this.productViewList\" [editable]=\"true\" scrollable=\"true\" virtualScroll=\"virtualScroll\" [rows]=\"this.rowsToShow\" [lazy]=\"true\" [totalRecords]=\"this.totalNumberProducts\" [responsive]=\"true\" scrollHeight=\"400px\" (onEditComplete)=\"this.updateRetailPrice($event)\"\n                    (onLazyLoad)=\"loadProductsLazy($event)\">\n                    <p-column [style]=\"{'width': '10%'}\" field=\"productNo\" header=\"Product Number\" filterPlaceholder=\"Search For Product Name\"></p-column>\n                    <p-column [style]=\"{'width': '30%', 'text-align': 'left'}\" field=\"description\" header=\"Description\" [sortable]=\"true\"></p-column>\n                    <!-- <p-column [style]=\"{'width': '10%'}\" field=\"categoryName\" header=\"Category\" [sortable]=\"true\"></p-column> -->\n                    <p-column [style]=\"{'width': '10%'}\" field=\"cost\" header=\"Cost\" [sortable]=\"true\">\n\n                        <ng-template let-product=\"rowData\" pTemplate=\"body\">\n                            <a href=\"JavaScript:void(0);\" (click)=\"setProductInventoryForSelectedProduct(product.productInventoryDaoList)\" data-toggle=\"modal\" data-target=\"#productInventory\"> {{product.productInventoryDaoList[0]?.cost | currency:'USD':'true'}}</a>\n                        </ng-template>\n                    </p-column>\n                    <p-column [style]=\"{'width': '10%'}\" field=\"retail\" header=\"Retail\" [editable]=\"true\">\n                        <ng-template let-product=\"rowData\" pTemplate=\"body\">\n                            <a> {{product.retail | currency:'USD':'true'}}</a>\n                        </ng-template>\n                    </p-column>\n                    <p-column [style]=\"{'width': '8%'}\" field=\"quantity\" header=\"Quantity\" [sortable]=\"true\">\n                        <ng-template let-product=\"rowData\" pTemplate=\"body\">\n                            <a href=\"JavaScript:void(0);\" (click)=\"setProductInventoryForSelectedProduct(product.productInventoryDaoList)\" data-toggle=\"modal\" data-target=\"#productInventory\">{{product.quantity}}</a>\n                        </ng-template>\n                    </p-column>\n                    <p-column [style]=\"{'width': '23%'}\" field=\"action\" header=\"Action\" [sortable]=\"true\">\n                        <ng-template let-product=\"rowData\" pTemplate=\"body\" class=\"m-auto\">\n                            <button class=\"btn-blue action-button-table\" mat-button [routerLink]=\"['/product/edit', {productNo: product.productNo}]\">\n                                    <i class=\"fa fa-pencil\" aria-hidden=\"true\"></i>\n                                </button>\n                            <button mat-button class=\"btn-red action-button-table\" mat-button (click)=\"this.setProductToDelete(product)\" data-toggle=\"modal\" data-target=\"#deleteProduct\">\n                                    <i class=\"fa fa-trash\" aria-hidden=\"true\"></i>\n                                </button>\n                            <button mat-button class=\"btn-green action-button-table\" mat-button (click)=\"this.setProductForHistory(product)\" data-toggle=\"modal\" data-target=\"#productHistoryModel\">\n                                    <i class=\"fa fa-history\" aria-hidden=\"true\"></i>\n                                </button>\n                            <button mat-button class=\"btn-gray action-button-table\" mat-button data-toggle=\"modal\" data-target=\"#productHistoryModel\">\n                                    <i class=\"fa fa-barcode\" aria-hidden=\"true\"></i>\n                                </button>\n\n                        </ng-template>\n                    </p-column>\n                </p-dataTable>\n\n\n\n                <!-- <table class=\"table\" class=\"table table-striped\">\n                    <thead>\n                        <tr>\n                            <th>Product No</th>\n                            <th>Description</th>\n                            <th>Cost</th>\n                            <th>Retail</th>\n                            <th>Quantity</th>\n                            <th>Action</th>\n                        </tr>\n                    </thead>\n                    <tbody>\n                        <tr *ngFor=\"let product of this.backendProductDto\">\n                            <td>{{product.productNo}}</td>\n                            <td>{{product.description}}</td>\n                            <td>{{product.cost}}</td>\n                            <td>{{product.retail}}</td>\n                            <td>{{product.quantity}}</td> -->\n                <!-- <td>\n                                <button class=\"btn-blue action-button-table\" mat-button [routerLink]=\"['/product/edit', {productNo: product.productNo}]\">\n                                    <i class=\"fa fa-pencil\" aria-hidden=\"true\"></i>\n                                </button>\n                                <button mat-button class=\"btn-red action-button-table\" mat-button (click)=\"this.setProductToDelete(product)\" data-toggle=\"modal\" data-target=\"#deleteProduct\">\n                                    <i class=\"fa fa-trash\" aria-hidden=\"true\"></i>\n                                </button>\n                                <button mat-button class=\"btn-green action-button-table\" mat-button (click)=\"this.setProductForHistory(product)\" data-toggle=\"modal\" data-target=\"#productHistoryModel\">\n                                    <i class=\"fa fa-history\" aria-hidden=\"true\"></i>\n                                </button>\n                                <button mat-button class=\"btn-gray action-button-table\" mat-button data-toggle=\"modal\" data-target=\"#productHistoryModel\">\n                                    <i class=\"fa fa-barcode\" aria-hidden=\"true\"></i>\n                                </button>\n                            </td> -->\n                <!-- </tr>\n\n                    </tbody>\n                </table> -->\n\n\n\n            </div>\n        </div>\n\n    </mat-card-content>\n</mat-card>\n<!-- <p-growl [(value)]=\"msgs\"></p-growl> -->\n\n\n<!-- Start Of Product History model -->\n<div class=\"modal fade\" id=\"productHistoryModel\" role=\"dialog\">\n    <div class=\"modal-dialog modal-lg\">\n\n        <!-- Modal content-->\n        <div class=\"modal-content\">\n            <div class=\"modal-header\">\n                <button type=\"button\" class=\"close\" data-dismiss=\"modal\">&times;</button>\n                <h3 class=\"modal-title\">Product History</h3>\n            </div>\n            <div class=\"modal-body\">\n\n                <div class=\"row\">\n                    <div class=\"col-md-4\">\n                        <select class=\"form-control form-control-lg\" [(ngModel)]=\"this.productHistoryDropDown\" (change)=\"this.getProductHistory()\">\n                            <option>Today</option>\n                            <option>Yesterday</option>\n                            <option>This Week</option>\n                            <option>Last Week</option>\n                            <option>This Month</option>\n                            <option>Last Month</option>\n                            <option>Last 3 Months</option>\n                            <option>Last 6 Months</option>\n                            <option>This Year</option>\n                            <option>Last Year</option>\n                            <option>Custom</option>\n\n                        </select>\n\n                    </div>\n\n                </div>\n\n                <div class=\"row\">\n                    <table class=\"table\">\n                        <thead>\n                            <tr>\n\n                                <th>Product No</th>\n                                <th>Product Sold</th>\n                                <th>Cost</th>\n                                <th>Retail</th>\n                                <th>Date</th>\n                                <th>Time</th>\n                            </tr>\n                        </thead>\n                        <tbody>\n                            <tr *ngFor=\"let product of this.productHistoryDto\">\n                                <td>{{product.productNo}}</td>\n                                <td>{{product.quantity}}</td>\n                                <td>{{product.cost}}</td>\n                                <td>{{product.retail}}</td>\n                                <td>{{product.date}}</td>\n                                <td>{{product.time}}</td>\n                            </tr>\n                        </tbody>\n                    </table>\n\n                </div>\n                <div class=\"row\">\n                    <h5>Total Number Of Product Sold: 324(TODO CENTER)</h5>\n                </div>\n\n            </div>\n            <div class=\"modal-footer\">\n                <button type=\"button\" class=\"btn btn-default\" data-dismiss=\"modal\">Close</button>\n            </div>\n        </div>\n\n\n    </div>\n\n</div>\n\n<!-- End of Prodcut Histoty Model -->\n\n<!-- Start of Delete product up -->\n<div class=\"modal fade\" id=\"deleteProduct\" role=\"dialog\">\n    <div class=\"modal-dialog modal-sm\">\n        <div class=\"modal-content\">\n            <div class=\"modal-header\">\n                <h4 class=\"modal-title\">Delete Product</h4>\n                <button type=\"button\" class=\"close\" data-dismiss=\"modal\">&times;</button>\n            </div>\n            <div class=\"modal-body\">\n                <p>Are You Sure You Want To Delete This Product</p>\n            </div>\n            <div class=\"modal-footer\">\n\n                <button type=\"button\" class=\"btn btn-danger\" data-dismiss=\"modal\" (click)=\"this.deleteProduct()\">Yes</button>\n                <button type=\"button\" class=\"btn btn-default\" data-dismiss=\"modal\">Cancle</button>\n            </div>\n        </div>\n    </div>\n</div>\n\n<!-- End of Delete product up -->\n\n\n<!-- Start Of Cost price and Quantity model -->\n<div class=\"modal fade\" id=\"productInventory\" role=\"dialog\" (keyup.enter)=\"this.hideProductModal()\">\n    <div class=\"modal-dialog modal-lg\">\n\n        <!-- Modal content-->\n        <div class=\"modal-content\">\n            <div class=\"modal-header\">\n                <h4 class=\"modal-title\">Product Inventory</h4>\n                <button type=\"button\" class=\"close\" data-dismiss=\"modal\">&times;</button>\n            </div>\n            <div class=\"modal-body\">\n\n                <div class=\"row\">\n                    <div class=\"col-md-4\">\n                        <input class=\"form-control\" [(ngModel)]=\"this.cost\" type=\"number\" placeholder=\"Cost\">\n                    </div>\n                    <div class=\"col-md-4\">\n                        <input class=\"form-control\" [(ngModel)]=\"this.quantity\" type=\"number\" placeholder=\"Quantity\">\n                    </div>\n                    <div class=\"col-md-4\">\n                        <button type=\"button\" mat-raised-button class=\"bg-primary text-white\" style=\"width: 100%;\" (click)=\"this.addProductInventory()\" data-dismiss=\"modal\">\n                                <i class=\"fa fa-plus-square\" aria-hidden=\"true\" label=\"Add\"></i>\n                                Add Product Inventory\n                        </button>\n                    </div>\n\n                </div>\n                <div class=\"row p-3\">\n                    <p-dataTable [value]=\"this.productInventoryList\" [editable]=\"true\" scrollable=\"true\" [responsive]=\"true\" scrollHeight=\"300px\" (onEditComplete)=\"this.updateProductInventory($event)\">\n                        <p-column field=\"cost\" header=\"Cost\" [editable]=\"true\">\n                            <ng-template let-product=\"rowData\" pTemplate=\"body\">\n                                {{product.cost | currency:'USD':'true'}}\n                            </ng-template>\n                        </p-column>\n\n                        <p-column field=\"quantity\" header=\"Quantity\" [editable]=\"true\"></p-column>\n\n                        <p-column field=\"date\" header=\"Date\"></p-column>\n\n                        <p-column field=\"time\" header=\"Time\"></p-column>\n\n                    </p-dataTable>\n                </div>\n\n            </div>\n\n\n            <div class=\"modal-footer\">\n                <button type=\"button\" class=\"btn btn-default\" data-dismiss=\"modal\">Close</button>\n            </div>\n        </div>\n\n\n    </div>\n\n</div>\n<!-- Start Of Cost price and Quantity model -->"
+module.exports = "<mat-card>\n    <mat-card-title>\n        <h4>Product Inventory</h4>\n    </mat-card-title>\n    <mat-card-content>\n        <div class=\"row d-flex align-items-center\">\n            <div class=\"col-md-3\">\n                <!-- <p-autoComplete [(ngModel)]=\"productFilterBox\" styleClass=\"wid100\" [suggestions]=\"backendProductDto\" (completeMethod)=\"filterProducts($event)\" name=\"test\" [minLength]=\"1\" (keyup.enter)=\"submitProduct(p)\"\n                        field=\"description\">\n                    </p-autoComplete> -->\n\n                <input class=\"form-control \" [formControl]=\"this.searchProductTextBox\" type=\"text\" placeholder=\"Search By Product No/ Description\">\n            </div>\n\n            <div class=\"col-md-2\">\n                <select class=\"form-control\" [(ngModel)]=\"this.selectedProductDropdownOption\" (change)=\"onProductDropdownChoose()\">\n                        <option>Select All</option>\n                        <option>Brand</option>\n                        <option>Category</option>\n                        <option>Vendor</option>\n                        <option>Model</option>\n                    </select>\n\n            </div>\n            <div class=\"col-md-2\">\n                <select *ngIf=\"this.listOfProductOption != null\" class=\"form-control \" #dropdown (change)=\"fiterProductByDropdown(dropdown.value)\">\n                        <option [value]=\"-1\">All {{this.selectedProductDropdownOption}}</option>\n                        <option *ngFor=\"let option of this.listOfProductOption\" [value]=\"option.id\">\n                            {{option.name}}\n                        </option>\n                    </select>\n            </div>\n\n            <div class=\"col-md-5 d-flex align-items-center justify-content-end\">\n                <button type=\"button\" mat-raised-button class=\"bg-primary text-white action-button-lg\" style=\"margin-right: 15px\" [routerLink]=\"['/product/add']\">\n                        <i class=\"fa fa-plus-square\" aria-hidden=\"true\" label=\"Add\"></i>\n                        Add Product\n                    </button>\n\n                <button type=\"button\" mat-raised-button class=\"bg-primary text-white action-button-lg\" [routerLink]=\"['/product/addInventory']\">\n                        <i class=\"fa fa-plus-square\" aria-hidden=\"true\" label=\"Add\"></i>\n                        Add Inventory\n                    </button>\n\n            </div>\n\n\n        </div>\n        <div class=\"row\">\n            <div class=\"col-md-12 p-md-3\">\n\n                <!-- <p-header>Product Details</p-header> -->\n                <p-dataTable [value]=\"this.productViewList\" [editable]=\"true\" scrollable=\"true\" virtualScroll=\"virtualScroll\" [rows]=\"this.rowsToShow\" [lazy]=\"true\" [totalRecords]=\"this.totalNumberProducts\" [responsive]=\"true\" scrollHeight=\"400px\" (onEditComplete)=\"this.updateRetailPrice($event)\"\n                    (onLazyLoad)=\"loadProductsLazy($event)\">\n                    <p-column [style]=\"{'width': '10%'}\" field=\"productNo\" header=\"Product Number\" filterPlaceholder=\"Search For Product Name\"></p-column>\n                    <p-column [style]=\"{'width': '30%', 'text-align': 'left'}\" field=\"description\" header=\"Description\" [sortable]=\"true\"></p-column>\n                    <!-- <p-column [style]=\"{'width': '10%'}\" field=\"categoryName\" header=\"Category\" [sortable]=\"true\"></p-column> -->\n                    <p-column [style]=\"{'width': '10%'}\" field=\"cost\" header=\"Cost\" [sortable]=\"true\">\n\n                        <ng-template let-product=\"rowData\" pTemplate=\"body\">\n                            <a href=\"JavaScript:void(0);\" (click)=\"setProductInventoryForSelectedProduct(product.productNo)\" data-toggle=\"modal\" data-target=\"#productInventory\"> {{product.cost | currency:'USD':'true'}}</a>\n                        </ng-template>\n                    </p-column>\n                    <p-column [style]=\"{'width': '10%'}\" field=\"retail\" header=\"Retail\" [editable]=\"true\">\n                        <ng-template let-product=\"rowData\" pTemplate=\"body\">\n                            <a> {{product.retail | currency:'USD':'true'}}</a>\n                        </ng-template>\n                    </p-column>\n                    <p-column [style]=\"{'width': '8%'}\" field=\"quantity\" header=\"Quantity\" [sortable]=\"true\">\n                        <ng-template let-product=\"rowData\" pTemplate=\"body\">\n                            <a href=\"JavaScript:void(0);\" (click)=\"setProductInventoryForSelectedProduct(product.productNo)\" data-toggle=\"modal\" data-target=\"#productInventory\">{{product.quantity}}</a>\n                        </ng-template>\n                    </p-column>\n                    <p-column [style]=\"{'width': '23%'}\" field=\"action\" header=\"Action\" [sortable]=\"true\">\n                        <ng-template let-product=\"rowData\" pTemplate=\"body\" class=\"m-auto\">\n                            <button class=\"btn-blue action-button-table\" mat-button [routerLink]=\"['/product/edit', {productNo: product.productNo}]\">\n                                    <i class=\"fa fa-pencil\" aria-hidden=\"true\"></i>\n                                </button>\n                            <button mat-button class=\"btn-red action-button-table\" mat-button (click)=\"this.setProductToDelete(product)\" data-toggle=\"modal\" data-target=\"#deleteProduct\">\n                                    <i class=\"fa fa-trash\" aria-hidden=\"true\"></i>\n                                </button>\n                            <button mat-button class=\"btn-green action-button-table\" mat-button (click)=\"this.setProductForHistory(product)\" data-toggle=\"modal\" data-target=\"#productHistoryModel\">\n                                    <i class=\"fa fa-history\" aria-hidden=\"true\"></i>\n                                </button>\n                            <button mat-button class=\"btn-gray action-button-table\" mat-button data-toggle=\"modal\" data-target=\"#productHistoryModel\">\n                                    <i class=\"fa fa-barcode\" aria-hidden=\"true\"></i>\n                                </button>\n\n                        </ng-template>\n                    </p-column>\n                </p-dataTable>\n\n\n\n                <!-- <table class=\"table\" class=\"table table-striped\">\n                    <thead>\n                        <tr>\n                            <th>Product No</th>\n                            <th>Description</th>\n                            <th>Cost</th>\n                            <th>Retail</th>\n                            <th>Quantity</th>\n                            <th>Action</th>\n                        </tr>\n                    </thead>\n                    <tbody>\n                        <tr *ngFor=\"let product of this.backendProductDto\">\n                            <td>{{product.productNo}}</td>\n                            <td>{{product.description}}</td>\n                            <td>{{product.cost}}</td>\n                            <td>{{product.retail}}</td>\n                            <td>{{product.quantity}}</td> -->\n                <!-- <td>\n                                <button class=\"btn-blue action-button-table\" mat-button [routerLink]=\"['/product/edit', {productNo: product.productNo}]\">\n                                    <i class=\"fa fa-pencil\" aria-hidden=\"true\"></i>\n                                </button>\n                                <button mat-button class=\"btn-red action-button-table\" mat-button (click)=\"this.setProductToDelete(product)\" data-toggle=\"modal\" data-target=\"#deleteProduct\">\n                                    <i class=\"fa fa-trash\" aria-hidden=\"true\"></i>\n                                </button>\n                                <button mat-button class=\"btn-green action-button-table\" mat-button (click)=\"this.setProductForHistory(product)\" data-toggle=\"modal\" data-target=\"#productHistoryModel\">\n                                    <i class=\"fa fa-history\" aria-hidden=\"true\"></i>\n                                </button>\n                                <button mat-button class=\"btn-gray action-button-table\" mat-button data-toggle=\"modal\" data-target=\"#productHistoryModel\">\n                                    <i class=\"fa fa-barcode\" aria-hidden=\"true\"></i>\n                                </button>\n                            </td> -->\n                <!-- </tr>\n\n                    </tbody>\n                </table> -->\n\n\n\n            </div>\n        </div>\n\n    </mat-card-content>\n</mat-card>\n<!-- <p-growl [(value)]=\"msgs\"></p-growl> -->\n\n\n<!-- Start Of Product History model -->\n<div class=\"modal fade\" id=\"productHistoryModel\" role=\"dialog\">\n    <div class=\"modal-dialog modal-lg\">\n\n        <!-- Modal content-->\n        <div class=\"modal-content\">\n            <div class=\"modal-header\">\n                <button type=\"button\" class=\"close\" data-dismiss=\"modal\">&times;</button>\n                <h3 class=\"modal-title\">Product History</h3>\n            </div>\n            <div class=\"modal-body\">\n\n                <div class=\"row\">\n                    <div class=\"col-md-4\">\n                        <select class=\"form-control form-control-lg\" [(ngModel)]=\"this.productHistoryDropDown\" (change)=\"this.getProductHistory()\">\n                            <option>Today</option>\n                            <option>Yesterday</option>\n                            <option>This Week</option>\n                            <option>Last Week</option>\n                            <option>This Month</option>\n                            <option>Last Month</option>\n                            <option>Last 3 Months</option>\n                            <option>Last 6 Months</option>\n                            <option>This Year</option>\n                            <option>Last Year</option>\n                            <option>Custom</option>\n\n                        </select>\n\n                    </div>\n\n                </div>\n\n                <div class=\"row\">\n                    <table class=\"table\">\n                        <thead>\n                            <tr>\n\n                                <th>Product No</th>\n                                <th>Product Sold</th>\n                                <th>Cost</th>\n                                <th>Retail</th>\n                                <th>Date</th>\n                                <th>Time</th>\n                            </tr>\n                        </thead>\n                        <tbody>\n                            <tr *ngFor=\"let product of this.productHistoryDto\">\n                                <td>{{product.productNo}}</td>\n                                <td>{{product.quantity}}</td>\n                                <td>{{product.cost}}</td>\n                                <td>{{product.retail}}</td>\n                                <td>{{product.date}}</td>\n                                <td>{{product.time}}</td>\n                            </tr>\n                        </tbody>\n                    </table>\n\n                </div>\n                <div class=\"row\">\n                    <h5>Total Number Of Product Sold: 324(TODO CENTER)</h5>\n                </div>\n\n            </div>\n            <div class=\"modal-footer\">\n                <button type=\"button\" class=\"btn btn-default\" data-dismiss=\"modal\">Close</button>\n            </div>\n        </div>\n\n\n    </div>\n\n</div>\n\n<!-- End of Prodcut Histoty Model -->\n\n<!-- Start of Delete product up -->\n<div class=\"modal fade\" id=\"deleteProduct\" role=\"dialog\">\n    <div class=\"modal-dialog modal-sm\">\n        <div class=\"modal-content\">\n            <div class=\"modal-header\">\n                <h4 class=\"modal-title\">Delete Product</h4>\n                <button type=\"button\" class=\"close\" data-dismiss=\"modal\">&times;</button>\n            </div>\n            <div class=\"modal-body\">\n                <p>Are You Sure You Want To Delete This Product</p>\n            </div>\n            <div class=\"modal-footer\">\n\n                <button type=\"button\" class=\"btn btn-danger\" data-dismiss=\"modal\" (click)=\"this.deleteProduct()\">Yes</button>\n                <button type=\"button\" class=\"btn btn-default\" data-dismiss=\"modal\">Cancle</button>\n            </div>\n        </div>\n    </div>\n</div>\n\n<!-- End of Delete product up -->\n\n\n<!-- Start Of Cost price and Quantity model -->\n<div class=\"modal fade\" id=\"productInventory\" role=\"dialog\" (keyup.enter)=\"this.hideProductModal()\">\n    <div class=\"modal-dialog modal-lg\">\n\n        <!-- Modal content-->\n        <div class=\"modal-content\">\n            <div class=\"modal-header\">\n                <h4 class=\"modal-title\">Product Inventory</h4>\n                <button type=\"button\" class=\"close\" data-dismiss=\"modal\">&times;</button>\n            </div>\n            <div class=\"modal-body\">\n\n                <div class=\"row\">\n                    <div class=\"col-md-4\">\n                        <input class=\"form-control\" [(ngModel)]=\"this.cost\" type=\"number\" placeholder=\"Cost\">\n                    </div>\n                    <div class=\"col-md-4\">\n                        <input class=\"form-control\" [(ngModel)]=\"this.quantity\" type=\"number\" placeholder=\"Quantity\">\n                    </div>\n                    <div class=\"col-md-4\">\n                        <button type=\"button\" mat-raised-button class=\"bg-primary text-white\" style=\"width: 100%;\" (click)=\"this.addProductInventory()\" data-dismiss=\"modal\">\n                                <i class=\"fa fa-plus-square\" aria-hidden=\"true\" label=\"Add\"></i>\n                                Add Product Inventory\n                        </button>\n                    </div>\n\n                </div>\n                <div class=\"row p-3\">\n                    <p-dataTable [value]=\"this.productInventoryList\" [editable]=\"true\" scrollable=\"true\" [responsive]=\"true\" scrollHeight=\"300px\" (onEditComplete)=\"this.updateProductInventory($event)\">\n                        <p-column field=\"cost\" header=\"Cost\" [editable]=\"true\">\n                            <ng-template let-product=\"rowData\" pTemplate=\"body\">\n                                {{product.cost | currency:'USD':'true'}}\n                            </ng-template>\n                        </p-column>\n\n                        <p-column field=\"quantity\" header=\"Quantity\" [editable]=\"true\"></p-column>\n\n                        <p-column field=\"date\" header=\"Date\"></p-column>\n\n                        <p-column field=\"time\" header=\"Time\"></p-column>\n\n                    </p-dataTable>\n                </div>\n\n            </div>\n\n\n            <div class=\"modal-footer\">\n                <button type=\"button\" class=\"btn btn-default\" data-dismiss=\"modal\">Close</button>\n            </div>\n        </div>\n\n\n    </div>\n\n</div>\n<!-- Start Of Cost price and Quantity model -->"
 
 /***/ }),
 
@@ -4053,11 +4056,11 @@ var ProductTableComponent = /** @class */ (function () {
         console.log(event);
     };
     // This method helps to set the perticualr product inventory details to show on popup when user click on the cost price.
-    ProductTableComponent.prototype.setProductInventoryForSelectedProduct = function (productInventoryList1) {
+    ProductTableComponent.prototype.setProductInventoryForSelectedProduct = function (productNo) {
         var _this = this;
         // First need to get real inventory details from the db, cause when you add inventory and if you dont do this call, it wont show you,
         // Newly added inventory details.
-        this.productService.getProductInventoryByProductNo(productInventoryList1[0].productNo)
+        this.productService.getProductInventoryByProductNo(productNo)
             .subscribe(function (inventory) {
             _this.productInventoryList = inventory;
             _this.productInventoryList.forEach(function (inventory) {
@@ -4446,6 +4449,8 @@ var ProductModule = /** @class */ (function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_http__ = __webpack_require__("../../../http/esm5/http.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_rxjs_Observable__ = __webpack_require__("../../../../rxjs/_esm5/Observable.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_environments_environment__ = __webpack_require__("../../../../../src/environments/environment.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_rxjs__ = __webpack_require__("../../../../rxjs/Rx.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_rxjs___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4_rxjs__);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -4459,9 +4464,11 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
+
 var ProductService = /** @class */ (function () {
     function ProductService(http) {
         this.http = http;
+        this.dataObs$ = new __WEBPACK_IMPORTED_MODULE_4_rxjs__["ReplaySubject"](1);
         this.url = __WEBPACK_IMPORTED_MODULE_3_environments_environment__["a" /* environment */].reportUrl;
     }
     ProductService.prototype.getProductDetails = function () {
@@ -4483,6 +4490,22 @@ var ProductService = /** @class */ (function () {
         //     observer.complete();  
         //   }); 
         // }
+    };
+    ProductService.prototype.getProductDetailsUsingCache = function () {
+        var _this = this;
+        if (!this.dataObs$.observers.length)
+            this.http.get(this.url + '/getProductTableDetails')
+                .subscribe(function (data) { return _this.dataObs$.next(data._body); }, function (error) {
+                _this.dataObs$.error(error);
+                // Recreate the Observable as after Error we cannot emit data anymore
+                _this.dataObs$ = new __WEBPACK_IMPORTED_MODULE_4_rxjs__["ReplaySubject"](1);
+            });
+        // this.dataObs$
+        // .subscribe(test =>{
+        //   console.log('test', test)
+        // })
+        console.log('cached product response', this.dataObs$);
+        return this.dataObs$;
     };
     ProductService.prototype.getProductInventoryByProductNo = function (productNo) {
         return this.http.get(this.url + '/getProductInventory?productNo=' + productNo)
@@ -5602,6 +5625,171 @@ var PurchaseOrderModule = /** @class */ (function () {
         })
     ], PurchaseOrderModule);
     return PurchaseOrderModule;
+}());
+
+
+
+/***/ }),
+
+/***/ "../../../../../src/app/repair/add-repair/add-repair.component.html":
+/***/ (function(module, exports) {
+
+module.exports = "<mat-card>\n    <mat-card-title>\n        <h4>New Repair</h4>\n    </mat-card-title>\n    <mat-card-content>\n        <form>\n            <div>\n\n            </div>\n        </form>\n    </mat-card-content>\n</mat-card>"
+
+/***/ }),
+
+/***/ "../../../../../src/app/repair/add-repair/add-repair.component.scss":
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__("../../../../css-loader/lib/css-base.js")(false);
+// imports
+
+
+// module
+exports.push([module.i, "", ""]);
+
+// exports
+
+
+/*** EXPORTS FROM exports-loader ***/
+module.exports = module.exports.toString();
+
+/***/ }),
+
+/***/ "../../../../../src/app/repair/add-repair/add-repair.component.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return AddRepairComponent; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/esm5/core.js");
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+var AddRepairComponent = /** @class */ (function () {
+    function AddRepairComponent() {
+    }
+    AddRepairComponent.prototype.ngOnInit = function () {
+    };
+    AddRepairComponent = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
+            selector: 'app-add-repair',
+            template: __webpack_require__("../../../../../src/app/repair/add-repair/add-repair.component.html"),
+            styles: [__webpack_require__("../../../../../src/app/repair/add-repair/add-repair.component.scss")]
+        }),
+        __metadata("design:paramtypes", [])
+    ], AddRepairComponent);
+    return AddRepairComponent;
+}());
+
+
+
+/***/ }),
+
+/***/ "../../../../../src/app/repair/repair.component.html":
+/***/ (function(module, exports) {
+
+module.exports = "<mat-card>\n    <mat-card-title>\n        <h4>Repair History</h4>\n    </mat-card-title>\n    <mat-card-content>\n        <div class=\"row d-flex align-items-center\">\n\n            <div class=\"col-md-2\">\n                <select class=\"form-control\">\n                    <option>Today</option>\n                    <option>Yesterday</option>\n                    <option>This Week</option>\n                    <option>Last Week</option>\n                    <option>This Month</option>\n                    <option>Last Month</option>\n                    <option>Last 3 Months</option>\n                    <option>Last 6 Months</option>\n                    <option>This Year</option>\n                    <option>Last Year</option>\n                    <option>Custom</option>\n\n                </select>\n\n            </div>\n            <div *ngIf='false' class=\"col-md-2\">\n\n            </div>\n\n            <div class=\"col-md-2\">\n                <select class=\"form-control\">\n                    <option>All Transaction Status</option>\n                    <option>Complete</option>\n                    <option>Return</option>\n                    <option>Void</option>\n                    <option>Park</option>\n                    <option>Online</option>\n                </select>\n\n            </div>\n\n            <div class=\"col-md-2\">\n                <input class=\"form-control form-control\" type=\"text\" placeholder=\"Search By Customer\">\n\n            </div>\n            <div class=\"col-md-2\">\n                <input class=\"form-control form-control\" type=\"text\" placeholder=\"Search By Recipt Number\">\n\n            </div>\n            <div class=\"col-md-2 d-flex align-items-center justify-content-end\">\n                <button type=\"button\" mat-raised-button class=\"bg-primary text-white action-button-lg\" style=\"margin-right: 15px\" [routerLink]=\"['/add-repair']\">\n              <i class=\"fa fa-plus-square\" aria-hidden=\"true\" label=\"Add\"></i>\n              New Repair\n          </button>\n            </div>\n        </div>\n    </mat-card-content>\n</mat-card>"
+
+/***/ }),
+
+/***/ "../../../../../src/app/repair/repair.component.scss":
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__("../../../../css-loader/lib/css-base.js")(false);
+// imports
+
+
+// module
+exports.push([module.i, "", ""]);
+
+// exports
+
+
+/*** EXPORTS FROM exports-loader ***/
+module.exports = module.exports.toString();
+
+/***/ }),
+
+/***/ "../../../../../src/app/repair/repair.component.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return RepairComponent; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/esm5/core.js");
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+var RepairComponent = /** @class */ (function () {
+    function RepairComponent() {
+    }
+    RepairComponent.prototype.ngOnInit = function () {
+    };
+    RepairComponent = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
+            selector: 'app-repair',
+            template: __webpack_require__("../../../../../src/app/repair/repair.component.html"),
+            styles: [__webpack_require__("../../../../../src/app/repair/repair.component.scss")]
+        }),
+        __metadata("design:paramtypes", [])
+    ], RepairComponent);
+    return RepairComponent;
+}());
+
+
+
+/***/ }),
+
+/***/ "../../../../../src/app/repair/repair.module.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return RepairModule; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/esm5/core.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_common__ = __webpack_require__("../../../common/esm5/common.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__repair_component__ = __webpack_require__("../../../../../src/app/repair/repair.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__shared_shared_module__ = __webpack_require__("../../../../../src/app/shared/shared.module.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__add_repair_add_repair_component__ = __webpack_require__("../../../../../src/app/repair/add-repair/add-repair.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__sell_sell_routing_module__ = __webpack_require__("../../../../../src/app/sell/sell-routing.module.ts");
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+
+
+
+
+
+
+var RepairModule = /** @class */ (function () {
+    function RepairModule() {
+    }
+    RepairModule = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["NgModule"])({
+            imports: [
+                __WEBPACK_IMPORTED_MODULE_1__angular_common__["CommonModule"],
+                __WEBPACK_IMPORTED_MODULE_3__shared_shared_module__["a" /* SharedModule */],
+                __WEBPACK_IMPORTED_MODULE_5__sell_sell_routing_module__["a" /* SellRoutingModule */]
+            ],
+            declarations: [__WEBPACK_IMPORTED_MODULE_2__repair_component__["a" /* RepairComponent */], __WEBPACK_IMPORTED_MODULE_4__add_repair_add_repair_component__["a" /* AddRepairComponent */]]
+        })
+    ], RepairModule);
+    return RepairModule;
 }());
 
 
@@ -7441,7 +7629,7 @@ var SaleComponent = /** @class */ (function () {
         var _this = this;
         // Writing this logic here so i dont need to write this logic for all other conditions.
         if (null != this.selectedCustomer && this.selectedCustomer != undefined) {
-            if (this.productPriceArryByCustomer) {
+            if (this.productPriceArryByCustomer && null != this.productPriceArryByCustomer && this.productPriceArryByCustomer.length > 0) {
                 this.productPriceArryByCustomer.forEach(function (product) {
                     // here product[1] is the product no coming from back end, i am sending only 2 values prodcut no and retail.  like this--->["23424234234", 12.99]
                     if (product[0] == productObj.productNo) {
@@ -8545,12 +8733,16 @@ var SalesHistoryComponent = /** @class */ (function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_10_app_sell_sale_sale_component__ = __webpack_require__("../../../../../src/app/sell/sale/sale.component.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_11_app_sell_close_register_close_register_component__ = __webpack_require__("../../../../../src/app/sell/close-register/close-register.component.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_12_app_dashboard_dashboard_component__ = __webpack_require__("../../../../../src/app/dashboard/dashboard.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__repair_repair_component__ = __webpack_require__("../../../../../src/app/repair/repair.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_14__repair_add_repair_add_repair_component__ = __webpack_require__("../../../../../src/app/repair/add-repair/add-repair.component.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
+
+
 
 
 
@@ -8579,6 +8771,8 @@ var routes = [
     },
     { path: 'employee', component: __WEBPACK_IMPORTED_MODULE_3_app_employee_employee_component__["a" /* EmployeeComponent */] },
     { path: 'dashboard', component: __WEBPACK_IMPORTED_MODULE_12_app_dashboard_dashboard_component__["a" /* DashboardComponent */] },
+    { path: 'repair', component: __WEBPACK_IMPORTED_MODULE_13__repair_repair_component__["a" /* RepairComponent */] },
+    { path: 'add-repair', component: __WEBPACK_IMPORTED_MODULE_14__repair_add_repair_add_repair_component__["a" /* AddRepairComponent */] },
     { path: 'clockIn/:username', component: __WEBPACK_IMPORTED_MODULE_4_app_employee_clockin_clockin_component__["b" /* ClockinComponent */] },
     { path: 'expense', component: __WEBPACK_IMPORTED_MODULE_5_app_expense_expense_component__["a" /* ExpenseComponent */] },
     {
@@ -10963,13 +11157,13 @@ var TopNavbarComponent = /** @class */ (function () {
                 { name: 'Purchase Order', link: '/purchase-order', icon: 'fa fa-first-order fa-x fa-2x text-green' },
                 { name: 'Customer', link: '/customer', icon: 'fa fa-user fa-2x text-bittersweet' },
                 { name: 'Report', link: '/report', icon: 'fa fa-line-chart fa-2x text-orange' },
-                // {name: 'Repair', link: '/repair', icon: 'fa fa-wrench fa-2x text-violet', show: false},
                 { name: 'Employee', link: '/employee', icon: 'fa fa-user-circle-o fa-2x text-blue' },
                 { name: 'Expense', link: '/expense', icon: 'fa fa-money fa-2x text-green' },
-                { name: 'Setting', link: '/setting', icon: 'fa fa-cogs fa-2x text-dark-grey', },
+                { name: 'Repair', link: '/repair', icon: 'fa fa-wrench fa-2x text-bittersweet', show: false },
                 // { name: 'Ecomerce', link: '/ecommerce', icon: 'fa fa-cart-arrow-down fa-2x text-green' },
-                { name: 'Rewards', link: '/ecommerce', icon: 'fa fa-trophy fa-2x text-green' },
-                { name: 'Promotion', link: '/promotion', icon: 'fa fa-bullhorn fa-2x text-bittersweet' }
+                // { name: 'Rewards', link: '/ecommerce', icon: 'fa fa-trophy fa-2x text-green' },
+                { name: 'Promotion', link: '/promotion', icon: 'fa fa-bullhorn fa-2x text-blue' },
+                { name: 'Setting', link: '/setting', icon: 'fa fa-cogs fa-2x text-dark-grey', },
             ];
         }
     };

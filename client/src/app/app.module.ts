@@ -31,6 +31,7 @@ import { LoadingService } from './loading.service';
 import { PromotionModule } from 'app/promotion/promotion.module';
 import { PurchaseOrderModule } from 'app/purchase-order/purchase-order.module';
 import { DashboardModule } from './dashboard/dashboard.module';
+import { RepairModule } from './repair/repair.module';
 
 
 @NgModule({
@@ -57,6 +58,7 @@ import { DashboardModule } from './dashboard/dashboard.module';
     ReportModule,
     PurchaseOrderModule,
     DashboardModule,
+    RepairModule,
     environment.production ? ServiceWorkerModule.register('/ngsw-worker.js') : [],
     ToastModule.forRoot()
     

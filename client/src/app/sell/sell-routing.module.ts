@@ -22,6 +22,8 @@ import { SaleComponent } from 'app/sell/sale/sale.component';
 import { PromotionComponent } from 'app/promotion/promotion.component';
 import { CloseRegisterComponent } from 'app/sell/close-register/close-register.component';
 import { DashboardComponent } from 'app/dashboard/dashboard.component';
+import { RepairComponent } from '../repair/repair.component';
+import { AddRepairComponent } from '../repair/add-repair/add-repair.component';
 
 
 const routes: Routes = [
@@ -39,6 +41,10 @@ const routes: Routes = [
   },
   { path: 'employee', component: EmployeeComponent},
   { path: 'dashboard', component: DashboardComponent},
+  { path: 'repair', component: RepairComponent},
+  { path: 'add-repair', component: AddRepairComponent},
+
+
 
   { path: 'clockIn/:username', component: ClockinComponent},
   { path: 'expense', component: ExpenseComponent},

@@ -217,7 +217,7 @@ items: MenuItem[];
 
     // Writing this logic here so i dont need to write this logic for all other conditions.
     if(null != this.selectedCustomer && this.selectedCustomer != undefined){
-      if(this.productPriceArryByCustomer){
+      if(this.productPriceArryByCustomer && null != this.productPriceArryByCustomer && this.productPriceArryByCustomer.length > 0){
 
         this.productPriceArryByCustomer.forEach((product) =>{
           // here product[1] is the product no coming from back end, i am sending only 2 values prodcut no and retail.  like this--->["23424234234", 12.99]
@@ -541,16 +541,12 @@ items: MenuItem[];
 
     // Storing customer detials into local storage.
     this.persit.setCustomerDetailsForSale(this.selectedCustomer);
-
-  
-
     // Need to do this to add balance into transaction details
     this.setTransactionDtoList(this.transactionLineItemDaoList);
 
     this.sellService.getProductPriceByCustomer(this.selectedCustomer.phoneNo)
     .subscribe((productPrice) => {
       this.productPriceArryByCustomer = productPrice;
-
       //Storing customer product Price in Local storage so i can help on refresh and on other consditions.
       this.persit.setCustomerProductPriceForSale(this.productPriceArryByCustomer);
 

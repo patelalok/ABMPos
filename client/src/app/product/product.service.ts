@@ -4,14 +4,16 @@ import { Observable } from 'rxjs/Observable';
 import { FormControl } from '@angular/forms/forms';
 import { Category, Brand, Vendor, Model, ProductVariantDetail, CategoryTest,ProductInventory } from 'app/product/product.component';
 import { environment } from 'environments/environment';
-import { Observer } from 'rxjs';
+import { Observer, ReplaySubject } from 'rxjs';
 import { Product, TransactionLineItemDaoList } from 'app/sell/sale/sale.component';
 
 
 @Injectable()
 export class ProductService {
   private url: string; 
-  private fullProductList: Product[]; 
+  private fullProductList: Product[];
+  private dataObs$ = new ReplaySubject(1);
+
   testData: string;
 
   constructor(private http: Http) {
@@ -37,6 +39,28 @@ export class ProductService {
     //     observer.complete();  
     //   }); 
     // }
+  }
+
+  getProductDetailsUsingCache(){
+    if(!this.dataObs$.observers.length)
+    this.http.get(this.url+'/getProductTableDetails')
+    .subscribe(
+      (data:any) => this.dataObs$.next(data._body),
+      error => {
+        this.dataObs$.error(error);
+        // Recreate the Observable as after Error we cannot emit data anymore
+        this.dataObs$ = new ReplaySubject(1);
+    }
+    );
+
+    // this.dataObs$
+    // .subscribe(test =>{
+    //   console.log('test', test)
+    // })
+
+    console.log('cached product response', this.dataObs$);
+    return this.dataObs$;
+
   }
 
   getProductInventoryByProductNo(productNo: string) : Observable<ProductInventory[]>{
