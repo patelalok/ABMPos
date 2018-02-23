@@ -143,8 +143,7 @@
             productObj.retailWithDiscount = productObj.retail;
           }
       // this will help me to set default quantity by for each product.
-          if(productObj.saleQuantity <= 0)
-          {
+          if(productObj.saleQuantity <= 0){
             productObj.saleQuantity = 1;
           }
           // This is fisrt time when user is adding product to sell.
@@ -186,7 +185,13 @@
                 }, 3000);
                 break;
               }
+              // Do not try to be smart please keep this logic, Never touch here
               else {
+                // This flag helps to determin whether to add new product or just update the quantity
+                this.isProductExistsInSellList = false;
+              }
+            }
+              if(!this.isProductExistsInSellList) {
                 this.transactionLineItemDaoList = this.transactionLineItemDaoList.slice();
                 productObj.totalProductPrice = productObj.retailWithDiscount * productObj.saleQuantity;
                 productObj.taxAmountOnProduct = parseFloat(((productObj.retailWithDiscount * this.taxPercent) / 100).toFixed(2));
@@ -197,7 +202,6 @@
                 this.setTransactionDtoList()
                 this.persit.setProducts(this.transactionLineItemDaoList);
               }
-            }
           }
           $(`lineitem${productObj.productNo}`).ready(function () {
             // $(`lineitem${productObj.productNo}`).sc
@@ -381,8 +385,6 @@
             this.transactionDetails = transaction;
           });
         }
-     
-       
 
         setHeaderAndMessageForDisgardPopup() {
           this.popupHeader = 'Discard Sale';
