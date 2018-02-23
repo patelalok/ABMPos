@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { TransactionDtoList } from 'app/sell/sell.component';
 
 @Injectable()
 export class PersistenceService {
@@ -70,7 +69,7 @@ export class PersistenceService {
     localStorage.setItem('customerProductPrice', JSON.stringify(obj));
   }
 
-  getCustomerProductPriceForSale(){
+  getCustomerProductPriceForSale(): any{
     this.customerProductPrice = JSON.parse(localStorage.getItem('customerProductPrice'));
     return this.clearProductInventory;
   }

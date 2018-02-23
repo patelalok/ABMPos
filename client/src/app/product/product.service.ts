@@ -188,19 +188,13 @@ export class ProductService {
 
   updateProductRetailPrice(product: Product) {
 
-    this.http.post(this.url+'/addProduct', product)
-      .subscribe(data => {
-        alert('ok');
-        console.log(data);
-      },
-      error => {
-        console.log(JSON.stringify(error.json()));
-      });
+    // Need to do this because of backend logic.
+    product.operationType = 'Edit';
+    return this.http.post(this.url+'/addProduct', product);
   }
 
   updateProductInventory(productInventory: ProductInventory[]) {
     return this.http.post(this.url+'/addProductInventory', productInventory);
-     
   }
 
 

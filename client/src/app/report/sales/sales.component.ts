@@ -25,15 +25,25 @@ export class SalesComponent implements OnInit {
   dateTest: string;
   dateDto = new DateDto();
   pieChartData:  ChartDto[];
+  customDate: FormGroup; 
+  currentDate = new Date(); 
+
+
 
   colorScheme = {
     domain: ['#337ab7', '#28a745', '#ff6666', '#fd7e14', '#495057', '#A059B5', '#56BAD6']
   };
 
-  constructor(private reportService: ReportService, private dateService: DateService) { }
+  constructor(private reportService: ReportService, private dateService: DateService,private fb: FormBuilder) { }
 
   ngOnInit() {
+
     this.getReportDetails();
+
+    this.customDate = this.fb.group({
+      'fromDate' : new Date(),
+      'toDate': new Date()
+    });
 
   }
 

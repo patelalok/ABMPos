@@ -40,7 +40,6 @@ public class CustomerController {
         return new ResponseEntity(HttpStatus.CREATED);
     }
 
-
     @RequestMapping(value = "/getCustomerStoreCreditHistory", method = RequestMethod.GET, produces = "application/json")
     public List<StoreCreditDao> getCustomerStoreCreditHistory(@RequestParam String phoneNo)
     {

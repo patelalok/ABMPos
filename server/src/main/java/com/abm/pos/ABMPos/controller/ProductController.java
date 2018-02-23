@@ -67,11 +67,11 @@ public class ProductController {
 //        return productManager.getProductForProductTable();
 //    }
 
-    @RequestMapping(value = "/getProduct", method = RequestMethod.GET, produces = "application/json")
-    public List<ProductDao> getProductForSellPage()
-    {
-        return productManager.getProductForSellPage();
-    }
+//    @RequestMapping(value = "/getProduct", method = RequestMethod.GET, produces = "application/json")
+//    public List<ProductDao> getProductForSellPage()
+//    {
+//        return productManager.getProductForSellPage();
+//    }
 
     @RequestMapping(value = "/getProductById", method = RequestMethod.GET, produces = "application/json")
     public ProductDao getProductById(@RequestParam String productNo)

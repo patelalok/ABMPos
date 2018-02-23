@@ -18,7 +18,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ToastsManager } from 'ng2-toastr/src/toast-manager';
 import { empty } from 'rxjs/Observer';
 import { MenuItem } from 'app/shared/top-navbar/top-navbar.component';
-import { Product, TransactionLineItemDaoList } from 'app/sell/sale/sale.component';
+import { Product, TransactionLineItemDaoList, TransactionDtoList } from 'app/sell/sale/sale.component';
 import { ProductService } from 'app/product/product.service';
 // import { disconnect } from 'cluster';
 declare var $: JQueryStatic;
@@ -284,78 +284,46 @@ items: MenuItem[];
     $('#productsearch > span > input').focus();
   }
   // This method helps when user try to change retial price or quanity from the sell text box.
-  submitProduct(value: any) {
-
-    if (typeof value === 'string') {
-
-      console.log('This is value: ', value);
-
-      // this is the senario where user is adding new product to Sell
-      if (this.product != null && this.product.length > 0) {
-        // this.addTransactionLineItem(this.product[0]);
-      }
-
-      // Dont understabd this
-      else if (value !== '' && value !== undefined && value.indexOf('.') !== 0) {
-
-        if (value.match(/[a-z]/i))
-          console.log('contains only charcters');
-
-        // this mean this is decimal value so it will change the retail price of the product
-        if (value.match(/[0-9]/i) && value.indexOf('.') > 0)
-          this.updateProductPrice(value);
-
-        // this mean this is integer value so it will change the quantity of the product
-        // Also i need to change length of the value cause i need to add product by product no
-        // So here i am assuming quantity is not gonna be more then 5, so anything more then 5 just add to product grid.
-        else if (value.match(/[0-9]/i) && value.length < 5)
-          this.updateProductQuantity(value);
-      }
-
-    }
-    else if (value != null) {      
-      this.addTransactionLineItem(value);
-    }
-  }
 
 
-  updateProductQuantity(value: any) {
-    console.log('Quantity change');
-    this.transactionLineItemDaoList[this.transactionLineItemDaoList.length - 1].defaultQuantity = value;
-    this.transactionLineItemDaoList[this.transactionLineItemDaoList.length - 1].totalProductPrice = parseFloat((this.transactionLineItemDaoList[this.transactionLineItemDaoList.length - 1].retail * this.transactionLineItemDaoList[this.transactionLineItemDaoList.length - 1].defaultQuantity).toFixed(2));
-    this.transactionLineItemDaoList = this.transactionLineItemDaoList.slice();
-    this.setTransactionDtoList(this.transactionLineItemDaoList)
-    this.persit.setProducts(this.transactionLineItemDaoList);
-    this.p = null;
-  }
 
-  updateProductPrice(value: any) {
-    console.log('Price change');
+  // updateProductQuantity(value: any) {
+  //   console.log('Quantity change');
+  //   this.transactionLineItemDaoList[this.transactionLineItemDaoList.length - 1].saleQuantity = value;
+  //   this.transactionLineItemDaoList[this.transactionLineItemDaoList.length - 1].totalProductPrice = parseFloat((this.transactionLineItemDaoList[this.transactionLineItemDaoList.length - 1].retail * this.transactionLineItemDaoList[this.transactionLineItemDaoList.length - 1].defaultQuantity).toFixed(2));
+  //   this.transactionLineItemDaoList = this.transactionLineItemDaoList.slice();
+  //   this.setTransactionDtoList(this.transactionLineItemDaoList)
+  //   this.persit.setProducts(this.transactionLineItemDaoList);
+  //   this.p = null;
+  // }
 
-    let oldRetail = this.transactionLineItemDaoList[this.transactionLineItemDaoList.length - 1].retail;
-    let discount = 0.00;
-    this.transactionLineItemDaoList[this.transactionLineItemDaoList.length - 1].retail = value;
-    this.transactionLineItemDaoList[this.transactionLineItemDaoList.length - 1].totalProductPrice = (this.transactionLineItemDaoList[this.transactionLineItemDaoList.length - 1].retail * this.transactionLineItemDaoList[this.transactionLineItemDaoList.length - 1].defaultQuantity);
+  // updateProductPrice(value: any) {
+  //   console.log('Price change');
+
+  //   let oldRetail = this.transactionLineItemDaoList[this.transactionLineItemDaoList.length - 1].retail;
+  //   let discount = 0.00;
+  //   this.transactionLineItemDaoList[this.transactionLineItemDaoList.length - 1].retail = value;
+  //   this.transactionLineItemDaoList[this.transactionLineItemDaoList.length - 1].totalProductPrice = (this.transactionLineItemDaoList[this.transactionLineItemDaoList.length - 1].retail * this.transactionLineItemDaoList[this.transactionLineItemDaoList.length - 1].defaultQuantity);
     
-    console.log("outside if", this.transactionLineItemDaoList[this.transactionLineItemDaoList.length - 1].retail);
-    if(value < oldRetail)
-    {
-      discount  = oldRetail - value;
-      console.log("discount", discount);
-      this.transactionLineItemDaoList[this.transactionLineItemDaoList.length - 1].retailDiscount = discount;
-      console.log("lineitem discount:", oldRetail - value);
-    }
-    console.log("after if if", value);
-    console.log("discount", discount);
+  //   console.log("outside if", this.transactionLineItemDaoList[this.transactionLineItemDaoList.length - 1].retail);
+  //   if(value < oldRetail)
+  //   {
+  //     discount  = oldRetail - value;
+  //     console.log("discount", discount);
+  //     this.transactionLineItemDaoList[this.transactionLineItemDaoList.length - 1].retailWithDiscount = discount;
+  //     console.log("lineitem discount:", oldRetail - value);
+  //   }
+  //   console.log("after if if", value);
+  //   console.log("discount", discount);
   
-    console.log("discount");
+  //   console.log("discount");
     
-    this.transactionLineItemDaoList = this.transactionLineItemDaoList.slice();
-    this.setTransactionDtoList(this.transactionLineItemDaoList)
+  //   this.transactionLineItemDaoList = this.transactionLineItemDaoList.slice();
+  //   this.setTransactionDtoList(this.transactionLineItemDaoList)
 
-    this.persit.setProducts(this.transactionLineItemDaoList);
-    this.p = null;
-  }
+  //   this.persit.setProducts(this.transactionLineItemDaoList);
+  //   this.p = null;
+  // }
 
 
   // updateProductPrice(value: any) {
@@ -370,15 +338,15 @@ items: MenuItem[];
   // }
 
   // this method helps to update lineItem Detail when user change the quatity or change the retail from editable box
-  updateLineItemDetails(event) {
-    this.transactionLineItemDaoList[event.index].defaultQuantity = event.data.defaultQuantity;
-    this.transactionLineItemDaoList[event.index].retail = event.data.retail;
-    this.transactionLineItemDaoList[event.index].totalProductPrice = (event.data.defaultQuantity * event.data.retail);
-    this.transactionLineItemDaoList[event.index].taxAmountOnProduct = ((event.data.defaultQuantity * event.data.retail) * 7) / 100
-    this.setTransactionDtoList(this.transactionLineItemDaoList)
+  // updateLineItemDetails(event) {
+  //   this.transactionLineItemDaoList[event.index].defaultQuantity = event.data.defaultQuantity;
+  //   this.transactionLineItemDaoList[event.index].retail = event.data.retail;
+  //   this.transactionLineItemDaoList[event.index].totalProductPrice = (event.data.defaultQuantity * event.data.retail);
+  //   this.transactionLineItemDaoList[event.index].taxAmountOnProduct = ((event.data.defaultQuantity * event.data.retail) * 7) / 100
+  //   this.setTransactionDtoList(this.transactionLineItemDaoList)
 
-    this.persit.setProducts(this.transactionLineItemDaoList);
-  }
+  //   this.persit.setProducts(this.transactionLineItemDaoList);
+  // }
 
 
   setDiscountType(discountType: any) {
@@ -441,7 +409,7 @@ items: MenuItem[];
 
 
     for (let i = 0; i < lineItem.length; i++) {
-      totalQuantity = + lineItem[i].defaultQuantity + totalQuantity;
+     // totalQuantity = + lineItem[i].defaultQuantity + totalQuantity;
       totalPrice = + lineItem[i].totalProductPrice + totalPrice;
 
       // Here totalProductPriceWithTax mean, only amount of the tax on that product dont get confuse with naming
@@ -961,13 +929,13 @@ items: MenuItem[];
     this.transactionDtoList.paymentDao = this.paymentDao;
 
     // Setting TransactionLineItemDetails
-    for (let lineItem of this.transactionLineItemDaoList) {
+    // for (let lineItem of this.transactionLineItemDaoList) {
 
-      lineItem.status = this.saleType;
-      lineItem.date = this.transactionDtoList.date;
-      // I need to do this casue in backend i am using quantity and here i have to use defult quanity to show 1 as user insert product.
-      lineItem.quantity = lineItem.defaultQuantity;
-    }
+    //   lineItem.status = this.saleType;
+    //   lineItem.date = this.transactionDtoList.date;
+    //   // I need to do this casue in backend i am using quantity and here i have to use defult quanity to show 1 as user insert product.
+    //   lineItem.quantity = lineItem.defaultQuantity;
+    // }
 
     // this.transactionNotes is bind with the ng model on ui.
     this.transactionDtoList.note = this.transactionNotes
@@ -1074,8 +1042,8 @@ items: MenuItem[];
         if(transaction.status == 'Parked'){
 
           transaction.transactionLineItemDaoList.forEach((lineItem) => {
-            lineItem.defaultQuantity = lineItem.quantity;
-            lineItem.quantity = 0;
+          //  lineItem.defaultQuantity = lineItem.quantity;
+           // lineItem.quantity = 0;
           });
               // Setting transactoin id here so i can send this in case of return and when user gives store credit to the customer.
               this.previousTransactionId = transaction.transactionComId;
@@ -1103,8 +1071,8 @@ items: MenuItem[];
           this.saleType = 'Return';
           
                   transaction.transactionLineItemDaoList.forEach((lineItem) => {
-                    lineItem.defaultQuantity = lineItem.quantity;
-                    lineItem.quantity = 0;
+                   // lineItem.defaultQuantity = lineItem.quantity;
+                   // lineItem.quantity = 0;
                     lineItem.cost = - lineItem.cost;
                     lineItem.retail = - lineItem.retail;
                     lineItem.totalProductPrice = - lineItem.totalProductPrice;
@@ -1214,30 +1182,30 @@ items: MenuItem[];
 
 // }
 
-export class TransactionDtoList {
+// export class TransactionDtoList {
 
-  date: any;
-  time: any;
-  totalAmount: number;
-  tax: number;
-  totalDiscount: number;
-  subtotal: number;
-  quantity: number;
-  transactionComId: number;
-  customerPhoneno: string;
-  status: any;
-  previousBalance: any;
-  transactionBalance: any;
-  lineItemDiscount: any;
-  username: any;
-  customerFirstLastName: string;
-  paymentDao: PaymentDto[];
-  transactionLineItemDaoList: TransactionLineItemDaoList[];
-  note: string;
-  previousTransactionId: any;
+//   date: any;
+//   time: any;
+//   totalAmount: number;
+//   tax: number;
+//   totalDiscount: number;
+//   subtotal: number;
+//   quantity: number;
+//   transactionComId: number;
+//   customerPhoneno: string;
+//   status: any;
+//   previousBalance: any;
+//   transactionBalance: any;
+//   lineItemDiscount: any;
+//   username: any;
+//   customerFirstLastName: string;
+//   paymentDao: PaymentDto[];
+//   transactionLineItemDaoList: TransactionLineItemDaoList[];
+//   note: string;
+//   previousTransactionId: any;
 
 
-}
+// }
 
 export class PaymentDto {
 

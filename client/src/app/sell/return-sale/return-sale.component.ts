@@ -118,8 +118,8 @@ printTransactionDto: TransactionDtoList = null;
           { field: 'productNo', header: 'ProductNo' },
           { field: 'description', header: 'Description' },
           { field: 'retail', header: 'Retail' },
-          { field: 'defaultQuantity', header: 'Quantity' },
-          { field: 'retailDiscount', header: 'RetailWithDis' },
+          { field: 'saleQuantity', header: 'Quantity' },
+          { field: 'retailWithDiscount', header: 'RetailWithDis' },
           { field: 'totalProductPrice', header: 'Total' },
           { field: 'quantity', header: 'In-Stock' }
         ];
@@ -190,8 +190,8 @@ printTransactionDto: TransactionDtoList = null;
 
       updateProductQuantity(value: any) {
         console.log('Quantity change');
-        this.transactionLineItemDaoList[this.transactionLineItemDaoList.length - 1].defaultQuantity = value;
-        this.transactionLineItemDaoList[this.transactionLineItemDaoList.length - 1].totalProductPrice = parseFloat((this.transactionLineItemDaoList[this.transactionLineItemDaoList.length - 1].retail * this.transactionLineItemDaoList[this.transactionLineItemDaoList.length - 1].defaultQuantity).toFixed(2));
+        this.transactionLineItemDaoList[this.transactionLineItemDaoList.length - 1].saleQuantity = value;
+        this.transactionLineItemDaoList[this.transactionLineItemDaoList.length - 1].totalProductPrice = parseFloat((this.transactionLineItemDaoList[this.transactionLineItemDaoList.length - 1].retail * this.transactionLineItemDaoList[this.transactionLineItemDaoList.length - 1].saleQuantity).toFixed(2));
         this.transactionLineItemDaoList = this.transactionLineItemDaoList.slice();
         this.setTransactionDtoList(this.transactionLineItemDaoList)
         //this.persit.setProducts(this.transactionLineItemDaoList);
@@ -201,7 +201,7 @@ printTransactionDto: TransactionDtoList = null;
       updateProductPrice(value: any) {
         console.log('Price change');
         this.transactionLineItemDaoList[this.transactionLineItemDaoList.length - 1].retail = value;
-        this.transactionLineItemDaoList[this.transactionLineItemDaoList.length - 1].totalProductPrice = (this.transactionLineItemDaoList[this.transactionLineItemDaoList.length - 1].retail * this.transactionLineItemDaoList[this.transactionLineItemDaoList.length - 1].defaultQuantity);
+        this.transactionLineItemDaoList[this.transactionLineItemDaoList.length - 1].totalProductPrice = (this.transactionLineItemDaoList[this.transactionLineItemDaoList.length - 1].retail * this.transactionLineItemDaoList[this.transactionLineItemDaoList.length - 1].saleQuantity);
         this.transactionLineItemDaoList = this.transactionLineItemDaoList.slice();
         this.setTransactionDtoList(this.transactionLineItemDaoList)
     
@@ -211,10 +211,10 @@ printTransactionDto: TransactionDtoList = null;
     
       // this method helps to update lineItem Detail when user change the quatity or change the retail from editable box
       updateLineItemDetails(event) {
-        this.transactionLineItemDaoList[event.index].defaultQuantity = event.data.defaultQuantity;
+        this.transactionLineItemDaoList[event.index].saleQuantity = event.data.saleQuantity;
         this.transactionLineItemDaoList[event.index].retail = event.data.retail;
-        this.transactionLineItemDaoList[event.index].totalProductPrice = (event.data.defaultQuantity * event.data.retail);
-        this.transactionLineItemDaoList[event.index].taxAmountOnProduct = ((event.data.defaultQuantity * event.data.retail) * this.taxPercent) / 100
+        this.transactionLineItemDaoList[event.index].totalProductPrice = (event.data.saleQuantity * event.data.retail);
+        this.transactionLineItemDaoList[event.index].taxAmountOnProduct = ((event.data.saleQuantity * event.data.retail) * this.taxPercent) / 100
         this.setTransactionDtoList(this.transactionLineItemDaoList)
     
         //this.persit.setProducts(this.transactionLineItemDaoList);
@@ -261,7 +261,7 @@ printTransactionDto: TransactionDtoList = null;
         
         
             for (let i = 0; i < lineItem.length; i++) {
-              totalQuantity = + lineItem[i].defaultQuantity + totalQuantity;
+              totalQuantity = + lineItem[i].saleQuantity + totalQuantity;
               totalPrice = + lineItem[i].totalProductPrice + totalPrice;
         
               // Here totalProductPriceWithTax mean, only amount of the tax on that product dont get confuse with naming
@@ -551,7 +551,7 @@ printTransactionDto: TransactionDtoList = null;
             lineItem.status = this.saleType;
             lineItem.date = this.transactionDtoList.date;
             // I need to do this casue in backend i am using quantity and here i have to use defult quanity to show 1 as user insert product.
-            lineItem.quantity = lineItem.defaultQuantity;
+            //lineItem.quantity = lineItem.defaultQuantity;
           }
 
           // Seeting paymentDto status

@@ -50,7 +50,10 @@
                             </button>
                             <button mat-button class="btn-gray action-button-table" data-toggle="modal" data-target="#addStoreCredit" (click)=this.selectCustomerForStoreCredit(customer)>
                                 <i class="fa fa-credit-card-alt" aria-hidden="true"></i>                                
-                                </button>
+                            </button>
+                            <button mat-button class="btn-gray action-button-table" data-toggle="modal" data-target="#pendingInvoice" (click)=this.openPendingInvoice(customer)>
+                                <i class="fa fa-file" aria-hidden="true"></i>                                
+                            </button>
                         </ng-template>
                     </p-column>
                 </p-dataTable>
@@ -344,3 +347,46 @@
 </div>
 
 <!-- End of Delete Customer Popup -->
+
+<!-- Start of Invoce by Customer Popup -->
+<div class="modal fade" id="pendingInvoice" role="dialog">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Customer Pending Invoice</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p-dataTable [value]="this.transactionDetails" scrollable="true" scrollHeight="500px" [responsive]="true">
+                    <p-column field="transactionComId" header="Rec No" [style]="{'width': '10%'}"></p-column>
+                    <p-column field="date" header="Date" [sortable]="true" [style]="{'width': '10%'}"></p-column>
+                    <p-column field="time" header="Time" [style]="{'width': '10%'}"></p-column>
+                    <p-column field="customerFirstLastName" header="Name"></p-column>
+                    <p-column field="totalAmount" header="Total" [style]="{'width': '15%'}"></p-column>
+                    <p-column field="status" header="Action" [style]="{'width': '20%'}">
+                        <ng-template let-transaction="rowData" pTemplate="body">
+                            <button class="btn-green action-button-table" mat-button>
+                                        <i class="" aria-hidden="true">
+                                            PAY
+                                        </i>
+                                </button>
+                            <button class="btn-blue action-button-table" mat-button>
+                                    <i class="fa fa-print" aria-hidden="true"></i>
+                            </button>
+                            <button class="btn-red action-button-table" mat-button (click)='this.sendEmail(transaction)'>
+                                    <i class="fa fa-envelope" aria-hidden="true"></i>
+                                </button>
+                        </ng-template>
+                    </p-column>
+                </p-dataTable>
+            </div>
+            <div class="modal-footer">
+
+                <!-- <button type="button" class="btn btn-danger" data-dismiss="modal" (click)="this.deleteCustomer()">Yes</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancle</button> -->
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- End of Invoice  by Customer Popup -->

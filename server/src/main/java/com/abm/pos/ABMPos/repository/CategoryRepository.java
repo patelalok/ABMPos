@@ -26,10 +26,10 @@ public interface CategoryRepository extends JpaRepository<CategoryDao, Integer>{
     List<Object[]> getInventoryByCategory();
 
     @Query(value = "SELECT distinct c.name, \n" +
-            "SUM(l.quantity) quantity, \n" +
-            "SUM(l.cost * l.quantity) cost, \n" +
-            "SUM(l.retail * l.quantity) retail,\n" +
-            "SUM((l.retail* l.quantity) - (l.cost * l.quantity)) profit\n" +
+            "SUM(l.sale_quantity) quantity, \n" +
+            "SUM(l.cost * l.sale_quantity) cost, \n" +
+            "SUM(l.retail * l.sale_quantity) retail,\n" +
+            "SUM((l.retail* l.sale_quantity) - (l.cost * l.sale_quantity)) profit\n" +
             "FROM product p \n" +
             "INNER Join category c on p.category_id = c.category_id \n" +
             "INNER join transaction_line_item l on l.product_no = p.product_no \n" +

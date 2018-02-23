@@ -49,10 +49,10 @@ public interface ProductRepository extends JpaRepository<ProductDao, String> {
 
 
     @Query(value = "SELECT distinct p.description,\n" +
-            "SUM(l.quantity) quantity,\n" +
-            "SUM(l.cost * l.quantity) cost,\n" +
-            "SUM(l.retail * l.quantity) retail,\n" +
-            "SUM((l.retail * l.quantity) - (l.cost * l.quantity)) profit\n" +
+            "SUM(l.sale_quantity) quantity,\n" +
+            "SUM(l.cost * l.sale_quantity) cost,\n" +
+            "SUM(l.retail * l.sale_quantity) retail,\n" +
+            "SUM((l.retail * l.sale_quantity) - (l.cost * l.sale_quantity)) profit\n" +
             "from product p\n" +
             "inner join transaction_line_item l on l.product_no = p.product_no\n" +
             "WHERE l.date BETWEEN ?1 AND ?2\n" +
@@ -62,11 +62,11 @@ public interface ProductRepository extends JpaRepository<ProductDao, String> {
 
     @Query(value = "SELECT p.description,\n" +
             "p.product_no,\n" +
-            "SUM(l.quantity) quantity,\n" +
+            "SUM(l.sale_quantity) quantity,\n" +
             "SUM(l.cost) cost,\n" +
             "SUM(l.total_product_price) retail,\n" +
             "SUM(l.discount) discount,\n" +
-            "SUM((l.retail * l.quantity) - (l.cost * l.quantity)) profit\n" +
+            "SUM((l.retail * l.sale_quantity) - (l.cost * l.sale_quantity)) profit\n" +
             "FROM product p\n" +
             "INNER JOIN transaction_line_item l ON p.product_no = l.product_no\n" +
             "WHERE  l.date BETWEEN ?1 AND ?2 AND (l.status = 'Complete' OR l.status = 'Return')\n" +
@@ -76,7 +76,7 @@ public interface ProductRepository extends JpaRepository<ProductDao, String> {
 
     @Query(value = "SELECT p.description,\n" +
             "p.product_no,\n" +
-            "SUM(i.quantity) quantity,\n" +
+            "SUM(i.sale_quantity) quantity,\n" +
             "SUM(i.cost) cost,\n" +
             "SUM(i.retail) retail,\n" +
             "SUM(i.retail - i.cost) profit\n" +

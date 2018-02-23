@@ -163,10 +163,9 @@ export class EditProductComponent implements OnInit {
         createdTimestamp: null,
         alternetNo: formValues.alternetNo,
         date: null,
-        defaultQuantity: 0,
         discount:0,
         imeiNo: null,
-        retailDiscount: 0,
+        retailWithDiscount: 0,
         returnRule: null,
         status: null,
         taxAmountOnProduct: 0,
@@ -174,7 +173,8 @@ export class EditProductComponent implements OnInit {
         totalProductPrice: 0,
         transactionComId: 0,
         varaint: null,
-        operationType: 'Edit'
+        operationType: 'Edit',
+        saleQuantity:0
 
         
           }

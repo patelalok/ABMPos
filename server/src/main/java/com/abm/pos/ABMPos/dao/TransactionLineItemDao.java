@@ -18,11 +18,11 @@ public class TransactionLineItemDao {
     private String status;
     private String productNo;
     private int productVariantNo;
-    private int quantity;
+    private int saleQuantity;
     private double cost;
     private double retail;
+    private double retailWithDiscount;
     private double discount;
-    private double retailDiscount;
     private double totalProductPrice;
     private String imeiNo;
 
@@ -70,12 +70,12 @@ public class TransactionLineItemDao {
         this.productVariantNo = productVariantNo;
     }
 
-    public int getQuantity() {
-        return quantity;
+    public int getSaleQuantity() {
+        return saleQuantity;
     }
 
-    public void setQuantity(int quantity) {
-        this.quantity = quantity;
+    public void setSaleQuantity(int saleQuantity) {
+        this.saleQuantity = saleQuantity;
     }
 
     public double getCost() {
@@ -110,14 +110,6 @@ public class TransactionLineItemDao {
         this.discount = discount;
     }
 
-    public double getRetailDiscount() {
-        return retailDiscount;
-    }
-
-    public void setRetailDiscount(double retailDiscount) {
-        this.retailDiscount = retailDiscount;
-    }
-
     public double getTotalProductPrice() {
         return totalProductPrice;
     }
@@ -135,4 +127,11 @@ public class TransactionLineItemDao {
         this.imeiNo = imeiNo;
     }
 
+    public double getRetailWithDiscount() {
+        return retailWithDiscount;
+    }
+
+    public void setRetailWithDiscount(double retailWithDiscount) {
+        this.retailWithDiscount = retailWithDiscount;
+    }
 }

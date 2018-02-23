@@ -3,12 +3,14 @@ import { CustomerService } from 'app/customer/customer.service';
 import { FormBuilder, Validators, FormGroup, FormControl } from '@angular/forms';
 import { Message } from 'primeng/primeng';
 import * as moment from 'moment';
+import { SellService } from '../sell/sell.service';
+import { TransactionDtoList } from '../sell/sale/sale.component';
 
 
 @Component({
   selector: 'app-customer',
   templateUrl: './customer.component.html',
-  styleUrls: ['./customer.component.css']
+  styleUrls: ['./customer.component.scss']
 })
 export class CustomerComponent implements OnInit {
 
@@ -27,9 +29,10 @@ export class CustomerComponent implements OnInit {
   storeCreditReason: string;
   storeCreditDto: StoreCreditDto[] = [];
   addStoreCreditObject = new StoreCreditDto();
+  transactionDetails: TransactionDtoList[] = [];
 
 
-  constructor(private customerService: CustomerService, private formBuilder: FormBuilder) { }
+  constructor(private customerService: CustomerService, private sellService: SellService ,private formBuilder: FormBuilder) { }
 
   ngOnInit() {
 
@@ -150,6 +153,17 @@ export class CustomerComponent implements OnInit {
     this.addStoreCreditObject.employeeName = 'alok@alok.com';
 
     this.customerService.addStoreCredit(this.addStoreCreditObject);
+  }
+
+  openPendingInvoice(customer: Customer){
+    this.sellService.getPendingInvoiceByCustomer(customer.phoneNo)
+    .subscribe(transaction => {
+      transaction.forEach(trans => {
+        trans.time = moment(trans.date).format('hh:mm A');
+        trans.date = moment(trans.date).format('MM-DD-YYYY');
+      })
+      this.transactionDetails = transaction;
+    });
   }
 
 }

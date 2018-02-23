@@ -21,10 +21,10 @@ public interface ModelRepository extends JpaRepository<ModelDao, Integer> {
     List<Object[]> getInventoryByModel();
 
     @Query(value = "SELECT distinct m.name,\n" +
-            "SUM(l.quantity) quantity,\n" +
-            "SUM(l.cost * l.quantity) cost,\n" +
-            "SUM(l.retail * l.quantity) retail,\n" +
-            "SUM((l.retail * l.quantity) - (l.cost * l.quantity)) profit\n" +
+            "SUM(l.sale_quantity) quantity,\n" +
+            "SUM(l.cost * l.sale_quantity) cost,\n" +
+            "SUM(l.retail * l.sale_quantity) retail,\n" +
+            "SUM((l.retail * l.sale_quantity) - (l.cost * l.sale_quantity)) profit\n" +
             "FROM product p\n" +
             "INNER JOIN model m on p.model_id = m.model_id\n" +
             "INNER JOIN transaction_line_item l on l.product_no = p.product_no\n" +

@@ -47,7 +47,7 @@
 
                         <p-column field="productNo" header="ProductNo" [style]="{'width':'15%','text-align':'center', 'overflow':'visible'}"></p-column>
                         <p-column field="description" header="Description" [style]="{'width':'45%','text-align':'center', 'overflow':'visible'}"></p-column>
-                        <p-column field="defaultQuantity" header="Quantity" [editable]="true">
+                        <p-column field="saleQuantity" header="Quantity" [editable]="true">
                             <ng-template let-product="rowData" pTemplate="body">
                                 <div id="lineitem{{product.productNo}}" [ngClass]="{'quantity-updated': product.quantityUpdated }">
                                     {{product.defaultQuantity}}

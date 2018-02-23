@@ -133,7 +133,6 @@ export class AddProductComponent implements OnInit {
         cost: formValues.cost,
         retail: formValues.retail,
         date: null,
-        defaultQuantity: null,
         description: formValues.description.toUpperCase(),
         discount: null,
         imeiNo: null,
@@ -145,7 +144,7 @@ export class AddProductComponent implements OnInit {
         markup: formValues.markup,
         minQuantity: formValues.minQuantity,
         quantity: formValues.quantity,
-        retailDiscount: null,
+        retailWithDiscount: null,
         returnRule: formValues.returnRule,
         status: null,
         taxAmountOnProduct: null,
@@ -154,7 +153,8 @@ export class AddProductComponent implements OnInit {
         time: null,
         createdTimestamp: moment(Date.now()).format('YYYY-MM-DD HH:mm:ss'),
         productInventoryDaoList: this.productInventoryList,
-        operationType: 'Add'
+        operationType: 'Add',
+        saleQuantity:null
       }
       this.productService.addProduct(product)
       .subscribe(

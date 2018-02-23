@@ -156,7 +156,7 @@ public class TransactionsManager {
                 // I need to set this up to keep track of the inventory, so with this i will know, whether i need to call Product inventory table again or not.
                 // So with first call if parchedQuantity == 0 that mean we can full fill this sale we do not need to check for other inventory for this product but if not
                 // Then we need to keep doing this process until parched Quantity == 0.
-                int purchasedQuantity = lineItemDao.getQuantity();
+                int purchasedQuantity = lineItemDao.getSaleQuantity();
 
 
                 do {
@@ -185,7 +185,7 @@ public class TransactionsManager {
                         // This means we do not have enough inventory to sale, so we can sale wt we have and then call inventory table again until purchase item == 0.
                         else if (productInventoryDao.getQuantity() > 0) {
                             lineItemDao.setCost(productInventoryDao.getCost());
-                            lineItemDao.setQuantity(productInventoryDao.getQuantity());
+                            lineItemDao.setSaleQuantity(productInventoryDao.getQuantity());
 
                             transactionLineItemDaoListNew.add(lineItemDao);
 
@@ -227,14 +227,6 @@ public class TransactionsManager {
 
             transactionDao.setTransactionLineItemDaoList(transactionLineItemDaoListNew);
 
-//        Here i need to handle the scenario where customer is doing partial payment, or not paying right now and will pay later so
-//        Here i need to maintain his balance by just adding transaction balance to that customers account
-            // I am doing this only if customer is doing partial payment cause only in that case customers balance will be more then 0.
-
-            if (null != transactionDao.getCustomerPhoneno() && transactionDao.getTransactionBalance() >= 0) {
-                setCustomerBalance(transactionDao);
-            }
-
             // Here i need to handle the case where customer is using Store credit to pay the amount.
             // I need to update the store credit for the customer and handle the transaction.
 
@@ -266,8 +258,31 @@ public class TransactionsManager {
             }
         }
 
+        TransactionDao transactionDao1 =  transactionRepository.save(transactionDao);
 
-        return transactionRepository.save(transactionDao);
+        // Here i need to handle the scenario where customer is doing partial payment, or not paying right now and will pay later so
+//        Here i need to maintain his balance by just adding transaction balance to that customers account
+        // I am doing this only if customer is doing partial payment cause only in that case customers balance will be more then 0.
+
+        // AFTER PENDING INVOICE LOGIC I NEED TO DO THIS AFTER FINISHING WITH THE TRANSACTION SO I CAN GET THE ACCURATE AMOUNT FOR CUSTOMERS BALANCE.
+
+        if(null != transactionDao1 && null != transactionDao1.getCustomerPhoneno()){
+
+            // this will give me sum of customers balance, so after every transaction i am managing and syncing customers balance in customer table.
+            List<Double> result = transactionRepository.getCustomerBalanceByPendingInvoice(transactionDao1.getCustomerPhoneno());
+
+            if(result != null)
+            {
+                CustomerDao customerDao = customerRepository.findByPhoneNo(transactionDao.getCustomerPhoneno());
+
+                if (null != customerDao) {
+                    customerDao.setBalance(result.get(0));
+                    customerRepository.save(customerDao);
+                }
+            }
+        }
+
+        return  transactionDao1;
 
 
     }
@@ -286,7 +301,7 @@ public class TransactionsManager {
                 productInventoryDaoFinal.setCost(productInventoryDao.getCost());
                 productInventoryDaoFinal.setProductNo(lineItemDao.getProductNo());
                 productInventoryDaoFinal.setRetail(Math.abs((lineItemDao.getRetail())));
-                productInventoryDaoFinal.setQuantity(lineItemDao.getQuantity());
+                productInventoryDaoFinal.setQuantity(lineItemDao.getSaleQuantity());
                 productInventoryDaoFinal.setCreatedTimestamp(transactionDao.getDate());
             }
 
@@ -330,18 +345,6 @@ public class TransactionsManager {
 
     }
 
-    //    Here i need to handle the scenario where customer is doing partial payment, or not paying right now and will pay later so
-    //    Here i need to maintain his balance by just adding transaction balance to that customers account
-
-    private void setCustomerBalance(TransactionDao transactionDao) {
-        CustomerDao customerDao = customerRepository.findByPhoneNo(transactionDao.getCustomerPhoneno());
-
-        if (null != customerDao) {
-            customerDao.setBalance(transactionDao.getTransactionBalance());
-
-            customerRepository.save(customerDao);
-        }
-    }
 
     private void deleteProductInventoryRow(ProductInventoryDao productInventoryDao) {
         // First we need to get the count of the row, we can delete row only and only if it is not last row,
@@ -570,7 +573,9 @@ public class TransactionsManager {
 
         }
 
-        EmailStatus emailStatus = emailHtmlSender.send(email, "ExcelWireless Order Details", "template-1", context);
+
+        assert transactionDao != null;
+        EmailStatus emailStatus = emailHtmlSender.send(email, transactionDao.getStoreSetupDao().getName() +"Order Details", "template-1", context);
 
         return  emailStatus.isSuccess();
     }
@@ -596,7 +601,7 @@ public class TransactionsManager {
             printCustomerDetails(cb, transactionDao);
             printStoreDetails(cb, transactionDao);
             printTransactionDetails(doc, cb, transactionDao);
-            generateLineItemTable(cb);
+            //generateLineItemTable(cb);
 
             printPageNumber(cb);
         }
@@ -608,7 +613,7 @@ public class TransactionsManager {
     private void printTransactionDetails(Document doc, PdfContentByte cb, TransactionDao transactionDao) {
 
         try {
-                float[] columnWidths = {3, 7, 2, 2, 2, 2};
+                float[] columnWidths = {3, 9, 2, 2, 2};
                 float[] colWidht2 = {4, 4, 4, 4};
 
 
@@ -625,7 +630,7 @@ public class TransactionsManager {
 
                 table.addCell(new Phrase("Product No", new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
                 table.addCell(new Phrase("Product Description", new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
-                table.addCell(new Phrase("Disc", new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
+//                table.addCell(new Phrase("Disc", new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
                 table.addCell(new Phrase("Retail", new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
                 table.addCell(new Phrase("Items", new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
                 table.addCell(new Phrase("Total", new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
@@ -653,10 +658,10 @@ public class TransactionsManager {
                     table.getDefaultCell().setBorder(Rectangle.NO_BORDER);
                     table.addCell(new Phrase(lineItemDao.getProductNo(), new Font(Font.FontFamily.HELVETICA, 8)));
                     table.addCell(new Phrase(lineItemDao.getDescription(), new Font(Font.FontFamily.HELVETICA, 8)));
-                    table.addCell(new Phrase("$ " + String.valueOf(lineItemDao.getDiscount()), new Font(Font.FontFamily.HELVETICA, 8)));
-                    table.addCell(new Phrase("$ " + String.valueOf(lineItemDao.getRetail()), new Font(Font.FontFamily.HELVETICA, 8)));
-                    table.addCell(new Phrase(String.valueOf(lineItemDao.getQuantity()), new Font(Font.FontFamily.HELVETICA, 8)));
-                    table.addCell(new Phrase("$ " + String.valueOf(lineItemDao.getTotalProductPrice()), new Font(Font.FontFamily.HELVETICA, 8)));
+//                    table.addCell(new Phrase("$ " + String.valueOf(lineItemDao.getDiscount()), new Font(Font.FontFamily.HELVETICA, 8)));
+                    table.addCell(new Phrase(String.valueOf(lineItemDao.getRetailWithDiscount()), new Font(Font.FontFamily.HELVETICA, 8)));
+                    table.addCell(new Phrase(String.valueOf(lineItemDao.getSaleQuantity()), new Font(Font.FontFamily.HELVETICA, 8)));
+                    table.addCell(new Phrase(String.valueOf(lineItemDao.getTotalProductPrice()), new Font(Font.FontFamily.HELVETICA, 8)));
 
                 }
 
@@ -689,11 +694,13 @@ public class TransactionsManager {
                 totalTable.addCell(new Phrase("Quantity", new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
                 totalTable.addCell(new Phrase(String.valueOf(transactionDao.getQuantity()), new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
 
-                if(transactionDao.getPreviousBalance() != 0) {
 
-                    totalTable.addCell(new Phrase("Pre Balance", new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
-                    totalTable.addCell(new Phrase("$ " + String.valueOf(transactionDao.getPreviousBalance()), new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
-                }
+                // No need to show previous balance, casue now i have change the logic to pay invoice by transaction to fix the close register and other reporting issues.
+//                if(transactionDao.getPreviousBalance() != 0) {
+//
+//                    totalTable.addCell(new Phrase("Pre Balance", new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
+//                    totalTable.addCell(new Phrase("$ " + String.valueOf(transactionDao.getPreviousBalance()), new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
+//                }
 
                 totalTable.addCell(new Phrase("Total", new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
                 totalTable.addCell(new Phrase("$ " + String.valueOf(transactionDao.getTotalAmount()), new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
@@ -727,8 +734,11 @@ public class TransactionsManager {
                         totalTable.addCell(new Phrase("Loyalty", new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
                         totalTable.addCell(new Phrase("$ " + String.valueOf(transactionDao.getPaymentDao().get(0).getLoyalty()), new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
                     }
+                    if (transactionDao.getTransactionBalance() > 0) {
+
                         totalTable.addCell(new Phrase("Balance Due", new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
                         totalTable.addCell(new Phrase("$ " + String.valueOf(transactionDao.getTransactionBalance()), new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
+                    }
                 }
 
 
@@ -773,43 +783,15 @@ public class TransactionsManager {
 
     private void printStoreDetails(PdfContentByte cb, TransactionDao transactionDao) {
 
-        createCustomerDetails(cb, 35, 800, "Excel Wireless");
-        createCustomerDetails(cb, 35, 785, "5955 Jimmy Carter Boulevard, Suite 120");
-        createCustomerDetails(cb, 35, 770, "Norcross, GA - 30071");
-        createCustomerDetails(cb, 35, 755, "USA");
-        createCustomerDetails(cb, 35, 740, "(678) 694-1873");
-    }
-
-
-    private void generateLineItemTable(PdfContentByte cb) {
-
-        try {
-
-            // Invoice Header box layout
-            // cb.rectangle(35,800,50,50);
-//            cb.moveTo(35,720);
-//            cb.lineTo(570,720);
-//
-//
-//            cb.moveTo(70,720);
-//            cb.lineTo(570,720);
-
-//            cb.moveTo(420,740);
-//            cb.lineTo(570,740);
-//            cb.moveTo(480,700);
-//            cb.lineTo(480,760);
-            //  cb.stroke();
-
-
-            // Invoice Header box Text Headings.
-//            createHeadings(cb,422,743,"Account No.");
-//            createHeadings(cb,422,723,"Invoice No.");
-//            createHeadings(cb,422,703,"Invoice Date");
-
-
-        } catch (Exception ex) {
-            ex.printStackTrace();
+        if(null!= transactionDao.getStoreSetupDao())
+        {
+            createCustomerDetails(cb, 35, 800, transactionDao.getStoreSetupDao().getName());
+            createCustomerDetails(cb, 35, 785, transactionDao.getStoreSetupDao().getStreet());
+            createCustomerDetails(cb, 35, 770, transactionDao.getStoreSetupDao().getCity() +" ,"+transactionDao.getStoreSetupDao().getState() + " - "+transactionDao.getStoreSetupDao().getZipcode());
+            createCustomerDetails(cb, 35, 755, "USA");
+            createCustomerDetails(cb, 35, 740, transactionDao.getStoreSetupDao().getPhoneNo());
         }
+
 
     }
 
@@ -876,4 +858,8 @@ public class TransactionsManager {
     }
 
 
+    public List<TransactionDao> getPendingInvoiceByCustomer(String phoneNo) {
+
+       return transactionRepository.findAllByStatusEqualsAndAndCustomerPhoneno("Pending", phoneNo);
+    }
 }

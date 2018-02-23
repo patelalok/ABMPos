@@ -19,6 +19,11 @@ public interface TransactionRepository extends JpaRepository<TransactionDao, Int
 
     TransactionDao findFirstByCustomerPhoneno(String phoneNo);
 
+    List<TransactionDao> findAllByStatusEqualsAndAndCustomerPhoneno(String status, String phoneNo);
+
+    @Query("SELECT SUM(t.transactionBalance) from TransactionDao t where t.customerPhoneno = ?1")
+    List<Double> getCustomerBalanceByPendingInvoice(String phoneNo);
+
     @Query(value = "SELECT * FROM transaction t WHERE t.date BETWEEN ?1 AND ?2 ORDER BY t.date DESC", nativeQuery = true)
     List<Object[]> getTransactionByDate(String startDate, String endDate);
 

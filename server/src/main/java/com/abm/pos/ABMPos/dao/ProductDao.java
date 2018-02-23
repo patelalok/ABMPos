@@ -34,7 +34,7 @@ public class ProductDao implements Serializable {
 
     //this is just to send as 1 when we sell the product default
     @Transient
-    private int defaultQuantity = 1;
+    private int saleQuantity;
 
    // private String image;
 
@@ -64,7 +64,7 @@ public class ProductDao implements Serializable {
     @Transient
     private double discount;
     @Transient
-    private double retailDiscount;
+    private double retailWithDiscount;
     @Transient
     private double totalProductPrice;
     @Transient
@@ -166,15 +166,15 @@ public class ProductDao implements Serializable {
         this.minQuantity = minQuantity;
     }
 
-    public int getDefaultQuantity() {
-        return defaultQuantity;
+    public int getSaleQuantity() {
+        return saleQuantity;
     }
 
-    public void setDefaultQuantity(int defaultQuantity) {
-        this.defaultQuantity = defaultQuantity;
+    public void setSaleQuantity(int saleQuantity) {
+        this.saleQuantity = saleQuantity;
     }
 
-//    public String getImage() {
+    //    public String getImage() {
 //        return image;
 //    }
 //
@@ -286,12 +286,12 @@ public class ProductDao implements Serializable {
         this.discount = discount;
     }
 
-    public double getRetailDiscount() {
-        return retailDiscount;
+    public double getRetailWithDiscount() {
+        return retailWithDiscount;
     }
 
-    public void setRetailDiscount(double retailDiscount) {
-        this.retailDiscount = retailDiscount;
+    public void setRetailWithDiscount(double retailWithDiscount) {
+        this.retailWithDiscount = retailWithDiscount;
     }
 
     public double getTotalProductPrice() {

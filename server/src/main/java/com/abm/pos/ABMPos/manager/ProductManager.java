@@ -83,9 +83,21 @@ public class ProductManager{
             // So this is really important.
             if(null != productDao1 && productDao.getRetail() != productDao1.getRetail())
             {
+                int totalProduct = 0;
                 productInventoryRepository.updateProductRetailPrice(productDao.getRetail(), productDao.getProductNo());
-            }
 
+                    // This will sync the product quantity after every update.
+                    List<ProductInventoryDao> productInventoryDaoList = productInventoryRepository.findAllByProductNo(productDao1.getProductNo());
+
+                    if (null != productInventoryDaoList && productInventoryDaoList.size() > 0) {
+                        for (ProductInventoryDao productInventoryDao2 : productInventoryDaoList) {
+                            totalProduct = totalProduct + productInventoryDao2.getQuantity();
+                        }
+                        // Now i need to update quantity in product table, so setting data here which will save after this.
+                        productDao.setQuantity(totalProduct);
+                        productDao.setCost(productInventoryDaoList.get(0).getCost());
+                    }
+            }
             productDao1 = productRepository.save(productDao);
         }
 

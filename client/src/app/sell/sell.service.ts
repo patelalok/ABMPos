@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Http, Response, Headers, ResponseContentType } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
-import { TransactionDtoList, PaymentDto } from 'app/sell/sell.component';
+import { PaymentDto } from 'app/sell/sell.component';
 import { FormControl } from '@angular/forms/forms';
 import { Observer } from 'rxjs';
 import { PersistenceService } from 'app/shared/services/persistence.service';
@@ -9,7 +9,7 @@ import { Customer } from 'app/customer/customer.component';
 import { printBlob } from 'app/shared/services/util.service';
 import { environment } from 'environments/environment';
 import { CloseRegisterDto } from 'app/sell/close-register/close-register.component';
-import { Product, TransactionLineItemDaoList, CustomerProductPrice } from 'app/sell/sale/sale.component';
+import { Product, TransactionLineItemDaoList, CustomerProductPrice, TransactionDtoList } from 'app/sell/sale/sale.component';
 
 
 
@@ -31,6 +31,13 @@ private url: string;
     return this.http.get(this.url+'/getTransactionByDate?startDate=' + startDate+'&endDate='+endDate)
       .map(this.extractData)
       .catch(this.handleError);
+  }
+
+  getPendingInvoiceByCustomer(phoneNo: string) : Observable<TransactionDtoList[]> {
+
+    return this.http.get(this.url+'/getPendingInvoiceByCustomer?phoneNo='+phoneNo)
+    .map(this.extractData)
+    .catch(this.handleError);
   }
 
   getTransactionById(transactionId: any) :Observable<TransactionDtoList> {
