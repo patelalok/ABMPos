@@ -200,15 +200,7 @@ export class ProductService {
 
 
   deleteProduct(deletedProduct: Product) {
-    this.http.put(this.url+'/deleteProduct', deletedProduct)
-      .subscribe(data => {
-        alert('deleted');
-        console.log(data);
-      },
-      error => {
-        console.log(JSON.stringify(error.json()));
-      });
-
+    return this.http.put(this.url+'/deleteProduct', deletedProduct);
   }
 
   deleteProductInventory(deletedInvetory: ProductInventory) {

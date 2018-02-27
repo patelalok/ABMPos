@@ -170,17 +170,27 @@
                             {{summary.discount | currency:'USD':'true'}}
                         </ng-template>
                     </p-column>
+
+                    <p-column field="returns" header="Return" [sortable]="true">
+                        <ng-template let-summary="rowData" pTemplate="body">
+                            {{summary.returns | currency:'USD':'true'}}
+                        </ng-template>
+                    </p-column>
+                    <p-column field="returns" header="Balance Due">
+                        <ng-template let-summary="rowData" pTemplate="body">
+                            {{summary.returns | currency:'USD':'true'}}
+                        </ng-template>
+                    </p-column>
                     <p-column field="profit" header="Profit" [sortable]="true">
                         <ng-template let-summary="rowData" pTemplate="body">
                             {{summary.profit | currency:'USD':'true'}}
                         </ng-template>
                     </p-column>
-                    <p-column field="returns" header="Returns" [sortable]="true">
+                    <p-column field="returns" header="Total" [sortable]="true">
                         <ng-template let-summary="rowData" pTemplate="body">
                             {{summary.returns | currency:'USD':'true'}}
                         </ng-template>
                     </p-column>
-
                 </p-dataTable>
             </div>
 

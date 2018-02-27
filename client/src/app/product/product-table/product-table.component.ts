@@ -223,13 +223,30 @@ export class ProductTableComponent implements OnInit {
 
   deleteProduct() {
 
-    this.productService.deleteProduct(this.selectedProductForDelete);
+    this.productService.deleteProduct(this.selectedProductForDelete)
+    .subscribe((data) => {
+      console.log('data', data);
+      if(data.status == 200){
+        this.toastr.success('Product Deleted Successfully !!', 'Success!');
+      }
+      else{
+        this.toastr.error('Opps Something goes wrong !!', 'Error!!');
+    }
+  },
+    error => {
+      console.log('data', error);
+      if(error.status == 409){
+        this.toastr.error('Can not delete this product, cause it has inventory in it !!', 'Error!');
+      }
+      else{
+        this.toastr.error('Opps Something goes wrong !!', 'Error!!');
+        console.log(JSON.stringify(error.json()));
+      }
+    
+    });
     let index = this.backendProductDto.findIndex((el) => el.productNo == this.selectedProductForDelete.productNo);
-    // console.log('Index', index);
-    // console.log('Before delete', this.backendProductDto.length);
     this.backendProductDto.splice(index, 1);
     // TODO need to fix this, why new prodcut is not loading after delete.
-    // console.log("After deletion", this.backendProductDto.length)
     this.productViewList = this.backendProductDto.slice();
     // this.getProductDetails();
   }
