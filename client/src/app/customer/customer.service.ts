@@ -33,6 +33,11 @@ constructor(private http: Http) {
       .catch(this.handleError);
     }
 
+    getCustomerTransactionDetails()
+    {
+      
+    }
+
     addOrUpdateCustomer(customer: CustomerInterface)
     {
      console.log("Customer to be Added" + customer.name);

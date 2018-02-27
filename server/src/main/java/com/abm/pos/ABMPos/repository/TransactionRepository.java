@@ -21,6 +21,8 @@ public interface TransactionRepository extends JpaRepository<TransactionDao, Int
 
     List<TransactionDao> findAllByStatusEqualsAndAndCustomerPhoneno(String status, String phoneNo);
 
+    List<TransactionDao> findAllByCustomerPhonenoAndAndDateBetween(String phoneNo, String startDate, String endDate);
+
     @Query("SELECT SUM(t.transactionBalance) from TransactionDao t where t.customerPhoneno = ?1")
     List<Double> getCustomerBalanceByPendingInvoice(String phoneNo);
 
@@ -28,7 +30,7 @@ public interface TransactionRepository extends JpaRepository<TransactionDao, Int
     List<Object[]> getTransactionByDate(String startDate, String endDate);
 
 //    @Query("SELECT SUM(subtotal), SUM(tax), SUM(totalDiscount)  FROM TransactionDao  WHERE (status = 'Complete' OR status = 'Return') AND (date BETWEEN ?1 AND ?2) ")
-    @Query("SELECT SUM(subtotal),SUM(tax),SUM(totalDiscount),(SELECT SUM(totalAmount) from TransactionDao WHERE status = 'Return' AND (date BETWEEN ?1 AND ?2 )) As totalReturn  FROM TransactionDao  WHERE (status = 'Complete' OR status = 'Return') AND (date BETWEEN ?1 AND ?2)")
+    @Query("SELECT SUM(subtotal),SUM(tax),SUM(totalDiscount),(SELECT SUM(totalAmount) from TransactionDao WHERE status = 'Return' AND (date BETWEEN ?1 AND ?2 )) As totalReturn FROM TransactionDao  WHERE (status = 'Complete' OR status = 'Return') AND (date BETWEEN ?1 AND ?2)")
     List<Object[]> getSumOfTransactionDetailsForCloseRegister(String startDate, String endDate);
 
     @Query(value = "SELECT monthname(t.date) AS NameOfMonth, " +
@@ -51,8 +53,7 @@ public interface TransactionRepository extends JpaRepository<TransactionDao, Int
             "WHERE t.date BETWEEN ?1 AND ?2 AND (t.status = 'Complete' OR t.status = 'Return') \n" +
             "GROUP BY NameOfMonth ORDER BY field(NameOfMonth,'January','February','March','April','May','June','July','August','September','October','November','December')", nativeQuery = true)
     List<Object[]> getYearlySalesReport(String startDate, String endDate);
-
-
+    
     @Query(value = "SELECT DATE(t.date) AS dates,\n" +
             "SUM(p.cash) cash,\n" +
             "SUM(p.credit) credit,\n" +
@@ -96,5 +97,6 @@ public interface TransactionRepository extends JpaRepository<TransactionDao, Int
             "GROUP BY hours ", nativeQuery = true)
     List<Object[]> getHourlySalesReport(String startDate, String endDate);
 
-
+    @Query("SELECT SUM(transactionBalance) from TransactionDao WHERE status = 'Pending' AND date BETWEEN ?1 AND ?2 ")
+    List<Double> getTransactionDueAmount(String startDate, String endDate);
 }

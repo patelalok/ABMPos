@@ -1,0 +1,44 @@
+<mat-card>
+    <mat-card-title>
+        <h4>Manage Phone</h4>
+    </mat-card-title>
+    <mat-card-content>
+        <div class="row d-flex align-items-center">
+            <div class="col-md-3">
+                <!-- <p-autoComplete [(ngModel)]="productFilterBox" styleClass="wid100" [suggestions]="backendProductDto" (completeMethod)="filterProducts($event)" name="test" [minLength]="1" (keyup.enter)="submitProduct(p)"
+                        field="description">
+                    </p-autoComplete> -->
+
+                <input class="form-control " [formControl]="this.searchPhoneTextBox" type="text" placeholder="Search By IMEI No Or Model Name">
+            </div>
+
+            <div class="col-md-2">
+                <select class="form-control">
+                        <option>Select All</option>
+                        <option>Brand</option>
+                        <option>Category</option>
+                        <option>Vendor</option>
+                        <option>Model</option>
+                    </select>
+
+            </div>
+            <!-- <div class="col-md-2">
+                <select *ngIf="this.listOfProductOption != null" class="form-control " #dropdown (change)="fiterProductByDropdown(dropdown.value)">
+                        <option [value]="-1">All {{this.selectedProductDropdownOption}}</option>
+                        <option *ngFor="let option of this.listOfProductOption" [value]="option.id">
+                            {{option.name}}
+                        </option>
+                    </select>
+            </div> -->
+
+            <div class="col-md-5 d-flex align-items-center justify-content-end">
+                <button type="button" mat-raised-button class="bg-primary text-white action-button-lg" style="margin-right: 15px" [routerLink]="['/product/add']">
+                        <i class="fa fa-plus-square" aria-hidden="true" label="Add"></i>
+                        Add Phone
+                    </button>
+            </div>
+
+
+        </div>
+    </mat-card-content>
+</mat-card>

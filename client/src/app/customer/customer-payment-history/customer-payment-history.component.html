@@ -1,0 +1,29 @@
+<mat-card>
+    <mat-card-title>
+        <div class="row d-flex align-items-center">
+            <div class="col-md-7">
+                <h4>Customer Payment History</h4>
+            </div>
+        </div>
+    </mat-card-title>
+    <mat-card-content>
+        <div class="row">
+            <div class="col-md-3">
+                <p-dataTable [value]="this.customerDto" [editable]="true" scrollable="true" [responsive]="true" scrollHeight="500px" selectionMode="single" (onRowSelect)="onRowSelect($event)">
+                    <p-column field="name" header="Name" filterPlaceholder="Search For Customer Name" [filter]="true"></p-column>
+                    <p-column field="balance" header="Balance" [sortable]="true" [filter]="true"></p-column>
+                </p-dataTable>
+            </div>
+            <div class=col-md-9>
+                <p-dataTable [value]="this.customerDto" [editable]="true" scrollable="true" [responsive]="true" scrollHeight="500px" selectionMode="single" (onRowSelect)="onRowSelect($event)">
+                    <p-column field="" header="Invoice-No"></p-column>
+                    <p-column field="" header="Date"></p-column>
+                    <p-column field="" header="Time"></p-column>
+                    <p-column field="" header="Total Amount"></p-column>
+                    <p-column field="" header="Status"></p-column>
+                    <p-column field="" header="Action"></p-column>
+                </p-dataTable>
+            </div>
+        </div>
+    </mat-card-content>
+</mat-card>

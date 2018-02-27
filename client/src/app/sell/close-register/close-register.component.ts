@@ -62,7 +62,14 @@ export class CloseRegisterComponent implements OnInit {
         'loyalty': [null],
         'inHandCash': [null],
         'note': [null],
-        'totalReturn': [null]
+        'totalReturn': [null],
+        'cashFromPendingInvoice': [null],
+        'creditFromPendingInvoice': [null],
+        'debitFromPendingInvoice': [null],
+        'checkFromPendingInvoice': [null],
+        'pendingInvoiceTotal': [null],
+        'totalDueBalance': [null]
+        
       }
     );
 
@@ -130,7 +137,18 @@ export class CloseRegisterComponent implements OnInit {
       this.closeRegisterForm.get('reportCheck').setValue(this.closeRegisterDto.reportCheck);
       this.closeRegisterForm.get('closeCheck').setValue(this.closeRegisterDto.closeCheck);
 
-      this.closeRegisterForm.get('reportTotalAmount').setValue(this.closeRegisterDto.reportTotalAmount);
+      this.closeRegisterForm.get('cashFromPendingInvoice').setValue(this.closeRegisterDto.cashFromPendingInvoice);
+      this.closeRegisterForm.get('creditFromPendingInvoice').setValue(this.closeRegisterDto.creditFromPendingInvoice);
+      this.closeRegisterForm.get('debitFromPendingInvoice').setValue(this.closeRegisterDto.debitFromPendingInvoice);
+      this.closeRegisterForm.get('checkFromPendingInvoice').setValue(this.closeRegisterDto.checkFromPendingInvoice);
+
+      let pendingInvoiceTotal = +this.closeRegisterDto.cashFromPendingInvoice +this.closeRegisterDto.creditFromPendingInvoice 
+                                +this.closeRegisterDto.debitFromPendingInvoice +this.closeRegisterDto.checkFromPendingInvoice;
+
+      this.closeRegisterForm.get('pendingInvoiceTotal').setValue(pendingInvoiceTotal);
+      this.closeRegisterForm.get('totalDueBalance').setValue(this.closeRegisterDto.totalDueBalance);
+
+      this.closeRegisterForm.get('reportTotalAmount').setValue(this.closeRegisterDto.reportTotalAmount +pendingInvoiceTotal);
       this.closeRegisterForm.get('tax').setValue(this.closeRegisterDto.tax);
       this.closeRegisterForm.get('totalDiscount').setValue(this.closeRegisterDto.totalDiscount);
       this.closeRegisterForm.get('totalReturn').setValue(this.closeRegisterDto.totalReturn);
@@ -144,6 +162,8 @@ export class CloseRegisterComponent implements OnInit {
 
        let closeTotalAmountWithTax = this.closeRegisterForm.get('closeCash').value + this.closeRegisterForm.get('closeCredit').value + this.closeRegisterForm.get('closeDebit').value + this.closeRegisterForm.get('closeCheck').value;
       this.closeRegisterForm.get('closeTotalAmount').setValue(this.totalCloseAmount);
+
+   
     });
 
 
@@ -219,4 +239,9 @@ export class CloseRegisterDto {
   loyalty: number;
   inHandCash: number;
   note: string;
+  cashFromPendingInvoice: number;
+  creditFromPendingInvoice: number;
+  debitFromPendingInvoice: number;
+  checkFromPendingInvoice: number;
+  totalDueBalance: number;
 }

@@ -11,6 +11,7 @@ import { AddInventoryComponent } from 'app/product/add-inventory/add-inventory.c
 import { EditProductComponent } from 'app/product/edit-product/edit-product.component';
 import { AuthGuard } from 'app/auth/auth.guard';
 import { AuthModule } from 'app/auth/auth.module';
+import { PhoneComponent } from './phone/phone.component';
 
 
 const routes: Routes = [
@@ -29,10 +30,9 @@ const routes: Routes = [
       { path: 'model', component: ModelComponent},
       { path: 'addInventory', component: AddInventoryComponent},
       { path: 'category', component: CategoryComponent },
+      { path: 'phone', component: PhoneComponent}
     ]
   },
-
-
 ];
 
 @NgModule({

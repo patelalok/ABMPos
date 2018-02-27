@@ -14,6 +14,9 @@ public class PaymentDao {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int transactionPaymentId;
 
+//    private int alok;
+    private int transaction_com_id;
+
     private String status;
     private String date;
 
@@ -150,5 +153,22 @@ public class PaymentDao {
 
     public void setTransactionNote(String transactionNote) {
         this.transactionNote = transactionNote;
+    }
+
+//    public int getAlok() {
+//        return alok;
+//    }
+//
+//    public void setAlok(int alok) {
+//        this.alok = alok;
+//    }
+
+
+    public int getTransaction_com_id() {
+        return transaction_com_id;
+    }
+
+    public void setTransaction_com_id(int transaction_com_id) {
+        this.transaction_com_id = transaction_com_id;
     }
 }

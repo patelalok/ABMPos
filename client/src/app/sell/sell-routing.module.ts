@@ -24,6 +24,7 @@ import { CloseRegisterComponent } from 'app/sell/close-register/close-register.c
 import { DashboardComponent } from 'app/dashboard/dashboard.component';
 import { RepairComponent } from '../repair/repair.component';
 import { AddRepairComponent } from '../repair/add-repair/add-repair.component';
+import { CustomerPaymentHistoryComponent } from 'app/customer/customer-payment-history/customer-payment-history.component';
 
 
 const routes: Routes = [
@@ -53,7 +54,8 @@ const routes: Routes = [
     component: SalesHistoryComponent, 
     canActivate: [AuthGuard],
   },
-  { path: 'setting', component: StoresetupComponent}
+  { path: 'setting', component: StoresetupComponent},
+  // { path: 'aaaaa', component:  CustomerPaymentHistoryComponent}
 ];
 
 @NgModule({

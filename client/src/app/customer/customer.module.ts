@@ -14,6 +14,7 @@ import { CustomerComponent } from 'app/customer/customer.component';
 import { CustomerService } from 'app/customer/customer.service';
 import { SharedModule } from 'app/shared/shared.module';
 import { CustomerRoutingModule } from 'app/customer/customer-routing.module';
+import { CustomerPaymentHistoryComponent } from './customer-payment-history/customer-payment-history.component';
 
 @NgModule({
   imports: [
@@ -28,11 +29,10 @@ import { CustomerRoutingModule } from 'app/customer/customer-routing.module';
     MessagesModule,
     GrowlModule
 
-
-
   ],
-  declarations: [CustomerComponent],
+  declarations: [CustomerComponent, CustomerPaymentHistoryComponent],
    providers: [CustomerService],
+   bootstrap:[CustomerComponent,CustomerPaymentHistoryComponent]
 
 })
 export class CustomerModule { }

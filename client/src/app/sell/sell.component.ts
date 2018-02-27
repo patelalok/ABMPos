@@ -115,7 +115,7 @@ items: MenuItem[];
 
     this.items = [
       { name: 'Return', icon: 'fa fa-reply-all fa-x ', link: '/sell/return' },
-      { name: 'Close Register', icon: 'fa fa-window-close-o fa-x', link: '/sell/close-register' },
+      { name: 'Register', icon: 'fa fa-window-close-o fa-x', link: '/sell/close-register' },
       { name: 'Close Shift', icon: 'fa fa-times fa-x', link: '/sell/close-shift' }
     ];
 
@@ -1217,6 +1217,7 @@ export class PaymentDto {
 
   // }
   transactionComIdFk: number;
+  transactionComId: number;
   date: any;
   cash: number;
   credit: number;
@@ -1231,7 +1232,6 @@ export class PaymentDto {
   receiptNote: string;
   transactionNote: string;
   status: string;
-
 }
 
 export class PaymentObjectForPaymentSellTable {

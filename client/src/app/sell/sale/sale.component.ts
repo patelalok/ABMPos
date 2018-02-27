@@ -55,6 +55,7 @@
         saleType: string = 'Complete';
         storeDetails: StoreSetupDto;
         taxPercent: number = 0.00;
+        shippingAmount: number = 0.00;
 
         // This help when customer has paid full amount, so now user should not able to click on any payment button.
         // These both buttons are on payment page pop up.
@@ -110,7 +111,6 @@
 
           this.transactionLineItemDaoList = this.persit.getProducts() || [];
           // this will show transaction data on right side on refresh or on load of the page
-          
           this.setTransactionDtoList();
         }
 
@@ -192,13 +192,13 @@
               }
             }
               if(!this.isProductExistsInSellList) {
-                this.transactionLineItemDaoList = this.transactionLineItemDaoList.slice();
                 productObj.totalProductPrice = productObj.retailWithDiscount * productObj.saleQuantity;
                 productObj.taxAmountOnProduct = parseFloat(((productObj.retailWithDiscount * this.taxPercent) / 100).toFixed(2));
                 this.transactionLineItemDaoList.push(productObj);
                 this.product = null;
                 this.productForSearchBox = null
-                this.transactionLineItemDaoList[this.transactionLineItemDaoList.length -1].retailWithDiscount = productObj.retailWithDiscount; 
+                this.transactionLineItemDaoList[this.transactionLineItemDaoList.length -1].retailWithDiscount = productObj.retailWithDiscount;
+                this.transactionLineItemDaoList = this.transactionLineItemDaoList.slice();
                 this.setTransactionDtoList()
                 this.persit.setProducts(this.transactionLineItemDaoList);
               }
@@ -343,6 +343,8 @@
           let totalAfterDiscount: number = this.transactionDtoList.subtotal - this.totalTransactionDiscount;
           this.transactionDtoList.tax = ((totalAfterDiscount * this.taxPercent/ 100));
           this.transactionDtoList.totalAmount = +totalAfterDiscount +this.transactionDtoList.tax;
+          this.transactionDtoList.shipping = this.shippingAmount;
+          this.transactionDtoList.totalAmount = +this.transactionDtoList.totalAmount +this.transactionDtoList.shipping;
 
           // This logic helps to manage main payment button enable or diable.
           if (this.transactionDtoList.totalAmount == 0) {
@@ -500,7 +502,6 @@
                 }
                 // Here i am using complete store credit of the customer
                 else {
-
                   this.paymentDto.storeCredit = paymentAmount;
                   this.paymentObjectForPaymentSellTable.push({ 'paymentType': 'StoreCredit', 'paymentAmount': this.paymentDto.storeCredit });
                   this.validatePaymentButtons(this.paymentDto.storeCredit);
@@ -536,7 +537,7 @@
 
           // This means cutomer has paid full amount.
           if (this.dueAmountForTransaction - paymentAmount <= 0) {
-            this.dueAmountForTransaction = this.dueAmountForTransaction - paymentAmount;
+            this.dueAmountForTransaction = Math.round((this.dueAmountForTransaction - paymentAmount) * 1e2)/ 1e2;
             this.disablePaymentButtons = true;
             this.disablePaymentButtonsWithAmount = true
 
@@ -551,8 +552,8 @@
           }
           else {
             // this.dueAmountForTransaction = Number.parseFloat((this.dueAmountForTransaction - paymentAmount).toFixed(2));
-            this.dueAmountForTransaction = this.dueAmountForTransaction - paymentAmount;
-            this.payAmountTextBox = this.dueAmountForTransaction;
+            this.dueAmountForTransaction = Math.round((this.dueAmountForTransaction - paymentAmount) * 1e2)/ 1e2;
+            this.payAmountTextBox = Math.round(this.dueAmountForTransaction * 1e2)/ 1e2;
           }
         }
 
@@ -674,7 +675,7 @@
           }
           // seeting current date and time using momemt.
           this.transactionDtoList.date = moment(Date.now()).format('YYYY-MM-DD HH:mm:ss');
-          // Setting payment dto into transaction dto, because can not send both as @request body mfrom angular..
+          // Setting payment dto into transaction dto, because can not send both as @request body from angular..
           this.paymentDto.date = this.transactionDtoList.date;
           this.paymentDao.push(this.paymentDto);
           this.transactionDtoList.paymentDao = this.paymentDao;
@@ -782,6 +783,8 @@
         
         
             this.transactionLineItemDaoList = this.persit.getProducts() || [];
+            // I must have to add this here, otherwise it will create problem,
+            this.shippingAmount = 0.00;
             this.setTransactionDtoList();
             this.paymentDao = [];
         
@@ -793,6 +796,8 @@
           this.printTransactionDto = null;
 
           this.taxPercent = this.storeDetails.tax;
+
+          this.shippingAmount = 0.00;
           }
 
           else {
@@ -1019,6 +1024,7 @@
         tax: number;
         totalDiscount: number = 0.00;
         subtotal: number;
+        shipping: number;
         quantity: number;
         transactionComId: number;
         customerPhoneno: string;
@@ -1037,6 +1043,7 @@
 
       export class PaymentDto {
         transactionComIdFk: number;
+        transactionComId: number;
         date: any;
         cash: number;
         credit: number;

@@ -198,6 +198,12 @@
                         </dd>
                     </dl>
                     <dl class="row">
+                        <dt class="">Shipping</dt>
+                        <dd class="">
+                            <input (keyup.enter)="this.setTransactionDtoList()" style="width: 65px;" type="number" class="form-control" [(ngModel)]="this.shippingAmount">
+                        </dd>
+                    </dl>
+                    <dl class="row">
                         <dt class="">Total</dt>
                         <dd class="">{{this.transactionDtoList.totalAmount | currency:'USD':'true'}}</dd>
                     </dl>
@@ -255,6 +261,7 @@
     </div>
 </div>
 <!-- End of Discount pophover -->
+
 
 
 

@@ -947,49 +947,14 @@ var User = /** @class */ (function () {
 
 /***/ }),
 
-/***/ "../../../../../src/app/customer/customer-routing.module.ts":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/***/ "../../../../../src/app/customer/customer-payment-history/customer-payment-history.component.html":
+/***/ (function(module, exports) {
 
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return CustomerRoutingModule; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/esm5/core.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_router__ = __webpack_require__("../../../router/esm5/router.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_app_auth_auth_guard__ = __webpack_require__("../../../../../src/app/auth/auth.guard.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_app_customer_customer_component__ = __webpack_require__("../../../../../src/app/customer/customer.component.ts");
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-
-
-
-
-var routes = [
-    {
-        path: 'customer',
-        component: __WEBPACK_IMPORTED_MODULE_3_app_customer_customer_component__["b" /* CustomerComponent */],
-        canActivate: [__WEBPACK_IMPORTED_MODULE_2_app_auth_auth_guard__["a" /* AuthGuard */]]
-    },
-];
-var CustomerRoutingModule = /** @class */ (function () {
-    function CustomerRoutingModule() {
-    }
-    CustomerRoutingModule = __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["NgModule"])({
-            imports: [__WEBPACK_IMPORTED_MODULE_1__angular_router__["RouterModule"].forChild(routes)],
-            exports: [__WEBPACK_IMPORTED_MODULE_1__angular_router__["RouterModule"]]
-        })
-    ], CustomerRoutingModule);
-    return CustomerRoutingModule;
-}());
-
-
+module.exports = "<mat-card>\n    <mat-card-title>\n        <div class=\"row d-flex align-items-center\">\n            <div class=\"col-md-7\">\n                <h4>Customer Payment History</h4>\n            </div>\n        </div>\n    </mat-card-title>\n    <mat-card-content>\n        <div class=\"row\">\n            <div class=\"col-md-3\">\n                <p-dataTable [value]=\"this.customerDto\" [editable]=\"true\" scrollable=\"true\" [responsive]=\"true\" scrollHeight=\"500px\" selectionMode=\"single\" (onRowSelect)=\"onRowSelect($event)\">\n                    <p-column field=\"name\" header=\"Name\" filterPlaceholder=\"Search For Customer Name\" [filter]=\"true\"></p-column>\n                    <p-column field=\"balance\" header=\"Balance\" [sortable]=\"true\" [filter]=\"true\"></p-column>\n                </p-dataTable>\n            </div>\n            <div class=col-md-9>\n                <p-dataTable [value]=\"this.customerDto\" [editable]=\"true\" scrollable=\"true\" [responsive]=\"true\" scrollHeight=\"500px\" selectionMode=\"single\" (onRowSelect)=\"onRowSelect($event)\">\n                    <p-column field=\"\" header=\"Invoice-No\"></p-column>\n                    <p-column field=\"\" header=\"Date\"></p-column>\n                    <p-column field=\"\" header=\"Time\"></p-column>\n                    <p-column field=\"\" header=\"Total Amount\"></p-column>\n                    <p-column field=\"\" header=\"Status\"></p-column>\n                    <p-column field=\"\" header=\"Action\"></p-column>\n                </p-dataTable>\n            </div>\n        </div>\n    </mat-card-content>\n</mat-card>"
 
 /***/ }),
 
-/***/ "../../../../../src/app/customer/customer.component.css":
+/***/ "../../../../../src/app/customer/customer-payment-history/customer-payment-history.component.scss":
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__("../../../../css-loader/lib/css-base.js")(false);
@@ -1007,10 +972,125 @@ module.exports = module.exports.toString();
 
 /***/ }),
 
+/***/ "../../../../../src/app/customer/customer-payment-history/customer-payment-history.component.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return CustomerPaymentHistoryComponent; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/esm5/core.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__customer_service__ = __webpack_require__("../../../../../src/app/customer/customer.service.ts");
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+var CustomerPaymentHistoryComponent = /** @class */ (function () {
+    function CustomerPaymentHistoryComponent(customerService) {
+        this.customerService = customerService;
+        this.customerTransactionDetails = [];
+    }
+    CustomerPaymentHistoryComponent.prototype.ngOnInit = function () {
+        this.getCustomerDetails();
+    };
+    CustomerPaymentHistoryComponent.prototype.getCustomerDetails = function () {
+        var _this = this;
+        this.customerService.getCustomerDetails()
+            .subscribe(function (cust) {
+            _this.customerDto = cust;
+            console.log('Customer Detail', _this.customerDto);
+        });
+    };
+    CustomerPaymentHistoryComponent.prototype.onRowSelect = function (event) {
+        console.log('event', event);
+    };
+    CustomerPaymentHistoryComponent = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
+            selector: 'app-customer-payment-history',
+            template: __webpack_require__("../../../../../src/app/customer/customer-payment-history/customer-payment-history.component.html"),
+            styles: [__webpack_require__("../../../../../src/app/customer/customer-payment-history/customer-payment-history.component.scss")]
+        }),
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1__customer_service__["a" /* CustomerService */]])
+    ], CustomerPaymentHistoryComponent);
+    return CustomerPaymentHistoryComponent;
+}());
+
+
+
+/***/ }),
+
+/***/ "../../../../../src/app/customer/customer-routing.module.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return CustomerRoutingModule; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/esm5/core.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_router__ = __webpack_require__("../../../router/esm5/router.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_app_auth_auth_guard__ = __webpack_require__("../../../../../src/app/auth/auth.guard.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_app_customer_customer_component__ = __webpack_require__("../../../../../src/app/customer/customer.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_app_customer_customer_payment_history_customer_payment_history_component__ = __webpack_require__("../../../../../src/app/customer/customer-payment-history/customer-payment-history.component.ts");
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+
+
+
+
+
+var routes = [
+    {
+        path: 'customer',
+        component: __WEBPACK_IMPORTED_MODULE_3_app_customer_customer_component__["b" /* CustomerComponent */],
+        canActivate: [__WEBPACK_IMPORTED_MODULE_2_app_auth_auth_guard__["a" /* AuthGuard */]],
+    },
+    { path: 'customer-history', component: __WEBPACK_IMPORTED_MODULE_4_app_customer_customer_payment_history_customer_payment_history_component__["a" /* CustomerPaymentHistoryComponent */] },
+];
+var CustomerRoutingModule = /** @class */ (function () {
+    function CustomerRoutingModule() {
+    }
+    CustomerRoutingModule = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["NgModule"])({
+            imports: [__WEBPACK_IMPORTED_MODULE_1__angular_router__["RouterModule"].forChild(routes)],
+            exports: [__WEBPACK_IMPORTED_MODULE_1__angular_router__["RouterModule"]]
+        })
+    ], CustomerRoutingModule);
+    return CustomerRoutingModule;
+}());
+
+
+
+/***/ }),
+
 /***/ "../../../../../src/app/customer/customer.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<mat-card>\n    <mat-card-title>\n\n        <div class=\"row d-flex align-items-center\">\n            <div class=\"col-md-7\">\n                <h4>Customer Details</h4>\n            </div>\n\n            <div class=\"col-md-5 d-flex align-items-center justify-content-end\">\n                <button type=\"button\" class=\"bg-primary text-white action-button-lg m-3\" (click)=\"showDialogToAdd()\">\n                        <i class=\"fa fa-plus-square\" aria-hidden=\"true\" label=\"Add\"></i>\n                            Add Customer\n                    </button>\n\n            </div>\n        </div>\n    </mat-card-title>\n    <mat-card-content>\n        <p-growl [(value)]=\"msgs\"></p-growl>\n\n\n        <div class=\"row\">\n            <div class=\"col-md-12\">\n\n                <p-dataTable [value]=\"this.customerDto\" [editable]=\"true\" scrollable=\"true\" [responsive]=\"true\" scrollHeight=\"500px\">\n                    <p-column field=\"name\" header=\"Name\" filterPlaceholder=\"Search For Customer Name\" [filter]=\"true\"></p-column>\n                    <p-column field=\"phoneNo\" header=\"PhoneNo\" filterPlaceholder=\"Search For Customer Phono No\" [sortable]=\"true\" [filter]=\"true\"></p-column>\n                    <p-column field=\"email\" header=\"Email\" filterPlaceholder=\"Search For Customer Email\" [sortable]=\"true\" [filter]=\"true\"></p-column>\n                    <p-column field=\"balance\" header=\"Balance\" [sortable]=\"true\">\n                        <ng-template let-customer=\"rowData\" pTemplate=\"body\">\n                            {{customer.balance | currency:'USD':'true'}}\n                        </ng-template>\n                    </p-column>\n                    <p-column field=\"storeCredit\" header=\"Store Credit\" [sortable]=\"true\">\n                        <ng-template let-customer=\"rowData\" pTemplate=\"body\">\n                            {{customer.storeCredit | currency:'USD':'true'}}\n                        </ng-template>\n                    </p-column>\n                    <p-column field=\"action\" header=\"Action\" [sortable]=\"true\">\n\n                        <ng-template let-customer=\"rowData\" pTemplate=\"body\">\n                            <button mat-button class=\"btn-blue action-button-table\" (click)=\"updateCusotmer(customer)\">\n                                <i class=\"fa fa-pencil\" aria-hidden=\"true\"></i>\n                            </button>\n                            <button mat-button data-toggle=\"modal\" data-target=\"#deleteCustomer\" (click)=\"this.setCustomerForDelete(customer)\" mat-button class=\"btn-red action-button-table\" mat-button data-toggle=\"modal\" data-target=\"#deleteCustomer\">\n                                <i class=\"fa fa-trash\" aria-hidden=\"true\"></i>\n                            </button>\n                            <button mat-button class=\"btn-green action-button-table\" data-toggle=\"modal\" data-target=\"#productHistoryModel\">\n                                <i class=\"fa fa-history\" aria-hidden=\"true\"></i>\n                            </button>\n                            <button mat-button class=\"btn-gray action-button-table\" data-toggle=\"modal\" data-target=\"#addStoreCredit\" (click)=this.selectCustomerForStoreCredit(customer)>\n                                <i class=\"fa fa-credit-card-alt\" aria-hidden=\"true\"></i>                                \n                                </button>\n                        </ng-template>\n                    </p-column>\n                </p-dataTable>\n\n            </div>\n        </div>\n    </mat-card-content>\n</mat-card>\n\n<form [formGroup]=\"customerForm\">\n    <p-dialog header=\"Add Customer Details\" appendTo=\"body\" [(visible)]=\"displayDialog\" [responsive]=\"true\" showEffect=\"fade\" [modal]=\"true\" (onHide)=\"resrtForm()\">\n\n        <div class=\"container\">\n\n            <div class=\"row\">\n\n                <div class=\"col-md-2 p-1\">\n                    <label>Customer Name:</label>\n                </div>\n\n                <div class=\"col-md-4 p-1\">\n                    <input type=\"text\" class=\"form-control\" formControlName=\"name\" placeholder=\"Enter First and Last Name\">\n                </div>\n\n                <div class=\"col-md-2 p-1\">\n                    <label>Phone Number:</label>\n                </div>\n                <div class=\"col-md-4 p-1\">\n                    <input type=\"text\" class=\"form-control\" formControlName=\"phoneNo\" placeholder=\"Enter Phone Number\">\n\n                </div>\n\n                <!-- Second row of the cusotmer -->\n\n                <div class=\"col-md-2 p-1\">\n                    <label>Company Name:</label>\n                </div>\n\n                <div class=\"col-md-4 p-1\">\n                    <input type=\"text\" class=\"form-control\" formControlName=\"companyName\" placeholder=\"Enter Company Name\">\n                </div>\n\n                <div class=\"col-md-2 p-1\">\n                    <label>Email:</label>\n                </div>\n                <div class=\"col-md-4 p-1\">\n                    <input type=\"text\" class=\"form-control\" formControlName=\"email\" placeholder=\"Enter Email\">\n\n                </div>\n\n                <!-- thirs row of customer -->\n\n                <div class=\"col-md-2 p-1\">\n                    <label>Tax Id:</label>\n                </div>\n\n                <div class=\"col-md-4 p-1\">\n                    <input type=\"text\" class=\"form-control\" formControlName=\"taxId\" placeholder=\"Enter Tax Id\">\n                </div>\n\n                <div class=\"col-md-2 p-1\">\n                    <label>Date Of Birth:</label>\n                </div>\n                <div class=\"col-md-4 p-1\">\n                    <input type=\"text\" class=\"form-control\" formControlName=\"dateOfBirth\" placeholder=\"Enter Date Of Birth\">\n\n                </div>\n\n                <!-- forth row of customer -->\n                <div class=\"col-md-2 p-1\">\n                    <label>Customer Type:</label>\n                </div>\n\n                <div class=\"col-md-4 p-1\">\n                    <select class=\"form-control\" formControlName=\"type\">\n                                <option>Retail</option>\n                                <option>Business</option>\n                            </select>\n                </div>\n\n                <div class=\"col-md-2 p-1\">\n                    <label>Gender:</label>\n                </div>\n                <div class=\"col-md-4 p-1\">\n                    <select class=\"form-control\" formControlName=\"gender\">\n                                <option>Male</option>\n                                <option>Female</option>\n                            </select>\n                </div>\n\n                <!-- Fifth row of customer -->\n\n                <div class=\"col-md-2 p-1\">\n                    <label>Street:</label>\n                </div>\n\n                <div class=\"col-md-10 p-1\">\n                    <input type=\"text\" class=\"form-control\" formControlName=\"street\" placeholder=\"Enter Street Details\">\n                </div>\n\n                <!-- Sixth row of customer -->\n\n                <div class=\"col-md-2 p-1\">\n                    <label>City:</label>\n                </div>\n\n                <div class=\"col-md-3 p-1\">\n                    <input type=\"text\" class=\"form-control\" formControlName=\"city\">\n                </div>\n\n                <div class=\"col-md-1 p-1\">\n                    <label>State:</label>\n                </div>\n\n                <div class=\"col-md-2 p-1\">\n                    <select class=\"form-control\" formControlName=\"state\">\n                        <option value=\"AL\">Alabama</option>\n                        <option value=\"AK\">Alaska</option>\n                        <option value=\"AZ\">Arizona</option>\n                        <option value=\"AR\">Arkansas</option>\n                        <option value=\"CA\">California</option>\n                        <option value=\"CO\">Colorado</option>\n                        <option value=\"CT\">Connecticut</option>\n                        <option value=\"DE\">Delaware</option>\n                        <option value=\"DC\">District Of Columbia</option>\n                        <option value=\"FL\">Florida</option>\n                        <option value=\"GA\">Georgia</option>\n                        <option value=\"HI\">Hawaii</option>\n                        <option value=\"ID\">Idaho</option>\n                        <option value=\"IL\">Illinois</option>\n                        <option value=\"IN\">Indiana</option>\n                        <option value=\"IA\">Iowa</option>\n                        <option value=\"KS\">Kansas</option>\n                        <option value=\"KY\">Kentucky</option>\n                        <option value=\"LA\">Louisiana</option>\n                        <option value=\"ME\">Maine</option>\n                        <option value=\"MD\">Maryland</option>\n                        <option value=\"MA\">Massachusetts</option>\n                        <option value=\"MI\">Michigan</option>\n                        <option value=\"MN\">Minnesota</option>\n                        <option value=\"MS\">Mississippi</option>\n                        <option value=\"MO\">Missouri</option>\n                        <option value=\"MT\">Montana</option>\n                        <option value=\"NE\">Nebraska</option>\n                        <option value=\"NV\">Nevada</option>\n                        <option value=\"NH\">New Hampshire</option>\n                        <option value=\"NJ\">New Jersey</option>\n                        <option value=\"NM\">New Mexico</option>\n                        <option value=\"NY\">New York</option>\n                        <option value=\"NC\">North Carolina</option>\n                        <option value=\"ND\">North Dakota</option>\n                        <option value=\"OH\">Ohio</option>\n                        <option value=\"OK\">Oklahoma</option>\n                        <option value=\"OR\">Oregon</option>\n                        <option value=\"PA\">Pennsylvania</option>\n                        <option value=\"RI\">Rhode Island</option>\n                        <option value=\"SC\">South Carolina</option>\n                        <option value=\"SD\">South Dakota</option>\n                        <option value=\"TN\">Tennessee</option>\n                        <option value=\"TX\">Texas</option>\n                        <option value=\"UT\">Utah</option>\n                        <option value=\"VT\">Vermont</option>\n                        <option value=\"VA\">Virginia</option>\n                        <option value=\"WA\">Washington</option>\n                        <option value=\"WV\">West Virginia</option>\n                        <option value=\"WI\">Wisconsin</option>\n                        <option value=\"WY\">Wyoming</option>\n                    </select>\n                </div>\n\n                <div class=\"col-md-1 p-1\">\n                    <label>ZipCode:</label>\n                </div>\n                <div class=\"col-md-3 p-1\">\n                    <input type=\"text\" class=\"form-control\" formControlName=\"zipCode\" placeholder=\"Enter Zipcode\">\n                </div>\n\n            </div>\n        </div>\n\n        <p-footer>\n            <div style=\"text-align: center\">\n                <button type=\"button\" (click)=\"addCustomer()\" class=\"btn btn-success\" [disabled]=\"customerForm.invalid\">\n                            <i class=\"fa fa-paper-plane\" aria-hidden=\"true\" ></i>\n                            Save Customer Details\n                    </button>\n\n            </div>\n        </p-footer>\n\n\n    </p-dialog>\n</form>\n\n\n\n\n\n<!-- Start Of Add Store Credit -->\n<div class=\"modal fade\" id=\"addStoreCredit\" role=\"dialog\">\n    <div class=\"modal-dialog modal-lg\">\n\n        <!-- Modal content-->\n        <div class=\"modal-content\">\n            <div class=\"modal-header\">\n                <h4 class=\"modal-title\">Add Store Credit</h4>\n                <button type=\"button\" class=\"close\" data-dismiss=\"modal\">&times;</button>\n            </div>\n            <div class=\"modal-body\">\n\n                <div class=\"row m-1\">\n\n                    <div class=\"col-md-12 form-group\">\n                        <label>Enter Store Credit Amount:</label>\n                        <input [(ngModel)]=\"this.storeCreditAmount\" class=\"form-control\" type=\"number\">\n                    </div>\n                </div>\n\n                <div class=\"row m-1\">\n                    <div class=\"col-md-12 form-group\">\n                        <label>Enter Store Credit Reason:</label>\n                        <input class=\"form-control\" [(ngModel)]=\"this.storeCreditReason\" type=\"text\">\n                    </div>\n                </div>\n                <div class=\"row m-2 p-2\">\n                    <button type=\"button\" mat-raised-button class=\"bg-primary text-white action-button-lg m-auto\" (click)=\"this.addStoreCredit()\" data-dismiss=\"modal\">\n                            <i class=\"fa fa-plus-square\" aria-hidden=\"true\" label=\"Add\"></i>\n                        Add Store Credit\n                    </button>\n\n                    <!-- <div class=\"col-md-12\">\n                    </div> -->\n\n                </div>\n\n                <div class=\"row\">\n                    <table class=\"table\">\n                        <thead>\n                            <tr>\n                                <th>Date</th>\n                                <th>Time</th>\n                                <th>Amount</th>\n                                <th>Reason</th>\n                                <th>Given By</th>\n                            </tr>\n                        </thead>\n                        <tbody>\n                            <tr *ngFor=\"let history of this.storeCreditDto\">\n                                <td>{{history.date}}</td>\n                                <td>{{history.time}}</td>\n                                <td>$ {{history.amount}}</td>\n                                <td>{{history.reason}}</td>\n                                <td>{{history.employeeName}}</td>\n                            </tr>\n                        </tbody>\n                    </table>\n                </div>\n\n            </div>\n\n\n            <div class=\"modal-footer\">\n                <button type=\"button\" class=\"btn btn-default\" data-dismiss=\"modal\">Close</button>\n            </div>\n        </div>\n\n\n    </div>\n\n</div>\n<!-- End of Add Store Credit Pop up -->\n\n<!-- Start of Delete Customer Popup -->\n<div class=\"modal fade\" id=\"deleteCustomer\" role=\"dialog\">\n    <div class=\"modal-dialog modal-sm\">\n        <div class=\"modal-content\">\n            <div class=\"modal-header\">\n                <h4 class=\"modal-title\">Delete Customer</h4>\n                <button type=\"button\" class=\"close\" data-dismiss=\"modal\">&times;</button>\n            </div>\n            <div class=\"modal-body\">\n                <p>Are You Sure You Want To Delete This Customer</p>\n            </div>\n            <div class=\"modal-footer\">\n\n                <button type=\"button\" class=\"btn btn-danger\" data-dismiss=\"modal\" (click)=\"this.deleteCustomer()\">Yes</button>\n                <button type=\"button\" class=\"btn btn-default\" data-dismiss=\"modal\">Cancle</button>\n            </div>\n        </div>\n    </div>\n</div>\n\n<!-- End of Delete Customer Popup -->"
+module.exports = "<mat-card>\n    <mat-card-title>\n\n        <div class=\"row d-flex align-items-center\">\n            <div class=\"col-md-7\">\n                <h4>Customer Details</h4>\n            </div>\n\n            <div class=\"col-md-5 d-flex align-items-center justify-content-end\">\n                <button type=\"button\" class=\"bg-primary text-white action-button-lg m-3\" (click)=\"showDialogToAdd()\">\n                        <i class=\"fa fa-plus-square\" aria-hidden=\"true\" label=\"Add\"></i>\n                            Add Customer\n                    </button>\n\n            </div>\n        </div>\n    </mat-card-title>\n    <mat-card-content>\n        <p-growl [(value)]=\"msgs\"></p-growl>\n\n\n        <div class=\"row\">\n            <div class=\"col-md-12\">\n\n                <p-dataTable [value]=\"this.customerDto\" [editable]=\"true\" scrollable=\"true\" [responsive]=\"true\" scrollHeight=\"500px\">\n                    <p-column field=\"name\" header=\"Name\" filterPlaceholder=\"Search For Customer Name\" [filter]=\"true\"></p-column>\n                    <p-column field=\"phoneNo\" header=\"PhoneNo\" filterPlaceholder=\"Search For Customer Phono No\" [sortable]=\"true\" [filter]=\"true\"></p-column>\n                    <p-column field=\"email\" header=\"Email\" filterPlaceholder=\"Search For Customer Email\" [sortable]=\"true\" [filter]=\"true\"></p-column>\n                    <p-column field=\"balance\" header=\"Balance\" [sortable]=\"true\">\n                        <ng-template let-customer=\"rowData\" pTemplate=\"body\">\n                            {{customer.balance | currency:'USD':'true'}}\n                        </ng-template>\n                    </p-column>\n                    <p-column field=\"storeCredit\" header=\"Store Credit\" [sortable]=\"true\">\n                        <ng-template let-customer=\"rowData\" pTemplate=\"body\">\n                            {{customer.storeCredit | currency:'USD':'true'}}\n                        </ng-template>\n                    </p-column>\n                    <p-column field=\"action\" header=\"Action\" [sortable]=\"true\">\n\n                        <ng-template let-customer=\"rowData\" pTemplate=\"body\">\n                            <button mat-button class=\"btn-blue action-button-table\" (click)=\"updateCusotmer(customer)\">\n                                <i class=\"fa fa-pencil\" aria-hidden=\"true\"></i>\n                            </button>\n                            <button mat-button data-toggle=\"modal\" data-target=\"#deleteCustomer\" (click)=\"this.setCustomerForDelete(customer)\" mat-button class=\"btn-red action-button-table\" mat-button data-toggle=\"modal\" data-target=\"#deleteCustomer\">\n                                <i class=\"fa fa-trash\" aria-hidden=\"true\"></i>\n                            </button>\n                            <button mat-button class=\"btn-green action-button-table\" data-toggle=\"modal\" data-target=\"#productHistoryModel\">\n                                <i class=\"fa fa-history\" aria-hidden=\"true\"></i>\n                            </button>\n                            <button mat-button class=\"btn-gray action-button-table\" data-toggle=\"modal\" data-target=\"#addStoreCredit\" (click)=this.selectCustomerForStoreCredit(customer)>\n                                <i class=\"fa fa-credit-card-alt\" aria-hidden=\"true\"></i>                                \n                            </button>\n                            <button mat-button class=\"btn-gray action-button-table\" data-toggle=\"modal\" data-target=\"#pendingInvoice\" (click)=this.openPendingInvoice(customer)>\n                                <i class=\"fa fa-file\" aria-hidden=\"true\"></i>                                \n                            </button>\n                        </ng-template>\n                    </p-column>\n                </p-dataTable>\n\n            </div>\n        </div>\n    </mat-card-content>\n</mat-card>\n\n<form [formGroup]=\"customerForm\">\n    <p-dialog header=\"Add Customer Details\" appendTo=\"body\" [(visible)]=\"displayDialog\" [responsive]=\"true\" showEffect=\"fade\" [modal]=\"true\" (onHide)=\"resrtForm()\">\n\n        <div class=\"container\">\n\n            <div class=\"row\">\n\n                <div class=\"col-md-2 p-1\">\n                    <label>Customer Name:</label>\n                </div>\n\n                <div class=\"col-md-4 p-1\">\n                    <input type=\"text\" class=\"form-control\" formControlName=\"name\" placeholder=\"Enter First and Last Name\">\n                </div>\n\n                <div class=\"col-md-2 p-1\">\n                    <label>Phone Number:</label>\n                </div>\n                <div class=\"col-md-4 p-1\">\n                    <input type=\"text\" class=\"form-control\" formControlName=\"phoneNo\" placeholder=\"Enter Phone Number\">\n\n                </div>\n\n                <!-- Second row of the cusotmer -->\n\n                <div class=\"col-md-2 p-1\">\n                    <label>Company Name:</label>\n                </div>\n\n                <div class=\"col-md-4 p-1\">\n                    <input type=\"text\" class=\"form-control\" formControlName=\"companyName\" placeholder=\"Enter Company Name\">\n                </div>\n\n                <div class=\"col-md-2 p-1\">\n                    <label>Email:</label>\n                </div>\n                <div class=\"col-md-4 p-1\">\n                    <input type=\"text\" class=\"form-control\" formControlName=\"email\" placeholder=\"Enter Email\">\n\n                </div>\n\n                <!-- thirs row of customer -->\n\n                <div class=\"col-md-2 p-1\">\n                    <label>Tax Id:</label>\n                </div>\n\n                <div class=\"col-md-4 p-1\">\n                    <input type=\"text\" class=\"form-control\" formControlName=\"taxId\" placeholder=\"Enter Tax Id\">\n                </div>\n\n                <div class=\"col-md-2 p-1\">\n                    <label>Date Of Birth:</label>\n                </div>\n                <div class=\"col-md-4 p-1\">\n                    <input type=\"text\" class=\"form-control\" formControlName=\"dateOfBirth\" placeholder=\"Enter Date Of Birth\">\n\n                </div>\n\n                <!-- forth row of customer -->\n                <div class=\"col-md-2 p-1\">\n                    <label>Customer Type:</label>\n                </div>\n\n                <div class=\"col-md-4 p-1\">\n                    <select class=\"form-control\" formControlName=\"type\">\n                                <option>Retail</option>\n                                <option>Business</option>\n                            </select>\n                </div>\n\n                <div class=\"col-md-2 p-1\">\n                    <label>Gender:</label>\n                </div>\n                <div class=\"col-md-4 p-1\">\n                    <select class=\"form-control\" formControlName=\"gender\">\n                                <option>Male</option>\n                                <option>Female</option>\n                            </select>\n                </div>\n\n                <!-- Fifth row of customer -->\n\n                <div class=\"col-md-2 p-1\">\n                    <label>Street:</label>\n                </div>\n\n                <div class=\"col-md-10 p-1\">\n                    <input type=\"text\" class=\"form-control\" formControlName=\"street\" placeholder=\"Enter Street Details\">\n                </div>\n\n                <!-- Sixth row of customer -->\n\n                <div class=\"col-md-2 p-1\">\n                    <label>City:</label>\n                </div>\n\n                <div class=\"col-md-3 p-1\">\n                    <input type=\"text\" class=\"form-control\" formControlName=\"city\">\n                </div>\n\n                <div class=\"col-md-1 p-1\">\n                    <label>State:</label>\n                </div>\n\n                <div class=\"col-md-2 p-1\">\n                    <select class=\"form-control\" formControlName=\"state\">\n                        <option value=\"AL\">Alabama</option>\n                        <option value=\"AK\">Alaska</option>\n                        <option value=\"AZ\">Arizona</option>\n                        <option value=\"AR\">Arkansas</option>\n                        <option value=\"CA\">California</option>\n                        <option value=\"CO\">Colorado</option>\n                        <option value=\"CT\">Connecticut</option>\n                        <option value=\"DE\">Delaware</option>\n                        <option value=\"DC\">District Of Columbia</option>\n                        <option value=\"FL\">Florida</option>\n                        <option value=\"GA\">Georgia</option>\n                        <option value=\"HI\">Hawaii</option>\n                        <option value=\"ID\">Idaho</option>\n                        <option value=\"IL\">Illinois</option>\n                        <option value=\"IN\">Indiana</option>\n                        <option value=\"IA\">Iowa</option>\n                        <option value=\"KS\">Kansas</option>\n                        <option value=\"KY\">Kentucky</option>\n                        <option value=\"LA\">Louisiana</option>\n                        <option value=\"ME\">Maine</option>\n                        <option value=\"MD\">Maryland</option>\n                        <option value=\"MA\">Massachusetts</option>\n                        <option value=\"MI\">Michigan</option>\n                        <option value=\"MN\">Minnesota</option>\n                        <option value=\"MS\">Mississippi</option>\n                        <option value=\"MO\">Missouri</option>\n                        <option value=\"MT\">Montana</option>\n                        <option value=\"NE\">Nebraska</option>\n                        <option value=\"NV\">Nevada</option>\n                        <option value=\"NH\">New Hampshire</option>\n                        <option value=\"NJ\">New Jersey</option>\n                        <option value=\"NM\">New Mexico</option>\n                        <option value=\"NY\">New York</option>\n                        <option value=\"NC\">North Carolina</option>\n                        <option value=\"ND\">North Dakota</option>\n                        <option value=\"OH\">Ohio</option>\n                        <option value=\"OK\">Oklahoma</option>\n                        <option value=\"OR\">Oregon</option>\n                        <option value=\"PA\">Pennsylvania</option>\n                        <option value=\"RI\">Rhode Island</option>\n                        <option value=\"SC\">South Carolina</option>\n                        <option value=\"SD\">South Dakota</option>\n                        <option value=\"TN\">Tennessee</option>\n                        <option value=\"TX\">Texas</option>\n                        <option value=\"UT\">Utah</option>\n                        <option value=\"VT\">Vermont</option>\n                        <option value=\"VA\">Virginia</option>\n                        <option value=\"WA\">Washington</option>\n                        <option value=\"WV\">West Virginia</option>\n                        <option value=\"WI\">Wisconsin</option>\n                        <option value=\"WY\">Wyoming</option>\n                    </select>\n                </div>\n\n                <div class=\"col-md-1 p-1\">\n                    <label>ZipCode:</label>\n                </div>\n                <div class=\"col-md-3 p-1\">\n                    <input type=\"text\" class=\"form-control\" formControlName=\"zipCode\" placeholder=\"Enter Zipcode\">\n                </div>\n\n            </div>\n        </div>\n\n        <p-footer>\n            <div style=\"text-align: center\">\n                <button type=\"button\" (click)=\"addCustomer()\" class=\"btn btn-success\" [disabled]=\"customerForm.invalid\">\n                            <i class=\"fa fa-paper-plane\" aria-hidden=\"true\" ></i>\n                            Save Customer Details\n                    </button>\n\n            </div>\n        </p-footer>\n\n\n    </p-dialog>\n</form>\n\n\n\n\n\n<!-- Start Of Add Store Credit -->\n<div class=\"modal fade\" id=\"addStoreCredit\" role=\"dialog\">\n    <div class=\"modal-dialog modal-lg\">\n\n        <!-- Modal content-->\n        <div class=\"modal-content\">\n            <div class=\"modal-header\">\n                <h4 class=\"modal-title\">Add Store Credit</h4>\n                <button type=\"button\" class=\"close\" data-dismiss=\"modal\">&times;</button>\n            </div>\n            <div class=\"modal-body\">\n\n                <div class=\"row m-1\">\n\n                    <div class=\"col-md-12 form-group\">\n                        <label>Enter Store Credit Amount:</label>\n                        <input [(ngModel)]=\"this.storeCreditAmount\" class=\"form-control\" type=\"number\">\n                    </div>\n                </div>\n\n                <div class=\"row m-1\">\n                    <div class=\"col-md-12 form-group\">\n                        <label>Enter Store Credit Reason:</label>\n                        <input class=\"form-control\" [(ngModel)]=\"this.storeCreditReason\" type=\"text\">\n                    </div>\n                </div>\n                <div class=\"row m-2 p-2\">\n                    <button type=\"button\" mat-raised-button class=\"bg-primary text-white action-button-lg m-auto\" (click)=\"this.addStoreCredit()\" data-dismiss=\"modal\">\n                            <i class=\"fa fa-plus-square\" aria-hidden=\"true\" label=\"Add\"></i>\n                        Add Store Credit\n                    </button>\n\n                    <!-- <div class=\"col-md-12\">\n                    </div> -->\n\n                </div>\n\n                <div class=\"row\">\n                    <table class=\"table\">\n                        <thead>\n                            <tr>\n                                <th>Date</th>\n                                <th>Time</th>\n                                <th>Amount</th>\n                                <th>Reason</th>\n                                <th>Given By</th>\n                            </tr>\n                        </thead>\n                        <tbody>\n                            <tr *ngFor=\"let history of this.storeCreditDto\">\n                                <td>{{history.date}}</td>\n                                <td>{{history.time}}</td>\n                                <td>$ {{history.amount}}</td>\n                                <td>{{history.reason}}</td>\n                                <td>{{history.employeeName}}</td>\n                            </tr>\n                        </tbody>\n                    </table>\n                </div>\n\n            </div>\n\n\n            <div class=\"modal-footer\">\n                <button type=\"button\" class=\"btn btn-default\" data-dismiss=\"modal\">Close</button>\n            </div>\n        </div>\n\n\n    </div>\n\n</div>\n<!-- End of Add Store Credit Pop up -->\n\n<!-- Start of Delete Customer Popup -->\n<div class=\"modal fade\" id=\"deleteCustomer\" role=\"dialog\">\n    <div class=\"modal-dialog modal-sm\">\n        <div class=\"modal-content\">\n            <div class=\"modal-header\">\n                <h4 class=\"modal-title\">Delete Customer</h4>\n                <button type=\"button\" class=\"close\" data-dismiss=\"modal\">&times;</button>\n            </div>\n            <div class=\"modal-body\">\n                <p>Are You Sure You Want To Delete This Customer</p>\n            </div>\n            <div class=\"modal-footer\">\n\n                <button type=\"button\" class=\"btn btn-danger\" data-dismiss=\"modal\" (click)=\"this.deleteCustomer()\">Yes</button>\n                <button type=\"button\" class=\"btn btn-default\" data-dismiss=\"modal\">Cancle</button>\n            </div>\n        </div>\n    </div>\n</div>\n\n<!-- End of Delete Customer Popup -->\n\n<!-- Start of Invoce by Customer Popup -->\n<div class=\"modal fade\" id=\"pendingInvoice\" role=\"dialog\">\n    <div class=\"modal-dialog modal-lg\">\n        <div class=\"modal-content\">\n            <div class=\"modal-header\">\n                <h4 class=\"modal-title\">Customer Pending Invoice</h4>\n                <button type=\"button\" class=\"close\" data-dismiss=\"modal\">&times;</button>\n            </div>\n            <div class=\"modal-body\">\n                <p-dataTable [value]=\"this.transactionDetails\" scrollable=\"true\" scrollHeight=\"500px\" [responsive]=\"true\">\n                    <p-column field=\"transactionComId\" header=\"Rec No\" [style]=\"{'width': '10%'}\"></p-column>\n                    <p-column field=\"date\" header=\"Date\" [sortable]=\"true\" [style]=\"{'width': '10%'}\"></p-column>\n                    <p-column field=\"time\" header=\"Time\" [style]=\"{'width': '10%'}\"></p-column>\n                    <p-column field=\"customerFirstLastName\" header=\"Name\"></p-column>\n                    <p-column field=\"totalAmount\" header=\"Total\" [style]=\"{'width': '15%'}\"></p-column>\n                    <p-column field=\"status\" header=\"Action\" [style]=\"{'width': '20%'}\">\n                        <ng-template let-transaction=\"rowData\" pTemplate=\"body\">\n                            <button class=\"btn-green action-button-table\" mat-button>\n                                        <i class=\"\" aria-hidden=\"true\">\n                                            PAY\n                                        </i>\n                                </button>\n                            <button class=\"btn-blue action-button-table\" mat-button>\n                                    <i class=\"fa fa-print\" aria-hidden=\"true\"></i>\n                            </button>\n                            <button class=\"btn-red action-button-table\" mat-button (click)='this.sendEmail(transaction)'>\n                                    <i class=\"fa fa-envelope\" aria-hidden=\"true\"></i>\n                                </button>\n                        </ng-template>\n                    </p-column>\n                </p-dataTable>\n            </div>\n            <div class=\"modal-footer\">\n\n                <!-- <button type=\"button\" class=\"btn btn-danger\" data-dismiss=\"modal\" (click)=\"this.deleteCustomer()\">Yes</button>\n                <button type=\"button\" class=\"btn btn-default\" data-dismiss=\"modal\">Cancle</button> -->\n            </div>\n        </div>\n    </div>\n</div>\n\n<!-- End of Invoice  by Customer Popup -->"
+
+/***/ }),
+
+/***/ "../../../../../src/app/customer/customer.component.scss":
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__("../../../../css-loader/lib/css-base.js")(false);
+// imports
+
+
+// module
+exports.push([module.i, ".modal-lg {\n  max-width: 980px; }\n", ""]);
+
+// exports
+
+
+/*** EXPORTS FROM exports-loader ***/
+module.exports = module.exports.toString();
 
 /***/ }),
 
@@ -1027,6 +1107,7 @@ module.exports = "<mat-card>\n    <mat-card-title>\n\n        <div class=\"row d
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_forms__ = __webpack_require__("../../../forms/esm5/forms.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_moment__ = __webpack_require__("../../../../moment/moment.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_moment___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_moment__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__sell_sell_service__ = __webpack_require__("../../../../../src/app/sell/sell.service.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -1040,9 +1121,11 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
+
 var CustomerComponent = /** @class */ (function () {
-    function CustomerComponent(customerService, formBuilder) {
+    function CustomerComponent(customerService, sellService, formBuilder) {
         this.customerService = customerService;
+        this.sellService = sellService;
         this.formBuilder = formBuilder;
         this.displayDialog = false;
         this.customer = new PrimeCustomer();
@@ -1050,6 +1133,7 @@ var CustomerComponent = /** @class */ (function () {
         this.showDeleteButton = true;
         this.storeCreditDto = [];
         this.addStoreCreditObject = new StoreCreditDto();
+        this.transactionDetails = [];
     }
     CustomerComponent.prototype.ngOnInit = function () {
         this.getCustomerDetails();
@@ -1148,13 +1232,24 @@ var CustomerComponent = /** @class */ (function () {
         this.addStoreCreditObject.employeeName = 'alok@alok.com';
         this.customerService.addStoreCredit(this.addStoreCreditObject);
     };
+    CustomerComponent.prototype.openPendingInvoice = function (customer) {
+        var _this = this;
+        this.sellService.getPendingInvoiceByCustomer(customer.phoneNo)
+            .subscribe(function (transaction) {
+            transaction.forEach(function (trans) {
+                trans.time = __WEBPACK_IMPORTED_MODULE_3_moment__(trans.date).format('hh:mm A');
+                trans.date = __WEBPACK_IMPORTED_MODULE_3_moment__(trans.date).format('MM-DD-YYYY');
+            });
+            _this.transactionDetails = transaction;
+        });
+    };
     CustomerComponent = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
             selector: 'app-customer',
             template: __webpack_require__("../../../../../src/app/customer/customer.component.html"),
-            styles: [__webpack_require__("../../../../../src/app/customer/customer.component.css")]
+            styles: [__webpack_require__("../../../../../src/app/customer/customer.component.scss")]
         }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_app_customer_customer_service__["a" /* CustomerService */], __WEBPACK_IMPORTED_MODULE_2__angular_forms__["FormBuilder"]])
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_app_customer_customer_service__["a" /* CustomerService */], __WEBPACK_IMPORTED_MODULE_4__sell_sell_service__["a" /* SellService */], __WEBPACK_IMPORTED_MODULE_2__angular_forms__["FormBuilder"]])
     ], CustomerComponent);
     return CustomerComponent;
 }());
@@ -1214,12 +1309,14 @@ var StoreCreditDto = /** @class */ (function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_app_customer_customer_service__ = __webpack_require__("../../../../../src/app/customer/customer.service.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_app_shared_shared_module__ = __webpack_require__("../../../../../src/app/shared/shared.module.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8_app_customer_customer_routing_module__ = __webpack_require__("../../../../../src/app/customer/customer-routing.module.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__customer_payment_history_customer_payment_history_component__ = __webpack_require__("../../../../../src/app/customer/customer-payment-history/customer-payment-history.component.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
+
 
 
 
@@ -1249,8 +1346,9 @@ var CustomerModule = /** @class */ (function () {
                 __WEBPACK_IMPORTED_MODULE_4_primeng_primeng__["MessagesModule"],
                 __WEBPACK_IMPORTED_MODULE_4_primeng_primeng__["GrowlModule"]
             ],
-            declarations: [__WEBPACK_IMPORTED_MODULE_5_app_customer_customer_component__["b" /* CustomerComponent */]],
+            declarations: [__WEBPACK_IMPORTED_MODULE_5_app_customer_customer_component__["b" /* CustomerComponent */], __WEBPACK_IMPORTED_MODULE_9__customer_payment_history_customer_payment_history_component__["a" /* CustomerPaymentHistoryComponent */]],
             providers: [__WEBPACK_IMPORTED_MODULE_6_app_customer_customer_service__["a" /* CustomerService */]],
+            bootstrap: [__WEBPACK_IMPORTED_MODULE_5_app_customer_customer_component__["b" /* CustomerComponent */], __WEBPACK_IMPORTED_MODULE_9__customer_payment_history_customer_payment_history_component__["a" /* CustomerPaymentHistoryComponent */]]
         })
     ], CustomerModule);
     return CustomerModule;
@@ -1301,6 +1399,8 @@ var CustomerService = /** @class */ (function () {
         return this.http.get(this.url + '/getCustomerStoreCreditHistory?phoneNo=' + phoneNo)
             .map(this.extractData)
             .catch(this.handleError);
+    };
+    CustomerService.prototype.getCustomerTransactionDetails = function () {
     };
     CustomerService.prototype.addOrUpdateCustomer = function (customer) {
         console.log("Customer to be Added" + customer.name);
@@ -2907,7 +3007,6 @@ var AddProductComponent = /** @class */ (function () {
                 cost: formValues.cost,
                 retail: formValues.retail,
                 date: null,
-                defaultQuantity: null,
                 description: formValues.description.toUpperCase(),
                 discount: null,
                 imeiNo: null,
@@ -2919,7 +3018,7 @@ var AddProductComponent = /** @class */ (function () {
                 markup: formValues.markup,
                 minQuantity: formValues.minQuantity,
                 quantity: formValues.quantity,
-                retailDiscount: null,
+                retailWithDiscount: null,
                 returnRule: formValues.returnRule,
                 status: null,
                 taxAmountOnProduct: null,
@@ -2928,7 +3027,8 @@ var AddProductComponent = /** @class */ (function () {
                 time: null,
                 createdTimestamp: __WEBPACK_IMPORTED_MODULE_4_moment__(Date.now()).format('YYYY-MM-DD HH:mm:ss'),
                 productInventoryDaoList: this.productInventoryList,
-                operationType: 'Add'
+                operationType: 'Add',
+                saleQuantity: null
             };
             this.productService.addProduct(product)
                 .subscribe(function (data) {
@@ -3494,10 +3594,9 @@ var EditProductComponent = /** @class */ (function () {
                 createdTimestamp: null,
                 alternetNo: formValues.alternetNo,
                 date: null,
-                defaultQuantity: 0,
                 discount: 0,
                 imeiNo: null,
-                retailDiscount: 0,
+                retailWithDiscount: 0,
                 returnRule: null,
                 status: null,
                 taxAmountOnProduct: 0,
@@ -3505,7 +3604,8 @@ var EditProductComponent = /** @class */ (function () {
                 totalProductPrice: 0,
                 transactionComId: 0,
                 varaint: null,
-                operationType: 'Edit'
+                operationType: 'Edit',
+                saleQuantity: 0
             };
             this.productService.editProduct(product)
                 .subscribe(function (data) {
@@ -4051,9 +4151,20 @@ var ProductTableComponent = /** @class */ (function () {
         console.log(this.productHistoryDto);
     };
     ProductTableComponent.prototype.updateRetailPrice = function (event) {
+        var _this = this;
         this.updateProductObject = event.data;
-        this.productService.updateProductRetailPrice(this.updateProductObject);
-        console.log(event);
+        this.productService.updateProductRetailPrice(this.updateProductObject)
+            .subscribe(function (data) {
+            if (null != data) {
+                _this.toastr.success('Retail Updated Successfully !!', 'Success!');
+            }
+            else {
+                _this.toastr.error('Opps Something Goes Wrong !!', 'Error!');
+            }
+        }, function (error) {
+            _this.toastr.error('Opps Something goes wrong !!', 'Error!!');
+            console.log(JSON.stringify(error.json()));
+        });
     };
     // This method helps to set the perticualr product inventory details to show on popup when user click on the cost price.
     ProductTableComponent.prototype.setProductInventoryForSelectedProduct = function (productNo) {
@@ -4612,13 +4723,9 @@ var ProductService = /** @class */ (function () {
         return this.http.post(this.url + '/addProductInventory', productInventory);
     };
     ProductService.prototype.updateProductRetailPrice = function (product) {
-        this.http.post(this.url + '/addProduct', product)
-            .subscribe(function (data) {
-            alert('ok');
-            console.log(data);
-        }, function (error) {
-            console.log(JSON.stringify(error.json()));
-        });
+        // Need to do this because of backend logic.
+        product.operationType = 'Edit';
+        return this.http.post(this.url + '/addProduct', product);
     };
     ProductService.prototype.updateProductInventory = function (productInventory) {
         return this.http.post(this.url + '/addProductInventory', productInventory);
@@ -6276,7 +6383,7 @@ var ReportService = /** @class */ (function () {
 /***/ "../../../../../src/app/report/sales/sales.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<mat-card>\n    <mat-card-title>\n        <h4>Sales Reports</h4>\n    </mat-card-title>\n\n    <mat-card-content>\n\n        <div class=\"row d-flex align-items-center\">\n\n            <div class=\"col-md-2\">\n\n                <select class=\"form-control\" [(ngModel)]=\"this.salesDropdown\" (change)=\"this.getReportDetails()\">\n                    <option>Sales Summary</option>\n                    <option>Sales By Category</option>\n                    <option>Sales By Vendor</option>\n                    <option>Sales By Brand</option>\n                    <option>Sales By Model</option>\n                    <option>Sales By Product</option>\n                    <option>Sales By Employee</option>\n                    <option>Sales By Customer</option>\n                </select>\n            </div>\n\n            <div *ngIf=\"this.salesDropdown == 'Sales Summary'\" class=\"col-md-2\">\n                <select class=\"form-control\" [(ngModel)]=\"this.salesSummaryDropdown\" (change)=\"this.getReportDetails()\">\n                          <option>Sales By Year</option>\n                          <option>Sales By Month</option>\n                          <option>Sales By Week</option>\n                          <option>Sales By Day</option>\n                          <option>Sales By Hour</option>\n                </select>\n\n            </div>\n\n            <div *ngIf=\"this.salesDropdown == 'Sales Summary' && this.salesSummaryDropdown == 'Sales By Year'\" class=\"col-md-2\">\n                <select class=\"form-control\" [(ngModel)]=\"this.salesByYearDropdown\" (change)=\"this.getReportDetails()\">\n                              <option>This Year</option>\n                              <option>Last Year</option>\n                              <option>Last 5 Years</option>\n                              <option>Last 10 Years</option>\n                    </select>\n\n            </div>\n\n            <div *ngIf=\"this.salesSummaryDropdown == 'Sales By Month'\" class=\"col-md-2\">\n                <select class=\"form-control\" [(ngModel)]=\"this.salesSummaryMonthDropdown\" (change)=\"this.getReportDetails()\">\n                              <option>January</option>\n                              <option>February</option>\n                              <option>March</option>\n                              <option>April</option>\n                              <option>May</option>\n                              <option>June</option>\n                              <option>July</option>\n                              <option>August</option>\n                              <option>September</option>\n                              <option>October</option>\n                              <option>November</option>\n                              <option>December</option>\n                </select>\n\n            </div>\n\n            <div *ngIf=\"this.salesDropdown != 'Sales Summary' \" class=\"col-md-2\">\n                <select class=\"form-control\" [(ngModel)]=\"this.salesDateDropdown\" (change)=\"this.getReportDetails()\">\n                  <option>Today</option>\n                  <option>Yesterday</option>\n                  <option>This Week</option>\n                  <option>Last Week</option>\n                  <option>This Month</option>\n                  <option>Last Month</option>\n                  <option>Last 3 Months</option>\n                  <option>Last 6 Months</option>\n                  <option>This Year</option>\n                  <option>Last Year</option>\n                  <option>Custom</option>\n                </select>\n\n            </div>\n\n            <div class=\"col-md-2\">\n\n                <button matIcon (click)=\"this.printSalesReportBy()\">\n                    <i class=\"fa fa-print fa-3x\" aria-hidden=\"true\"></i>\n                </button>\n            </div>\n\n        </div>\n\n        <div class=\"row d-flex align-items-center\" *ngIf=\"this.pieChartData\" style=\"height: 250px\">\n\n            <ngx-charts-advanced-pie-chart class=\"\" [scheme]=\"this.colorScheme\" [results]=\"pieChartData\" [view]=\"null\" (select)=\"onSelect($event)\">\n            </ngx-charts-advanced-pie-chart>\n        </div>\n\n        <div class=\"row d-flex align-items-center\">\n\n            <!-- Showing this table for sales by reports -->\n            <div *ngIf=\"this.salesDropdown != 'Sales Summary'\" class=\"col-md-12 p-md-3\">\n                <p-dataTable [value]=\"this.salesDto\" scrollable=\"true\" [responsive]=\"true\" scrollHeight=\"500px\">\n                    <p-column field=\"name\" header=\"Name\" [style]=\"{'height': '46px', 'width': '25%', 'text-align': 'left'}\"></p-column>\n                    <p-column field=\"cost\" header=\"Cost\" [sortable]=\"true\">\n                        <ng-template let-sales=\"rowData\" pTemplate=\"body\">\n                            {{sales.cost | currency:'USD':'true'}}\n                        </ng-template>\n                    </p-column>\n                    <p-column field=\"retail\" header=\"Retail\" [sortable]=\"true\">\n                        <ng-template let-sales=\"rowData\" pTemplate=\"body\">\n                            {{sales.retail | currency:'USD':'true'}}\n                        </ng-template>\n                    </p-column>\n                    <p-column field=\"quantity\" header=\"Quantity\" [sortable]=\"true\"></p-column>\n                    <p-column field=\"profit\" header=\"Profit\" [sortable]=\"true\">\n                        <ng-template let-sales=\"rowData\" pTemplate=\"body\">\n                            {{sales.profit | currency:'USD':'true'}}\n                        </ng-template>\n                    </p-column>\n                    <p-column field=\"markup\" header=\"Markup %\" [sortable]=\"true\"></p-column>\n                    <p-column field=\"perOfTotal\" header=\"% Of Total\" [sortable]=\"true\"></p-column>\n\n                </p-dataTable>\n            </div>\n\n\n            <!-- Showing this table for sales summary Reports -->\n            <div *ngIf=\"this.salesDropdown == 'Sales Summary'\" class=\"col-md-12 p-md-3\">\n                <p-dataTable [value]=\"this.salesSummaryDto\" scrollable=\"true\" [responsive]=\"true\" scrollHeight=\"500px\">\n                    <p-column field=\"name\" header=\"Name\" [style]=\"{'height': '46px', 'width': '10%', 'text-align': 'left'}\"></p-column>\n                    <p-column field=\"cash\" header=\"Cash\" [sortable]=\"true\">\n                        <ng-template let-summary=\"rowData\" pTemplate=\"body\">\n                            {{summary.cash | currency:'USD':'true'}}\n                        </ng-template>\n                    </p-column>\n                    <p-column field=\"credit\" header=\"Credit\" [sortable]=\"true\">\n                        <ng-template let-summary=\"rowData\" pTemplate=\"body\">\n                            {{summary.credit | currency:'USD':'true'}}\n                        </ng-template>\n                    </p-column>\n                    <p-column field=\"debit\" header=\"Debit\" [sortable]=\"true\">\n                        <ng-template let-summary=\"rowData\" pTemplate=\"body\">\n                            {{summary.debit | currency:'USD':'true'}}\n                        </ng-template>\n                    </p-column>\n\n                    <p-column field=\"check\" header=\"Check\" [sortable]=\"true\">\n                        <ng-template let-summary=\"rowData\" pTemplate=\"body\">\n                            {{summary.check | currency:'USD':'true'}}\n                        </ng-template>\n                    </p-column>\n                    <p-column field=\"tax\" header=\"Tax\" [sortable]=\"true\">\n                        <ng-template let-summary=\"rowData\" pTemplate=\"body\">\n                            {{summary.tax | currency:'USD':'true'}}\n                        </ng-template>\n                    </p-column>\n                    <p-column field=\"discount\" header=\"Discount\" [sortable]=\"true\">\n                        <ng-template let-summary=\"rowData\" pTemplate=\"body\">\n                            {{summary.discount | currency:'USD':'true'}}\n                        </ng-template>\n                    </p-column>\n                    <p-column field=\"profit\" header=\"Profit\" [sortable]=\"true\">\n                        <ng-template let-summary=\"rowData\" pTemplate=\"body\">\n                            {{summary.profit | currency:'USD':'true'}}\n                        </ng-template>\n                    </p-column>\n                    <p-column field=\"returns\" header=\"Returns\" [sortable]=\"true\">\n                        <ng-template let-summary=\"rowData\" pTemplate=\"body\">\n                            {{summary.returns | currency:'USD':'true'}}\n                        </ng-template>\n                    </p-column>\n\n                </p-dataTable>\n            </div>\n\n\n        </div>\n\n\n    </mat-card-content>\n</mat-card>"
+module.exports = "<mat-card>\n    <mat-card-title>\n        <h4>Sales Reports</h4>\n    </mat-card-title>\n\n    <mat-card-content>\n\n        <div class=\"row d-flex align-items-center\">\n\n            <div class=\"col-md-2\">\n\n                <select class=\"form-control\" [(ngModel)]=\"this.salesDropdown\" (change)=\"this.getReportDetails()\">\n                    <option>Sales Summary</option>\n                    <option>Sales By Category</option>\n                    <option>Sales By Vendor</option>\n                    <option>Sales By Brand</option>\n                    <option>Sales By Model</option>\n                    <option>Sales By Product</option>\n                    <option>Sales By Employee</option>\n                    <option>Sales By Customer</option>\n                </select>\n            </div>\n\n            <div *ngIf=\"this.salesDropdown == 'Sales Summary'\" class=\"col-md-2\">\n                <select class=\"form-control\" [(ngModel)]=\"this.salesSummaryDropdown\" (change)=\"this.getReportDetails()\">\n                          <option>Sales By Year</option>\n                          <option>Sales By Month</option>\n                          <option>Sales By Week</option>\n                          <option>Sales By Day</option>\n                          <option>Sales By Hour</option>\n                </select>\n\n            </div>\n\n            <div *ngIf=\"this.salesDropdown == 'Sales Summary' && this.salesSummaryDropdown == 'Sales By Year'\" class=\"col-md-2\">\n                <select class=\"form-control\" [(ngModel)]=\"this.salesByYearDropdown\" (change)=\"this.getReportDetails()\">\n                              <option>This Year</option>\n                              <option>Last Year</option>\n                              <option>Last 5 Years</option>\n                              <option>Last 10 Years</option>\n                    </select>\n\n            </div>\n\n            <div *ngIf=\"this.salesSummaryDropdown == 'Sales By Month'\" class=\"col-md-2\">\n                <select class=\"form-control\" [(ngModel)]=\"this.salesSummaryMonthDropdown\" (change)=\"this.getReportDetails()\">\n                              <option>January</option>\n                              <option>February</option>\n                              <option>March</option>\n                              <option>April</option>\n                              <option>May</option>\n                              <option>June</option>\n                              <option>July</option>\n                              <option>August</option>\n                              <option>September</option>\n                              <option>October</option>\n                              <option>November</option>\n                              <option>December</option>\n                </select>\n\n            </div>\n\n            <div *ngIf=\"this.salesDropdown != 'Sales Summary' \" class=\"col-md-2\">\n                <select class=\"form-control\" [(ngModel)]=\"this.salesDateDropdown\" (change)=\"this.getReportDetails()\">\n                  <option>Today</option>\n                  <option>Yesterday</option>\n                  <option>This Week</option>\n                  <option>Last Week</option>\n                  <option>This Month</option>\n                  <option>Last Month</option>\n                  <option>Last 3 Months</option>\n                  <option>Last 6 Months</option>\n                  <option>This Year</option>\n                  <option>Last Year</option>\n                  <option>Custom</option>\n                </select>\n            </div>\n\n            <div *ngIf=\"this.salesDropdown == 'Custom' \" class=\"col-md-3 form-group d-flex align-items-center\" [formGroup]=\"this.customDate\">\n\n                <mat-form-field class=\"float-never col-md-6\">\n                    <input formControlName=\"fromDate\" matInput [matDatepicker]=\"fromDate\" placeholder=\"Start Date\" [max]=\"this.currentDate\">\n                    <mat-datepicker-toggle matSuffix [for]=\"fromDate\"></mat-datepicker-toggle>\n                    <mat-datepicker #fromDate></mat-datepicker>\n                </mat-form-field>\n                <label class=\"text-center\">To</label>\n                <mat-form-field class=\"float-never col-md-6\">\n                    <input class=\"\" formControlName=\"toDate\" matInput [matDatepicker]=\"toDate\" placeholder=\"End Date\" [min]=\"this.customDate.get('fromDate').value\" [max]=\"this.currentDate\">\n                    <mat-datepicker-toggle matSuffix [for]=\"toDate\"></mat-datepicker-toggle>\n                    <mat-datepicker #toDate></mat-datepicker>\n                </mat-form-field>\n            </div>\n\n            <div class=\"col-md-2\">\n\n                <button matIcon (click)=\"this.printSalesReportBy()\">\n                    <i class=\"fa fa-print fa-3x\" aria-hidden=\"true\"></i>\n                </button>\n            </div>\n\n        </div>\n\n        <div class=\"row d-flex align-items-center\" *ngIf=\"this.pieChartData\" style=\"height: 250px\">\n\n            <ngx-charts-advanced-pie-chart class=\"\" [scheme]=\"this.colorScheme\" [results]=\"pieChartData\" [view]=\"null\" (select)=\"onSelect($event)\">\n            </ngx-charts-advanced-pie-chart>\n        </div>\n\n        <div class=\"row d-flex align-items-center\">\n\n            <!-- Showing this table for sales by reports -->\n            <div *ngIf=\"this.salesDropdown != 'Sales Summary'\" class=\"col-md-12 p-md-3\">\n                <p-dataTable [value]=\"this.salesDto\" scrollable=\"true\" [responsive]=\"true\" scrollHeight=\"500px\">\n                    <p-column field=\"name\" header=\"Name\" [style]=\"{'height': '46px', 'width': '25%', 'text-align': 'left'}\"></p-column>\n                    <p-column field=\"cost\" header=\"Cost\" [sortable]=\"true\">\n                        <ng-template let-sales=\"rowData\" pTemplate=\"body\">\n                            {{sales.cost | currency:'USD':'true'}}\n                        </ng-template>\n                    </p-column>\n                    <p-column field=\"retail\" header=\"Retail\" [sortable]=\"true\">\n                        <ng-template let-sales=\"rowData\" pTemplate=\"body\">\n                            {{sales.retail | currency:'USD':'true'}}\n                        </ng-template>\n                    </p-column>\n                    <p-column field=\"quantity\" header=\"Quantity\" [sortable]=\"true\"></p-column>\n                    <p-column field=\"profit\" header=\"Profit\" [sortable]=\"true\">\n                        <ng-template let-sales=\"rowData\" pTemplate=\"body\">\n                            {{sales.profit | currency:'USD':'true'}}\n                        </ng-template>\n                    </p-column>\n                    <p-column field=\"markup\" header=\"Markup %\" [sortable]=\"true\"></p-column>\n                    <p-column field=\"perOfTotal\" header=\"% Of Total\" [sortable]=\"true\"></p-column>\n\n                </p-dataTable>\n            </div>\n\n\n            <!-- Showing this table for sales summary Reports -->\n            <div *ngIf=\"this.salesDropdown == 'Sales Summary'\" class=\"col-md-12 p-md-3\">\n                <p-dataTable [value]=\"this.salesSummaryDto\" scrollable=\"true\" [responsive]=\"true\" scrollHeight=\"500px\">\n                    <p-column field=\"name\" header=\"Name\" [style]=\"{'height': '46px', 'width': '10%', 'text-align': 'left'}\"></p-column>\n                    <p-column field=\"cash\" header=\"Cash\" [sortable]=\"true\">\n                        <ng-template let-summary=\"rowData\" pTemplate=\"body\">\n                            {{summary.cash | currency:'USD':'true'}}\n                        </ng-template>\n                    </p-column>\n                    <p-column field=\"credit\" header=\"Credit\" [sortable]=\"true\">\n                        <ng-template let-summary=\"rowData\" pTemplate=\"body\">\n                            {{summary.credit | currency:'USD':'true'}}\n                        </ng-template>\n                    </p-column>\n                    <p-column field=\"debit\" header=\"Debit\" [sortable]=\"true\">\n                        <ng-template let-summary=\"rowData\" pTemplate=\"body\">\n                            {{summary.debit | currency:'USD':'true'}}\n                        </ng-template>\n                    </p-column>\n\n                    <p-column field=\"check\" header=\"Check\" [sortable]=\"true\">\n                        <ng-template let-summary=\"rowData\" pTemplate=\"body\">\n                            {{summary.check | currency:'USD':'true'}}\n                        </ng-template>\n                    </p-column>\n                    <p-column field=\"tax\" header=\"Tax\" [sortable]=\"true\">\n                        <ng-template let-summary=\"rowData\" pTemplate=\"body\">\n                            {{summary.tax | currency:'USD':'true'}}\n                        </ng-template>\n                    </p-column>\n                    <p-column field=\"discount\" header=\"Discount\" [sortable]=\"true\">\n                        <ng-template let-summary=\"rowData\" pTemplate=\"body\">\n                            {{summary.discount | currency:'USD':'true'}}\n                        </ng-template>\n                    </p-column>\n                    <p-column field=\"profit\" header=\"Profit\" [sortable]=\"true\">\n                        <ng-template let-summary=\"rowData\" pTemplate=\"body\">\n                            {{summary.profit | currency:'USD':'true'}}\n                        </ng-template>\n                    </p-column>\n                    <p-column field=\"returns\" header=\"Returns\" [sortable]=\"true\">\n                        <ng-template let-summary=\"rowData\" pTemplate=\"body\">\n                            {{summary.returns | currency:'USD':'true'}}\n                        </ng-template>\n                    </p-column>\n\n                </p-dataTable>\n            </div>\n\n\n        </div>\n\n\n    </mat-card-content>\n</mat-card>"
 
 /***/ }),
 
@@ -6308,7 +6415,8 @@ module.exports = module.exports.toString();
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/esm5/core.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_app_report_report_service__ = __webpack_require__("../../../../../src/app/report/report.service.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_app_shared_services_date_service__ = __webpack_require__("../../../../../src/app/shared/services/date.service.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_app_shared_services_util_service__ = __webpack_require__("../../../../../src/app/shared/services/util.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__angular_forms__ = __webpack_require__("../../../forms/esm5/forms.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_app_shared_services_util_service__ = __webpack_require__("../../../../../src/app/shared/services/util.service.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -6322,10 +6430,12 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
+
 var SalesComponent = /** @class */ (function () {
-    function SalesComponent(reportService, dateService) {
+    function SalesComponent(reportService, dateService, fb) {
         this.reportService = reportService;
         this.dateService = dateService;
+        this.fb = fb;
         this.salesDto = [];
         this.salesSummaryDto = [];
         this.salesDropdown = 'Sales Summary';
@@ -6334,12 +6444,17 @@ var SalesComponent = /** @class */ (function () {
         this.salesDateDropdown = 'Today';
         this.salesByYearDropdown = 'This Year';
         this.dateDto = new __WEBPACK_IMPORTED_MODULE_2_app_shared_services_date_service__["a" /* DateDto */]();
+        this.currentDate = new Date();
         this.colorScheme = {
             domain: ['#337ab7', '#28a745', '#ff6666', '#fd7e14', '#495057', '#A059B5', '#56BAD6']
         };
     }
     SalesComponent.prototype.ngOnInit = function () {
         this.getReportDetails();
+        this.customDate = this.fb.group({
+            'fromDate': new Date(),
+            'toDate': new Date()
+        });
     };
     SalesComponent.prototype.getReportDetails = function () {
         var _this = this;
@@ -6425,7 +6540,7 @@ var SalesComponent = /** @class */ (function () {
     SalesComponent.prototype.printSalesReportBy = function () {
         this.reportService.printSalesReportPDF(this.salesDropdown, this.dateDto.startDate, this.dateDto.endDate)
             .subscribe(function (data) {
-            Object(__WEBPACK_IMPORTED_MODULE_3_app_shared_services_util_service__["b" /* printBlob */])(data._body);
+            Object(__WEBPACK_IMPORTED_MODULE_4_app_shared_services_util_service__["b" /* printBlob */])(data._body);
         });
     };
     // For D3 chart
@@ -6438,7 +6553,7 @@ var SalesComponent = /** @class */ (function () {
             template: __webpack_require__("../../../../../src/app/report/sales/sales.component.html"),
             styles: [__webpack_require__("../../../../../src/app/report/sales/sales.component.scss")]
         }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_app_report_report_service__["a" /* ReportService */], __WEBPACK_IMPORTED_MODULE_2_app_shared_services_date_service__["b" /* DateService */]])
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_app_report_report_service__["a" /* ReportService */], __WEBPACK_IMPORTED_MODULE_2_app_shared_services_date_service__["b" /* DateService */], __WEBPACK_IMPORTED_MODULE_3__angular_forms__["FormBuilder"]])
     ], SalesComponent);
     return SalesComponent;
 }());
@@ -6938,7 +7053,7 @@ var ReceiptComponent = /** @class */ (function () {
 /***/ "../../../../../src/app/sell/return-sale/return-sale.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"row\">\n    <div class=\"col-lg-9\">\n        <mat-card>\n            <div class=\"row\">\n                <div class=\"align-self-center col-lg-7\">\n\n                    <p-autoComplete id=\"productsearch\" [(ngModel)]=\"p\" class=\"full-width m-1\" [suggestions]=\"product\" placeholder=\"Scan or Search Product\" (completeMethod)=\"filterProducts($event)\" name=\"test\" [minLength]=\"3\" (keyup.enter)=\"submitProduct(p)\" field=\"description\">\n                    </p-autoComplete>\n                    <!-- <button (click)=\"this.testFocus()\">Click me</button> -->\n\n                </div>\n                <div class=\"col-lg-0\"></div>\n                <div class=\"col-lg-5 d-flex justify-content-end\">\n                    <!-- Buttons go here  -->\n                    <button class=\"bg-primary text-white action-button m-1\" mat-raised-button [disabled]=\"this.paymentButtonOnSale\">\n                        <span>\n                            <i class=\"fa fa-history\">\n                                Park Sale\n                            </i>\n                        </span>\n                    </button>\n                    <button class=\"bg-danger text-white action-button m-1\" mat-raised-button data-toggle=\"modal\" data-target=\"#deleteProduct\" (click)=\"this.setHeaderAndMessageForDisgardPopup()\" [disabled]=\"this.paymentButtonOnSale\">\n                        <span>\n                            <i class=\"fa fa-trash\">\n                                Discard Sale\n                            </i>\n                        </span>\n                    </button>\n                    <button class=\"bg-primary text-white  action-button m-1\" mat-raised-button>\n                        <span>\n                            <i class=\"fa fa-th\">\n                                Show Grid\n                            </i>\n                        </span>\n                    </button>\n                </div>\n            </div>\n        </mat-card>\n        <!-- <br/> -->\n        <mat-card>\n            <!-- <mat-card-title></mat-card-title> -->\n            <mat-card-content>\n                <div class=\"row p-md-3\">\n                    <!-- Product Table -->\n                    <p-dataTable [value]=\"this.transactionLineItemDaoList\" scrollable=\"true\" [responsive]=\"true\" scrollHeight=\"300px\" [editable]=\"true\" (onEditComplete)=\"updateLineItemDetails($event)\">\n                        <p-header>Product Sale Table</p-header>\n\n                        <p-column field=\"productNo\" header=\"ProductNo\" [style]=\"{'width':'15%','text-align':'center', 'overflow':'visible'}\"></p-column>\n                        <p-column field=\"description\" header=\"Description\" [style]=\"{'width':'45%','text-align':'center', 'overflow':'visible'}\"></p-column>\n                        <p-column field=\"defaultQuantity\" header=\"Quantity\" [editable]=\"true\">\n                            <ng-template let-product=\"rowData\" pTemplate=\"body\">\n                                <div id=\"lineitem{{product.productNo}}\" [ngClass]=\"{'quantity-updated': product.quantityUpdated }\">\n                                    {{product.defaultQuantity}}\n                                </div>\n                            </ng-template>\n                        </p-column>\n                        <p-column field=\"retail\" header=\"Retail\" [editable]=\"true\"></p-column>\n                        <p-column field=\"retailWithDis\" header=\"RetWtDis\"></p-column>\n                        <p-column field=\"quantity\" header=\"Stock\"></p-column>\n                        <p-column field=\"totalProductPrice\" header=\"Total\"></p-column>\n                        <p-column header=\"\" styleClass=\"col-button\" [style]=\"{'width':'5%','text-align':'center', 'overflow':'visible'}\">\n\n                            <ng-template let-product=\"rowData\" pTemplate=\"body\">\n                                <button mat-button class=\"btn-red action-button-table\" mat-button (click)=\"this.setProductForDelete(product)\" data-toggle=\"modal\" data-target=\"#deleteProduct\">\n                                    <i class=\"fa fa-trash\" aria-hidden=\"true\"></i>\n                                </button>\n                            </ng-template>\n                        </p-column>\n\n\n                    </p-dataTable>\n                </div>\n            </mat-card-content>\n        </mat-card>\n\n    </div>\n    <div class=\"col-lg-3\">\n        <mat-card>\n            <mat-card-content>\n                <div class=\"row\">\n                    <div class=\"input-group\">\n                        <span class=\"input-group-addon\" id=\"basic-addon1\">\n                            <i class=\"fa fa-user-plus\" aria-hidden=\"true\"></i>\n                        </span>\n                        <p-autoComplete [(ngModel)]=\"this.selectedCustomer\" [field]=\"'name'\" [suggestions]=\"filteredCustomer\" (completeMethod)=\"this.filterCustomers($event)\" class=\"full-width\" [minLength]=\"1\" (keyup.enter)=\"this.submitCustomer(this.selectedCustomer)\" (onClear)=\"this.removeCustomerOnSale()\">\n                            <ng-template let-c pTemplate=\"item\">\n                                <div class=\"ui-helper-clearfix\" style=\"border-bottom:1px solid #D5D5D5\">\n                                    <div style=\"width:32px;display:inline-block;margin:5px 0 2px 5px\">{{c.name}}</div>\n                                    <div style=\"font-size:18px;float:right;margin:10px 10px 0 0\">{{c.phoneNo}}</div>\n                                </div>\n                            </ng-template>\n\n                        </p-autoComplete>\n\n                    </div>\n                </div>\n                <br/>\n                <div *ngIf=\"this.selectedCustomer\">\n                    <table class=\"table table-bordered customer\">\n\n                        <tbody>\n                            <tr>\n                                <td>\n                                    <dl class=\"row\">\n                                        <dt class=\"\">Name:</dt>\n                                        <dd class=\"\">{{this.selectedCustomer.name}}</dd>\n                                    </dl>\n                                </td>\n                                <td>\n                                    <dl class=\"row\">\n                                        <dt class=\"\">Phone:</dt>\n                                        <dd class=\"\">{{this.selectedCustomer.phoneNo}}</dd>\n                                    </dl>\n                                </td>\n                            </tr>\n                            <tr>\n                                <td>\n                                    <dl class=\"row\">\n                                        <dt class=\"\">Balance:</dt>\n                                        <dd class=\"\">{{this.selectedCustomer.balance | currency:'USD':'true'}}</dd>\n                                    </dl>\n                                </td>\n                                <td>\n                                    <dl class=\"row\">\n                                        <dt class=\"\">Credit:</dt>\n                                        <dd class=\"\">{{this.selectedCustomer.storeCredit | currency:'USD':'true'}}</dd>\n                                    </dl>\n                                </td>\n                            </tr>\n                            <tr>\n                                <td>\n                                    <dl class=\"row\">\n                                        <dt class=\"\">Spending:</dt>\n                                        <dd class=\"\"></dd>\n                                    </dl>\n                                </td>\n                                <td>\n                                    <dl class=\"row\">\n                                        <dt class=\"\">Loyalty:</dt>\n                                        <dd class=\"\"></dd>\n                                    </dl>\n\n                                </td>\n                            </tr>\n                        </tbody>\n                    </table>\n                </div>\n\n                <div class=\"sales-total p-md-4\">\n\n                    <dl class=\"row\">\n                        <dt class=\"\">Sub-total</dt>\n                        <dd class=\"\">{{this.transactionDtoList.subtotal | currency:'USD':'true'}}</dd>\n                    </dl>\n                    <!-- <dl class=\"row\">\n                        <dt class=\"\">\n                                                <a #discount id=\"discount-popover\" href=\"javascript:void(0)\" (click)=\"this.showPopover(discount)\">\n                                                    Discount\n                                                </a>\n                                            </dt>\n                        <dd class=\"\">{{this.transactionDtoList.totalDiscount | currency:'USD':'true'}}</dd>\n                    </dl> -->\n                    <!-- <dl class=\"row\">\n                        <dt class=\"\">Tax (7%)</dt>\n                        <dd class=\"\">{{this.transactionDtoList.tax | currency:'USD':'true'}}</dd>\n                    </dl> -->\n\n                    <dl class=\"row\">\n                        <dt *ngIf=\"this.taxPercent == 7\">\n                        <a  href=\"javascript:void(0)\" (click)=\"this.taxPercent = 0\">\n                                Tax ({{this.taxPercent}}%)\n                        </a>\n                        </dt>\n\n                        <dt *ngIf=\"this.taxPercent == 0\">\n\n                            <a  href=\"javascript:void(0)\" (click)=\"this.taxPercent = 7\">\n                                    No Tax\n                                    <!-- ({{this.taxPercent}}%) -->\n                            </a>\n                        </dt>\n                        <dd class=\"\">{{this.transactionDtoList.tax | currency:'USD':'true'}}</dd>\n                    </dl>\n                    <dl class=\"row\">\n                        <dt class=\"\">Quantity</dt>\n                        <dd class=\"\">{{this.transactionDtoList.quantity}}</dd>\n                    </dl>\n                    <dl class=\"row\" *ngIf=\"this.selectedCustomer != null && this.selectedCustomer.balance > 0\">\n                        <dt class=\"\">Pre Balance</dt>\n                        <dd class=\"\">{{this.selectedCustomer.balance | currency:'USD':'true'}}</dd>\n                    </dl>\n                    <dl class=\"row\">\n                        <dt class=\"\">Total</dt>\n                        <dd class=\"\">{{this.transactionDtoList.totalAmount | currency:'USD':'true'}}</dd>\n                    </dl>\n                </div>\n\n\n                <button mat-raised-button [disabled]=\"this.paymentButtonOnSale\" type=\"button\" (click)=\"this.setDataForPaymentModel()\" data-toggle=\"modal\" data-target=\"#paymentModel\" style=\"width: 100%; font-size: 20px\" class=\"btn btn-red btn-lg text-white m-md-1 p-md-2\">\n                    <div class=\"row p-md-1 font-weight-bold\">\n                        <div class=\"col-md-6 text-left\">Return</div>\n                        <div class=\"col-md-6 text-right\">{{this.transactionDtoList.totalAmount | currency:'USD':'true'}}</div>\n                    </div>\n                </button>\n\n            </mat-card-content>\n        </mat-card>\n\n\n    </div>\n</div>\n\n<!-- Start Of payment model -->\n<div class=\"modal fade\" id=\"paymentModel\" role=\"dialog\">\n    <div class=\"modal-dialog modal-lg\">\n\n        <!-- Modal content-->\n        <div class=\"modal-content\">\n            <div class=\"modal-header\">\n                <h3 class=\"modal-title\">Manage Payment</h3>\n                <button type=\"button\" class=\"close\" data-dismiss=\"modal\">&times;</button>\n\n            </div>\n            <div class=\"modal-body\">\n\n                <div class=\"row\">\n\n                    <div class=\"col-md-3\">\n                        <h3>Return</h3>\n                    </div>\n\n                    <div class=\"col-md-2\">\n                        <input [(ngModel)]=\"this.payAmountTextBox\" class=\"form-control\" type=\"number\" style=\"color:red\">\n                    </div>\n\n\n                    <div class=\"col-md-4\">\n                        <h3>Return Amount</h3>\n                    </div>\n\n                    <div class=\"col-md-3\">\n                        <h3 style=\"color:red\">$ {{this.dueAmountForTransaction | number:'1.2-2'}}</h3>\n                    </div>\n\n                </div>\n\n                <div *ngIf=\"this.paymentObjectForPaymentSellTable.length > 0\" class=\"row\">\n                    <table class=\"table\">\n                        <thead>\n                            <tr>\n                                <th>Payment Type</th>\n                                <th>Amount</th>\n                                <th>Action</th>\n                            </tr>\n                        </thead>\n                        <tbody>\n                            <tr *ngFor=\"let payment of this.paymentObjectForPaymentSellTable\">\n                                <td>{{payment.paymentType}}</td>\n                                <td>$ {{payment.paymentAmount}}</td>\n                                <td (click)=\"this.deletePaymentFromPaymentModel(payment)\">\n                                    <i class=\"fa fa-trash\"></i>\n                                </td>\n                            </tr>\n                        </tbody>\n                    </table>\n                </div>\n\n\n                <div class=\"row\" style=\"margin-top: 30px\">\n                    <div class=\"col-lg-3\">\n                        <button mat-raised-button class=\"primary-button\" (click)=\"this.setPaymentDtoForRetun('Cash',this.payAmountTextBox)\" [disabled]=\"this.disablePaymentButtons\">Cash</button>\n                    </div>\n\n                    <div class=\"col-lg-3\">\n                        <button mat-raised-button class=\"primary-button\" (click)=\"this.setPaymentDtoForRetun('Credit',this.payAmountTextBox)\" [disabled]=\"this.disablePaymentButtons\">Credit</button>\n                    </div>\n\n                    <div class=\"col-lg-3\">\n                        <button mat-raised-button class=\"primary-button\" (click)=\"this.setPaymentDtoForRetun('Debit',this.payAmountTextBox)\" [disabled]=\"this.disablePaymentButtons\">Debit</button>\n                    </div>\n\n                    <div class=\"col-lg-3\">\n                        <button mat-raised-button class=\"primary-button\" (click)=\"this.setPaymentDtoForRetun('Check',this.payAmountTextBox)\" [disabled]=\"this.disablePaymentButtons\">Check</button>\n                    </div>\n                </div>\n\n                <div class=\"row\" style=\"margin-top: 30px\">\n\n                    <div class=\"col-md-3\">\n                        <button (click)=\"this.setPaymentDtoForRetun('OnAccount', this.payAmountTextBox)\" mat-raised-button class=\"secondary-button\" [disabled]=\"this.disableOnAccountButtons\">On Account</button>\n                    </div>\n\n                    <div class=\"col-md-3\">\n                        <button mat-raised-button class=\"secondary-button\" [disabled]=\"this.disableStoreCreditButtons\" (click)=\"this.setPaymentDtoForRetun('StoreCredit', this.payAmountTextBox)\">Store Credit</button>\n                    </div>\n\n                    <div class=\"col-md-3\">\n                        <button mat-raised-button class=\"secondary-button\" [disabled]=\"true\"></button>\n                    </div>\n\n                    <div class=\"col-md-3\">\n                        <button mat-raised-button class=\"secondary-button\" [disabled]=\"true\">Layby</button>\n                    </div>\n                </div>\n\n                <div class=\"row\" style=\"margin-top: 30px\">\n                    <div class=\"col-md-12\">\n                        <input [(ngModel)]=\"this.transactionNotes\" class=\"form-control form-control-lg\" type=\"text\" placeholder=\"Add Sales Notes\">\n                    </div>\n                </div>\n\n                <div class=\"row\" style=\"margin-top: 30px\">\n                    <div class=\"col-md-3\">\n\n                    </div>\n\n                    <div class=\"col-md-6\">\n                        <button mat-raised-button class=\"danger-button\" (click)=\"this.returnSale()\" [disabled]=\"this.disableCompleteSaleButton\">Complete Sale</button>\n                    </div>\n\n                    <div class=\"col-md-3\">\n\n                    </div>\n                </div>\n\n                <div class=\"row\" style=\"margin-top: 30px\" *ngIf=\"null != this.printTransactionDto\">\n                    <div class=\"col-md-3\">\n\n                    </div>\n\n                    <div class=\"col-md-6\">\n                        <button mat-raised-button class=\"danger-button\" (click)=\"this.printReciept()\" data-dismiss=\"modal\" data-toggle=\"modal\">Print Reciept</button>\n                    </div>\n\n                    <div class=\"col-md-3\">\n\n                    </div>\n                </div>\n\n            </div>\n            <div class=\"modal-footer\">\n                <button type=\"button\" class=\"btn btn-default\" data-dismiss=\"modal\" (click)=\"this.clearAllDateAfterTransactionComplete()\">Close</button>\n            </div>\n\n        </div>\n\n\n    </div>\n\n</div>\n<!-- End of Payment Pop up -->\n\n\n\n<!-- Start of Product and Sale discard Pop up -->\n\n<div class=\"modal fade\" id=\"deleteProduct\" role=\"dialog\">\n    <div class=\"modal-dialog modal-sm\">\n        <div class=\"modal-content\">\n            <div class=\"modal-header\">\n                <h4 class=\"modal-title\">{{this.popupHeader}}</h4>\n                <button type=\"button\" class=\"close\" data-dismiss=\"modal\">&times;</button>\n\n            </div>\n            <div class=\"modal-body\">\n                <p>{{this.popupMessage}}</p>\n            </div>\n            <div class=\"modal-footer\">\n\n                <!-- This logic to reuse the model code cause i need popup for delete single product and also delete complete sale -->\n                <button *ngIf=\"this.popupHeader == 'Delete Product' \" type=\"button\" class=\"btn btn-danger\" data-dismiss=\"modal\" (click)=\"this.deleteProduct()\">Yes</button>\n                <button *ngIf=\"this.popupHeader == 'Discard Sale' \" type=\"button\" class=\"btn btn-danger\" data-dismiss=\"modal\" (click)=\"this.disgardCompleteSale()\">Yes</button>\n                <!-- TODO Add one more button for add product if it does not exists -->\n                <button type=\"button\" class=\"btn btn-default\" data-dismiss=\"modal\">Cancle</button>\n            </div>\n        </div>\n    </div>\n</div>\n\n<!-- End of Product and Sale discard Pop up -->"
+module.exports = "<div class=\"row\">\n    <div class=\"col-lg-9\">\n        <mat-card>\n            <div class=\"row\">\n                <div class=\"align-self-center col-lg-7\">\n\n                    <p-autoComplete id=\"productsearch\" [(ngModel)]=\"p\" class=\"full-width m-1\" [suggestions]=\"product\" placeholder=\"Scan or Search Product\" (completeMethod)=\"filterProducts($event)\" name=\"test\" [minLength]=\"3\" (keyup.enter)=\"submitProduct(p)\" field=\"description\">\n                    </p-autoComplete>\n                    <!-- <button (click)=\"this.testFocus()\">Click me</button> -->\n\n                </div>\n                <div class=\"col-lg-0\"></div>\n                <div class=\"col-lg-5 d-flex justify-content-end\">\n                    <!-- Buttons go here  -->\n                    <button class=\"bg-primary text-white action-button m-1\" mat-raised-button [disabled]=\"this.paymentButtonOnSale\">\n                        <span>\n                            <i class=\"fa fa-history\">\n                                Park Sale\n                            </i>\n                        </span>\n                    </button>\n                    <button class=\"bg-danger text-white action-button m-1\" mat-raised-button data-toggle=\"modal\" data-target=\"#deleteProduct\" (click)=\"this.setHeaderAndMessageForDisgardPopup()\" [disabled]=\"this.paymentButtonOnSale\">\n                        <span>\n                            <i class=\"fa fa-trash\">\n                                Discard Sale\n                            </i>\n                        </span>\n                    </button>\n                    <button class=\"bg-primary text-white  action-button m-1\" mat-raised-button>\n                        <span>\n                            <i class=\"fa fa-th\">\n                                Show Grid\n                            </i>\n                        </span>\n                    </button>\n                </div>\n            </div>\n        </mat-card>\n        <!-- <br/> -->\n        <mat-card>\n            <!-- <mat-card-title></mat-card-title> -->\n            <mat-card-content>\n                <div class=\"row p-md-3\">\n                    <!-- Product Table -->\n                    <p-dataTable [value]=\"this.transactionLineItemDaoList\" scrollable=\"true\" [responsive]=\"true\" scrollHeight=\"300px\" [editable]=\"true\" (onEditComplete)=\"updateLineItemDetails($event)\">\n                        <p-header>Product Sale Table</p-header>\n\n                        <p-column field=\"productNo\" header=\"ProductNo\" [style]=\"{'width':'15%','text-align':'center', 'overflow':'visible'}\"></p-column>\n                        <p-column field=\"description\" header=\"Description\" [style]=\"{'width':'45%','text-align':'center', 'overflow':'visible'}\"></p-column>\n                        <p-column field=\"saleQuantity\" header=\"Quantity\" [editable]=\"true\">\n                            <ng-template let-product=\"rowData\" pTemplate=\"body\">\n                                <div id=\"lineitem{{product.productNo}}\" [ngClass]=\"{'quantity-updated': product.quantityUpdated }\">\n                                    {{product.defaultQuantity}}\n                                </div>\n                            </ng-template>\n                        </p-column>\n                        <p-column field=\"retail\" header=\"Retail\" [editable]=\"true\"></p-column>\n                        <p-column field=\"retailWithDis\" header=\"RetWtDis\"></p-column>\n                        <p-column field=\"quantity\" header=\"Stock\"></p-column>\n                        <p-column field=\"totalProductPrice\" header=\"Total\"></p-column>\n                        <p-column header=\"\" styleClass=\"col-button\" [style]=\"{'width':'5%','text-align':'center', 'overflow':'visible'}\">\n\n                            <ng-template let-product=\"rowData\" pTemplate=\"body\">\n                                <button mat-button class=\"btn-red action-button-table\" mat-button (click)=\"this.setProductForDelete(product)\" data-toggle=\"modal\" data-target=\"#deleteProduct\">\n                                    <i class=\"fa fa-trash\" aria-hidden=\"true\"></i>\n                                </button>\n                            </ng-template>\n                        </p-column>\n\n\n                    </p-dataTable>\n                </div>\n            </mat-card-content>\n        </mat-card>\n\n    </div>\n    <div class=\"col-lg-3\">\n        <mat-card>\n            <mat-card-content>\n                <div class=\"row\">\n                    <div class=\"input-group\">\n                        <span class=\"input-group-addon\" id=\"basic-addon1\">\n                            <i class=\"fa fa-user-plus\" aria-hidden=\"true\"></i>\n                        </span>\n                        <p-autoComplete [(ngModel)]=\"this.selectedCustomer\" [field]=\"'name'\" [suggestions]=\"filteredCustomer\" (completeMethod)=\"this.filterCustomers($event)\" class=\"full-width\" [minLength]=\"1\" (keyup.enter)=\"this.submitCustomer(this.selectedCustomer)\" (onClear)=\"this.removeCustomerOnSale()\">\n                            <ng-template let-c pTemplate=\"item\">\n                                <div class=\"ui-helper-clearfix\" style=\"border-bottom:1px solid #D5D5D5\">\n                                    <div style=\"width:32px;display:inline-block;margin:5px 0 2px 5px\">{{c.name}}</div>\n                                    <div style=\"font-size:18px;float:right;margin:10px 10px 0 0\">{{c.phoneNo}}</div>\n                                </div>\n                            </ng-template>\n\n                        </p-autoComplete>\n\n                    </div>\n                </div>\n                <br/>\n                <div *ngIf=\"this.selectedCustomer\">\n                    <table class=\"table table-bordered customer\">\n\n                        <tbody>\n                            <tr>\n                                <td>\n                                    <dl class=\"row\">\n                                        <dt class=\"\">Name:</dt>\n                                        <dd class=\"\">{{this.selectedCustomer.name}}</dd>\n                                    </dl>\n                                </td>\n                                <td>\n                                    <dl class=\"row\">\n                                        <dt class=\"\">Phone:</dt>\n                                        <dd class=\"\">{{this.selectedCustomer.phoneNo}}</dd>\n                                    </dl>\n                                </td>\n                            </tr>\n                            <tr>\n                                <td>\n                                    <dl class=\"row\">\n                                        <dt class=\"\">Balance:</dt>\n                                        <dd class=\"\">{{this.selectedCustomer.balance | currency:'USD':'true'}}</dd>\n                                    </dl>\n                                </td>\n                                <td>\n                                    <dl class=\"row\">\n                                        <dt class=\"\">Credit:</dt>\n                                        <dd class=\"\">{{this.selectedCustomer.storeCredit | currency:'USD':'true'}}</dd>\n                                    </dl>\n                                </td>\n                            </tr>\n                            <tr>\n                                <td>\n                                    <dl class=\"row\">\n                                        <dt class=\"\">Spending:</dt>\n                                        <dd class=\"\"></dd>\n                                    </dl>\n                                </td>\n                                <td>\n                                    <dl class=\"row\">\n                                        <dt class=\"\">Loyalty:</dt>\n                                        <dd class=\"\"></dd>\n                                    </dl>\n\n                                </td>\n                            </tr>\n                        </tbody>\n                    </table>\n                </div>\n\n                <div class=\"sales-total p-md-4\">\n\n                    <dl class=\"row\">\n                        <dt class=\"\">Sub-total</dt>\n                        <dd class=\"\">{{this.transactionDtoList.subtotal | currency:'USD':'true'}}</dd>\n                    </dl>\n                    <!-- <dl class=\"row\">\n                        <dt class=\"\">\n                                                <a #discount id=\"discount-popover\" href=\"javascript:void(0)\" (click)=\"this.showPopover(discount)\">\n                                                    Discount\n                                                </a>\n                                            </dt>\n                        <dd class=\"\">{{this.transactionDtoList.totalDiscount | currency:'USD':'true'}}</dd>\n                    </dl> -->\n                    <!-- <dl class=\"row\">\n                        <dt class=\"\">Tax (7%)</dt>\n                        <dd class=\"\">{{this.transactionDtoList.tax | currency:'USD':'true'}}</dd>\n                    </dl> -->\n\n                    <dl class=\"row\">\n                        <dt *ngIf=\"this.taxPercent == 7\">\n                        <a  href=\"javascript:void(0)\" (click)=\"this.taxPercent = 0\">\n                                Tax ({{this.taxPercent}}%)\n                        </a>\n                        </dt>\n\n                        <dt *ngIf=\"this.taxPercent == 0\">\n\n                            <a  href=\"javascript:void(0)\" (click)=\"this.taxPercent = 7\">\n                                    No Tax\n                                    <!-- ({{this.taxPercent}}%) -->\n                            </a>\n                        </dt>\n                        <dd class=\"\">{{this.transactionDtoList.tax | currency:'USD':'true'}}</dd>\n                    </dl>\n                    <dl class=\"row\">\n                        <dt class=\"\">Quantity</dt>\n                        <dd class=\"\">{{this.transactionDtoList.quantity}}</dd>\n                    </dl>\n                    <dl class=\"row\" *ngIf=\"this.selectedCustomer != null && this.selectedCustomer.balance > 0\">\n                        <dt class=\"\">Pre Balance</dt>\n                        <dd class=\"\">{{this.selectedCustomer.balance | currency:'USD':'true'}}</dd>\n                    </dl>\n                    <dl class=\"row\">\n                        <dt class=\"\">Total</dt>\n                        <dd class=\"\">{{this.transactionDtoList.totalAmount | currency:'USD':'true'}}</dd>\n                    </dl>\n                </div>\n\n\n                <button mat-raised-button [disabled]=\"this.paymentButtonOnSale\" type=\"button\" (click)=\"this.setDataForPaymentModel()\" data-toggle=\"modal\" data-target=\"#paymentModel\" style=\"width: 100%; font-size: 20px\" class=\"btn btn-red btn-lg text-white m-md-1 p-md-2\">\n                    <div class=\"row p-md-1 font-weight-bold\">\n                        <div class=\"col-md-6 text-left\">Return</div>\n                        <div class=\"col-md-6 text-right\">{{this.transactionDtoList.totalAmount | currency:'USD':'true'}}</div>\n                    </div>\n                </button>\n\n            </mat-card-content>\n        </mat-card>\n\n\n    </div>\n</div>\n\n<!-- Start Of payment model -->\n<div class=\"modal fade\" id=\"paymentModel\" role=\"dialog\">\n    <div class=\"modal-dialog modal-lg\">\n\n        <!-- Modal content-->\n        <div class=\"modal-content\">\n            <div class=\"modal-header\">\n                <h3 class=\"modal-title\">Manage Payment</h3>\n                <button type=\"button\" class=\"close\" data-dismiss=\"modal\">&times;</button>\n\n            </div>\n            <div class=\"modal-body\">\n\n                <div class=\"row\">\n\n                    <div class=\"col-md-3\">\n                        <h3>Return</h3>\n                    </div>\n\n                    <div class=\"col-md-2\">\n                        <input [(ngModel)]=\"this.payAmountTextBox\" class=\"form-control\" type=\"number\" style=\"color:red\">\n                    </div>\n\n\n                    <div class=\"col-md-4\">\n                        <h3>Return Amount</h3>\n                    </div>\n\n                    <div class=\"col-md-3\">\n                        <h3 style=\"color:red\">$ {{this.dueAmountForTransaction | number:'1.2-2'}}</h3>\n                    </div>\n\n                </div>\n\n                <div *ngIf=\"this.paymentObjectForPaymentSellTable.length > 0\" class=\"row\">\n                    <table class=\"table\">\n                        <thead>\n                            <tr>\n                                <th>Payment Type</th>\n                                <th>Amount</th>\n                                <th>Action</th>\n                            </tr>\n                        </thead>\n                        <tbody>\n                            <tr *ngFor=\"let payment of this.paymentObjectForPaymentSellTable\">\n                                <td>{{payment.paymentType}}</td>\n                                <td>$ {{payment.paymentAmount}}</td>\n                                <td (click)=\"this.deletePaymentFromPaymentModel(payment)\">\n                                    <i class=\"fa fa-trash\"></i>\n                                </td>\n                            </tr>\n                        </tbody>\n                    </table>\n                </div>\n\n\n                <div class=\"row\" style=\"margin-top: 30px\">\n                    <div class=\"col-lg-3\">\n                        <button mat-raised-button class=\"primary-button\" (click)=\"this.setPaymentDtoForRetun('Cash',this.payAmountTextBox)\" [disabled]=\"this.disablePaymentButtons\">Cash</button>\n                    </div>\n\n                    <div class=\"col-lg-3\">\n                        <button mat-raised-button class=\"primary-button\" (click)=\"this.setPaymentDtoForRetun('Credit',this.payAmountTextBox)\" [disabled]=\"this.disablePaymentButtons\">Credit</button>\n                    </div>\n\n                    <div class=\"col-lg-3\">\n                        <button mat-raised-button class=\"primary-button\" (click)=\"this.setPaymentDtoForRetun('Debit',this.payAmountTextBox)\" [disabled]=\"this.disablePaymentButtons\">Debit</button>\n                    </div>\n\n                    <div class=\"col-lg-3\">\n                        <button mat-raised-button class=\"primary-button\" (click)=\"this.setPaymentDtoForRetun('Check',this.payAmountTextBox)\" [disabled]=\"this.disablePaymentButtons\">Check</button>\n                    </div>\n                </div>\n\n                <div class=\"row\" style=\"margin-top: 30px\">\n\n                    <div class=\"col-md-3\">\n                        <button (click)=\"this.setPaymentDtoForRetun('OnAccount', this.payAmountTextBox)\" mat-raised-button class=\"secondary-button\" [disabled]=\"this.disableOnAccountButtons\">On Account</button>\n                    </div>\n\n                    <div class=\"col-md-3\">\n                        <button mat-raised-button class=\"secondary-button\" [disabled]=\"this.disableStoreCreditButtons\" (click)=\"this.setPaymentDtoForRetun('StoreCredit', this.payAmountTextBox)\">Store Credit</button>\n                    </div>\n\n                    <div class=\"col-md-3\">\n                        <button mat-raised-button class=\"secondary-button\" [disabled]=\"true\"></button>\n                    </div>\n\n                    <div class=\"col-md-3\">\n                        <button mat-raised-button class=\"secondary-button\" [disabled]=\"true\">Layby</button>\n                    </div>\n                </div>\n\n                <div class=\"row\" style=\"margin-top: 30px\">\n                    <div class=\"col-md-12\">\n                        <input [(ngModel)]=\"this.transactionNotes\" class=\"form-control form-control-lg\" type=\"text\" placeholder=\"Add Sales Notes\">\n                    </div>\n                </div>\n\n                <div class=\"row\" style=\"margin-top: 30px\">\n                    <div class=\"col-md-3\">\n\n                    </div>\n\n                    <div class=\"col-md-6\">\n                        <button mat-raised-button class=\"danger-button\" (click)=\"this.returnSale()\" [disabled]=\"this.disableCompleteSaleButton\">Complete Sale</button>\n                    </div>\n\n                    <div class=\"col-md-3\">\n\n                    </div>\n                </div>\n\n                <div class=\"row\" style=\"margin-top: 30px\" *ngIf=\"null != this.printTransactionDto\">\n                    <div class=\"col-md-3\">\n\n                    </div>\n\n                    <div class=\"col-md-6\">\n                        <button mat-raised-button class=\"danger-button\" (click)=\"this.printReciept()\" data-dismiss=\"modal\" data-toggle=\"modal\">Print Reciept</button>\n                    </div>\n\n                    <div class=\"col-md-3\">\n\n                    </div>\n                </div>\n\n            </div>\n            <div class=\"modal-footer\">\n                <button type=\"button\" class=\"btn btn-default\" data-dismiss=\"modal\" (click)=\"this.clearAllDateAfterTransactionComplete()\">Close</button>\n            </div>\n\n        </div>\n\n\n    </div>\n\n</div>\n<!-- End of Payment Pop up -->\n\n\n\n<!-- Start of Product and Sale discard Pop up -->\n\n<div class=\"modal fade\" id=\"deleteProduct\" role=\"dialog\">\n    <div class=\"modal-dialog modal-sm\">\n        <div class=\"modal-content\">\n            <div class=\"modal-header\">\n                <h4 class=\"modal-title\">{{this.popupHeader}}</h4>\n                <button type=\"button\" class=\"close\" data-dismiss=\"modal\">&times;</button>\n\n            </div>\n            <div class=\"modal-body\">\n                <p>{{this.popupMessage}}</p>\n            </div>\n            <div class=\"modal-footer\">\n\n                <!-- This logic to reuse the model code cause i need popup for delete single product and also delete complete sale -->\n                <button *ngIf=\"this.popupHeader == 'Delete Product' \" type=\"button\" class=\"btn btn-danger\" data-dismiss=\"modal\" (click)=\"this.deleteProduct()\">Yes</button>\n                <button *ngIf=\"this.popupHeader == 'Discard Sale' \" type=\"button\" class=\"btn btn-danger\" data-dismiss=\"modal\" (click)=\"this.disgardCompleteSale()\">Yes</button>\n                <!-- TODO Add one more button for add product if it does not exists -->\n                <button type=\"button\" class=\"btn btn-default\" data-dismiss=\"modal\">Cancle</button>\n            </div>\n        </div>\n    </div>\n</div>\n\n<!-- End of Product and Sale discard Pop up -->"
 
 /***/ }),
 
@@ -7050,8 +7165,8 @@ var ReturnSaleComponent = /** @class */ (function () {
             { field: 'productNo', header: 'ProductNo' },
             { field: 'description', header: 'Description' },
             { field: 'retail', header: 'Retail' },
-            { field: 'defaultQuantity', header: 'Quantity' },
-            { field: 'retailDiscount', header: 'RetailWithDis' },
+            { field: 'saleQuantity', header: 'Quantity' },
+            { field: 'retailWithDiscount', header: 'RetailWithDis' },
             { field: 'totalProductPrice', header: 'Total' },
             { field: 'quantity', header: 'In-Stock' }
         ];
@@ -7103,8 +7218,8 @@ var ReturnSaleComponent = /** @class */ (function () {
     };
     ReturnSaleComponent.prototype.updateProductQuantity = function (value) {
         console.log('Quantity change');
-        this.transactionLineItemDaoList[this.transactionLineItemDaoList.length - 1].defaultQuantity = value;
-        this.transactionLineItemDaoList[this.transactionLineItemDaoList.length - 1].totalProductPrice = parseFloat((this.transactionLineItemDaoList[this.transactionLineItemDaoList.length - 1].retail * this.transactionLineItemDaoList[this.transactionLineItemDaoList.length - 1].defaultQuantity).toFixed(2));
+        this.transactionLineItemDaoList[this.transactionLineItemDaoList.length - 1].saleQuantity = value;
+        this.transactionLineItemDaoList[this.transactionLineItemDaoList.length - 1].totalProductPrice = parseFloat((this.transactionLineItemDaoList[this.transactionLineItemDaoList.length - 1].retail * this.transactionLineItemDaoList[this.transactionLineItemDaoList.length - 1].saleQuantity).toFixed(2));
         this.transactionLineItemDaoList = this.transactionLineItemDaoList.slice();
         this.setTransactionDtoList(this.transactionLineItemDaoList);
         //this.persit.setProducts(this.transactionLineItemDaoList);
@@ -7113,7 +7228,7 @@ var ReturnSaleComponent = /** @class */ (function () {
     ReturnSaleComponent.prototype.updateProductPrice = function (value) {
         console.log('Price change');
         this.transactionLineItemDaoList[this.transactionLineItemDaoList.length - 1].retail = value;
-        this.transactionLineItemDaoList[this.transactionLineItemDaoList.length - 1].totalProductPrice = (this.transactionLineItemDaoList[this.transactionLineItemDaoList.length - 1].retail * this.transactionLineItemDaoList[this.transactionLineItemDaoList.length - 1].defaultQuantity);
+        this.transactionLineItemDaoList[this.transactionLineItemDaoList.length - 1].totalProductPrice = (this.transactionLineItemDaoList[this.transactionLineItemDaoList.length - 1].retail * this.transactionLineItemDaoList[this.transactionLineItemDaoList.length - 1].saleQuantity);
         this.transactionLineItemDaoList = this.transactionLineItemDaoList.slice();
         this.setTransactionDtoList(this.transactionLineItemDaoList);
         //this.persit.setProducts(this.transactionLineItemDaoList);
@@ -7121,10 +7236,10 @@ var ReturnSaleComponent = /** @class */ (function () {
     };
     // this method helps to update lineItem Detail when user change the quatity or change the retail from editable box
     ReturnSaleComponent.prototype.updateLineItemDetails = function (event) {
-        this.transactionLineItemDaoList[event.index].defaultQuantity = event.data.defaultQuantity;
+        this.transactionLineItemDaoList[event.index].saleQuantity = event.data.saleQuantity;
         this.transactionLineItemDaoList[event.index].retail = event.data.retail;
-        this.transactionLineItemDaoList[event.index].totalProductPrice = (event.data.defaultQuantity * event.data.retail);
-        this.transactionLineItemDaoList[event.index].taxAmountOnProduct = ((event.data.defaultQuantity * event.data.retail) * this.taxPercent) / 100;
+        this.transactionLineItemDaoList[event.index].totalProductPrice = (event.data.saleQuantity * event.data.retail);
+        this.transactionLineItemDaoList[event.index].taxAmountOnProduct = ((event.data.saleQuantity * event.data.retail) * this.taxPercent) / 100;
         this.setTransactionDtoList(this.transactionLineItemDaoList);
         //this.persit.setProducts(this.transactionLineItemDaoList);
     };
@@ -7157,7 +7272,7 @@ var ReturnSaleComponent = /** @class */ (function () {
         this.transactionDtoList.totalAmount = 0.00;
         // }
         for (var i = 0; i < lineItem.length; i++) {
-            totalQuantity = +lineItem[i].defaultQuantity + totalQuantity;
+            totalQuantity = +lineItem[i].saleQuantity + totalQuantity;
             totalPrice = +lineItem[i].totalProductPrice + totalPrice;
             // Here totalProductPriceWithTax mean, only amount of the tax on that product dont get confuse with naming
             tax = +(lineItem[i].totalProductPrice * this.taxPercent) / 100 + tax;
@@ -7369,7 +7484,7 @@ var ReturnSaleComponent = /** @class */ (function () {
             lineItem.status = this.saleType;
             lineItem.date = this.transactionDtoList.date;
             // I need to do this casue in backend i am using quantity and here i have to use defult quanity to show 1 as user insert product.
-            lineItem.quantity = lineItem.defaultQuantity;
+            //lineItem.quantity = lineItem.defaultQuantity;
         }
         // Seeting paymentDto status
         for (var _b = 0, _c = this.paymentDao; _b < _c.length; _b++) {
@@ -7433,7 +7548,7 @@ var ReturnSaleComponent = /** @class */ (function () {
 /***/ "../../../../../src/app/sell/sale/sale.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"row\">\n    <div class=\"col-lg-9\">\n        <mat-card>\n            <div class=\"row\">\n                <div class=\"align-self-center col-lg-7\" style=\"max-height: 500px !important;\">\n\n                    <p-autoComplete id=\"productsearch\" [(ngModel)]=\"p\" class=\"full-width m-1\" [suggestions]=\"product\" placeholder=\"Scan or Search Product\" (onFocus)=\"print($event)\" (onBlur)=\"print($event)\" (completeMethod)=\"filterProducts($event)\" name=\"test\" [minLength]=\"3\"\n                        (keyup.enter)=\"submitProduct(p)\" field=\"description\">\n                        <ng-template>\n                            <span style=\"max-width:500px !important\">\n                                </span>\n                        </ng-template>\n                    </p-autoComplete>\n                    <!-- <button (click)=\"this.testFocus()\">Click me</button> -->\n\n                </div>\n                <div class=\"col-lg-0\"></div>\n                <div class=\"col-lg-5 d-flex justify-content-end\">\n                    <!-- Buttons go here  -->\n                    <button (click)=\"this.parkSale()\" class=\"bg-primary text-white action-button m-1\" mat-raised-button [disabled]=\"this.paymentButtonOnSale\">\n                        <span>\n                            <i class=\"fa fa-history\">\n                                Park Sale\n                            </i>\n                        </span>\n                    </button>\n                    <button class=\"bg-danger text-white action-button m-1\" mat-raised-button data-toggle=\"modal\" data-target=\"#deleteProduct\" (click)=\"this.setHeaderAndMessageForDisgardPopup()\" [disabled]=\"this.paymentButtonOnSale\">\n                        <span>\n                            <i class=\"fa fa-trash\">\n                                Discard Sale\n                            </i>\n                        </span>\n                    </button>\n                    <button class=\"bg-primary text-white  action-button m-1\" mat-raised-button>\n                        <span>\n                            <i class=\"fa fa-th\">\n                                Show Grid\n                            </i>\n                        </span>\n                    </button>\n                    <!-- <button class=\"bg-primary text-white  action-button m-1\" mat-raised-button (click)=\"this.openSellCustomerView()\">\n                        <span>\n                            <i class=\"fa fa-user\">\n                                Customer View\n                            </i>\n                        </span>\n                    </button> -->\n                </div>\n            </div>\n            <!-- <div class=\"row m-2\">\n                <app-receipt [data]=\"this.recieptData\"></app-receipt>\n            </div> -->\n        </mat-card>\n        <!-- <br/> -->\n        <mat-card>\n            <!-- <mat-card-title></mat-card-title> -->\n            <mat-card-content>\n                <div class=\"row p-md-3\">\n                    <!-- Product Table -->\n                    <p-dataTable [value]=\"this.transactionLineItemDaoList\" scrollable=\"true\" [responsive]=\"true\" scrollHeight=\"300px\" [editable]=\"true\" (onEditComplete)=\"updateLineItemDetails($event)\">\n                        <p-header>Product Sale Table</p-header>\n\n                        <p-column field=\"productNo\" header=\"ProductNo\" [style]=\"{'width':'15%','text-align':'center', 'overflow':'visible'}\"></p-column>\n                        <p-column field=\"description\" header=\"Description\" [style]=\"{'width':'45%','text-align':'center', 'overflow':'visible'}\"></p-column>\n                        <p-column field=\"defaultQuantity\" header=\"Quantity\" [editable]=\"true\">\n                            <ng-template let-product=\"rowData\" pTemplate=\"body\">\n                                <div id=\"lineitem{{product.productNo}}\" [ngClass]=\"{'quantity-updated': product.quantityUpdated }\">\n                                    {{product.defaultQuantity}}\n                                </div>\n                            </ng-template>\n                        </p-column>\n                        <p-column field=\"actualRetail\" header=\"Retail\"></p-column>\n                        <p-column field=\"retail\" header=\"RetWtDis\" [editable]=\"true\"></p-column>\n                        <p-column field=\"quantity\" header=\"Stock\"></p-column>\n                        <p-column field=\"totalProductPrice\" header=\"Total\"></p-column>\n                        <p-column header=\"\" styleClass=\"col-button\" [style]=\"{'width':'5%','text-align':'center', 'overflow':'visible'}\">\n\n                            <ng-template let-product=\"rowData\" pTemplate=\"body\">\n                                <button mat-button class=\"btn-red action-button-table\" mat-button (click)=\"this.setProductForDelete(product)\" data-toggle=\"modal\" data-target=\"#deleteProduct\">\n                                    <i class=\"fa fa-trash\" aria-hidden=\"true\"></i>\n                                </button>\n                            </ng-template>\n                        </p-column>\n\n\n                    </p-dataTable>\n                </div>\n            </mat-card-content>\n        </mat-card>\n\n    </div>\n    <div class=\"col-lg-3\">\n        <mat-card>\n            <mat-card-content>\n                <div class=\"row\">\n                    <div class=\"input-group\">\n                        <span class=\"input-group-addon\" id=\"basic-addon1\">\n                            <i class=\"fa fa-user-plus\" aria-hidden=\"true\"></i>\n                        </span>\n                        <p-autoComplete id =\"customerSearch\" [(ngModel)]=\"this.selectedCustomer\" [field]=\"'name'\" [suggestions]=\"filteredCustomer\" (completeMethod)=\"this.filterCustomers($event)\" class=\"full-width\" [minLength]=\"1\" (keyup.enter)=\"this.submitCustomer()\" (onClear)=\"this.removeCustomerOnSale()\">\n                            <ng-template let-c pTemplate=\"item\">\n                                <div class=\"ui-helper-clearfix\" style=\"border-bottom:1px solid #D5D5D5\">\n                                    <div style=\"width:32px;display:inline-block;margin:5px 0 2px 5px\">{{c.name}}</div>\n                                    <div style=\"font-size:18px;float:right;margin:10px 10px 0 0\">{{c.phoneNo}}</div>\n                                </div>\n                            </ng-template>\n\n                        </p-autoComplete>\n\n                    </div>\n                </div>\n                <br/>\n                <div *ngIf=\"this.selectedCustomer\">\n                    <table class=\"table table-bordered customer\">\n\n                        <tbody>\n                            <tr>\n                                <td>\n                                    <dl class=\"row\">\n                                        <dt class=\"\">Name:</dt>\n                                        <dd class=\"\">{{this.selectedCustomer.name}}</dd>\n                                    </dl>\n                                </td>\n                                <td>\n                                    <dl class=\"row\">\n                                        <dt class=\"\">Phone:</dt>\n                                        <dd class=\"\">{{this.selectedCustomer.phoneNo}}</dd>\n                                    </dl>\n                                </td>\n                            </tr>\n                            <tr>\n                                <td>\n                                    <dl class=\"row\">\n                                        <dt class=\"\">Balance:</dt>\n                                        <dd class=\"\">{{this.selectedCustomer.balance | currency:'USD':'true'}}</dd>\n                                    </dl>\n                                </td>\n                                <td>\n                                    <dl class=\"row\">\n                                        <dt class=\"\">Credit:</dt>\n                                        <dd class=\"\">{{this.selectedCustomer.storeCredit | currency:'USD':'true'}}</dd>\n                                    </dl>\n                                </td>\n                            </tr>\n                            <tr>\n                                <td>\n                                    <dl class=\"row\">\n                                        <dt class=\"\">Spending:</dt>\n                                        <dd class=\"\"></dd>\n                                    </dl>\n                                </td>\n                                <td>\n                                    <dl class=\"row\">\n                                        <dt class=\"\">Loyalty:</dt>\n                                        <dd class=\"\"></dd>\n                                    </dl>\n\n                                </td>\n                            </tr>\n                        </tbody>\n                    </table>\n                </div>\n\n                <div class=\"sales-total p-md-4\">\n\n                    <dl class=\"row\">\n                        <dt class=\"\">Sub-total</dt>\n                        <dd class=\"\">{{this.transactionDtoList.subtotal | currency:'USD':'true'}}</dd>\n                    </dl>\n                    <dl class=\"row\">\n                        <dt class=\"\">\n                            <a #discount id=\"discount-popover\" href=\"javascript:void(0)\" (click)=\"this.showPopover(discount)\">\n                                Discount\n                            </a>\n                        </dt>\n                        <dd class=\"\">{{this.transactionDtoList.totalDiscount | currency:'USD':'true'}}</dd>\n                    </dl>\n                    <dl class=\"row\">\n                        <dt *ngIf=\"this.taxPercent == 7\">\n                        <a  href=\"javascript:void(0)\" (click)=\"this.taxPercent = 0\">\n                                Tax ({{this.taxPercent}}%)\n                        </a>\n                        </dt>\n\n                        <dt *ngIf=\"this.taxPercent == 0\">\n\n                            <a  href=\"javascript:void(0)\" (click)=\"this.taxPercent = 7\">\n                                    No Tax\n                                    <!-- ({{this.taxPercent}}%) -->\n                            </a>\n                        </dt>\n                        <dd class=\"\">{{this.transactionDtoList.tax | currency:'USD':'true'}}</dd>\n                    </dl>\n                    <dl class=\"row\">\n                        <dt class=\"\">Quantity</dt>\n                        <dd class=\"\">{{this.transactionDtoList.quantity}}</dd>\n                    </dl>\n                    <dl class=\"row\" *ngIf=\"this.selectedCustomer != null && this.selectedCustomer.balance > 0\">\n                        <dt class=\"\">Pre Balance</dt>\n                        <dd class=\"\">{{this.selectedCustomer.balance | currency:'USD':'true'}}</dd>\n                    </dl>\n                    <dl class=\"row\">\n                        <dt class=\"\">Total</dt>\n                        <dd class=\"\">{{this.transactionDtoList.totalAmount | currency:'USD':'true'}}</dd>\n                    </dl>\n                </div>\n                <button *ngIf=\"this.saleType == 'Complete' \" mat-raised-button [disabled]=\"this.paymentButtonOnSale\" type=\"button\" (click)=\"this.setDataForPaymentModel()\" data-toggle=\"modal\" data-target=\"#paymentModel\" style=\"width: 100%; font-size: 20px\" class=\"btn btn-green btn-lg text-white m-md-1 p-md-2\">\n                    <div class=\"row p-md-1 font-weight-bold\">\n                        <div class=\"col-md-6 text-left\">Payment</div>\n                        <div class=\"col-md-6 text-right\">{{this.transactionDtoList.totalAmount | currency:'USD':'true'}}</div>\n                    </div>\n                </button>\n\n                <button *ngIf=\"this.saleType == 'Return' \" mat-raised-button [disabled]=\"this.paymentButtonOnSale\" type=\"button\" (click)=\"this.setDataForPaymentModelForReturnSale()\" data-toggle=\"modal\" data-target=\"#paymentModel\" style=\"width: 100%; font-size: 20px\"\n                    class=\"btn btn-red btn-lg text-white m-md-1 p-md-2\">\n                    <div class=\"row p-md-1 font-weight-bold\">\n                        <div class=\"col-md-6 text-left\">Return</div>\n                        <div class=\"col-md-6 text-right\">{{this.transactionDtoList.totalAmount | currency:'USD':'true'}}</div>\n                    </div>\n                </button>\n\n            </mat-card-content>\n        </mat-card>\n\n\n    </div>\n</div>\n\n<!-- Popover -->\n<div #popover *ngIf=\"this.popoverStyle\" class=\"popover fade bs-popover-left show\" role=\"tooltip\" [style]=\"this.popoverStyle\">\n    <div class=\"arrow\" style=\"top: 82px;\"></div>\n    <h3 class=\"popover-header\">\n        Apply Discount For Sale\n    </h3>\n    <div class=\"popover-body\">\n        <!-- <button mat-raised-button class=\"action-button\" (click)=\"this.setDiscountType('By Percentage')\"> % </button>\n        <button mat-raised-button class=\"action-button\" (click)=\"this.setDiscountType('By Amount')\"> $ </button> -->\n        <div class=\"row\">\n            <div class=\"col-md-5\">\n                <mat-input-container>\n                    <input matInput [(ngModel)]=\"this.discountValue\" type=\"text\" placeholder=\"Add Discount\">\n                </mat-input-container>\n            </div>\n            <div class=\"col-md-7\">\n                <mat-radio-group class=\"m-t-5\" [(ngModel)]=\"this.discountType\">\n                    <mat-radio-button class=\"p-md-2 m-r-20\" value=\"By Amount\"> $</mat-radio-button>\n                    <mat-radio-button class=\"p-md-2 m-r-20\" value=\"By Percentage\"> %</mat-radio-button>\n                </mat-radio-group>\n            </div>\n        </div>\n    </div>\n    <div class=\"d-flex justify-content-center  p-md-3\">\n        <button mat-button class=\"btn-red action-button-table\" (click)=\"this.calculateDiscount(this.discountValue)\">\n                        Apply\n            </button>\n\n\n    </div>\n</div>\n<!-- End of Discount pophover -->\n\n\n\n<!-- Start of Product and Sale discard Pop up -->\n\n<div class=\"modal fade\" id=\"deleteProduct\" role=\"dialog\">\n    <div class=\"modal-dialog modal-sm\">\n        <div class=\"modal-content\">\n            <div class=\"modal-header\">\n                <h4 class=\"modal-title\">{{this.popupHeader}}</h4>\n                <button type=\"button\" class=\"close\" data-dismiss=\"modal\">&times;</button>\n\n            </div>\n            <div class=\"modal-body\">\n                <p>{{this.popupMessage}}</p>\n            </div>\n            <div class=\"modal-footer\">\n\n                <!-- This logic to reuse the model code cause i need popup for delete single product and also delete complete sale -->\n                <button *ngIf=\"this.popupHeader == 'Delete Product' \" type=\"button\" class=\"btn btn-danger\" data-dismiss=\"modal\" (click)=\"this.deleteProduct()\">Yes</button>\n                <button *ngIf=\"this.popupHeader == 'Discard Sale' \" type=\"button\" class=\"btn btn-danger\" data-dismiss=\"modal\" (click)=\"this.disgardCompleteSale()\">Yes</button>\n                <!-- TODO Add one more button for add product if it does not exists -->\n                <button type=\"button\" class=\"btn btn-default\" data-dismiss=\"modal\">Cancle</button>\n            </div>\n        </div>\n    </div>\n</div>\n\n<!-- End of Product and Sale discard Pop up -->\n\n\n<!-- Start Of payment model -->\n<div class=\"modal fade\" id=\"paymentModel\" role=\"dialog\">\n    <div class=\"modal-dialog modal-lg\">\n\n        <!-- Modal content-->\n        <div class=\"modal-content\">\n            <div class=\"modal-header\">\n                <h3 class=\"modal-title\">Manage Payment</h3>\n                <button type=\"button\" class=\"close\" data-dismiss=\"modal\">&times;</button>\n\n            </div>\n            <div class=\"modal-body\">\n\n                <div class=\"row\">\n\n                    <div class=\"col-md-3\">\n                        <h3>{{this.payLable}}</h3>\n                    </div>\n\n                    <div class=\"col-md-2\">\n                        <input [(ngModel)]=\"this.payAmountTextBox\" class=\"form-control\" type=\"number\" [style.color]=\"this.dueAmountForTransaction <=0 ? 'green' : 'red' \">\n                    </div>\n\n\n                    <div class=\"col-md-4\">\n                        <h3>{{this.amountDueLable}}</h3>\n                    </div>\n\n                    <div class=\"col-md-3\">\n                        <h3 [style.color]=\"this.dueAmountForTransaction <=0 ? 'green' : 'red' \">$ {{this.dueAmountForTransaction | number:'1.2-2'}}</h3>\n                    </div>\n\n                </div>\n\n                <div *ngIf=\"this.paymentObjectForPaymentSellTable.length > 0\" class=\"row\">\n                    <table class=\"table\">\n                        <thead>\n                            <tr>\n                                <th>Payment Type</th>\n                                <th>Amount</th>\n                                <th>Action</th>\n                            </tr>\n                        </thead>\n                        <tbody>\n                            <tr *ngFor=\"let payment of this.paymentObjectForPaymentSellTable\">\n                                <td>{{payment.paymentType}}</td>\n                                <td>$ {{payment.paymentAmount}}</td>\n                                <td (click)=\"this.deletePaymentFromPaymentModel(payment)\">\n                                    <i class=\"fa fa-trash\"></i>\n                                </td>\n                            </tr>\n                        </tbody>\n                    </table>\n                </div>\n\n\n                <div class=\"row\" style=\"margin-top: 30px\">\n                    <div class=\"col-lg-3\">\n                        <button mat-raised-button class=\"primary-button\" (click)=\"this.setPaymentDto('Cash',this.payAmountTextBox)\" [disabled]=\"this.disablePaymentButtons\">Cash</button>\n                    </div>\n\n                    <div class=\"col-lg-3\">\n                        <button mat-raised-button class=\"primary-button\" (click)=\"this.setPaymentDto('Credit',this.payAmountTextBox)\" [disabled]=\"this.disablePaymentButtons\">Credit</button>\n                    </div>\n\n                    <div class=\"col-lg-3\">\n                        <button mat-raised-button class=\"primary-button\" (click)=\"this.setPaymentDto('Debit',this.payAmountTextBox)\" [disabled]=\"this.disablePaymentButtons\">Debit</button>\n                    </div>\n\n                    <div class=\"col-lg-3\">\n                        <button mat-raised-button class=\"primary-button\" (click)=\"this.setPaymentDto('Check',this.payAmountTextBox)\" [disabled]=\"this.disablePaymentButtons\">Check</button>\n                    </div>\n                </div>\n                <div class=\"row\" style=\"margin-top: 30px\">\n\n                    <div class=\"col-md-2\">\n                        <button mat-raised-button class=\"primary-button\" (click)=\"this.setPaymentDto('Cash', 1)\" [disabled]=\"this.disablePaymentButtonsWithAmount\">$1</button>\n                    </div>\n\n                    <div class=\"col-md-2\">\n                        <button mat-raised-button class=\"primary-button\" (click)=\"this.setPaymentDto('Cash', 5)\" [disabled]=\"this.disablePaymentButtonsWithAmount\">$5</button>\n                    </div>\n\n                    <div class=\"col-md-2\">\n                        <button mat-raised-button class=\"primary-button\" (click)=\"this.setPaymentDto('Cash', 10)\" [disabled]=\"this.disablePaymentButtonsWithAmount\">$10</button>\n                    </div>\n\n                    <div class=\"col-md-2\">\n                        <button mat-raised-button class=\"primary-button\" (click)=\"this.setPaymentDto('Cash', 20)\" [disabled]=\"this.disablePaymentButtonsWithAmount\">$20</button>\n                    </div>\n\n                    <div class=\"col-md-2\">\n                        <button mat-raised-button class=\"primary-button\" (click)=\"this.setPaymentDto('Cash', 50)\" [disabled]=\"this.disablePaymentButtonsWithAmount\">$50</button>\n                    </div>\n\n                    <div class=\"col-md-2\">\n                        <button mat-raised-button class=\"primary-button\" (click)=\"this.setPaymentDto('Cash', 100)\" [disabled]=\"this.disablePaymentButtonsWithAmount\">$100</button>\n                    </div>\n                </div>\n                <div class=\"row\" style=\"margin-top: 30px\">\n\n                    <div class=\"col-md-3\">\n                        <button (click)=\"this.setPaymentDto('OnAccount', this.payAmountTextBox)\" mat-raised-button class=\"secondary-button\" [disabled]=\"this.disableOnAccountButtons\">On Account</button>\n                    </div>\n\n                    <div class=\"col-md-3\">\n                        <button mat-raised-button class=\"secondary-button\" [disabled]=\"this.disableStoreCreditButtons\" (click)=\"this.setPaymentDto('StoreCredit', this.selectedCustomer.storeCredit)\">Store Credit</button>\n                    </div>\n\n                    <div class=\"col-md-3\">\n                        <button mat-raised-button class=\"secondary-button\" [disabled]=\"false\">Loyalty($ 2.70)</button>\n                    </div>\n\n                    <div class=\"col-md-3\">\n                        <button mat-raised-button class=\"secondary-button\" [disabled]=\"true\">Layby</button>\n                    </div>\n                </div>\n\n                <div class=\"row\" style=\"margin-top: 30px\">\n                    <div class=\"col-md-12\">\n                        <input [(ngModel)]=\"this.transactionNotes\" class=\"form-control form-control-lg\" type=\"text\" placeholder=\"Add Sales Notes\">\n                    </div>\n                </div>\n\n                <div class=\"row\" style=\"margin-top: 30px\">\n                    <div class=\"col-md-3\">\n\n                    </div>\n\n                    <div class=\"col-md-6\">\n                        <button mat-raised-button [ngClass]=\"{'primary-button': this.saleType == 'Complete', 'danger-button': this.saleType == 'Return' }\" (click)=\"this.completeSale()\" [disabled]=\"this.disableCompleteSaleButton\">Complete Sale</button>\n                    </div>\n\n                    <div class=\"col-md-3\">\n\n                    </div>\n                </div>\n\n                <div class=\"row\" style=\"margin-top: 30px\" *ngIf=\"null != this.printTransactionDto\">\n                    <div class=\"col-md-3\">\n\n                    </div>\n\n                    <div class=\"col-md-6\">\n                        <button mat-raised-button [ngClass]=\"{'primary-button': this.saleType == 'Complete', 'danger-button': this.saleType == 'Return' }\" (click)=\"this.printReciept()\" data-dismiss=\"modal\" data-toggle=\"modal\">Print Reciept</button>\n                    </div>\n\n                    <div class=\"col-md-3\">\n\n                    </div>\n                </div>\n\n            </div>\n            <div class=\"modal-footer\">\n                <button type=\"button\" class=\"btn btn-default\" data-dismiss=\"modal\" (click)=\"this.clearAllDateAfterTransactionComplete()\">Close</button>\n            </div>\n\n        </div>\n\n\n    </div>\n\n</div>\n<!-- End of Payment Pop up -->"
+module.exports = "<div class=\"row\">\n    <div class=\"col-lg-9\">\n        <mat-card>\n            <div class=\"row\">\n                <div class=\"align-self-center col-lg-7\" style=\"max-height: 500px !important;\">\n\n                    <p-autoComplete id=\"productsearch\" [(ngModel)]=\"this.productForSearchBox\" class=\"full-width m-1\" [suggestions]=\"product\" placeholder=\"Scan or Search Product\" (onFocus)=\"print($event)\" (onBlur)=\"print($event)\" (completeMethod)=\"filterProducts($event)\"\n                        name=\"test\" [minLength]=\"3\" (keyup.enter)=\"submitProduct(productForSearchBox)\" field=\"description\">\n                        <ng-template>\n                            <span style=\"max-width:500px !important\">\n                                </span>\n                        </ng-template>\n                    </p-autoComplete>\n                    <!-- <button (click)=\"this.testFocus()\">Click me</button> -->\n\n                </div>\n                <div class=\"col-lg-0\"></div>\n                <div class=\"col-lg-5 d-flex justify-content-end\">\n                    <!-- Buttons go here  -->\n                    <button (click)=\"this.parkSale()\" class=\"bg-primary text-white action-button m-1\" mat-raised-button [disabled]=\"this.disablePaymentButtonOnSale\">\n                        <span>\n                            <i class=\"fa fa-history\">\n                                Park Sale\n                            </i>\n                        </span>\n                    </button>\n                    <button class=\"bg-danger text-white action-button m-1\" mat-raised-button data-toggle=\"modal\" data-target=\"#deleteProduct\" (click)=\"this.setHeaderAndMessageForDisgardPopup()\" [disabled]=\"this.disablePaymentButtonOnSale\">\n                        <span>\n                            <i class=\"fa fa-trash\">\n                                Discard Sale\n                            </i>\n                        </span>\n                    </button>\n                    <button class=\"bg-primary text-white  action-button m-1\" mat-raised-button>\n                        <span>\n                            <i class=\"fa fa-th\">\n                                Show Grid\n                            </i>\n                        </span>\n                    </button>\n                    <!-- <button class=\"bg-primary text-white  action-button m-1\" mat-raised-button (click)=\"this.openSellCustomerView()\">\n                        <span>\n                            <i class=\"fa fa-user\">\n                                Customer View\n                            </i>\n                        </span>\n                    </button> -->\n                </div>\n            </div>\n            <!-- <div class=\"row m-2\">\n                <app-receipt [data]=\"this.recieptData\"></app-receipt>\n            </div> -->\n        </mat-card>\n        <!-- <br/> -->\n        <mat-card>\n            <!-- <mat-card-title></mat-card-title> -->\n            <mat-card-content>\n                <div class=\"row p-md-3\">\n                    <!-- Product Table -->\n                    <p-dataTable [value]=\"this.transactionLineItemDaoList\" scrollable=\"true\" [responsive]=\"true\" scrollHeight=\"300px\" [editable]=\"true\" (onEditComplete)=\"updateLineItemDetails($event)\">\n                        <p-header>Product Sale Table</p-header>\n\n                        <p-column field=\"productNo\" header=\"ProductNo\" [style]=\"{'width':'15%','text-align':'center', 'overflow':'visible'}\"></p-column>\n                        <p-column field=\"description\" header=\"Description\" [style]=\"{'width':'45%','text-align':'center', 'overflow':'visible'}\"></p-column>\n                        <p-column field=\"saleQuantity\" header=\"Quantity\" [editable]=\"true\">\n                            <ng-template let-product=\"rowData\" pTemplate=\"body\">\n                                <div id=\"lineitem{{product.productNo}}\" [ngClass]=\"{'quantity-updated': product.quantityUpdated }\">\n                                    {{product.saleQuantity}}\n                                </div>\n                            </ng-template>\n                        </p-column>\n                        <p-column field=\"retail\" header=\"Retail\"></p-column>\n                        <p-column field=\"retailWithDiscount\" header=\"RetWtDis\" [editable]=\"true\"></p-column>\n                        <p-column field=\"quantity\" header=\"Stock\"></p-column>\n                        <p-column field=\"totalProductPrice\" header=\"Total\"></p-column>\n                        <p-column header=\"\" styleClass=\"col-button\" [style]=\"{'width':'5%','text-align':'center', 'overflow':'visible'}\">\n\n                            <ng-template let-product=\"rowData\" pTemplate=\"body\">\n                                <button mat-button class=\"btn-red action-button-table\" mat-button (click)=\"this.setProductForDelete(product)\" data-toggle=\"modal\" data-target=\"#deleteProduct\">\n                                    <i class=\"fa fa-trash\" aria-hidden=\"true\"></i>\n                                </button>\n                            </ng-template>\n                        </p-column>\n\n\n                    </p-dataTable>\n                </div>\n            </mat-card-content>\n        </mat-card>\n    </div>\n    <div class=\"col-lg-3\">\n        <mat-card>\n            <mat-card-content>\n                <div class=\"row\">\n                    <div class=\"input-group\">\n                        <span class=\"input-group-addon\" id=\"basic-addon1\">\n                            <i class=\"fa fa-user-plus\" aria-hidden=\"true\"></i>\n                        </span>\n                        <p-autoComplete id=\"customerSearch\" [(ngModel)]=\"this.selectedCustomer\" [field]=\"'name'\" [suggestions]=\"filteredCustomer\" (completeMethod)=\"this.filterCustomers($event)\" class=\"full-width\" [minLength]=\"1\" (keyup.enter)=\"this.submitCustomer()\" (onClear)=\"this.removeCustomerOnSale()\">\n                            <ng-template let-c pTemplate=\"item\">\n                                <div class=\"ui-helper-clearfix\" style=\"border-bottom:1px solid #D5D5D5\">\n                                    <div style=\"width:32px;display:inline-block;margin:5px 0 2px 5px\">{{c.name}}</div>\n                                    <div style=\"font-size:18px;float:right;margin:10px 10px 0 0\">{{c.phoneNo}}</div>\n                                </div>\n                            </ng-template>\n\n                        </p-autoComplete>\n\n                    </div>\n                </div>\n                <br/>\n                <div *ngIf=\"this.selectedCustomer\">\n                    <table class=\"table table-bordered customer\">\n\n                        <tbody>\n                            <tr>\n                                <td>\n                                    <dl class=\"row\">\n                                        <dt class=\"\">Name:</dt>\n                                        <dd class=\"\">{{this.selectedCustomer.name}}</dd>\n                                    </dl>\n                                </td>\n                                <td>\n                                    <dl class=\"row\">\n                                        <dt class=\"\">Phone:</dt>\n                                        <dd class=\"\">{{this.selectedCustomer.phoneNo}}</dd>\n                                    </dl>\n                                </td>\n                            </tr>\n                            <tr>\n                                <td>\n                                    <dl class=\"row\">\n                                        <dt class=\"\">Balance:</dt>\n                                        <dd class=\"\">{{this.selectedCustomer.balance | currency:'USD':'true'}}</dd>\n                                    </dl>\n                                </td>\n                                <td>\n                                    <dl class=\"row\">\n                                        <dt class=\"\">Credit:</dt>\n                                        <dd class=\"\">{{this.selectedCustomer.storeCredit | currency:'USD':'true'}}</dd>\n                                    </dl>\n                                </td>\n                            </tr>\n                            <tr>\n                                <td>\n                                    <dl class=\"row\">\n                                        <dt class=\"\">Spending:</dt>\n                                        <dd class=\"\"></dd>\n                                    </dl>\n                                </td>\n                                <td>\n                                    <dl class=\"row\">\n                                        <dt class=\"\">Loyalty:</dt>\n                                        <dd class=\"\"></dd>\n                                    </dl>\n\n                                </td>\n                            </tr>\n                        </tbody>\n                    </table>\n                </div>\n\n                <div class=\"sales-total p-md-4\">\n\n                    <dl class=\"row\">\n                        <dt class=\"\">Sub-total</dt>\n                        <dd class=\"\">{{this.transactionDtoList.subtotal | currency:'USD':'true'}}</dd>\n                    </dl>\n                    <dl class=\"row\">\n                        <dt class=\"\">\n                            <a #discount id=\"discount-popover\" href=\"javascript:void(0)\" (click)=\"this.showPopover(discount)\">\n                                Discount\n                            </a>\n                        </dt>\n                        <dd class=\"\">{{this.totalTransactionDiscount | currency:'USD':'true'}}</dd>\n                    </dl>\n                    <dl class=\"row\">\n                        <dt>\n                        <a  href=\"javascript:void(0)\" (click)=\"this.manageTaxForTransaction()\">\n                                Tax ({{this.taxPercent}}%)\n                        </a>\n                        </dt>\n                        <!-- <dt *ngIf=\"this.taxPercent == 0\">\n                            <a  href=\"javascript:void(0)\" (click)=\"this.taxPercent = this.storeDetails.tax\">\n                                No Tax\n                            </a>\n                        </dt> -->\n                        <dd class=\"\">{{this.transactionDtoList.tax | currency:'USD':'true'}}</dd>\n                    </dl>\n                    <dl class=\"row\">\n                        <dt class=\"\">Quantity</dt>\n                        <dd class=\"\">{{this.transactionDtoList.quantity}}</dd>\n                    </dl>\n                    <dl class=\"row\" *ngIf=\"this.selectedCustomer != null && this.selectedCustomer.balance > 0\">\n                        <dt class=\"\">Pre Balance</dt>\n                        <dd class=\"\">\n                            <a data-target=\"#pendingInvoice\" data-toggle=\"modal\" id=\"MainNavHelp\" href=\"#pendingInvoice\" (click)=\"this.openPendingInvoice(this.selectedCustomer)\">{{this.selectedCustomer.balance | currency:'USD':'true'}}</a>\n                        </dd>\n                    </dl>\n                    <dl class=\"row\">\n                        <dt class=\"\">Total</dt>\n                        <dd class=\"\">{{this.transactionDtoList.totalAmount | currency:'USD':'true'}}</dd>\n                    </dl>\n                </div>\n                <button *ngIf=\"this.saleType == 'Complete' \" mat-raised-button [disabled]=\"this.disablePaymentButtonOnSale\" type=\"button\" (click)=\"this.setDataForPaymentModel()\" data-toggle=\"modal\" data-target=\"#paymentModel\" style=\"width: 100%; font-size: 20px\" class=\"btn btn-green btn-lg text-white m-md-1 p-md-2\">\n                    <div class=\"row p-md-1 font-weight-bold\">\n                        <div class=\"col-md-6 text-left\">Payment</div>\n                        <div class=\"col-md-6 text-right\">{{this.transactionDtoList.totalAmount | currency:'USD':'true'}}</div>\n                    </div>\n                </button>\n\n                <!-- <button *ngIf=\"this.saleType == 'Return' \" mat-raised-button [disabled]=\"this.paymentButtonOnSale\" type=\"button\" (click)=\"this.setDataForPaymentModelForReturnSale()\" data-toggle=\"modal\" data-target=\"#paymentModel\" style=\"width: 100%; font-size: 20px\"\n                    class=\"btn btn-red btn-lg text-white m-md-1 p-md-2\">\n                    <div class=\"row p-md-1 font-weight-bold\">\n                        <div class=\"col-md-6 text-left\">Return</div>\n                        <div class=\"col-md-6 text-right\">{{this.transactionDtoList.totalAmount | currency:'USD':'true'}}</div>\n                    </div>\n                </button> -->\n\n            </mat-card-content>\n        </mat-card>\n\n    </div>\n</div>\n\n<!-- Popover -->\n<div #popover *ngIf=\"this.popoverStyle\" class=\"popover fade bs-popover-left show\" role=\"tooltip\" [style]=\"this.popoverStyle\">\n    <div class=\"arrow\" style=\"top: 82px;\"></div>\n    <h3 class=\"popover-header\">\n        Apply Discount For Sale\n    </h3>\n    <div class=\"popover-body\">\n        <!-- <button mat-raised-button class=\"action-button\" (click)=\"this.setDiscountType('By Percentage')\"> % </button>\n        <button mat-raised-button class=\"action-button\" (click)=\"this.setDiscountType('By Amount')\"> $ </button> -->\n        <div class=\"row\">\n            <div class=\"col-md-5\">\n                <mat-input-container>\n                    <input matInput [(ngModel)]=\"this.discountValue\" type=\"text\" placeholder=\"Add Discount\">\n                </mat-input-container>\n            </div>\n            <div class=\"col-md-7\">\n                <mat-radio-group class=\"m-t-5\" [(ngModel)]=\"this.discountType\">\n                    <mat-radio-button class=\"p-md-2 m-r-20\" value=\"By Amount\"> $</mat-radio-button>\n                    <mat-radio-button class=\"p-md-2 m-r-20\" value=\"By Percentage\"> %</mat-radio-button>\n                </mat-radio-group>\n            </div>\n        </div>\n    </div>\n    <div class=\"d-flex justify-content-center  p-md-3\">\n        <button mat-button class=\"btn-red action-button-table\" (click)=\"this.calculateDiscount(this.discountValue)\">\n                        Apply\n            </button>\n\n\n    </div>\n</div>\n<!-- End of Discount pophover -->\n\n\n\n<!-- Start of Product and Sale discard Pop up -->\n\n<div class=\"modal fade\" id=\"deleteProduct\" role=\"dialog\">\n    <div class=\"modal-dialog modal-sm\">\n        <div class=\"modal-content\">\n            <div class=\"modal-header\">\n                <h4 class=\"modal-title\">{{this.popupHeader}}</h4>\n                <button type=\"button\" class=\"close\" data-dismiss=\"modal\">&times;</button>\n\n            </div>\n            <div class=\"modal-body\">\n                <p>{{this.popupMessage}}</p>\n            </div>\n            <div class=\"modal-footer\">\n\n                <!-- This logic to reuse the model code cause i need popup for delete single product and also delete complete sale -->\n                <button *ngIf=\"this.popupHeader == 'Delete Product' \" type=\"button\" class=\"btn btn-danger\" data-dismiss=\"modal\" (click)=\"this.deleteProduct()\">Yes</button>\n                <button *ngIf=\"this.popupHeader == 'Discard Sale' \" type=\"button\" class=\"btn btn-danger\" data-dismiss=\"modal\" (click)=\"this.disgardCompleteSale()\">Yes</button>\n                <!-- TODO Add one more button for add product if it does not exists -->\n                <button type=\"button\" class=\"btn btn-default\" data-dismiss=\"modal\">Cancle</button>\n            </div>\n        </div>\n    </div>\n</div>\n\n<!-- End of Product and Sale discard Pop up -->\n\n\n<!-- Start Of payment model -->\n<div class=\"modal fade\" id=\"paymentModel\" role=\"dialog\">\n    <div class=\"modal-dialog modal-lg\">\n\n        <!-- Modal content-->\n        <div class=\"modal-content\">\n            <div class=\"modal-header\">\n                <h3 class=\"modal-title\">Manage Payment</h3>\n                <button type=\"button\" class=\"close\" data-dismiss=\"modal\">&times;</button>\n\n            </div>\n            <div class=\"modal-body\">\n\n                <div class=\"row\">\n\n                    <div class=\"col-md-2\">\n                        <h3>PAY</h3>\n                    </div>\n\n                    <div class=\"col-md-4\">\n                        <input [(ngModel)]=\"this.payAmountTextBox\" class=\"form-control\" type=\"number\" [style.color]=\"this.dueAmountForTransaction <=0 ? 'green' : 'red' \">\n                    </div>\n\n\n                    <div class=\"col-md-3\">\n                        <h3>DUE AMOUNT: </h3>\n                    </div>\n\n                    <div class=\"col-md-3\">\n                        <h3 [style.color]=\"this.dueAmountForTransaction <=0 ? 'green' : 'red' \">$ {{this.dueAmountForTransaction | number:'1.2-2'}}</h3>\n                    </div>\n\n                </div>\n\n                <div *ngIf=\"this.paymentObjectForPaymentSellTable.length > 0\" class=\"row\">\n                    <table class=\"table\">\n                        <thead>\n                            <tr>\n                                <th>Payment Type</th>\n                                <th>Amount</th>\n                                <th>Action</th>\n                            </tr>\n                        </thead>\n                        <tbody>\n                            <tr *ngFor=\"let payment of this.paymentObjectForPaymentSellTable\">\n                                <td>{{payment.paymentType}}</td>\n                                <td>$ {{payment.paymentAmount}}</td>\n                                <td (click)=\"this.deletePaymentFromPaymentModel(payment)\">\n                                    <i class=\"fa fa-trash\"></i>\n                                </td>\n                            </tr>\n                        </tbody>\n                    </table>\n                </div>\n\n\n                <div class=\"row\" style=\"margin-top: 30px\">\n                    <div class=\"col-lg-3\">\n                        <button mat-raised-button class=\"primary-button\" (click)=\"this.setPaymentDto('Cash',this.payAmountTextBox)\" [disabled]=\"this.disablePaymentButtons\">Cash</button>\n                    </div>\n\n                    <div class=\"col-lg-3\">\n                        <button mat-raised-button class=\"primary-button\" (click)=\"this.setPaymentDto('Credit',this.payAmountTextBox)\" [disabled]=\"this.disablePaymentButtons\">Credit</button>\n                    </div>\n\n                    <div class=\"col-lg-3\">\n                        <button mat-raised-button class=\"primary-button\" (click)=\"this.setPaymentDto('Debit',this.payAmountTextBox)\" [disabled]=\"this.disablePaymentButtons\">Debit</button>\n                    </div>\n\n                    <div class=\"col-lg-3\">\n                        <button mat-raised-button class=\"primary-button\" (click)=\"this.setPaymentDto('Check',this.payAmountTextBox)\" [disabled]=\"this.disablePaymentButtons\">Check</button>\n                    </div>\n                </div>\n                <div class=\"row\" style=\"margin-top: 30px\">\n\n                    <div class=\"col-md-2\">\n                        <button mat-raised-button class=\"primary-button\" (click)=\"this.setPaymentDto('Cash', 1)\" [disabled]=\"this.disablePaymentButtonsWithAmount\">$1</button>\n                    </div>\n\n                    <div class=\"col-md-2\">\n                        <button mat-raised-button class=\"primary-button\" (click)=\"this.setPaymentDto('Cash', 5)\" [disabled]=\"this.disablePaymentButtonsWithAmount\">$5</button>\n                    </div>\n\n                    <div class=\"col-md-2\">\n                        <button mat-raised-button class=\"primary-button\" (click)=\"this.setPaymentDto('Cash', 10)\" [disabled]=\"this.disablePaymentButtonsWithAmount\">$10</button>\n                    </div>\n\n                    <div class=\"col-md-2\">\n                        <button mat-raised-button class=\"primary-button\" (click)=\"this.setPaymentDto('Cash', 20)\" [disabled]=\"this.disablePaymentButtonsWithAmount\">$20</button>\n                    </div>\n\n                    <div class=\"col-md-2\">\n                        <button mat-raised-button class=\"primary-button\" (click)=\"this.setPaymentDto('Cash', 50)\" [disabled]=\"this.disablePaymentButtonsWithAmount\">$50</button>\n                    </div>\n\n                    <div class=\"col-md-2\">\n                        <button mat-raised-button class=\"primary-button\" (click)=\"this.setPaymentDto('Cash', 100)\" [disabled]=\"this.disablePaymentButtonsWithAmount\">$100</button>\n                    </div>\n                </div>\n                <div class=\"row\" style=\"margin-top: 30px\">\n\n                    <div class=\"col-md-3\">\n                        <button (click)=\"this.setPaymentDto('OnAccount', this.payAmountTextBox)\" mat-raised-button class=\"secondary-button\" [disabled]=\"this.disableOnAccountButtons\">On Account</button>\n                    </div>\n\n                    <div class=\"col-md-3\">\n                        <button mat-raised-button class=\"secondary-button\" [disabled]=\"this.disableStoreCreditButtons\" (click)=\"this.setPaymentDto('StoreCredit', this.selectedCustomer.storeCredit)\">Store Credit</button>\n                    </div>\n\n                    <div class=\"col-md-3\">\n                        <button mat-raised-button class=\"secondary-button\" [disabled]=\"false\">Loyalty($ 2.70)</button>\n                    </div>\n\n                    <div class=\"col-md-3\">\n                        <button mat-raised-button class=\"secondary-button\" [disabled]=\"true\">Layby</button>\n                    </div>\n                </div>\n\n                <div class=\"row\" style=\"margin-top: 30px\">\n                    <div class=\"col-md-12\">\n                        <input [(ngModel)]=\"this.transactionNotes\" class=\"form-control form-control-lg\" type=\"text\" placeholder=\"Add Sales Notes\">\n                    </div>\n                </div>\n\n                <div class=\"row\" style=\"margin-top: 30px\">\n                    <div class=\"col-md-3\">\n\n                    </div>\n\n                    <div class=\"col-md-6\">\n                        <button mat-raised-button [ngClass]=\"{'primary-button': this.saleType == 'Complete' || 'Pending', 'danger-button': this.saleType == 'Return' }\" (click)=\"this.completeSale()\" [disabled]=\"this.disableCompleteSaleButton\">Complete Sale</button>\n                    </div>\n\n                    <div class=\"col-md-3\">\n\n                    </div>\n                </div>\n\n                <div class=\"row\" style=\"margin-top: 30px\" *ngIf=\"null != this.printTransactionDto\">\n                    <div class=\"col-md-3\">\n\n                    </div>\n\n                    <div class=\"col-md-6\">\n                        <button mat-raised-button [ngClass]=\"{'primary-button': this.saleType == 'Complete' || 'Pending', 'danger-button': this.saleType == 'Return' }\" (click)=\"this.printReciept()\" data-dismiss=\"modal\" data-toggle=\"modal\">Print Reciept</button>\n                    </div>\n\n                    <div class=\"col-md-3\">\n\n                    </div>\n                </div>\n\n            </div>\n            <div class=\"modal-footer\">\n                <button type=\"button\" class=\"btn btn-default\" data-dismiss=\"modal\" (click)=\"this.clearAllDateAfterTransactionComplete()\">Close</button>\n            </div>\n\n        </div>\n\n\n    </div>\n\n</div>\n<!-- End of Payment Pop up -->\n\n\n<!-- Start of Invoce by Customer Popup -->\n<div class=\"modal fade\" id=\"pendingInvoice\" role=\"dialog\">\n    <div class=\"modal-dialog modal-lg\">\n        <div class=\"modal-content\">\n            <div class=\"modal-header\">\n                <h4 class=\"modal-title\">Customer Pending Invoice</h4>\n                <button type=\"button\" class=\"close\" data-dismiss=\"modal\">&times;</button>\n            </div>\n            <div class=\"modal-body\">\n                <p-dataTable [value]=\"this.transactionDetails\" scrollable=\"true\" scrollHeight=\"500px\" [responsive]=\"true\">\n                    <p-column field=\"transactionComId\" header=\"Rec No\" [style]=\"{'width': '10%'}\"></p-column>\n                    <p-column field=\"date\" header=\"Date\" [sortable]=\"true\" [style]=\"{'width': '10%'}\"></p-column>\n                    <p-column field=\"time\" header=\"Time\" [style]=\"{'width': '10%'}\"></p-column>\n                    <p-column field=\"customerFirstLastName\" header=\"Name\"></p-column>\n                    <p-column field=\"transactionBalance\" header=\"Total\" [style]=\"{'width': '15%'}\"></p-column>\n                    <p-column field=\"status\" header=\"Action\" [style]=\"{'width': '20%'}\">\n                        <ng-template let-transaction=\"rowData\" pTemplate=\"body\">\n                            <button class=\"btn-green action-button-table\" mat-button data-dismiss=\"modal\" (click)=\"this.setDataForPaymentModelForPendingInvoice(transaction)\" data-toggle=\"modal\" data-target=\"#paymentModel\">\n                                            <i class=\"\" aria-hidden=\"true\">\n                                                PAY\n                                            </i>\n                                    </button>\n                            <button class=\"btn-blue action-button-table\" mat-button>\n                                        <i class=\"fa fa-print\" aria-hidden=\"true\"></i>\n                                </button>\n                            <button class=\"btn-red action-button-table\" mat-button>\n                                        <i class=\"fa fa-envelope\" aria-hidden=\"true\"></i>\n                                    </button>\n                        </ng-template>\n                    </p-column>\n                </p-dataTable>\n            </div>\n            <div class=\"modal-footer\">\n\n                <!-- <button type=\"button\" class=\"btn btn-danger\" data-dismiss=\"modal\" (click)=\"this.deleteCustomer()\">Yes</button>\n                    <button type=\"button\" class=\"btn btn-default\" data-dismiss=\"modal\">Cancle</button> -->\n            </div>\n        </div>\n    </div>\n</div>\n\n<!-- End of Invoice  by Customer Popup -->"
 
 /***/ }),
 
@@ -7445,7 +7560,7 @@ exports = module.exports = __webpack_require__("../../../../css-loader/lib/css-b
 
 
 // module
-exports.push([module.i, ".borderless td,\n.borderless th {\n  border: none; }\n\n.a :hover {\n  background: #3374C2; }\n\n.wid100 {\n  width: 100% !important; }\n\n.primary-button {\n  background-color: #41AF4B;\n  color: #FFF;\n  height: 50px;\n  width: 100%;\n  font-size: 20px; }\n\n.danger-button {\n  background-color: #dc3545;\n  color: #FFF;\n  height: 50px;\n  width: 100%;\n  font-size: 20px; }\n\n.secondary-button {\n  background-color: #6692B0;\n  height: 50px;\n  width: 100%;\n  color: #FFF;\n  font-size: 20px; }\n\n.customer td,\n.customer th {\n  padding: 10px 10px; }\n\n.customer dl.row {\n  margin: 0px;\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-pack: justify;\n      -ms-flex-pack: justify;\n          justify-content: space-between; }\n  .customer dl.row dt {\n    text-align: left; }\n  .customer dl.row dd {\n    text-align: right;\n    margin: 0px; }\n\n.sales-total dl {\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-pack: justify;\n      -ms-flex-pack: justify;\n          justify-content: space-between;\n  font-size: 17px; }\n\n.quantity-updated {\n  background: greenyellow;\n  padding: 9px; }\n", ""]);
+exports.push([module.i, ".borderless td,\n.borderless th {\n  border: none; }\n\n.a :hover {\n  background: #3374C2; }\n\n.wid100 {\n  width: 100% !important; }\n\n.primary-button {\n  background-color: #41AF4B;\n  color: #FFF;\n  height: 50px;\n  width: 100%;\n  font-size: 20px; }\n\n.danger-button {\n  background-color: #dc3545;\n  color: #FFF;\n  height: 50px;\n  width: 100%;\n  font-size: 20px; }\n\n.secondary-button {\n  background-color: #6692B0;\n  height: 50px;\n  width: 100%;\n  color: #FFF;\n  font-size: 20px; }\n\n.customer td,\n.customer th {\n  padding: 10px 10px; }\n\n.customer dl.row {\n  margin: 0px;\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-pack: justify;\n      -ms-flex-pack: justify;\n          justify-content: space-between; }\n  .customer dl.row dt {\n    text-align: left; }\n  .customer dl.row dd {\n    text-align: right;\n    margin: 0px; }\n\n.sales-total dl {\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-pack: justify;\n      -ms-flex-pack: justify;\n          justify-content: space-between;\n  font-size: 17px; }\n\n.quantity-updated {\n  background: greenyellow;\n  padding: 9px; }\n\n.modal-lg {\n  max-width: 1080px; }\n", ""]);
 
 // exports
 
@@ -7469,19 +7584,18 @@ module.exports = module.exports.toString();
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/esm5/core.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_app_sell_sell_service__ = __webpack_require__("../../../../../src/app/sell/sell.service.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_rxjs_Rx__ = __webpack_require__("../../../../rxjs/_esm5/Rx.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__angular_forms__ = __webpack_require__("../../../forms/esm5/forms.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_app_shared_storesetup_storesetup_service__ = __webpack_require__("../../../../../src/app/shared/storesetup/storesetup.service.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_app_customer_customer_service__ = __webpack_require__("../../../../../src/app/customer/customer.service.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_app_customer_customer_component__ = __webpack_require__("../../../../../src/app/customer/customer.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_moment__ = __webpack_require__("../../../../moment/moment.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_moment___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_7_moment__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__angular_platform_browser__ = __webpack_require__("../../../platform-browser/esm5/platform-browser.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9_app_shared_animations_fade_in_animation__ = __webpack_require__("../../../../../src/app/shared/animations/fade-in.animation.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__angular_router__ = __webpack_require__("../../../router/esm5/router.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11_ng2_toastr_src_toast_manager__ = __webpack_require__("../../../../ng2-toastr/src/toast-manager.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11_ng2_toastr_src_toast_manager___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_11_ng2_toastr_src_toast_manager__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12_app_shared_services_persistence_service__ = __webpack_require__("../../../../../src/app/shared/services/persistence.service.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_13_app_product_product_service__ = __webpack_require__("../../../../../src/app/product/product.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_app_shared_storesetup_storesetup_service__ = __webpack_require__("../../../../../src/app/shared/storesetup/storesetup.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_app_customer_customer_service__ = __webpack_require__("../../../../../src/app/customer/customer.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_app_customer_customer_component__ = __webpack_require__("../../../../../src/app/customer/customer.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_moment__ = __webpack_require__("../../../../moment/moment.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_moment___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6_moment__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__angular_platform_browser__ = __webpack_require__("../../../platform-browser/esm5/platform-browser.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8_app_shared_animations_fade_in_animation__ = __webpack_require__("../../../../../src/app/shared/animations/fade-in.animation.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__angular_router__ = __webpack_require__("../../../router/esm5/router.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10_ng2_toastr_src_toast_manager__ = __webpack_require__("../../../../ng2-toastr/src/toast-manager.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10_ng2_toastr_src_toast_manager___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_10_ng2_toastr_src_toast_manager__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11_app_shared_services_persistence_service__ = __webpack_require__("../../../../../src/app/shared/services/persistence.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12_app_product_product_service__ = __webpack_require__("../../../../../src/app/product/product.service.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -7491,7 +7605,6 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-
 
 
 
@@ -7516,68 +7629,34 @@ var SaleComponent = /** @class */ (function () {
         this.route = route;
         this.router = router;
         this.toastr = toastr;
-        this.myControl = new __WEBPACK_IMPORTED_MODULE_3__angular_forms__["FormControl"]();
         this.product = [];
         this.isProductExistsInSellList = false;
         this.transactionDtoList = new TransactionDtoList();
+        this.transactionDetails = [];
+        this.printTransactionDto = null;
         this.paymentDto = new PaymentDto();
-        this.a = 'sdfds';
-        this.showCustomerDetails = false;
-        // disableCustomerSearchTextbox: boolean = false;
-        // paymentObjectForPaymentSellTable = new Array <PaymentObjectForPaymentSellTable[]>();
-        this.paymentObjectForPaymentSellTable = [];
+        this.discountValue = 0;
+        this.totalTransactionDiscount = 0;
+        this.saleType = 'Complete';
+        this.taxPercent = 0.00;
         // This help when customer has paid full amount, so now user should not able to click on any payment button.
         // These both buttons are on payment page pop up.
         this.disablePaymentButtons = false;
         this.disablePaymentButtonsWithAmount = false;
         this.disableCompleteSaleButton = true;
-        this.payLable = 'Pay:';
-        this.amountDueLable = 'Amount Due:';
         this.paymentDao = [];
-        // This button is on sale page, not on pyament popup page.
-        this.paymentButtonOnSale = true;
+        this.disablePaymentButtonOnSale = true;
         this.transactionNotes = '';
         this.disableOnAccountButtons = true;
         this.disableStoreCreditButtons = true;
-        this.saleType = 'Complete';
-        this.taxPercent = 0.00;
-        this.printTransactionDto = null;
+        this.paymentObjectForPaymentSellTable = [];
     }
-    // 
     SaleComponent.prototype.ngOnInit = function () {
         var _this = this;
         this.items = [
             { name: 'Return', icon: 'fa fa-reply-all fa-x', link: '/return' },
-            // { name: 'Refund', icon: 'fa fa-list fa-x', link: '/sell/refund' },
             { name: 'Purchase Order', icon: 'fa fa-bookmark fa-x', link: '/sell/purchaseOrder' }
         ];
-        var transactionComId = this.route.snapshot.paramMap.get('transactionComId');
-        if (transactionComId) {
-            this.handleParkedTransactionFromSalesHistory(transactionComId);
-        }
-        // This call is to get all customer details.
-        this.getCustomerDetails();
-        // Here i am checking that customer already selected on sale page or not.
-        // I have commented this just to make sure this is not causing balance issue.
-        this.selectedCustomer = this.persit.getCustomerDetailsForSale();
-        // This will help to get customer product price, cause its cusotmer is selected then definetly the price is stored in local storage.
-        if (this.selectedCustomer) {
-            this.productPriceArryByCustomer = this.persit.getCustomerDetailsForSale();
-        }
-        this.cols = [
-            { field: 'productNo', header: 'ProductNo' },
-            { field: 'description', header: 'Description' },
-            { field: 'retail', header: 'Retail' },
-            { field: 'defaultQuantity', header: 'Quantity' },
-            { field: 'retailDiscount', header: 'RetailWithDis' },
-            { field: 'totalProductPrice', header: 'Total' },
-            { field: 'quantity', header: 'In-Stock' }
-        ];
-        console.log(this.persit.getProducts());
-        this.transactionLineItemDaoList = this.persit.getProducts() || [];
-        // this will show transaction data on right side on refresh or on load of the page
-        this.setTransactionDtoList(this.transactionLineItemDaoList);
-        // this.toastr.success("Sell component initiated", "Nice!");
         this.storeSetupService.getStoreDetails().
             then(function (data) {
             _this.storeDetails = data;
@@ -7587,8 +7666,20 @@ var SaleComponent = /** @class */ (function () {
             else {
                 _this.taxPercent = _this.storeDetails.tax;
             }
-            console.log('Store Details', _this.storeDetails);
         });
+        var transactionComId = this.route.snapshot.paramMap.get('transactionComId');
+        if (transactionComId) {
+            this.handleParkedTransactionFromSalesHistory(transactionComId);
+        }
+        this.getCustomerDetails();
+        this.selectedCustomer = this.persit.getCustomerDetailsForSale();
+        // This will help to get customer product price, cause its cusotmer is selected then definetly the price is stored in local storage.
+        if (this.selectedCustomer) {
+            this.productPriceArryByCustomer = this.persit.getCustomerProductPriceForSale();
+        }
+        this.transactionLineItemDaoList = this.persit.getProducts() || [];
+        // this will show transaction data on right side on refresh or on load of the page
+        this.setTransactionDtoList();
     };
     SaleComponent.prototype.ngAfterViewInit = function () {
         // This will focus on the autocomplete field
@@ -7598,58 +7689,37 @@ var SaleComponent = /** @class */ (function () {
         var url = '/sell-customer';
         window.open(url, '_blank', 'toolbar=0,location=0,menubar=0');
     };
-    SaleComponent.prototype.filterProducts = function (event) {
-        var _this = this;
-        var query = event.query;
-        this.productService.getProductDetails()
-            .subscribe(function (products) {
-            // console.log(products);
-            _this.product = _this.filterProduct(query, products);
-        });
-    };
-    SaleComponent.prototype.filterCustomers = function (event) {
-        var _this = this;
-        var query = event.query;
-        this.customerService.getCustomerDetails()
-            .subscribe(function (customers) {
-            // console.log(products);
-            _this.filteredCustomer = _this.filterCustomer(query, customers);
-        });
-    };
-    SaleComponent.prototype.getCustomerDetails = function () {
-        var _this = this;
-        this.customerService.getCustomerDetails()
-            .subscribe(function (customer) {
-            _this.customerDto = customer;
-        });
-    };
     SaleComponent.prototype.addTransactionLineItem = function (productObj) {
-        // This logic helps to manage the price lock for the customer,
-        // here i am checking weather this customer has predefind price or not, if yes then give old price otherwise regular price.
         var _this = this;
-        // Writing this logic here so i dont need to write this logic for all other conditions.
+        // Price by customer logic.
         if (null != this.selectedCustomer && this.selectedCustomer != undefined) {
             if (this.productPriceArryByCustomer && null != this.productPriceArryByCustomer && this.productPriceArryByCustomer.length > 0) {
                 this.productPriceArryByCustomer.forEach(function (product) {
                     // here product[1] is the product no coming from back end, i am sending only 2 values prodcut no and retail.  like this--->["23424234234", 12.99]
                     if (product[0] == productObj.productNo) {
-                        productObj.retail = product[1];
+                        productObj.retailWithDiscount = product[1];
                     }
                 });
             }
         }
+        // This will help to add retailWithDiscount first time when user add the first line item
+        if (productObj.retailWithDiscount <= 0) {
+            productObj.retailWithDiscount = productObj.retail;
+        }
+        // this will help me to set default quantity by for each product.
+        if (productObj.saleQuantity <= 0) {
+            productObj.saleQuantity = 1;
+        }
         // This is fisrt time when user is adding product to sell.
         if (this.transactionLineItemDaoList.length == 0) {
-            productObj.totalProductPrice = parseFloat(productObj.retail.toFixed(2));
-            productObj.taxAmountOnProduct = (productObj.retail * this.taxPercent) / 100;
-            console.log("when add product", productObj);
+            productObj.totalProductPrice = parseFloat(productObj.retailWithDiscount.toFixed(2));
+            productObj.taxAmountOnProduct = (productObj.retailWithDiscount * this.taxPercent) / 100;
             this.transactionLineItemDaoList.push(productObj);
             this.product = null;
-            this.p = null;
-            this.transactionLineItemDaoList[this.transactionLineItemDaoList.length - 1].actualRetail = productObj.retail;
+            this.productForSearchBox = null;
+            this.transactionLineItemDaoList[this.transactionLineItemDaoList.length - 1].retailWithDiscount = productObj.retailWithDiscount;
             this.transactionLineItemDaoList = this.transactionLineItemDaoList.slice();
-            this.setTransactionDtoList(this.transactionLineItemDaoList);
-            // This will save the data into local storage.
+            this.setTransactionDtoList();
             this.persit.setProducts(this.transactionLineItemDaoList);
         }
         else {
@@ -7657,18 +7727,14 @@ var SaleComponent = /** @class */ (function () {
                 if (productObj.productNo === lineItem.productNo) {
                     // This flag helps to determin whether to add new product or just update the quantity
                     this_1.isProductExistsInSellList = true;
-                    lineItem.defaultQuantity = +lineItem.defaultQuantity + 1;
+                    lineItem.saleQuantity = +lineItem.saleQuantity + 1;
                     lineItem.quantityUpdated = true;
-                    // here  i need to get value of lineitem.retail becuase user might have change the retial price so, if i dont do lineitem.retail it will take old retail price.
-                    lineItem.totalProductPrice = parseFloat((lineItem.retail * lineItem.defaultQuantity).toFixed(2));
-                    lineItem.taxAmountOnProduct = (lineItem.retail * this_1.taxPercent) / 100;
-                    console.log("when add product", productObj);
+                    lineItem.totalProductPrice = parseFloat((lineItem.retailWithDiscount * lineItem.saleQuantity).toFixed(2));
+                    lineItem.taxAmountOnProduct = (lineItem.retailWithDiscount * this_1.taxPercent) / 100;
                     this_1.transactionLineItemDaoList = this_1.transactionLineItemDaoList.slice();
                     this_1.product = null;
-                    this_1.p = null;
-                    console.log(this_1.transactionLineItemDaoList);
-                    this_1.transactionLineItemDaoList[this_1.transactionLineItemDaoList.length - 1].actualRetail = productObj.retail;
-                    this_1.setTransactionDtoList(this_1.transactionLineItemDaoList);
+                    this_1.productForSearchBox = null;
+                    this_1.setTransactionDtoList();
                     this_1.persit.setProducts(this_1.transactionLineItemDaoList);
                     setTimeout(function () {
                         lineItem.quantityUpdated = false;
@@ -7683,26 +7749,22 @@ var SaleComponent = /** @class */ (function () {
                 }
             };
             var this_1 = this;
-            // Checking weather user is adding same product agian or not if its true
-            //  then just update the quantity of that product by 1.
+            // Checking weather user is adding same product agian or not if its true, :::: ---> then just add the quantity of that product by 1.
             for (var _i = 0, _a = this.transactionLineItemDaoList; _i < _a.length; _i++) {
                 var lineItem = _a[_i];
                 var state_1 = _loop_1(lineItem);
                 if (state_1 === "break")
                     break;
             }
-            // This flag helps to determin whether to add new product or just update the quantity
             if (!this.isProductExistsInSellList) {
-                this.transactionLineItemDaoList = this.transactionLineItemDaoList.slice();
-                productObj.totalProductPrice = productObj.retail * productObj.defaultQuantity;
-                productObj.taxAmountOnProduct = parseFloat(((productObj.retail * this.taxPercent) / 100).toFixed(2));
-                console.log("when add product", productObj);
+                productObj.totalProductPrice = productObj.retailWithDiscount * productObj.saleQuantity;
+                productObj.taxAmountOnProduct = parseFloat(((productObj.retailWithDiscount * this.taxPercent) / 100).toFixed(2));
                 this.transactionLineItemDaoList.push(productObj);
                 this.product = null;
-                this.p = null;
-                console.log(this.transactionLineItemDaoList);
-                this.transactionLineItemDaoList[this.transactionLineItemDaoList.length - 1].actualRetail = productObj.retail;
-                this.setTransactionDtoList(this.transactionLineItemDaoList);
+                this.productForSearchBox = null;
+                this.transactionLineItemDaoList[this.transactionLineItemDaoList.length - 1].retailWithDiscount = productObj.retailWithDiscount;
+                this.transactionLineItemDaoList = this.transactionLineItemDaoList.slice();
+                this.setTransactionDtoList();
                 this.persit.setProducts(this.transactionLineItemDaoList);
             }
         }
@@ -7717,27 +7779,21 @@ var SaleComponent = /** @class */ (function () {
         // document.querySelector("#productsearch > span > input").focus();
         $('#productsearch > span > input').focus();
     };
-    // This method helps when user try to change retial price or quanity from the sell text box.
     SaleComponent.prototype.submitProduct = function (value) {
-        var _this = this;
-        if (this.p.length > 8) {
-            this.product.forEach(function (p) {
-                if (p.productNo == _this.p) {
-                    _this.addTransactionLineItem(value);
-                }
-            });
-            console.log("ok found wiht scanner");
-        }
+        // if(this.p.length > 8){
+        //   this.product.forEach((p)=>{
+        //     if(p.productNo == this.p)
+        //     {
+        //       this.addTransactionLineItem(value);
+        //     }
+        // })
+        //   console.log("ok found wiht scanner");
+        // }
         if (typeof value === 'string') {
-            console.log('This is value: ', value);
-            // this is the senario where user is adding new product to Sell
-            if (this.product != null && this.product.length > 0) {
-                // this.addTransactionLineItem(this.product[0]);
-            }
-            else if (value !== '' && value !== undefined && value.indexOf('.') !== 0) {
-                if (value.match(/[a-z]/i))
-                    console.log('contains only charcters');
-                // this mean this is decimal value so it will change the retail price of the product
+            if (value !== '' && value !== undefined && value.indexOf('.') !== 0) {
+                if (value.match(/[a-z]/i)) {
+                    // Not sure wt it is doing
+                }
                 if (value.match(/[0-9]/i) && value.indexOf('.') > 0)
                     this.updateProductPrice(value);
                 else if (value.match(/[0-9]/i) && value.length < 5)
@@ -7748,35 +7804,55 @@ var SaleComponent = /** @class */ (function () {
             this.addTransactionLineItem(value);
         }
     };
+    SaleComponent.prototype.setProductForDelete = function (product) {
+        this.selectedProduct = product;
+        this.popupHeader = 'Delete Product';
+        this.popupMessage = 'Are You Sure You Want To Delete Product?';
+    };
+    SaleComponent.prototype.deleteProduct = function () {
+        console.log("inside delete");
+        var index = this.transactionLineItemDaoList.indexOf(this.selectedProduct, 0);
+        console.log("index", index);
+        if (index > -1) {
+            this.transactionLineItemDaoList.splice(index, 1);
+            this.transactionLineItemDaoList = this.transactionLineItemDaoList.slice();
+            this.setTransactionDtoList();
+            this.persit.setProducts(this.transactionLineItemDaoList);
+        }
+    };
     SaleComponent.prototype.updateProductQuantity = function (value) {
         console.log('Quantity change');
-        this.transactionLineItemDaoList[this.transactionLineItemDaoList.length - 1].defaultQuantity = value;
-        this.transactionLineItemDaoList[this.transactionLineItemDaoList.length - 1].totalProductPrice = parseFloat((this.transactionLineItemDaoList[this.transactionLineItemDaoList.length - 1].retail * this.transactionLineItemDaoList[this.transactionLineItemDaoList.length - 1].defaultQuantity).toFixed(2));
-        this.transactionLineItemDaoList[this.transactionLineItemDaoList.length - 1].retailDiscount = (this.transactionLineItemDaoList[this.transactionLineItemDaoList.length - 1].retailDiscount) * (this.transactionLineItemDaoList[this.transactionLineItemDaoList.length - 1].defaultQuantity);
+        this.transactionLineItemDaoList[this.transactionLineItemDaoList.length - 1].saleQuantity = value;
+        this.transactionLineItemDaoList[this.transactionLineItemDaoList.length - 1].totalProductPrice = parseFloat((this.transactionLineItemDaoList[this.transactionLineItemDaoList.length - 1].retailWithDiscount * this.transactionLineItemDaoList[this.transactionLineItemDaoList.length - 1].saleQuantity).toFixed(2));
         this.transactionLineItemDaoList = this.transactionLineItemDaoList.slice();
-        this.setTransactionDtoList(this.transactionLineItemDaoList);
+        this.setTransactionDtoList();
         this.persit.setProducts(this.transactionLineItemDaoList);
-        this.p = null;
+        this.productForSearchBox = null;
     };
     SaleComponent.prototype.updateProductPrice = function (value) {
         console.log('Price change');
-        // let oldRetail = this.transactionLineItemDaoList[this.transactionLineItemDaoList.length - 1].retail;
-        this.transactionLineItemDaoList[this.transactionLineItemDaoList.length - 1].retail = value;
-        this.transactionLineItemDaoList[this.transactionLineItemDaoList.length - 1].totalProductPrice = (this.transactionLineItemDaoList[this.transactionLineItemDaoList.length - 1].retail * this.transactionLineItemDaoList[this.transactionLineItemDaoList.length - 1].defaultQuantity);
+        this.transactionLineItemDaoList[this.transactionLineItemDaoList.length - 1].retailWithDiscount = value;
+        this.transactionLineItemDaoList[this.transactionLineItemDaoList.length - 1].totalProductPrice = (this.transactionLineItemDaoList[this.transactionLineItemDaoList.length - 1].retailWithDiscount * this.transactionLineItemDaoList[this.transactionLineItemDaoList.length - 1].saleQuantity);
         this.transactionLineItemDaoList = this.transactionLineItemDaoList.slice();
-        this.setTransactionDtoList(this.transactionLineItemDaoList);
+        this.setTransactionDtoList();
         this.persit.setProducts(this.transactionLineItemDaoList);
-        this.p = null;
+        this.productForSearchBox = null;
     };
     // this method helps to update lineItem Detail when user change the quatity or change the retail from editable box
     SaleComponent.prototype.updateLineItemDetails = function (event) {
-        this.transactionLineItemDaoList[event.index].defaultQuantity = event.data.defaultQuantity;
-        this.transactionLineItemDaoList[event.index].retail = event.data.retail;
-        this.transactionLineItemDaoList[event.index].totalProductPrice = (event.data.defaultQuantity * event.data.retail);
-        this.transactionLineItemDaoList[event.index].taxAmountOnProduct = ((event.data.defaultQuantity * event.data.retail) * this.taxPercent) / 100;
-        this.transactionLineItemDaoList[event.index].retailDiscount = (event.data.defaultQuantity * event.data.retailDiscount);
-        this.setTransactionDtoList(this.transactionLineItemDaoList);
+        this.transactionLineItemDaoList[event.index].saleQuantity = event.data.saleQuantity;
+        this.transactionLineItemDaoList[event.index].retailWithDiscount = event.data.retailWithDiscount;
+        // this will convert numern into numer to show in 2 digits. cause i can not use .toFix here.
+        this.transactionLineItemDaoList[event.index].totalProductPrice = Math.round((event.data.saleQuantity * event.data.retailWithDiscount) * 1e2) / 1e2;
+        this.setTransactionDtoList();
         this.persit.setProducts(this.transactionLineItemDaoList);
+    };
+    SaleComponent.prototype.showPopover = function (discount) {
+        var _a = discount.getBoundingClientRect(), x = _a.x, y = _a.y;
+        if (this.popoverStyle)
+            this.popoverStyle = null;
+        else
+            this.popoverStyle = this.sanitizer.bypassSecurityTrustStyle("position: absolute; transform: translate3d(" + (x - 271.86 - 10) + "px, " + (y - 74.5) + "px, 0px); top: 0px; left: 0px; will-change: transform;");
     };
     SaleComponent.prototype.setDiscountType = function (discountType) {
         console.log("inside set discount type", discountType);
@@ -7788,322 +7864,192 @@ var SaleComponent = /** @class */ (function () {
         }
     };
     SaleComponent.prototype.calculateDiscount = function (value) {
-        console.log("inside calculate discount", value);
         if (this.discountType == 'By Amount') {
-            this.transactionDtoList.totalDiscount = value;
-            // Here need to calculate tax because, now we have to apply tax on the amount which come after discount
-            this.transactionDtoList.tax = ((this.transactionDtoList.subtotal - this.transactionDtoList.totalDiscount) * this.taxPercent) / 100;
-            // Here i have to subtract the subtotal from the discount, if i do from total then it will be wrong cause it has alredy calculted tax on it.
-            this.transactionDtoList.totalAmount = (this.transactionDtoList.subtotal - this.transactionDtoList.totalDiscount) + this.transactionDtoList.tax;
-            // Need to do this here, cause then only it will show same amount on payment popup.    this.payAmountTextBox = this.transactionDtoList.totalAmount;
-            this.dueAmountForTransaction = this.transactionDtoList.totalAmount;
+            this.totalTransactionDiscount = value;
         }
         else if (this.discountType == 'By Percentage') {
-            this.transactionDtoList.totalDiscount = parseFloat(((this.transactionDtoList.totalAmount * value) / 100).toFixed(2));
-            // Here need to calculate tax because, now we have to apply tax on the amount which come after discount
-            this.transactionDtoList.tax = ((this.transactionDtoList.subtotal - this.transactionDtoList.totalDiscount) * this.taxPercent) / 100;
-            this.transactionDtoList.totalAmount = (this.transactionDtoList.subtotal - this.transactionDtoList.totalDiscount) + this.transactionDtoList.tax;
-            // Need to do this here, cause then only it will show same amount on payment popup.
-            this.payAmountTextBox = this.transactionDtoList.totalAmount;
-            this.dueAmountForTransaction = this.transactionDtoList.totalAmount;
+            this.totalTransactionDiscount = parseFloat(((this.transactionDtoList.totalAmount * value) / 100).toFixed(2));
         }
+        this.setTransactionDtoList();
     };
-    SaleComponent.prototype.setTransactionDtoList = function (lineItem) {
+    SaleComponent.prototype.setTransactionDtoList = function () {
         var totalQuantity = 0;
         var totalPrice = 0.00;
         var tax = 0.00;
         var totalLineItemDiscount = 0.00;
-        if (this.selectedCustomer && this.saleType == 'Complete') {
-            this.transactionDtoList.totalAmount = this.selectedCustomer.balance;
-        }
-        else {
-            this.transactionDtoList.totalAmount = 0.00;
-        }
-        for (var i = 0; i < lineItem.length; i++) {
-            totalQuantity = +lineItem[i].defaultQuantity + totalQuantity;
-            totalPrice = +lineItem[i].totalProductPrice + totalPrice;
-            // Here totalProductPriceWithTax mean, only amount of the tax on that product dont get confuse with naming
-            tax = +(lineItem[i].totalProductPrice * this.taxPercent) / 100 + tax;
-        }
+        this.transactionDtoList.totalAmount = 0.00;
+        this.transactionLineItemDaoList.forEach(function (lineItem) {
+            totalQuantity = +lineItem.saleQuantity + totalQuantity;
+            totalPrice = +lineItem.totalProductPrice + totalPrice;
+        });
         this.transactionDtoList.quantity = parseFloat(totalQuantity.toFixed(2));
         this.transactionDtoList.subtotal = parseFloat(totalPrice.toFixed(2));
-        this.transactionDtoList.tax = parseFloat(tax.toFixed(2));
-        this.transactionDtoList.totalAmount = this.transactionDtoList.totalAmount + parseFloat(((totalPrice) + tax).toFixed(2));
-        // This will add line item discount as well as total discount to show final discount amount on invoice.
-        this.transactionDtoList.totalDiscount = +this.transactionDtoList.totalDiscount + totalLineItemDiscount;
+        var totalAfterDiscount = this.transactionDtoList.subtotal - this.totalTransactionDiscount;
+        this.transactionDtoList.tax = ((totalAfterDiscount * this.taxPercent / 100));
+        this.transactionDtoList.totalAmount = +totalAfterDiscount + this.transactionDtoList.tax;
         // This logic helps to manage main payment button enable or diable.
         if (this.transactionDtoList.totalAmount == 0) {
-            this.paymentButtonOnSale = true;
+            this.disablePaymentButtonOnSale = true;
         }
         else {
-            this.paymentButtonOnSale = false;
+            this.disablePaymentButtonOnSale = false;
         }
-        // These for sale page pop -- First row.
-        this.payAmountTextBox = this.transactionDtoList.totalAmount;
-        this.dueAmountForTransaction = this.transactionDtoList.totalAmount;
-    };
-    SaleComponent.prototype.filterProduct = function (query, products) {
-        var filtered = [];
-        for (var i = 0; i < products.length; i++) {
-            var p = products[i];
-            if (p.description.toLowerCase().includes(query.toLowerCase()) || p.productNo.includes(query)) {
-                filtered.push(p);
-            }
-        }
-        return filtered;
-    };
-    SaleComponent.prototype.filterCustomer = function (query, customers) {
-        var filtered = [];
-        for (var i = 0; i < customers.length; i++) {
-            var cust = customers[i];
-            if (cust.name.toLowerCase().includes(query.toLowerCase()) || cust.companyName.toLowerCase().includes(query.toLowerCase()) || cust.phoneNo.includes(query)) {
-                filtered.push(cust);
-            }
-        }
-        return filtered;
     };
     SaleComponent.prototype.submitCustomer = function () {
-        // this.selectedCustomer = value;
-        // this.cust = null;
-        // this.disableCustomerSearchTextbox = true;
         var _this = this;
         if (this.selectedCustomer.type == 'Business') {
-            this.taxPercent = 0;
+            this.taxPercent = 0.00;
         }
-        // Storing customer detials into local storage.
         this.persit.setCustomerDetailsForSale(this.selectedCustomer);
-        // Need to do this to add balance into transaction details
-        this.setTransactionDtoList(this.transactionLineItemDaoList);
         this.sellService.getProductPriceByCustomer(this.selectedCustomer.phoneNo)
             .subscribe(function (productPrice) {
             _this.productPriceArryByCustomer = productPrice;
-            //Storing customer product Price in Local storage so i can help on refresh and on other consditions.
             _this.persit.setCustomerProductPriceForSale(_this.productPriceArryByCustomer);
-            // console.log('customerProductPrice', this.productPriceArryByCustomer);
         });
-        console.log('customer', this.selectedCustomer);
     };
-    // This will remove the customer from local storage.
     SaleComponent.prototype.removeCustomerOnSale = function () {
         this.persit.clearCustomer();
         this.persit.clearCustomerPriceForSale();
         this.selectedCustomer = null;
         this.cust = null;
-        // this.disableCustomerSearchTextbox = false;
-        this.setTransactionDtoList(this.transactionLineItemDaoList);
+        this.taxPercent = this.storeDetails.tax;
     };
-    SaleComponent.prototype.showPopover = function (discount) {
-        var _a = discount.getBoundingClientRect(), x = _a.x, y = _a.y;
-        if (this.popoverStyle)
-            this.popoverStyle = null;
-        else
-            this.popoverStyle = this.sanitizer.bypassSecurityTrustStyle("position: absolute; transform: translate3d(" + (x - 271.86 - 10) + "px, " + (y - 74.5) + "px, 0px); top: 0px; left: 0px; will-change: transform;");
-        // console.log();
-    };
-    SaleComponent.prototype.print = function (obj) {
-        console.log("Coming form print", obj);
-    };
-    SaleComponent.prototype.deleteProduct = function () {
-        console.log("inside delete");
-        var index = this.transactionLineItemDaoList.indexOf(this.selectedProduct, 0);
-        console.log("index", index);
-        if (index > -1) {
-            this.transactionLineItemDaoList.splice(index, 1);
-            this.transactionLineItemDaoList = this.transactionLineItemDaoList.slice();
-            this.setTransactionDtoList(this.transactionLineItemDaoList);
-            this.persit.setProducts(this.transactionLineItemDaoList);
-        }
-    };
-    // test(a: number) {
-    //   this.calculateDiscountByAmount(a);
-    //   alert("hi");
-    //   console.log("insod test", event);
-    // }
-    SaleComponent.prototype.setProductForDelete = function (product) {
-        this.selectedProduct = product;
-        this.popupHeader = 'Delete Product';
-        this.popupMessage = 'Are You Sure You Want To Delete Product?';
-    };
-    //This methode will completly remove the all transaction line item and transaction details.
-    SaleComponent.prototype.disgardCompleteSale = function () {
-        this.persit.clearProducts();
-        this.persit.clearCustomer();
-        this.persit.clearCustomerPriceForSale();
-        this.transactionLineItemDaoList = [];
-        // This is very import fist i need to remove the cusotmer details and then only call set transaction otherwise customer balace will stays and will show amount on payment which is wrong.
-        this.selectedCustomer = null;
-        this.setTransactionDtoList([]);
-        // this.disableCustomerSearchTextbox = false;    
-        this.saleType = 'Complete';
-        this.router.navigate(['/sell/sale']);
+    // This methode helps to show pending invoice pop for customer.
+    SaleComponent.prototype.openPendingInvoice = function (customer) {
+        var _this = this;
+        this.sellService.getPendingInvoiceByCustomer(customer.phoneNo)
+            .subscribe(function (transaction) {
+            transaction.forEach(function (trans) {
+                trans.time = __WEBPACK_IMPORTED_MODULE_6_moment__(trans.date).format('hh:mm A');
+                trans.date = __WEBPACK_IMPORTED_MODULE_6_moment__(trans.date).format('MM-DD-YYYY');
+            });
+            _this.transactionDetails = transaction;
+        });
     };
     SaleComponent.prototype.setHeaderAndMessageForDisgardPopup = function () {
         this.popupHeader = 'Discard Sale';
         this.popupMessage = 'Are You Sure You Want To Delete Complete Sale?';
     };
     SaleComponent.prototype.setPaymentDto = function (paymentType, paymentAmount) {
-        if (this.saleType == 'Return') {
-            this.setPaymentDtoForRetun(paymentType, this.payAmountTextBox);
-        }
-        else {
-            if (paymentType == 'Cash') {
-                // This is very rare scenario and it happens only if user is stupid but still i need to handle this,
-                // Cause user can pay in cash two time by click on cash button by seletecting different buttons.
-                if (null != this.paymentDto && this.paymentDto.cash > 0) {
-                    this.paymentDto.cash = +this.paymentDto.cash + paymentAmount;
-                }
-                else {
-                    // I need to do this, cause right now if total is $20 and user click on $100 its storing as $100 in payment table which is wrong and will messed up whole reporting so need to manage here.
-                    if (paymentAmount > this.dueAmountForTransaction) {
-                        this.paymentDto.cash = this.dueAmountForTransaction;
-                    }
-                    else {
-                        this.paymentDto.cash = paymentAmount;
-                    }
-                }
-                this.paymentObjectForPaymentSellTable.push({ 'paymentType': 'Cash', 'paymentAmount': paymentAmount });
-                this.validatePaymentButtons(paymentAmount);
-            }
-            else if (paymentType == 'Credit') {
-                if (null != this.paymentDto && this.paymentDto.credit > 0) {
-                    this.paymentDto.credit = +this.paymentDto.credit + paymentAmount;
-                }
-                else {
-                    // I need to do this, cause right now if total is $20 and user click on $100 its storing as $100 in payment table which is wrong and will messed up whole reporting so need to manage here.
-                    if (paymentAmount > this.dueAmountForTransaction) {
-                        this.paymentDto.credit = this.dueAmountForTransaction;
-                    }
-                    else {
-                        this.paymentDto.credit = paymentAmount;
-                    }
-                }
-                this.paymentObjectForPaymentSellTable.push({ 'paymentType': 'Credit', 'paymentAmount': paymentAmount });
-                this.validatePaymentButtons(paymentAmount);
-            }
-            else if (paymentType == 'Debit') {
-                if (null != this.paymentDto && this.paymentDto.debit > 0) {
-                    this.paymentDto.debit = +this.paymentDto.debit + paymentAmount;
-                }
-                else {
-                    // I need to do this, cause right now if total is $20 and user click on $100 its storing as $100 in payment table which is wrong and will messed up whole reporting so need to manage here.
-                    if (paymentAmount > this.dueAmountForTransaction) {
-                        this.paymentDto.debit = this.dueAmountForTransaction;
-                    }
-                    else {
-                        this.paymentDto.debit = paymentAmount;
-                    }
-                }
-                this.paymentObjectForPaymentSellTable.push({ 'paymentType': 'Debit', 'paymentAmount': paymentAmount });
-                this.validatePaymentButtons(paymentAmount);
-            }
-            else if (paymentType == 'Check') {
-                if (null != this.paymentDto && this.paymentDto.checkAmount > 0) {
-                    this.paymentDto.checkAmount = +this.paymentDto.checkAmount + paymentAmount;
-                }
-                else {
-                    // I need to do this, cause right now if total is $20 and user click on $100 its storing as $100 in payment table which is wrong and will messed up whole reporting so need to manage here.
-                    if (paymentAmount > this.dueAmountForTransaction) {
-                        this.paymentDto.checkAmount = this.dueAmountForTransaction;
-                    }
-                    else {
-                        this.paymentDto.checkAmount = paymentAmount;
-                    }
-                }
-                this.paymentObjectForPaymentSellTable.push({ 'paymentType': 'Check', 'paymentAmount': paymentAmount });
-                this.validatePaymentButtons(paymentAmount);
-            }
-            else if (paymentType == 'StoreCredit') {
-                // First need to check store credit already there added in payment dao or not, 
-                if (null != this.paymentDto && this.paymentDto.storeCredit > 0) {
-                    if (paymentAmount > this.dueAmountForTransaction) {
-                        // so By doing this i am just reducing the store credit which is used for this transaction and i can update rest on customer account.
-                        this.paymentDto.storeCredit = +this.paymentDto.storeCredit + this.dueAmountForTransaction;
-                        this.paymentObjectForPaymentSellTable.push({ 'paymentType': 'StoreCredit', 'paymentAmount': this.paymentDto.storeCredit });
-                        this.validatePaymentButtons(this.paymentDto.storeCredit);
-                    }
-                    else {
-                        this.paymentDto.storeCredit = paymentAmount;
-                        this.paymentObjectForPaymentSellTable.push({ 'paymentType': 'StoreCredit', 'paymentAmount': this.paymentDto.storeCredit });
-                        this.validatePaymentButtons(this.paymentDto.storeCredit);
-                    }
-                }
-                else {
-                    if (paymentAmount > this.dueAmountForTransaction) {
-                        // so By doing this i am just reducing the store credit which is used for this transaction and i can update rest on customer account.
-                        this.paymentDto.storeCredit = this.dueAmountForTransaction;
-                        this.paymentObjectForPaymentSellTable.push({ 'paymentType': 'StoreCredit', 'paymentAmount': this.paymentDto.storeCredit });
-                        this.validatePaymentButtons(this.paymentDto.storeCredit);
-                    }
-                    else {
-                        this.paymentDto.storeCredit = paymentAmount;
-                        this.paymentObjectForPaymentSellTable.push({ 'paymentType': 'StoreCredit', 'paymentAmount': this.paymentDto.storeCredit });
-                        this.validatePaymentButtons(this.paymentDto.storeCredit);
-                    }
-                }
-                // Now I have to handle two scenario
-                // Case 1. Store credit can greater then equal to payment amount
-                // Case 2. Store credit can less then equal to payment amount
-                // Case 1: where payment amount is customers store credit because that what i am sending from ui
-            }
-            else if (paymentType == 'OnAccount') {
-                this.paymentDto.onAccount = paymentAmount;
-                this.paymentObjectForPaymentSellTable.push({ 'paymentType': 'OnAccount', 'paymentAmount': paymentAmount });
-                // this.validatePaymentButtons(this.paymentDto.onAccount);
-                this.disablePaymentButtons = true;
-                this.disablePaymentButtonsWithAmount = true;
-                // This mean customer has provide sufficient balance.
-                this.disableCompleteSaleButton = false;
-            }
-            else if (paymentType == 'Loyalty') {
-                this.paymentDto.loyalty = paymentAmount;
-            }
-            console.log('payment type and amount', paymentAmount);
-        }
-    };
-    SaleComponent.prototype.setPaymentDtoForRetun = function (paymentType, paymentAmount) {
-        this.payLable = 'Return';
-        this.amountDueLable = 'Return Amount:';
         if (paymentType == 'Cash') {
-            this.paymentDto.cash = paymentAmount;
+            // This is very rare scenario and it happens only if user is stupid but still i need to handle this,
+            // Cause user can pay in cash two time by click on cash button by seletecting different buttons.
+            if (null != this.paymentDto && this.paymentDto.cash > 0) {
+                this.paymentDto.cash = +this.paymentDto.cash + paymentAmount;
+            }
+            else {
+                // I need to do this, cause right now if total is $20 and user click on $100 its storing as $100 in payment table which is wrong and will messed up whole reporting so need to manage here.
+                if (paymentAmount > this.dueAmountForTransaction) {
+                    this.paymentDto.cash = this.dueAmountForTransaction;
+                }
+                else {
+                    this.paymentDto.cash = paymentAmount;
+                }
+            }
             this.paymentObjectForPaymentSellTable.push({ 'paymentType': 'Cash', 'paymentAmount': paymentAmount });
-            this.validatePaymentForReturn();
+            this.validatePaymentButtons(paymentAmount);
         }
         else if (paymentType == 'Credit') {
-            this.paymentDto.credit = paymentAmount;
+            if (null != this.paymentDto && this.paymentDto.credit > 0) {
+                this.paymentDto.credit = +this.paymentDto.credit + paymentAmount;
+            }
+            else {
+                // I need to do this, cause right now if total is $20 and user click on $100 its storing as $100 in payment table which is wrong and will messed up whole reporting so need to manage here.
+                if (paymentAmount > this.dueAmountForTransaction) {
+                    this.paymentDto.credit = this.dueAmountForTransaction;
+                }
+                else {
+                    this.paymentDto.credit = paymentAmount;
+                }
+            }
             this.paymentObjectForPaymentSellTable.push({ 'paymentType': 'Credit', 'paymentAmount': paymentAmount });
-            this.validatePaymentForReturn();
+            this.validatePaymentButtons(paymentAmount);
         }
         else if (paymentType == 'Debit') {
-            this.paymentDto.debit = paymentAmount;
+            if (null != this.paymentDto && this.paymentDto.debit > 0) {
+                this.paymentDto.debit = +this.paymentDto.debit + paymentAmount;
+            }
+            else {
+                // I need to do this, cause right now if total is $20 and user click on $100 its storing as $100 in payment table which is wrong and will messed up whole reporting so need to manage here.
+                if (paymentAmount > this.dueAmountForTransaction) {
+                    this.paymentDto.debit = this.dueAmountForTransaction;
+                }
+                else {
+                    this.paymentDto.debit = paymentAmount;
+                }
+            }
             this.paymentObjectForPaymentSellTable.push({ 'paymentType': 'Debit', 'paymentAmount': paymentAmount });
-            this.validatePaymentForReturn();
+            this.validatePaymentButtons(paymentAmount);
         }
         else if (paymentType == 'Check') {
-            this.paymentDto.checkAmount = paymentAmount;
+            if (null != this.paymentDto && this.paymentDto.checkAmount > 0) {
+                this.paymentDto.checkAmount = +this.paymentDto.checkAmount + paymentAmount;
+            }
+            else {
+                // I need to do this, cause right now if total is $20 and user click on $100 its storing as $100 in payment table which is wrong and will messed up whole reporting so need to manage here.
+                if (paymentAmount > this.dueAmountForTransaction) {
+                    this.paymentDto.checkAmount = this.dueAmountForTransaction;
+                }
+                else {
+                    this.paymentDto.checkAmount = paymentAmount;
+                }
+            }
             this.paymentObjectForPaymentSellTable.push({ 'paymentType': 'Check', 'paymentAmount': paymentAmount });
-            this.validatePaymentForReturn();
+            this.validatePaymentButtons(paymentAmount);
         }
         else if (paymentType == 'StoreCredit') {
-            // Converting negative amount to positive so i can add this amount in backend.
-            this.paymentDto.storeCredit = Math.abs(paymentAmount);
-            this.paymentObjectForPaymentSellTable.push({ 'paymentType': 'StoreCredit', 'paymentAmount': paymentAmount });
-            this.disableStoreCreditButtons = true;
-            this.validatePaymentForReturn();
+            // First need to check store credit already there added in payment dao or not, 
+            if (null != this.paymentDto && this.paymentDto.storeCredit > 0) {
+                if (paymentAmount > this.dueAmountForTransaction) {
+                    // so By doing this i am just reducing the store credit which is used for this transaction and i can update rest on customer account.
+                    this.paymentDto.storeCredit = +this.paymentDto.storeCredit + this.dueAmountForTransaction;
+                    this.paymentObjectForPaymentSellTable.push({ 'paymentType': 'StoreCredit', 'paymentAmount': this.paymentDto.storeCredit });
+                    this.validatePaymentButtons(this.paymentDto.storeCredit);
+                }
+                else {
+                    this.paymentDto.storeCredit = paymentAmount;
+                    this.paymentObjectForPaymentSellTable.push({ 'paymentType': 'StoreCredit', 'paymentAmount': this.paymentDto.storeCredit });
+                    this.validatePaymentButtons(this.paymentDto.storeCredit);
+                }
+            }
+            else {
+                if (paymentAmount > this.dueAmountForTransaction) {
+                    // so By doing this i am just reducing the store credit which is used for this transaction and i can update rest on customer account.
+                    this.paymentDto.storeCredit = this.dueAmountForTransaction;
+                    this.paymentObjectForPaymentSellTable.push({ 'paymentType': 'StoreCredit', 'paymentAmount': this.paymentDto.storeCredit });
+                    this.validatePaymentButtons(this.paymentDto.storeCredit);
+                }
+                else {
+                    this.paymentDto.storeCredit = paymentAmount;
+                    this.paymentObjectForPaymentSellTable.push({ 'paymentType': 'StoreCredit', 'paymentAmount': this.paymentDto.storeCredit });
+                    this.validatePaymentButtons(this.paymentDto.storeCredit);
+                }
+            }
+            // Now I have to handle two scenario
+            // Case 1. Store credit can greater then equal to payment amount
+            // Case 2. Store credit can less then equal to payment amount
+            // Case 1: where payment amount is customers store credit because that what i am sending from ui
         }
-    };
-    SaleComponent.prototype.validatePaymentForReturn = function () {
-        this.disablePaymentButtons = true;
-        this.disableCompleteSaleButton = false;
+        else if (paymentType == 'OnAccount') {
+            this.paymentDto.onAccount = paymentAmount;
+            this.paymentObjectForPaymentSellTable.push({ 'paymentType': 'OnAccount', 'paymentAmount': paymentAmount });
+            // this.validatePaymentButtons(this.paymentDto.onAccount);
+            this.disablePaymentButtons = true;
+            this.disablePaymentButtonsWithAmount = true;
+            // This mean customer has provide sufficient balance.
+            this.disableCompleteSaleButton = false;
+        }
+        else if (paymentType == 'Loyalty') {
+            this.paymentDto.loyalty = paymentAmount;
+        }
     };
     SaleComponent.prototype.validatePaymentButtons = function (paymentAmount) {
         var totalPaidAmout = 0.00;
         // This means cutomer has paid full amount.
         if (this.dueAmountForTransaction - paymentAmount <= 0) {
-            this.dueAmountForTransaction = this.dueAmountForTransaction - paymentAmount;
+            this.dueAmountForTransaction = Math.round((this.dueAmountForTransaction - paymentAmount) * 1e2) / 1e2;
             this.disablePaymentButtons = true;
             this.disablePaymentButtonsWithAmount = true;
-            this.payLable = 'Paid Amount:';
-            this.amountDueLable = 'Change Amount:';
             // This mean customer has provide sufficient balance.
             this.disableCompleteSaleButton = false;
             // This logic helps to show the data in paid amount tax box when user exact amount or more.
@@ -8115,14 +8061,18 @@ var SaleComponent = /** @class */ (function () {
         }
         else {
             // this.dueAmountForTransaction = Number.parseFloat((this.dueAmountForTransaction - paymentAmount).toFixed(2));
-            this.dueAmountForTransaction = this.dueAmountForTransaction - paymentAmount;
-            this.payAmountTextBox = this.dueAmountForTransaction;
+            this.dueAmountForTransaction = Math.round((this.dueAmountForTransaction - paymentAmount) * 1e2) / 1e2;
+            this.payAmountTextBox = Math.round(this.dueAmountForTransaction * 1e2) / 1e2;
         }
     };
-    // This methode calls when user click on the payment button.
     SaleComponent.prototype.setDataForPaymentModel = function () {
+        // these will help to clean the data if user close the popup and comeback again.
+        this.paymentDto = new PaymentDto();
+        this.paymentObjectForPaymentSellTable = [];
+        this.paymentDao = [];
         // payaccountTextBox is bind with two binding so i need to intialize here, so i can show data on payment popup load.
-        this.payAmountTextBox = this.dueAmountForTransaction;
+        this.payAmountTextBox = this.transactionDtoList.totalAmount;
+        this.dueAmountForTransaction = this.transactionDtoList.totalAmount;
         this.disablePaymentButtons = false;
         this.disablePaymentButtonsWithAmount = false;
         this.disableCompleteSaleButton = true;
@@ -8134,63 +8084,52 @@ var SaleComponent = /** @class */ (function () {
         else {
             this.disableStoreCreditButtons = true;
         }
-        console.log("selected customer", this.selectedCustomer);
-        console.log("inside the set data");
     };
-    SaleComponent.prototype.setDataForPaymentModelForReturnSale = function () {
-        this.payAmountTextBox = this.dueAmountForTransaction;
-        this.disablePaymentButtonsWithAmount = true;
+    // This method helps to take payment when customer is trying to pay for pending invoice.
+    SaleComponent.prototype.setDataForPaymentModelForPendingInvoice = function (transaction) {
+        console.log("inside the pending payment logic");
+        // payaccountTextBox is bind with two binding so i need to intialize here, so i can show data on payment popup load.
+        this.transactionDtoList = transaction;
+        this.transactionLineItemDaoList = transaction.transactionLineItemDaoList;
+        this.setTransactionDtoList();
+        this.payAmountTextBox = transaction.totalAmount;
+        this.disablePaymentButtons = false;
+        this.disablePaymentButtonsWithAmount = false;
         this.disableCompleteSaleButton = true;
-        this.disableOnAccountButtons = true;
-        if (this.selectedCustomer) {
-            this.disableStoreCreditButtons = false;
-        }
+        this.disableOnAccountButtons = this.selectedCustomer == null;
+        this.disableStoreCreditButtons = true;
+        this.payAmountTextBox = this.transactionDtoList.transactionBalance;
+        this.dueAmountForTransaction = this.transactionDtoList.transactionBalance;
     };
-    // This method helps to delete payment type and recaculate all other parameters.
     SaleComponent.prototype.deletePaymentFromPaymentModel = function (payment) {
-        if (this.saleType == 'Return') {
-            var index = this.paymentObjectForPaymentSellTable.indexOf(payment);
-            if (index > -1) {
-                this.paymentObjectForPaymentSellTable.splice(index, 1);
-                this.dueAmountForTransaction = payment.paymentAmount;
-                this.payAmountTextBox = this.dueAmountForTransaction;
-                this.disablePaymentButtons = false;
-                this.disableCompleteSaleButton = true;
+        var index = this.paymentObjectForPaymentSellTable.indexOf(payment);
+        if (index > -1) {
+            this.paymentObjectForPaymentSellTable.splice(index, 1);
+            // Need to handle this, because i am adding payment type when user click on add payment,
+            // So now when user delete the payment type, i need to change the payment object too, and remove the or subtract the payment amount.
+            if (payment.paymentType == 'Cash' && payment.paymentAmount > 0) {
+                this.paymentDto.cash = this.paymentDto.cash - payment.paymentAmount;
+            }
+            if (payment.paymentType == 'Credit' && payment.paymentAmount > 0) {
+                this.paymentDto.credit = this.paymentDto.credit - payment.paymentAmount;
+            }
+            if (payment.paymentType == 'Debit' && payment.paymentAmount > 0) {
+                this.paymentDto.debit = this.paymentDto.debit - payment.paymentAmount;
+            }
+            if (payment.paymentType == 'Check' && payment.paymentAmount > 0) {
+                this.paymentDto.checkAmount = this.paymentDto.checkAmount - payment.paymentAmount;
+            }
+            if (payment.paymentType == 'StoreCredit' && payment.paymentAmount > 0) {
+                this.paymentDto.storeCredit = this.paymentDto.storeCredit - payment.paymentAmount;
+            }
+            if (payment.paymentType == 'OnAccount' && payment.paymentAmount > 0) {
+                this.paymentDto.onAccount = this.paymentDto.onAccount - payment.paymentAmount;
+                console.log('Inside On account for delete');
             }
         }
-        else {
-            var index = this.paymentObjectForPaymentSellTable.indexOf(payment);
-            if (index > -1) {
-                this.paymentObjectForPaymentSellTable.splice(index, 1);
-                // Need to handle this, because i am adding payment type when user click on add payment,
-                // So now when user delete the payment type, i need to change the payment object too, and remove the or subtract the payment amount.
-                if (payment.paymentType == 'Cash' && payment.paymentAmount > 0) {
-                    this.paymentDto.cash = this.paymentDto.cash - payment.paymentAmount;
-                }
-                if (payment.paymentType == 'Credit' && payment.paymentAmount > 0) {
-                    this.paymentDto.credit = this.paymentDto.credit - payment.paymentAmount;
-                }
-                if (payment.paymentType == 'Debit' && payment.paymentAmount > 0) {
-                    this.paymentDto.debit = this.paymentDto.debit - payment.paymentAmount;
-                }
-                if (payment.paymentType == 'Check' && payment.paymentAmount > 0) {
-                    this.paymentDto.checkAmount = this.paymentDto.checkAmount - payment.paymentAmount;
-                }
-                if (payment.paymentType == 'StoreCredit' && payment.paymentAmount > 0) {
-                    this.paymentDto.storeCredit = this.paymentDto.storeCredit - payment.paymentAmount;
-                }
-                if (payment.paymentType == 'OnAccount' && payment.paymentAmount > 0) {
-                    this.paymentDto.onAccount = this.paymentDto.onAccount - payment.paymentAmount;
-                    console.log('Inside On account for delete');
-                }
-            }
-            // This is because of stupid type script,  + it concatting the two variables.  DO NOT FORGET THIS. 
-            this.dueAmountForTransaction = +payment.paymentAmount + this.dueAmountForTransaction;
-            this.payAmountTextBox = this.dueAmountForTransaction;
-            console.log('payment', payment.paymentAmount);
-            console.log('Value of duw amout tran', this.dueAmountForTransaction);
-            console.log('Value of paymenttexbox', this.payAmountTextBox);
-        }
+        // This is because of type script,  + it concatting the two variables.  DO NOT FORGET THIS. 
+        this.dueAmountForTransaction = +payment.paymentAmount + this.dueAmountForTransaction;
+        this.payAmountTextBox = Math.round(this.dueAmountForTransaction * 1e2) / 1e2;
         if (this.dueAmountForTransaction > 0) {
             this.disableCompleteSaleButton = true;
             this.disablePaymentButtons = false;
@@ -8210,18 +8149,23 @@ var SaleComponent = /** @class */ (function () {
         }
         this.transactionDtoList.status = this.saleType;
         // This help only when user do return transaction where user gives store credit to the customer.
-        this.transactionDtoList.previousTransactionId = this.previousTransactionId;
+        //this.transactionDtoList.previousTransactionId = this.previousTransactionId;
         // THIS means customer has over paid, this happens mostly in cash of when customer pay by cash.
         // So i am setting it as chnage amount.
-        if (this.dueAmountForTransaction < 0) {
+        if (this.dueAmountForTransaction <= 0) {
             this.paymentDto.changeForCash = Math.abs(this.dueAmountForTransaction);
+            // This means customer has paid, complete invoice, it was not here before but now i need to do it after adding logic for pending invoice.
+            this.transactionDtoList.transactionBalance = 0.00;
         }
         else {
             this.transactionDtoList.transactionBalance = this.dueAmountForTransaction;
+            // This means customer has put this invoice ON ACCOUNT, and as per logic, just changing  
+            this.transactionDtoList.status = 'Pending';
+            this.saleType = 'Pending';
         }
         // seeting current date and time using momemt.
-        this.transactionDtoList.date = __WEBPACK_IMPORTED_MODULE_7_moment__(Date.now()).format('YYYY-MM-DD HH:mm:ss');
-        // Setting payment dto into transaction dto, because can not send both as @request body mfrom angular..
+        this.transactionDtoList.date = __WEBPACK_IMPORTED_MODULE_6_moment__(Date.now()).format('YYYY-MM-DD HH:mm:ss');
+        // Setting payment dto into transaction dto, because can not send both as @request body from angular..
         this.paymentDto.date = this.transactionDtoList.date;
         this.paymentDao.push(this.paymentDto);
         this.transactionDtoList.paymentDao = this.paymentDao;
@@ -8231,11 +8175,12 @@ var SaleComponent = /** @class */ (function () {
             lineItem.status = this.saleType;
             lineItem.date = this.transactionDtoList.date;
             // I need to do this casue in backend i am using quantity and here i have to use defult quanity to show 1 as user insert product.
-            lineItem.quantity = lineItem.defaultQuantity;
+            // No need to do this any more cause now i am using only one name saleQuanity.
+            // lineItem.quantity = lineItem.defaultQuantity;
             // This means user has given line item discount.
-            if (lineItem.retail < lineItem.actualRetail) {
-                lineItem.discount = (lineItem.actualRetail - lineItem.retail) * lineItem.quantity;
-                totalLineItemDiscount = +((lineItem.actualRetail - lineItem.retail) * lineItem.defaultQuantity) + totalLineItemDiscount;
+            if (lineItem.retailWithDiscount < lineItem.retail) {
+                lineItem.discount = (lineItem.retail - lineItem.retailWithDiscount) * lineItem.saleQuantity;
+                totalLineItemDiscount = +((lineItem.retail - lineItem.retailWithDiscount) * lineItem.saleQuantity) + totalLineItemDiscount;
             }
         }
         // Seeting paymentDto status
@@ -8295,9 +8240,9 @@ var SaleComponent = /** @class */ (function () {
             // this.disableCustomerSearchTextbox = false;
             this.paymentObjectForPaymentSellTable = [];
             // This is payment button on the sale page, i need to do this because there is not data in sale table,
-            this.paymentButtonOnSale = true;
+            this.disablePaymentButtonOnSale = true;
             this.transactionLineItemDaoList = this.persit.getProducts() || [];
-            this.setTransactionDtoList(this.transactionLineItemDaoList);
+            this.setTransactionDtoList();
             this.paymentDao = [];
             // Need set it null cause its showing in next transaction also.
             this.transactionNotes = '';
@@ -8319,18 +8264,18 @@ var SaleComponent = /** @class */ (function () {
             .subscribe(function (transaction) {
             // if(transaction.status == 'Parked'){
             transaction.transactionLineItemDaoList.forEach(function (lineItem) {
-                lineItem.defaultQuantity = lineItem.quantity;
-                lineItem.quantity = 0;
+                lineItem.saleQuantity = lineItem.saleQuantity;
+                lineItem.saleQuantity = 0;
             });
             console.log('transaction details in park sale', transaction);
             // Setting transactoin id here so i can send this in case of return and when user gives store credit to the customer.
-            _this.previousTransactionId = transaction.transactionComId;
+            //this.previousTransactionId = transaction.transactionComId;
             _this.persit.setProducts(transaction.transactionLineItemDaoList);
             _this.transactionLineItemDaoList = _this.persit.getProducts() || [];
             console.log('lineItem for parkSale', _this.transactionLineItemDaoList);
             // Setting customer details to manage store credit and onAccount/ Loylty functionality
             if (transaction.customerPhoneno != null && transaction.customerPhoneno != undefined && transaction.customerPhoneno.length > 0) {
-                _this.selectedCustomer = new __WEBPACK_IMPORTED_MODULE_6_app_customer_customer_component__["a" /* Customer */]();
+                _this.selectedCustomer = new __WEBPACK_IMPORTED_MODULE_5_app_customer_customer_component__["a" /* Customer */]();
                 _this.customerService.getCustomerDetailsByPhoneNo(transaction.customerPhoneno)
                     .subscribe(function (customer) {
                     _this.selectedCustomer = customer;
@@ -8345,39 +8290,82 @@ var SaleComponent = /** @class */ (function () {
                 // TODO NEED TO CHECK HOW THIS WILL WORK
                 _this.productPriceArryByCustomer = _this.persit.getCustomerDetailsForSale();
             }
-            _this.setTransactionDtoList(_this.transactionLineItemDaoList);
-            // }
-            // else {
-            //   this.saleType = 'Return';
-            //           transaction.transactionLineItemDaoList.forEach((lineItem) => {
-            //             lineItem.defaultQuantity = lineItem.quantity;
-            //             lineItem.quantity = 0;
-            //             lineItem.cost = - lineItem.cost;
-            //             lineItem.retail = - lineItem.retail;
-            //             lineItem.totalProductPrice = - lineItem.totalProductPrice;
-            //           })
-            //           // Setting transactoin id here so i can send this in case of return and when user gives store credit to the customer.
-            //           this.previousTransactionId = transaction.transactionComId;
-            //           this.persit.setProducts(transaction.transactionLineItemDaoList);
-            //           this.transactionLineItemDaoList = this.persit.getProducts() || [];
-            //           this.setTransactionDtoList(this.transactionLineItemDaoList);
-            //           // Setting customer details to manage store credit and onAccount/ Loylty functionality
-            //           if (transaction.customerPhoneno && transaction.customerPhoneno.length > 0) {
-            //             this.selectedCustomer = new Customer();
-            //             this.customerService.getCustomerDetailsByPhoneNo(transaction.customerPhoneno)
-            //               .subscribe((customer) => {
-            //                 this.selectedCustomer = customer;
-            //               })
-            //             this.persit.setCustomerDetailsForSale(this.selectedCustomer);
-            //             this.selectedCustomer = this.persit.getCustomerDetailsForSale();
-            //             }
-            // }
+            _this.setTransactionDtoList();
         });
     };
     SaleComponent.prototype.printReciept = function () {
         this.sellService.printReceipt(this.printTransactionDto);
         this.clearAllDateAfterTransactionComplete();
         $('#paymentModel').modal('toggle');
+    };
+    SaleComponent.prototype.getCustomerDetails = function () {
+        var _this = this;
+        this.customerService.getCustomerDetails()
+            .subscribe(function (customer) {
+            _this.customerDto = customer;
+        });
+    };
+    SaleComponent.prototype.manageTaxForTransaction = function () {
+        // this mean user is doing 0 % on sale page
+        if (this.taxPercent > 0) {
+            this.taxPercent = 0.00;
+        }
+        else {
+            this.taxPercent = this.storeDetails.tax;
+        }
+        this.setTransactionDtoList();
+    };
+    SaleComponent.prototype.filterProducts = function (event) {
+        var _this = this;
+        var query = event.query;
+        this.productService.getProductDetails()
+            .subscribe(function (products) {
+            // console.log(products);
+            _this.product = _this.filterProduct(query, products);
+        });
+    };
+    SaleComponent.prototype.filterProduct = function (query, products) {
+        var filtered = [];
+        for (var i = 0; i < products.length; i++) {
+            var p = products[i];
+            if (p.description.toLowerCase().includes(query.toLowerCase()) || p.productNo.includes(query)) {
+                filtered.push(p);
+            }
+        }
+        return filtered;
+    };
+    SaleComponent.prototype.filterCustomers = function (event) {
+        var _this = this;
+        var query = event.query;
+        this.customerService.getCustomerDetails()
+            .subscribe(function (customers) {
+            // console.log(products);
+            _this.filteredCustomer = _this.filterCustomer(query, customers);
+        });
+    };
+    SaleComponent.prototype.filterCustomer = function (query, customers) {
+        var filtered = [];
+        for (var i = 0; i < customers.length; i++) {
+            var cust = customers[i];
+            if (cust.name.toLowerCase().includes(query.toLowerCase()) || cust.companyName.toLowerCase().includes(query.toLowerCase()) || cust.phoneNo.includes(query)) {
+                filtered.push(cust);
+            }
+        }
+        return filtered;
+    };
+    SaleComponent.prototype.disgardCompleteSale = function () {
+        this.persit.clearProducts();
+        this.persit.clearCustomer();
+        this.persit.clearCustomerPriceForSale();
+        this.transactionLineItemDaoList = [];
+        // This is very import fist i need to remove the cusotmer details and then only call set transaction otherwise customer balace will stays and will show amount on payment which is wrong.
+        this.selectedCustomer = null;
+        this.setTransactionDtoList();
+        this.saleType = 'Complete';
+        this.router.navigate(['/sell/sale']);
+    };
+    SaleComponent.prototype.print = function (obj) {
+        console.log("Coming form print", obj);
     };
     __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["HostBinding"])('@fadeInAnimation'),
@@ -8388,24 +8376,15 @@ var SaleComponent = /** @class */ (function () {
             selector: 'app-sale',
             template: __webpack_require__("../../../../../src/app/sell/sale/sale.component.html"),
             styles: [__webpack_require__("../../../../../src/app/sell/sale/sale.component.scss")],
-            animations: [__WEBPACK_IMPORTED_MODULE_9_app_shared_animations_fade_in_animation__["a" /* fadeInAnimation */]],
+            animations: [__WEBPACK_IMPORTED_MODULE_8_app_shared_animations_fade_in_animation__["a" /* fadeInAnimation */]],
         }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_app_sell_sell_service__["a" /* SellService */],
-            __WEBPACK_IMPORTED_MODULE_12_app_shared_services_persistence_service__["a" /* PersistenceService */],
-            __WEBPACK_IMPORTED_MODULE_13_app_product_product_service__["a" /* ProductService */],
-            __WEBPACK_IMPORTED_MODULE_4_app_shared_storesetup_storesetup_service__["a" /* StoreSetupService */],
-            __WEBPACK_IMPORTED_MODULE_5_app_customer_customer_service__["a" /* CustomerService */],
-            __WEBPACK_IMPORTED_MODULE_8__angular_platform_browser__["DomSanitizer"],
-            __WEBPACK_IMPORTED_MODULE_10__angular_router__["ActivatedRoute"],
-            __WEBPACK_IMPORTED_MODULE_10__angular_router__["Router"],
-            __WEBPACK_IMPORTED_MODULE_11_ng2_toastr_src_toast_manager__["ToastsManager"]])
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_app_sell_sell_service__["a" /* SellService */], __WEBPACK_IMPORTED_MODULE_11_app_shared_services_persistence_service__["a" /* PersistenceService */], __WEBPACK_IMPORTED_MODULE_12_app_product_product_service__["a" /* ProductService */], __WEBPACK_IMPORTED_MODULE_3_app_shared_storesetup_storesetup_service__["a" /* StoreSetupService */], __WEBPACK_IMPORTED_MODULE_4_app_customer_customer_service__["a" /* CustomerService */], __WEBPACK_IMPORTED_MODULE_7__angular_platform_browser__["DomSanitizer"], __WEBPACK_IMPORTED_MODULE_9__angular_router__["ActivatedRoute"], __WEBPACK_IMPORTED_MODULE_9__angular_router__["Router"], __WEBPACK_IMPORTED_MODULE_10_ng2_toastr_src_toast_manager__["ToastsManager"]])
     ], SaleComponent);
     return SaleComponent;
 }());
 
 var Product = /** @class */ (function () {
     function Product() {
-        this.defaultQuantity = 1;
     }
     return Product;
 }());
@@ -8418,13 +8397,6 @@ var TransactionLineItemDaoList = /** @class */ (function () {
 
 var TransactionDtoList = /** @class */ (function () {
     function TransactionDtoList() {
-        // constructor(quantity: number, subtotal: number, tax: number, totalAmount: number, totalDiscount: number, ) {
-        //   this.quantity = quantity;
-        //   this.subtotal = subtotal;
-        //   this.tax = tax;
-        //   this.totalAmount = totalAmount;
-        //   this.totalDiscount = totalDiscount;
-        // }
         this.totalDiscount = 0.00;
     }
     return TransactionDtoList;
@@ -8448,6 +8420,18 @@ var CustomerProductPrice = /** @class */ (function () {
     return CustomerProductPrice;
 }());
 
+//     // Here need to calculate tax because, now we have to apply tax on the amount which come after discount
+//     this.transactionDtoList.tax = ((this.transactionDtoList.subtotal - this.transactionDtoList.totalDiscount)*this.taxPercent)/100;
+//     // Here i have to subtract the subtotal from the discount, if i do from total then it will be wrong cause it has alredy calculted tax on it.
+//     this.transactionDtoList.totalAmount = (this.transactionDtoList.subtotal - this.transactionDtoList.totalDiscount) + this.transactionDtoList.tax;
+//   // Need to do this here, cause then only it will show same amount on payment popup.    this.payAmountTextBox = this.transactionDtoList.totalAmount;
+//   this.dueAmountForTransaction = this.transactionDtoList.totalAmount;
+//   // Here need to calculate tax because, now we have to apply tax on the amount which come after discount
+//   this.transactionDtoList.tax = ((this.transactionDtoList.subtotal - this.transactionDtoList.totalDiscount)* this.taxPercent)/100;
+//   this.transactionDtoList.totalAmount = (this.transactionDtoList.subtotal - this.transactionDtoList.totalDiscount) + this.transactionDtoList.tax;
+//     // Need to do this here, cause then only it will show same amount on payment popup.
+// this.payAmountTextBox = this.transactionDtoList.totalAmount;
+// this.dueAmountForTransaction = this.transactionDtoList.totalAmount; 
 
 
 /***/ }),
@@ -8455,7 +8439,7 @@ var CustomerProductPrice = /** @class */ (function () {
 /***/ "../../../../../src/app/sell/sales-history/sales-history.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<mat-card>\n    <mat-card-title>\n        <h4>Sales History</h4>\n    </mat-card-title>\n\n    <mat-card-content>\n\n        <div class=\"row d-flex align-items-center\">\n\n            <div class=\"col-md-2\">\n                <select class=\"form-control form-control\" [(ngModel)]=\"this.salesHistoryDropdown\" (change)=\"this.getTransactionDetails(this.salesHistoryDropdown)\">\n                    <option>Today</option>\n                    <option>Yesterday</option>\n                    <option>This Week</option>\n                    <option>Last Week</option>\n                    <option>This Month</option>\n                    <option>Last Month</option>\n                    <option>Last 3 Months</option>\n                    <option>Last 6 Months</option>\n                    <option>This Year</option>\n                    <option>Last Year</option>\n                    <option>Custom</option>\n\n                </select>\n\n            </div>\n            <div *ngIf=\"this.salesHistoryDropdown == 'Custom' \" class=\"col-md-3 form-group d-flex align-items-center\" [formGroup]=\"this.customDate\">\n\n                <mat-form-field class=\"float-never col-md-6\">\n                    <input formControlName=\"fromDate\" matInput [matDatepicker]=\"fromDate\" placeholder=\"Start Date\" [max]=\"this.currentDate\">\n                    <mat-datepicker-toggle matSuffix [for]=\"fromDate\"></mat-datepicker-toggle>\n                    <mat-datepicker #fromDate></mat-datepicker>\n                </mat-form-field>\n                <label class=\"text-center\">To</label>\n                <mat-form-field class=\"float-never col-md-6\">\n                    <input class=\"\" formControlName=\"toDate\" matInput [matDatepicker]=\"toDate\" placeholder=\"End Date\" [min]=\"this.customDate.get('fromDate').value\" [max]=\"this.currentDate\">\n                    <mat-datepicker-toggle matSuffix [for]=\"toDate\"></mat-datepicker-toggle>\n                    <mat-datepicker #toDate></mat-datepicker>\n                </mat-form-field>\n            </div>\n\n            <div class=\"col-md-2\">\n                <select class=\"form-control\" [(ngModel)]=\"this.searchByTransactionType\" (change)=\"onTransactionTypeDropdownChoose()\">\n                    <option>All Transaction Status</option>\n                    <option>Complete</option>\n                    <option>Return</option>\n                    <option>Void</option>\n                    <option>Park</option>\n                    <option>Online</option>\n                </select>\n\n            </div>\n\n\n            <div class=\"col-md-3\">\n                <input [formControl]=\"this.searchByCustomerInputBox\" class=\"form-control form-control\" type=\"text\" placeholder=\"Search By Customer Name Or PhoneNo\">\n\n            </div>\n            <div class=\"col-md-2\">\n                <input [formControl]=\"this.searchByReceiptNoInputBox\" class=\"form-control form-control\" type=\"text\" placeholder=\"Search By Recipt Number\">\n\n            </div>\n\n        </div>\n\n        <div class=\"row p-md-3\">\n            <p-dataTable [value]=\"this.transactionDetails\" scrollable=\"true\" scrollHeight=\"500px\" [responsive]=\"true\">\n                <p-column field=\"transactionComId\" header=\"Receipt No\" [style]=\"{'width': '7%'}\"></p-column>\n                <p-column field=\"date\" header=\"Date\" [sortable]=\"true\" [style]=\"{'width': '6%'}\"></p-column>\n                <p-column field=\"time\" header=\"Time\" [sortable]=\"true\" [style]=\"{'width': '6%'}\"></p-column>\n                <p-column field=\"customerPhoneno\" header=\"Customer Phone\"></p-column>\n                <p-column field=\"customerFirstLastName\" header=\"Customer Name\"></p-column>\n                <!-- <p-column field=\"username\" header=\"User Name\"></p-column> -->\n                <p-column field=\"tax\" header=\"Tax\" [style]=\"{'width': '8%'}\"></p-column>\n                <p-column field=\"totalDiscount\" header=\"Discount\" [style]=\"{'width': '8%'}\"></p-column>\n                <p-column field=\"subtotal\" header=\"Subtotal\" [style]=\"{'width': '8%'}\"></p-column>\n                <p-column field=\"totalAmount\" header=\"Total Amount\" [sortable]=\"true\" [style]=\"{'width': '10%'}\"></p-column>\n                <p-column field=\"status\" header=\"Status\" [sortable]=\"true\" [style]=\"{'width': '8%'}\">\n\n                    <ng-template let-transaction=\"rowData\" pTemplate=\"body\">\n                        <mat-chip-list>\n                            <mat-chip color=\"secondary\" selected=\"true\">{{transaction.status}}</mat-chip>\n                        </mat-chip-list>\n                    </ng-template>\n\n                </p-column>\n                <p-column field=\"status\" header=\"Action\" [style]=\"{'width': '10%'}\">\n\n                    <ng-template let-transaction=\"rowData\" pTemplate=\"body\">\n                        <button class=\"btn-blue action-button-table\" mat-button (click)=\"this.printReceipt(transaction)\">\n                            <i class=\"fa fa-print\" aria-hidden=\"true\"></i>\n                        </button>\n                        <button class=\"btn-green action-button-table\" mat-button (click)='this.sendEmail(transaction)'>\n                            <i class=\"fa fa-envelope\" aria-hidden=\"true\"></i>\n                        </button>\n\n                        <!-- // Do not remove this, this is for park sales where i can redirect user to start the transaction. -->\n                        <!-- <button *ngIf=\"transaction.status != 'Return' \" class=\"btn-red action-button-table\" mat-button [routerLink]=\"['/sell', {transactionComId: transaction.transactionComId}]\"> -->\n                        <button *ngIf=\"transaction.status == 'Complete' || transaction.status == 'Void' \" class=\"btn-red action-button-table\" mat-button (click)=\"setTransactoinToVoid(transaction)\" data-toggle=\"modal\" data-target=\"#voidTransaction\">\n\n                            <i class=\"fa fa-ban\" aria-hidden=\"true\"></i>\n                        </button>\n                        <button *ngIf=\"transaction.status == 'Park' || transaction.status == 'Online' \" class=\"btn-red action-button-table\" mat-button [routerLink]=\"['/sell/sale', {transactionComId: transaction.transactionComId}]\">\n                                <i class=\"fa fa-reply-all\" aria-hidden=\"true\"></i>\n                        </button>\n\n\n                    </ng-template>\n                </p-column>\n\n                <!-- \n                <ng-template let-receipt pTemplate=\"rowexpansion\">\n                    <div class=\"ui-grid ui-grid-responsive ui-fluid\" style=\"font-size:16px;padding:20px\">\n                        <div class=\"ui-grid-row\">\n                            <div class=\"ui-grid-col-12\">\n                                <div class=\"ui-grid ui-grid-responsive ui-grid-pad\">\n\n                                    <table class=\"table table-striped\">\n                                        <thead>\n                                            <tr>\n                                                <th>Product No</th>\n                                                <th>Description</th>\n                                                <th>Retail</th>\n                                                <th>Discount</th>\n                                                <th>Quantity</th>\n                                                <th>Total</th>\n                                            </tr>\n                                        </thead>\n                                        <tbody>\n                                            <tr *ngFor=\"let lineItem of receipt.transactionLineItemDaoList\">\n                                                <td>{{this.lineItem.productNo}}</td>\n                                                <td>{{this.lineItem.description}}</td>\n                                                <td>{{this.lineItem.retail}}</td>\n                                                <td>{{this.lineItem.discount}}</td>\n                                                <td>{{this.lineItem.quantity}}</td>\n                                                <td>{{this.lineItem.totalProductPrice}}</td>\n                                            </tr>\n                                        </tbody>\n                                    </table>\n                                </div>\n                            </div>\n                        </div>\n                        <div class=\"row\">\n\n                            <div class=\"col-md-10 text-left\">\n                                <div>\n                                    Transaction Notes :\n                                </div>\n                                <textarea rows=\"3\" cols=\"150\">\n                            {{receipt.note}}\n                        </textarea>\n                            </div>\n                            <div class=\"col-md-2\">\n\n                                <div class=\"row\">\n                                    <div class=\"col-md-6\">\n                                        Subtotal:\n                                    </div>\n                                    <div class=\"col-md-6\">\n                                        $ {{receipt.subtotal}}\n                                    </div>\n                                </div>\n\n                                <div class=\"row\">\n                                    <div class=\"col-md-6\" *ngIf=\"receipt.totalDiscount != 0\">\n                                        Discount:\n                                    </div>\n                                    <div class=\"col-md-6\" *ngIf=\"receipt.totalDiscount != 0\">\n                                        $ {{receipt.totalDiscount}}\n                                    </div>\n                                </div>\n\n                                <div class=\"row\">\n                                    <div class=\"col-md-6\">\n                                        Tax:\n                                    </div>\n                                    <div class=\"col-md-6\">\n                                        $ {{receipt.tax}}\n                                    </div>\n                                </div>\n\n                                <div class=\"row\">\n                                    <div class=\"col-md-6\" *ngIf=\"receipt.previousBalance != 0\">\n                                        Pre Balance:\n                                    </div>\n                                    <div class=\"col-md-6\" *ngIf=\"receipt.previousBalance != 0\">\n                                        $ {{receipt.previousBalance}}\n                                    </div>\n                                </div>\n\n                                <hr>\n\n                                <div class=\"row\">\n                                    <div class=\"col-md-6\">\n                                        TOTAL:\n                                    </div>\n                                    <div class=\"col-md-6\">\n                                        $ {{receipt.totalAmount}}\n                                    </div>\n                                </div>\n\n                                <hr>\n                                <div class=\"row\">\n                                    <div class=\"col-md-6\" *ngIf=\"receipt.paymentDao[0].cash != 0\">\n                                        Cash:\n                                    </div>\n                                    <div class=\"col-md-6\" *ngIf=\"receipt.paymentDao[0].cash != 0\">\n                                        $ {{receipt.paymentDao[0].cash + receipt.paymentDao[0].changeForCash}}\n                                    </div>\n                                </div>\n\n                                <div class=\"row\">\n                                    <div class=\"col-md-6\" *ngIf=\"receipt.paymentDao[0].changeForCash != 0\">\n                                        Change:\n                                    </div>\n                                    <div class=\"col-md-6\" *ngIf=\"receipt.paymentDao[0].changeForCash != 0\">\n                                        $ {{receipt.paymentDao[0].changeForCash}}\n                                    </div>\n                                </div>\n\n                                <div class=\"row\">\n                                    <div class=\"col-md-6\" *ngIf=\"receipt.paymentDao[0].credit != 0\">\n                                        Credit:\n                                    </div>\n                                    <div class=\"col-md-6\" *ngIf=\"receipt.paymentDao[0].credit != 0\">\n                                        $ {{receipt.paymentDao[0].credit}}\n                                    </div>\n                                </div>\n\n                                <div class=\"row\">\n                                    <div class=\"col-md-6\" *ngIf=\"receipt.paymentDao[0].debit != 0\">\n                                        Debit:\n                                    </div>\n                                    <div class=\"col-md-6\" *ngIf=\"receipt.paymentDao[0].debit != 0\">\n                                        $ {{receipt.paymentDao[0].debit}}\n                                    </div>\n                                </div>\n\n                                <div class=\"row\">\n                                    <div class=\"col-md-6\" *ngIf=\"receipt.paymentDao[0].checkAmount != 0\">\n                                        Check:\n                                    </div>\n                                    <div class=\"col-md-6\" *ngIf=\"receipt.paymentDao[0].checkAmount != 0\">\n                                        $ {{receipt.paymentDao[0].checkAmount}}\n                                    </div>\n                                </div>\n\n                                <div class=\"row\">\n                                    <div class=\"col-md-6\" *ngIf=\"receipt.paymentDao[0].storeCredit != 0\">\n                                        Store Credit:\n                                    </div>\n                                    <div class=\"col-md-6\" *ngIf=\"receipt.paymentDao[0].storeCredit != 0\">\n                                        $ {{receipt.paymentDao[0].storeCredit}}\n                                    </div>\n                                </div>\n\n                                <div class=\"row\">\n                                    <div class=\"col-md-6\" *ngIf=\"receipt.paymentDao[0].onAccount != 0\">\n                                        On Account:\n                                    </div>\n                                    <div class=\"col-md-6\" *ngIf=\"receipt.paymentDao[0].onAccount != 0\">\n                                        $ {{receipt.paymentDao[0].onAccount}}\n                                    </div>\n                                </div>\n\n                                <hr>\n\n                                <div class=\"row\">\n                                    <div class=\"col-md-6\">\n                                        Balance:\n                                    </div>\n                                    <div class=\"col-md-6\">\n                                        $ {{receipt.transactionBalance}}\n                                    </div>\n                                </div>\n\n\n\n                            </div>\n                        </div>\n\n                    </div>\n                </ng-template> -->\n            </p-dataTable>\n\n        </div>\n    </mat-card-content>\n</mat-card>\n\n\n\n<!-- Start of Void Transacton -->\n<div class=\"modal fade\" id=\"voidTransaction\" role=\"dialog\">\n    <div class=\"modal-dialog modal-sm\">\n        <div class=\"modal-content\">\n            <div class=\"modal-header\">\n                <h4 class=\"modal-title\">Void Sale</h4>\n                <button type=\"button\" class=\"close\" data-dismiss=\"modal\">&times;</button>\n            </div>\n            <div class=\"modal-body\">\n                <p>Are You Sure You Want To Void This Sale</p>\n            </div>\n            <div class=\"modal-footer\">\n\n                <button type=\"button\" class=\"btn btn-danger\" data-dismiss=\"modal\" (click)=\"this.voidTransaction()\">Yes</button>\n                <button type=\"button\" class=\"btn btn-default\" data-dismiss=\"modal\">Cancle</button>\n            </div>\n        </div>\n    </div>\n</div>\n\n<!-- End of Void Transacton -->"
+module.exports = "<mat-card>\n    <mat-card-title>\n        <h4>Sales History</h4>\n    </mat-card-title>\n\n    <mat-card-content>\n\n        <div class=\"row d-flex align-items-center\">\n\n            <div class=\"col-md-2\">\n                <select class=\"form-control form-control\" [(ngModel)]=\"this.salesHistoryDropdown\" (change)=\"this.getTransactionDetails(this.salesHistoryDropdown)\">\n                    <option>Today</option>\n                    <option>Yesterday</option>\n                    <option>This Week</option>\n                    <option>Last Week</option>\n                    <option>This Month</option>\n                    <option>Last Month</option>\n                    <option>Last 3 Months</option>\n                    <option>Last 6 Months</option>\n                    <option>This Year</option>\n                    <option>Last Year</option>\n                    <option>Custom</option>\n\n                </select>\n\n            </div>\n            <div *ngIf=\"this.salesHistoryDropdown == 'Custom' \" class=\"col-md-3 form-group d-flex align-items-center\" [formGroup]=\"this.customDate\">\n\n                <mat-form-field class=\"float-never col-md-6\">\n                    <input formControlName=\"fromDate\" matInput [matDatepicker]=\"fromDate\" placeholder=\"Start Date\" [max]=\"this.currentDate\">\n                    <mat-datepicker-toggle matSuffix [for]=\"fromDate\"></mat-datepicker-toggle>\n                    <mat-datepicker #fromDate></mat-datepicker>\n                </mat-form-field>\n                <label class=\"text-center\">To</label>\n                <mat-form-field class=\"float-never col-md-6\">\n                    <input class=\"\" formControlName=\"toDate\" matInput [matDatepicker]=\"toDate\" placeholder=\"End Date\" [min]=\"this.customDate.get('fromDate').value\" [max]=\"this.currentDate\">\n                    <mat-datepicker-toggle matSuffix [for]=\"toDate\"></mat-datepicker-toggle>\n                    <mat-datepicker #toDate></mat-datepicker>\n                </mat-form-field>\n            </div>\n\n            <div class=\"col-md-2\">\n                <select class=\"form-control\" [(ngModel)]=\"this.searchByTransactionType\" (change)=\"onTransactionTypeDropdownChoose()\">\n                    <option>All Transaction Status</option>\n                    <option>Complete</option>\n                    <option>Return</option>\n                    <option>Void</option>\n                    <option>Park</option>\n                    <option>Online</option>\n                </select>\n\n            </div>\n\n\n            <div class=\"col-md-3\">\n                <input [formControl]=\"this.searchByCustomerInputBox\" class=\"form-control form-control\" type=\"text\" placeholder=\"Search By Customer Name Or PhoneNo\">\n\n            </div>\n            <div class=\"col-md-2\">\n                <input [formControl]=\"this.searchByReceiptNoInputBox\" class=\"form-control form-control\" type=\"text\" placeholder=\"Search By Recipt Number\">\n\n            </div>\n\n        </div>\n\n        <div class=\"row p-md-3\">\n            <p-dataTable [value]=\"this.transactionDetails\" scrollable=\"true\" scrollHeight=\"500px\" [responsive]=\"true\">\n                <p-column field=\"transactionComId\" header=\"Receipt No\" [style]=\"{'width': '7%'}\"></p-column>\n                <p-column field=\"date\" header=\"Date\" [sortable]=\"true\" [style]=\"{'width': '6%'}\"></p-column>\n                <p-column field=\"time\" header=\"Time\" [sortable]=\"true\" [style]=\"{'width': '6%'}\"></p-column>\n                <p-column field=\"customerPhoneno\" header=\"Customer Phone\"></p-column>\n                <p-column field=\"customerFirstLastName\" header=\"Customer Name\"></p-column>\n                <!-- <p-column field=\"username\" header=\"User Name\"></p-column> -->\n                <p-column field=\"tax\" header=\"Tax\" [style]=\"{'width': '8%'}\"></p-column>\n                <p-column field=\"totalDiscount\" header=\"Discount\" [style]=\"{'width': '8%'}\"></p-column>\n                <p-column field=\"subtotal\" header=\"Subtotal\" [style]=\"{'width': '8%'}\"></p-column>\n                <p-column field=\"totalAmount\" header=\"Total Amount\" [sortable]=\"true\" [style]=\"{'width': '10%'}\"></p-column>\n                <p-column field=\"status\" header=\"Status\" [sortable]=\"true\" [style]=\"{'width': '8%'}\">\n\n                    <ng-template let-transaction=\"rowData\" pTemplate=\"body\">\n                        <mat-chip-list>\n                            <mat-chip color=\"secondary\" selected=\"true\">{{transaction.status}}</mat-chip>\n                        </mat-chip-list>\n                    </ng-template>\n\n                </p-column>\n                <p-column field=\"status\" header=\"Action\" [style]=\"{'width': '10%'}\">\n\n                    <ng-template let-transaction=\"rowData\" pTemplate=\"body\">\n                        <button class=\"btn-blue action-button-table\" mat-button (click)=\"this.printReceipt(transaction)\">\n                            <i class=\"fa fa-print\" aria-hidden=\"true\"></i>\n                        </button>\n                        <button class=\"btn-green action-button-table\" mat-button (click)='this.sendEmail(transaction)'>\n                            <i class=\"fa fa-envelope\" aria-hidden=\"true\"></i>\n                        </button>\n\n                        <!-- // Do not remove this, this is for park sales where i can redirect user to start the transaction. -->\n                        <!-- <button *ngIf=\"transaction.status != 'Return' \" class=\"btn-red action-button-table\" mat-button [routerLink]=\"['/sell', {transactionComId: transaction.transactionComId}]\"> -->\n                        <button *ngIf=\"transaction.status == 'Complete' \" class=\"btn-red action-button-table\" mat-button (click)=\"setTransactoinToVoid(transaction)\" data-toggle=\"modal\" data-target=\"#voidTransaction\">\n\n                            <i class=\"fa fa-ban\" aria-hidden=\"true\"></i>\n                        </button>\n                        <button *ngIf=\"transaction.status == 'Park' || transaction.status == 'Online' \" class=\"btn-red action-button-table\" mat-button [routerLink]=\"['/sell/sale', {transactionComId: transaction.transactionComId}]\">\n                                <i class=\"fa fa-reply-all\" aria-hidden=\"true\"></i>\n                        </button>\n\n\n                    </ng-template>\n                </p-column>\n\n                <!-- \n                <ng-template let-receipt pTemplate=\"rowexpansion\">\n                    <div class=\"ui-grid ui-grid-responsive ui-fluid\" style=\"font-size:16px;padding:20px\">\n                        <div class=\"ui-grid-row\">\n                            <div class=\"ui-grid-col-12\">\n                                <div class=\"ui-grid ui-grid-responsive ui-grid-pad\">\n\n                                    <table class=\"table table-striped\">\n                                        <thead>\n                                            <tr>\n                                                <th>Product No</th>\n                                                <th>Description</th>\n                                                <th>Retail</th>\n                                                <th>Discount</th>\n                                                <th>Quantity</th>\n                                                <th>Total</th>\n                                            </tr>\n                                        </thead>\n                                        <tbody>\n                                            <tr *ngFor=\"let lineItem of receipt.transactionLineItemDaoList\">\n                                                <td>{{this.lineItem.productNo}}</td>\n                                                <td>{{this.lineItem.description}}</td>\n                                                <td>{{this.lineItem.retail}}</td>\n                                                <td>{{this.lineItem.discount}}</td>\n                                                <td>{{this.lineItem.quantity}}</td>\n                                                <td>{{this.lineItem.totalProductPrice}}</td>\n                                            </tr>\n                                        </tbody>\n                                    </table>\n                                </div>\n                            </div>\n                        </div>\n                        <div class=\"row\">\n\n                            <div class=\"col-md-10 text-left\">\n                                <div>\n                                    Transaction Notes :\n                                </div>\n                                <textarea rows=\"3\" cols=\"150\">\n                            {{receipt.note}}\n                        </textarea>\n                            </div>\n                            <div class=\"col-md-2\">\n\n                                <div class=\"row\">\n                                    <div class=\"col-md-6\">\n                                        Subtotal:\n                                    </div>\n                                    <div class=\"col-md-6\">\n                                        $ {{receipt.subtotal}}\n                                    </div>\n                                </div>\n\n                                <div class=\"row\">\n                                    <div class=\"col-md-6\" *ngIf=\"receipt.totalDiscount != 0\">\n                                        Discount:\n                                    </div>\n                                    <div class=\"col-md-6\" *ngIf=\"receipt.totalDiscount != 0\">\n                                        $ {{receipt.totalDiscount}}\n                                    </div>\n                                </div>\n\n                                <div class=\"row\">\n                                    <div class=\"col-md-6\">\n                                        Tax:\n                                    </div>\n                                    <div class=\"col-md-6\">\n                                        $ {{receipt.tax}}\n                                    </div>\n                                </div>\n\n                                <div class=\"row\">\n                                    <div class=\"col-md-6\" *ngIf=\"receipt.previousBalance != 0\">\n                                        Pre Balance:\n                                    </div>\n                                    <div class=\"col-md-6\" *ngIf=\"receipt.previousBalance != 0\">\n                                        $ {{receipt.previousBalance}}\n                                    </div>\n                                </div>\n\n                                <hr>\n\n                                <div class=\"row\">\n                                    <div class=\"col-md-6\">\n                                        TOTAL:\n                                    </div>\n                                    <div class=\"col-md-6\">\n                                        $ {{receipt.totalAmount}}\n                                    </div>\n                                </div>\n\n                                <hr>\n                                <div class=\"row\">\n                                    <div class=\"col-md-6\" *ngIf=\"receipt.paymentDao[0].cash != 0\">\n                                        Cash:\n                                    </div>\n                                    <div class=\"col-md-6\" *ngIf=\"receipt.paymentDao[0].cash != 0\">\n                                        $ {{receipt.paymentDao[0].cash + receipt.paymentDao[0].changeForCash}}\n                                    </div>\n                                </div>\n\n                                <div class=\"row\">\n                                    <div class=\"col-md-6\" *ngIf=\"receipt.paymentDao[0].changeForCash != 0\">\n                                        Change:\n                                    </div>\n                                    <div class=\"col-md-6\" *ngIf=\"receipt.paymentDao[0].changeForCash != 0\">\n                                        $ {{receipt.paymentDao[0].changeForCash}}\n                                    </div>\n                                </div>\n\n                                <div class=\"row\">\n                                    <div class=\"col-md-6\" *ngIf=\"receipt.paymentDao[0].credit != 0\">\n                                        Credit:\n                                    </div>\n                                    <div class=\"col-md-6\" *ngIf=\"receipt.paymentDao[0].credit != 0\">\n                                        $ {{receipt.paymentDao[0].credit}}\n                                    </div>\n                                </div>\n\n                                <div class=\"row\">\n                                    <div class=\"col-md-6\" *ngIf=\"receipt.paymentDao[0].debit != 0\">\n                                        Debit:\n                                    </div>\n                                    <div class=\"col-md-6\" *ngIf=\"receipt.paymentDao[0].debit != 0\">\n                                        $ {{receipt.paymentDao[0].debit}}\n                                    </div>\n                                </div>\n\n                                <div class=\"row\">\n                                    <div class=\"col-md-6\" *ngIf=\"receipt.paymentDao[0].checkAmount != 0\">\n                                        Check:\n                                    </div>\n                                    <div class=\"col-md-6\" *ngIf=\"receipt.paymentDao[0].checkAmount != 0\">\n                                        $ {{receipt.paymentDao[0].checkAmount}}\n                                    </div>\n                                </div>\n\n                                <div class=\"row\">\n                                    <div class=\"col-md-6\" *ngIf=\"receipt.paymentDao[0].storeCredit != 0\">\n                                        Store Credit:\n                                    </div>\n                                    <div class=\"col-md-6\" *ngIf=\"receipt.paymentDao[0].storeCredit != 0\">\n                                        $ {{receipt.paymentDao[0].storeCredit}}\n                                    </div>\n                                </div>\n\n                                <div class=\"row\">\n                                    <div class=\"col-md-6\" *ngIf=\"receipt.paymentDao[0].onAccount != 0\">\n                                        On Account:\n                                    </div>\n                                    <div class=\"col-md-6\" *ngIf=\"receipt.paymentDao[0].onAccount != 0\">\n                                        $ {{receipt.paymentDao[0].onAccount}}\n                                    </div>\n                                </div>\n\n                                <hr>\n\n                                <div class=\"row\">\n                                    <div class=\"col-md-6\">\n                                        Balance:\n                                    </div>\n                                    <div class=\"col-md-6\">\n                                        $ {{receipt.transactionBalance}}\n                                    </div>\n                                </div>\n\n\n\n                            </div>\n                        </div>\n\n                    </div>\n                </ng-template> -->\n            </p-dataTable>\n\n        </div>\n    </mat-card-content>\n</mat-card>\n\n\n\n<!-- Start of Void Transacton -->\n<div class=\"modal fade\" id=\"voidTransaction\" role=\"dialog\">\n    <div class=\"modal-dialog modal-sm\">\n        <div class=\"modal-content\">\n            <div class=\"modal-header\">\n                <h4 class=\"modal-title\">Void Sale</h4>\n                <button type=\"button\" class=\"close\" data-dismiss=\"modal\">&times;</button>\n            </div>\n            <div class=\"modal-body\">\n                <p>Are You Sure You Want To Void This Sale</p>\n            </div>\n            <div class=\"modal-footer\">\n\n                <button type=\"button\" class=\"btn btn-danger\" data-dismiss=\"modal\" (click)=\"this.voidTransaction()\">Yes</button>\n                <button type=\"button\" class=\"btn btn-default\" data-dismiss=\"modal\">Cancle</button>\n            </div>\n        </div>\n    </div>\n</div>\n\n<!-- End of Void Transacton -->"
 
 /***/ }),
 
@@ -8654,7 +8638,13 @@ var SalesHistoryComponent = /** @class */ (function () {
         return filtered;
     };
     SalesHistoryComponent.prototype.setTransactoinToVoid = function (transaction) {
-        this.transactionToVoid = transaction;
+        // Since i change the logic to, show only transaction deatils on sales history, now i need to get complete transaction details,
+        // And set to the transactionTovoid object.
+        var _this = this;
+        this.sellService.getTransactionById(transaction.transactionComId)
+            .subscribe(function (transaction) {
+            _this.transactionToVoid = transaction;
+        });
     };
     // Here i am setting status to void for transaction and transaction lineitem
     SalesHistoryComponent.prototype.voidTransaction = function () {
@@ -8780,7 +8770,7 @@ var routes = [
         component: __WEBPACK_IMPORTED_MODULE_6_app_sell_sales_history_sales_history_component__["a" /* SalesHistoryComponent */],
         canActivate: [__WEBPACK_IMPORTED_MODULE_8_app_auth_auth_guard__["a" /* AuthGuard */]],
     },
-    { path: 'setting', component: __WEBPACK_IMPORTED_MODULE_7_app_shared_storesetup_storesetup_component__["a" /* StoresetupComponent */] }
+    { path: 'setting', component: __WEBPACK_IMPORTED_MODULE_7_app_shared_storesetup_storesetup_component__["a" /* StoresetupComponent */] },
 ];
 var SellRoutingModule = /** @class */ (function () {
     function SellRoutingModule() {
@@ -8828,7 +8818,6 @@ module.exports = module.exports.toString();
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return SellComponent; });
-/* unused harmony export TransactionDtoList */
 /* unused harmony export PaymentDto */
 /* unused harmony export PaymentObjectForPaymentSellTable */
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/esm5/core.js");
@@ -8846,7 +8835,8 @@ module.exports = module.exports.toString();
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__angular_router__ = __webpack_require__("../../../router/esm5/router.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_12_ng2_toastr_src_toast_manager__ = __webpack_require__("../../../../ng2-toastr/src/toast-manager.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_12_ng2_toastr_src_toast_manager___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_12_ng2_toastr_src_toast_manager__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_13_app_product_product_service__ = __webpack_require__("../../../../../src/app/product/product.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_13_app_sell_sale_sale_component__ = __webpack_require__("../../../../../src/app/sell/sale/sale.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_14_app_product_product_service__ = __webpack_require__("../../../../../src/app/product/product.service.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -8856,6 +8846,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
+
 
 
 
@@ -8883,7 +8874,7 @@ var SellComponent = /** @class */ (function () {
         this.toastr = toastr;
         this.myControl = new __WEBPACK_IMPORTED_MODULE_3__angular_forms__["FormControl"]();
         this.isProductExistsInSellList = false;
-        this.transactionDtoList = new TransactionDtoList();
+        this.transactionDtoList = new __WEBPACK_IMPORTED_MODULE_13_app_sell_sale_sale_component__["d" /* TransactionDtoList */]();
         this.paymentDto = new PaymentDto();
         this.a = 'sdfds';
         this.showCustomerDetails = false;
@@ -9048,57 +9039,37 @@ var SellComponent = /** @class */ (function () {
         $('#productsearch > span > input').focus();
     };
     // This method helps when user try to change retial price or quanity from the sell text box.
-    SellComponent.prototype.submitProduct = function (value) {
-        if (typeof value === 'string') {
-            console.log('This is value: ', value);
-            // this is the senario where user is adding new product to Sell
-            if (this.product != null && this.product.length > 0) {
-                // this.addTransactionLineItem(this.product[0]);
-            }
-            else if (value !== '' && value !== undefined && value.indexOf('.') !== 0) {
-                if (value.match(/[a-z]/i))
-                    console.log('contains only charcters');
-                // this mean this is decimal value so it will change the retail price of the product
-                if (value.match(/[0-9]/i) && value.indexOf('.') > 0)
-                    this.updateProductPrice(value);
-                else if (value.match(/[0-9]/i) && value.length < 5)
-                    this.updateProductQuantity(value);
-            }
-        }
-        else if (value != null) {
-            this.addTransactionLineItem(value);
-        }
-    };
-    SellComponent.prototype.updateProductQuantity = function (value) {
-        console.log('Quantity change');
-        this.transactionLineItemDaoList[this.transactionLineItemDaoList.length - 1].defaultQuantity = value;
-        this.transactionLineItemDaoList[this.transactionLineItemDaoList.length - 1].totalProductPrice = parseFloat((this.transactionLineItemDaoList[this.transactionLineItemDaoList.length - 1].retail * this.transactionLineItemDaoList[this.transactionLineItemDaoList.length - 1].defaultQuantity).toFixed(2));
-        this.transactionLineItemDaoList = this.transactionLineItemDaoList.slice();
-        this.setTransactionDtoList(this.transactionLineItemDaoList);
-        this.persit.setProducts(this.transactionLineItemDaoList);
-        this.p = null;
-    };
-    SellComponent.prototype.updateProductPrice = function (value) {
-        console.log('Price change');
-        var oldRetail = this.transactionLineItemDaoList[this.transactionLineItemDaoList.length - 1].retail;
-        var discount = 0.00;
-        this.transactionLineItemDaoList[this.transactionLineItemDaoList.length - 1].retail = value;
-        this.transactionLineItemDaoList[this.transactionLineItemDaoList.length - 1].totalProductPrice = (this.transactionLineItemDaoList[this.transactionLineItemDaoList.length - 1].retail * this.transactionLineItemDaoList[this.transactionLineItemDaoList.length - 1].defaultQuantity);
-        console.log("outside if", this.transactionLineItemDaoList[this.transactionLineItemDaoList.length - 1].retail);
-        if (value < oldRetail) {
-            discount = oldRetail - value;
-            console.log("discount", discount);
-            this.transactionLineItemDaoList[this.transactionLineItemDaoList.length - 1].retailDiscount = discount;
-            console.log("lineitem discount:", oldRetail - value);
-        }
-        console.log("after if if", value);
-        console.log("discount", discount);
-        console.log("discount");
-        this.transactionLineItemDaoList = this.transactionLineItemDaoList.slice();
-        this.setTransactionDtoList(this.transactionLineItemDaoList);
-        this.persit.setProducts(this.transactionLineItemDaoList);
-        this.p = null;
-    };
+    // updateProductQuantity(value: any) {
+    //   console.log('Quantity change');
+    //   this.transactionLineItemDaoList[this.transactionLineItemDaoList.length - 1].saleQuantity = value;
+    //   this.transactionLineItemDaoList[this.transactionLineItemDaoList.length - 1].totalProductPrice = parseFloat((this.transactionLineItemDaoList[this.transactionLineItemDaoList.length - 1].retail * this.transactionLineItemDaoList[this.transactionLineItemDaoList.length - 1].defaultQuantity).toFixed(2));
+    //   this.transactionLineItemDaoList = this.transactionLineItemDaoList.slice();
+    //   this.setTransactionDtoList(this.transactionLineItemDaoList)
+    //   this.persit.setProducts(this.transactionLineItemDaoList);
+    //   this.p = null;
+    // }
+    // updateProductPrice(value: any) {
+    //   console.log('Price change');
+    //   let oldRetail = this.transactionLineItemDaoList[this.transactionLineItemDaoList.length - 1].retail;
+    //   let discount = 0.00;
+    //   this.transactionLineItemDaoList[this.transactionLineItemDaoList.length - 1].retail = value;
+    //   this.transactionLineItemDaoList[this.transactionLineItemDaoList.length - 1].totalProductPrice = (this.transactionLineItemDaoList[this.transactionLineItemDaoList.length - 1].retail * this.transactionLineItemDaoList[this.transactionLineItemDaoList.length - 1].defaultQuantity);
+    //   console.log("outside if", this.transactionLineItemDaoList[this.transactionLineItemDaoList.length - 1].retail);
+    //   if(value < oldRetail)
+    //   {
+    //     discount  = oldRetail - value;
+    //     console.log("discount", discount);
+    //     this.transactionLineItemDaoList[this.transactionLineItemDaoList.length - 1].retailWithDiscount = discount;
+    //     console.log("lineitem discount:", oldRetail - value);
+    //   }
+    //   console.log("after if if", value);
+    //   console.log("discount", discount);
+    //   console.log("discount");
+    //   this.transactionLineItemDaoList = this.transactionLineItemDaoList.slice();
+    //   this.setTransactionDtoList(this.transactionLineItemDaoList)
+    //   this.persit.setProducts(this.transactionLineItemDaoList);
+    //   this.p = null;
+    // }
     // updateProductPrice(value: any) {
     //   console.log('Price change');
     //   this.transactionLineItemDaoList[this.transactionLineItemDaoList.length - 1].retail = value;
@@ -9109,14 +9080,14 @@ var SellComponent = /** @class */ (function () {
     //   this.p = null;
     // }
     // this method helps to update lineItem Detail when user change the quatity or change the retail from editable box
-    SellComponent.prototype.updateLineItemDetails = function (event) {
-        this.transactionLineItemDaoList[event.index].defaultQuantity = event.data.defaultQuantity;
-        this.transactionLineItemDaoList[event.index].retail = event.data.retail;
-        this.transactionLineItemDaoList[event.index].totalProductPrice = (event.data.defaultQuantity * event.data.retail);
-        this.transactionLineItemDaoList[event.index].taxAmountOnProduct = ((event.data.defaultQuantity * event.data.retail) * 7) / 100;
-        this.setTransactionDtoList(this.transactionLineItemDaoList);
-        this.persit.setProducts(this.transactionLineItemDaoList);
-    };
+    // updateLineItemDetails(event) {
+    //   this.transactionLineItemDaoList[event.index].defaultQuantity = event.data.defaultQuantity;
+    //   this.transactionLineItemDaoList[event.index].retail = event.data.retail;
+    //   this.transactionLineItemDaoList[event.index].totalProductPrice = (event.data.defaultQuantity * event.data.retail);
+    //   this.transactionLineItemDaoList[event.index].taxAmountOnProduct = ((event.data.defaultQuantity * event.data.retail) * 7) / 100
+    //   this.setTransactionDtoList(this.transactionLineItemDaoList)
+    //   this.persit.setProducts(this.transactionLineItemDaoList);
+    // }
     SellComponent.prototype.setDiscountType = function (discountType) {
         console.log("inside set discount type", discountType);
         if (discountType == 'By Amount') {
@@ -9158,7 +9129,7 @@ var SellComponent = /** @class */ (function () {
             this.transactionDtoList.totalAmount = 0.00;
         }
         for (var i = 0; i < lineItem.length; i++) {
-            totalQuantity = +lineItem[i].defaultQuantity + totalQuantity;
+            // totalQuantity = + lineItem[i].defaultQuantity + totalQuantity;
             totalPrice = +lineItem[i].totalProductPrice + totalPrice;
             // Here totalProductPriceWithTax mean, only amount of the tax on that product dont get confuse with naming
             tax = +(lineItem[i].totalProductPrice * 7) / 100 + tax;
@@ -9551,13 +9522,12 @@ var SellComponent = /** @class */ (function () {
         this.paymentDao.push(this.paymentDto);
         this.transactionDtoList.paymentDao = this.paymentDao;
         // Setting TransactionLineItemDetails
-        for (var _i = 0, _a = this.transactionLineItemDaoList; _i < _a.length; _i++) {
-            var lineItem = _a[_i];
-            lineItem.status = this.saleType;
-            lineItem.date = this.transactionDtoList.date;
-            // I need to do this casue in backend i am using quantity and here i have to use defult quanity to show 1 as user insert product.
-            lineItem.quantity = lineItem.defaultQuantity;
-        }
+        // for (let lineItem of this.transactionLineItemDaoList) {
+        //   lineItem.status = this.saleType;
+        //   lineItem.date = this.transactionDtoList.date;
+        //   // I need to do this casue in backend i am using quantity and here i have to use defult quanity to show 1 as user insert product.
+        //   lineItem.quantity = lineItem.defaultQuantity;
+        // }
         // this.transactionNotes is bind with the ng model on ui.
         this.transactionDtoList.note = this.transactionNotes;
         // To do need to fix this hardcoded value for username
@@ -9623,8 +9593,8 @@ var SellComponent = /** @class */ (function () {
             .subscribe(function (transaction) {
             if (transaction.status == 'Parked') {
                 transaction.transactionLineItemDaoList.forEach(function (lineItem) {
-                    lineItem.defaultQuantity = lineItem.quantity;
-                    lineItem.quantity = 0;
+                    //  lineItem.defaultQuantity = lineItem.quantity;
+                    // lineItem.quantity = 0;
                 });
                 // Setting transactoin id here so i can send this in case of return and when user gives store credit to the customer.
                 _this.previousTransactionId = transaction.transactionComId;
@@ -9645,8 +9615,8 @@ var SellComponent = /** @class */ (function () {
             else {
                 _this.saleType = 'Return';
                 transaction.transactionLineItemDaoList.forEach(function (lineItem) {
-                    lineItem.defaultQuantity = lineItem.quantity;
-                    lineItem.quantity = 0;
+                    // lineItem.defaultQuantity = lineItem.quantity;
+                    // lineItem.quantity = 0;
                     lineItem.cost = -lineItem.cost;
                     lineItem.retail = -lineItem.retail;
                     lineItem.totalProductPrice = -lineItem.totalProductPrice;
@@ -9687,7 +9657,7 @@ var SellComponent = /** @class */ (function () {
         }),
         __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_app_sell_sell_service__["a" /* SellService */],
             __WEBPACK_IMPORTED_MODULE_4__shared_services_persistence_service__["a" /* PersistenceService */],
-            __WEBPACK_IMPORTED_MODULE_13_app_product_product_service__["a" /* ProductService */],
+            __WEBPACK_IMPORTED_MODULE_14_app_product_product_service__["a" /* ProductService */],
             __WEBPACK_IMPORTED_MODULE_5_app_shared_storesetup_storesetup_service__["a" /* StoreSetupService */],
             __WEBPACK_IMPORTED_MODULE_6_app_customer_customer_service__["a" /* CustomerService */],
             __WEBPACK_IMPORTED_MODULE_9__angular_platform_browser__["DomSanitizer"],
@@ -9763,12 +9733,27 @@ var SellComponent = /** @class */ (function () {
 // alternetNo: string;
 // markup: number;
 // }
-var TransactionDtoList = /** @class */ (function () {
-    function TransactionDtoList() {
-    }
-    return TransactionDtoList;
-}());
-
+// export class TransactionDtoList {
+//   date: any;
+//   time: any;
+//   totalAmount: number;
+//   tax: number;
+//   totalDiscount: number;
+//   subtotal: number;
+//   quantity: number;
+//   transactionComId: number;
+//   customerPhoneno: string;
+//   status: any;
+//   previousBalance: any;
+//   transactionBalance: any;
+//   lineItemDiscount: any;
+//   username: any;
+//   customerFirstLastName: string;
+//   paymentDao: PaymentDto[];
+//   transactionLineItemDaoList: TransactionLineItemDaoList[];
+//   note: string;
+//   previousTransactionId: any;
+// }
 var PaymentDto = /** @class */ (function () {
     function PaymentDto() {
     }
@@ -9894,6 +9879,11 @@ var SellService = /** @class */ (function () {
     // }
     SellService.prototype.getTransactionDetails = function (startDate, endDate) {
         return this.http.get(this.url + '/getTransactionByDate?startDate=' + startDate + '&endDate=' + endDate)
+            .map(this.extractData)
+            .catch(this.handleError);
+    };
+    SellService.prototype.getPendingInvoiceByCustomer = function (phoneNo) {
+        return this.http.get(this.url + '/getPendingInvoiceByCustomer?phoneNo=' + phoneNo)
             .map(this.extractData)
             .catch(this.handleError);
     };

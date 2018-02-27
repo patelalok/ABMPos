@@ -21,6 +21,7 @@ public class TransactionDao {
     private double tax;
     private double totalDiscount;
     private double  subtotal;
+    private double shipping;
     private int quantity;
     private String customerPhoneno;
     private String status;
@@ -44,10 +45,12 @@ public class TransactionDao {
     @JoinColumn(name = "transaction_com_id")
     private List<TransactionLineItemDao> transactionLineItemDaoList;
 
-
-    @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "transaction_com_id")
+    @Transient
     private List<PaymentDao> paymentDao;
+
+//    @OneToMany(cascade = CascadeType.ALL)
+//    @JoinColumn(name = "transaction_com_id")
+//    private List<PaymentDao> paymentDao;
 
 
 
@@ -208,5 +211,13 @@ public class TransactionDao {
 
     public void setStoreSetupDao(StoreSetupDao storeSetupDao) {
         this.storeSetupDao = storeSetupDao;
+    }
+
+    public double getShipping() {
+        return shipping;
+    }
+
+    public void setShipping(double shipping) {
+        this.shipping = shipping;
     }
 }

@@ -40,6 +40,22 @@ public class CloseRegisterDao {
     private double inHandCash;
     private String note;
 
+    @Transient
+    private double totalDueBalance;
+
+    @Transient
+    private double cashFromPendingInvoice;
+
+    @Transient
+    private double creditFromPendingInvoice;
+
+    @Transient
+    private double debitFromPendingInvoice;
+
+    @Transient
+    private double checkFromPendingInvoice;
+
+
     public int getId() {
         return id;
     }
@@ -278,5 +294,45 @@ public class CloseRegisterDao {
 
     public void setNote(String note) {
         this.note = note;
+    }
+
+    public double getCashFromPendingInvoice() {
+        return cashFromPendingInvoice;
+    }
+
+    public void setCashFromPendingInvoice(double cashFromPendingInvoice) {
+        this.cashFromPendingInvoice = cashFromPendingInvoice;
+    }
+
+    public double getCreditFromPendingInvoice() {
+        return creditFromPendingInvoice;
+    }
+
+    public void setCreditFromPendingInvoice(double creditFromPendingInvoice) {
+        this.creditFromPendingInvoice = creditFromPendingInvoice;
+    }
+
+    public double getDebitFromPendingInvoice() {
+        return debitFromPendingInvoice;
+    }
+
+    public void setDebitFromPendingInvoice(double debitFromPendingInvoice) {
+        this.debitFromPendingInvoice = debitFromPendingInvoice;
+    }
+
+    public double getCheckFromPendingInvoice() {
+        return checkFromPendingInvoice;
+    }
+
+    public void setCheckFromPendingInvoice(double checkFromPendingInvoice) {
+        this.checkFromPendingInvoice = checkFromPendingInvoice;
+    }
+
+    public double getTotalDueBalance() {
+        return totalDueBalance;
+    }
+
+    public void setTotalDueBalance(double totalDueBalance) {
+        this.totalDueBalance = totalDueBalance;
     }
 }

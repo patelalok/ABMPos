@@ -129,9 +129,47 @@ public class CloseRegisterManager {
 //
 //            }
 
+
+        // getting sum of payment made for previous invoice or pending invoice.
+
+            PaymentDao  paymentDaoPending  = getSumOfPendingTransaction(startDate, endDate);
+            if(null != paymentDaoPending)
+            {
+                closeRegisterDao.setCashFromPendingInvoice(paymentDaoPending.getCash());
+                closeRegisterDao.setCreditFromPendingInvoice(paymentDaoPending.getCredit());
+                closeRegisterDao.setDebitFromPendingInvoice(paymentDaoPending.getDebit());
+                closeRegisterDao.setCheckFromPendingInvoice(paymentDaoPending.getCheckAmount());
+            }
+
+            // This logic will help to get only transaction balance for start and end date.
+            List<Double> transactionDueAmount = transactionRepository.getTransactionDueAmount(startDate, endDate);
+            if(null != transactionDueAmount && null != transactionDueAmount.get(0)){
+                closeRegisterDao.setTotalDueBalance(transactionDueAmount.get(0));
+            }
+
             return closeRegisterDao;
-                    //closeRegisterRepository.getCloseRegisterDetailsByDate(timeIntervalDto.getStartDate(), timeIntervalDto.getEndDate());
         }
+
+    private PaymentDao getSumOfPendingTransaction(String startDate, String endDate) {
+
+        List<Object[]> result = paymentRepository.sumOfPendingPayments(startDate, endDate);
+        PaymentDao paymentDao = new PaymentDao();
+
+        for(Object [] j : result)
+        {
+            if(j[0] != null) {
+                for (int i = 0; i <= result.size(); i++) {
+                    paymentDao.setCash((Double.parseDouble(j[0].toString())));
+                    paymentDao.setCredit((Double.parseDouble(j[1].toString())));
+                    paymentDao.setDebit((Double.parseDouble(j[2].toString())));
+                    paymentDao.setCheckAmount(Double.parseDouble(j[3].toString()));
+                }
+            }
+        }
+
+        return paymentDao;
+
+    }
 
     private TransactionDao getSumOfAllTransactionDetails(String startDate, String endDate) {
         TransactionDao transactionDao = new TransactionDao();
@@ -149,7 +187,6 @@ public class CloseRegisterManager {
                     if(null != j[3]){
                         transactionDao.setTotalReturn(Double.parseDouble(j[3].toString()));
                     }
-
                 }
             }
         }

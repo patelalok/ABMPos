@@ -72,11 +72,19 @@ public class TransactionController {
     {
         return transactionManager.getTransactionByDate(startDate, endDate);
     }
+
     @RequestMapping(value = "/getPendingInvoiceByCustomer", method = RequestMethod.GET, produces = "application/json")
     public List<TransactionDao> getPendingInvoiceByCustomer(String phoneNo)
     {
         return transactionManager.getPendingInvoiceByCustomer(phoneNo);
     }
+
+    @RequestMapping(value = "/getAllInvoiceByCustomer", method = RequestMethod.GET, produces = "application/json")
+    public List<TransactionDao> getAllInvoiceByCustomer(String startDate, String endDate, String phoneNo)
+    {
+        return transactionManager.getAllInvoiceByCustomer(startDate, endDate, phoneNo);
+    }
+
     @RequestMapping(value = "/voidTransaction", method = RequestMethod.POST)
     public ResponseEntity voidTransaction(@RequestBody TransactionDao transactionDao)
 

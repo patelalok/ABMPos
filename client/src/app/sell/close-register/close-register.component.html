@@ -54,161 +54,182 @@
                     <div class="col-md-6">
 
                         <div class="row product-textbox">
-                            <div class="col-md-3">
+                            <div class="col-md-2">
                                 <p>Payment Type</p>
                             </div>
 
-                            <div class="col-md-3">
+                            <div class="col-md-2">
                                 <p>Manual Count</p>
                             </div>
 
-                            <div class="col-md-3">
+                            <div class="col-md-2">
                                 <p>System Count</p>
                             </div>
 
-                            <div class="col-md-3">
+                            <div class="col-md-2">
                                 <p>Difference</p>
+                            </div>
+                            <div class="col-md-3">
+                                <p>From Previous Invoice</p>
                             </div>
                         </div>
 
                         <div class="row close-row">
 
-                            <div class="col-md-3">
+                            <div class="col-md-2">
                                 <p>Cash</p>
                             </div>
 
-                            <div class="col-md-3">
+                            <div class="col-md-2">
                                 <input type="number" class="form-control" formControlName="closeCash">
                             </div>
 
-                            <div class="col-md-3">
+                            <div class="col-md-2">
                                 <input type="number" class="form-control" disabled="true" formControlName="reportCash">
                             </div>
 
-                            <div class="col-md-3">
+                            <div class="col-md-2">
                                 <input [style.color]="this.closeRegisterForm.get('differenceCash').value >=0 ? 'green' : 'red' " type="number" class="form-control" disabled="true" formControlName="differenceCash">
+                            </div>
+                            <div class="col-md-3">
+                                <input type="number" class="form-control" disabled="true" formControlName="cashFromPendingInvoice">
                             </div>
 
                         </div>
 
                         <div class="row close-row ">
 
-                            <div class="col-md-3">
+                            <div class="col-md-2">
                                 <p>Credit</p>
                             </div>
 
-                            <div class="col-md-3">
+                            <div class="col-md-2">
                                 <input type="number" class="form-control" formControlName="closeCredit">
                             </div>
 
-                            <div class="col-md-3">
+                            <div class="col-md-2">
                                 <input type="number" class="form-control" disabled="true" formControlName="reportCredit">
                             </div>
 
-                            <div class="col-md-3">
+                            <div class="col-md-2">
                                 <input [style.color]="this.closeRegisterForm.get('differenceCredit').value >=0 ? 'green' : 'red' " type="number" class="form-control" disabled="true" formControlName="differenceCredit">
+                            </div>
+                            <div class="col-md-3">
+                                <input type="number" class="form-control" disabled="true" formControlName="creditFromPendingInvoice">
                             </div>
 
                         </div>
 
                         <div class="row close-row ">
 
-                            <div class="col-md-3">
+                            <div class="col-md-2">
                                 <p>Debit</p>
                             </div>
 
-                            <div class="col-md-3">
+                            <div class="col-md-2">
                                 <input type="number" class="form-control" formControlName="closeDebit">
                             </div>
 
-                            <div class="col-md-3">
+                            <div class="col-md-2">
                                 <input type="number" class="form-control" disabled="true" formControlName="reportDebit">
                             </div>
 
-                            <div class="col-md-3">
+                            <div class="col-md-2">
                                 <input [style.color]="this.closeRegisterForm.get('differenceDebit').value >=0 ? 'green' : 'red' " type="number" class="form-control" disabled="true" formControlName="differenceDebit">
+                            </div>
+                            <div class="col-md-3">
+                                <input type="number" class="form-control" disabled="true" formControlName="debitFromPendingInvoice">
                             </div>
 
                         </div>
 
                         <div class="row close-row ">
 
-                            <div class="col-md-3">
+                            <div class="col-md-2">
                                 <p>Check</p>
                             </div>
 
-                            <div class="col-md-3">
+                            <div class="col-md-2">
                                 <input type="number" class="form-control" formControlName="closeCheck">
                             </div>
 
-                            <div class="col-md-3">
+                            <div class="col-md-2">
                                 <input type="number" class="form-control" disabled="true" formControlName="reportCheck">
                             </div>
 
-                            <div class="col-md-3">
+                            <div class="col-md-2">
                                 <input [style.color]="this.closeRegisterForm.get('differenceCheck').value >=0 ? 'green' : 'red' " class="form-control" disabled="true" type="number" formControlName="differenceCheck">
+                            </div>
+                            <div class="col-md-3">
+                                <input type="number" class="form-control" disabled="true" formControlName="checkFromPendingInvoice">
                             </div>
 
                         </div>
-
                         <div class="row close-row ">
 
-                            <div class="col-md-3">
-                                <p>Other Payment</p>
-                            </div>
-                            <div class="col-md-3">
+                            <div class="col-md-2">
                                 <p>Store Credit</p>
                             </div>
 
-                            <div class="col-md-3">
-                                <p>On Account</p>
+                            <div class="col-md-2">
+                                <input disabled="true" type="number" class="form-control">
                             </div>
 
+                            <div class="col-md-2">
+                                <input disabled="true" type="text" class="form-control" disabled="true" formControlName="storeCredit">
+                            </div>
+
+                            <div class="col-md-2">
+                                <input disabled="true" type="number" class="form-control">
+                            </div>
                             <div class="col-md-3">
+                                <input type="number" class="form-control" disabled="true">
+                            </div>
+
+                        </div>
+                        <div class="row close-row">
+
+                            <div class="col-md-2">
                                 <p>Loyalty</p>
                             </div>
 
-
-                        </div>
-
-                        <div class="row">
-
-                            <div class="col-md-3">
-                            </div>
-                            <div class="col-md-3">
-                                <input type="text" class="form-control" disabled="true" formControlName="storeCredit">
+                            <div class="col-md-2">
+                                <input disabled="true" type="number" class="form-control">
                             </div>
 
-                            <div class="col-md-3">
-                                <input type="text" class="form-control" disabled="true" formControlName="onAccount">
+                            <div class="col-md-2">
+                                <input disabled="true" type="text" class="form-control" disabled="true" formControlName="loyalty">
                             </div>
 
-                            <div class="col-md-3">
-                                <input type="text" class="form-control" disabled="true" formControlName="loyalty">
+                            <div class="col-md-2">
+                                <input disabled="true" type="number" class="form-control">
                             </div>
-
-
+                            <div class="col-md-3">
+                                <input type="number" class="form-control" disabled="true">
+                            </div>
 
                         </div>
                         <hr>
-                        <div class="row">
 
-                            <div class="col-md-3">
-                                <p>Total With Tax</p>
+                        <div class="row close-row">
+
+                            <div class="col-md-2">
+                                TOTAL
+                            </div>
+                            <div class="col-md-2">
+                                <input disabled="true" type="number" class="form-control" formControlName="closeTotalAmount">
                             </div>
 
-
-                            <div class="col-md-3">
-                                <input type="number" class="form-control" disabled="true" formControlName="closeTotalAmount">
+                            <div class="col-md-2">
+                                <input disabled="true" type="text" class="form-control" disabled="true" formControlName="reportTotalAmount">
                             </div>
 
-                            <div class="col-md-3">
-                                <input type="number" class="form-control" disabled="true" formControlName="reportTotalAmount">
-                            </div>
-
-                            <div class="col-md-3">
+                            <div class="col-md-2">
                                 <input [style.color]="this.closeRegisterForm.get('differenceTotal').value >=0 ? 'green' : 'red' " type="number" class="form-control" disabled="true" formControlName="differenceTotal">
                             </div>
+                            <div class="col-md-3">
+                                <input type="number" class="form-control" disabled="true" formControlName="pendingInvoiceTotal">
+                            </div>
 
                         </div>
 
@@ -217,7 +238,7 @@
                         <div class="row">
 
                             <div class="col-md-3">
-                                <p>Total Without Tax</p>
+                                <p>Total Due Balance</p>
                             </div>
 
                             <div class="col-md-3">
@@ -236,7 +257,7 @@
                         <div class="row">
 
                             <div class="col-md-3">
-                                <input type="number" class="form-control" disabled="true" formControlName="totalWithoutTax">
+                                <input type="number" class="form-control" disabled="true" formControlName="totalDueBalance">
                             </div>
 
                             <div class="col-md-3">

@@ -28,40 +28,44 @@ import java.util.List;
 @Component
 public class ReportManager {
 
-    @Autowired
-    private Utility utility;
+    private final Utility utility;
 
-    @Autowired
-    private ProductInventoryRepository productInventoryRepository;
+    private final ProductInventoryRepository productInventoryRepository;
 
-    @Autowired
-    private ProductRepository productRepository;
+    private final ProductRepository productRepository;
 
-    @Autowired
-    private CategoryRepository categoryRepository;
+    private final CategoryRepository categoryRepository;
 
-    @Autowired
-    private BrandRepository brandRepository;
+    private final BrandRepository brandRepository;
 
-    @Autowired
-    private VendorRepository vendorRepository;
+    private final VendorRepository vendorRepository;
 
-    @Autowired
-    private ModelRepository modelRepository;
+    private final ModelRepository modelRepository;
 
-    @Autowired
-    private TransactionRepository transactionRepository;
+    private final TransactionRepository transactionRepository;
 
-    @Autowired
-    private CustomerRepository customerRepository;
+    private final CustomerRepository customerRepository;
 
-    @Autowired
-    private EmployeeRepository employeeRepository;
+    private final EmployeeRepository employeeRepository;
 
 
     private BaseFont bfBold;
     private BaseFont bf;
     private int pageNumber = 0;
+
+    @Autowired
+    public ReportManager(BrandRepository brandRepository, CategoryRepository categoryRepository, ProductRepository productRepository, ProductInventoryRepository productInventoryRepository, Utility utility, VendorRepository vendorRepository, ModelRepository modelRepository, TransactionRepository transactionRepository, CustomerRepository customerRepository, EmployeeRepository employeeRepository) {
+        this.brandRepository = brandRepository;
+        this.categoryRepository = categoryRepository;
+        this.productRepository = productRepository;
+        this.productInventoryRepository = productInventoryRepository;
+        this.utility = utility;
+        this.vendorRepository = vendorRepository;
+        this.modelRepository = modelRepository;
+        this.transactionRepository = transactionRepository;
+        this.customerRepository = customerRepository;
+        this.employeeRepository = employeeRepository;
+    }
 
 
     public List<InventoryDto> getReportByInventory(String inventoryReportBy) {
@@ -96,7 +100,7 @@ public class ReportManager {
         double totalCost = 0;
         double totalRetail = 0;
         int totalQuantity = 0;
-        double avgMarkup;
+      //  double avgMarkup;
 
 
         if (null != result) {
@@ -131,9 +135,6 @@ public class ReportManager {
     }
 
     public List<SalesSummaryDto> getReportBySalesSummary(String salesReportBy, String startDate, String endDate) {
-
-        TimeIntervalDto timeIntervalDto;
-
 
         if (salesReportBy.equalsIgnoreCase("Sales By Year")) {
 
@@ -229,7 +230,7 @@ public class ReportManager {
         int totalQuantity = 0;
         double totalProfit = 0;
         double totalDiscount = 0;
-        double totalMarkup = 0;
+       // double totalMarkup = 0;
 
         if (null != result) {
             for (Object[] j : result) {
@@ -453,19 +454,14 @@ public class ReportManager {
     }
 
     private void createHeadingsForCommonReports(PdfContentByte cb, float x, float y, String text) {
-
-
         cb.beginText();
         cb.setFontAndSize(bfBold,12);
         cb.setTextMatrix(x, y);
         cb.showText(text.trim());
         cb.endText();
-
     }
 
     private void createHeadingsForCommonReportsName(PdfContentByte cb, float x, float y, String text) {
-
-
         cb.beginText();
         cb.setFontAndSize(bfBold, 20);
         cb.setTextMatrix(x, y);
@@ -524,9 +520,7 @@ public class ReportManager {
             bfBold = BaseFont.createFont(BaseFont.HELVETICA_BOLD, BaseFont.CP1252, BaseFont.NOT_EMBEDDED);
             bf = BaseFont.createFont(BaseFont.HELVETICA, BaseFont.CP1252, BaseFont.NOT_EMBEDDED);
 
-        } catch (DocumentException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
+        } catch (DocumentException | IOException e) {
             e.printStackTrace();
         }
 

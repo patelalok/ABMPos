@@ -29,6 +29,7 @@ import { SharedModule } from 'app/shared/shared.module';
 import { EditProductComponent } from './edit-product/edit-product.component';
 
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import { PhoneComponent } from './phone/phone.component';
 
 
 @NgModule({
@@ -58,7 +59,8 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
     ModelComponent,
     ProductTableComponent,
     AddInventoryComponent,
-    EditProductComponent],
+    EditProductComponent,
+    PhoneComponent],
   providers: [ProductService, VendorService, CategoryService, BrandService, ModelService],
   bootstrap: [ProductComponent, AddProductComponent, AddInventoryComponent]
 })
