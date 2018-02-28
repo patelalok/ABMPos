@@ -4,7 +4,8 @@
             <div class="row">
                 <div class="align-self-center col-lg-7">
 
-                    <p-autoComplete id="productsearch" [(ngModel)]="p" class="full-width m-1" [suggestions]="product" placeholder="Scan or Search Product" (completeMethod)="filterProducts($event)" name="test" [minLength]="3" (keyup.enter)="submitProduct(p)" field="description">
+                    <p-autoComplete id="productsearch" [(ngModel)]="this.productForSearchBox" class="full-width m-1" [suggestions]="product" placeholder="Scan or Search Product" (completeMethod)="filterProducts($event)" name="test" [minLength]="3" (keyup.enter)="submitProduct(this.productForSearchBox)"
+                        field="description">
                     </p-autoComplete>
                     <!-- <button (click)="this.testFocus()">Click me</button> -->
 
@@ -12,14 +13,14 @@
                 <div class="col-lg-0"></div>
                 <div class="col-lg-5 d-flex justify-content-end">
                     <!-- Buttons go here  -->
-                    <button class="bg-primary text-white action-button m-1" mat-raised-button [disabled]="this.paymentButtonOnSale">
+                    <button class="bg-primary text-white action-button m-1" mat-raised-button [disabled]="this.disablePaymentButtonOnSale">
                         <span>
                             <i class="fa fa-history">
                                 Park Sale
                             </i>
                         </span>
                     </button>
-                    <button class="bg-danger text-white action-button m-1" mat-raised-button data-toggle="modal" data-target="#deleteProduct" (click)="this.setHeaderAndMessageForDisgardPopup()" [disabled]="this.paymentButtonOnSale">
+                    <button class="bg-danger text-white action-button m-1" mat-raised-button data-toggle="modal" data-target="#deleteProduct" (click)="this.setHeaderAndMessageForDisgardPopup()" [disabled]="this.disablePaymentButtonOnSale">
                         <span>
                             <i class="fa fa-trash">
                                 Discard Sale
@@ -55,7 +56,7 @@
                             </ng-template>
                         </p-column>
                         <p-column field="retail" header="Retail" [editable]="true"></p-column>
-                        <p-column field="retailWithDis" header="RetWtDis"></p-column>
+                        <p-column field="retailWithDiscount" header="RetWtDis"></p-column>
                         <p-column field="quantity" header="Stock"></p-column>
                         <p-column field="totalProductPrice" header="Total"></p-column>
                         <p-column header="" styleClass="col-button" [style]="{'width':'5%','text-align':'center', 'overflow':'visible'}">
@@ -196,7 +197,7 @@
                 </div>
 
 
-                <button mat-raised-button [disabled]="this.paymentButtonOnSale" type="button" (click)="this.setDataForPaymentModel()" data-toggle="modal" data-target="#paymentModel" style="width: 100%; font-size: 20px" class="btn btn-red btn-lg text-white m-md-1 p-md-2">
+                <button mat-raised-button [disabled]="this.disablePaymentButtonOnSale" type="button" (click)="this.setDataForPaymentModel()" data-toggle="modal" data-target="#paymentModel" style="width: 100%; font-size: 20px" class="btn btn-red btn-lg text-white m-md-1 p-md-2">
                     <div class="row p-md-1 font-weight-bold">
                         <div class="col-md-6 text-left">Return</div>
                         <div class="col-md-6 text-right">{{this.transactionDtoList.totalAmount | currency:'USD':'true'}}</div>

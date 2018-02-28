@@ -29,65 +29,44 @@ declare var $: JQueryStatic;
 })
 export class ReturnSaleComponent implements OnInit, AfterViewInit { 
   // @HostBinding('@fadeInAnimation') fadeInAnimation;
+
+
   product: Product[];
+  productForSearchBox: any;
+  isProductExistsInSellList = false;
+  selectedProduct: Product;
+
+
   customerDto: PrimeCustomer[];
   cust: any;
-
-  p: any;
   filteredCustomer: any[];
-  isProductExistsInSellList = false;
+  selectedCustomer: Customer;
+
   transactionLineItemDaoList: TransactionLineItemDaoList[] = [];
   transactionDtoList = new TransactionDtoList();
-  paymentDto = new PaymentDto();
-  a = 'sdfds';
-  selectedProduct: Product;
-  selectedCustomer: Customer;
+  tempTransactionAmountForSale: number; // this variable helps to manage transaction amount and dueamount for transaction.
+  printTransactionDto: TransactionDtoList = null;
+  transactionNotes: string = '';
   taxPercent: number = 0.00;
-
-
-  cols: any[];
-
-  filteredCountriesSingle: any[];
   storeDetails: StoreSetupDto;
+  saleType: string = 'Return';
 
-  popupHeader: string;
-  popupMessage: string;
-  showCustomerDetails = false;
   payAmountTextBox: number;
   discountType: string;
   discountTexBox: number;
-  // disableCustomerSearchTextbox: boolean = false;
-
-  // paymentObjectForPaymentSellTable = new Array <PaymentObjectForPaymentSellTable[]>();
   paymentObjectForPaymentSellTable: PaymentObjectForPaymentSellTable[] = [];
-
+  paymentDao: PaymentDto[] = [];
+  paymentDto = new PaymentDto();
   dueAmountForTransaction: number;
 
-  // this variable helps to manage transaction amount and dueamount for transaction.
-  tempTransactionAmountForSale: number;
-
-  // This help when customer has paid full amount, so now user should not able to click on any payment button.
-  // These both buttons are on payment page pop up.
-  disablePaymentButtons: boolean = false;
+  disablePaymentButtons: boolean = false;  // This help when customer has paid full amount, so now user should not able to click on any payment button.// These both buttons are on payment page pop up.
   disablePaymentButtonsWithAmount = false;
   disableCompleteSaleButton: boolean = true;
-
-  payLable: string = 'Pay:';
-  amountDueLable: string = 'Amount Due:';
-  paymentDao: PaymentDto[] = [];
-
-  // This button is on sale page, not on pyament popup page.
-  paymentButtonOnSale: boolean = true;
-  transactionNotes: string = '';
-
   disableOnAccountButtons: boolean = true;
   disableStoreCreditButtons: boolean = true;
-
-  saleType: string = 'Return';
-  // This is useful in case of return where user gives store credit, i need oldtransactionId to store in store credit table as reason.
-  previousTransactionId: any;
-
-printTransactionDto: TransactionDtoList = null;
+  disablePaymentButtonOnSale: boolean = true;
+  popupHeader: string;
+  popupMessage: string;
 
   constructor(
     private sellService: SellService,
@@ -111,63 +90,21 @@ printTransactionDto: TransactionDtoList = null;
       this.taxPercent = this.storeDetails.tax;
     });
 
-        // This call is to get all customer details.
         this.getCustomerDetails();
-
-        this.cols = [
-          { field: 'productNo', header: 'ProductNo' },
-          { field: 'description', header: 'Description' },
-          { field: 'retail', header: 'Retail' },
-          { field: 'saleQuantity', header: 'Quantity' },
-          { field: 'retailWithDiscount', header: 'RetailWithDis' },
-          { field: 'totalProductPrice', header: 'Total' },
-          { field: 'quantity', header: 'In-Stock' }
-        ];
-
   }
 
   ngAfterViewInit() {
-    
         // This will focus on the autocomplete field
         $('#productsearch > span > input').focus();
       }
 
-      filterProducts(event) {
-        let query = event.query;
-        this.productService.getProductDetails()
-          .subscribe((products: Product[]) => {
-            // console.log(products);
-            this.product = this.filterProduct(query, products);
-          });
-      }
-
-
-      filterProduct(query, products: Product[]): Product[] {
-        let filtered: Product[] = [];
-        for (let i = 0; i < products.length; i++) {
-          let p = products[i];
-          if (p.description.toLowerCase().includes(query.toLowerCase()) || p.productNo.includes(query)) {
-            filtered.push(p);
-          }
-        }
-        return filtered;
-      }
-
-        // This method helps when user try to change retial price or quanity from the sell text box.
   submitProduct(value: any) {
-    
-        if (typeof value === 'string') {
-    
-          console.log('This is value: ', value);
-    
+        if (typeof value === 'string') {    
           // this is the senario where user is adding new product to Sell
           if (this.product != null && this.product.length > 0) {
             // this.addTransactionLineItem(this.product[0]);
           }
-    
-          // Dont understabd this
           else if (value !== '' && value !== undefined && value.indexOf('.') !== 0) {
-    
             if (value.match(/[a-z]/i))
               console.log('contains only charcters');
     
@@ -181,7 +118,6 @@ printTransactionDto: TransactionDtoList = null;
             else if (value.match(/[0-9]/i) && value.length < 5)
               this.updateProductQuantity(value);
           }
-    
         }
         else if (value != null) {
           this.addTransactionLineItem(value);
@@ -191,32 +127,30 @@ printTransactionDto: TransactionDtoList = null;
       updateProductQuantity(value: any) {
         console.log('Quantity change');
         this.transactionLineItemDaoList[this.transactionLineItemDaoList.length - 1].saleQuantity = value;
-        this.transactionLineItemDaoList[this.transactionLineItemDaoList.length - 1].totalProductPrice = parseFloat((this.transactionLineItemDaoList[this.transactionLineItemDaoList.length - 1].retail * this.transactionLineItemDaoList[this.transactionLineItemDaoList.length - 1].saleQuantity).toFixed(2));
+        this.transactionLineItemDaoList[this.transactionLineItemDaoList.length - 1].totalProductPrice = parseFloat((this.transactionLineItemDaoList[this.transactionLineItemDaoList.length - 1].retailWithDiscount * this.transactionLineItemDaoList[this.transactionLineItemDaoList.length - 1].saleQuantity).toFixed(2));
         this.transactionLineItemDaoList = this.transactionLineItemDaoList.slice();
         this.setTransactionDtoList(this.transactionLineItemDaoList)
         //this.persit.setProducts(this.transactionLineItemDaoList);
-        this.p = null;
+        this.productForSearchBox = null;
       }
     
       updateProductPrice(value: any) {
         console.log('Price change');
-        this.transactionLineItemDaoList[this.transactionLineItemDaoList.length - 1].retail = value;
-        this.transactionLineItemDaoList[this.transactionLineItemDaoList.length - 1].totalProductPrice = (this.transactionLineItemDaoList[this.transactionLineItemDaoList.length - 1].retail * this.transactionLineItemDaoList[this.transactionLineItemDaoList.length - 1].saleQuantity);
+        this.transactionLineItemDaoList[this.transactionLineItemDaoList.length - 1].retailWithDiscount = value;
+        this.transactionLineItemDaoList[this.transactionLineItemDaoList.length - 1].totalProductPrice = (this.transactionLineItemDaoList[this.transactionLineItemDaoList.length - 1].retailWithDiscount * this.transactionLineItemDaoList[this.transactionLineItemDaoList.length - 1].saleQuantity);
         this.transactionLineItemDaoList = this.transactionLineItemDaoList.slice();
         this.setTransactionDtoList(this.transactionLineItemDaoList)
-    
         //this.persit.setProducts(this.transactionLineItemDaoList);
-        this.p = null;
+        this.productForSearchBox = null;
       }
     
       // this method helps to update lineItem Detail when user change the quatity or change the retail from editable box
       updateLineItemDetails(event) {
         this.transactionLineItemDaoList[event.index].saleQuantity = event.data.saleQuantity;
-        this.transactionLineItemDaoList[event.index].retail = event.data.retail;
-        this.transactionLineItemDaoList[event.index].totalProductPrice = (event.data.saleQuantity * event.data.retail);
-        this.transactionLineItemDaoList[event.index].taxAmountOnProduct = ((event.data.saleQuantity * event.data.retail) * this.taxPercent) / 100
-        this.setTransactionDtoList(this.transactionLineItemDaoList)
-    
+        this.transactionLineItemDaoList[event.index].retailWithDiscount = event.data.retailWithDiscount;
+        this.transactionLineItemDaoList[event.index].totalProductPrice = (event.data.saleQuantity * event.data.retailWithDiscount);
+        this.transactionLineItemDaoList[event.index].taxAmountOnProduct = ((event.data.saleQuantity * event.data.retailWithDiscount) * this.taxPercent) / 100;
+        this.setTransactionDtoList(this.transactionLineItemDaoList);
         //this.persit.setProducts(this.transactionLineItemDaoList);
       }
 
@@ -224,15 +158,15 @@ printTransactionDto: TransactionDtoList = null;
 
               productObj.cost = - productObj.cost;
               productObj.retail = - productObj.retail;
+              productObj.retailWithDiscount = - productObj.retail;
         
-              productObj.totalProductPrice = parseFloat(productObj.retail.toFixed(2));
-              productObj.taxAmountOnProduct = (productObj.retail * this.taxPercent) / 100;
-        
+              productObj.totalProductPrice = parseFloat(productObj.retailWithDiscount.toFixed(2));
+              productObj.taxAmountOnProduct = (productObj.retailWithDiscount * this.taxPercent) / 100;
         
               console.log("when add product", productObj);
               this.transactionLineItemDaoList.push(productObj);
               this.product = null;
-              this.p = null
+              this.productForSearchBox = null
         
               this.transactionLineItemDaoList = this.transactionLineItemDaoList.slice();
               console.log('after slice line item', this.transactionLineItemDaoList);
@@ -281,10 +215,10 @@ printTransactionDto: TransactionDtoList = null;
         
             // This logic helps to manage main payment button enable or diable.
             if (this.transactionDtoList.totalAmount == 0) {
-              this.paymentButtonOnSale = true;
+              this.disablePaymentButtonOnSale = true;
             }
             else {
-              this.paymentButtonOnSale = false;
+              this.disablePaymentButtonOnSale = false;
             }
         
             // These for sale page pop -- First row.
@@ -399,8 +333,8 @@ printTransactionDto: TransactionDtoList = null;
         }
       }
       setPaymentDtoForRetun(paymentType: any, paymentAmount: any) {
-        this.payLable = 'Return';
-        this.amountDueLable = 'Return Amount:';
+        // this.payLable = 'Return';
+        // this.amountDueLable = 'Return Amount:';
     
         if (paymentType == 'Cash') {
     
@@ -483,7 +417,7 @@ printTransactionDto: TransactionDtoList = null;
           
               this.paymentObjectForPaymentSellTable = [];
               // This is payment button on the sale page, i need to do this because there is not data in sale table,
-              this.paymentButtonOnSale = true;
+              this.disablePaymentButtonOnSale = true;
           
           
               this.transactionLineItemDaoList =  [];
@@ -609,6 +543,26 @@ printTransactionDto: TransactionDtoList = null;
         this.sellService.printReceipt(this.printTransactionDto);
         this.clearAllDateAfterTransactionComplete();
         $('#paymentModel').modal('toggle');
+      }
+      filterProducts(event) {
+        let query = event.query;
+        this.productService.getProductDetails()
+          .subscribe((products: Product[]) => {
+            // console.log(products);
+            this.product = this.filterProduct(query, products);
+          });
+      }
+
+
+      filterProduct(query, products: Product[]): Product[] {
+        let filtered: Product[] = [];
+        for (let i = 0; i < products.length; i++) {
+          let p = products[i];
+          if (p.description.toLowerCase().includes(query.toLowerCase()) || p.productNo.includes(query)) {
+            filtered.push(p);
+          }
+        }
+        return filtered;
       }
     
 }

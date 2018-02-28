@@ -16,8 +16,11 @@ public interface VendorRepository extends JpaRepository<VendorDao, Integer>{
 
     List<VendorDao> findAll();
 
-    @Query(value = "SELECT distinct v.name, sum(i.quantity) quantity, sum(i.cost * i.quantity) cost, sum(i.retail * i.quantity) retail from product p Inner Join vendor v on p.vendor_id = v.vendor_id\n" +
-            "inner join product_inventory i on i.product_no = p.product_no group by v.name", nativeQuery = true)
+    @Query(value = "SELECT distinct v.name, sum(i.quantity) quantity, sum(i.cost * i.quantity) cost, sum(i.retail * i.quantity) retail \n" +
+            "from product p Inner Join vendor v on p.vendor_id = v.vendor_id\n" +
+            "inner join product_inventory i on i.product_no = p.product_no\n" +
+            "WHERE i.quantity > 0\n" +
+            "group by v.name", nativeQuery = true)
     List<Object[]> getInventoryByVendor();
 
     @Query(value = "SELECT distinct v.name,\n" +

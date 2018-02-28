@@ -21,8 +21,12 @@ public interface CategoryRepository extends JpaRepository<CategoryDao, Integer>{
 
     List<CategoryDao> findAll();
 
-    @Query(value = "SELECT distinct c.name, sum(i.quantity) quantity, sum(i.cost * i.quantity) cost, sum(i.retail * i.quantity) retail from product p Inner Join category c on p.category_id = c.category_id\n" +
-            "inner join product_inventory i on i.product_no = p.product_no group by c.name", nativeQuery = true)
+    @Query(value = "SELECT distinct c.name, sum(i.quantity) quantity, sum(i.cost * i.quantity) cost, sum(i.retail * i.quantity) retail \n" +
+            "from product p \n" +
+            "Inner Join category c on p.category_id = c.category_id\n" +
+            "inner join product_inventory i on i.product_no = p.product_no\n" +
+            "Where i.quantity > 0\n" +
+            "group by c.name", nativeQuery = true)
     List<Object[]> getInventoryByCategory();
 
     @Query(value = "SELECT distinct c.name, \n" +
@@ -34,7 +38,7 @@ public interface CategoryRepository extends JpaRepository<CategoryDao, Integer>{
             "INNER Join category c on p.category_id = c.category_id \n" +
             "INNER join transaction_line_item l on l.product_no = p.product_no \n" +
             "WHERE l.date BETWEEN ?1 AND ?2 \n" +
-            " AND (l.status = 'Complete' OR l.status = 'Return') \n" +
+            " AND (l.status = 'Complete' OR l.status = 'Return' OR l.status = 'Pending') " +
             "GROUP BY c.name", nativeQuery = true)
     List<Object[]> getSalesReportByCategory(String startDate, String endDate);
 }

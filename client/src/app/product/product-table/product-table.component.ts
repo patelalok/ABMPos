@@ -242,7 +242,6 @@ export class ProductTableComponent implements OnInit {
         this.toastr.error('Opps Something goes wrong !!', 'Error!!');
         console.log(JSON.stringify(error.json()));
       }
-    
     });
     let index = this.backendProductDto.findIndex((el) => el.productNo == this.selectedProductForDelete.productNo);
     this.backendProductDto.splice(index, 1);

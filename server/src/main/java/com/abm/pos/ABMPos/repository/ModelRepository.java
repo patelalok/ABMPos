@@ -16,8 +16,11 @@ public interface ModelRepository extends JpaRepository<ModelDao, Integer> {
 
     List<ModelDao> findAll();
 
-    @Query(value = "SELECT distinct m.name, sum(i.quantity) quantity, sum(i.cost * i.quantity) cost, sum(i.retail * i.quantity) retail from product p Inner Join model m on p.model_id = m.model_id\n" +
-            "inner join product_inventory i on i.product_no = p.product_no group by m.name", nativeQuery = true)
+    @Query(value = "SELECT distinct m.name, sum(i.quantity) quantity, sum(i.cost * i.quantity) cost, sum(i.retail * i.quantity) retail\n" +
+            "from product p Inner Join model m on p.model_id = m.model_id\n" +
+            "inner join product_inventory i on i.product_no = p.product_no\n" +
+            "WHERE i.quantity > 0\n" +
+            "group by m.name", nativeQuery = true)
     List<Object[]> getInventoryByModel();
 
     @Query(value = "SELECT distinct m.name,\n" +
