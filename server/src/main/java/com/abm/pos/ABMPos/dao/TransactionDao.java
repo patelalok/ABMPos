@@ -30,6 +30,7 @@ public class TransactionDao {
     private String username;
     private String customerFirstLastName;
     private String note;
+    private boolean rmi;
 
     //this is need to handle store credit scenario
     @Transient
@@ -219,5 +220,13 @@ public class TransactionDao {
 
     public void setShipping(double shipping) {
         this.shipping = shipping;
+    }
+
+    public boolean isRmi() {
+        return rmi;
+    }
+
+    public void setRmi(boolean rmi) {
+        this.rmi = rmi;
     }
 }

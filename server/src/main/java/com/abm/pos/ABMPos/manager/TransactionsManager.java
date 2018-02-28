@@ -185,9 +185,12 @@ public class TransactionsManager {
         }
         else if (transactionDao.getStatus().equalsIgnoreCase("Return") || transactionDao.getStatus().equalsIgnoreCase("Void")) {
 
-            // Managing inventory for the RETURN or VOID
-            manageProductInventoryAfterSale(transactionDao);
-
+            // this logic help to, manage regular return and RMI return, cause in RMI return we do not need to insert inventory again.
+            if(!transactionDao.isRmi())
+            {
+                // Managing inventory for the RETURN or VOID
+                manageProductInventoryAfterSale(transactionDao);
+            }
 
             // Handing store credit here
             // This means user is giving store credit to the customer so i need to add customers store credit with valid reason.

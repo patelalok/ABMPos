@@ -51,12 +51,12 @@
                         <p-column field="saleQuantity" header="Quantity" [editable]="true">
                             <ng-template let-product="rowData" pTemplate="body">
                                 <div id="lineitem{{product.productNo}}" [ngClass]="{'quantity-updated': product.quantityUpdated }">
-                                    {{product.defaultQuantity}}
+                                    {{product.saleQuantity}}
                                 </div>
                             </ng-template>
                         </p-column>
-                        <p-column field="retail" header="Retail" [editable]="true"></p-column>
-                        <p-column field="retailWithDiscount" header="RetWtDis"></p-column>
+                        <p-column field="retail" header="Retail"></p-column>
+                        <p-column field="retailWithDiscount" header="RetWtDis" [editable]="true"></p-column>
                         <p-column field="quantity" header="Stock"></p-column>
                         <p-column field="totalProductPrice" header="Total"></p-column>
                         <p-column header="" styleClass="col-button" [style]="{'width':'5%','text-align':'center', 'overflow':'visible'}">
@@ -296,7 +296,7 @@
                     </div>
 
                     <div class="col-md-3">
-                        <button mat-raised-button class="secondary-button" [disabled]="true"></button>
+                        <button mat-raised-button class="secondary-button" [disabled]="true">Loyalty</button>
                     </div>
 
                     <div class="col-md-3">
@@ -311,16 +311,12 @@
                 </div>
 
                 <div class="row" style="margin-top: 30px">
-                    <div class="col-md-3">
-
-                    </div>
-
                     <div class="col-md-6">
                         <button mat-raised-button class="danger-button" (click)="this.returnSale()" [disabled]="this.disableCompleteSaleButton">Complete Sale</button>
                     </div>
 
-                    <div class="col-md-3">
-
+                    <div class="col-md-6">
+                        <button mat-raised-button class="danger-button" (click)="this.returnSale(true)" [disabled]="this.disableCompleteSaleButton">Complete Sale As RMI</button>
                     </div>
                 </div>
 
