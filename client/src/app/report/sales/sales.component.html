@@ -76,7 +76,7 @@
                 </select>
             </div>
 
-            <div *ngIf="this.salesDropdown == 'Custom' " class="col-md-3 form-group d-flex align-items-center" [formGroup]="this.customDate">
+            <div *ngIf="this.salesDateDropdown == 'Custom' " class="col-md-3 form-group d-flex align-items-center" [formGroup]="this.customDate">
 
                 <mat-form-field class="float-never col-md-6">
                     <input formControlName="fromDate" matInput [matDatepicker]="fromDate" placeholder="Start Date" [max]="this.currentDate">

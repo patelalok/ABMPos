@@ -45,6 +45,15 @@ export class SalesComponent implements OnInit {
       'toDate': new Date()
     });
 
+    this.customDate.valueChanges
+    .subscribe((change) => {
+      console.log('Custom Date', change);
+      //this.loadingServie.loading = true;
+      let customDateValues: {toDate: Date, fromDate: Date} = change;
+      console.log('data dto', this.dateDto);
+      this.getSalesDetailsFromCustomDate(moment(customDateValues.fromDate).hour(0).format('YYYY-MM-DD HH:mm:ss'),moment(customDateValues.toDate).hour(23).minute(59).format('YYYY-MM-DD HH:mm:ss'));
+    });
+
   }
 
 
@@ -112,6 +121,15 @@ export class SalesComponent implements OnInit {
           this.getPieChartDetailsForSales();
         });
       }
+    }
+
+    getSalesDetailsFromCustomDate(startDate:string, endDate:string){
+
+      this.reportService.getSalesDetails(this.salesDropdown,startDate,endDate)
+      .subscribe((sales: SalesDto[]) => {
+        this.salesDto = sales;
+        this.getPieChartDetailsForSales();
+      });
     }
 
     getPieChartDetailsForSalesSummary() {
