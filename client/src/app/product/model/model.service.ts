@@ -9,20 +9,14 @@ import { ModelTest } from 'app/product/product.component';
 
 @Injectable()
 export class ModelService {
+  private url: string; 
 
     constructor(private http: Http) { }
 
     addOrUpdateModel(model: ModelTest)
     {
-      console.log("Model Added" + model.name);
-      this.http.post('http://localhost:8080/addModel', model)
-      .subscribe(data => {
-        alert('Model Updated !!');
-        console.log(data);
-      },
-        error => {
-      console.log(JSON.stringify(error.json()));
-    });
+      
+      return this.http.post('http://localhost:8080/addModel', model)
     }
 
       deleteModel(modelId: number)

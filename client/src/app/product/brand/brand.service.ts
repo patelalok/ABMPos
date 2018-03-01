@@ -3,37 +3,27 @@ import {Http, Response, Headers} from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import { FormControl } from '@angular/forms/forms';
 import { CategoryTest, BrandTest, Brand } from "app/product/product.component";
+import { environment } from 'environments/environment';
 
 
 
 
 @Injectable()
 export class BrandService {
+  private url: string; 
 
-    constructor(private http: Http) { }
+    constructor(private http: Http) {
+      this.url = environment.reportUrl; 
+
+     }
 
     addOrUpdateBrand(brand: BrandTest)
     {
-      console.log("Brand Added" + brand.name);
-      this.http.post('http://localhost:8080/addBrand', brand)
-      .subscribe(data => {
-        alert('Brand Updated !!');
-        console.log(data);
-      },
-        error => {
-      console.log(JSON.stringify(error.json()));
-    });
+     return this.http.post(this.url+'/addBrand', brand);
     }
 
       deleteBrand(brandId: number)
     {
-      this.http.delete('http://localhost:8080/deleteBrand?brandId=' + brandId)
-      .subscribe(data => {
-        alert('Brand Deleted !!');
-        console.log(data);
-      },
-        error => {
-      console.log(JSON.stringify(error.json()));
-    });
+      this.http.delete(this.url+'/deleteBrand?brandId=' + brandId)
     }
 }

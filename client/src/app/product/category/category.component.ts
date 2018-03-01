@@ -72,7 +72,17 @@ export class CategoryComponent implements OnInit {
     }
 
     updateCategory(event) {
-        this.categoryService.addOrUpdateCategory(event.data);
+        this.categoryService.addOrUpdateCategory(event.data)
+        .subscribe(data => {
+
+            if(data){
+                this.toastr.success('Category Updated Successfully!!', 'Success!!')
+            }
+            console.log(data);
+          },
+            error => {
+                this.toastr.error('Something Goes Wrong!!', 'Error!!')
+        });
     }
 
 

@@ -4,6 +4,7 @@ import { ModelTest, Model } from "app/product/product.component";
 import { ModelService } from "app/product/model/model.service";
 import { ProductService } from "app/product/product.service";
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { ToastsManager } from 'ng2-toastr';
 
 @Component({
     selector: 'app-model',
@@ -19,7 +20,7 @@ export class ModelComponent implements OnInit {
     msgs: Message[] = [];
     model: ModelTest = new PrimeModel();
 
-    constructor(private modelService: ModelService, private productService: ProductService, private formBuilder: FormBuilder) { }
+    constructor(private modelService: ModelService, private productService: ProductService, private formBuilder: FormBuilder, private toastr: ToastsManager) { }
 
     ngOnInit() {
 

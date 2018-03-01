@@ -53,8 +53,8 @@ export class CustomerComponent implements OnInit {
         'city': [''],
         'state': [''],
         'type': [''],
-        'companyName': ['']
-
+        'companyName': [''],
+        'customerNote':['']
       }
     );
   }
@@ -87,7 +87,6 @@ export class CustomerComponent implements OnInit {
   }
 
   setCustomerForDelete(cust: Customer) {
-
     this.selectedCustomerForDelete = cust;
   }
 
@@ -121,6 +120,7 @@ export class CustomerComponent implements OnInit {
     this.customerForm.get('city').setValue(customer.city);
     this.customerForm.get('state').setValue(customer.state);
     this.customerForm.get('zipCode').setValue(customer.zipCode);
+    this.customerForm.get('customerNote').setValue(customer.customerNote);
 
   }
   showSuccess(severity: string, summary: string, detail: string) {
@@ -192,6 +192,7 @@ export class Customer {
   lastUpdatedStoreCreditDate: any;
   password: any;
   createdDate: any;
+  customerNote: any;
 }
 
 export interface CustomerInterface {

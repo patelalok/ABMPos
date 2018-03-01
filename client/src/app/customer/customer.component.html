@@ -51,9 +51,9 @@
                             <button mat-button class="btn-gray action-button-table" data-toggle="modal" data-target="#addStoreCredit" (click)=this.selectCustomerForStoreCredit(customer)>
                                 <i class="fa fa-credit-card-alt" aria-hidden="true"></i>                                
                             </button>
-                            <button mat-button class="btn-gray action-button-table" data-toggle="modal" data-target="#pendingInvoice" (click)=this.openPendingInvoice(customer)>
+                            <!-- <button mat-button class="btn-gray action-button-table" data-toggle="modal" data-target="#pendingInvoice" (click)=this.openPendingInvoice(customer)>
                                 <i class="fa fa-file" aria-hidden="true"></i>                                
-                            </button>
+                            </button> -->
                         </ng-template>
                     </p-column>
                 </p-dataTable>
@@ -229,6 +229,16 @@
                 </div>
                 <div class="col-md-3 p-1">
                     <input type="text" class="form-control" formControlName="zipCode" placeholder="Enter Zipcode">
+                </div>
+
+                <!-- Seventh row of customer -->
+
+                <div class="col-md-2 p-1">
+                    <label>Notes:</label>
+                </div>
+
+                <div class="col-md-10 p-1">
+                    <textarea formControlName="customerNote" class="form-control" aria-label="With textarea"></textarea>
                 </div>
 
             </div>

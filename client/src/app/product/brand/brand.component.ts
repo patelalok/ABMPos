@@ -4,6 +4,8 @@ import { ProductService } from "app/product/product.service";
 import { Message } from "primeng/primeng";
 import { BrandService } from "app/product/brand/brand.service";
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { ToastsManager } from 'ng2-toastr';
+import { environment } from 'environments/environment';
 
 @Component({
     selector: 'app-brand',
@@ -20,7 +22,8 @@ export class BrandComponent implements OnInit {
 
     brand: BrandTest = new PrimeBrand();
 
-    constructor(private brandService: BrandService, private productService: ProductService, private formBuilder: FormBuilder) { }
+    constructor(private brandService: BrandService, private productService: ProductService, private formBuilder: FormBuilder,  private toastr: ToastsManager) {
+     }
 
     ngOnInit() {
 
@@ -50,7 +53,16 @@ export class BrandComponent implements OnInit {
 
     addBrand() {
         let newBrand = this.brandForm.value; 
-        this.brandService.addOrUpdateBrand(this.brandForm.value);
+        this.brandService.addOrUpdateBrand(this.brandForm.value)
+        .subscribe(
+            (data) => {
+              this.toastr.success('Brand Added Successfully!!', 'Success!');
+              console.log(data);
+            },
+            (error) => {
+              this.toastr.error(error, 'Error!');
+              console.log(JSON.stringify(error.json()));
+          });
         this.brandDto.push(newBrand);
 
         this.brandDto = this.brandDto.slice();
@@ -58,7 +70,16 @@ export class BrandComponent implements OnInit {
     }
 
     updateBrand(event) {
-        this.brandService.addOrUpdateBrand(event.data);
+        this.brandService.addOrUpdateBrand(event.data)
+        .subscribe(
+            (data) => {
+              this.toastr.success('Brand Updated Successfully!!', 'Success!');
+              console.log(data);
+            },
+            (error) => {
+              this.toastr.error(error, 'Error!');
+              console.log(JSON.stringify(error.json()));
+          });
     }
 
     setBrandForDetete(brand: Brand) {
@@ -67,10 +88,8 @@ export class BrandComponent implements OnInit {
     }
     deleteBrand() {
         let index = this.brandDto.findIndex((el) => el.name == this.selectedBrandForDelete.name); 
-
         this.brandDto = this.brandDto.splice(0, index).concat(this.brandDto.splice(index)); 
         this.brandService.deleteBrand(this.selectedBrandForDelete.brandId);
-
     }
 
     showDialogToAdd() {

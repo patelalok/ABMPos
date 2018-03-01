@@ -197,8 +197,6 @@ export class ProductService {
     return this.http.post(this.url+'/addProductInventory', productInventory);
   }
 
-
-
   deleteProduct(deletedProduct: Product) {
     return this.http.put(this.url+'/deleteProduct', deletedProduct);
   }

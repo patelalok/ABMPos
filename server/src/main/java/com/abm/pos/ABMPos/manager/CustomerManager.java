@@ -63,7 +63,6 @@ public class CustomerManager {
 
     }
 
-
     public void addCustomerStoreCredit(StoreCreditDao storeCreditDao) {
 
         storeCreditRepository.save(storeCreditDao);
