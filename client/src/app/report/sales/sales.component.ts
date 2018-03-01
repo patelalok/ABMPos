@@ -50,13 +50,11 @@ export class SalesComponent implements OnInit {
       console.log('Custom Date', change);
       //this.loadingServie.loading = true;
       let customDateValues: {toDate: Date, fromDate: Date} = change;
-      console.log('data dto', this.dateDto);
       this.getSalesDetailsFromCustomDate(moment(customDateValues.fromDate).hour(0).format('YYYY-MM-DD HH:mm:ss'),moment(customDateValues.toDate).hour(23).minute(59).format('YYYY-MM-DD HH:mm:ss'));
     });
 
   }
-
-
+  
   getReportDetails() {
 
     if (this.salesDropdown === 'Sales Summary') {

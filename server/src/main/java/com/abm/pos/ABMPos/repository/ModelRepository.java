@@ -32,7 +32,7 @@ public interface ModelRepository extends JpaRepository<ModelDao, Integer> {
             "INNER JOIN model m on p.model_id = m.model_id\n" +
             "INNER JOIN transaction_line_item l on l.product_no = p.product_no\n" +
             "WHERE l.date BETWEEN ?1 AND ?2\n" +
-            "AND (l.status = 'Complete' OR l.status = 'Return')\n" +
+            "AND (l.status = 'Complete' OR l.status = 'Return' OR l.status = 'Pending')\n" +
             "GROUP BY m.name", nativeQuery = true)
     List<Object[]> getSalesReportByModel(String startDate, String endDate);
 }

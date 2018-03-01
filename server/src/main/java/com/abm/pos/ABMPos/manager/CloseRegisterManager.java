@@ -317,9 +317,11 @@ public class CloseRegisterManager {
 
             // Invoice Detail box Text Headings
             createHeadings(cb,30,635,"Payment Types");
-            createHeadings(cb,200,635,"From User");
-            createHeadings(cb,340,635,"From System");
-            createHeadings(cb,480,635,"Difference");
+            createHeadings(cb,140,635,"From User");
+            createHeadings(cb,250,635,"From System");
+            createHeadings(cb,370,635,"Difference");
+            createHeadings(cb,490,635,"From Pending");
+
 
             cb.stroke();
         }
@@ -384,26 +386,44 @@ public class CloseRegisterManager {
         if(null != closeRegisterDao) {
             DecimalFormat df = new DecimalFormat("0.00");
             try {
-                createContent(cb, 30, 600, "Credit", PdfContentByte.ALIGN_LEFT);
-                createContent(cb, 30, 570, "Debit", PdfContentByte.ALIGN_LEFT);
-                createContent(cb, 30, 540, "Cash", PdfContentByte.ALIGN_LEFT);
+                createContent(cb, 30, 600, "Cash", PdfContentByte.ALIGN_LEFT);
+                createContent(cb, 30, 570, "Credit", PdfContentByte.ALIGN_LEFT);
+                createContent(cb, 30, 540, "Debit", PdfContentByte.ALIGN_LEFT);
                 createContent(cb, 30, 510, "Check", PdfContentByte.ALIGN_LEFT);
+                createContent(cb, 30, 480, "Store Credit", PdfContentByte.ALIGN_LEFT);
+
+                //For Cash
+                createContent(cb, 140, 600, "$" + Double.toString(closeRegisterDao.getCloseCash()), PdfContentByte.ALIGN_LEFT);
+                createContent(cb, 250, 600, "$" + Double.toString(closeRegisterDao.getReportCash()), PdfContentByte.ALIGN_LEFT);
+                createContent(cb, 370, 600, "$" + Double.toString(closeRegisterDao.getDifferenceCash()), PdfContentByte.ALIGN_LEFT);
+                createContent(cb, 490, 600, "$" + Double.toString(closeRegisterDao.getCashFromPendingInvoice()), PdfContentByte.ALIGN_LEFT);
+
+
 //            //For Credit
-                createContent(cb, 200, 600, "$" + Double.toString(closeRegisterDao.getCloseCredit()), PdfContentByte.ALIGN_LEFT);
-                createContent(cb, 340, 600, "$" + Double.toString(closeRegisterDao.getReportCredit()), PdfContentByte.ALIGN_LEFT);
-                createContent(cb, 480, 600, "$" + Double.toString(closeRegisterDao.getDifferenceCredit()), PdfContentByte.ALIGN_LEFT);
+                createContent(cb, 140, 570, "$" + Double.toString(closeRegisterDao.getCloseCredit()), PdfContentByte.ALIGN_LEFT);
+                createContent(cb, 250, 570, "$" + Double.toString(closeRegisterDao.getReportCredit()), PdfContentByte.ALIGN_LEFT);
+                createContent(cb, 370, 570, "$" + Double.toString(closeRegisterDao.getDifferenceCredit()), PdfContentByte.ALIGN_LEFT);
+                createContent(cb, 490, 570, "$" + Double.toString(closeRegisterDao.getCreditFromPendingInvoice()), PdfContentByte.ALIGN_LEFT);
+
 //           // For Debit
-                createContent(cb, 200, 570, "$" + Double.toString(closeRegisterDao.getCloseDebit()), PdfContentByte.ALIGN_LEFT);
-                createContent(cb, 340, 570, "$" + Double.toString(closeRegisterDao.getReportDebit()), PdfContentByte.ALIGN_LEFT);
-                createContent(cb, 480, 570, "$" + Double.toString(closeRegisterDao.getDifferenceDebit()), PdfContentByte.ALIGN_LEFT);
-//            //For Cash
-                createContent(cb, 200, 540, "$" + Double.toString(closeRegisterDao.getCloseCash()), PdfContentByte.ALIGN_LEFT);
-                createContent(cb, 340, 540, "$" + Double.toString(closeRegisterDao.getReportCash()), PdfContentByte.ALIGN_LEFT);
-                createContent(cb, 480, 540, "$" + Double.toString(closeRegisterDao.getDifferenceCash()), PdfContentByte.ALIGN_LEFT);
+                createContent(cb, 140, 540, "$" + Double.toString(closeRegisterDao.getCloseDebit()), PdfContentByte.ALIGN_LEFT);
+                createContent(cb, 250, 540, "$" + Double.toString(closeRegisterDao.getReportDebit()), PdfContentByte.ALIGN_LEFT);
+                createContent(cb, 370, 540, "$" + Double.toString(closeRegisterDao.getDifferenceDebit()), PdfContentByte.ALIGN_LEFT);
+                createContent(cb, 490, 540, "$" + Double.toString(closeRegisterDao.getDebitFromPendingInvoice()), PdfContentByte.ALIGN_LEFT);
+
+
 //            //For Check
-                createContent(cb, 200, 510, "$" + Double.toString(closeRegisterDao.getCloseCheck()), PdfContentByte.ALIGN_LEFT);
-                createContent(cb, 340, 510, "$" + Double.toString(closeRegisterDao.getReportCheck()), PdfContentByte.ALIGN_LEFT);
-                createContent(cb, 480, 510, "$" + Double.toString(closeRegisterDao.getDifferenceCheck()), PdfContentByte.ALIGN_LEFT);
+                createContent(cb, 140, 510, "$" + Double.toString(closeRegisterDao.getCloseCheck()), PdfContentByte.ALIGN_LEFT);
+                createContent(cb, 250, 510, "$" + Double.toString(closeRegisterDao.getReportCheck()), PdfContentByte.ALIGN_LEFT);
+                createContent(cb, 370, 510, "$" + Double.toString(closeRegisterDao.getDifferenceCheck()), PdfContentByte.ALIGN_LEFT);
+                createContent(cb, 490, 510, "$" + Double.toString(closeRegisterDao.getCheckFromPendingInvoice()), PdfContentByte.ALIGN_LEFT);
+
+                //For Store credit
+                createContent(cb, 140, 480, "$ 0.0", PdfContentByte.ALIGN_LEFT);
+                createContent(cb, 250, 480, "$" + Double.toString(closeRegisterDao.getStoreCredit()), PdfContentByte.ALIGN_LEFT);
+                createContent(cb, 370, 480, "$ 0.0", PdfContentByte.ALIGN_LEFT);
+                createContent(cb, 490, 480, "$ 0.0", PdfContentByte.ALIGN_LEFT);
+
 
 
 //            createContent(cb,30,470,"Paid Out (Sum)",PdfContentByte.ALIGN_LEFT);
@@ -450,13 +470,13 @@ public class CloseRegisterManager {
                 createContent(cb, 340, 300, "$" + Double.toString(closeRegisterDao.getTotalDiscount()), PdfContentByte.ALIGN_LEFT);
                 createContent(cb, 480, 300, "$" + Double.toString(closeRegisterDao.getReportTotalAmount()), PdfContentByte.ALIGN_LEFT);
 
-                createContent(cb, 30, 260, "Customer Balance", PdfContentByte.ALIGN_LEFT);
+                createContent(cb, 30, 260, "OnAccount", PdfContentByte.ALIGN_LEFT);
                 createContent(cb, 200, 260, "Commission", PdfContentByte.ALIGN_LEFT);
                 createContent(cb, 340, 260, "Bank Deposit", PdfContentByte.ALIGN_LEFT);
                 createContent(cb, 480, 260, "Cash In Hand", PdfContentByte.ALIGN_LEFT);
 
 //            //This just for now need to replace with the real values from service call.
-                createContent(cb, 30, 230, "$" + Double.toString(closeRegisterDao.getOnAccount()), PdfContentByte.ALIGN_LEFT);
+                createContent(cb, 30, 230, "$" + Double.toString(closeRegisterDao.getTotalDueBalance()), PdfContentByte.ALIGN_LEFT);
                 createContent(cb, 200, 230, "$" + Double.toString(0.00), PdfContentByte.ALIGN_LEFT);
                 createContent(cb, 340, 230, "$" + Double.toString(closeRegisterDao.getBankDeposit()), PdfContentByte.ALIGN_LEFT);
                 createContent(cb, 480, 230, "$" + Double.toString(0.00), PdfContentByte.ALIGN_LEFT);

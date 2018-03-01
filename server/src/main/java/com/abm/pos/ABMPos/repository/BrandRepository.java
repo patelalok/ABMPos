@@ -30,7 +30,7 @@ public interface BrandRepository extends JpaRepository<BrandDao, Integer>{
             "INNER JOIN brand b on p.brand_id = b.brand_id\n" +
             "INNER JOIN transaction_line_item l on l.product_no = p.product_no\n" +
             "WHERE l.date BETWEEN ?1 AND ?2 \n" +
-            "AND (l.status = 'Complete' OR l.status = 'Return') \n" +
+            "AND (l.status = 'Complete' OR l.status = 'Return' OR l.status = 'Pending') \n" +
             "GROUP BY b.name;", nativeQuery = true)
     List<Object[]> getSalesReportByBrand(String startDate, String endDate);
 

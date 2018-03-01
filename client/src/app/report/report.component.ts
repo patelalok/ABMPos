@@ -19,15 +19,15 @@ export class ReportComponent implements OnInit {
     this.items = [
       { name: 'Inventory', icon: 'fa fa-tags fa-x', link: '/report/inventory' },
       { name: 'Sales', icon: 'fa fa-line-chart fa-x', link: '/report/sales' },
-      { name: 'Profit & Loss', icon: 'fa fa-pie-chart fa-x', link: '/report/profit-loss' },
-      { name: 'Low Stock', icon: 'fa fa-tag fa-x', link: '/report/profit-loss' },
-      { name: 'Expense', icon: 'fa fa-money fa-x', link: '' },
-      { name: 'Register', icon: 'fa fa-window-close-o fa-x', link: '' },
-      { name: 'Customer', icon: 'fa fa-user fa-x', link: '' },
-      { name: 'Employee', icon: 'fa fa-user-circle fa-x', link: '' },
-      { name: 'Commision', icon: 'fa fa-bar-chart fa-x', link: '' },
-      { name: 'Ecommerce', icon: 'fa fa-cart-arrow-down fa-x', link: '' },
-      { name: 'Loyalty', icon: 'fa fa-area-chart fa-x', link: '' }
+      // { name: 'Profit & Loss', icon: 'fa fa-pie-chart fa-x', link: '/report/profit-loss' },
+      // { name: 'Low Stock', icon: 'fa fa-tag fa-x', link: '/report/profit-loss' },
+      // { name: 'Expense', icon: 'fa fa-money fa-x', link: '' },
+      // { name: 'Register', icon: 'fa fa-window-close-o fa-x', link: '' },
+      // { name: 'Customer', icon: 'fa fa-user fa-x', link: '' },
+      // { name: 'Employee', icon: 'fa fa-user-circle fa-x', link: '' },
+      // { name: 'Commision', icon: 'fa fa-bar-chart fa-x', link: '' },
+      // { name: 'Ecommerce', icon: 'fa fa-cart-arrow-down fa-x', link: '' },
+      // { name: 'Loyalty', icon: 'fa fa-area-chart fa-x', link: '' }
     ];
 
   }

@@ -27,7 +27,7 @@ public interface EmployeeRepository extends JpaRepository<EmployeeDao,Integer> {
             "Inner Join employee e on e.username = t.username\n" +
             "inner join transaction_line_item l on l.transaction_com_id = t.transaction_com_id\n" +
             "WHERE l.date BETWEEN ?1 AND ?2 \n" +
-            "AND (l.status = 'Complete' OR l.status = 'Return')\n" +
+            "AND (l.status = 'Complete' OR l.status = 'Return' OR l.status = 'Pending')\n" +
             "GROUP BY e.username", nativeQuery = true)
     List<Object[]> getSalesReportByEmployee(String startDate, String endDate);
 

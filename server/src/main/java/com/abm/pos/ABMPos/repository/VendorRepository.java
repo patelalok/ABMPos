@@ -32,7 +32,7 @@ public interface VendorRepository extends JpaRepository<VendorDao, Integer>{
             "INNER JOIN vendor v on p.vendor_id = v.vendor_id\n" +
             "INNER JOIN transaction_line_item l on l.product_no = p.product_no\n" +
             "WHERE l.date BETWEEN ?1 AND ?2\n" +
-            " AND (l.status = 'Complete' OR l.status = 'Return')\n" +
+            " AND (l.status = 'Complete' OR l.status = 'Return' OR l.status = 'Pending')\n" +
             "GROUP BY v.name", nativeQuery = true)
     List<Object[]> getSalesReportByVendor(String startDate, String endDate);
 }

@@ -54,7 +54,7 @@ public interface ProductRepository extends JpaRepository<ProductDao, String> {
             "from product p\n" +
             "inner join transaction_line_item l on l.product_no = p.product_no\n" +
             "WHERE l.date BETWEEN ?1 AND ?2\n" +
-            "AND (l.status = 'Complete' OR l.status = 'Return')\n" +
+            "AND (l.status = 'Complete' OR l.status = 'Return' OR l.status = 'Pending')\n" +
             "GROUP BY p.description", nativeQuery = true)
     List<Object[]> getSalesReportByProduct(String startDate, String endDate);
 
@@ -67,7 +67,7 @@ public interface ProductRepository extends JpaRepository<ProductDao, String> {
             "SUM((l.retail * l.sale_quantity) - (l.cost * l.sale_quantity)) profit\n" +
             "FROM product p\n" +
             "INNER JOIN transaction_line_item l ON p.product_no = l.product_no\n" +
-            "WHERE  l.date BETWEEN ?1 AND ?2 AND (l.status = 'Complete' OR l.status = 'Return')\n" +
+            "WHERE  l.date BETWEEN ?1 AND ?2 AND (l.status = 'Complete' OR l.status = 'Return' OR l.status = 'Pending')\n" +
             "GROUP BY p.description, p.product_no\n" +
             "ORDER BY retail DESC LIMIT 50", nativeQuery = true)
     List<Object[]> getTop50SellingItem(String startDate, String endDate);
