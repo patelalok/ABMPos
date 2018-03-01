@@ -6,3 +6,36 @@
     // font-size: 18px !important;
     border-radius: 20px !important;
 }
+
+.mat-chip:not(.mat-basic-chip) {
+    //background-color: green;
+    color: white;
+}
+
+.complete {
+    background-color: green !important;
+    color: white !important;
+    width: 85%;
+    justify-content: center;
+}
+
+.pending {
+    background-color: orange !important;
+    color: white !important;
+    width: 85%;
+    justify-content: center;
+}
+
+.return {
+    background-color: #dc3545 !important;
+    color: white !important;
+    width: 85%;
+    justify-content: center;
+}
+
+.void {
+    background-color: #dc3545 !important;
+    color: white !important;
+    width: 85%;
+    justify-content: center;
+}
