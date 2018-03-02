@@ -127,24 +127,8 @@ export class ProductService {
   // }
 
   updateProductRetailPrice(product: Product) {
-
-    this.http.post(this.url+'/addProduct', product)
-      .subscribe(data => {
-        alert('ok');
-        console.log(data);
-      },
-      error => {
-        console.log(JSON.stringify(error.json()));
-      });
+    return this.http.post(this.url+'/addProduct', product);
   }
-
-  // updateProductInventory(productInventory: ProductInventory[]) {
-  //   return this.http.post(this.url+'/addProductInventory', productInventory);
-     
-  // }
-
-
-
   deleteProduct(deletedProduct: Product) {
     this.http.put(this.url+'/deleteProduct', deletedProduct)
       .subscribe(data => {

@@ -303,12 +303,20 @@ export class ProductTableComponent implements OnInit {
   }
 
   updateRetailPrice(event) {
-
     this.updateProductObject = event.data;
-    this.productService.updateProductRetailPrice(this.updateProductObject);
-
-    console.log(event);
-
+    this.productService.updateProductRetailPrice(this.updateProductObject)
+    .subscribe((data) => {
+    if(null != data){
+      this.toastr.success('Retail Updated Successfully !!', 'Success!');
+    }
+    else{
+      this.toastr.error('Opps Something Goes Wrong !!', 'Error!');
+    }
+  },
+  error => {
+    this.toastr.error('Opps Something goes wrong !!', 'Error!!');
+    console.log(JSON.stringify(error.json()));
+  });
   }
 
   // This method helps to set the perticualr product inventory details to show on popup when user click on the cost price.

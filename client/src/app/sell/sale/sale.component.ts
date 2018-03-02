@@ -755,7 +755,8 @@ export class SaleComponent implements OnInit, AfterViewInit {
 
       this.transactionLineItemDaoList = this.persit.getProducts() || [];
       // I must have to add this here, otherwise it will create problem,
-      this.shippingAmount = 0.00;
+      this.tipAmount = 0.00;
+      this.totalTransactionDiscount = 0.00;
       this.setTransactionDtoList();
       this.paymentDao = [];
 
@@ -764,9 +765,7 @@ export class SaleComponent implements OnInit, AfterViewInit {
       this.disableStoreCreditButtons = true;
       this.printTransactionDto = null;
       this.taxPercent = this.storeDetails.tax;
-      this.shippingAmount = 0.00;
-      this.tipAmount = 0.00;
-      this.totalTransactionDiscount = 0.00;
+
     }
 
     else {
