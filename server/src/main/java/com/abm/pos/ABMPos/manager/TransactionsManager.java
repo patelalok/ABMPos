@@ -793,31 +793,45 @@ public class TransactionsManager {
                         new ReceiptFormatter.TableColumnSettings("Amount", 6, ReceiptFormatter.TextAlign.RIGHT)
                 });
 
-                for (TransactionLineItemDao item : transactionDao.getTransactionLineItemDaoList()) {
-                    String prodNo = item.getProductNo().toString();
-                    table.addRow(prodNo.substring(prodNo.length() - 8), item.getDescription(), String.valueOf(item.getSaleQuantity()), "$" + String.valueOf(item.getTotalProductPrice()));
-                }
+                if(null!= transactionDao) {
 
-                formatter.printTable(table);
-                formatter.addLineStrike(46);
-                formatter.add3ColumnsLastRight("", 0, 15, "Sub Total", 0, 21, "$" + String.valueOf(transactionDao.getSubtotal()), 0, 10);
-                formatter.add3ColumnsLastRight("", 0, 15, "Tax " + String.valueOf(transactionDao.getTax()) + "%", 0, 21, "$TAX", 0, 10);
-                formatter.add3ColumnsLastRight("", 0, 15, "Discount ", 0, 21, "$DISC", 0, 10);
-                formatter.add3ColumnsLastRight("", 0, 15, "Total", 0, 21, "$" + String.valueOf(transactionDao.getTotalAmount()), 0, 10);
-                formatter.add3ColumnsLastRight("Credit Card", 0, 15, "Tendered", 0, 21, "$" + String.valueOf(transactionDao.getPaymentDao().get(0).getCredit()), 0, 10);
-                formatter.addLineBreak(1);
-                formatter.addLines("Thank you for your business", 46, ReceiptFormatter.TextAlign.CENTER);
+                    for (TransactionLineItemDao item : transactionDao.getTransactionLineItemDaoList()) {
+                        String prodNo = item.getProductNo().toString();
+                        table.addRow(prodNo.substring(prodNo.length() - 8), item.getDescription(), String.valueOf(item.getSaleQuantity()), "$" + String.valueOf(item.getTotalProductPrice()));
+                    }
 
-                printer.transactionPrint(POSPrinterConst.PTR_S_RECEIPT, POSPrinterConst.PTR_TP_TRANSACTION);
-                //printer.printNormal(POSPrinterConst.PTR_S_RECEIPT, ESC+'@'+ESC+((char)51)+""+((char)40)+"");
-                for (String o : formatter.createReceipt()) {
-                    printer.printNormal(POSPrinterConst.PTR_S_RECEIPT, o + "\n");
-                    printer.printNormal(POSPrinterConst.PTR_S_RECEIPT, ESC + "|9uF");
-                    receipt += o + "\n";
+                    formatter.printTable(table);
+                    formatter.addLineStrike(46);
+                    formatter.add3ColumnsLastRight("", 0, 15, "Sub Total", 0, 21, "$" + String.valueOf(transactionDao.getSubtotal()), 0, 10);
+                    formatter.add3ColumnsLastRight("", 0, 15, "Tax " + String.valueOf(transactionDao.getStoreSetupDao().getTax()) + "%", 0, 21, "$ "+transactionDao.getTax(), 0, 10);
+                    formatter.add3ColumnsLastRight("", 0, 15, "Discount ", 0, 21, "$ "+transactionDao.getTotalDiscount(), 0, 10);
+                    formatter.add3ColumnsLastRight("", 0, 15, "Total", 0, 21, "$" + String.valueOf(transactionDao.getTotalAmount()), 0, 10);
+                    if(transactionDao.getPaymentDao().get(0).getCash() > 0) {
+                        formatter.add3ColumnsLastRight("Cash", 0, 15, "Tendered", 0, 21, "$" + String.valueOf(transactionDao.getPaymentDao().get(0).getCash()), 0, 10);
+                    }
+                    else if(transactionDao.getPaymentDao().get(0).getCredit() > 0){
+                        formatter.add3ColumnsLastRight("Credit Card", 0, 15, "Tendered", 0, 21, "$" + String.valueOf(transactionDao.getPaymentDao().get(0).getCredit()), 0, 10);
+                    }
+                    else if(transactionDao.getPaymentDao().get(0).getDebit() > 0){
+                        formatter.add3ColumnsLastRight("Debit Card", 0, 15, "Tendered", 0, 21, "$" + String.valueOf(transactionDao.getPaymentDao().get(0).getDebit()), 0, 10);
+                    }
+                    else if(transactionDao.getPaymentDao().get(0).getCheckAmount() > 0){
+                        formatter.add3ColumnsLastRight("Check", 0, 15, "Tendered", 0, 21, "$" + String.valueOf(transactionDao.getPaymentDao().get(0).getCheckAmount()), 0, 10);
+                    }
+                    formatter.addLineBreak(1);
+                    formatter.addLines("Thank you for your business", 46, ReceiptFormatter.TextAlign.CENTER);
+
+                    printer.transactionPrint(POSPrinterConst.PTR_S_RECEIPT, POSPrinterConst.PTR_TP_TRANSACTION);
+                    //printer.printNormal(POSPrinterConst.PTR_S_RECEIPT, ESC+'@'+ESC+((char)51)+""+((char)40)+"");
+                    for (String o : formatter.createReceipt()) {
+                        printer.printNormal(POSPrinterConst.PTR_S_RECEIPT, o + "\n");
+                        printer.printNormal(POSPrinterConst.PTR_S_RECEIPT, ESC + "|9uF");
+                        receipt += o + "\n";
+                    }
+                    printer.printNormal(POSPrinterConst.PTR_S_RECEIPT, "\n\n\n\n\n");
+                    printer.printNormal(POSPrinterConst.PTR_S_RECEIPT, ESC + "|100fP");
+                    printer.transactionPrint(POSPrinterConst.PTR_S_RECEIPT, POSPrinterConst.PTR_TP_NORMAL);
                 }
-                printer.printNormal(POSPrinterConst.PTR_S_RECEIPT, "\n\n\n\n\n");
-                printer.printNormal(POSPrinterConst.PTR_S_RECEIPT, ESC + "|100fP");
-                printer.transactionPrint(POSPrinterConst.PTR_S_RECEIPT, POSPrinterConst.PTR_TP_NORMAL);
             } while (false);
 
             //drawer.open("CashDrawer1");
