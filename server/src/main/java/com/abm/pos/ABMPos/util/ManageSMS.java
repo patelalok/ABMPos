@@ -1,8 +1,8 @@
 package com.abm.pos.ABMPos.util;
 
-import com.twilio.Twilio;
-import com.twilio.rest.api.v2010.account.Message;
-import com.twilio.type.PhoneNumber;
+//import com.twilio.Twilio;
+//import com.twilio.rest.api.v2010.account.Message;
+//import com.twilio.type.PhoneNumber;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -14,7 +14,7 @@ public class ManageSMS {
 
 
     public void sendSMS(String customerPhoneNo, String messageBody){
-        Twilio.init(ACCOUNT_SID,AUTH_TOKEN);
+        //Twilio.init(ACCOUNT_SID,AUTH_TOKEN);
 
        // Message message = Message.creator(new PhoneNumber("+1"+customerPhoneNo),new PhoneNumber(PHONE_NO),messageBody).create();
        // System.out.println("Send Message Successfully to"+ customerPhoneNo+ "Where Message Id = "+message.getSid());

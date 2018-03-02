@@ -685,7 +685,7 @@ export class SaleComponent implements OnInit, AfterViewInit {
     // To do need to fix this hardcoded value for username
     this.transactionDtoList.username = 'alok@alok.com';
     this.transactionDtoList.transactionLineItemDaoList = this.transactionLineItemDaoList;
-    this.transactionDtoList.totalDiscount = + this.transactionDtoList.totalDiscount + totalLineItemDiscount;
+    this.transactionDtoList.totalDiscount = + this.totalTransactionDiscount + totalLineItemDiscount;
 
     // I am doing this to show subtotal without line item discount, so in invoice customer wont get confuse.
     // 
@@ -765,7 +765,8 @@ export class SaleComponent implements OnInit, AfterViewInit {
       this.printTransactionDto = null;
       this.taxPercent = this.storeDetails.tax;
       this.shippingAmount = 0.00;
-      this.tipAmount = 0.00
+      this.tipAmount = 0.00;
+      this.totalTransactionDiscount = 0.00;
     }
 
     else {
