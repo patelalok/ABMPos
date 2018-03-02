@@ -25,11 +25,8 @@ import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Date;
+
 import org.thymeleaf.context.Context;
-
-
-
-
 
 
 /**
@@ -68,10 +65,72 @@ public class TransactionsManager {
     private int pageNumber = 0;
 
 
-
     public TransactionDao addTransaction(TransactionDao transactionDao) {
+        assert transactionDao != null;
+        if ((transactionDao.getStatus().equalsIgnoreCase("Complete") || transactionDao.getStatus().equalsIgnoreCase("Pending"))) {
 
-        if (null != transactionDao && (transactionDao.getStatus().equalsIgnoreCase("Return") || transactionDao.getStatus().equalsIgnoreCase("Void"))) {
+            if (null != transactionDao.getTransactionLineItemDaoList()) {
+                for (TransactionLineItemDao transactionLineItemDao : transactionDao.getTransactionLineItemDaoList()) {
+                    ProductDao productDao = productRepository.findOneByProductNo(transactionLineItemDao.getProductNo());
+
+                    if (null != productDao) {
+                        // Here I am assuming when TAX = 0, that mean do not count inventory at all, so no need to Reduce the quantity.
+                        if (productDao.isTax()) {
+                            productDao.setQuantity(productDao.getQuantity() - transactionLineItemDao.getSaleQuantity());
+                            productRepository.save(productDao);
+                        }
+
+                        // This is the digital punching logic for EYEBROW only :)
+                        if (productDao.getProductNo().equalsIgnoreCase("100000000014") && productDao.isEnableDigitalPunch()) {
+                            if (null != transactionDao.getCustomerPhoneno()) {
+                                CustomerDao customerDao = customerRepository.findByPhoneNo(transactionDao.getCustomerPhoneno());
+
+                                if (null != customerDao) {
+                                    customerDao.setNoOfEyebrow(customerDao.getNoOfEyebrow() + 1);
+                                    // Just for testing
+                                    //sendEmailForEyebrowReminder(transactionDao, customerDao);
+
+                                    //Here Need to send an email to the customer on his/her 5th eyebrow, doing with 6 cause i am doing +1 before.
+                                    if (customerDao.getNoOfEyebrow() == 6 && null != customerDao.getEmail()) {
+                                        //sendEmailForEyebrowReminder(transactionDao, customerDao);
+                                    }
+
+                                    // Here i need to reset the count after customer reach to final service.
+                                    if (customerDao.getNoOfEyebrow() > productDao.getNoOfSaleForFreeService()) {
+                                        customerDao.setNoOfEyebrow(0);
+                                    }
+                                    customerRepository.save(customerDao);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            if (null != transactionDao.getCustomerPhoneno()) {
+                if (transactionDao.getTransactionBalance() >= 0) {
+                    setCustomerBalance(transactionDao);
+                }
+
+                // Here i need to handle the case where customer is using Store credit to pay the amount.
+                // I need to update the store credit for the customer and handle the transaction.
+                if (transactionDao.getPaymentDao().get(0).getStoreCredit() > 0) {
+                    setCustomerStoreCredit(transactionDao);
+                }
+                // Here i need to handle the case where customer is using Loyalty Amount to pay the amount.
+                // I need to update the Loyalty  Amount for the customer and handle the transaction.
+                if (transactionDao.getPaymentDao().get(0).getLoyalty() > 0) {
+                    setCustomerLoyalty(transactionDao);
+                }
+                // Now here i need to check if loyalty enable for this store or not
+                // If Yes then i need to give customer loyalty points for the amount of purchase.
+                if (storeSetupRepository.getOne(1).getLoyaltyAmountForDollar() > 0) {
+                    double loyaltyAmount = (transactionDao.getSubtotal() - transactionDao.getTotalDiscount()) / storeSetupRepository.getOne(1).getLoyaltyAmountForDollar();
+                    addCustomerLoyaltyAmount(transactionDao, loyaltyAmount);
+                }
+            }
+        }
+        if ((transactionDao.getStatus().equalsIgnoreCase("Return") || transactionDao.getStatus().equalsIgnoreCase("Void"))) {
 
 
             // Handing store credit here
@@ -80,8 +139,7 @@ public class TransactionsManager {
 
                 CustomerDao customerDao = customerRepository.findByPhoneNo(transactionDao.getCustomerPhoneno());
 
-                if(transactionDao.getPaymentDao().get(0).getStoreCredit() > 0)
-                {
+                if (transactionDao.getPaymentDao().get(0).getStoreCredit() > 0) {
                     StoreCreditDao storeCreditDao = new StoreCreditDao();
 
                     storeCreditDao.setAmount(transactionDao.getPaymentDao().get(0).getStoreCredit());
@@ -94,19 +152,13 @@ public class TransactionsManager {
 
                     customerDao.setStoreCredit(customerDao.getStoreCredit() + transactionDao.getPaymentDao().get(0).getStoreCredit());
 
-                    }
-
-                else if(transactionDao.getPaymentDao().get(0).getOnAccount() > 0)
-                {
+                } else if (transactionDao.getPaymentDao().get(0).getOnAccount() > 0) {
                     // First check this customer has any balance on account or not, if yes then check return amount on account if it is less than return amount then subtract the amount other wise
                     //Subtract the amount and rest of the amount just add as the store credit.
 
-                    if(customerDao.getBalance() >= transactionDao.getPaymentDao().get(0).getOnAccount())
-                    {
+                    if (customerDao.getBalance() >= transactionDao.getPaymentDao().get(0).getOnAccount()) {
                         customerDao.setBalance(customerDao.getBalance() - transactionDao.getPaymentDao().get(0).getOnAccount());
-                    }
-                    else
-                    {
+                    } else {
                         double difference = transactionDao.getPaymentDao().get(0).getOnAccount() - customerDao.getBalance();
 
                         // This will make customer balance as 0.
@@ -127,97 +179,15 @@ public class TransactionsManager {
                 }
 
                 // finally updating customers account details whether it is store credit or on on account choose by the customer on the
-                    customerRepository.save(customerDao);
-                }
+                customerRepository.save(customerDao);
+            }
 
         }
 
-        else {
-
-
-            assert transactionDao != null;
-
-            if(null != transactionDao.getTransactionLineItemDaoList())
-            {
-                for(TransactionLineItemDao transactionLineItemDao: transactionDao.getTransactionLineItemDaoList()) {
-                    ProductDao productDao = productRepository.findOneByProductNo(transactionLineItemDao.getProductNo());
-
-                    if (null != productDao)
-                    {
-                        // Here I am assuming when TAX = 0, that mean do not count inventory at all, so no need to Reduce the quantity.
-                        if(productDao.isTax())
-                        {
-                            productDao.setQuantity(productDao.getQuantity() - transactionLineItemDao.getQuantity());
-                            productRepository.save(productDao);
-                        }
-
-                        // This is the digital punching logic for EYEBROW only :)
-                        if(productDao.getProductNo().equalsIgnoreCase("100000000014") && productDao.isEnableDigitalPunch())
-                        {
-                            if(null != transactionDao.getCustomerPhoneno())
-                            {
-                                CustomerDao customerDao = customerRepository.findByPhoneNo(transactionDao.getCustomerPhoneno());
-
-                                if(null != customerDao)
-                                {
-                                    customerDao.setNoOfEyebrow(customerDao.getNoOfEyebrow() + 1);
-                                    // Just for testing
-                                    sendEmailForEyebrowReminder(transactionDao,customerDao);
-
-                                    //Here Need to send an email to the customer on his/her 5th eyebrow, doing with 6 cause i am doing +1 before.
-                                    if(customerDao.getNoOfEyebrow() == 6 && null != customerDao.getEmail())
-                                    {
-                                        sendEmailForEyebrowReminder(transactionDao,customerDao);
-                                    }
-
-                                    // Here i need to reset the count after customer reach to final service.
-                                    if(customerDao.getNoOfEyebrow() > productDao.getNoOfSaleForFreeService())
-                                    {
-                                        customerDao.setNoOfEyebrow(0);
-                                    }
-                                    customerRepository.save(customerDao);
-                                }
-
-                            }
-                        }
-                    }
-                }
-            }
-
-            if (null != transactionDao.getCustomerPhoneno())
-            {
-                if(transactionDao.getTransactionBalance() >= 0) {
-                    setCustomerBalance(transactionDao);
-                }
-
-                // Here i need to handle the case where customer is using Store credit to pay the amount.
-                // I need to update the store credit for the customer and handle the transaction.
-                if (transactionDao.getPaymentDao().get(0).getStoreCredit() > 0) {
-                    setCustomerStoreCredit(transactionDao);
-                }
-
-                // Here i need to handle the case where customer is using Loyalty Amount to pay the amount.
-                // I need to update the Loyalty  Amount for the customer and handle the transaction.
-                if (transactionDao.getPaymentDao().get(0).getLoyalty() > 0) {
-                    setCustomerLoyalty(transactionDao);
-                }
-
-                // Now here i need to check if loyalty enable for this store or not
-                // If Yes then i need to give customer loyalty points for the amount of purchase.
-
-                if(storeSetupRepository.getOne(1).getLoyaltyAmountForDollar() > 0)
-                {
-                    double loyaltyAmount = (transactionDao.getSubtotal() - transactionDao.getTotalDiscount()) /storeSetupRepository.getOne(1).getLoyaltyAmountForDollar();
-                    addCustomerLoyaltyAmount(transactionDao,loyaltyAmount);
-                }
-            }
-
-            }
 
         return transactionRepository.save(transactionDao);
+    }
 
-
-        }
 
     private boolean sendEmailForEyebrowReminder(TransactionDao transactionDao, CustomerDao customerDao) {
 
@@ -229,28 +199,25 @@ public class TransactionsManager {
         context = setCustomerDetailsToSendEmail(customerDao, context);
         email = customerDao.getEmail();
 
-        if(null != storeSetupDao)
-            {
-                context.setVariable("storeDetails", storeSetupDao);
-            }
-
+        if (null != storeSetupDao) {
+            context.setVariable("storeDetails", storeSetupDao);
+        }
 
 
         assert storeSetupDao != null;
-        EmailStatus emailStatus = emailHtmlSender.send(email, storeSetupDao.getName()+" Purchase Detail", "eyebrowNotification", context);
+        EmailStatus emailStatus = emailHtmlSender.send(email, storeSetupDao.getName() + " Purchase Detail", "eyebrowNotification", context);
 
-        return  emailStatus.isSuccess();
+        return emailStatus.isSuccess();
     }
 
     private Context setCustomerDetailsToSendEmail(CustomerDao customerDao, Context context) {
-        if(null != customerDao && null != customerDao.getEmail())
-        {
+        if (null != customerDao && null != customerDao.getEmail()) {
             context.setVariable("firstName", customerDao.getName());
-            context.setVariable("companyName",customerDao.getCompanyName() );
+            context.setVariable("companyName", customerDao.getCompanyName());
             context.setVariable("addressLine", customerDao.getStreet());
             context.setVariable("City", customerDao.getCity());
             context.setVariable("State", customerDao.getState());
-            context.setVariable("zipcode",customerDao.getZipCode());
+            context.setVariable("zipcode", customerDao.getZipCode());
             context.setVariable("phoneNo", customerDao.getPhoneNo());
         }
         return context;
@@ -276,6 +243,7 @@ public class TransactionsManager {
         }
 
     }
+
     private void setCustomerStoreCredit(TransactionDao transactionDao) {
 
         CustomerDao customerDao = customerRepository.findByPhoneNo(transactionDao.getCustomerPhoneno());
@@ -310,15 +278,12 @@ public class TransactionsManager {
         List<TransactionDao> transactionDaoFinal = new ArrayList<>();
 
 
-        if(null != transactionDaoList)
-        {
+        if (null != transactionDaoList) {
             ProductDao productDao = new ProductDao();
             List<TransactionLineItemDao> transactionLineItemDaoList = new ArrayList<>();
 
-            for(TransactionDao transactionDao: transactionDaoList)
-            {
-                for(TransactionLineItemDao lineItem: transactionDao.getTransactionLineItemDaoList())
-                {
+            for (TransactionDao transactionDao : transactionDaoList) {
+                for (TransactionLineItemDao lineItem : transactionDao.getTransactionLineItemDaoList()) {
                     productDao = productRepository.findOneByProductNo(lineItem.getProductNo());
 
                     if (null != productDao) {
@@ -342,10 +307,8 @@ public class TransactionsManager {
         TransactionDao transactionDao = transactionRepository.findOne(transactionCompId);
         List<TransactionLineItemDao> transactionLineItemDaoList = new ArrayList<>();
 
-        if(null != transactionDao)
-        {
-            for(TransactionLineItemDao lineItem: transactionDao.getTransactionLineItemDaoList())
-            {
+        if (null != transactionDao) {
+            for (TransactionLineItemDao lineItem : transactionDao.getTransactionLineItemDaoList()) {
                 ProductDao productDao = productRepository.findOneByProductNo(lineItem.getProductNo());
 
                 if (null != productDao) {
@@ -357,7 +320,7 @@ public class TransactionsManager {
             transactionDao.setTransactionLineItemDaoList(transactionLineItemDaoList);
         }
 
-        return  transactionDao;
+        return transactionDao;
     }
 
     public List<TransactionDao> getTransactionByDate(String startDate, String endDate) {
@@ -369,16 +332,13 @@ public class TransactionsManager {
         List<TransactionDao> transactionDaoFinal = new ArrayList<>();
 
 
-        if(null != transactionDaoList)
-        {
+        if (null != transactionDaoList) {
             ProductDao productDao;
 
 
-
-            for(TransactionDao transactionDao: transactionDaoList)
-            {
+            for (TransactionDao transactionDao : transactionDaoList) {
                 List<TransactionLineItemDao> transactionLineItemDaoList = new ArrayList<>();
-                for(TransactionLineItemDao lineItem: transactionDao.getTransactionLineItemDaoList()) {
+                for (TransactionLineItemDao lineItem : transactionDao.getTransactionLineItemDaoList()) {
                     productDao = productRepository.findOneByProductNo(lineItem.getProductNo());
 
                     if (null != productDao) {
@@ -412,13 +372,12 @@ public class TransactionsManager {
 
         Context context = new Context();
 
-        TransactionDao transactionDao =  getTransactionById(receiptId);
+        TransactionDao transactionDao = getTransactionById(receiptId);
 
         String email = null;
         StoreSetupDao storeSetupDao = null;
 
-        if(null != transactionDao && transactionDao.getCustomerPhoneno().length() > 1 && null != transactionDao.getTransactionLineItemDaoList() && null != transactionDao.getPaymentDao())
-        {
+        if (null != transactionDao && transactionDao.getCustomerPhoneno().length() > 1 && null != transactionDao.getTransactionLineItemDaoList() && null != transactionDao.getPaymentDao()) {
 
             //First get customer details to send an email.
 
@@ -427,14 +386,12 @@ public class TransactionsManager {
             customerDao = customerRepository.findByPhoneNo(transactionDao.getCustomerPhoneno());
             storeSetupDao = storeSetupRepository.findOne(1);
 
-            if(null != customerDao)
-            {
+            if (null != customerDao) {
                 context = setCustomerDetailsToSendEmail(customerDao, context);
                 email = customerDao.getEmail();
             }
 
-            if(null != storeSetupDao)
-            {
+            if (null != storeSetupDao) {
                 context.setVariable("storeDetails", storeSetupDao);
             }
 
@@ -442,15 +399,14 @@ public class TransactionsManager {
             context.setVariable("lineItem", transactionDao.getTransactionLineItemDaoList());
 
             //setting transaction details
-            context.setVariable("subtotal",transactionDao.getSubtotal());
-            context.setVariable("shipping","00");//TODO need to figure out this problem
+            context.setVariable("subtotal", transactionDao.getSubtotal());
+            context.setVariable("shipping", "00");//TODO need to figure out this problem
             context.setVariable("quantity", transactionDao.getQuantity());
             context.setVariable("discount", transactionDao.getTotalDiscount());
             context.setVariable("previousBalance", transactionDao.getPreviousBalance());
             context.setVariable("salesTax", transactionDao.getTax());
-            context.setVariable("grandTotal",transactionDao.getTotalAmount());
-            context.setVariable("balance",transactionDao.getTransactionBalance());
-
+            context.setVariable("grandTotal", transactionDao.getTotalAmount());
+            context.setVariable("balance", transactionDao.getTransactionBalance());
 
 
             //By this logic if email is failing i will get an email
@@ -462,9 +418,9 @@ public class TransactionsManager {
         }
 
         assert storeSetupDao != null;
-        EmailStatus emailStatus = emailHtmlSender.send(email, storeSetupDao.getName()+" Order Details", "template-1", context);
+        EmailStatus emailStatus = emailHtmlSender.send(email, storeSetupDao.getName() + " Order Details", "template-1", context);
 
-        return  emailStatus.isSuccess();
+        return emailStatus.isSuccess();
     }
 
     public byte[] getA4Receipt(int receiptNo) throws DocumentException {
@@ -551,7 +507,7 @@ public class TransactionsManager {
                     table.addCell(new Phrase(lineItemDao.getDescription(), new Font(Font.FontFamily.HELVETICA, 8)));
                     table.addCell(new Phrase("$ " + String.valueOf(lineItemDao.getDiscount()), new Font(Font.FontFamily.HELVETICA, 8)));
                     table.addCell(new Phrase("$ " + String.valueOf(lineItemDao.getRetail()), new Font(Font.FontFamily.HELVETICA, 8)));
-                    table.addCell(new Phrase(String.valueOf(lineItemDao.getQuantity()), new Font(Font.FontFamily.HELVETICA, 8)));
+                    table.addCell(new Phrase(String.valueOf(lineItemDao.getSaleQuantity()), new Font(Font.FontFamily.HELVETICA, 8)));
                     table.addCell(new Phrase("$ " + String.valueOf(lineItemDao.getTotalProductPrice()), new Font(Font.FontFamily.HELVETICA, 8)));
 
                 }
@@ -582,7 +538,7 @@ public class TransactionsManager {
                 totalTable.addCell(new Phrase("Discount", new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
                 totalTable.addCell(new Phrase("$ " + String.valueOf(transactionDao.getTotalDiscount()), new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
 
-                if(transactionDao.getPreviousBalance() != 0) {
+                if (transactionDao.getPreviousBalance() != 0) {
 
                     totalTable.addCell(new Phrase("Pre Balance", new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
                     totalTable.addCell(new Phrase("$ " + String.valueOf(transactionDao.getPreviousBalance()), new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
@@ -596,32 +552,36 @@ public class TransactionsManager {
                     if (transactionDao.getPaymentDao().get(0).getCash() != 0) {
                         totalTable.addCell(new Phrase("Cash", new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
                         totalTable.addCell(new Phrase("$ " + String.valueOf(transactionDao.getPaymentDao().get(0).getCash()), new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
-                    }  if (transactionDao.getPaymentDao().get(0).getChangeForCash() != 0) {
+                    }
+                    if (transactionDao.getPaymentDao().get(0).getChangeForCash() != 0) {
                         totalTable.addCell(new Phrase("Change", new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
                         totalTable.addCell(new Phrase("$ " + String.valueOf(transactionDao.getPaymentDao().get(0).getChangeForCash()), new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
-                    }  if (transactionDao.getPaymentDao().get(0).getCredit() != 0) {
+                    }
+                    if (transactionDao.getPaymentDao().get(0).getCredit() != 0) {
                         totalTable.addCell(new Phrase("Credit", new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
                         totalTable.addCell(new Phrase("$ " + String.valueOf(transactionDao.getPaymentDao().get(0).getCredit()), new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
-                    } if (transactionDao.getPaymentDao().get(0).getDebit() != 0) {
+                    }
+                    if (transactionDao.getPaymentDao().get(0).getDebit() != 0) {
                         totalTable.addCell(new Phrase("Debit", new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
                         totalTable.addCell(new Phrase("$ " + String.valueOf(transactionDao.getPaymentDao().get(0).getDebit()), new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
-                    } if (transactionDao.getPaymentDao().get(0).getCheckAmount() != 0) {
+                    }
+                    if (transactionDao.getPaymentDao().get(0).getCheckAmount() != 0) {
                         totalTable.addCell(new Phrase("Check", new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
                         totalTable.addCell(new Phrase("$ " + String.valueOf(transactionDao.getPaymentDao().get(0).getCheckAmount()), new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
-                    }
-                    else if (transactionDao.getPaymentDao().get(0).getOnAccount() != 0) {
+                    } else if (transactionDao.getPaymentDao().get(0).getOnAccount() != 0) {
                         totalTable.addCell(new Phrase("On Account", new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
                         totalTable.addCell(new Phrase("$ " + String.valueOf(transactionDao.getPaymentDao().get(0).getOnAccount()), new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
                     }
-                     if (transactionDao.getPaymentDao().get(0).getStoreCredit() != 0) {
+                    if (transactionDao.getPaymentDao().get(0).getStoreCredit() != 0) {
                         totalTable.addCell(new Phrase("Store Credit", new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
                         totalTable.addCell(new Phrase("$ " + String.valueOf(transactionDao.getPaymentDao().get(0).getStoreCredit()), new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
-                    }  if (transactionDao.getPaymentDao().get(0).getLoyalty() != 0) {
+                    }
+                    if (transactionDao.getPaymentDao().get(0).getLoyalty() != 0) {
                         totalTable.addCell(new Phrase("Loyalty", new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
                         totalTable.addCell(new Phrase("$ " + String.valueOf(transactionDao.getPaymentDao().get(0).getLoyalty()), new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
                     }
-                        totalTable.addCell(new Phrase("Balance Due", new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
-                        totalTable.addCell(new Phrase("$ " + String.valueOf(transactionDao.getTransactionBalance()), new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
+                    totalTable.addCell(new Phrase("Balance Due", new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
+                    totalTable.addCell(new Phrase("$ " + String.valueOf(transactionDao.getTransactionBalance()), new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
                 }
 
 
@@ -768,35 +728,31 @@ public class TransactionsManager {
 
     }
 
-    public String printTransaction(int transactionId) throws ParseException{
-        System.setProperty(JposPropertiesConst.JPOS_POPULATOR_FILE_PROP_NAME, "C:\\Users\\Browline\\Desktop\\POS\\POS\\POS\\jpos.xml");
+    public String printTransaction(int transactionId) throws ParseException {
+        System.setProperty(JposPropertiesConst.JPOS_POPULATOR_FILE_PROP_NAME, "C:\\jpos.xml");
 
-        String ESC    = ((char) 0x1b) + "";
-        String LF     = ((char) 0x0a) + "";
+        String ESC = ((char) 0x1b) + "";
+        String LF = ((char) 0x0a) + "";
 
-        String GS     = ((char) 0x1d) + "";
+        String GS = ((char) 0x1d) + "";
 
         POSPrinter printer = new POSPrinter();
-        CashDrawer drawer = new CashDrawer();
+        //CashDrawer drawer = new CashDrawer();
 
         String error = "";
         String receipt = "";
-        try
-        {
-            printer.open("POSPrinter1");
+        try {
+            printer.open("POSPrinter");
             printer.claim(1);
             printer.setDeviceEnabled(true);
             printer.setMapMode(POSPrinterConst.PTR_MM_METRIC);
-            do
-            {
-                if (printer.getCoverOpen())
-                {
+            do {
+                if (printer.getCoverOpen()) {
                     error = "printer.getCoverOpen() == true"; // thats why i need to output simple json , for testing, can you do ta
                     break;
                 }
 
-                if (printer.getRecEmpty())
-                {
+                if (printer.getRecEmpty()) {
                     error = "printer.getRecEmpty() == true";
                     break;
                 }
@@ -821,10 +777,10 @@ public class TransactionsManager {
 
                 formatter.add2Columns(
                         new SimpleDateFormat("MM/dd/yyyy").format(date) + " \n" + new SimpleDateFormat("hh:mma").format(date), 0, 23, ReceiptFormatter.TextAlign.LEFT,
-                        "Ref No. "+String.valueOf(transactionDao.getTransactionComId())+" \nStation 1", 0, 23, ReceiptFormatter.TextAlign.RIGHT);
+                        "Ref No. " + String.valueOf(transactionDao.getTransactionComId()) + " \nStation 1", 0, 23, ReceiptFormatter.TextAlign.RIGHT);
 
                 //formatter.addLineBreak(1);
-               // formatter.addLines("%s \n%s \n%s, %s %s".format(transactionDao.getStoreSetupDao().getName(), transactionDao.getStoreSetupDao().getStreet(), transactionDao.getStoreSetupDao().getCity(), transactionDao.getStoreSetupDao().getState(), transactionDao.getStoreSetupDao().getZipcode()), 46, ReceiptFormatter.TextAlign.CENTER);
+                // formatter.addLines("%s \n%s \n%s, %s %s".format(transactionDao.getStoreSetupDao().getName(), transactionDao.getStoreSetupDao().getStreet(), transactionDao.getStoreSetupDao().getCity(), transactionDao.getStoreSetupDao().getState(), transactionDao.getStoreSetupDao().getZipcode()), 46, ReceiptFormatter.TextAlign.CENTER);
                 formatter.addLines(transactionDao.getStoreSetupDao().getName() + " \n" + transactionDao.getStoreSetupDao().getStreet() + " \n" + transactionDao.getStoreSetupDao().getCity() + ", " + transactionDao.getStoreSetupDao().getState() + " \n" + transactionDao.getStoreSetupDao().getZipcode(), 46, ReceiptFormatter.TextAlign.CENTER);
                 formatter.addLineBreak(1);
                 formatter.add2Columns("Clerk", 0, 15, transactionDao.getUsername(), 0, 20);
@@ -839,49 +795,44 @@ public class TransactionsManager {
 
                 for (TransactionLineItemDao item : transactionDao.getTransactionLineItemDaoList()) {
                     String prodNo = item.getProductNo().toString();
-                    table.addRow(prodNo.substring(prodNo.length()-8), item.getDescription(), String.valueOf(item.getQuantity()), "$"+String.valueOf(item.getTotalProductPrice()));
+                    table.addRow(prodNo.substring(prodNo.length() - 8), item.getDescription(), String.valueOf(item.getSaleQuantity()), "$" + String.valueOf(item.getTotalProductPrice()));
                 }
 
                 formatter.printTable(table);
                 formatter.addLineStrike(46);
-                formatter.add3ColumnsLastRight("", 0, 15, "Sub Total", 0, 21, "$"+String.valueOf(transactionDao.getSubtotal()), 0, 10);
+                formatter.add3ColumnsLastRight("", 0, 15, "Sub Total", 0, 21, "$" + String.valueOf(transactionDao.getSubtotal()), 0, 10);
                 formatter.add3ColumnsLastRight("", 0, 15, "Tax " + String.valueOf(transactionDao.getTax()) + "%", 0, 21, "$TAX", 0, 10);
                 formatter.add3ColumnsLastRight("", 0, 15, "Discount ", 0, 21, "$DISC", 0, 10);
-                formatter.add3ColumnsLastRight("", 0, 15, "Total", 0, 21, "$"+String.valueOf(transactionDao.getTotalAmount()), 0, 10);
-                formatter.add3ColumnsLastRight("Credit Card", 0, 15, "Tendered", 0, 21, "$"+String.valueOf(transactionDao.getPaymentDao().get(0).getCredit()), 0, 10);
+                formatter.add3ColumnsLastRight("", 0, 15, "Total", 0, 21, "$" + String.valueOf(transactionDao.getTotalAmount()), 0, 10);
+                formatter.add3ColumnsLastRight("Credit Card", 0, 15, "Tendered", 0, 21, "$" + String.valueOf(transactionDao.getPaymentDao().get(0).getCredit()), 0, 10);
                 formatter.addLineBreak(1);
                 formatter.addLines("Thank you for your business", 46, ReceiptFormatter.TextAlign.CENTER);
 
                 printer.transactionPrint(POSPrinterConst.PTR_S_RECEIPT, POSPrinterConst.PTR_TP_TRANSACTION);
                 //printer.printNormal(POSPrinterConst.PTR_S_RECEIPT, ESC+'@'+ESC+((char)51)+""+((char)40)+"");
                 for (String o : formatter.createReceipt()) {
-                    printer.printNormal(POSPrinterConst.PTR_S_RECEIPT, o+"\n");
+                    printer.printNormal(POSPrinterConst.PTR_S_RECEIPT, o + "\n");
                     printer.printNormal(POSPrinterConst.PTR_S_RECEIPT, ESC + "|9uF");
-                    receipt += o+"\n";
+                    receipt += o + "\n";
                 }
                 printer.printNormal(POSPrinterConst.PTR_S_RECEIPT, "\n\n\n\n\n");
                 printer.printNormal(POSPrinterConst.PTR_S_RECEIPT, ESC + "|100fP");
                 printer.transactionPrint(POSPrinterConst.PTR_S_RECEIPT, POSPrinterConst.PTR_TP_NORMAL);
-            }while (false);
+            } while (false);
 
-            drawer.open("CashDrawer1");
-            drawer.claim(1000);
-            drawer.setDeviceEnabled(true);
-            drawer.openDrawer();
-        }
-        catch(JposException e)
-        {
+            //drawer.open("CashDrawer1");
+            //drawer.claim(1000);
+            //drawer.setDeviceEnabled(true);
+           // drawer.openDrawer();
+        } catch (JposException e) {
             //e.printStackTrace();
             error = e.getMessage();
-        }
-        finally
-        {
-            try
-            {
+        } finally {
+            try {
                 printer.close();
-                drawer.close();
+               // drawer.close();
+            } catch (Exception e) {
             }
-            catch (Exception e) {}
         }
         TransactionDao print = new TransactionDao();
 
@@ -890,7 +841,7 @@ public class TransactionsManager {
         print = transactionRepository.findOne(7);
 
         //return print; /// this will ooutputted to browser?yes let me show u
-        return (error=="")?("{\"success\": 1}"):("{\"success\":0,\"error\": \""+error.replaceAll("\"", "\\\"")+"\"}");
+        return (error == "") ? ("{\"success\": 1}") : ("{\"success\":0,\"error\": \"" + error.replaceAll("\"", "\\\"") + "\"}");
     }
 
 
@@ -899,32 +850,25 @@ public class TransactionsManager {
         POSPrinter printer = new POSPrinter();
         CashDrawer drawer = new CashDrawer();
         try {
-            printer.open("POSPrinter1");
+            printer.open("POSPrinter");
             printer.claim(1);
             printer.setDeviceEnabled(true);
             printer.setMapMode(POSPrinterConst.PTR_MM_METRIC);
             System.setProperty(JposPropertiesConst.JPOS_POPULATOR_FILE_PROP_NAME, "C:\\Users\\Browline\\Desktop\\POS\\POS\\POS\\jpos.xml");
 
-            drawer.open("CashDrawer1");
+            drawer.open("CashDrawer");
             drawer.claim(1000);
             drawer.setDeviceEnabled(true);
             drawer.openDrawer();
 
-        }
-
-
-        catch(JposException e)
-        {
+        } catch (JposException e) {
             //e.printStackTrace();
-        }
-        finally
-        {
-            try
-            {
+        } finally {
+            try {
                 printer.close();
                 drawer.close();
+            } catch (Exception ignored) {
             }
-            catch (Exception ignored) {}
         }
     }
 

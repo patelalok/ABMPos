@@ -1,14 +1,13 @@
 import { Injectable } from '@angular/core';
 import { Http, Response, Headers, ResponseContentType } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
-import { TransactionDtoList, TransactionLineItemDaoList, PaymentDto } from 'app/sell/sell.component';
 import { FormControl } from '@angular/forms/forms';
 import { Observer } from 'rxjs';
 import { PersistenceService } from 'app/shared/services/persistence.service';
 import { printBlob } from 'app/shared/services/util.service';
 import { environment } from 'environments/environment';
 import { CloseRegisterDto } from 'app/sell/close-register/close-register.component';
-import { Product } from 'app/sell/sale/sale.component';
+import { Product, TransactionDtoList, TransactionLineItemDaoList } from 'app/sell/sale/sale.component';
 import { Customer } from 'app/customer/subcustomer/subcustomer.component';
 
 

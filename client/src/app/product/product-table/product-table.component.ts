@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { ProductService } from "app/product/product.service";
-import {TransactionLineItemDaoList } from 'app/sell/sell.component';
 // import { FormBuilder } from "@angular/forms/forms";
 import { FormBuilder, Validators, FormGroup, FormControl } from '@angular/forms';
 import { MenuItem, LazyLoadEvent } from 'primeng/primeng';
@@ -13,8 +12,8 @@ import { LoadingService } from 'app/loading.service';
 import { ToastsManager } from 'ng2-toastr';
 import { error } from 'selenium-webdriver';
 import { DateService, DateDto } from 'app/shared/services/date.service';
-import { Product } from 'app/sell/sale/sale.component';
-declare var $: JQueryStatic;
+import { Product, TransactionLineItemDaoList } from 'app/sell/sale/sale.component';
+declare var $:JQueryStatic;
 
 @Component({
   selector: 'app-product-table',
@@ -292,7 +291,7 @@ export class ProductTableComponent implements OnInit {
           history.time = moment(history.date).format('hh:mm A');
           history.date = moment(history.date).format('MM-DD-YYYY');
 
-          this.totalProductHistoryCount =+ this.totalProductHistoryCount + history.quantity;
+          this.totalProductHistoryCount =+ this.totalProductHistoryCount + history.saleQuantity;
         }))
 
         this.productHistoryDto = productHistory;

@@ -18,20 +18,16 @@ public class TransactionLineItemDao {
     private String status;
     private String productNo;
     private int productVariantNo;
-    private int quantity;
+    private int saleQuantity;
     private double cost;
     private double retail;
     private double discount;
-    private double retailDiscount;
+    private double retailWithDiscount;
     private double totalProductPrice;
     private String imeiNo;
 
     @Transient
     private String description;
-
-    @Transient
-    private int totalQuantity;
-
 
     public int getTransactionLineItemId() {
         return transactionLineItemId;
@@ -73,24 +69,16 @@ public class TransactionLineItemDao {
         this.productVariantNo = productVariantNo;
     }
 
-    public int getQuantity() {
-        return quantity;
+    public int getSaleQuantity() {
+        return saleQuantity;
     }
 
-    public void setQuantity(int quantity) {
-        this.quantity = quantity;
+    public void setSaleQuantity(int saleQuantity) {
+        this.saleQuantity = saleQuantity;
     }
 
     public double getCost() {
         return cost;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
     }
 
     public void setCost(double cost) {
@@ -113,12 +101,12 @@ public class TransactionLineItemDao {
         this.discount = discount;
     }
 
-    public double getRetailDiscount() {
-        return retailDiscount;
+    public double getRetailWithDiscount() {
+        return retailWithDiscount;
     }
 
-    public void setRetailDiscount(double retailDiscount) {
-        this.retailDiscount = retailDiscount;
+    public void setRetailWithDiscount(double retailWithDiscount) {
+        this.retailWithDiscount = retailWithDiscount;
     }
 
     public double getTotalProductPrice() {
@@ -129,7 +117,6 @@ public class TransactionLineItemDao {
         this.totalProductPrice = totalProductPrice;
     }
 
-
     public String getImeiNo() {
         return imeiNo;
     }
@@ -138,11 +125,11 @@ public class TransactionLineItemDao {
         this.imeiNo = imeiNo;
     }
 
-    public int getTotalQuantity() {
-        return totalQuantity;
+    public String getDescription() {
+        return description;
     }
 
-    public void setTotalQuantity(int totalQuantity) {
-        this.totalQuantity = totalQuantity;
+    public void setDescription(String description) {
+        this.description = description;
     }
 }

@@ -4,8 +4,8 @@
             <div class="row">
                 <div class="align-self-center col-lg-7" style="max-height: 500px !important;">
 
-                    <p-autoComplete id="productsearch" [(ngModel)]="p" class="full-width m-1" [suggestions]="product" placeholder="Please Enter Service Name" (onFocus)="print($event)" (onBlur)="print($event)" (completeMethod)="filterProducts($event)" name="test" [minLength]="3"
-                        (keyup.enter)="submitProduct(p)" field="description">
+                    <p-autoComplete id="productsearch" [(ngModel)]="productForSearchBox" class="full-width m-1" [suggestions]="product" placeholder="Please Enter Service Name" (onFocus)="print($event)" (onBlur)="print($event)" (completeMethod)="filterProducts($event)" name="test"
+                        [minLength]="3" (keyup.enter)="submitProduct(productForSearchBox)" field="description">
                         <ng-template>
                             <span style="max-width:500px !important">
                                 </span>
@@ -17,14 +17,14 @@
                 <div class="col-lg-0"></div>
                 <div class="col-lg-5 d-flex justify-content-end">
                     <!-- Buttons go here  -->
-                    <button (click)="this.parkSale()" class="bg-primary text-white action-button m-1" mat-raised-button [disabled]="this.paymentButtonOnSale">
+                    <button (click)="this.parkSale()" class="bg-primary text-white action-button m-1" mat-raised-button [disabled]="this.disablePaymentButtonOnSale">
                         <span>
                             <i class="fa fa-history">
                                 Park Sale
                             </i>
                         </span>
                     </button>
-                    <button class="bg-danger text-white action-button m-1" mat-raised-button data-toggle="modal" data-target="#deleteProduct" (click)="this.setHeaderAndMessageForDisgardPopup()" [disabled]="this.paymentButtonOnSale">
+                    <button class="bg-danger text-white action-button m-1" mat-raised-button data-toggle="modal" data-target="#deleteProduct" (click)="this.setHeaderAndMessageForDisgardPopup()" [disabled]="this.disablePaymentButtonOnSale">
                         <span>
                             <i class="fa fa-trash">
                                 Discard Sale
@@ -62,15 +62,15 @@
 
                         <p-column field="productNo" header="ProductNo" [style]="{'width':'15%','text-align':'center', 'overflow':'visible'}"></p-column>
                         <p-column field="description" header="Description" [style]="{'width':'45%','text-align':'center', 'overflow':'visible'}"></p-column>
-                        <p-column field="defaultQuantity" header="Quantity" [editable]="true">
+                        <p-column field="saleQuantity" header="Quantity" [editable]="true">
                             <ng-template let-product="rowData" pTemplate="body">
                                 <div id="lineitem{{product.productNo}}" [ngClass]="{'quantity-updated': product.quantityUpdated }">
-                                    {{product.defaultQuantity}}
+                                    {{product.saleQuantity}}
                                 </div>
                             </ng-template>
                         </p-column>
-                        <p-column field="actualRetail" header="Retail"></p-column>
-                        <p-column field="retail" header="RetWtDis" [editable]="true"></p-column>
+                        <p-column field="retail" header="Retail"></p-column>
+                        <p-column field="retailWithDiscount" header="RetWtDis" [editable]="true"></p-column>
                         <!-- <p-column field="quantity" header="Stock"></p-column> -->
                         <p-column field="totalProductPrice" header="Total"></p-column>
                         <p-column header="" styleClass="col-button" [style]="{'width':'5%','text-align':'center', 'overflow':'visible'}">
@@ -176,18 +176,10 @@
                         <dd class="">{{this.transactionDtoList.totalDiscount | currency:'USD':'true'}}</dd>
                     </dl>
                     <dl class="row">
-                        <dt *ngIf="this.taxPercent != 0">
-                        <a  href="javascript:void(0)" (click)="this.taxPercent = 0">
+                        <dt>
+                        <a  href="javascript:void(0)" (click)="this.manageTaxForTransaction()">
                                 Tax ({{this.taxPercent}}%)
                         </a>
-                        </dt>
-
-                        <dt *ngIf="this.taxPercent == 0">
-
-                            <a  href="javascript:void(0)" (click)="this.taxPercent = 7">
-                                    No Tax
-                                    <!-- ({{this.taxPercent}}%) -->
-                            </a>
                         </dt>
                         <dd class="">{{this.transactionDtoList.tax | currency:'USD':'true'}}</dd>
                     </dl>
@@ -204,17 +196,9 @@
                         <dd class="">{{this.transactionDtoList.totalAmount | currency:'USD':'true'}}</dd>
                     </dl>
                 </div>
-                <button *ngIf="this.saleType == 'Complete' " mat-raised-button [disabled]="this.paymentButtonOnSale" type="button" (click)="this.setDataForPaymentModel()" data-toggle="modal" data-target="#paymentModel" style="width: 100%; font-size: 20px" class="btn btn-green btn-lg text-white m-md-1 p-md-2">
+                <button *ngIf="this.saleType == 'Complete' " mat-raised-button [disabled]="this.disablePaymentButtonOnSale" type="button" (click)="this.setDataForPaymentModel()" data-toggle="modal" data-target="#paymentModel" style="width: 100%; font-size: 20px" class="btn btn-green btn-lg text-white m-md-1 p-md-2">
                     <div class="row p-md-1 font-weight-bold">
                         <div class="col-md-6 text-left">Payment</div>
-                        <div class="col-md-6 text-right">{{this.transactionDtoList.totalAmount | currency:'USD':'true'}}</div>
-                    </div>
-                </button>
-
-                <button *ngIf="this.saleType == 'Return' " mat-raised-button [disabled]="this.paymentButtonOnSale" type="button" (click)="this.setDataForPaymentModelForReturnSale()" data-toggle="modal" data-target="#paymentModel" style="width: 100%; font-size: 20px"
-                    class="btn btn-red btn-lg text-white m-md-1 p-md-2">
-                    <div class="row p-md-1 font-weight-bold">
-                        <div class="col-md-6 text-left">Return</div>
                         <div class="col-md-6 text-right">{{this.transactionDtoList.totalAmount | currency:'USD':'true'}}</div>
                     </div>
                 </button>
@@ -303,7 +287,7 @@
                 <div class="row">
 
                     <div class="col-md-3">
-                        <h3>{{this.payLable}}</h3>
+                        <h3>PAY</h3>
                     </div>
 
                     <div class="col-md-2">
@@ -312,7 +296,7 @@
 
 
                     <div class="col-md-4">
-                        <h3>{{this.amountDueLable}}</h3>
+                        <h3>DUE AMOUNT:</h3>
                     </div>
 
                     <div class="col-md-3">
@@ -363,10 +347,6 @@
                 <div class="row" style="margin-top: 30px">
 
                     <div class="col-md-2">
-                        <button mat-raised-button class="primary-button" (click)="this.setPaymentDto('Cash', 1)" [disabled]="this.disablePaymentButtonsWithAmount">$1</button>
-                    </div>
-
-                    <div class="col-md-2">
                         <button mat-raised-button class="primary-button" (click)="this.setPaymentDto('Cash', 5)" [disabled]="this.disablePaymentButtonsWithAmount">$5</button>
                     </div>
 
@@ -376,6 +356,10 @@
 
                     <div class="col-md-2">
                         <button mat-raised-button class="primary-button" (click)="this.setPaymentDto('Cash', 20)" [disabled]="this.disablePaymentButtonsWithAmount">$20</button>
+                    </div>
+
+                    <div class="col-md-2">
+                        <button mat-raised-button class="primary-button" (click)="this.setPaymentDto('Cash', 25)" [disabled]="this.disablePaymentButtonsWithAmount">$25</button>
                     </div>
 
                     <div class="col-md-2">

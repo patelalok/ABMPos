@@ -52,7 +52,7 @@ export class EditProductComponent implements OnInit {
         let currentVendor ={}; 
         let currentModel = {}; 
 
-        this.showDigitalPunchTextBox = this.currentProduct.enableDigitalPunch;
+       // this.showDigitalPunchTextBox = this.currentProduct.enableDigitalPunch;
         this.form = this.formBuilder.group(
           {
             'productNo': [this.currentProduct.productNo, [Validators.required, Validators.pattern('^[0-9]+$')]],
@@ -68,7 +68,7 @@ export class EditProductComponent implements OnInit {
             'tax': [this.currentProduct.tax, null],
             'ecomerce': [this.currentProduct.ecommerce, null],
             //'varaint': [this.currentProduct.variant, null],
-            'enableDigitalPunch':[this.currentProduct.enableDigitalPunch, null],
+            //'enableDigitalPunch':[this.currentProduct.enableDigitalPunch, null],
             'noOfSaleForFreeService': [this.currentProduct.noOfSaleForFreeService, null]
             
           }
@@ -156,7 +156,7 @@ export class EditProductComponent implements OnInit {
         cost: formValues.cost,
         retail: formValues.retail,
         date: null,
-        defaultQuantity: null,
+        saleQuantity: null,
         description: formValues.description.toUpperCase(),
         discount: null,
         imeiNo: null,
@@ -167,18 +167,19 @@ export class EditProductComponent implements OnInit {
         varaint: formValues.varaint,
         markup: formValues.markup,
         minQuantity: formValues.minQuantity,
-        productVariantNo: formValues.productVariantNo,
+        //productVariantNo: formValues.productVariantNo,
         quantity: formValues.quantity,
-        retailDiscount: null,
+        retailWithDiscount: null,
         returnRule: formValues.returnRule,
         status: null,
         taxAmountOnProduct: null,
         totalProductPrice: null,
         transactionComId: null,
         time: null,
-        enableDigitalPunch: formValues.enableDigitalPunch,
+        // enableDigitalPunch: formValues.enableDigitalPunch,
         noOfSaleForFreeService: formValues.noOfSaleForFreeService,
         createdTimestamp: moment(Date.now()).format('YYYY-MM-DD HH:mm:ss'),
+
           }
 
       this.productService.editProduct(product)

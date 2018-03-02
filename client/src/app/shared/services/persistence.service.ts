@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { TransactionDtoList } from 'app/sell/sell.component';
 
 @Injectable()
 export class PersistenceService {

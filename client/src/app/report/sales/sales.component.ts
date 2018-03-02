@@ -25,19 +25,36 @@ export class SalesComponent implements OnInit {
   dateTest: string;
   dateDto = new DateDto();
   pieChartData:  ChartDto[];
+  customDate: FormGroup; 
+  currentDate = new Date(); 
+
+
 
   colorScheme = {
     domain: ['#337ab7', '#28a745', '#ff6666', '#fd7e14', '#495057', '#A059B5', '#56BAD6']
   };
 
-  constructor(private reportService: ReportService, private dateService: DateService) { }
+  constructor(private reportService: ReportService, private dateService: DateService,private fb: FormBuilder) { }
 
   ngOnInit() {
+
     this.getReportDetails();
 
+    this.customDate = this.fb.group({
+      'fromDate' : new Date(),
+      'toDate': new Date()
+    });
+
+    this.customDate.valueChanges
+    .subscribe((change) => {
+      console.log('Custom Date', change);
+      //this.loadingServie.loading = true;
+      let customDateValues: {toDate: Date, fromDate: Date} = change;
+      this.getSalesDetailsFromCustomDate(moment(customDateValues.fromDate).hour(0).format('YYYY-MM-DD HH:mm:ss'),moment(customDateValues.toDate).hour(23).minute(59).format('YYYY-MM-DD HH:mm:ss'));
+    });
+
   }
-
-
+  
   getReportDetails() {
 
     if (this.salesDropdown === 'Sales Summary') {
@@ -62,7 +79,7 @@ export class SalesComponent implements OnInit {
         this.dateDto = this.dateService.getCurrentDay();
       }
       else if(this.salesSummaryDropdown === 'Sales By Hour') {
-        this.dateDto = this.dateService.getCurrentDay();
+        
       }
 
       this.reportService.getSalesSummaryReport(this.salesSummaryDropdown, this.dateDto.startDate, this.dateDto.endDate)
@@ -74,6 +91,7 @@ export class SalesComponent implements OnInit {
     }
     else {
 
+      
       if(this.salesDropdown === 'Sales By Category') {
         this.dateDto = this.dateService.getDateByInput(this.salesDateDropdown)
       }
@@ -101,7 +119,22 @@ export class SalesComponent implements OnInit {
           this.salesDto = sales;
           this.getPieChartDetailsForSales();
         });
+
       }
+    }
+
+    getSalesDetailsFromCustomDate(startDate:string, endDate:string){
+
+      this.reportService.getSalesDetails(this.salesDropdown,startDate,endDate)
+      .subscribe((sales: SalesDto[]) => {
+        this.salesDto = sales;
+        this.getPieChartDetailsForSales();
+      });
+
+      this.dateDto = new DateDto();
+      this.dateDto.startDate = startDate;
+      this.dateDto.endDate = endDate;
+
     }
 
     getPieChartDetailsForSalesSummary() {
@@ -128,64 +161,7 @@ export class SalesComponent implements OnInit {
     });
   }
 
-  printSalesReportBy() {
-    
-    if (this.salesDropdown === 'Sales Summary') {
-
-      if (this.salesSummaryDropdown === 'Sales By Year') {
-
-        if (this.salesByYearDropdown === 'This Year') {
-          this.dateDto = this.dateService.getCurrentYear();
-        }
-        else if (this.salesByYearDropdown === 'Last Year') {
-          this.dateDto = this.dateService.getLastYear();
-        }
-        // TODO NEED TO MANAGE LAST 5 and 10 YEARS
-      }
-      else if (this.salesSummaryDropdown === 'Sales By Month') {
-        this.dateDto = this.dateService.getMonthDate(this.salesSummaryMonthDropdown);
-      }
-      else if (this.salesSummaryDropdown === 'Sales By Week') {
-
-      }
-      else if (this.salesSummaryDropdown === 'Sales By Day') {
-        this.dateDto = this.dateService.getCurrentDay();
-      }
-      else if(this.salesSummaryDropdown === 'Sales By Hour') {
-        this.dateDto = this.dateService.getCurrentDay();
-
-      }
-
-      this.reportService.printSalesSummaryReportPDF(this.salesSummaryDropdown, this.dateDto.startDate, this.dateDto.endDate)
-      .subscribe((data) => {
-        printBlob(data._body);
-        
-      });
-    }
-    else {
-
-      if(this.salesDropdown === 'Sales By Category') {
-        this.dateDto = this.dateService.getDateByInput(this.salesDateDropdown)
-      }
-      else if(this.salesDropdown === 'Sales By Vendor') {
-        this.dateDto = this.dateService.getDateByInput(this.salesDateDropdown)
-      }
-      else if(this.salesDropdown === 'Sales By Brand') {
-        this.dateDto = this.dateService.getDateByInput(this.salesDateDropdown)
-      }
-      else if(this.salesDropdown === 'Sales By Model') {
-        this.dateDto = this.dateService.getDateByInput(this.salesDateDropdown)
-      }
-      else if(this.salesDropdown === 'Sales By Product') {
-        this.dateDto = this.dateService.getDateByInput(this.salesDateDropdown)
-      }
-      else if(this.salesDropdown === 'Sales By Employee') {
-        this.dateDto = this.dateService.getDateByInput(this.salesDateDropdown)
-      }
-      else if(this.salesDropdown === 'Sales By Customer') {
-        this.dateDto = this.dateService.getDateByInput(this.salesDateDropdown)
-      }
-    
+  printSalesReportBy() {    
     this.reportService.printSalesReportPDF(this.salesDropdown, this.dateDto.startDate, this.dateDto.endDate)
       .subscribe((data) => {
         printBlob(data._body);
@@ -194,7 +170,6 @@ export class SalesComponent implements OnInit {
 
 
   }
-}
 
     // For D3 chart
     onSelect(event) {
@@ -215,16 +190,14 @@ export class SalesDto {
 }
 
 export class SalesSummaryDto {
-  name?: string;
-  cash?: number;
-  credit?: number;
-  debit?: number;
-  check?: number;
-  tax?: number;
-  subtotal?: number;
-  discount?: number;
-  profit?: number;
-  returns?: number;
+  name: string;
+  cash: number;
+  credit: number;
+  debit: number;
+  check: number;
+  tax: number;
+  subtotal: number;
+  discount: number;
+  profit: number;
+  returns: number;
 }
-
-

@@ -54,11 +54,11 @@ public class TransactionLineItemManager {
                     transactionLineItemDao.setDate((j[0].toString()));
                     transactionLineItemDao.setProductNo(j[1].toString());
                     transactionLineItemDao.setDescription(j[2].toString());
-                    transactionLineItemDao.setQuantity(Integer.parseInt(j[3].toString()));
+                    transactionLineItemDao.setSaleQuantity(Integer.parseInt(j[3].toString()));
                     if(null != j[4]){
                         transactionLineItemDao.setImeiNo(j[4].toString());
                     }
-                    transactionLineItemDao.setTotalQuantity(Integer.parseInt(j[5].toString()));
+                   // transactionLineItemDao.setTotalQuantity(Integer.parseInt(j[5].toString()));
                     transactionLineItemDao.setRetail(Double.parseDouble(j[6].toString()));
                     transactionLineItemDao.setCost(Double.parseDouble(j[7].toString()));
                     transactionLineItemDao.setDiscount(Double.parseDouble(j[8].toString()));

@@ -4,6 +4,7 @@ import com.abm.pos.ABMPos.dao.ReportDao.DashboardSalesDto;
 import com.abm.pos.ABMPos.dao.ReportDao.InventoryDto;
 import com.abm.pos.ABMPos.dao.ReportDao.SalesDto;
 import com.abm.pos.ABMPos.dao.ReportDao.SalesSummaryDto;
+import com.abm.pos.ABMPos.dao.StoreSetupDao;
 import com.abm.pos.ABMPos.repository.*;
 import com.abm.pos.ABMPos.util.TimeIntervalDto;
 import com.abm.pos.ABMPos.util.Utility;
@@ -54,6 +55,9 @@ public class ReportManager {
 
     @Autowired
     private EmployeeRepository employeeRepository;
+
+    @Autowired
+    private StoreSetupRepository storeSetupRepository;
 
 
     private BaseFont bfBold;
@@ -472,7 +476,11 @@ public class ReportManager {
 //            companyLogo.setAbsolutePosition(235,760);
 //            companyLogo.scalePercent(15);
 //            doc.add(companyLogo);
-            createHeadingsForCompanyName(cb, 265, 770, "Excell Wireless");
+
+            StoreSetupDao storeSetupDao = storeSetupRepository.findOne(1);
+            if(null != storeSetupDao){
+                createHeadingsForCompanyName(cb, 265, 770, storeSetupDao.getName());
+            }
 
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -662,7 +670,10 @@ public class ReportManager {
 //            companyLogo.scalePercent(15);
 //            doc.add(companyLogo);
 
-             createHeadingsForCompanyName(cb, 265, 770, "Excell Wireless");
+            StoreSetupDao storeSetupDao = storeSetupRepository.findOne(1);
+            if(null != storeSetupDao){
+                createHeadingsForCompanyName(cb, 265, 770, storeSetupDao.getName());
+            }
 
 
             //createHeadings(cb, 240, 730, "Sales By Category Report");

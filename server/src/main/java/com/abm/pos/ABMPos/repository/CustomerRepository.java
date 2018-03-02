@@ -20,10 +20,10 @@ public interface CustomerRepository extends JpaRepository<CustomerDao, String>{
     CustomerDao findByPhoneNo(String phoneNo);
 
     @Query(value = "SELECT distinct c.name,\n" +
-            "SUM(l.quantity) quantity, \n" +
-            "SUM(l.cost * l.quantity) cost, \n" +
-            "SUM(l.retail * l.quantity) retail,\n" +
-            "SUM((l.retail * l.quantity) - (l.cost * l.quantity)) profit\n" +
+            "SUM(l.sale_quantity) quantity, \n" +
+            "SUM(l.cost * l.sale_quantity) cost, \n" +
+            "SUM(l.retail * l.sale_quantity) retail,\n" +
+            "SUM((l.retail * l.sale_quantity) - (l.cost * l.sale_quantity)) profit\n" +
             "FROM transaction t \n" +
             "INNER JOIN customer c on c.phone_no = t.customer_phoneno\n" +
             "INNER JOIN transaction_line_item l on l.transaction_com_id = t.transaction_com_id\n" +

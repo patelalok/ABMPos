@@ -1,7 +1,6 @@
 import { Component, OnInit, Inject, Input } from '@angular/core';
 import * as jspdf from "jspdf";
 import * as bootstrap from "bootstrap";
-import { TransactionDtoList } from 'app/sell/sell.component';
 @Component({
   selector: 'app-receipt',
   templateUrl: './receipt.component.html',

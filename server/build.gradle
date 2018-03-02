@@ -51,7 +51,7 @@ dependencies {
 	compile('org.springframework.boot:spring-boot-starter-web')
 
 	compile files(
-			'C:\\Program Files\\EPSON\\JavaPOS\\lib\\jpos1141.jar',
+			//'C:\\Program Files\\EPSON\\JavaPOS\\lib\\jpos1141.jar',
 			'C:\\Program Files\\EPSON\\JavaPOS\\lib\\pos.jar',
 			'C:\\Program Files\\EPSON\\JavaPOS\\lib\\epsonupos.jar',
 			'C:\\Program Files\\EPSON\\JavaPOS\\lib\\uposcommon.jar',
@@ -112,7 +112,8 @@ dependencies {
 jar {
 	manifest.attributes (
 			//'Class-Path': configurations.runtime.files.collect{ it.absolutePath }.join(' ')
-			'Class-Path': '/C:/Program%20Files/EPSON/JavaPOS/lib/jpos1141.jar ' +
+			'Class-Path':
+					//'/C:/Program%20Files/EPSON/JavaPOS/lib/jpos1141.jar ' +
 					'/C:/Program%20Files/EPSON/JavaPOS/lib/pos.jar ' +
 					'/C:/Program%20Files/EPSON/JavaPOS/lib/epsonupos.jar ' +
 					'/C:/Program%20Files/EPSON/JavaPOS/lib/uposcommon.jar ' +

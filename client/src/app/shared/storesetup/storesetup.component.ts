@@ -25,11 +25,11 @@ export class StoresetupComponent implements OnInit {
       this.router.navigate(['/setting']);
       this.items = [
         { name: 'Store Details', icon: 'fa fa-building fa-x', link: '/setting' },
-        { name: 'User Roles', icon: 'fa fa-user-secret fa-x', link: '/product/category' },
-        { name: 'Reciept', icon: 'fa fa-print fa-x', link: '/product/brand' },
-        { name: 'Locations', icon: 'fa fa-map-marker fa-x', link: '/product/vendor' },
-        { name: 'Loyalty', icon: 'fa fa-usd fa-x', link: '/product/model' },
-        { name: 'Custom Fields', icon: 'fa fa-object-group fa-x', link: '/product/productTable' }
+        // { name: 'User Roles', icon: 'fa fa-user-secret fa-x', link: '/product/category' },
+        // { name: 'Reciept', icon: 'fa fa-print fa-x', link: '/product/brand' },
+        // { name: 'Locations', icon: 'fa fa-map-marker fa-x', link: '/product/vendor' },
+        // { name: 'Loyalty', icon: 'fa fa-usd fa-x', link: '/product/model' },
+        // { name: 'Custom Fields', icon: 'fa fa-object-group fa-x', link: '/product/productTable' }
       ];
     }
 
