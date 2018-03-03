@@ -42,12 +42,12 @@ public interface TransactionRepository extends JpaRepository<TransactionDao, Int
             "SUM(t.subtotal) subtotal, " +
             "SUM(t.total_discount) discount, " +
             "SUM(temp.profit) profit\n" +
-            "FROM Transaction t " +
+            "FROM transaction t " +
             "INNER JOIN transaction_payment p ON t.transaction_com_id = p.transaction_com_id " +
             "INNER JOIN (\n" +
             "               SELECT t.transaction_com_id, sum(l.retail - l.cost) profit\n" +
             "               FROM transaction_line_item l\n" +
-            "               INNER JOIN Transaction t on t.transaction_com_id = l.transaction_com_id\n" +
+            "               INNER JOIN transaction t on t.transaction_com_id = l.transaction_com_id\n" +
             "               WHERE l.date BETWEEN ?1 AND ?2  AND (l.status = 'Complete' OR l.status = 'Return') GROUP BY t.transaction_com_id)\n" +
             "AS temp  ON temp.transaction_com_id = t.transaction_com_id\n" +
             "WHERE t.date BETWEEN ?1 AND ?2 AND (t.status = 'Complete' OR t.status = 'Return') \n" +
@@ -63,12 +63,12 @@ public interface TransactionRepository extends JpaRepository<TransactionDao, Int
             "SUM(t.subtotal) subtotal,\n" +
             "SUM(t.total_discount) discount,\n" +
             "SUM(temp.profit) profit\n" +
-            "FROM Transaction t " +
+            "FROM transaction t " +
             "INNER JOIN transaction_payment p ON t.transaction_com_id = p.transaction_com_id\n" +
             "INNER JOIN (\n" +
             "            SELECT t.transaction_com_id, sum(l.retail - l.cost) profit\n" +
             "            FROM transaction_line_item l\n" +
-            "            INNER JOIN Transaction t on t.transaction_com_id = l.transaction_com_id\n" +
+            "            INNER JOIN transaction t on t.transaction_com_id = l.transaction_com_id\n" +
             "            where l.date BETWEEN ?1 AND ?2  AND (l.status = 'Complete' OR l.status = 'Return') GROUP BY t.transaction_com_id)\n" +
             " AS temp  on temp.transaction_com_id = t.transaction_com_id\n" +
             " WHERE t.date BETWEEN ?1 AND ?2 " +
@@ -85,12 +85,12 @@ public interface TransactionRepository extends JpaRepository<TransactionDao, Int
             "SUM(t.subtotal) subtotal, " +
             "SUM(t.total_discount) discount, " +
             "SUM(temp.profit) profit\n" +
-            "FROM Transaction t " +
+            "FROM transaction t " +
             "INNER JOIN transaction_payment p ON t.transaction_com_id = p.transaction_com_id " +
             "INNER JOIN (\n" +
             "               SELECT t.transaction_com_id, sum(l.retail - l.cost) profit\n" +
             "               FROM transaction_line_item l\n" +
-            "               INNER JOIN Transaction t on t.transaction_com_id = l.transaction_com_id\n" +
+            "               INNER JOIN transaction t on t.transaction_com_id = l.transaction_com_id\n" +
             "               WHERE l.date BETWEEN ?1 AND ?2  AND (l.status = 'Complete' OR l.status = 'Return') GROUP BY t.transaction_com_id)\n" +
             "AS temp  ON temp.transaction_com_id = t.transaction_com_id\n" +
             "WHERE t.date BETWEEN ?1 AND ?2 AND (t.status = 'Complete' OR t.status = 'Return') \n" +

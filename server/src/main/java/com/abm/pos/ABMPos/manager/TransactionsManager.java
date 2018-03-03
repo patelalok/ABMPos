@@ -108,7 +108,9 @@ public class TransactionsManager {
                         // This means we do not have enough inventory to sale, so we can sale wt we have and then call inventory table again until purchase item == 0.
                         else if (productInventoryDao.getQuantity() > 0) {
                             lineItemDao.setCost(productInventoryDao.getCost());
-                            lineItemDao.setSaleQuantity(productInventoryDao.getQuantity());
+
+                            // I donot know why i did this.
+                            //lineItemDao.setSaleQuantity(productInventoryDao.getQuantity());
 
                             transactionLineItemDaoListNew.add(lineItemDao);
 

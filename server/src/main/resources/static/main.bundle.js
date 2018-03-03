@@ -8260,16 +8260,12 @@ var SaleComponent = /** @class */ (function () {
             var lineItem = _a[_i];
             lineItem.status = this.saleType;
             lineItem.date = this.transactionDtoList.date;
-            // I need to do this casue in backend i am using quantity and here i have to use defult quanity to show 1 as user insert product.
-            // No need to do this any more cause now i am using only one name saleQuanity.
-            // lineItem.quantity = lineItem.defaultQuantity;
             // This means user has given line item discount.
             if (lineItem.retailWithDiscount < lineItem.retail) {
                 lineItem.discount = (lineItem.retail - lineItem.retailWithDiscount) * lineItem.saleQuantity;
                 totalLineItemDiscount = +((lineItem.retail - lineItem.retailWithDiscount) * lineItem.saleQuantity) + totalLineItemDiscount;
             }
         }
-        // Seeting paymentDto status
         for (var _b = 0, _c = this.paymentDao; _b < _c.length; _b++) {
             var payment = _c[_b];
             payment.status = this.saleType;
@@ -8281,7 +8277,6 @@ var SaleComponent = /** @class */ (function () {
         this.transactionDtoList.transactionLineItemDaoList = this.transactionLineItemDaoList;
         this.transactionDtoList.totalDiscount = +this.totalTransactionDiscount + totalLineItemDiscount;
         // I am doing this to show subtotal without line item discount, so in invoice customer wont get confuse.
-        // 
         this.transactionDtoList.subtotal = this.transactionDtoList.subtotal + this.transactionDtoList.totalDiscount;
         // NOW MAKING SERVICE CALL TO ADD TRANSACTION AND LINE ITEM DETAILS AND WILL ADD LINE ITEM DETAILS ONLY IF ADD TRANASACTION CALL IS SUCCESS !!!
         this.sellService.addTransactionDetails(this.transactionDtoList)
@@ -8299,11 +8294,11 @@ var SaleComponent = /** @class */ (function () {
         }, function () {
         });
         //this.disableCompleteSaleButton = true;
-        console.log('Transaction Details', this.transactionDtoList);
-        console.log('TransactionLineItem Details', this.transactionLineItemDaoList);
-        console.log('Payment Dto', this.paymentDto);
+        // console.log('Transaction Details', this.transactionDtoList);
+        // console.log('TransactionLineItem Details', this.transactionLineItemDaoList);
+        // console.log('Payment Dto', this.paymentDto);
         //this.disablePaymentButtons = true;
-        console.log("done with sales");
+        // console.log("done with sales");
         // This will focus on the autocomplete field
         $('#productsearch > span > input').focus();
     };
