@@ -78,16 +78,16 @@ public class ProductManager{
         else if((null != productDao && productDao.getOperationType().equalsIgnoreCase("Edit")))
         {
              productDao1 = productRepository.findOne(productDao.getProductNo());
-
+            int totalProduct = 0;
             // I need to do this cause i need to maintain retail price of the product in both product and product inventory Table.
             // So this is really important.
-            if(null != productDao1 && productDao.getRetail() != productDao1.getRetail())
-            {
-                int totalProduct = 0;
-                productInventoryRepository.updateProductRetailPrice(productDao.getRetail(), productDao.getProductNo());
+            if(null != productDao1 && productDao.getRetail() != productDao1.getRetail()) {
 
+                productInventoryRepository.updateProductRetailPrice(productDao.getRetail(), productDao.getProductNo());
+            }
                     // This will sync the product quantity after every update.
-                    List<ProductInventoryDao> productInventoryDaoList = productInventoryRepository.findAllByProductNo(productDao1.getProductNo());
+            assert productDao1 != null;
+            List<ProductInventoryDao> productInventoryDaoList = productInventoryRepository.findAllByProductNo(productDao1.getProductNo());
 
                     if (null != productInventoryDaoList && productInventoryDaoList.size() > 0) {
                         for (ProductInventoryDao productInventoryDao2 : productInventoryDaoList) {
@@ -97,7 +97,6 @@ public class ProductManager{
                         productDao.setQuantity(totalProduct);
                         productDao.setCost(productInventoryDaoList.get(0).getCost());
                     }
-            }
             productDao1 = productRepository.save(productDao);
         }
 
