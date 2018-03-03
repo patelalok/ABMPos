@@ -110,6 +110,7 @@ export class SaleComponent implements OnInit, AfterViewInit {
 
     this.transactionLineItemDaoList = this.persit.getProducts() || [];
     // this will show transaction data on right side on refresh or on load of the page
+    this.shippingAmount = this.persit.getShippingAmount() || 0;
     this.setTransactionDtoList();
   }
 
@@ -352,6 +353,9 @@ export class SaleComponent implements OnInit, AfterViewInit {
     else {
       this.disablePaymentButtonOnSale = false;
     }
+
+    // Here I need to cache the Shipping amount cause if user refresh or come back from other page i need to show shipping amount all the time.
+    this.persit.setShippingAmount(this.shippingAmount);
   }
 
   submitCustomer() {
@@ -564,8 +568,8 @@ export class SaleComponent implements OnInit, AfterViewInit {
     this.paymentDao = [];
 
     // payaccountTextBox is bind with two binding so i need to intialize here, so i can show data on payment popup load.
-    this.payAmountTextBox = this.transactionDtoList.totalAmount;
-    this.dueAmountForTransaction = this.transactionDtoList.totalAmount;
+    this.payAmountTextBox = Math.round((this.transactionDtoList.totalAmount) * 1e2) / 1e2;
+    this.dueAmountForTransaction = Math.round((this.transactionDtoList.totalAmount) * 1e2) / 1e2;
 
     this.disablePaymentButtons = false;
     this.disablePaymentButtonsWithAmount = false;
@@ -781,7 +785,7 @@ export class SaleComponent implements OnInit, AfterViewInit {
       // I must have to add this here, otherwise it will create problem,
       this.shippingAmount = 0.00;
       this.totalTransactionDiscount = 0;
-
+      this.persit.clearShippingAmount();
       this.setTransactionDtoList();
       this.paymentDao = [];
 

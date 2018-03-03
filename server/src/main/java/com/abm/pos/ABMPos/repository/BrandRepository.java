@@ -24,8 +24,9 @@ public interface BrandRepository extends JpaRepository<BrandDao, Integer>{
     @Query(value = "SELECT distinct b.name, \n" +
             "SUM(l.sale_quantity) quantity, \n" +
             "SUM(l.cost * l.sale_quantity) cost, \n" +
-            "SUM(l.retail * l.sale_quantity) retail,\n" +
-            "SUM((l.retail * l.sale_quantity) - (l.cost * l.sale_quantity)) profit\n" +
+            "SUM(l.retail_with_discount * l.sale_quantity) retail,\n" +
+            "SUM(l.discount) discount,\n" +
+            "SUM((l.retail_with_discount - l.cost)) * l.sale_quantity) profit\n" +
             "FROM product p \n" +
             "INNER JOIN brand b on p.brand_id = b.brand_id\n" +
             "INNER JOIN transaction_line_item l on l.product_no = p.product_no\n" +

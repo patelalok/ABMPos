@@ -77,6 +77,16 @@ export class PersistenceService {
   clearCustomerPriceForSale(){
     localStorage.removeItem('customerProductPrice');
   }
+  setShippingAmount(obj: number){
+    localStorage.setItem('shippingAmount', JSON.stringify(obj));
+  }
+  getShippingAmount(): number{
+    let shippingAmount = JSON.parse(localStorage.getItem('shippingAmount'));
+    return shippingAmount;
+  }
+  clearShippingAmount(){
+    localStorage.removeItem('shippingAmount');
+  }
 
 
 

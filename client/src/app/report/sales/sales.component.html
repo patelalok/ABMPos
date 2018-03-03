@@ -122,6 +122,11 @@
                             {{sales.retail | currency:'USD':'true'}}
                         </ng-template>
                     </p-column>
+                    <p-column field="discount" header="Discount" [sortable]="true">
+                        <ng-template let-sales="rowData" pTemplate="body">
+                            {{sales.discount | currency:'USD':'true'}}
+                        </ng-template>
+                    </p-column>
                     <p-column field="quantity" header="Quantity" [sortable]="true"></p-column>
                     <p-column field="profit" header="Profit" [sortable]="true">
                         <ng-template let-sales="rowData" pTemplate="body">

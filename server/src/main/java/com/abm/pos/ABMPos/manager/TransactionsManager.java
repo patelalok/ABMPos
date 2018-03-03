@@ -725,6 +725,12 @@ public class TransactionsManager {
 //                    totalTable.addCell(new Phrase("$ " + String.valueOf(transactionDao.getPreviousBalance()), new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
 //                }
 
+            if(transactionDao.getShipping() > 0){
+
+                totalTable.addCell(new Phrase("Shipping", new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
+                totalTable.addCell(new Phrase("$ " + String.valueOf(transactionDao.getShipping()), new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
+            }
+
             totalTable.addCell(new Phrase("Total", new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
             totalTable.addCell(new Phrase("$ " + String.valueOf(transactionDao.getTotalAmount()), new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
 
@@ -742,11 +748,11 @@ public class TransactionsManager {
                         totalTable.addCell(new Phrase("$ " + String.valueOf(paymentDaos.getChangeForCash()), new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
                     }
                     if (paymentDaos.getCredit() != 0) {
-                        totalTable.addCell(new Phrase("Credit", new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
+                        totalTable.addCell(new Phrase("Credit Card", new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
                         totalTable.addCell(new Phrase("$ " + String.valueOf(paymentDaos.getCredit()), new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
                     }
                     if (paymentDaos.getDebit() != 0) {
-                        totalTable.addCell(new Phrase("Debit", new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
+                        totalTable.addCell(new Phrase("Debit Card", new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
                         totalTable.addCell(new Phrase("$ " + String.valueOf(paymentDaos.getDebit()), new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
                     }
                     if (paymentDaos.getCheckAmount() != 0) {

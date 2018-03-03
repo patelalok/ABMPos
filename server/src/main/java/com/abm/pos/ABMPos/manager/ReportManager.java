@@ -240,7 +240,8 @@ public class ReportManager {
                 salesDto.setQuantity(Integer.parseInt(j[1].toString()));
                 salesDto.setCost(Double.parseDouble(j[2].toString()));
                 salesDto.setRetail(Double.parseDouble(j[3].toString()));
-                salesDto.setProfit(Double.parseDouble(j[4].toString()));
+                salesDto.setDiscount(Double.parseDouble(j[4].toString()));
+                salesDto.setProfit(Double.parseDouble(j[5].toString()));
 
                 salesDtoList.add(salesDto);
             }

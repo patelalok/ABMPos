@@ -21,8 +21,9 @@ public interface EmployeeRepository extends JpaRepository<EmployeeDao,Integer> {
     @Query(value = "SELECT distinct e.username,\n" +
             "SUM(l.sale_quantity) quantity,\n" +
             "SUM(l.cost * l.sale_quantity) cost,\n" +
-            "SUM(l.retail * l.sale_quantity) retail,\n" +
-            "SUM((l.retail * l.sale_quantity) - (l.cost * l.sale_quantity)) profit\n" +
+            "SUM(l.retail_with_discount * l.sale_quantity) retail,\n" +
+            "SUM(l.discount) discount,\n" +
+            "SUM((l.retail_with_discount * l.sale_quantity) - (l.cost * l.sale_quantity)) profit\n" +
             "from transaction t\n" +
             "Inner Join employee e on e.username = t.username\n" +
             "inner join transaction_line_item l on l.transaction_com_id = t.transaction_com_id\n" +
