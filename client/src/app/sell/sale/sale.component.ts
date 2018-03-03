@@ -316,7 +316,7 @@ export class SaleComponent implements OnInit, AfterViewInit {
 
   calculateDiscount(value: any) {
     if (this.discountType == 'By Amount') {
-      this.totalTransactionDiscount = value;\
+      this.totalTransactionDiscount = value;
     }
     else if (this.discountType == 'By Percentage') {
       this.totalTransactionDiscount = parseFloat(((this.transactionDtoList.totalAmount * value) / 100).toFixed(2));

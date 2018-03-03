@@ -63,9 +63,9 @@ public interface ProductRepository extends JpaRepository<ProductDao, String> {
             "p.product_no,\n" +
             "SUM(l.sale_quantity) quantity,\n" +
             "SUM(l.cost) cost,\n" +
-            "SUM(l.total_product_price) retail,\n" +
+            "SUM(l.retail_with_discount) retail,\n" +
             "SUM(l.discount) discount,\n" +
-            "SUM((l.retail * l.sale_quantity) - (l.cost * l.sale_quantity)) profit\n" +
+            "SUM((l.retail_with_discount * l.sale_quantity) - (l.cost * l.sale_quantity)) profit\n" +
             "FROM product p\n" +
             "INNER JOIN transaction_line_item l ON p.product_no = l.product_no\n" +
             "WHERE  l.date BETWEEN ?1 AND ?2 AND (l.status = 'Complete' OR l.status = 'Return' OR l.status = 'Pending')\n" +
