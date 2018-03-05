@@ -45,7 +45,7 @@ public interface TransactionRepository extends JpaRepository<TransactionDao, Int
             "FROM transaction t " +
             "INNER JOIN transaction_payment p ON t.transaction_com_id = p.transaction_com_id " +
             "INNER JOIN (\n" +
-            "               SELECT t.transaction_com_id, sum(l.retail - l.cost) profit\n" +
+            "               SELECT t.transaction_com_id, SUM((l.retail_with_discount * l.sale_quantity) - (l.cost * l.sale_quantity)) profit\n" +
             "               FROM transaction_line_item l\n" +
             "               INNER JOIN transaction t on t.transaction_com_id = l.transaction_com_id\n" +
             "               WHERE l.date BETWEEN ?1 AND ?2  AND (l.status = 'Complete' OR l.status = 'Return') GROUP BY t.transaction_com_id)\n" +
@@ -66,7 +66,7 @@ public interface TransactionRepository extends JpaRepository<TransactionDao, Int
             "FROM transaction t " +
             "INNER JOIN transaction_payment p ON t.transaction_com_id = p.transaction_com_id\n" +
             "INNER JOIN (\n" +
-            "            SELECT t.transaction_com_id, sum(l.retail - l.cost) profit\n" +
+            "            SELECT t.transaction_com_id, SUM((l.retail_with_discount * l.sale_quantity) - (l.cost * l.sale_quantity)) profit\n" +
             "            FROM transaction_line_item l\n" +
             "            INNER JOIN transaction t on t.transaction_com_id = l.transaction_com_id\n" +
             "            where l.date BETWEEN ?1 AND ?2  AND (l.status = 'Complete' OR l.status = 'Return') GROUP BY t.transaction_com_id)\n" +
@@ -88,7 +88,7 @@ public interface TransactionRepository extends JpaRepository<TransactionDao, Int
             "FROM transaction t " +
             "INNER JOIN transaction_payment p ON t.transaction_com_id = p.transaction_com_id " +
             "INNER JOIN (\n" +
-            "               SELECT t.transaction_com_id, sum(l.retail - l.cost) profit\n" +
+            "               SELECT t.transaction_com_id, SUM((l.retail_with_discount * l.sale_quantity) - (l.cost * l.sale_quantity)) profit\n" +
             "               FROM transaction_line_item l\n" +
             "               INNER JOIN transaction t on t.transaction_com_id = l.transaction_com_id\n" +
             "               WHERE l.date BETWEEN ?1 AND ?2  AND (l.status = 'Complete' OR l.status = 'Return') GROUP BY t.transaction_com_id)\n" +

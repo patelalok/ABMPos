@@ -368,6 +368,8 @@ export class SaleComponent implements OnInit, AfterViewInit {
         this.productPriceArryByCustomer = productPrice;
         this.persit.setCustomerProductPriceForSale(this.productPriceArryByCustomer);
       });
+
+      this.setTransactionDtoList();
   }
 
   removeCustomerOnSale() {
