@@ -3,12 +3,11 @@ package com.abm.pos.ABMPos.manager;
 import com.abm.pos.ABMPos.dao.ReportDao.InventoryDto;
 import com.abm.pos.ABMPos.dao.ReportDao.SalesDto;
 import com.abm.pos.ABMPos.dao.ReportDao.SalesSummaryDto;
+import com.abm.pos.ABMPos.dao.StoreSetupDao;
 import com.abm.pos.ABMPos.repository.*;
-import com.abm.pos.ABMPos.util.TimeIntervalDto;
 import com.abm.pos.ABMPos.util.Utility;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
-import com.itextpdf.text.Image;
 import com.itextpdf.text.PageSize;
 import com.itextpdf.text.pdf.PdfContentByte;
 import com.itextpdf.text.pdf.PdfWriter;
@@ -48,13 +47,15 @@ public class ReportManager {
 
     private final EmployeeRepository employeeRepository;
 
+    private final StoreSetupRepository storeSetupRepository;
+
 
     private BaseFont bfBold;
     private BaseFont bf;
     private int pageNumber = 0;
 
     @Autowired
-    public ReportManager(BrandRepository brandRepository, CategoryRepository categoryRepository, ProductRepository productRepository, ProductInventoryRepository productInventoryRepository, Utility utility, VendorRepository vendorRepository, ModelRepository modelRepository, TransactionRepository transactionRepository, CustomerRepository customerRepository, EmployeeRepository employeeRepository) {
+    public ReportManager(BrandRepository brandRepository, CategoryRepository categoryRepository, ProductRepository productRepository, ProductInventoryRepository productInventoryRepository, Utility utility, VendorRepository vendorRepository, ModelRepository modelRepository, TransactionRepository transactionRepository, CustomerRepository customerRepository, EmployeeRepository employeeRepository, StoreSetupRepository storeSetupRepository) {
         this.brandRepository = brandRepository;
         this.categoryRepository = categoryRepository;
         this.productRepository = productRepository;
@@ -65,6 +66,7 @@ public class ReportManager {
         this.transactionRepository = transactionRepository;
         this.customerRepository = customerRepository;
         this.employeeRepository = employeeRepository;
+        this.storeSetupRepository = storeSetupRepository;
     }
 
 
@@ -145,9 +147,7 @@ public class ReportManager {
             List<Object[]> result = transactionRepository.getMonthlySalesReport(startDate, endDate);
             return setDataForCommonSalesReport(result);
 //            }
-
         }
-
         // TODO NEED TO FIGURE THIS OUT.
         else if (salesReportBy.equalsIgnoreCase("Sales By Week")) {
 
@@ -169,6 +169,17 @@ public class ReportManager {
 
         List<SalesSummaryDto> salesSummaryDtoList = new ArrayList<>();
 
+        double totalCash = 0;
+        double totalCredit = 0;
+        double totalDebit = 0;
+        double totalCheck = 0;
+        double totalTax = 0;
+        double totalDiscount = 0;
+        double totalAmount = 0;
+        double totalProfit = 0;
+        double totalDueAmount = 0;
+        // double totalMarkup = 0;
+
         if (null != result) {
             for (Object[] j : result) {
                 SalesSummaryDto salesSummaryDto = new SalesSummaryDto();
@@ -185,6 +196,37 @@ public class ReportManager {
 
                 salesSummaryDtoList.add(salesSummaryDto);
             }
+
+            for (SalesSummaryDto sales : salesSummaryDtoList) {
+
+                totalCash = +totalCash + sales.getCash();
+                totalCredit = +totalCredit + sales.getCredit();
+                totalDebit = +totalDebit + sales.getDebit();
+                totalCheck = +totalCheck + sales.getCheck();
+
+                totalTax = +totalTax + sales.getTax();
+                totalDiscount = +totalDiscount + sales.getDiscount();
+                totalAmount = +totalAmount + sales.getTotalAmount();
+                totalDueAmount = +totalDueAmount + sales.getDueBalance();
+                totalProfit = +totalProfit + sales.getProfit();
+
+            }
+
+            SalesSummaryDto salesSummaryDto = new SalesSummaryDto();
+
+            salesSummaryDto.setName("TOTAL");
+            salesSummaryDto.setCash(totalCash);
+            salesSummaryDto.setCredit(totalCredit);
+            salesSummaryDto.setDebit(totalDebit);
+            salesSummaryDto.setCheck(totalCheck);
+            salesSummaryDto.setTax(totalTax);
+            salesSummaryDto.setDiscount(totalDiscount);
+            salesSummaryDto.setTotalAmount(totalAmount);
+            salesSummaryDto.setDueBalance(totalDueAmount);
+            salesSummaryDto.setProfit(totalProfit);
+
+            salesSummaryDtoList.add(salesSummaryDto);
+
         }
 
         return salesSummaryDtoList;
@@ -252,20 +294,18 @@ public class ReportManager {
                 totalQuantity = +totalQuantity + sales.getQuantity();
                 totalProfit = +totalProfit + sales.getProfit();
                 totalDiscount = +totalDiscount + sales.getDiscount();
-
             }
 
             SalesDto salesDto = new SalesDto();
 
-            salesDto.setName("Total");
+            salesDto.setName("TOTAL");
             salesDto.setCost(totalCost);
             salesDto.setRetail(totalRetail);
             salesDto.setQuantity(totalQuantity);
             salesDto.setProfit(totalProfit);
             salesDto.setDiscount(totalDiscount);
 
-            // Commenting this cause this is showing wrong data on graph
-           // salesDtoList.add(salesDto);
+            salesDtoList.add(salesDto);
 
         }
 
@@ -483,7 +523,12 @@ public class ReportManager {
 //            companyLogo.setAbsolutePosition(235,760);
 //            companyLogo.scalePercent(15);
 //            doc.add(companyLogo);
-            createHeadingsForCompanyName(cb, 265, 770, "Excell Wireless");
+
+            StoreSetupDao  storeSetupDao = storeSetupRepository.findOne(1);
+            if(null != storeSetupDao)
+            {
+                createHeadingsForCompanyName(cb, 265, 770, storeSetupDao.getName());
+            }
 
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -671,7 +716,13 @@ public class ReportManager {
 //            companyLogo.scalePercent(15);
 //            doc.add(companyLogo);
 
-             createHeadingsForCompanyName(cb, 265, 770, "Excell Wireless");
+            StoreSetupDao  storeSetupDao = storeSetupRepository.findOne(1);
+            if(null != storeSetupDao)
+            {
+                createHeadingsForCompanyName(cb, 265, 770, storeSetupDao.getName());
+            }
+
+            // createHeadingsForCompanyName(cb, 265, 770, "Excell Wireless");
 
 
             //createHeadings(cb, 240, 730, "Sales By Category Report");

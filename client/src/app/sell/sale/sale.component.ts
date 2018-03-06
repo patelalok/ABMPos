@@ -655,27 +655,9 @@ export class SaleComponent implements OnInit, AfterViewInit {
       this.transactionDtoList.customerFirstLastName = this.selectedCustomer.name;
       this.transactionDtoList.previousBalance = this.selectedCustomer.balance;
     }
+
+
     this.transactionDtoList.status = this.saleType;
-
-    // This help only when user do return transaction where user gives store credit to the customer.
-    //this.transactionDtoList.previousTransactionId = this.previousTransactionId;
-
-    // THIS means customer has over paid, this happens mostly in cash of when customer pay by cash.
-    // So i am setting it as chnage amount.
-    if (this.dueAmountForTransaction <= 0) {
-      this.paymentDto.changeForCash = Math.abs(this.dueAmountForTransaction);
-
-      // This means customer has paid, complete invoice, it was not here before but now i need to do it after adding logic for pending invoice.
-      this.transactionDtoList.transactionBalance = 0.00
-    }
-    // This mean customer has add money on Account or paid perfect price but in both case i need to set transaction balance cause thats how i am handling balance logic in backend.
-    else {
-      this.transactionDtoList.transactionBalance = this.dueAmountForTransaction;
-
-      // This means customer has put this invoice ON ACCOUNT, and as per logic, just changing  
-      this.transactionDtoList.status = 'Pending';
-      this.saleType = 'Pending';
-    }
     // seeting current date and time using momemt.
     this.transactionDtoList.date = moment(Date.now()).format('YYYY-MM-DD HH:mm:ss');
     // Setting payment dto into transaction dto, because can not send both as @request body from angular..
@@ -709,6 +691,31 @@ export class SaleComponent implements OnInit, AfterViewInit {
 
     // I am doing this to show subtotal without line item discount, so in invoice customer wont get confuse.
     this.transactionDtoList.subtotal = this.transactionDtoList.subtotal + this.transactionDtoList.totalDiscount;
+
+        // THIS means customer has over paid, this happens mostly in cash of when customer pay by cash.
+    // So i am setting it as chnage amount.
+    if (this.dueAmountForTransaction <= 0) {
+      this.paymentDto.changeForCash = Math.abs(this.dueAmountForTransaction);
+
+      // This means customer has paid, complete invoice, it was not here before but now i need to do it after adding logic for pending invoice.
+      this.transactionDtoList.transactionBalance = 0.00
+    }
+    // This mean customer has add money on Account or paid perfect price but in both case i need to set transaction balance cause thats how i am handling balance logic in backend.
+    else {
+      this.transactionDtoList.transactionBalance = this.dueAmountForTransaction;
+
+      // This means customer has put this invoice ON ACCOUNT, OR THIS IS PARK SALE, I need to check that logic here.
+
+      if(this.saleType == 'Park'){
+
+        console.log('come for park now, so wont process as pending')
+      }
+      else {
+        this.transactionDtoList.status = 'Pending';
+        this.saleType = 'Pending';
+      }
+    
+    }
 
     // NOW MAKING SERVICE CALL TO ADD TRANSACTION AND LINE ITEM DETAILS AND WILL ADD LINE ITEM DETAILS ONLY IF ADD TRANASACTION CALL IS SUCCESS !!!
     this.sellService.addTransactionDetails(this.transactionDtoList)

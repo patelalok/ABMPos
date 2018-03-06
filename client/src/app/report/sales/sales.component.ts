@@ -193,6 +193,8 @@ export class SalesSummaryDto {
   discount: number;
   profit: number;
   returns: number;
+  dueBalance: number;
+  totalAmount: number;
 }
 
 

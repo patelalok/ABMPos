@@ -176,14 +176,15 @@
                         </ng-template>
                     </p-column>
 
-                    <p-column field="returns" header="Return" [sortable]="true">
+                    <!-- TO DO NEED TO FIGURE THIS OUT. -->
+                    <!-- <p-column field="returns" header="Return" [sortable]="true">
                         <ng-template let-summary="rowData" pTemplate="body">
                             {{summary.returns | currency:'USD':'true'}}
                         </ng-template>
-                    </p-column>
-                    <p-column field="returns" header="Balance Due">
+                    </p-column> -->
+                    <p-column field="dueBalance" header="Due Balance">
                         <ng-template let-summary="rowData" pTemplate="body">
-                            {{summary.returns | currency:'USD':'true'}}
+                            {{summary.dueBalance | currency:'USD':'true'}}
                         </ng-template>
                     </p-column>
                     <p-column field="profit" header="Profit" [sortable]="true">
@@ -191,9 +192,9 @@
                             {{summary.profit | currency:'USD':'true'}}
                         </ng-template>
                     </p-column>
-                    <p-column field="returns" header="Total" [sortable]="true">
+                    <p-column field="totalAmount" header="Total" [sortable]="true">
                         <ng-template let-summary="rowData" pTemplate="body">
-                            {{summary.returns | currency:'USD':'true'}}
+                            {{summary.totalAmount | currency:'USD':'true'}}
                         </ng-template>
                     </p-column>
                 </p-dataTable>
