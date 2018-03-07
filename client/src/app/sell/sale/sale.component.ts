@@ -79,6 +79,7 @@ export class SaleComponent implements OnInit, AfterViewInit {
     private sellService: SellService, private persit: PersistenceService, private productService: ProductService, private storeSetupService: StoreSetupService, private customerService: CustomerService, private sanitizer: DomSanitizer, private route: ActivatedRoute, private router: Router, private toastr: ToastsManager) { }
   ngOnInit() {
 
+ 
     this.items = [
       { name: 'Return', icon: 'fa fa-reply-all fa-x', link: '/return' },
       { name: 'Purchase Order', icon: 'fa fa-bookmark fa-x', link: '/sell/purchaseOrder' }
@@ -95,12 +96,12 @@ export class SaleComponent implements OnInit, AfterViewInit {
         }
       });
 
+    this.getCustomerDetails();
+
     let transactionComId = this.route.snapshot.paramMap.get('transactionComId');
     if (transactionComId) {
       this.handleParkedTransactionFromSalesHistory(transactionComId);
     }
-
-    this.getCustomerDetails();
     this.selectedCustomer = this.persit.getCustomerDetailsForSale();
 
     // This will help to get customer product price, cause its cusotmer is selected then definetly the price is stored in local storage.
@@ -517,11 +518,8 @@ export class SaleComponent implements OnInit, AfterViewInit {
       // Case 2. Store credit can less then equal to payment amount
 
       // Case 1: where payment amount is customers store credit because that what i am sending from ui
-
-
     }
     else if (paymentType == 'OnAccount') {
-
       this.paymentDto.onAccount = paymentAmount;
       this.paymentObjectForPaymentSellTable.push({ 'paymentType': 'OnAccount', 'paymentAmount': paymentAmount });
       // this.validatePaymentButtons(this.paymentDto.onAccount);
@@ -529,6 +527,7 @@ export class SaleComponent implements OnInit, AfterViewInit {
       this.disablePaymentButtonsWithAmount = true;
       // This mean customer has provide sufficient balance.
       this.disableCompleteSaleButton = false;
+      this.disableOnAccountButtons = true;
     }
     else if (paymentType == 'Loyalty') {
       this.paymentDto.loyalty = paymentAmount;
@@ -590,11 +589,9 @@ export class SaleComponent implements OnInit, AfterViewInit {
   // This method helps to take payment when customer is trying to pay for pending invoice.
   setDataForPaymentModelForPendingInvoice(transaction: TransactionDtoList) {
     console.log("inside the pending payment logic");
-    // payaccountTextBox is bind with two binding so i need to intialize here, so i can show data on payment popup load.
     this.transactionDtoList = transaction;
-    this.transactionLineItemDaoList = transaction.transactionLineItemDaoList;
+    //this.transactionLineItemDaoList = transaction.transactionLineItemDaoList;
     this.setTransactionDtoList();
-    this.payAmountTextBox = transaction.totalAmount;
     this.disablePaymentButtons = false;
     this.disablePaymentButtonsWithAmount = false;
     this.disableCompleteSaleButton = true;
@@ -630,18 +627,25 @@ export class SaleComponent implements OnInit, AfterViewInit {
       }
       if (payment.paymentType == 'OnAccount' && payment.paymentAmount > 0) {
         this.paymentDto.onAccount = this.paymentDto.onAccount - payment.paymentAmount;
-        console.log('Inside On account for delete')
       }
     }
 
-    // This is because of type script,  + it concatting the two variables.  DO NOT FORGET THIS. 
-    this.dueAmountForTransaction = +payment.paymentAmount + this.dueAmountForTransaction;
+    if(payment.paymentType == 'OnAccount'){
+      // this.dueAmountForTransaction = +this.dueAmountForTransaction - payment.paymentAmount;
+    }
+    else {
+      this.dueAmountForTransaction = +payment.paymentAmount +this.dueAmountForTransaction -this.paymentDto.onAccount;
+    }
+
+    
     this.payAmountTextBox = Math.round(this.dueAmountForTransaction * 1e2) / 1e2;
 
     if (this.dueAmountForTransaction > 0) {
       this.disableCompleteSaleButton = true;
       this.disablePaymentButtons = false;
       this.disablePaymentButtonsWithAmount = false;
+
+      this.disableOnAccountButtons = this.selectedCustomer == null;
     }
   }
   // This is the method which handle completing the transaction and reset the all flag and other data.
@@ -655,7 +659,6 @@ export class SaleComponent implements OnInit, AfterViewInit {
       this.transactionDtoList.customerFirstLastName = this.selectedCustomer.name;
       this.transactionDtoList.previousBalance = this.selectedCustomer.balance;
     }
-
 
     this.transactionDtoList.status = this.saleType;
     // seeting current date and time using momemt.
@@ -810,55 +813,29 @@ export class SaleComponent implements OnInit, AfterViewInit {
 
   // TODO< NEED TO CHECK AND UNDERSTAND AGAIN.
   handleParkedTransactionFromSalesHistory(transactionComId: any) {
-
-
     // This is temp code for handling parked and online transactions
+
+    let phoneNo: any;
     this.sellService.getTransactionById(transactionComId)
       .subscribe((transaction: TransactionDtoList) => {
-
-        // if(transaction.status == 'Parked'){
-
-        transaction.transactionLineItemDaoList.forEach((lineItem) => {
-          lineItem.saleQuantity = lineItem.saleQuantity;
-          lineItem.saleQuantity = 0;
-        });
-
-        console.log('transaction details in park sale', transaction);
-        // Setting transactoin id here so i can send this in case of return and when user gives store credit to the customer.
-        //this.previousTransactionId = transaction.transactionComId;
-
+        this.transactionDtoList.transactionComId = transaction.transactionComId;
+        phoneNo = transaction.customerPhoneno;
         this.persit.setProducts(transaction.transactionLineItemDaoList);
-
-        this.transactionLineItemDaoList = this.persit.getProducts() || [];
-
-        console.log('lineItem for parkSale', this.transactionLineItemDaoList);
-
-        // Setting customer details to manage store credit and onAccount/ Loylty functionality
-        if (transaction.customerPhoneno != null && transaction.customerPhoneno != undefined && transaction.customerPhoneno.length > 0) {
-
-          this.selectedCustomer = new Customer();
-
-          this.customerService.getCustomerDetailsByPhoneNo(transaction.customerPhoneno)
-            .subscribe((customer: Customer) => {
-
-              this.selectedCustomer = customer;
-
-              if (customer.type == 'Business') {
-                this.taxPercent = 0;
-              }
-              console.log('Customer details from backend', customer);
-            });
-
-          console.log('Customer detils for park sale', this.selectedCustomer);
-          this.persit.setCustomerDetailsForSale(this.selectedCustomer);
-          this.selectedCustomer = this.persit.getCustomerDetailsForSale();
-
-          // TODO NEED TO CHECK HOW THIS WILL WORK
-          this.productPriceArryByCustomer = this.persit.getCustomerDetailsForSale();
-        }
-
-        this.setTransactionDtoList();
-      })
+        this.transactionLineItemDaoList = this.persit.getProducts() || [];  
+      });
+      // Setting customer details to manage store credit and onAccount/ Loylty functionality
+      if (phoneNo) {
+        this.customerService.getCustomerDetailsByPhoneNo(phoneNo)
+          .subscribe((customer) => {
+            this.selectedCustomer = customer;
+            if (customer && customer.type == 'Business') {
+              this.taxPercent = 0.00;
+            }
+            this.persit.setCustomerDetailsForSale(this.selectedCustomer);
+          });
+      }
+      this.setTransactionDtoList();
+   
   }
 
   printReciept() {
@@ -1037,7 +1014,7 @@ export class TransactionDtoList {
   note: string;
   previousTransactionId: any;
   description: string;
-  rmi: boolean;
+  rma: boolean;
 }
 
 export class PaymentDto {

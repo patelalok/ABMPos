@@ -359,7 +359,7 @@ export class ReturnSaleComponent implements OnInit, AfterViewInit {
   }
 
 
-  returnSale(rmi?:boolean) {
+  returnSale(rma?:boolean) {
 
     this.transactionDtoList.status = 'Return';
     this.transactionDtoList.date = moment(Date.now()).format('YYYY-MM-DD HH:mm:ss');
@@ -382,7 +382,7 @@ export class ReturnSaleComponent implements OnInit, AfterViewInit {
       payment.status = 'Return';
     }
     this.transactionDtoList.note = this.transactionNotes
-    this.transactionDtoList.rmi = rmi;
+    this.transactionDtoList.rma = rma;
     // To do need to fix this hardcoded value for username
     this.transactionDtoList.username = 'alok@alok.com';
     this.transactionDtoList.transactionLineItemDaoList = this.transactionLineItemDaoList;

@@ -23,7 +23,9 @@ public interface TransactionRepository extends JpaRepository<TransactionDao, Int
 
     List<TransactionDao> findAllByCustomerPhonenoAndAndDateBetween(String phoneNo, String startDate, String endDate);
 
-    @Query("SELECT SUM(t.transactionBalance) from TransactionDao t where t.customerPhoneno = ?1")
+
+    // I have hard coded this value to fix the, product of adding prevois invoices balance.
+    @Query("SELECT SUM(t.transactionBalance) from TransactionDao t where t.customerPhoneno = ?1 AND t.date > '2018-03-06 11:59:59'")
     List<Double> getCustomerBalanceByPendingInvoice(String phoneNo);
 
     @Query(value = "SELECT * FROM transaction t WHERE t.date BETWEEN ?1 AND ?2 ORDER BY t.date DESC", nativeQuery = true)

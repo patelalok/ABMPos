@@ -109,7 +109,7 @@ public class TransactionsManager {
                         else if (productInventoryDao.getQuantity() > 0) {
                             lineItemDao.setCost(productInventoryDao.getCost());
 
-                            // I donot know why i did this.
+                            // I donot know why i did this. this caused lots of issues
                             //lineItemDao.setSaleQuantity(productInventoryDao.getQuantity());
 
                             transactionLineItemDaoListNew.add(lineItemDao);
@@ -188,7 +188,7 @@ public class TransactionsManager {
         else if (transactionDao.getStatus().equalsIgnoreCase("Return") || transactionDao.getStatus().equalsIgnoreCase("Void")) {
 
             // this logic help to, manage regular return and RMI return, cause in RMI return we do not need to insert inventory again.
-            if(!transactionDao.isRmi())
+            if(!transactionDao.isRma())
             {
                 // Managing inventory for the RETURN or VOID
                 manageProductInventoryAfterSale(transactionDao);
@@ -279,6 +279,8 @@ public class TransactionsManager {
 
         // AFTER PENDING INVOICE LOGIC I NEED TO DO THIS AFTER FINISHING WITH THE TRANSACTION SO I CAN GET THE ACCURATE AMOUNT FOR CUSTOMERS BALANCE.
 
+//        For now i need to comment this and also need to reset all the customers pending invoices.
+
         if (null != transactionDao1.getCustomerPhoneno()) {
 
             // this will give me sum of customers balance, so after every transaction i am managing and syncing customers balance in customer table.
@@ -288,7 +290,9 @@ public class TransactionsManager {
                 CustomerDao customerDao = customerRepository.findByPhoneNo(transactionDao.getCustomerPhoneno());
 
                 if (null != customerDao) {
-                    customerDao.setBalance(result.get(0));
+                    if(null != result.get(0)){
+                        customerDao.setBalance(result.get(0));
+                    }
                     customerRepository.save(customerDao);
                 }
             }
