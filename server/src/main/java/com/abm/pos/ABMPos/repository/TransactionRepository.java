@@ -101,4 +101,10 @@ public interface TransactionRepository extends JpaRepository<TransactionDao, Int
 
     @Query("SELECT SUM(transactionBalance) from TransactionDao WHERE status = 'Pending' AND date BETWEEN ?1 AND ?2 ")
     List<Double> getTransactionDueAmount(String startDate, String endDate);
+
+    @Query(value = "SELECT monthname(t.date) AS NameOfMonth,SUM(t.transaction_balance) totalBalance\n" +
+            "from transaction t\n" +
+            "WHERE t.date BETWEEN ?1 AND ?2 AND t.status = 'Pending'\n" +
+            "group by NameOfMonth", nativeQuery = true)
+    List<Object[]> getYearlySalesReportForDueBalance(String startDate, String endDate);
 }

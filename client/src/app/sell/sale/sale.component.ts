@@ -20,6 +20,7 @@ import { MenuItem } from 'app/shared/top-navbar/top-navbar.component';
 import { PersistenceService } from 'app/shared/services/persistence.service';
 import { forEach } from '@angular/router/src/utils/collection';
 import { ProductService } from 'app/product/product.service';
+import { LoadingService } from '../../loading.service';
 declare var $: JQueryStatic;
 @Component({
   selector: 'app-sale',
@@ -76,7 +77,7 @@ export class SaleComponent implements OnInit, AfterViewInit {
   items: MenuItem[];
 
   constructor(
-    private sellService: SellService, private persit: PersistenceService, private productService: ProductService, private storeSetupService: StoreSetupService, private customerService: CustomerService, private sanitizer: DomSanitizer, private route: ActivatedRoute, private router: Router, private toastr: ToastsManager) { }
+    private sellService: SellService, private persit: PersistenceService, private productService: ProductService, private storeSetupService: StoreSetupService, private customerService: CustomerService, private sanitizer: DomSanitizer, private route: ActivatedRoute, private router: Router, private toastr: ToastsManager, private loadingService: LoadingService) { }
   ngOnInit() {
 
  
@@ -97,11 +98,6 @@ export class SaleComponent implements OnInit, AfterViewInit {
       });
 
     this.getCustomerDetails();
-
-    let transactionComId = this.route.snapshot.paramMap.get('transactionComId');
-    if (transactionComId) {
-      this.handleParkedTransactionFromSalesHistory(transactionComId);
-    }
     this.selectedCustomer = this.persit.getCustomerDetailsForSale();
 
     // This will help to get customer product price, cause its cusotmer is selected then definetly the price is stored in local storage.
@@ -112,7 +108,13 @@ export class SaleComponent implements OnInit, AfterViewInit {
     this.transactionLineItemDaoList = this.persit.getProducts() || [];
     // this will show transaction data on right side on refresh or on load of the page
     this.shippingAmount = this.persit.getShippingAmount() || 0;
-    this.setTransactionDtoList();
+
+    let transactionComId = this.route.snapshot.paramMap.get('transactionComId');
+    if (transactionComId) {
+      this.handleParkedTransactionFromSalesHistory(transactionComId);
+    }
+
+   // this.setTransactionDtoList();
   }
 
   ngAfterViewInit() {
@@ -217,19 +219,25 @@ export class SaleComponent implements OnInit, AfterViewInit {
     $('#productsearch > span > input').focus();
   }
 
+  testScan(value: any){
+    console.log('before value', value);
+    if(value.length > 11)
+    {
+      this.product.forEach((p)=>{
+
+        if(p.productNo == value)
+        {
+          this.addTransactionLineItem(value);
+          console.log("ok found wiht scanner", value);
+        }
+    })
+  }
+      
+    
+  }
   submitProduct(value: any) {
 
-    // if(this.p.length > 8){
-
-    //   this.product.forEach((p)=>{
-
-    //     if(p.productNo == this.p)
-    //     {
-    //       this.addTransactionLineItem(value);
-    //     }
-    // })
-    //   console.log("ok found wiht scanner");
-    // }
+   
 
     if (typeof value === 'string') {
       if (value !== '' && value !== undefined && value.indexOf('.') !== 0) {
@@ -590,8 +598,9 @@ export class SaleComponent implements OnInit, AfterViewInit {
   setDataForPaymentModelForPendingInvoice(transaction: TransactionDtoList) {
     console.log("inside the pending payment logic");
     this.transactionDtoList = transaction;
-    //this.transactionLineItemDaoList = transaction.transactionLineItemDaoList;
-    this.setTransactionDtoList();
+    this.transactionLineItemDaoList = transaction.transactionLineItemDaoList;
+
+    //this.setTransactionDtoList();
     this.disablePaymentButtons = false;
     this.disablePaymentButtonsWithAmount = false;
     this.disableCompleteSaleButton = true;
@@ -600,6 +609,7 @@ export class SaleComponent implements OnInit, AfterViewInit {
     this.disableStoreCreditButtons = true;
     this.payAmountTextBox = this.transactionDtoList.transactionBalance;
     this.dueAmountForTransaction = this.transactionDtoList.transactionBalance;
+
   }
 
   deletePaymentFromPaymentModel(payment: PaymentObjectForPaymentSellTable) {
@@ -630,14 +640,8 @@ export class SaleComponent implements OnInit, AfterViewInit {
       }
     }
 
-    if(payment.paymentType == 'OnAccount'){
-      // this.dueAmountForTransaction = +this.dueAmountForTransaction - payment.paymentAmount;
-    }
-    else {
-      this.dueAmountForTransaction = +payment.paymentAmount +this.dueAmountForTransaction -this.paymentDto.onAccount;
-    }
-
-    
+    // This is because of type script,  + it concatting the two variables.  DO NOT FORGET THIS. 
+    this.dueAmountForTransaction = +payment.paymentAmount + this.dueAmountForTransaction;
     this.payAmountTextBox = Math.round(this.dueAmountForTransaction * 1e2) / 1e2;
 
     if (this.dueAmountForTransaction > 0) {
@@ -651,6 +655,7 @@ export class SaleComponent implements OnInit, AfterViewInit {
   // This is the method which handle completing the transaction and reset the all flag and other data.
   completeSale() {
 
+    this.loadingService.loading = true;
     let totalLineItemDiscount: number = 0.00
     console.log('sales type', this.saleType);
     // setting customer details
@@ -740,6 +745,7 @@ export class SaleComponent implements OnInit, AfterViewInit {
         () => {
 
         }
+
       );
     //this.disableCompleteSaleButton = true;
     // console.log('Transaction Details', this.transactionDtoList);
@@ -749,6 +755,7 @@ export class SaleComponent implements OnInit, AfterViewInit {
 
     // console.log("done with sales");
 
+    this.loadingService.loading = false;
 
     // This will focus on the autocomplete field
     $('#productsearch > span > input').focus();
@@ -820,22 +827,34 @@ export class SaleComponent implements OnInit, AfterViewInit {
       .subscribe((transaction: TransactionDtoList) => {
         this.transactionDtoList.transactionComId = transaction.transactionComId;
         phoneNo = transaction.customerPhoneno;
+        console.log('phono', phoneNo);
+        if(phoneNo)
+        {
+          this.setCustomerDetailsForParkSale(phoneNo);
+        }
+        
         this.persit.setProducts(transaction.transactionLineItemDaoList);
         this.transactionLineItemDaoList = this.persit.getProducts() || [];  
       });
-      // Setting customer details to manage store credit and onAccount/ Loylty functionality
-      if (phoneNo) {
-        this.customerService.getCustomerDetailsByPhoneNo(phoneNo)
-          .subscribe((customer) => {
-            this.selectedCustomer = customer;
-            if (customer && customer.type == 'Business') {
-              this.taxPercent = 0.00;
-            }
-            this.persit.setCustomerDetailsForSale(this.selectedCustomer);
-          });
+  }
+
+  setCustomerDetailsForParkSale(phone: string){
+    console.log('insoide test')
+    this.customerService.getCustomerDetailsByPhoneNo(phone)
+    .subscribe((customer) => {
+      this.selectedCustomer = customer;
+      console.log('customer details after call', this.selectedCustomer);
+      if (customer && customer.type == 'Business') {
+        console.log('Inside the if for busssiness', this.selectedCustomer);
+        this.taxPercent = 0.00;
       }
+      this.persit.setCustomerDetailsForSale(this.selectedCustomer);
+      console.log('before set transaction', this.selectedCustomer);
       this.setTransactionDtoList();
-   
+    });
+
+    console.log('byy test')
+
   }
 
   printReciept() {

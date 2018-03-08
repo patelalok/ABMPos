@@ -24,6 +24,7 @@ import { DateService } from 'app/shared/services/date.service';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { TopSubNavbarComponent } from 'app/shared/top-sub-navbar/top-sub-navbar.component';
 import { UtilService } from './services/util.service';
+import { GobalProdcutService } from 'app/shared/global-product.service';
 
 @NgModule({
   imports: [
@@ -47,6 +48,6 @@ import { UtilService } from './services/util.service';
     FooterComponent,
     MatChipsModule
   ],
-  providers: [PersistenceService, DateService, UtilService]
+  providers: [PersistenceService, DateService, UtilService,GobalProdcutService]
 })
 export class SharedModule { }

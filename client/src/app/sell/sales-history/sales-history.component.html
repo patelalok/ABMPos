@@ -84,7 +84,7 @@
                     </ng-template>
 
                 </p-column>
-                <p-column field="status" header="Action" [style]="{'width': '10%'}">
+                <p-column field="status" header="Action" [style]="{'width': '10%', 'text-align': 'left'}">
 
                     <ng-template let-transaction="rowData" pTemplate="body">
                         <button class="btn-blue action-button-table" mat-button (click)="this.printReceipt(transaction)">

@@ -11,6 +11,7 @@ import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.PageSize;
 import com.itextpdf.text.pdf.PdfContentByte;
 import com.itextpdf.text.pdf.PdfWriter;
+import org.apache.commons.lang3.ArrayUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import com.itextpdf.text.pdf.BaseFont;
@@ -23,6 +24,8 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
+
 
 @Component
 public class ReportManager {
@@ -141,6 +144,13 @@ public class ReportManager {
         if (salesReportBy.equalsIgnoreCase("Sales By Year")) {
 
             List<Object[]> result = transactionRepository.getYearlySalesReport(startDate, endDate);
+            List<Object[]> result1 = transactionRepository.getYearlySalesReportForDueBalance(startDate,endDate);
+
+           // List<Object[]> finalList = new ArrayList<Object[]>(result);
+            //finalList.addAll(result1);
+
+            //System.out.println(finalList);
+
             return setDataForCommonSalesReport(result);
 //            }
         } else if (salesReportBy.equalsIgnoreCase("Sales By Month")) {
@@ -177,7 +187,7 @@ public class ReportManager {
         double totalDiscount = 0;
         double totalAmount = 0;
         double totalProfit = 0;
-        double totalDueAmount = 0;
+       // double totalDueAmount = 0;
         // double totalMarkup = 0;
 
         if (null != result) {
@@ -207,7 +217,7 @@ public class ReportManager {
                 totalTax = +totalTax + sales.getTax();
                 totalDiscount = +totalDiscount + sales.getDiscount();
                 totalAmount = +totalAmount + sales.getTotalAmount();
-                totalDueAmount = +totalDueAmount + sales.getDueBalance();
+                //totalDueAmount = +totalDueAmount + sales.getDueBalance();
                 totalProfit = +totalProfit + sales.getProfit();
 
             }
@@ -222,8 +232,10 @@ public class ReportManager {
             salesSummaryDto.setTax(totalTax);
             salesSummaryDto.setDiscount(totalDiscount);
             salesSummaryDto.setTotalAmount(totalAmount);
-            salesSummaryDto.setDueBalance(totalDueAmount);
+            //salesSummaryDto.setDueBalance(totalDueAmount);
             salesSummaryDto.setProfit(totalProfit);
+
+
 
             salesSummaryDtoList.add(salesSummaryDto);
 

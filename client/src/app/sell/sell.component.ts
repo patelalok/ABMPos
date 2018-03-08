@@ -115,7 +115,7 @@ items: MenuItem[];
 
     this.items = [
       { name: 'Return', icon: 'fa fa-reply-all fa-x ', link: '/sell/return' },
-      { name: 'Register', icon: 'fa fa-window-close-o fa-x', link: '/sell/close-register' },
+      { name: 'Close Register', icon: 'fa fa-window-close-o fa-x', link: '/sell/close-register' },
       { name: 'Close Shift', icon: 'fa fa-times fa-x', link: '/sell/close-shift' }
     ];
 

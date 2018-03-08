@@ -128,7 +128,6 @@ public class TransactionsManager {
                             deleteProductInventoryRow(productInventoryDao);
 
                         }
-
                         // This means we have last entry in product inventory table and user has not updated the quantity.
                         else {
                             // This is Important because i need to set cost price separately that's why i need to do this.
@@ -241,6 +240,15 @@ public class TransactionsManager {
 
                 // finally updating customers account details whether it is store credit or on on account choose by the customer on the
                 customerRepository.save(customerDao);
+            }
+
+            // This logic helps to delete, all payment date when user return the transaction or void the transaction.
+            // I need to do this, because in case of void and return, there will be one row with payment status as complete and if i dont delete it, i will show in reporting,
+            // So this is very important logic to implement.
+            // This will delete all payment details and at the end i am inserting new payment details for this transaction.
+            if(transactionDao.getTransactionComId() != 0)
+            {
+                paymentRepository.deletePaymentDetails(transactionDao.getTransactionComId());
             }
         }
 

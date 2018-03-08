@@ -31,4 +31,8 @@ public interface PaymentRepository extends JpaRepository<PaymentDao, Integer> {
 
     @Query(value = "SELECT * FROM transaction_payment where transaction_com_id = ?1", nativeQuery = true)
     List<Object[]> getPaymentDetailsByTransactionId(int id);
+
+    @Modifying
+    @Query(value = "DELETE FROM transaction_payment where transaction_com_id = ?1", nativeQuery = true)
+    void deletePaymentDetails(int transactionComId);
 }
