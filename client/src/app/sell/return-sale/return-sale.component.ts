@@ -358,6 +358,18 @@ export class ReturnSaleComponent implements OnInit, AfterViewInit {
     }
   }
 
+  manageTaxForTransaction() {
+    // this mean user is doing 0 % on sale page
+    if (this.taxPercent > 0) {
+      this.taxPercent = 0.00;
+    }
+    else {
+      this.taxPercent = this.storeDetails.tax;
+    }
+    
+    //this.setTransactionDtoList();
+  }
+
 
   returnSale(rma?:boolean) {
 

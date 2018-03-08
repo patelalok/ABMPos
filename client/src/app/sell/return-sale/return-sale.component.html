@@ -167,19 +167,16 @@
                     </dl> -->
 
                     <dl class="row">
-                        <dt *ngIf="this.taxPercent == 7">
-                        <a  href="javascript:void(0)" (click)="this.taxPercent = 0">
+                        <dt>
+                        <a  href="javascript:void(0)" (click)="this.manageTaxForTransaction()">
                                 Tax ({{this.taxPercent}}%)
                         </a>
                         </dt>
-
-                        <dt *ngIf="this.taxPercent == 0">
-
-                            <a  href="javascript:void(0)" (click)="this.taxPercent = 7">
-                                    No Tax
-                                    <!-- ({{this.taxPercent}}%) -->
+                        <!-- <dt *ngIf="this.taxPercent == 0">
+                            <a  href="javascript:void(0)" (click)="this.taxPercent = this.storeDetails.tax">
+                                No Tax
                             </a>
-                        </dt>
+                        </dt> -->
                         <dd class="">{{this.transactionDtoList.tax | currency:'USD':'true'}}</dd>
                     </dl>
                     <dl class="row">

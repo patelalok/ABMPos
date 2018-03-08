@@ -599,6 +599,7 @@ export class SaleComponent implements OnInit, AfterViewInit {
     console.log("inside the pending payment logic");
     this.transactionDtoList = transaction;
     this.transactionLineItemDaoList = transaction.transactionLineItemDaoList;
+    this.setTransactionDtoList();
 
     //this.setTransactionDtoList();
     this.disablePaymentButtons = false;
@@ -880,7 +881,6 @@ export class SaleComponent implements OnInit, AfterViewInit {
       this.taxPercent = this.storeDetails.tax;
     }
     this.setTransactionDtoList();
-
   }
 
   filterProducts(event) {

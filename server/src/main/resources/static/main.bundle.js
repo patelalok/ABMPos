@@ -5997,7 +5997,7 @@ var RepairModule = /** @class */ (function () {
 /***/ "../../../../../src/app/report/inventory/inventory.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<mat-card>\n    <mat-card-title>\n        <h4>Inventory Reports</h4>\n    </mat-card-title>\n\n    <mat-card-content>\n\n        <div class=\"row d-flex align-items-center\">\n\n            <!-- DO NOT DELETE THIS CAUSE I NEED TO USE IT FOR TWO DIFFERENT REPORT -->\n\n            <!-- <div class=\"col-md-2\">\n\n                <select class=\"form-control\">\n                    <option>Inventory Report</option>\n                    <option>Low Stock Inventory Report</option>\n                </select>\n            </div> -->\n\n            <div class=\"col-md-2\">\n\n                <select class=\"form-control\" [(ngModel)]=\"this.inventoryDropdown\" (change)=\"getInventoryReport(this.inventoryDropdown)\">\n                    <option>Category</option>\n                    <option>Vendor</option>\n                    <option>Brand</option>\n                    <option>Model</option>\n                </select>\n            </div>\n\n\n            <div class=\"col-md-2\">\n                <button matIcon (click)=\"this.printInventoryReportBy(this.inventoryDropdown.toLowerCase())\">\n                    <i class=\"fa fa-print fa-3x\" aria-hidden=\"true\"></i>\n                </button>\n            </div>\n\n        </div>\n\n        <!-- <div class=\"row\" *ngIf=\"this.pieChartData\" style=\"height: 250px\">\n            <ngx-charts-advanced-pie-chart class=\"\" [scheme]=\"colorScheme\" [results]=\"pieChartData\" [view]=\"null\" (select)=\"onSelect($event)\">\n            </ngx-charts-advanced-pie-chart>\n        </div> -->\n\n        <div class=\"row d-flex align-items-center\">\n            <div class=\"col-md-12 p-md-3\">\n                <p-dataTable [value]=\"this.inventoryDto\" scrollable=\"true\" [responsive]=\"true\" scrollHeight=\"500px\">\n                    <p-column field=\"name\" header=\"Name\" [style]=\"{'height': '46px', 'width': '25%', 'text-align': 'left'}\"></p-column>\n                    <p-column field=\"cost\" header=\"Total Cost\" [sortable]=\"true\">\n                        <ng-template let-inventory=\"rowData\" pTemplate=\"body\">\n                            {{inventory.cost | currency:'USD':'true'}}\n                        </ng-template>\n                    </p-column>\n                    <p-column field=\"retail\" header=\"Total Retail\" [sortable]=\"true\">\n                        <ng-template let-inventory=\"rowData\" pTemplate=\"body\">\n                            {{inventory.retail | currency:'USD':'true'}}\n                        </ng-template>\n                    </p-column>\n                    <p-column field=\"markup\" header=\"Total Markup %\" [sortable]=\"true\"></p-column>\n                    <p-column field=\"quantity\" header=\"Total Quantity\" [sortable]=\"true\"></p-column>\n                </p-dataTable>\n\n            </div>\n        </div>\n\n    </mat-card-content>\n</mat-card>"
+module.exports = "<mat-card>\n    <mat-card-title>\n        <h4>Inventory Reports</h4>\n    </mat-card-title>\n\n    <mat-card-content>\n\n        <div class=\"row d-flex align-items-center\">\n\n            <!-- DO NOT DELETE THIS CAUSE I NEED TO USE IT FOR TWO DIFFERENT REPORT -->\n\n            <!-- <div class=\"col-md-2\">\n\n                <select class=\"form-control\">\n                    <option>Inventory Report</option>\n                    <option>Low Stock Inventory Report</option>\n                </select>\n            </div> -->\n\n            <div class=\"col-md-2\">\n\n                <select class=\"form-control\" [(ngModel)]=\"this.inventoryDropdown\" (change)=\"getInventoryReport(this.inventoryDropdown)\">\n                    <option>Category</option>\n                    <option>Vendor</option>\n                    <option>Brand</option>\n                    <option>Model</option>\n                </select>\n            </div>\n\n\n            <div class=\"col-md-2\">\n                <button matIcon (click)=\"this.printInventoryReportBy(this.inventoryDropdown.toLowerCase())\">\n                    <i class=\"fa fa-print fa-3x\" aria-hidden=\"true\"></i>\n                </button>\n            </div>\n\n        </div>\n\n        <!-- <div class=\"row\" *ngIf=\"this.pieChartData\" style=\"height: 250px\">\n            <ngx-charts-advanced-pie-chart class=\"\" [scheme]=\"colorScheme\" [results]=\"pieChartData\" [view]=\"null\" (select)=\"onSelect($event)\">\n            </ngx-charts-advanced-pie-chart>\n        </div> -->\n\n        <div class=\"row d-flex align-items-center\">\n            <div class=\"col-md-12 p-md-3\">\n                <p-dataTable [value]=\"this.inventoryDto\" scrollable=\"true\" [responsive]=\"true\" scrollHeight=\"500px\">\n                    <p-column field=\"name\" header=\"Name\" [style]=\"{'height': '46px', 'width': '25%', 'text-align': 'left'}\"></p-column>\n                    <p-column field=\"cost\" header=\"Total Cost\" [sortable]=\"true\">\n                        <ng-template let-inventory=\"rowData\" pTemplate=\"body\">\n                            {{inventory.cost | currency:'USD':'true'}}\n                        </ng-template>\n                    </p-column>\n                    <p-column field=\"retail\" header=\"Total Retail\" [sortable]=\"true\">\n                        <ng-template let-inventory=\"rowData\" pTemplate=\"body\">\n                            {{inventory.retail | currency:'USD':'true'}}\n                        </ng-template>\n                    </p-column>\n                    <p-column field=\"quantity\" header=\"Total Quantity\" [sortable]=\"true\"></p-column>\n                    <p-column field=\"markup\" header=\"Total Markup %\" [sortable]=\"true\"></p-column>\n                </p-dataTable>\n\n            </div>\n        </div>\n\n    </mat-card-content>\n</mat-card>"
 
 /***/ }),
 
@@ -7666,16 +7666,16 @@ module.exports = module.exports.toString();
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_rxjs_Rx__ = __webpack_require__("../../../../rxjs/_esm5/Rx.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_app_shared_storesetup_storesetup_service__ = __webpack_require__("../../../../../src/app/shared/storesetup/storesetup.service.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_app_customer_customer_service__ = __webpack_require__("../../../../../src/app/customer/customer.service.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_app_customer_customer_component__ = __webpack_require__("../../../../../src/app/customer/customer.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_moment__ = __webpack_require__("../../../../moment/moment.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_moment___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6_moment__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__angular_platform_browser__ = __webpack_require__("../../../platform-browser/esm5/platform-browser.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8_app_shared_animations_fade_in_animation__ = __webpack_require__("../../../../../src/app/shared/animations/fade-in.animation.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__angular_router__ = __webpack_require__("../../../router/esm5/router.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10_ng2_toastr_src_toast_manager__ = __webpack_require__("../../../../ng2-toastr/src/toast-manager.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10_ng2_toastr_src_toast_manager___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_10_ng2_toastr_src_toast_manager__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11_app_shared_services_persistence_service__ = __webpack_require__("../../../../../src/app/shared/services/persistence.service.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12_app_product_product_service__ = __webpack_require__("../../../../../src/app/product/product.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_moment__ = __webpack_require__("../../../../moment/moment.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_moment___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5_moment__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__angular_platform_browser__ = __webpack_require__("../../../platform-browser/esm5/platform-browser.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_app_shared_animations_fade_in_animation__ = __webpack_require__("../../../../../src/app/shared/animations/fade-in.animation.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__angular_router__ = __webpack_require__("../../../router/esm5/router.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9_ng2_toastr_src_toast_manager__ = __webpack_require__("../../../../ng2-toastr/src/toast-manager.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9_ng2_toastr_src_toast_manager___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_9_ng2_toastr_src_toast_manager__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10_app_shared_services_persistence_service__ = __webpack_require__("../../../../../src/app/shared/services/persistence.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11_app_product_product_service__ = __webpack_require__("../../../../../src/app/product/product.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__loading_service__ = __webpack_require__("../../../../../src/app/loading.service.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -7699,7 +7699,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 var SaleComponent = /** @class */ (function () {
-    function SaleComponent(sellService, persit, productService, storeSetupService, customerService, sanitizer, route, router, toastr) {
+    function SaleComponent(sellService, persit, productService, storeSetupService, customerService, sanitizer, route, router, toastr, loadingService) {
         this.sellService = sellService;
         this.persit = persit;
         this.productService = productService;
@@ -7709,6 +7709,7 @@ var SaleComponent = /** @class */ (function () {
         this.route = route;
         this.router = router;
         this.toastr = toastr;
+        this.loadingService = loadingService;
         this.product = [];
         this.isProductExistsInSellList = false;
         this.transactionDtoList = new TransactionDtoList();
@@ -7748,10 +7749,6 @@ var SaleComponent = /** @class */ (function () {
                 _this.taxPercent = _this.storeDetails.tax;
             }
         });
-        var transactionComId = this.route.snapshot.paramMap.get('transactionComId');
-        if (transactionComId) {
-            this.handleParkedTransactionFromSalesHistory(transactionComId);
-        }
         this.getCustomerDetails();
         this.selectedCustomer = this.persit.getCustomerDetailsForSale();
         // This will help to get customer product price, cause its cusotmer is selected then definetly the price is stored in local storage.
@@ -7761,7 +7758,11 @@ var SaleComponent = /** @class */ (function () {
         this.transactionLineItemDaoList = this.persit.getProducts() || [];
         // this will show transaction data on right side on refresh or on load of the page
         this.shippingAmount = this.persit.getShippingAmount() || 0;
-        this.setTransactionDtoList();
+        var transactionComId = this.route.snapshot.paramMap.get('transactionComId');
+        if (transactionComId) {
+            this.handleParkedTransactionFromSalesHistory(transactionComId);
+        }
+        // this.setTransactionDtoList();
     };
     SaleComponent.prototype.ngAfterViewInit = function () {
         // This will focus on the autocomplete field
@@ -7861,16 +7862,19 @@ var SaleComponent = /** @class */ (function () {
         // document.querySelector("#productsearch > span > input").focus();
         $('#productsearch > span > input').focus();
     };
+    SaleComponent.prototype.testScan = function (value) {
+        var _this = this;
+        console.log('before value', value);
+        if (value.length > 11) {
+            this.product.forEach(function (p) {
+                if (p.productNo == value) {
+                    _this.addTransactionLineItem(value);
+                    console.log("ok found wiht scanner", value);
+                }
+            });
+        }
+    };
     SaleComponent.prototype.submitProduct = function (value) {
-        // if(this.p.length > 8){
-        //   this.product.forEach((p)=>{
-        //     if(p.productNo == this.p)
-        //     {
-        //       this.addTransactionLineItem(value);
-        //     }
-        // })
-        //   console.log("ok found wiht scanner");
-        // }
         if (typeof value === 'string') {
             if (value !== '' && value !== undefined && value.indexOf('.') !== 0) {
                 if (value.match(/[a-z]/i)) {
@@ -8007,8 +8011,8 @@ var SaleComponent = /** @class */ (function () {
         this.sellService.getPendingInvoiceByCustomer(customer.phoneNo)
             .subscribe(function (transaction) {
             transaction.forEach(function (trans) {
-                trans.time = __WEBPACK_IMPORTED_MODULE_6_moment__(trans.date).format('hh:mm A');
-                trans.date = __WEBPACK_IMPORTED_MODULE_6_moment__(trans.date).format('MM-DD-YYYY');
+                trans.time = __WEBPACK_IMPORTED_MODULE_5_moment__(trans.date).format('hh:mm A');
+                trans.date = __WEBPACK_IMPORTED_MODULE_5_moment__(trans.date).format('MM-DD-YYYY');
             });
             _this.transactionDetails = transaction;
         });
@@ -8125,6 +8129,7 @@ var SaleComponent = /** @class */ (function () {
             this.disablePaymentButtonsWithAmount = true;
             // This mean customer has provide sufficient balance.
             this.disableCompleteSaleButton = false;
+            this.disableOnAccountButtons = true;
         }
         else if (paymentType == 'Loyalty') {
             this.paymentDto.loyalty = paymentAmount;
@@ -8175,11 +8180,10 @@ var SaleComponent = /** @class */ (function () {
     // This method helps to take payment when customer is trying to pay for pending invoice.
     SaleComponent.prototype.setDataForPaymentModelForPendingInvoice = function (transaction) {
         console.log("inside the pending payment logic");
-        // payaccountTextBox is bind with two binding so i need to intialize here, so i can show data on payment popup load.
         this.transactionDtoList = transaction;
         this.transactionLineItemDaoList = transaction.transactionLineItemDaoList;
         this.setTransactionDtoList();
-        this.payAmountTextBox = transaction.totalAmount;
+        //this.setTransactionDtoList();
         this.disablePaymentButtons = false;
         this.disablePaymentButtonsWithAmount = false;
         this.disableCompleteSaleButton = true;
@@ -8211,7 +8215,6 @@ var SaleComponent = /** @class */ (function () {
             }
             if (payment.paymentType == 'OnAccount' && payment.paymentAmount > 0) {
                 this.paymentDto.onAccount = this.paymentDto.onAccount - payment.paymentAmount;
-                console.log('Inside On account for delete');
             }
         }
         // This is because of type script,  + it concatting the two variables.  DO NOT FORGET THIS. 
@@ -8221,11 +8224,13 @@ var SaleComponent = /** @class */ (function () {
             this.disableCompleteSaleButton = true;
             this.disablePaymentButtons = false;
             this.disablePaymentButtonsWithAmount = false;
+            this.disableOnAccountButtons = this.selectedCustomer == null;
         }
     };
     // This is the method which handle completing the transaction and reset the all flag and other data.
     SaleComponent.prototype.completeSale = function () {
         var _this = this;
+        this.loadingService.loading = true;
         var totalLineItemDiscount = 0.00;
         console.log('sales type', this.saleType);
         // setting customer details
@@ -8236,7 +8241,7 @@ var SaleComponent = /** @class */ (function () {
         }
         this.transactionDtoList.status = this.saleType;
         // seeting current date and time using momemt.
-        this.transactionDtoList.date = __WEBPACK_IMPORTED_MODULE_6_moment__(Date.now()).format('YYYY-MM-DD HH:mm:ss');
+        this.transactionDtoList.date = __WEBPACK_IMPORTED_MODULE_5_moment__(Date.now()).format('YYYY-MM-DD HH:mm:ss');
         // Setting payment dto into transaction dto, because can not send both as @request body from angular..
         this.paymentDto.date = this.transactionDtoList.date;
         this.paymentDao.push(this.paymentDto);
@@ -8303,6 +8308,7 @@ var SaleComponent = /** @class */ (function () {
         // console.log('Payment Dto', this.paymentDto);
         //this.disablePaymentButtons = true;
         // console.log("done with sales");
+        this.loadingService.loading = false;
         // This will focus on the autocomplete field
         $('#productsearch > span > input').focus();
     };
@@ -8347,40 +8353,37 @@ var SaleComponent = /** @class */ (function () {
     };
     // TODO< NEED TO CHECK AND UNDERSTAND AGAIN.
     SaleComponent.prototype.handleParkedTransactionFromSalesHistory = function (transactionComId) {
-        var _this = this;
         // This is temp code for handling parked and online transactions
+        var _this = this;
+        var phoneNo;
         this.sellService.getTransactionById(transactionComId)
             .subscribe(function (transaction) {
-            // if(transaction.status == 'Parked'){
-            transaction.transactionLineItemDaoList.forEach(function (lineItem) {
-                lineItem.saleQuantity = lineItem.saleQuantity;
-                lineItem.saleQuantity = 0;
-            });
-            console.log('transaction details in park sale', transaction);
-            // Setting transactoin id here so i can send this in case of return and when user gives store credit to the customer.
-            //this.previousTransactionId = transaction.transactionComId;
+            _this.transactionDtoList.transactionComId = transaction.transactionComId;
+            phoneNo = transaction.customerPhoneno;
+            console.log('phono', phoneNo);
+            if (phoneNo) {
+                _this.setCustomerDetailsForParkSale(phoneNo);
+            }
             _this.persit.setProducts(transaction.transactionLineItemDaoList);
             _this.transactionLineItemDaoList = _this.persit.getProducts() || [];
-            console.log('lineItem for parkSale', _this.transactionLineItemDaoList);
-            // Setting customer details to manage store credit and onAccount/ Loylty functionality
-            if (transaction.customerPhoneno != null && transaction.customerPhoneno != undefined && transaction.customerPhoneno.length > 0) {
-                _this.selectedCustomer = new __WEBPACK_IMPORTED_MODULE_5_app_customer_customer_component__["a" /* Customer */]();
-                _this.customerService.getCustomerDetailsByPhoneNo(transaction.customerPhoneno)
-                    .subscribe(function (customer) {
-                    _this.selectedCustomer = customer;
-                    if (customer.type == 'Business') {
-                        _this.taxPercent = 0;
-                    }
-                    console.log('Customer details from backend', customer);
-                });
-                console.log('Customer detils for park sale', _this.selectedCustomer);
-                _this.persit.setCustomerDetailsForSale(_this.selectedCustomer);
-                _this.selectedCustomer = _this.persit.getCustomerDetailsForSale();
-                // TODO NEED TO CHECK HOW THIS WILL WORK
-                _this.productPriceArryByCustomer = _this.persit.getCustomerDetailsForSale();
+        });
+    };
+    SaleComponent.prototype.setCustomerDetailsForParkSale = function (phone) {
+        var _this = this;
+        console.log('insoide test');
+        this.customerService.getCustomerDetailsByPhoneNo(phone)
+            .subscribe(function (customer) {
+            _this.selectedCustomer = customer;
+            console.log('customer details after call', _this.selectedCustomer);
+            if (customer && customer.type == 'Business') {
+                console.log('Inside the if for busssiness', _this.selectedCustomer);
+                _this.taxPercent = 0.00;
             }
+            _this.persit.setCustomerDetailsForSale(_this.selectedCustomer);
+            console.log('before set transaction', _this.selectedCustomer);
             _this.setTransactionDtoList();
         });
+        console.log('byy test');
     };
     SaleComponent.prototype.printReciept = function () {
         this.sellService.printReceipt(this.printTransactionDto);
@@ -8465,9 +8468,9 @@ var SaleComponent = /** @class */ (function () {
             selector: 'app-sale',
             template: __webpack_require__("../../../../../src/app/sell/sale/sale.component.html"),
             styles: [__webpack_require__("../../../../../src/app/sell/sale/sale.component.scss")],
-            animations: [__WEBPACK_IMPORTED_MODULE_8_app_shared_animations_fade_in_animation__["a" /* fadeInAnimation */]],
+            animations: [__WEBPACK_IMPORTED_MODULE_7_app_shared_animations_fade_in_animation__["a" /* fadeInAnimation */]],
         }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_app_sell_sell_service__["a" /* SellService */], __WEBPACK_IMPORTED_MODULE_11_app_shared_services_persistence_service__["a" /* PersistenceService */], __WEBPACK_IMPORTED_MODULE_12_app_product_product_service__["a" /* ProductService */], __WEBPACK_IMPORTED_MODULE_3_app_shared_storesetup_storesetup_service__["a" /* StoreSetupService */], __WEBPACK_IMPORTED_MODULE_4_app_customer_customer_service__["a" /* CustomerService */], __WEBPACK_IMPORTED_MODULE_7__angular_platform_browser__["DomSanitizer"], __WEBPACK_IMPORTED_MODULE_9__angular_router__["ActivatedRoute"], __WEBPACK_IMPORTED_MODULE_9__angular_router__["Router"], __WEBPACK_IMPORTED_MODULE_10_ng2_toastr_src_toast_manager__["ToastsManager"]])
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_app_sell_sell_service__["a" /* SellService */], __WEBPACK_IMPORTED_MODULE_10_app_shared_services_persistence_service__["a" /* PersistenceService */], __WEBPACK_IMPORTED_MODULE_11_app_product_product_service__["a" /* ProductService */], __WEBPACK_IMPORTED_MODULE_3_app_shared_storesetup_storesetup_service__["a" /* StoreSetupService */], __WEBPACK_IMPORTED_MODULE_4_app_customer_customer_service__["a" /* CustomerService */], __WEBPACK_IMPORTED_MODULE_6__angular_platform_browser__["DomSanitizer"], __WEBPACK_IMPORTED_MODULE_8__angular_router__["ActivatedRoute"], __WEBPACK_IMPORTED_MODULE_8__angular_router__["Router"], __WEBPACK_IMPORTED_MODULE_9_ng2_toastr_src_toast_manager__["ToastsManager"], __WEBPACK_IMPORTED_MODULE_12__loading_service__["a" /* LoadingService */]])
     ], SaleComponent);
     return SaleComponent;
 }());
@@ -8528,7 +8531,7 @@ var CustomerProductPrice = /** @class */ (function () {
 /***/ "../../../../../src/app/sell/sales-history/sales-history.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<mat-card>\n    <mat-card-title>\n        <h4>Sales History</h4>\n    </mat-card-title>\n\n    <mat-card-content>\n\n        <div class=\"row d-flex align-items-center\">\n\n            <div class=\"col-md-2\">\n                <select class=\"form-control form-control\" [(ngModel)]=\"this.salesHistoryDropdown\" (change)=\"this.getTransactionDetails(this.salesHistoryDropdown)\">\n                    <option>Today</option>\n                    <option>Yesterday</option>\n                    <option>This Week</option>\n                    <option>Last Week</option>\n                    <option>This Month</option>\n                    <option>Last Month</option>\n                    <option>Last 3 Months</option>\n                    <option>Last 6 Months</option>\n                    <option>This Year</option>\n                    <option>Last Year</option>\n                    <option>Custom</option>\n\n                </select>\n\n            </div>\n            <div *ngIf=\"this.salesHistoryDropdown == 'Custom' \" class=\"col-md-3 form-group d-flex align-items-center\" [formGroup]=\"this.customDate\">\n\n                <mat-form-field class=\"float-never col-md-6\">\n                    <input formControlName=\"fromDate\" matInput [matDatepicker]=\"fromDate\" placeholder=\"Start Date\" [max]=\"this.currentDate\">\n                    <mat-datepicker-toggle matSuffix [for]=\"fromDate\"></mat-datepicker-toggle>\n                    <mat-datepicker #fromDate></mat-datepicker>\n                </mat-form-field>\n                <label class=\"text-center\">To</label>\n                <mat-form-field class=\"float-never col-md-6\">\n                    <input class=\"\" formControlName=\"toDate\" matInput [matDatepicker]=\"toDate\" placeholder=\"End Date\" [min]=\"this.customDate.get('fromDate').value\" [max]=\"this.currentDate\">\n                    <mat-datepicker-toggle matSuffix [for]=\"toDate\"></mat-datepicker-toggle>\n                    <mat-datepicker #toDate></mat-datepicker>\n                </mat-form-field>\n            </div>\n\n            <div class=\"col-md-2\">\n                <select class=\"form-control\" [(ngModel)]=\"this.searchByTransactionType\" (change)=\"onTransactionTypeDropdownChoose()\">\n                    <option>All Transaction Status</option>\n                    <option>Complete</option>\n                    <option>Return</option>\n                    <option>Void</option>\n                    <option>Park</option>\n                    <option>Online</option>\n                </select>\n\n            </div>\n\n\n            <div class=\"col-md-3\">\n                <input [formControl]=\"this.searchByCustomerInputBox\" class=\"form-control form-control\" type=\"text\" placeholder=\"Search By Customer Name Or PhoneNo\">\n\n            </div>\n            <div class=\"col-md-2\">\n                <input [formControl]=\"this.searchByReceiptNoInputBox\" class=\"form-control form-control\" type=\"text\" placeholder=\"Search By Recipt Number\">\n\n            </div>\n\n        </div>\n\n        <div class=\"row p-md-3\">\n            <p-dataTable [value]=\"this.transactionDetails\" scrollable=\"true\" scrollHeight=\"500px\" [responsive]=\"true\">\n                <p-column field=\"transactionComId\" header=\"Receipt No\" [style]=\"{'width': '7%'}\"></p-column>\n                <p-column field=\"date\" header=\"Date\" [sortable]=\"true\" [style]=\"{'width': '6%'}\"></p-column>\n                <p-column field=\"time\" header=\"Time\" [sortable]=\"true\" [style]=\"{'width': '6%'}\"></p-column>\n                <p-column field=\"customerPhoneno\" header=\"Customer Phone\"></p-column>\n                <p-column field=\"customerFirstLastName\" header=\"Customer Name\"></p-column>\n                <!-- <p-column field=\"username\" header=\"User Name\"></p-column> -->\n                <p-column field=\"tax\" header=\"Tax\" [style]=\"{'width': '8%'}\"></p-column>\n                <p-column field=\"totalDiscount\" header=\"Discount\" [style]=\"{'width': '8%'}\"></p-column>\n                <p-column field=\"subtotal\" header=\"Subtotal\" [style]=\"{'width': '8%'}\"></p-column>\n                <p-column field=\"totalAmount\" header=\"Total Amount\" [sortable]=\"true\" [style]=\"{'width': '10%'}\"></p-column>\n                <p-column field=\"status\" header=\"Status\" [sortable]=\"true\" [style]=\"{'width': '8%'}\">\n\n                    <ng-template let-transaction=\"rowData\" pTemplate=\"body\">\n                        <mat-chip-list>\n                            <mat-chip [ngClass]=\"[transaction.status == 'Complete' ? 'complete':'', transaction.status == 'Pending' ? 'pending':'', transaction.status == 'Return' ? 'return':'', transaction.status == 'Void' ? 'void':'']\" selected=\"true\">{{transaction.status}}</mat-chip>\n                        </mat-chip-list>\n                    </ng-template>\n\n                </p-column>\n                <p-column field=\"status\" header=\"Action\" [style]=\"{'width': '10%'}\">\n\n                    <ng-template let-transaction=\"rowData\" pTemplate=\"body\">\n                        <button class=\"btn-blue action-button-table\" mat-button (click)=\"this.printReceipt(transaction)\">\n                            <i class=\"fa fa-print\" aria-hidden=\"true\"></i>\n                        </button>\n                        <button class=\"btn-green action-button-table\" mat-button (click)='this.sendEmail(transaction)'>\n                            <i class=\"fa fa-envelope\" aria-hidden=\"true\"></i>\n                        </button>\n\n                        <!-- // Do not remove this, this is for park sales where i can redirect user to start the transaction. -->\n                        <!-- <button *ngIf=\"transaction.status != 'Return' \" class=\"btn-red action-button-table\" mat-button [routerLink]=\"['/sell', {transactionComId: transaction.transactionComId}]\"> -->\n                        <button *ngIf=\"transaction.status == 'Complete' \" class=\"btn-red action-button-table\" mat-button (click)=\"setTransactoinToVoid(transaction)\" data-toggle=\"modal\" data-target=\"#voidTransaction\">\n\n                            <i class=\"fa fa-ban\" aria-hidden=\"true\"></i>\n                        </button>\n                        <button *ngIf=\"transaction.status == 'Park' || transaction.status == 'Online' \" class=\"btn-red action-button-table\" mat-button [routerLink]=\"['/sell/sale', {transactionComId: transaction.transactionComId}]\">\n                                <i class=\"fa fa-reply-all\" aria-hidden=\"true\"></i>\n                        </button>\n\n\n                    </ng-template>\n                </p-column>\n\n                <!-- \n                <ng-template let-receipt pTemplate=\"rowexpansion\">\n                    <div class=\"ui-grid ui-grid-responsive ui-fluid\" style=\"font-size:16px;padding:20px\">\n                        <div class=\"ui-grid-row\">\n                            <div class=\"ui-grid-col-12\">\n                                <div class=\"ui-grid ui-grid-responsive ui-grid-pad\">\n\n                                    <table class=\"table table-striped\">\n                                        <thead>\n                                            <tr>\n                                                <th>Product No</th>\n                                                <th>Description</th>\n                                                <th>Retail</th>\n                                                <th>Discount</th>\n                                                <th>Quantity</th>\n                                                <th>Total</th>\n                                            </tr>\n                                        </thead>\n                                        <tbody>\n                                            <tr *ngFor=\"let lineItem of receipt.transactionLineItemDaoList\">\n                                                <td>{{this.lineItem.productNo}}</td>\n                                                <td>{{this.lineItem.description}}</td>\n                                                <td>{{this.lineItem.retail}}</td>\n                                                <td>{{this.lineItem.discount}}</td>\n                                                <td>{{this.lineItem.quantity}}</td>\n                                                <td>{{this.lineItem.totalProductPrice}}</td>\n                                            </tr>\n                                        </tbody>\n                                    </table>\n                                </div>\n                            </div>\n                        </div>\n                        <div class=\"row\">\n\n                            <div class=\"col-md-10 text-left\">\n                                <div>\n                                    Transaction Notes :\n                                </div>\n                                <textarea rows=\"3\" cols=\"150\">\n                            {{receipt.note}}\n                        </textarea>\n                            </div>\n                            <div class=\"col-md-2\">\n\n                                <div class=\"row\">\n                                    <div class=\"col-md-6\">\n                                        Subtotal:\n                                    </div>\n                                    <div class=\"col-md-6\">\n                                        $ {{receipt.subtotal}}\n                                    </div>\n                                </div>\n\n                                <div class=\"row\">\n                                    <div class=\"col-md-6\" *ngIf=\"receipt.totalDiscount != 0\">\n                                        Discount:\n                                    </div>\n                                    <div class=\"col-md-6\" *ngIf=\"receipt.totalDiscount != 0\">\n                                        $ {{receipt.totalDiscount}}\n                                    </div>\n                                </div>\n\n                                <div class=\"row\">\n                                    <div class=\"col-md-6\">\n                                        Tax:\n                                    </div>\n                                    <div class=\"col-md-6\">\n                                        $ {{receipt.tax}}\n                                    </div>\n                                </div>\n\n                                <div class=\"row\">\n                                    <div class=\"col-md-6\" *ngIf=\"receipt.previousBalance != 0\">\n                                        Pre Balance:\n                                    </div>\n                                    <div class=\"col-md-6\" *ngIf=\"receipt.previousBalance != 0\">\n                                        $ {{receipt.previousBalance}}\n                                    </div>\n                                </div>\n\n                                <hr>\n\n                                <div class=\"row\">\n                                    <div class=\"col-md-6\">\n                                        TOTAL:\n                                    </div>\n                                    <div class=\"col-md-6\">\n                                        $ {{receipt.totalAmount}}\n                                    </div>\n                                </div>\n\n                                <hr>\n                                <div class=\"row\">\n                                    <div class=\"col-md-6\" *ngIf=\"receipt.paymentDao[0].cash != 0\">\n                                        Cash:\n                                    </div>\n                                    <div class=\"col-md-6\" *ngIf=\"receipt.paymentDao[0].cash != 0\">\n                                        $ {{receipt.paymentDao[0].cash + receipt.paymentDao[0].changeForCash}}\n                                    </div>\n                                </div>\n\n                                <div class=\"row\">\n                                    <div class=\"col-md-6\" *ngIf=\"receipt.paymentDao[0].changeForCash != 0\">\n                                        Change:\n                                    </div>\n                                    <div class=\"col-md-6\" *ngIf=\"receipt.paymentDao[0].changeForCash != 0\">\n                                        $ {{receipt.paymentDao[0].changeForCash}}\n                                    </div>\n                                </div>\n\n                                <div class=\"row\">\n                                    <div class=\"col-md-6\" *ngIf=\"receipt.paymentDao[0].credit != 0\">\n                                        Credit:\n                                    </div>\n                                    <div class=\"col-md-6\" *ngIf=\"receipt.paymentDao[0].credit != 0\">\n                                        $ {{receipt.paymentDao[0].credit}}\n                                    </div>\n                                </div>\n\n                                <div class=\"row\">\n                                    <div class=\"col-md-6\" *ngIf=\"receipt.paymentDao[0].debit != 0\">\n                                        Debit:\n                                    </div>\n                                    <div class=\"col-md-6\" *ngIf=\"receipt.paymentDao[0].debit != 0\">\n                                        $ {{receipt.paymentDao[0].debit}}\n                                    </div>\n                                </div>\n\n                                <div class=\"row\">\n                                    <div class=\"col-md-6\" *ngIf=\"receipt.paymentDao[0].checkAmount != 0\">\n                                        Check:\n                                    </div>\n                                    <div class=\"col-md-6\" *ngIf=\"receipt.paymentDao[0].checkAmount != 0\">\n                                        $ {{receipt.paymentDao[0].checkAmount}}\n                                    </div>\n                                </div>\n\n                                <div class=\"row\">\n                                    <div class=\"col-md-6\" *ngIf=\"receipt.paymentDao[0].storeCredit != 0\">\n                                        Store Credit:\n                                    </div>\n                                    <div class=\"col-md-6\" *ngIf=\"receipt.paymentDao[0].storeCredit != 0\">\n                                        $ {{receipt.paymentDao[0].storeCredit}}\n                                    </div>\n                                </div>\n\n                                <div class=\"row\">\n                                    <div class=\"col-md-6\" *ngIf=\"receipt.paymentDao[0].onAccount != 0\">\n                                        On Account:\n                                    </div>\n                                    <div class=\"col-md-6\" *ngIf=\"receipt.paymentDao[0].onAccount != 0\">\n                                        $ {{receipt.paymentDao[0].onAccount}}\n                                    </div>\n                                </div>\n\n                                <hr>\n\n                                <div class=\"row\">\n                                    <div class=\"col-md-6\">\n                                        Balance:\n                                    </div>\n                                    <div class=\"col-md-6\">\n                                        $ {{receipt.transactionBalance}}\n                                    </div>\n                                </div>\n\n\n\n                            </div>\n                        </div>\n\n                    </div>\n                </ng-template> -->\n            </p-dataTable>\n\n        </div>\n    </mat-card-content>\n</mat-card>\n\n\n\n<!-- Start of Void Transacton -->\n<div class=\"modal fade\" id=\"voidTransaction\" role=\"dialog\">\n    <div class=\"modal-dialog modal-sm\">\n        <div class=\"modal-content\">\n            <div class=\"modal-header\">\n                <h4 class=\"modal-title\">Void Sale</h4>\n                <button type=\"button\" class=\"close\" data-dismiss=\"modal\">&times;</button>\n            </div>\n            <div class=\"modal-body\">\n                <p>Are You Sure You Want To Void This Sale</p>\n            </div>\n            <div class=\"modal-footer\">\n\n                <button type=\"button\" class=\"btn btn-danger\" data-dismiss=\"modal\" (click)=\"this.voidTransaction()\">Yes</button>\n                <button type=\"button\" class=\"btn btn-default\" data-dismiss=\"modal\">Cancle</button>\n            </div>\n        </div>\n    </div>\n</div>\n\n<!-- End of Void Transacton -->"
+module.exports = "<mat-card>\n    <mat-card-title>\n        <h4>Sales History</h4>\n    </mat-card-title>\n\n    <mat-card-content>\n\n        <div class=\"row d-flex align-items-center\">\n\n            <div class=\"col-md-2\">\n                <select class=\"form-control form-control\" [(ngModel)]=\"this.salesHistoryDropdown\" (change)=\"this.getTransactionDetails(this.salesHistoryDropdown)\">\n                    <option>Today</option>\n                    <option>Yesterday</option>\n                    <option>This Week</option>\n                    <option>Last Week</option>\n                    <option>This Month</option>\n                    <option>Last Month</option>\n                    <option>Last 3 Months</option>\n                    <option>Last 6 Months</option>\n                    <option>This Year</option>\n                    <option>Last Year</option>\n                    <option>Custom</option>\n\n                </select>\n\n            </div>\n            <div *ngIf=\"this.salesHistoryDropdown == 'Custom' \" class=\"col-md-3 form-group d-flex align-items-center\" [formGroup]=\"this.customDate\">\n\n                <mat-form-field class=\"float-never col-md-6\">\n                    <input formControlName=\"fromDate\" matInput [matDatepicker]=\"fromDate\" placeholder=\"Start Date\" [max]=\"this.currentDate\">\n                    <mat-datepicker-toggle matSuffix [for]=\"fromDate\"></mat-datepicker-toggle>\n                    <mat-datepicker #fromDate></mat-datepicker>\n                </mat-form-field>\n                <label class=\"text-center\">To</label>\n                <mat-form-field class=\"float-never col-md-6\">\n                    <input class=\"\" formControlName=\"toDate\" matInput [matDatepicker]=\"toDate\" placeholder=\"End Date\" [min]=\"this.customDate.get('fromDate').value\" [max]=\"this.currentDate\">\n                    <mat-datepicker-toggle matSuffix [for]=\"toDate\"></mat-datepicker-toggle>\n                    <mat-datepicker #toDate></mat-datepicker>\n                </mat-form-field>\n            </div>\n\n            <div class=\"col-md-2\">\n                <select class=\"form-control\" [(ngModel)]=\"this.searchByTransactionType\" (change)=\"onTransactionTypeDropdownChoose()\">\n                    <option>All Transaction Status</option>\n                    <option>Complete</option>\n                    <option>Return</option>\n                    <option>Void</option>\n                    <option>Park</option>\n                    <option>Online</option>\n                </select>\n\n            </div>\n\n\n            <div class=\"col-md-3\">\n                <input [formControl]=\"this.searchByCustomerInputBox\" class=\"form-control form-control\" type=\"text\" placeholder=\"Search By Customer Name Or PhoneNo\">\n\n            </div>\n            <div class=\"col-md-2\">\n                <input [formControl]=\"this.searchByReceiptNoInputBox\" class=\"form-control form-control\" type=\"text\" placeholder=\"Search By Recipt Number\">\n\n            </div>\n\n        </div>\n\n        <div class=\"row p-md-3\">\n            <p-dataTable [value]=\"this.transactionDetails\" scrollable=\"true\" scrollHeight=\"500px\" [responsive]=\"true\">\n                <p-column field=\"transactionComId\" header=\"Receipt No\" [style]=\"{'width': '7%'}\"></p-column>\n                <p-column field=\"date\" header=\"Date\" [sortable]=\"true\" [style]=\"{'width': '6%'}\"></p-column>\n                <p-column field=\"time\" header=\"Time\" [sortable]=\"true\" [style]=\"{'width': '6%'}\"></p-column>\n                <p-column field=\"customerPhoneno\" header=\"Customer Phone\"></p-column>\n                <p-column field=\"customerFirstLastName\" header=\"Customer Name\"></p-column>\n                <!-- <p-column field=\"username\" header=\"User Name\"></p-column> -->\n                <p-column field=\"tax\" header=\"Tax\" [style]=\"{'width': '8%'}\"></p-column>\n                <p-column field=\"totalDiscount\" header=\"Discount\" [style]=\"{'width': '8%'}\"></p-column>\n                <p-column field=\"subtotal\" header=\"Subtotal\" [style]=\"{'width': '8%'}\"></p-column>\n                <p-column field=\"totalAmount\" header=\"Total Amount\" [sortable]=\"true\" [style]=\"{'width': '10%'}\"></p-column>\n                <p-column field=\"status\" header=\"Status\" [sortable]=\"true\" [style]=\"{'width': '8%'}\">\n\n                    <ng-template let-transaction=\"rowData\" pTemplate=\"body\">\n                        <mat-chip-list>\n                            <mat-chip [ngClass]=\"[transaction.status == 'Complete' ? 'complete':'', transaction.status == 'Pending' ? 'pending':'', transaction.status == 'Return' ? 'return':'', transaction.status == 'Void' ? 'void':'']\" selected=\"true\">{{transaction.status}}</mat-chip>\n                        </mat-chip-list>\n                    </ng-template>\n\n                </p-column>\n                <p-column field=\"status\" header=\"Action\" [style]=\"{'width': '10%', 'text-align': 'left'}\">\n\n                    <ng-template let-transaction=\"rowData\" pTemplate=\"body\">\n                        <button class=\"btn-blue action-button-table\" mat-button (click)=\"this.printReceipt(transaction)\">\n                            <i class=\"fa fa-print\" aria-hidden=\"true\"></i>\n                        </button>\n                        <button class=\"btn-green action-button-table\" mat-button (click)='this.sendEmail(transaction)'>\n                            <i class=\"fa fa-envelope\" aria-hidden=\"true\"></i>\n                        </button>\n\n                        <!-- // Do not remove this, this is for park sales where i can redirect user to start the transaction. -->\n                        <!-- <button *ngIf=\"transaction.status != 'Return' \" class=\"btn-red action-button-table\" mat-button [routerLink]=\"['/sell', {transactionComId: transaction.transactionComId}]\"> -->\n                        <button *ngIf=\"transaction.status == 'Complete' \" class=\"btn-red action-button-table\" mat-button (click)=\"setTransactoinToVoid(transaction)\" data-toggle=\"modal\" data-target=\"#voidTransaction\">\n\n                            <i class=\"fa fa-ban\" aria-hidden=\"true\"></i>\n                        </button>\n                        <button *ngIf=\"transaction.status == 'Park' || transaction.status == 'Online' \" class=\"btn-red action-button-table\" mat-button [routerLink]=\"['/sell/sale', {transactionComId: transaction.transactionComId}]\">\n                                <i class=\"fa fa-reply-all\" aria-hidden=\"true\"></i>\n                        </button>\n\n\n                    </ng-template>\n                </p-column>\n\n                <!-- \n                <ng-template let-receipt pTemplate=\"rowexpansion\">\n                    <div class=\"ui-grid ui-grid-responsive ui-fluid\" style=\"font-size:16px;padding:20px\">\n                        <div class=\"ui-grid-row\">\n                            <div class=\"ui-grid-col-12\">\n                                <div class=\"ui-grid ui-grid-responsive ui-grid-pad\">\n\n                                    <table class=\"table table-striped\">\n                                        <thead>\n                                            <tr>\n                                                <th>Product No</th>\n                                                <th>Description</th>\n                                                <th>Retail</th>\n                                                <th>Discount</th>\n                                                <th>Quantity</th>\n                                                <th>Total</th>\n                                            </tr>\n                                        </thead>\n                                        <tbody>\n                                            <tr *ngFor=\"let lineItem of receipt.transactionLineItemDaoList\">\n                                                <td>{{this.lineItem.productNo}}</td>\n                                                <td>{{this.lineItem.description}}</td>\n                                                <td>{{this.lineItem.retail}}</td>\n                                                <td>{{this.lineItem.discount}}</td>\n                                                <td>{{this.lineItem.quantity}}</td>\n                                                <td>{{this.lineItem.totalProductPrice}}</td>\n                                            </tr>\n                                        </tbody>\n                                    </table>\n                                </div>\n                            </div>\n                        </div>\n                        <div class=\"row\">\n\n                            <div class=\"col-md-10 text-left\">\n                                <div>\n                                    Transaction Notes :\n                                </div>\n                                <textarea rows=\"3\" cols=\"150\">\n                            {{receipt.note}}\n                        </textarea>\n                            </div>\n                            <div class=\"col-md-2\">\n\n                                <div class=\"row\">\n                                    <div class=\"col-md-6\">\n                                        Subtotal:\n                                    </div>\n                                    <div class=\"col-md-6\">\n                                        $ {{receipt.subtotal}}\n                                    </div>\n                                </div>\n\n                                <div class=\"row\">\n                                    <div class=\"col-md-6\" *ngIf=\"receipt.totalDiscount != 0\">\n                                        Discount:\n                                    </div>\n                                    <div class=\"col-md-6\" *ngIf=\"receipt.totalDiscount != 0\">\n                                        $ {{receipt.totalDiscount}}\n                                    </div>\n                                </div>\n\n                                <div class=\"row\">\n                                    <div class=\"col-md-6\">\n                                        Tax:\n                                    </div>\n                                    <div class=\"col-md-6\">\n                                        $ {{receipt.tax}}\n                                    </div>\n                                </div>\n\n                                <div class=\"row\">\n                                    <div class=\"col-md-6\" *ngIf=\"receipt.previousBalance != 0\">\n                                        Pre Balance:\n                                    </div>\n                                    <div class=\"col-md-6\" *ngIf=\"receipt.previousBalance != 0\">\n                                        $ {{receipt.previousBalance}}\n                                    </div>\n                                </div>\n\n                                <hr>\n\n                                <div class=\"row\">\n                                    <div class=\"col-md-6\">\n                                        TOTAL:\n                                    </div>\n                                    <div class=\"col-md-6\">\n                                        $ {{receipt.totalAmount}}\n                                    </div>\n                                </div>\n\n                                <hr>\n                                <div class=\"row\">\n                                    <div class=\"col-md-6\" *ngIf=\"receipt.paymentDao[0].cash != 0\">\n                                        Cash:\n                                    </div>\n                                    <div class=\"col-md-6\" *ngIf=\"receipt.paymentDao[0].cash != 0\">\n                                        $ {{receipt.paymentDao[0].cash + receipt.paymentDao[0].changeForCash}}\n                                    </div>\n                                </div>\n\n                                <div class=\"row\">\n                                    <div class=\"col-md-6\" *ngIf=\"receipt.paymentDao[0].changeForCash != 0\">\n                                        Change:\n                                    </div>\n                                    <div class=\"col-md-6\" *ngIf=\"receipt.paymentDao[0].changeForCash != 0\">\n                                        $ {{receipt.paymentDao[0].changeForCash}}\n                                    </div>\n                                </div>\n\n                                <div class=\"row\">\n                                    <div class=\"col-md-6\" *ngIf=\"receipt.paymentDao[0].credit != 0\">\n                                        Credit:\n                                    </div>\n                                    <div class=\"col-md-6\" *ngIf=\"receipt.paymentDao[0].credit != 0\">\n                                        $ {{receipt.paymentDao[0].credit}}\n                                    </div>\n                                </div>\n\n                                <div class=\"row\">\n                                    <div class=\"col-md-6\" *ngIf=\"receipt.paymentDao[0].debit != 0\">\n                                        Debit:\n                                    </div>\n                                    <div class=\"col-md-6\" *ngIf=\"receipt.paymentDao[0].debit != 0\">\n                                        $ {{receipt.paymentDao[0].debit}}\n                                    </div>\n                                </div>\n\n                                <div class=\"row\">\n                                    <div class=\"col-md-6\" *ngIf=\"receipt.paymentDao[0].checkAmount != 0\">\n                                        Check:\n                                    </div>\n                                    <div class=\"col-md-6\" *ngIf=\"receipt.paymentDao[0].checkAmount != 0\">\n                                        $ {{receipt.paymentDao[0].checkAmount}}\n                                    </div>\n                                </div>\n\n                                <div class=\"row\">\n                                    <div class=\"col-md-6\" *ngIf=\"receipt.paymentDao[0].storeCredit != 0\">\n                                        Store Credit:\n                                    </div>\n                                    <div class=\"col-md-6\" *ngIf=\"receipt.paymentDao[0].storeCredit != 0\">\n                                        $ {{receipt.paymentDao[0].storeCredit}}\n                                    </div>\n                                </div>\n\n                                <div class=\"row\">\n                                    <div class=\"col-md-6\" *ngIf=\"receipt.paymentDao[0].onAccount != 0\">\n                                        On Account:\n                                    </div>\n                                    <div class=\"col-md-6\" *ngIf=\"receipt.paymentDao[0].onAccount != 0\">\n                                        $ {{receipt.paymentDao[0].onAccount}}\n                                    </div>\n                                </div>\n\n                                <hr>\n\n                                <div class=\"row\">\n                                    <div class=\"col-md-6\">\n                                        Balance:\n                                    </div>\n                                    <div class=\"col-md-6\">\n                                        $ {{receipt.transactionBalance}}\n                                    </div>\n                                </div>\n\n\n\n                            </div>\n                        </div>\n\n                    </div>\n                </ng-template> -->\n            </p-dataTable>\n\n        </div>\n    </mat-card-content>\n</mat-card>\n\n\n\n<!-- Start of Void Transacton -->\n<div class=\"modal fade\" id=\"voidTransaction\" role=\"dialog\">\n    <div class=\"modal-dialog modal-sm\">\n        <div class=\"modal-content\">\n            <div class=\"modal-header\">\n                <h4 class=\"modal-title\">Void Sale</h4>\n                <button type=\"button\" class=\"close\" data-dismiss=\"modal\">&times;</button>\n            </div>\n            <div class=\"modal-body\">\n                <p>Are You Sure You Want To Void This Sale</p>\n            </div>\n            <div class=\"modal-footer\">\n\n                <button type=\"button\" class=\"btn btn-danger\" data-dismiss=\"modal\" (click)=\"this.voidTransaction()\">Yes</button>\n                <button type=\"button\" class=\"btn btn-default\" data-dismiss=\"modal\">Cancle</button>\n            </div>\n        </div>\n    </div>\n</div>\n\n<!-- End of Void Transacton -->"
 
 /***/ }),
 
@@ -8993,7 +8996,7 @@ var SellComponent = /** @class */ (function () {
         var _this = this;
         this.items = [
             { name: 'Return', icon: 'fa fa-reply-all fa-x ', link: '/sell/return' },
-            { name: 'Register', icon: 'fa fa-window-close-o fa-x', link: '/sell/close-register' },
+            { name: 'Close Register', icon: 'fa fa-window-close-o fa-x', link: '/sell/close-register' },
             { name: 'Close Shift', icon: 'fa fa-times fa-x', link: '/sell/close-shift' }
         ];
         // this.toastr.success("Sell component initiated", "Nice!");
@@ -10222,6 +10225,39 @@ var FooterComponent = /** @class */ (function () {
 
 /***/ }),
 
+/***/ "../../../../../src/app/shared/global-product.service.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return GobalProdcutService; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/esm5/core.js");
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+
+var GobalProdcutService = /** @class */ (function () {
+    function GobalProdcutService() {
+        this.globalProductObj = [];
+    }
+    GobalProdcutService.prototype.getProduct = function () {
+        return this.globalProductObj;
+    };
+    GobalProdcutService.prototype.setProduct = function (product) {
+        this.globalProductObj = product;
+    };
+    GobalProdcutService = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Injectable"])()
+    ], GobalProdcutService);
+    return GobalProdcutService;
+}());
+
+
+
+/***/ }),
+
 /***/ "../../../../../src/app/shared/header/header.component.html":
 /***/ (function(module, exports) {
 
@@ -10885,12 +10921,14 @@ var printBlob = function (blob) {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__angular_forms__ = __webpack_require__("../../../forms/esm5/forms.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_11_app_shared_top_sub_navbar_top_sub_navbar_component__ = __webpack_require__("../../../../../src/app/shared/top-sub-navbar/top-sub-navbar.component.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__services_util_service__ = __webpack_require__("../../../../../src/app/shared/services/util.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_13_app_shared_global_product_service__ = __webpack_require__("../../../../../src/app/shared/global-product.service.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
+
 
 
 
@@ -10930,7 +10968,7 @@ var SharedModule = /** @class */ (function () {
                 __WEBPACK_IMPORTED_MODULE_8__footer_footer_component__["a" /* FooterComponent */],
                 __WEBPACK_IMPORTED_MODULE_6__angular_material__["c" /* MatChipsModule */]
             ],
-            providers: [__WEBPACK_IMPORTED_MODULE_2__services_persistence_service__["a" /* PersistenceService */], __WEBPACK_IMPORTED_MODULE_9_app_shared_services_date_service__["b" /* DateService */], __WEBPACK_IMPORTED_MODULE_12__services_util_service__["a" /* UtilService */]]
+            providers: [__WEBPACK_IMPORTED_MODULE_2__services_persistence_service__["a" /* PersistenceService */], __WEBPACK_IMPORTED_MODULE_9_app_shared_services_date_service__["b" /* DateService */], __WEBPACK_IMPORTED_MODULE_12__services_util_service__["a" /* UtilService */], __WEBPACK_IMPORTED_MODULE_13_app_shared_global_product_service__["a" /* GobalProdcutService */]]
         })
     ], SharedModule);
     return SharedModule;
