@@ -79,7 +79,8 @@
 
                     <ng-template let-transaction="rowData" pTemplate="body">
                         <mat-chip-list>
-                            <mat-chip [ngClass]="[transaction.status == 'Complete' ? 'complete':'', transaction.status == 'Pending' ? 'pending':'', transaction.status == 'Return' ? 'return':'', transaction.status == 'Void' ? 'void':'']" selected="true">{{transaction.status}}</mat-chip>
+                            <mat-chip [ngClass]="[transaction.status == 'Complete' ? 'complete':'', transaction.status == 'Pending' ? 'pending':'', transaction.status == 'Return' ? 'return':'', transaction.status == 'Void' ? 'void':'', transaction.status == 'Park' ? 'park':'']"
+                                selected="true">{{transaction.status}}</mat-chip>
                         </mat-chip-list>
                     </ng-template>
 

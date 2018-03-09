@@ -607,7 +607,13 @@ export class SaleComponent implements OnInit, AfterViewInit {
     this.disableCompleteSaleButton = true;
 
     this.disableOnAccountButtons = this.selectedCustomer == null;
-    this.disableStoreCreditButtons = true;
+      // This mean this customer has some store credit to use so i need to enable store credit button.
+      if (this.selectedCustomer && this.selectedCustomer.storeCredit > 0) {
+        this.disableStoreCreditButtons = false;
+      }
+      else {
+        this.disableStoreCreditButtons = true;
+      }
     this.payAmountTextBox = this.transactionDtoList.transactionBalance;
     this.dueAmountForTransaction = this.transactionDtoList.transactionBalance;
 

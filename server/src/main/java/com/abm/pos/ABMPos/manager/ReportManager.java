@@ -144,7 +144,7 @@ public class ReportManager {
         if (salesReportBy.equalsIgnoreCase("Sales By Year")) {
 
             List<Object[]> result = transactionRepository.getYearlySalesReport(startDate, endDate);
-            List<Object[]> result1 = transactionRepository.getYearlySalesReportForDueBalance(startDate,endDate);
+            //List<Object[]> result1 = transactionRepository.getYearlySalesReportForDueBalance(startDate,endDate);
 
            // List<Object[]> finalList = new ArrayList<Object[]>(result);
             //finalList.addAll(result1);
@@ -203,6 +203,8 @@ public class ReportManager {
                 salesSummaryDto.setSubtotal(Double.parseDouble(j[6].toString()));
                 salesSummaryDto.setDiscount(Double.parseDouble(j[7].toString()));
                 salesSummaryDto.setProfit(Double.parseDouble(j[8].toString()));
+
+
 
                 salesSummaryDtoList.add(salesSummaryDto);
             }
