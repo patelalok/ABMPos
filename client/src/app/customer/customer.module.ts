@@ -15,6 +15,7 @@ import { CustomerService } from 'app/customer/customer.service';
 import { SharedModule } from 'app/shared/shared.module';
 import { CustomerRoutingModule } from 'app/customer/customer-routing.module';
 import { CustomerPaymentHistoryComponent } from './customer-payment-history/customer-payment-history.component';
+import { TestCustomerUiComponent } from './test-customer-ui/test-customer-ui.component';
 
 @NgModule({
   imports: [
@@ -30,7 +31,7 @@ import { CustomerPaymentHistoryComponent } from './customer-payment-history/cust
     GrowlModule
 
   ],
-  declarations: [CustomerComponent, CustomerPaymentHistoryComponent],
+  declarations: [CustomerComponent, CustomerPaymentHistoryComponent, TestCustomerUiComponent],
    providers: [CustomerService],
    bootstrap:[CustomerComponent,CustomerPaymentHistoryComponent]
 

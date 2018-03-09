@@ -115,7 +115,7 @@ export class SaleComponent implements OnInit, AfterViewInit {
       this.handleParkedTransactionFromSalesHistory(transactionComId);
     }
 
-   // this.setTransactionDtoList();
+   this.setTransactionDtoList();
   }
 
   ngAfterViewInit() {
@@ -237,9 +237,6 @@ export class SaleComponent implements OnInit, AfterViewInit {
     
   }
   submitProduct(value: any) {
-
-   
-
     if (typeof value === 'string') {
       if (value !== '' && value !== undefined && value.indexOf('.') !== 0) {
         if (value.match(/[a-z]/i)) {
@@ -335,7 +332,6 @@ export class SaleComponent implements OnInit, AfterViewInit {
   }
 
   setTransactionDtoList() {
-
     let totalQuantity: number = 0;
     let totalPrice: number = 0.00;
     let tax: number = 0.00;
@@ -439,11 +435,8 @@ export class SaleComponent implements OnInit, AfterViewInit {
         else {
           this.paymentDto.cash = paymentAmount;
         }
-
       }
-
       this.paymentObjectForPaymentSellTable.push({ 'paymentType': 'Cash', 'paymentAmount': paymentAmount })
-
       this.validatePaymentButtons(paymentAmount);
     }
     else if (paymentType == 'Credit') {
@@ -460,9 +453,7 @@ export class SaleComponent implements OnInit, AfterViewInit {
         }
       }
       this.paymentObjectForPaymentSellTable.push({ 'paymentType': 'Credit', 'paymentAmount': paymentAmount })
-
       this.validatePaymentButtons(paymentAmount);
-
     }
     else if (paymentType == 'Debit') {
       if (null != this.paymentDto && this.paymentDto.debit > 0) {
@@ -553,6 +544,9 @@ export class SaleComponent implements OnInit, AfterViewInit {
       // This mean customer has provide sufficient balance.
       this.disableCompleteSaleButton = false;
       this.disableOnAccountButtons = true;
+
+      // Here i am blinding disabling store credit cause, it may create so me issue and i will check on delete payment method, wheather customer has store credit or not.
+      this.disableStoreCreditButtons = true;
     }
     else if (paymentType == 'Loyalty') {
       this.paymentDto.loyalty = paymentAmount;
@@ -664,10 +658,23 @@ export class SaleComponent implements OnInit, AfterViewInit {
       }
     }
 
-    // This is because of type script,  + it concatting the two variables.  DO NOT FORGET THIS. 
-    this.dueAmountForTransaction = +payment.paymentAmount + this.dueAmountForTransaction;
-    this.payAmountTextBox = Math.round(this.dueAmountForTransaction * 1e2) / 1e2;
 
+    if(payment.paymentType == 'OnAccount'){
+      //this.dueAmountForTransaction = this.transactionDtoList.totalAmount -this.paymentDto.onAccount;
+    }
+    else{
+    this.dueAmountForTransaction = +payment.paymentAmount + this.dueAmountForTransaction;
+    }
+     // I need to check this after all delete, cause i am disabling it on onaccount blindly, please do not remove from here.
+     if (this.selectedCustomer && this.selectedCustomer.storeCredit > 0) {
+      this.disableStoreCreditButtons = false;
+    }
+    else {
+      this.disableStoreCreditButtons = true;
+    }
+    this.disableOnAccountButtons = this.selectedCustomer == null;
+
+    this.payAmountTextBox = Math.round(this.dueAmountForTransaction * 1e2) / 1e2;
     if (this.dueAmountForTransaction > 0) {
       this.disableCompleteSaleButton = true;
       this.disablePaymentButtons = false;

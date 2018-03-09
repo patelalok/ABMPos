@@ -64,7 +64,7 @@ import { RepairModule } from './repair/repair.module';
     
   ],
   declarations: [
-    AppComponent
+    AppComponent,
     ],
   providers: [StoreSetupService, ConfigService, LoadingService, {provide: LocationStrategy, useClass: HashLocationStrategy}],
   bootstrap: [AppComponent]
