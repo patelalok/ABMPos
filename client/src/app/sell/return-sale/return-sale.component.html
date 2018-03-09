@@ -284,21 +284,28 @@
 
                 <div class="row" style="margin-top: 30px">
 
-                    <div class="col-md-3">
-                        <button (click)="this.setPaymentDtoForRetun('OnAccount', this.payAmountTextBox)" mat-raised-button class="secondary-button" [disabled]="this.disableOnAccountButtons">On Account</button>
+                    <!-- <div class="col-md-3">
+                        <button (click)="this.setPaymentDtoForRetun('OnAccount', this.payAmountTextBox)" mat-raised-button class="secondary-button" [disabled]="true">On Account</button>
+                    </div> -->
+                    <div class="col-md-2">
+
                     </div>
 
-                    <div class="col-md-3">
+                    <div class="col-md-8">
                         <button mat-raised-button class="secondary-button" [disabled]="this.disableStoreCreditButtons" (click)="this.setPaymentDtoForRetun('StoreCredit', this.payAmountTextBox)">Store Credit</button>
                     </div>
 
-                    <div class="col-md-3">
-                        <button mat-raised-button class="secondary-button" [disabled]="true">Loyalty</button>
+                    <div class="col-md-2">
+
                     </div>
 
-                    <div class="col-md-3">
+                    <!-- <div class="col-md-3">
+                        <button mat-raised-button class="secondary-button" [disabled]="true">Loyalty</button>
+                    </div> -->
+
+                    <!-- <div class="col-md-3">
                         <button mat-raised-button class="secondary-button" [disabled]="true">Layby</button>
-                    </div>
+                    </div> -->
                 </div>
 
                 <div class="row" style="margin-top: 30px">

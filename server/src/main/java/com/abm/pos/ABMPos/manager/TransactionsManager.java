@@ -74,9 +74,7 @@ public class TransactionsManager {
 
             List<TransactionLineItemDao> transactionLineItemDaoList = new ArrayList<>();
             List<TransactionLineItemDao> transactionLineItemDaoListNew = new ArrayList<>();
-
             transactionLineItemDaoList = transactionDao.getTransactionLineItemDaoList();
-
 
             for (TransactionLineItemDao lineItemDao : transactionLineItemDaoList) {
 
@@ -88,7 +86,6 @@ public class TransactionsManager {
                 do {
                     // step 1 : get the product from line item and then get the quantity for that product from inventory table on behalf of created time stamps.
                     ProductInventoryDao productInventoryDao;
-
                     // This call will give product inventory details on behalf of FIFO.
                     productInventoryDao = productInventoryRepository.findFirstByProductNoOrderByCreatedTimestampAsc(lineItemDao.getProductNo());
 
@@ -108,16 +105,9 @@ public class TransactionsManager {
                         // This means we do not have enough inventory to sale, so we can sale wt we have and then call inventory table again until purchase item == 0.
                         else if (productInventoryDao.getQuantity() > 0) {
                             lineItemDao.setCost(productInventoryDao.getCost());
-
-                            // I donot know why i did this. this caused lots of issues
-                            //lineItemDao.setSaleQuantity(productInventoryDao.getQuantity());
-
                             transactionLineItemDaoListNew.add(lineItemDao);
-
                             purchasedQuantity = purchasedQuantity - productInventoryDao.getQuantity();
-
                             reduceQuantityFromProductInventoryTable(productInventoryDao, 0);
-
 
                             // Also this means in Product Inventory table, inventory of this product is 0
                             // So now we need to delete this row from the table
@@ -137,27 +127,21 @@ public class TransactionsManager {
 
                             purchasedQuantity = 0;
                         }
-
                     }
                     // TODO need to handle this case  :(
                     else {
                         System.out.println("OPPS Some problem need to handle this.");
                     }
                 }
-
                 while (purchasedQuantity != 0);
-
             }
-
             transactionDao.setTransactionLineItemDaoList(transactionLineItemDaoListNew);
 
             // Here i need to handle the case where customer is using Store credit to pay the amount.
             // I need to update the store credit for the customer and handle the transaction.
-
             if (null != transactionDao.getCustomerPhoneno() && transactionDao.getPaymentDao().get(0).getStoreCredit() > 0) {
                 setCustomerStoreCredit(transactionDao);
             }
-
             // Here I am handling the logic for the customer price lock where customers price will be saved after every transactions. No matter how is the retail price.
             // Here is the problem though, on return i need to manage this logic on ui, otherwise customer get profited when he does the return.
 
@@ -180,9 +164,6 @@ public class TransactionsManager {
                     customerProductPriceRepository.save(customerProductPrice);
                 }
             }
-
-
-
         }
         else if (transactionDao.getStatus().equalsIgnoreCase("Return") || transactionDao.getStatus().equalsIgnoreCase("Void")) {
 
@@ -209,33 +190,7 @@ public class TransactionsManager {
                     storeCreditDao.setCreatedTimestamp(transactionDao.getDate());
 
                     storeCreditRepository.save(storeCreditDao);
-
                     customerDao.setStoreCredit(customerDao.getStoreCredit() + transactionDao.getPaymentDao().get(0).getStoreCredit());
-
-                } else if (transactionDao.getPaymentDao().get(0).getOnAccount() > 0) {
-                    // First check this customer has any balance on account or not, if yes then check return amount on account if it is less than return amount then subtract the amount other wise
-                    //Subtract the amount and rest of the amount just add as the store credit.
-
-                    if (customerDao.getBalance() >= transactionDao.getPaymentDao().get(0).getOnAccount()) {
-                        customerDao.setBalance(customerDao.getBalance() - transactionDao.getPaymentDao().get(0).getOnAccount());
-                    } else {
-                        double difference = transactionDao.getPaymentDao().get(0).getOnAccount() - customerDao.getBalance();
-
-                        // This will make customer balance as 0.
-                        customerDao.setBalance(0.00);
-
-                        customerDao.setStoreCredit(difference);
-
-
-                        StoreCreditDao storeCreditDao = new StoreCreditDao();
-                        storeCreditDao.setAmount(transactionDao.getPaymentDao().get(0).getStoreCredit());
-                        storeCreditDao.setCustomerPhoneno(transactionDao.getCustomerPhoneno());
-                        storeCreditDao.setEmployeeName(transactionDao.getUsername());
-                        storeCreditDao.setReason("Return Credit For Transaction No: " + transactionDao.getTransactionComId());
-                        storeCreditDao.setCreatedTimestamp(transactionDao.getDate());
-
-                        storeCreditRepository.save(storeCreditDao);
-                    }
                 }
 
                 // finally updating customers account details whether it is store credit or on on account choose by the customer on the
@@ -251,7 +206,6 @@ public class TransactionsManager {
                 paymentRepository.deletePaymentDetails(transactionDao.getTransactionComId());
             }
         }
-
 
         TransactionDao transactionDao1 = transactionRepository.save(transactionDao);
 
@@ -280,35 +234,7 @@ public class TransactionsManager {
             List<PaymentDao> paymentDaoList = new ArrayList<>();
             transactionDao.setPaymentDao(paymentDaoList);
         }
-
-        // Here i need to handle the scenario where customer is doing partial payment, or not paying right now and will pay later so
-//        Here i need to maintain his balance by just adding transaction balance to that customers account
-        // I am doing this only if customer is doing partial payment cause only in that case customers balance will be more then 0.
-
-        // AFTER PENDING INVOICE LOGIC I NEED TO DO THIS AFTER FINISHING WITH THE TRANSACTION SO I CAN GET THE ACCURATE AMOUNT FOR CUSTOMERS BALANCE.
-
-//        For now i need to comment this and also need to reset all the customers pending invoices.
-
-        if (null != transactionDao1.getCustomerPhoneno()) {
-
-            // this will give me sum of customers balance, so after every transaction i am managing and syncing customers balance in customer table.
-            List<Double> result = transactionRepository.getCustomerBalanceByPendingInvoice(transactionDao1.getCustomerPhoneno());
-
-            if (result != null) {
-                CustomerDao customerDao = customerRepository.findByPhoneNo(transactionDao.getCustomerPhoneno());
-
-                if (null != customerDao) {
-                    if(null != result.get(0)){
-                        customerDao.setBalance(result.get(0));
-                    }
-                    customerRepository.save(customerDao);
-                }
-            }
-        }
-
         return transactionDao1;
-
-
     }
 
     private void manageProductInventoryAfterSale(TransactionDao transactionDao) {
@@ -360,12 +286,9 @@ public class TransactionsManager {
 
         if (null != customerDao) {
             customerDao.setStoreCredit(customerDao.getStoreCredit() - transactionDao.getPaymentDao().get(0).getStoreCredit());
-
             customerRepository.save(customerDao);
         }
-
     }
-
 
     private void deleteProductInventoryRow(ProductInventoryDao productInventoryDao) {
         // First we need to get the count of the row, we can delete row only and only if it is not last row,
@@ -385,50 +308,9 @@ public class TransactionsManager {
         // Need to set purchasedQuantity cause that what customer has bought.(purchasedQuantity i)
         productInventoryDao.setQuantity(newQuantityAfterSubtractionFromPurchasedQuantity);
         ProductInventoryDao productInventoryDao1 = productInventoryRepository.save(productInventoryDao);
-
         // Here I need to update the Product Table to keep up with quantity in Product Inventory Table
         // VERY IMPORT LOGIC.
         updateQuantityInProductTable(productInventoryDao1);
-
-
-    }
-
-
-    public List<TransactionDao> getTransaction() {
-
-        List<TransactionDao> transactionDaoList;
-
-        transactionDaoList = transactionRepository.findAll();
-
-        return transactionDaoList;
-
-        // List<TransactionDao> transactionDaoFinal = new ArrayList<>();
-
-
-//        if(null != transactionDaoList)
-//        {
-//            ProductDao productDao = new ProductDao();
-//            List<TransactionLineItemDao> transactionLineItemDaoList = new ArrayList<>();
-//
-//            for(TransactionDao transactionDao: transactionDaoList)
-//            {
-//                for(TransactionLineItemDao lineItem: transactionDao.getTransactionLineItemDaoList())
-//                {
-//                    productDao = productRepository.findOneByProductNo(lineItem.getProductNo());
-//
-//                    if (null != productDao) {
-//                        lineItem.setDescription(productDao.getDescription());
-//                        transactionLineItemDaoList.add(lineItem);
-//                    }
-//                }
-//
-//                transactionDao.setTransactionLineItemDaoList(transactionLineItemDaoList);
-//
-//                transactionDaoFinal.add(transactionDao);
-//            }
-//        }
-
-        //  return transactionDaoFinal;
     }
 
     public TransactionDao getTransactionById(int transactionCompId) {
@@ -450,9 +332,7 @@ public class TransactionsManager {
         }
 
         transactionDao.setTransactionLineItemDaoList(transactionLineItemDaoList);
-
         List<Object[]> result = paymentRepository.getPaymentDetailsByTransactionId(transactionDao.getTransactionComId());
-
         if(null != result)
         {
             for(Object[] j: result)
@@ -477,7 +357,6 @@ public class TransactionsManager {
             }
         }
         transactionDao.setPaymentDao(paymentDaoList);
-
         return transactionDao;
     }
 
@@ -511,67 +390,23 @@ public class TransactionsManager {
         }
 
         return transactionDaoList;
-
-//        List<TransactionDao> transactionDaoFinal = new ArrayList<>();
-//
-//
-//        if(null != transactionDaoList)
-//        {
-//            ProductDao productDao;
-//
-//
-//
-//            for(TransactionDao transactionDao: transactionDaoList)
-//            {
-//                List<TransactionLineItemDao> transactionLineItemDaoList = new ArrayList<>();
-//                for(TransactionLineItemDao lineItem: transactionDao.getTransactionLineItemDaoList()) {
-//                    productDao = productRepository.findOneByProductNo(lineItem.getProductNo());
-//
-//                    if (null != productDao) {
-//                        lineItem.setDescription(productDao.getDescription());
-//                        transactionLineItemDaoList.add(lineItem);
-//                    }
-//
-//                }
-//                transactionDao.setTransactionLineItemDaoList(transactionLineItemDaoList);
-//
-//
-//                transactionDaoFinal.add(transactionDao);
-//            }
-//
-//        }
-//
-//        return transactionDaoFinal;
-
-
     }
 
     public TransactionDao voidTransaction(TransactionDao transactionDao) {
 
         // Managing inventory for the Void Transaction same as return.
-
         manageProductInventoryAfterSale(transactionDao);
-
-
         return transactionRepository.save(transactionDao);
     }
 
     public boolean sendEmail(int receiptId) {
 
-        //String customerEmail =  jdbcTemplate.queryForObject(sqlQuery.getCustomerEmail, new Object[]{receiptId}, String.class);
-
         Context context = new Context();
-
         TransactionDao transactionDao = getTransactionById(receiptId);
-
         String email = null;
-
         if (null != transactionDao && transactionDao.getCustomerPhoneno().length() > 1 && null != transactionDao.getTransactionLineItemDaoList() && null != transactionDao.getPaymentDao()) {
-
             //First get customer details to send an email.
-
             CustomerDao customerDao;
-
             customerDao = customerRepository.findByPhoneNo(transactionDao.getCustomerPhoneno());
 
             if (null != customerDao && null != customerDao.getEmail()) {
@@ -607,10 +442,7 @@ public class TransactionsManager {
 //            {
 //                email = receiptDtoList.get(0).getCustomerDtosList().get(0).getEmail();
 //            }
-
         }
-
-
         assert transactionDao != null;
         EmailStatus emailStatus = emailHtmlSender.send(email, transactionDao.getStoreSetupDao().getName() + "Order Details", "template-1", context);
 
@@ -910,7 +742,7 @@ public class TransactionsManager {
 
     public List<TransactionDao> getPendingInvoiceByCustomer(String phoneNo) {
 
-        return transactionRepository.findAllByStatusEqualsAndAndCustomerPhoneno("Pending", phoneNo);
+        return transactionRepository.findAllByStatusEqualsAndCustomerPhoneno("Pending", phoneNo);
     }
 
     public List<TransactionDao> getAllInvoiceByCustomer(String startDate, String endDate, String phoneNo) {

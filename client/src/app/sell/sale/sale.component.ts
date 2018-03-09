@@ -47,6 +47,7 @@ export class SaleComponent implements OnInit, AfterViewInit {
   transactionDtoList = new TransactionDtoList();
   transactionDetails: TransactionDtoList[] = [];
   printTransactionDto: TransactionDtoList = null;
+  pendingInvoiceTransactionList: TransactionDtoList[] = [];
   paymentDto = new PaymentDto();
   discountType: string;
   discountTexBox: number;
@@ -370,6 +371,22 @@ export class SaleComponent implements OnInit, AfterViewInit {
     if (this.selectedCustomer.type == 'Business') {
       this.taxPercent = 0.00;
     }
+
+    let totalPreviousBalance = 0;
+    this.sellService.getPendingInvoiceByCustomer(this.selectedCustomer.phoneNo)
+    .subscribe(transaction => {
+      transaction.forEach(trans => {
+        trans.time = moment(trans.date).format('hh:mm A');
+        trans.date = moment(trans.date).format('MM-DD-YYYY');
+
+        // Calculating totalPendingInvoice here, so i dont need to maintain in backend and in customer table.
+        totalPreviousBalance = +totalPreviousBalance +trans.transactionBalance;
+        console.log('total Previous balance', totalPreviousBalance);
+      })
+      this.pendingInvoiceTransactionList = transaction;
+      this.selectedCustomer.balance = totalPreviousBalance;
+    });
+
     this.persit.setCustomerDetailsForSale(this.selectedCustomer);
 
     this.sellService.getProductPriceByCustomer(this.selectedCustomer.phoneNo)
@@ -390,16 +407,16 @@ export class SaleComponent implements OnInit, AfterViewInit {
   }
 
   // This methode helps to show pending invoice pop for customer.
-  openPendingInvoice(customer: Customer) {
-    this.sellService.getPendingInvoiceByCustomer(customer.phoneNo)
-      .subscribe(transaction => {
-        transaction.forEach(trans => {
-          trans.time = moment(trans.date).format('hh:mm A');
-          trans.date = moment(trans.date).format('MM-DD-YYYY');
-        })
-        this.transactionDetails = transaction;
-      });
-  }
+  // openPendingInvoice(customer: Customer) {
+  //   this.sellService.getPendingInvoiceByCustomer(customer.phoneNo)
+  //     .subscribe(transaction => {
+  //       transaction.forEach(trans => {
+  //         trans.time = moment(trans.date).format('hh:mm A');
+  //         trans.date = moment(trans.date).format('MM-DD-YYYY');
+  //       })
+  //       this.transactionDetails = transaction;
+  //     });
+  // }
 
   setHeaderAndMessageForDisgardPopup() {
     this.popupHeader = 'Discard Sale';
@@ -680,22 +697,6 @@ export class SaleComponent implements OnInit, AfterViewInit {
     this.paymentDao.push(this.paymentDto);
     this.transactionDtoList.paymentDao = this.paymentDao;
 
-    // Setting TransactionLineItemDetails
-    for (let lineItem of this.transactionLineItemDaoList) {
-      lineItem.status = this.saleType;
-      lineItem.date = this.transactionDtoList.date;
-
-      // This means user has given line item discount.
-      if (lineItem.retailWithDiscount < lineItem.retail) {
-        lineItem.discount = (lineItem.retail - lineItem.retailWithDiscount) * lineItem.saleQuantity;
-        totalLineItemDiscount = + ((lineItem.retail - lineItem.retailWithDiscount) * lineItem.saleQuantity) + totalLineItemDiscount;
-      }
-    }
-
-    for (let payment of this.paymentDao) {
-      payment.status = this.saleType;
-    }
-
     // this.transactionNotes is bind with the ng model on ui.
     this.transactionDtoList.note = this.transactionNotes
 
@@ -730,6 +731,22 @@ export class SaleComponent implements OnInit, AfterViewInit {
         this.saleType = 'Pending';
       }
     
+    }
+
+     // Setting TransactionLineItemDetails, I need to here, cause this will give me final transaction status.
+     for (let lineItem of this.transactionLineItemDaoList) {
+      lineItem.status = this.saleType;
+      lineItem.date = this.transactionDtoList.date;
+
+      // This means user has given line item discount.
+      if (lineItem.retailWithDiscount < lineItem.retail) {
+        lineItem.discount = (lineItem.retail - lineItem.retailWithDiscount) * lineItem.saleQuantity;
+        totalLineItemDiscount = + ((lineItem.retail - lineItem.retailWithDiscount) * lineItem.saleQuantity) + totalLineItemDiscount;
+      }
+    }
+
+    for (let payment of this.paymentDao) {
+      payment.status = this.saleType;
     }
 
     // NOW MAKING SERVICE CALL TO ADD TRANSACTION AND LINE ITEM DETAILS AND WILL ADD LINE ITEM DETAILS ONLY IF ADD TRANASACTION CALL IS SUCCESS !!!

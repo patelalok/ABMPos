@@ -27,7 +27,7 @@ public class CustomerDao {
     private String country;
     private Integer zipCode;
     private double storeCredit;
-    private double balance;
+    //private double balance;
     private String password;
     private String customerNote;
     private String keytag;
@@ -148,13 +148,13 @@ public class CustomerDao {
 
 
 
-    public double getBalance() {
-        return balance;
-    }
-
-    public void setBalance(double balance) {
-        this.balance = balance;
-    }
+//    public double getBalance() {
+//        return balance;
+//    }
+//
+//    public void setBalance(double balance) {
+//        this.balance = balance;
+//    }
 
     public String getCustomerNote() {
         return customerNote;
