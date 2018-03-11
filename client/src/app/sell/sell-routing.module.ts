@@ -25,6 +25,7 @@ import { DashboardComponent } from 'app/dashboard/dashboard.component';
 import { RepairComponent } from '../repair/repair.component';
 import { AddRepairComponent } from '../repair/add-repair/add-repair.component';
 import { CustomerPaymentHistoryComponent } from 'app/customer/customer-payment-history/customer-payment-history.component';
+import { TestCustomerUiComponent } from '../customer/test-customer-ui/test-customer-ui.component';
 
 
 const routes: Routes = [
@@ -44,9 +45,8 @@ const routes: Routes = [
   { path: 'dashboard', component: DashboardComponent},
   { path: 'repair', component: RepairComponent},
   { path: 'add-repair', component: AddRepairComponent},
-
-
-
+  { path: 'testCustUi', component: TestCustomerUiComponent},
+  
   { path: 'clockIn/:username', component: ClockinComponent},
   { path: 'expense', component: ExpenseComponent},
   { 

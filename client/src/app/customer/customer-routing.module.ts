@@ -13,7 +13,7 @@ const routes: Routes = [
     canActivate: [AuthGuard],
   },
   { path: 'customer-history', component:  CustomerPaymentHistoryComponent},
-  { path: 'test', component:  TestCustomerUiComponent},
+  // { path: 'test', component:  TestCustomerUiComponent},
 
 ];
 @NgModule({

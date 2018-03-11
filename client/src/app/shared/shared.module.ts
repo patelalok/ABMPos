@@ -17,6 +17,7 @@ import {
   MatRadioModule,
   MatChipsModule,
   MatTabsModule,
+  MatTableModule,
 } from "@angular/material";
 import { Routes, RouterModule } from '@angular/router';
 import { SellRoutingModule } from 'app/sell/sell-routing.module';
@@ -48,7 +49,8 @@ import { GobalProdcutService } from 'app/shared/global-product.service';
     HeaderComponent, 
     FooterComponent,
     MatChipsModule,
-    MatTabsModule
+    MatTabsModule,
+    MatTableModule
   ],
   providers: [PersistenceService, DateService, UtilService,GobalProdcutService]
 })

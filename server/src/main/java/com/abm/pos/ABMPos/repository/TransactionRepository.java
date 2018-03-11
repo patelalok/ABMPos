@@ -23,7 +23,6 @@ public interface TransactionRepository extends JpaRepository<TransactionDao, Int
 
     List<TransactionDao> findAllByCustomerPhonenoAndAndDateBetween(String phoneNo, String startDate, String endDate);
 
-
     // I have hard coded this value to fix the, product of adding prevois invoices balance.
     @Query("SELECT SUM(t.transactionBalance) from TransactionDao t where t.customerPhoneno = ?1 AND t.status = 'Pending' ")
     List<Double> getCustomerBalanceByPendingInvoice(String phoneNo);
@@ -35,25 +34,34 @@ public interface TransactionRepository extends JpaRepository<TransactionDao, Int
     @Query("SELECT SUM(subtotal),SUM(tax),SUM(totalDiscount),(SELECT SUM(totalAmount) from TransactionDao WHERE status = 'Return' AND (date BETWEEN ?1 AND ?2 )) As totalReturn FROM TransactionDao  WHERE (status = 'Complete' OR status = 'Return') AND (date BETWEEN ?1 AND ?2)")
     List<Object[]> getSumOfTransactionDetailsForCloseRegister(String startDate, String endDate);
 
-    @Query(value = "SELECT monthname(t.date) AS NameOfMonth, " +
-            "SUM(p.cash) cash, " +
-            "SUM(p.credit) credit, " +
-            "SUM(p.debit) debit, " +
-            "SUM(p.check_amount) checkAmount, " +
-            "SUM(t.tax) tax, " +
-            "SUM(t.subtotal) subtotal, " +
-            "SUM(t.total_discount) discount, " +
+    @Query(value = "SELECT monthname(t.date) AS NameOfMonth,\n" +
+            "SUM(payment.cash) cash,\n" +
+            "SUM(payment.credit) credit,\n" +
+            "SUM(payment.debit) debit,\n" +
+            "SUM(payment.check_amount) checkAmount,\n" +
+            "SUM(t.tax) tax,\n" +
+            "SUM(t.total_amount) totalAmount,\n" +
+            "SUM(CASE WHEN t.status = 'Pending' THEN t.transaction_balance ELSE 0 end) dueBalance,\n" +
+            "SUM(t.total_discount) discount,\n" +
             "SUM(temp.profit) profit\n" +
-            "FROM transaction t " +
-            "INNER JOIN transaction_payment p ON t.transaction_com_id = p.transaction_com_id " +
-            "INNER JOIN (\n" +
-            "               SELECT t.transaction_com_id, SUM((l.retail_with_discount * l.sale_quantity) - (l.cost * l.sale_quantity)) profit\n" +
-            "               FROM transaction_line_item l\n" +
-            "               INNER JOIN transaction t on t.transaction_com_id = l.transaction_com_id\n" +
-            "               WHERE l.date BETWEEN ?1 AND ?2  AND (l.status = 'Complete' OR l.status = 'Return') GROUP BY t.transaction_com_id)\n" +
-            "AS temp  ON temp.transaction_com_id = t.transaction_com_id\n" +
-            "WHERE t.date BETWEEN ?1 AND ?2 AND (t.status = 'Complete' OR t.status = 'Return') \n" +
-            "GROUP BY NameOfMonth ORDER BY field(NameOfMonth,'January','February','March','April','May','June','July','August','September','October','November','December')", nativeQuery = true)
+            "FROM transaction t\n" +
+            "            \n" +
+            "\tINNER JOIN (SELECT t.transaction_com_id, sum(p.cash) cash,SUM(p.credit) credit,SUM(p.debit) debit,SUM(p.check_amount) check_Amount\n" +
+            "\tfrom transaction_payment p INNER JOIN transaction t ON t.transaction_com_id = p.transaction_com_id\n" +
+            "\tWHERE p.date BETWEEN ?1 AND ?2\n" +
+            "\tAND (p.status = 'Complete' OR p.status = 'Return' OR p.status = 'Pending') GROUP BY t.transaction_com_id ) AS payment on \n" +
+            "\tpayment.transaction_com_id = t.transaction_com_id\n" +
+            "            \n" +
+            "\tINNER JOIN (SELECT t.transaction_com_id, SUM((l.retail_with_discount * l.sale_quantity) - (l.cost * l.sale_quantity)) profit\n" +
+            "\tFROM transaction_line_item l\n" +
+            "\tINNER JOIN transaction t on t.transaction_com_id = l.transaction_com_id\n" +
+            "\tWHERE l.date BETWEEN ?1 AND ?2\n" +
+            "\tAND (l.status = 'Complete' OR l.status = 'Return' OR l.status = 'Pending') GROUP BY t.transaction_com_id)\n" +
+            "\tAS temp  ON temp.transaction_com_id = t.transaction_com_id\n" +
+            "             \n" +
+            "WHERE t.date BETWEEN ?1 AND ?2\n" +
+            "AND (t.status = 'Complete' OR t.status = 'Return' OR t.status = 'Pending')\n" +
+            "GROUP BY NameOfMonth ORDER BY field(NameOfMonth,'January','February','March','April','May','June','July','August','September','October','November','December')\n", nativeQuery = true)
     List<Object[]> getYearlySalesReport(String startDate, String endDate);
     
     @Query(value = "SELECT DATE(t.date) AS dates,\n" +

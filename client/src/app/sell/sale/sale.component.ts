@@ -658,7 +658,6 @@ export class SaleComponent implements OnInit, AfterViewInit {
       }
     }
 
-
     if(payment.paymentType == 'OnAccount'){
       //this.dueAmountForTransaction = this.transactionDtoList.totalAmount -this.paymentDto.onAccount;
     }
@@ -710,10 +709,6 @@ export class SaleComponent implements OnInit, AfterViewInit {
     // To do need to fix this hardcoded value for username
     this.transactionDtoList.username = 'alok@alok.com';
     this.transactionDtoList.transactionLineItemDaoList = this.transactionLineItemDaoList;
-    this.transactionDtoList.totalDiscount = +this.totalTransactionDiscount +totalLineItemDiscount;
-
-    // I am doing this to show subtotal without line item discount, so in invoice customer wont get confuse.
-    this.transactionDtoList.subtotal = this.transactionDtoList.subtotal + this.transactionDtoList.totalDiscount;
 
         // THIS means customer has over paid, this happens mostly in cash of when customer pay by cash.
     // So i am setting it as chnage amount.
@@ -751,6 +746,10 @@ export class SaleComponent implements OnInit, AfterViewInit {
         totalLineItemDiscount = + ((lineItem.retail - lineItem.retailWithDiscount) * lineItem.saleQuantity) + totalLineItemDiscount;
       }
     }
+    
+    this.transactionDtoList.totalDiscount = +this.totalTransactionDiscount +totalLineItemDiscount;
+    // I am doing this to show subtotal without line item discount, so in invoice customer wont get confuse.
+    this.transactionDtoList.subtotal = this.transactionDtoList.subtotal + this.transactionDtoList.totalDiscount;
 
     for (let payment of this.paymentDao) {
       payment.status = this.saleType;
