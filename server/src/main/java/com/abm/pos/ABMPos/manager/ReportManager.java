@@ -105,7 +105,7 @@ public class ReportManager {
         double totalCost = 0;
         double totalRetail = 0;
         int totalQuantity = 0;
-      //  double avgMarkup;
+        double avgMarkup;
 
 
         if (null != result) {
@@ -116,6 +116,10 @@ public class ReportManager {
                 inventoryDto.setQuantity(Integer.parseInt(j[1].toString()));
                 inventoryDto.setCost(Double.parseDouble(j[2].toString()));
                 inventoryDto.setRetail(Double.parseDouble(j[3].toString()));
+
+                double markupPer = ((inventoryDto.getRetail() - inventoryDto.getCost())/inventoryDto.getCost()) * 100;
+                DecimalFormat df = new DecimalFormat("#.##");
+                inventoryDto.setMarkup(Double.parseDouble(df.format(markupPer)));
 
                 inventoryDtoList.add(inventoryDto);
             }

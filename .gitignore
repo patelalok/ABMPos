@@ -33,3 +33,4 @@ server/src/main/resources/static/inline.bundle.js.map
 server/out/production/resources/static/vendor.bundle.js
 server/out/production/resources/static/main.bundle.js.map
 server/out/production/resources/static/main.bundle.js
+server/out/production/resources/static/inline.bundle.js.map
