@@ -172,7 +172,7 @@ public class ReportManager {
                 salesSummaryDto.setDebit(Double.parseDouble(j[3].toString()));
                 salesSummaryDto.setCheck(Double.parseDouble(j[4].toString()));
                 salesSummaryDto.setTax(Double.parseDouble(j[5].toString()));
-                salesSummaryDto.setSubtotal(Double.parseDouble(j[6].toString()));
+                salesSummaryDto.setTotalAmount(Double.parseDouble(j[6].toString()));
                 salesSummaryDto.setDiscount(Double.parseDouble(j[7].toString()));
                 salesSummaryDto.setProfit(Double.parseDouble(j[8].toString()));
 

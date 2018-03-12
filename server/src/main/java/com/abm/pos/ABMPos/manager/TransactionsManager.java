@@ -74,6 +74,7 @@ public class TransactionsManager {
                     ProductDao productDao = productRepository.findOneByProductNo(transactionLineItemDao.getProductNo());
 
                     if (null != productDao) {
+
                         // Here I am assuming when TAX = 0, that mean do not count inventory at all, so no need to Reduce the quantity.
                         if (productDao.isTax()) {
                             productDao.setQuantity(productDao.getQuantity() - transactionLineItemDao.getSaleQuantity());
@@ -781,7 +782,7 @@ public class TransactionsManager {
 
                 //formatter.addLineBreak(1);
                 // formatter.addLines("%s \n%s \n%s, %s %s".format(transactionDao.getStoreSetupDao().getName(), transactionDao.getStoreSetupDao().getStreet(), transactionDao.getStoreSetupDao().getCity(), transactionDao.getStoreSetupDao().getState(), transactionDao.getStoreSetupDao().getZipcode()), 46, ReceiptFormatter.TextAlign.CENTER);
-                formatter.addLines(transactionDao.getStoreSetupDao().getName() + " \n" + transactionDao.getStoreSetupDao().getStreet() + " \n" + transactionDao.getStoreSetupDao().getCity() + ", " + transactionDao.getStoreSetupDao().getState() + " \n" + transactionDao.getStoreSetupDao().getZipcode(), 46, ReceiptFormatter.TextAlign.CENTER);
+                formatter.addLines(transactionDao.getStoreSetupDao().getName() + " \n" + transactionDao.getStoreSetupDao().getStreet() + " \n" + transactionDao.getStoreSetupDao().getCity() + ", " + transactionDao.getStoreSetupDao().getState() + " \n" + transactionDao.getStoreSetupDao().getZipcode()+ " \n" + transactionDao.getStoreSetupDao().getPhoneNo(), 46, ReceiptFormatter.TextAlign.CENTER);
                 formatter.addLineBreak(1);
                 formatter.add2Columns("Clerk", 0, 15, transactionDao.getUsername(), 0, 20);
                 formatter.addLineBreak(1);
@@ -868,7 +869,7 @@ public class TransactionsManager {
             printer.claim(1);
             printer.setDeviceEnabled(true);
             printer.setMapMode(POSPrinterConst.PTR_MM_METRIC);
-            System.setProperty(JposPropertiesConst.JPOS_POPULATOR_FILE_PROP_NAME, "C:\\Users\\Browline\\Desktop\\POS\\POS\\POS\\jpos.xml");
+            System.setProperty(JposPropertiesConst.JPOS_POPULATOR_FILE_PROP_NAME, "C:\\jpos.xml");
 
             drawer.open("CashDrawer");
             drawer.claim(1000);

@@ -32,7 +32,7 @@ public interface TransactionRepository extends JpaRepository<TransactionDao, Int
             "SUM(p.debit) debit, " +
             "SUM(p.check_amount) checkAmount, " +
             "SUM(t.tax) tax, " +
-            "SUM(t.subtotal) subtotal, " +
+            "SUM(t.total_amount) total, " +
             "SUM(t.total_discount) discount, " +
             "SUM(temp.profit) profit\n" +
             "FROM Transaction t " +
@@ -54,7 +54,7 @@ public interface TransactionRepository extends JpaRepository<TransactionDao, Int
             "SUM(p.debit) debit,\n" +
             "SUM(p.check_amount) checkAmount,\n" +
             "SUM(t.tax) tax,\n" +
-            "SUM(t.subtotal) subtotal,\n" +
+            "SUM(t.total_amount) total,\n" +
             "SUM(t.total_discount) discount,\n" +
             "SUM(temp.profit) profit\n" +
             "FROM Transaction t " +
@@ -76,7 +76,7 @@ public interface TransactionRepository extends JpaRepository<TransactionDao, Int
             "SUM(p.debit) debit, " +
             "SUM(p.check_amount) checkAmount, " +
             "SUM(t.tax) tax, " +
-            "SUM(t.subtotal) subtotal, " +
+            "SUM(t.total_amount) total, " +
             "SUM(t.total_discount) discount, " +
             "SUM(temp.profit) profit\n" +
             "FROM Transaction t " +

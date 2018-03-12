@@ -12,6 +12,7 @@ public class SalesSummaryDto {
     private double discount;
     private double profit;
     private double returns;
+    private double totalAmount;
 
     public String getName() {
         return name;
@@ -91,5 +92,13 @@ public class SalesSummaryDto {
 
     public void setReturns(double returns) {
         this.returns = returns;
+    }
+
+    public double getTotalAmount() {
+        return totalAmount;
+    }
+
+    public void setTotalAmount(double totalAmount) {
+        this.totalAmount = totalAmount;
     }
 }

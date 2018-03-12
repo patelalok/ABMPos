@@ -139,6 +139,7 @@
             <div *ngIf="this.salesDropdown == 'Sales Summary'" class="col-md-12 p-md-3">
                 <p-dataTable [value]="this.salesSummaryDto" scrollable="true" [responsive]="true" scrollHeight="500px">
                     <p-column field="name" header="Name" [style]="{'height': '46px', 'width': '10%', 'text-align': 'left'}"></p-column>
+
                     <p-column field="cash" header="Cash" [sortable]="true">
                         <ng-template let-summary="rowData" pTemplate="body">
                             {{summary.cash | currency:'USD':'true'}}
@@ -176,19 +177,19 @@
                             {{summary.returns | currency:'USD':'true'}}
                         </ng-template>
                     </p-column>
-                    <p-column field="returns" header="Balance Due">
+                    <!-- <p-column field="returns" header="Balance Due">
                         <ng-template let-summary="rowData" pTemplate="body">
                             {{summary.returns | currency:'USD':'true'}}
                         </ng-template>
-                    </p-column>
+                    </p-column> -->
                     <p-column field="profit" header="Profit" [sortable]="true">
                         <ng-template let-summary="rowData" pTemplate="body">
                             {{summary.profit | currency:'USD':'true'}}
                         </ng-template>
                     </p-column>
-                    <p-column field="returns" header="Total" [sortable]="true">
+                    <p-column field="total" header="Total" [sortable]="true">
                         <ng-template let-summary="rowData" pTemplate="body">
-                            {{summary.returns | currency:'USD':'true'}}
+                            {{summary.totalAmount | currency:'USD':'true'}}
                         </ng-template>
                     </p-column>
                 </p-dataTable>
