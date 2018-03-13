@@ -19,7 +19,7 @@ export class ProductComponent implements OnInit {
 
 
   form: FormGroup;
-  backendProductDto: BackendProductDto[];
+  backendProductDto: Product[];
   displayDialog = false;
   products: Product[];
   categoryDto: Category[];
@@ -145,27 +145,27 @@ export class ProductVariantDetail {
   value: string;
 }
 
-export class BackendProductDto {
-  productNo: string;
-  description: string;
-  categoryName: string;
-  cost: number;
-  retail: number;
-  markup: number;
-  quantity: number;
-  minQuantity: number;
-  brandId: number;
-  categoryId: number;
-  vendorId: number;
-  // modelId: number;
-  tax: boolean;
-  ecommerce: boolean;
-  active: boolean;
-  variant: boolean;
-  relatedProduct: boolean;
-  createdTimestamp: any;
-  customLoyaltyAmount: number;
-}
+// export class BackendProductDto {
+//   productNo: string;
+//   description: string;
+//   categoryName: string;
+//   cost: number;
+//   retail: number;
+//   markup: number;
+//   quantity: number;
+//   minQuantity: number;
+//   brandId: number;
+//   categoryId: number;
+//   vendorId: number;
+//   // modelId: number;
+//   tax: boolean;
+//   ecommerce: boolean;
+//   active: boolean;
+//   variant: boolean;
+//   relatedProduct: boolean;
+//   createdTimestamp: any;
+//   customLoyaltyAmount: number;
+// }
 export interface ProductCommon {
   name: string;
   id?: number;

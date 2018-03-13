@@ -21,6 +21,7 @@ import { SaleComponent } from 'app/sell/sale/sale.component';
 import { PromotionComponent } from 'app/promotion/promotion.component';
 import { CloseRegisterComponent } from 'app/sell/close-register/close-register.component';
 import { DashboardComponent } from 'app/dashboard/dashboard.component';
+import { NewSalePageComponent } from './new-sale-page/new-sale-page.component';
 
 
 const routes: Routes = [
@@ -33,7 +34,9 @@ const routes: Routes = [
       { path: 'close-shift', component:  CloseRegisterComponent},
       { path: 'return', component:  ReturnSaleComponent},
       { path: 'close-register', component:  CloseRegisterComponent},
-      { path: 'sale', component:  SaleComponent}
+      { path: 'sale', component:  SaleComponent},
+      { path: 'newSalePage', component:  NewSalePageComponent},
+
     ]
   },
   { path: 'employee', component: EmployeeComponent},

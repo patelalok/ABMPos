@@ -800,7 +800,6 @@ export class SaleComponent implements OnInit, AfterViewInit {
         if (transaction.customerPhoneno != null && transaction.customerPhoneno != undefined && transaction.customerPhoneno.length > 0) {
 
           this.selectedCustomer = new Customer();
-
           this.customerService.getCustomerDetailsByPhoneNo(transaction.customerPhoneno)
             .subscribe((customer: Customer) => {
 

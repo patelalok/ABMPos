@@ -2,7 +2,7 @@ import {Injectable } from '@angular/core';
 import {Http, Response, Headers} from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import { FormControl } from '@angular/forms/forms';
-import { Category, Brand, Vendor, Model, ProductVariantDetail, CategoryTest, BackendProductDto } from 'app/product/product.component';
+import { Category, Brand, Vendor, Model, ProductVariantDetail, CategoryTest } from 'app/product/product.component';
 import { environment } from 'environments/environment';
 import { Product } from 'app/sell/sale/sale.component';
 import { CustomerInterface, Customer, StoreCreditDto } from 'app/customer/subcustomer/subcustomer.component';

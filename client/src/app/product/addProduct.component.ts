@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ProductService } from "app/product/product.service";
 // import { FormBuilder } from "@angular/forms/forms";
 import { FormBuilder, Validators, FormGroup, FormControl } from '@angular/forms';
-import { BackendProductDto, Category, Brand, Vendor, ProductVariantDetail, Model } from "app/product/product.component";
+import {Category, Brand, Vendor, ProductVariantDetail, Model } from "app/product/product.component";
 import * as moment from 'moment';
 import { slideInOutAnimation } from 'app/shared/animations/slide-in-out.animation';
 import { ToastsManager } from 'ng2-toastr/src/toast-manager';
@@ -22,7 +22,7 @@ export class AddProductComponent implements OnInit {
 
 
   form: FormGroup;
-  backendProductDto: BackendProductDto[];
+  backendProductDto: Product[];
   categoryDto: Category[];
   brandDto: Brand[];
   vendorDto: Vendor[];
@@ -237,6 +237,6 @@ export interface ProductForm {
   variant: boolean;
   customLoyaltyAmount: number;
   enableDigitalPunch?: boolean;
-  noOfSaleForFreeService?:number;
+  noOfSaleForFreeService?:any;
 
 }

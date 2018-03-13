@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators, FormGroup, FormControl } from '@angular/forms';
 
-import { BackendProductDto, Category, Brand, Vendor, Model, ProductVariantDetail } from 'app/product/product.component';
+import {Category, Brand, Vendor, Model, ProductVariantDetail } from 'app/product/product.component';
 import * as moment from 'moment';
 import { ProductService } from 'app/product/product.service';
 import { ProductForm } from 'app/product/addProduct.component';
@@ -18,7 +18,7 @@ import { Product } from 'app/sell/sale/sale.component';
 })
 export class EditProductComponent implements OnInit {
   form: FormGroup;
-  backendProductDto: BackendProductDto[];
+  backendProductDto: Product[];
   categoryDto: Category[];
   brandDto: Brand[];
   vendorDto: Vendor[];

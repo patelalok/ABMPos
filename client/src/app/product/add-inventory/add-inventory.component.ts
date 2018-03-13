@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ProductService } from 'app/product/product.service';
-import { BackendProductDto, Vendor } from 'app/product/product.component';
+import { Vendor } from 'app/product/product.component';
 import { SellService } from 'app/sell/sell.service';
 import { PersistenceService } from 'app/shared/services/persistence.service';
 import * as moment from 'moment';

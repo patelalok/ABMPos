@@ -185,6 +185,8 @@ public class TransactionsManager {
 
         }
 
+        // Opening the cash drawer after complete the transaction.
+        openCashDrawer();
 
         return transactionRepository.save(transactionDao);
     }
@@ -203,7 +205,6 @@ public class TransactionsManager {
         if (null != storeSetupDao) {
             context.setVariable("storeDetails", storeSetupDao);
         }
-
 
         assert storeSetupDao != null;
         EmailStatus emailStatus = emailHtmlSender.send(email, storeSetupDao.getName() + " Purchase Detail", "eyebrowNotification", context);
