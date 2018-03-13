@@ -6,9 +6,10 @@
             </div>
             <div class="col-md-4">
                 <div class="btn-group" role="group" aria-label="Basic example">
-                    <button type="button" class="btn btn-secondary">Today</button>
-                    <button type="button" class="btn btn-secondary">Week</button>
-                    <button type="button" class="btn btn-secondary">Month</button>
+                    <button type="button" class="btn btn-secondary" (click)="getDashboardDetailBy('Today')">Today</button>
+                    <button type="button" class="btn btn-secondary" (click)="getDashboardDetailBy('Week')">Week</button>
+                    <button type="button" class="btn btn-secondary" (click)="getDashboardDetailBy('Month')">Month</button>
+                    <button type="button" class="btn btn-secondary" (click)="getDashboardDetailBy('Year')">Year</button>
                     <button type="button" class="btn btn-secondary">Custom</button>
                 </div>
 
@@ -28,14 +29,14 @@
         <div class="row">
 
             <div class="col-md-6 example-container mat-elevation-z8">
-                <div class="row" style="margin: 0 auto; height: 40px;  margin-top: 7.5px;">
-                    <h5>Best Selling Items</h5>
-                </div>
-                <div class="row">
+                <h5 style="margin: 0 auto; height: 40px;  margin-top: 7.5px;">
+                    Best Selling Products
+                </h5>
+                <div class="row" style="overflow: auto;">
                     <table class="table table-striped">
                         <thead>
                             <tr>
-                                <th scope="col">ProductNo</th>
+                                <!-- <th scope="col">ProductNo</th> -->
                                 <th scope="col">Description</th>
                                 <th scope="col">Cost</th>
                                 <th scope="col">Retail</th>
@@ -44,8 +45,8 @@
                         </thead>
                         <tbody>
                             <tr *ngFor="let product of this.productDto">
-                                <td>{{product.productNo}}</td>
-                                <td>{{product.name}}</td>
+                                <!-- <td style="width: 10%;">{{product.productNo}}</td> -->
+                                <td style="width: 50%;">{{product.name}}</td>
                                 <td>$ {{product.cost}}</td>
                                 <td>$ {{product.retail}}</td>
                                 <td>{{product.quantity}}</td>
@@ -55,50 +56,56 @@
                         </tbody>
                     </table>
                 </div>
-
             </div>
 
             <div class="col-md-6 example-container mat-elevation-z8">
-                <div class="row" style="margin: 0 auto; height: 40px;  margin-top: 7.5px;">
-                    <h5>Category Sales Graph</h5>
-                </div>
-                <div class="row">
-                    <ngx-charts-pie-chart [view]="view" [scheme]="colorScheme" [results]="categoryPieChartData" [legend]="showLegend" [explodeSlices]="explodeSlices" [labels]="showLabels" [doughnut]="doughnut" [gradient]="gradient" (select)="onSelect($event)">
-                    </ngx-charts-pie-chart>
+                <h5 style="margin: 0 auto; height: 40px;  margin-top: 7.5px;">
+                    Sales By Category Graph
+                </h5>
+                <div class="row" style="overflow: auto;">
+                    <!-- <ngx-charts-pie-chart [view]="view" [scheme]="colorScheme" [results]="categoryPieChartData" [legend]="showLegend" [explodeSlices]="explodeSlices" [labels]="showLabels" [doughnut]="doughnut" [gradient]="gradient" (select)="onSelect($event)">
+                        </ngx-charts-pie-chart> -->
+                    <div class="col-md-1">
+
+                    </div>
+                    <div class="col-md-10">
+                        <ngx-charts-pie-grid [view]="view" [scheme]="colorScheme" [results]="categoryPieChartData" (select)="onSelect($event)">
+                        </ngx-charts-pie-grid>
+                    </div>
+                    <div class="col-md-1">
+
+                    </div>
+
+
                 </div>
             </div>
         </div>
         <!-- <div class="row">
-
-            <div class="col-md-6 example-container mat-elevation-z8">
-                <h5>Sales Year Over Year</h5>
-                <table class="table table-striped">
-                    <thead>
-                        <tr>
-                            <th scope="col">#</th>
-                            <th scope="col">This Year</th>
-                            <th scope="col">Last Year</th>
-                            <th scope="col">Change</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-
-
-                    </tbody>
-                </table>
-            </div>
-            <div class="col-md-6 example-container mat-elevation-z8">
-                <h5>Sale Over Time</h5>
-            </div>
-        </div> -->
+                <div class="col-md-6 example-container mat-elevation-z8">
+                    <h5>Sales Year Over Year</h5>
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">This Year</th>
+                                <th scope="col">Last Year</th>
+                                <th scope="col">Change</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="col-md-6 example-container mat-elevation-z8">
+                    <h5>Sale Over Time</h5>
+                </div>
+            </div> -->
     </mat-card-content>
-
-
 </mat-card>

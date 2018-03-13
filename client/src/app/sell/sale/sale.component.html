@@ -1,9 +1,8 @@
 <div class="row">
-    <div class="col-lg-9">
+    <div class="col-md-8">
         <mat-card>
             <div class="row">
-                <div class="align-self-center col-lg-7" style="max-height: 500px !important;">
-
+                <div class="align-self-center col-md-7" style="max-height: 500px !important;">
                     <p-autoComplete id="productsearch" [(ngModel)]="productForSearchBox" class="full-width m-1" [suggestions]="product" placeholder="Please Enter Service Name" (onFocus)="print($event)" (onBlur)="print($event)" (completeMethod)="filterProducts($event)" name="test"
                         [minLength]="3" (keyup.enter)="submitProduct(productForSearchBox)" field="description">
                         <ng-template>
@@ -11,199 +10,150 @@
                                 </span>
                         </ng-template>
                     </p-autoComplete>
-                    <!-- <button (click)="this.testFocus()">Click me</button> -->
-
                 </div>
-                <div class="col-lg-0"></div>
-                <div class="col-lg-5 d-flex justify-content-end">
+                <div class="col-md-5 d-flex justify-content-end">
                     <!-- Buttons go here  -->
                     <button (click)="this.parkSale()" class="bg-primary text-white action-button m-1" mat-raised-button [disabled]="this.disablePaymentButtonOnSale">
-                        <span>
-                            <i class="fa fa-history">
-                                Park Sale
-                            </i>
-                        </span>
-                    </button>
+                            <span>
+                                <i class="fa fa-history">
+                                    Park Sale
+                                </i>
+                            </span>
+                        </button>
                     <button class="bg-danger text-white action-button m-1" mat-raised-button data-toggle="modal" data-target="#deleteProduct" (click)="this.setHeaderAndMessageForDisgardPopup()" [disabled]="this.disablePaymentButtonOnSale">
-                        <span>
-                            <i class="fa fa-trash">
-                                Discard Sale
-                            </i>
-                        </span>
-                    </button>
+                            <span>
+                                <i class="fa fa-trash">
+                                    Discard Sale
+                                </i>
+                            </span>
+                        </button>
                     <button class="bg-primary text-white  action-button m-1" mat-raised-button (click)="this.opneCashDrawer()">
-                        <span>
-                            <i class="fa fa-th">
-                                No Sale
-                            </i>
-                        </span>
-                    </button>
-                    <!-- <button class="bg-primary text-white  action-button m-1" mat-raised-button (click)="this.openSellCustomerView()">
-                        <span>
-                            <i class="fa fa-user">
-                                Customer View
-                            </i>
-                        </span>
-                    </button> -->
+                            <span>
+                                <i class="fa fa-th">
+                                    No Sale
+                                </i>
+                            </span>
+                        </button>
                 </div>
             </div>
-            <!-- <div class="row m-2">
-                <app-receipt [data]="this.recieptData"></app-receipt>
-            </div> -->
         </mat-card>
-        <!-- <br/> -->
-        <mat-card>
-            <!-- <mat-card-title></mat-card-title> -->
-            <mat-card-content>
-                <div class="row p-md-3">
-                    <!-- Product Table -->
-                    <p-dataTable [value]="this.transactionLineItemDaoList" scrollable="true" [responsive]="true" scrollHeight="300px" [editable]="true" (onEditComplete)="updateLineItemDetails($event)">
-                        <p-header>Product Sale Table</p-header>
 
-                        <p-column field="productNo" header="ProductNo" [style]="{'width':'15%','text-align':'center', 'overflow':'visible'}"></p-column>
-                        <p-column field="description" header="Description" [style]="{'width':'45%','text-align':'center', 'overflow':'visible'}"></p-column>
-                        <p-column field="saleQuantity" header="Quantity" [editable]="true">
-                            <ng-template let-product="rowData" pTemplate="body">
-                                <div id="lineitem{{product.productNo}}" [ngClass]="{'quantity-updated': product.quantityUpdated }">
-                                    {{product.saleQuantity}}
-                                </div>
-                            </ng-template>
-                        </p-column>
-                        <p-column field="retail" header="Retail"></p-column>
-                        <p-column field="retailWithDiscount" header="RetWtDis" [editable]="true"></p-column>
-                        <!-- <p-column field="quantity" header="Stock"></p-column> -->
-                        <p-column field="totalProductPrice" header="Total"></p-column>
-                        <p-column header="" styleClass="col-button" [style]="{'width':'5%','text-align':'center', 'overflow':'visible'}">
+        <div class="flex-container-product">
+            <mat-card>
+                <!-- <mat-card-title>
+                    Products
+                </mat-card-title> -->
+                <button class="product-button" (click)="this.addProductForSale(i)" *ngFor="let prodcut of this.productListByCategory;let i = index" mat-raised-button>
+                    {{prodcut.description}}
+                    <h6>{{prodcut.retail | currency:'USD':'true'}}</h6>
+                </button>
+            </mat-card>
+        </div>
 
-                            <ng-template let-product="rowData" pTemplate="body">
-                                <button mat-button class="btn-red action-button-table" mat-button (click)="this.setProductForDelete(product)" data-toggle="modal" data-target="#deleteProduct">
+        <div class="flex-container-category">
+            <mat-card>
+                <mat-card-title>
+                    Categories
+                </mat-card-title>
+                <!-- <button class="category-button" (click)="this.getProductByCategory()" mat-raised-button>
+                        FAVORITE
+                </button> -->
+                <button class="category-button" *ngFor="let category of this.categoryDto;let i = index" (click)="this.getProductByCategory(i)" mat-raised-button>
+                {{category.name}}
+            </button>
+            </mat-card>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <mat-card style="overflow-y: auto;">
+            <!-- Customer Details -->
+            <div *ngIf="showCustomerSearchBox" class="input-group customer-Header-textBox">
+                <span class="input-group-addon" id="basic-addon1">
+                            <i class="fa fa-user-plus" aria-hidden="true"></i>
+                 </span>
+
+                <p-autoComplete id="customerSearch" [(ngModel)]="this.selectedCustomer" [field]="'name'" [suggestions]="filteredCustomer" placeholder="Please Enter Customer Name | Phone No" (completeMethod)="this.filterCustomers($event)" class="full-width" [minLength]="1"
+                    (keyup.enter)="this.submitCustomer()" (onClear)="this.removeCustomerOnSale()">
+                    <ng-template let-c pTemplate="item">
+                        <div class="ui-helper-clearfix" style="border-bottom:1px solid #D5D5D5">
+                            <div style="width:32px;display:inline-block;margin:5px 0 2px 5px">{{c.name}}</div>
+                            <div style="font-size:18px;float:right;margin:10px 10px 0 0">{{c.phoneNo}}</div>
+                        </div>
+                    </ng-template>
+
+                </p-autoComplete>
+            </div>
+
+            <div *ngIf="!showCustomerSearchBox" class="input-group customer-Header-without-textBox">
+                <span class="input-group-addon" id="basic-addon1">
+                            <i class="fa fa-user-plus" aria-hidden="true"></i>
+                 </span>
+                <a href="javascript:void(0)" (click)="this.showCustomerDetailsPopup()" data-toggle="modal" data-target="#customerDetailsModel">
+                        {{this.selectedCustomer.name}} | {{this.selectedCustomer.phoneNo}}
+                </a>
+                <button mat-button class="btn-red deleteButtonSaleTable" mat-button (click)="this.removeCustomerOnSale()">
+                        <i class="fa fa-trash" aria-hidden="true"></i>
+                </button>
+            </div>
+            <br>
+            <!-- Product Table -->
+            <p-dataTable [value]="this.transactionLineItemDaoList" scrollable="true" [responsive]="true" scrollHeight="250px" [editable]="true" (onEditComplete)="updateLineItemDetails($event)">
+                <!-- <p-header>Product Sale Table</p-header> -->
+                <p-column field="saleQuantity" header="Qty" [editable]="true" [style]="{'width':'10%','text-align':'center', 'overflow':'visible'}"></p-column>
+                <p-column field="description" header="Description" [style]="{'width':'60%','text-align':'center', 'overflow':'visible'}"></p-column>
+                <p-column field="totalProductPrice" header="Total" [style]="{'width':'20%','text-align':'center', 'overflow':'visible'}"></p-column>
+                <p-column header="" styleClass="col-button" [style]="{'width':'10%','text-align':'center', 'overflow':'visible'}">
+                    <ng-template let-product="rowData" pTemplate="body">
+                        <button mat-button class="btn-red deleteButtonSaleTable" mat-button (click)="this.setProductForDelete(product)" data-toggle="modal" data-target="#deleteProduct">
                                     <i class="fa fa-trash" aria-hidden="true"></i>
                                 </button>
-                            </ng-template>
-                        </p-column>
+                    </ng-template>
+                </p-column>
 
+            </p-dataTable>
 
-                    </p-dataTable>
-                </div>
-            </mat-card-content>
-        </mat-card>
-
-    </div>
-    <div class="col-lg-3">
-        <mat-card>
-            <mat-card-content>
-                <div class="row">
-                    <div class="input-group">
-                        <span class="input-group-addon" id="basic-addon1">
-                            <i class="fa fa-user-plus" aria-hidden="true"></i>
-                        </span>
-                        <p-autoComplete id="customerSearch" [(ngModel)]="this.selectedCustomer" [field]="'name'" [suggestions]="filteredCustomer" (completeMethod)="this.filterCustomers($event)" class="full-width" [minLength]="1" (keyup.enter)="this.submitCustomer()" (onClear)="this.removeCustomerOnSale()">
-                            <ng-template let-c pTemplate="item">
-                                <div class="ui-helper-clearfix" style="border-bottom:1px solid #D5D5D5">
-                                    <div style="width:32px;display:inline-block;margin:5px 0 2px 5px">{{c.name}}</div>
-                                    <div style="font-size:18px;float:right;margin:10px 10px 0 0">{{c.phoneNo}}</div>
-                                </div>
-                            </ng-template>
-
-                        </p-autoComplete>
-
-                    </div>
-                </div>
-                <br/>
-                <div *ngIf="this.selectedCustomer">
-                    <table class="table table-bordered customer">
-
-                        <tbody>
-                            <tr>
-                                <td>
-                                    <dl class="row">
-                                        <dt class="">Name:</dt>
-                                        <dd class="">{{this.selectedCustomer.name}}</dd>
-                                    </dl>
-                                </td>
-                                <td>
-                                    <dl class="row">
-                                        <dt class="">Phone:</dt>
-                                        <dd class="">{{this.selectedCustomer.phoneNo}}</dd>
-                                    </dl>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <dl class="row">
-                                        <dt class="">Balance:</dt>
-                                        <dd class="">{{this.selectedCustomer.balance | currency:'USD':'true'}}</dd>
-                                    </dl>
-                                </td>
-                                <td>
-                                    <dl class="row">
-                                        <dt class="">Credit:</dt>
-                                        <dd class="">{{this.selectedCustomer.storeCredit | currency:'USD':'true'}}</dd>
-                                    </dl>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <dl class="row">
-                                        <dt class="">Spending:</dt>
-                                        <dd class=""></dd>
-                                    </dl>
-                                </td>
-                                <td>
-                                    <dl class="row">
-                                        <dt class="">Loyalty:</dt>
-                                        <dd class="">{{this.selectedCustomer.loyalty | currency:'USD':'true'}}</dd>
-                                    </dl>
-
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-
-                <div class="sales-total p-md-4">
-
-                    <dl class="row">
-                        <dt class="">Sub-total</dt>
-                        <dd class="">{{this.transactionDtoList.subtotal | currency:'USD':'true'}}</dd>
-                    </dl>
-                    <dl class="row">
-                        <dt class="">
+            <div class="row" style="margin-top: 30px">
+                <ul class="sales-total">
+                    <li class="sale-total-line sale-total-line-total">
+                        <div>Sub-Total</div>
+                        <div>{{this.transactionDtoList.subtotal | currency:'USD':'true'}}</div>
+                    </li>
+                    <li class="sale-total-line">
+                        <div>
                             <a #discount id="discount-popover" href="javascript:void(0)" (click)="this.showPopover(discount)">
                                 Discount
                             </a>
-                        </dt>
-                        <dd class="">{{this.totalTransactionDiscount | currency:'USD':'true'}}</dd>
-                    </dl>
-                    <dl class="row">
-                        <dt>
-                        <a  href="javascript:void(0)" (click)="this.manageTaxForTransaction()">
-                                Tax ({{this.taxPercent}}%)
-                        </a>
-                        </dt>
-                        <dd class="">{{this.transactionDtoList.tax | currency:'USD':'true'}}</dd>
-                    </dl>
-                    <dl class="row">
-                        <dt class="">Quantity</dt>
-                        <dd class="">{{this.transactionDtoList.quantity}}</dd>
-                    </dl>
-                    <dl class="row" *ngIf="this.selectedCustomer != null && this.selectedCustomer.balance > 0">
-                        <dt class="">Pre Balance</dt>
-                        <dd class="">{{this.selectedCustomer.balance | currency:'USD':'true'}}</dd>
-                    </dl>
-                    <dl class="row">
-                        <dt class="">Total</dt>
-                        <dd class="">{{this.transactionDtoList.totalAmount | currency:'USD':'true'}}</dd>
-                    </dl>
-                </div>
-                <button *ngIf="this.saleType == 'Complete' " mat-raised-button [disabled]="this.disablePaymentButtonOnSale" type="button" (click)="this.setDataForPaymentModel()" data-toggle="modal" data-target="#paymentModel" style="width: 100%; font-size: 20px" class="btn btn-green btn-lg text-white m-md-1 p-md-2">
-                    <div class="row p-md-1 font-weight-bold">
-                        <div class="col-md-6 text-left">Payment</div>
-                        <div class="col-md-6 text-right">{{this.transactionDtoList.totalAmount | currency:'USD':'true'}}</div>
-                    </div>
-                </button>
+                        </div>
+                        <div>{{this.totalTransactionDiscount | currency:'USD':'true'}}</div>
+                    </li>
+                    <li class="sale-total-line">
+                        <div>
+                            <a href="javascript:void(0)" (click)="this.manageTaxForTransaction()">
+                                    Tax ({{this.taxPercent}}%)
+                            </a>
+                        </div>
+                        <div>{{this.transactionDtoList.tax | currency:'USD':'true'}}</div>
+                    </li>
+                    <li class="sale-total-line">
+                        <div>Quantity</div>
+                        <div>{{this.transactionDtoList.quantity}}</div>
+                    </li>
+                    <li class="sale-total-line">
+                        <div>Total</div>
+                        <div>{{this.transactionDtoList.totalAmount | currency:'USD':'true'}}</div>
+                    </li>
 
-            </mat-card-content>
+                </ul>
+            </div>
+        </mat-card>
+        <mat-card>
+
+            <button *ngIf="this.saleType == 'Complete' " mat-raised-button [disabled]="this.disablePaymentButtonOnSale" type="button" (click)="this.setDataForPaymentModel()" data-toggle="modal" data-target="#paymentModel" style="width: 100%; font-size: 20px" class="btn btn-green btn-lg text-white m-md-1 p-md-2">
+                        <div class="row p-md-1 font-weight-bold">
+                            <div class="col-md-6 text-left">Payment</div>
+                            <div class="col-md-6 text-right">{{this.transactionDtoList.totalAmount | currency:'USD':'true'}}</div>
+                        </div>
+                    </button>
         </mat-card>
 
 
@@ -218,7 +168,7 @@
     </h3>
     <div class="popover-body">
         <!-- <button mat-raised-button class="action-button" (click)="this.setDiscountType('By Percentage')"> % </button>
-        <button mat-raised-button class="action-button" (click)="this.setDiscountType('By Amount')"> $ </button> -->
+            <button mat-raised-button class="action-button" (click)="this.setDiscountType('By Amount')"> $ </button> -->
         <div class="row">
             <div class="col-md-5">
                 <mat-input-container>
@@ -236,8 +186,8 @@
     </div>
     <div class="d-flex justify-content-center  p-md-3">
         <button mat-button class="btn-red action-button-table" (click)="this.calculateDiscount(this.discountValue)">
-                        Apply
-            </button>
+                            Apply
+                </button>
 
 
     </div>
@@ -391,11 +341,11 @@
 
 
                 <!-- <div class="row" style="margin-top: 30px">
-                    <h5 style="margin-left: 15px;">Tip Amount:</h5>
-                    <div class="col-md-12">
-                        <input [(ngModel)]="this.tipAmount" class="form-control form-control-lg" type="number" placeholder="Please Enter Tip Amount">
-                    </div>
-                </div> -->
+                        <h5 style="margin-left: 15px;">Tip Amount:</h5>
+                        <div class="col-md-12">
+                            <input [(ngModel)]="this.tipAmount" class="form-control form-control-lg" type="number" placeholder="Please Enter Tip Amount">
+                        </div>
+                    </div> -->
 
                 <div class="row" style="margin-top: 30px">
                     <div class="col-md-12">
@@ -443,3 +393,55 @@
 
 </div>
 <!-- End of Payment Pop up -->
+
+<!-- Start of Customer Details Model -->
+
+<div class="modal fade" id="customerDetailsModel" role="dialog">
+    <div class="modal-dialog modal-md">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Customer Details</h3>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+
+            </div>
+            <div *ngIf="this.selectedCustomer != null " class="modal-body">
+                <ul class="customer-detials-popup-ul">
+                    <li class="customer-detials-popup-li">
+                        <div class="customer-detials-popup-div">
+                            No Of Eyebrow
+                        </div>
+                        <div class="customer-detials-popup-div">
+                            {{this.selectedCustomer.noOfEyebrow}}
+                        </div>
+                    </li>
+                    <li class="customer-detials-popup-li">
+                        <div class="customer-detials-popup-div">
+                            Loyalty
+                        </div>
+                        <div class="customer-detials-popup-div">
+                            {{this.selectedCustomer.loyalty | currency:'USD':'true'}}
+                        </div>
+                    </li>
+                    <li class="customer-detials-popup-li">
+                        <div class="customer-detials-popup-div">
+                            Store Credit
+                        </div>
+                        <div class="customer-detials-popup-div">
+                            {{this.selectedCustomer.storeCredit | currency:'USD':'true'}}
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+
+        </div>
+
+
+    </div>
+
+</div>
+<!-- End of Customer Details Model -->

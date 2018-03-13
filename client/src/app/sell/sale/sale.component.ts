@@ -1,4 +1,4 @@
-import { Component, ViewChild, ElementRef, OnInit, Pipe, PipeTransform, AfterViewInit, HostBinding } from '@angular/core';
+import { Component, ViewChild, ElementRef, OnInit, Pipe, PipeTransform, AfterViewInit, HostBinding, Input } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { LazyLoadEvent } from 'primeng/primeng';
 import { SellService } from 'app/sell/sell.service';
@@ -17,26 +17,37 @@ import { empty } from 'rxjs/Observer';
 import { MenuItem } from 'app/shared/top-navbar/top-navbar.component';
 import { PersistenceService } from 'app/shared/services/persistence.service';
 import { PrimeCustomer, Customer } from 'app/customer/subcustomer/subcustomer.component';
+import { Category } from 'app/product/product.component';
+import { ProductService } from 'app/product/product.service';
 declare var $: JQueryStatic;
+
+
+
 @Component({
   selector: 'app-sale',
   templateUrl: './sale.component.html',
-  styleUrls: ['./sale.component.scss'],
-  animations: [fadeInAnimation],
-  // host: { '[@fadeInAnimation]': '' }
+  styleUrls: ['./sale.component.scss']
 })
-export class SaleComponent implements OnInit, AfterViewInit {
-  @HostBinding('@fadeInAnimation') fadeInAnimation;
+export class SaleComponent implements OnInit {
+  //@HostBinding('@fadeInAnimation') fadeInAnimation;
+  @Input() category: { categoryId: number, name: string, description: string };
+
+
   product: Product[] = [];
+  productListByCategory:Product[] = [];
+  productList: Product[] = [];
   productForSearchBox: any;
   selectedProduct: Product;
   isProductExistsInSellList = false;
   productPriceArryByCustomer: Array<any[]>;
 
+  categoryDto: Category[] =[];
+
   customerDto: PrimeCustomer[];
   selectedCustomer: Customer;
   cust: any;
   filteredCustomer: any[];
+  showCustomerSearchBox: boolean = true;
 
   transactionLineItemDaoList: TransactionLineItemDaoList[];
   transactionDtoList = new TransactionDtoList();
@@ -76,6 +87,7 @@ export class SaleComponent implements OnInit, AfterViewInit {
 
   constructor(
     private sellService: SellService,
+    private productService: ProductService,
     private persit: PersistenceService,
     private storeSetupService: StoreSetupService,
     private customerService: CustomerService,
@@ -86,12 +98,13 @@ export class SaleComponent implements OnInit, AfterViewInit {
   ) {
 
   }
-  // 
   ngOnInit() {
     this.items = [
       { name: 'Return', icon: 'fa fa-reply-all fa-x', link: '/return' },
       { name: 'Purchase Order', icon: 'fa fa-bookmark fa-x', link: '/sell/purchaseOrder' }
     ];
+    this.getCategoryDetails();
+    this.getProduct();
 
     this.storeSetupService.getStoreDetails().
       then((data) => {
@@ -112,6 +125,13 @@ export class SaleComponent implements OnInit, AfterViewInit {
     this.selectedCustomer = this.persit.getCustomerDetailsForSale();
 
     this.transactionLineItemDaoList = this.persit.getProducts() || [];
+
+    if(this.selectedCustomer){
+      this.showCustomerSearchBox = false;
+    }
+    else {
+      this.showCustomerSearchBox = true;
+    }
     this.setTransactionDtoList();
   }
 
@@ -125,54 +145,8 @@ export class SaleComponent implements OnInit, AfterViewInit {
     window.open(url, '_blank', 'toolbar=0,location=0,menubar=0');
   }
 
-  public opneCashDrawer() {
-    console.log('Coming into cash drawer');
-    this.sellService.opneCashDrawer()
-      .subscribe(() => {
-        console.log('inside after caling opoen cash drawer');
-      });
-  }
 
-  public addTransactionLineItem(productObj: Product): TransactionLineItemDaoList[] {
-
-    // This will help to add retailWithDiscount first time when user add the first line item
-    if (productObj.retailWithDiscount <= 0) {
-      productObj.retailWithDiscount = productObj.retail;
-    }
-    // this will help me to set default quantity by for each product.
-    if (productObj.saleQuantity <= 0) {
-      productObj.saleQuantity = 1;
-    }
-    productObj.totalProductPrice = parseFloat(productObj.retail.toFixed(2));
-
-    if (null != this.selectedCustomer) {
-      if (this.selectedCustomer.noOfEyebrow == productObj.noOfSaleForFreeService) {
-        productObj.retail = 0.00;
-        productObj.totalProductPrice = 0.00;
-        productObj.taxAmountOnProduct = 0.00;
-      }
-    }
-    this.transactionLineItemDaoList.push(productObj);
-    this.product = null;
-    this.productForSearchBox = null
-    this.transactionLineItemDaoList[this.transactionLineItemDaoList.length - 1].retailWithDiscount = productObj.retail;
-    this.transactionLineItemDaoList = this.transactionLineItemDaoList.slice();
-    this.setTransactionDtoList()
-    this.persit.setProducts(this.transactionLineItemDaoList);
-
-    $(`lineitem${productObj.productNo}`).ready(function () {
-      // $(`lineitem${productObj.productNo}`).sc
-      document.getElementById(`lineitem${productObj.productNo}`).scrollIntoView();
-    });
-    return this.transactionLineItemDaoList;
-  }
-  // #productsearch > span > input
-  testFocus() {
-    // document.querySelector("#productsearch > span > input").focus();
-    $('#productsearch > span > input').focus();
-  }
-  // This method helps when user try to change retial price or quanity from the sell text box.
-  submitProduct(value: any) {
+    submitProduct(value: any) {
 
     // if(this.p.length > 8){
     //   this.product.forEach((p)=>{
@@ -201,36 +175,28 @@ export class SaleComponent implements OnInit, AfterViewInit {
     }
   }
 
-  updateProductQuantity(value: any) {
-    console.log('Quantity change');
-    this.transactionLineItemDaoList[this.transactionLineItemDaoList.length - 1].saleQuantity = value;
-    this.transactionLineItemDaoList[this.transactionLineItemDaoList.length - 1].totalProductPrice = parseFloat((this.transactionLineItemDaoList[this.transactionLineItemDaoList.length - 1].retailWithDiscount * this.transactionLineItemDaoList[this.transactionLineItemDaoList.length - 1].saleQuantity).toFixed(2));
-    this.transactionLineItemDaoList = this.transactionLineItemDaoList.slice();
-    this.setTransactionDtoList()
-    this.persit.setProducts(this.transactionLineItemDaoList);
-    this.productForSearchBox = null;
+
+
+  addProductForSale(productIndex: number) {
+    let productObj:Product = this.productListByCategory[productIndex];
+    this.addTransactionLineItem(productObj);
   }
 
-  updateProductPrice(value: any) {
-    console.log('Price change');
-    this.transactionLineItemDaoList[this.transactionLineItemDaoList.length - 1].retailWithDiscount = value;
-    this.transactionLineItemDaoList[this.transactionLineItemDaoList.length - 1].totalProductPrice = (this.transactionLineItemDaoList[this.transactionLineItemDaoList.length - 1].retailWithDiscount * this.transactionLineItemDaoList[this.transactionLineItemDaoList.length - 1].saleQuantity);
+  addTransactionLineItem(productObj: Product) {
+    productObj.saleQuantity = 1;
+    productObj.totalProductPrice = productObj.saleQuantity *productObj.retail;
+    this.transactionLineItemDaoList.push(productObj);
     this.transactionLineItemDaoList = this.transactionLineItemDaoList.slice();
+    this.persit.setProducts(this.transactionLineItemDaoList);
     this.setTransactionDtoList();
-    this.persit.setProducts(this.transactionLineItemDaoList);
-    this.productForSearchBox = null;
-  }
 
-  // this method helps to update lineItem Detail when user change the quatity or change the retail from editable box
-  updateLineItemDetails(event) {
-    this.transactionLineItemDaoList[event.index].saleQuantity = event.data.saleQuantity;
-    this.transactionLineItemDaoList[event.index].retailWithDiscount = event.data.retailWithDiscount;
-    // this will convert numern into numer to show in 2 digits. cause i can not use .toFix here.
-    this.transactionLineItemDaoList[event.index].totalProductPrice = Math.round((event.data.saleQuantity * event.data.retailWithDiscount) * 1e2) / 1e2;
-    this.setTransactionDtoList()
-    this.persit.setProducts(this.transactionLineItemDaoList);
-  }
+    $(`lineitem${productObj.productNo}`).ready(function () {
+      // $(`lineitem${productObj.productNo}`).sc
+      document.getElementById(`lineitem${productObj.productNo}`).scrollIntoView();
+    });
 
+  }
+  
   showPopover(discount) {
     let { x, y } = <DOMRectInit>discount.getBoundingClientRect();
     if (this.popoverStyle)
@@ -258,6 +224,37 @@ export class SaleComponent implements OnInit, AfterViewInit {
     }
 
     this.setTransactionDtoList();
+  }
+
+  updateProductQuantity(value: any) {
+    console.log('Quantity change');
+    this.transactionLineItemDaoList[this.transactionLineItemDaoList.length - 1].saleQuantity = value;
+    this.transactionLineItemDaoList[this.transactionLineItemDaoList.length - 1].totalProductPrice = parseFloat((this.transactionLineItemDaoList[this.transactionLineItemDaoList.length - 1].retailWithDiscount * this.transactionLineItemDaoList[this.transactionLineItemDaoList.length - 1].saleQuantity).toFixed(2));
+    this.transactionLineItemDaoList = this.transactionLineItemDaoList.slice();
+    this.persit.setProducts(this.transactionLineItemDaoList);
+    this.setTransactionDtoList();
+
+    this.productForSearchBox = null;
+  }
+
+  updateProductPrice(value: any) {
+    console.log('Price change');
+    this.transactionLineItemDaoList[this.transactionLineItemDaoList.length - 1].retailWithDiscount = value;
+    this.transactionLineItemDaoList[this.transactionLineItemDaoList.length - 1].totalProductPrice = (this.transactionLineItemDaoList[this.transactionLineItemDaoList.length - 1].retailWithDiscount * this.transactionLineItemDaoList[this.transactionLineItemDaoList.length - 1].saleQuantity);
+    this.transactionLineItemDaoList = this.transactionLineItemDaoList.slice();
+    this.setTransactionDtoList();
+    this.persit.setProducts(this.transactionLineItemDaoList);
+    this.productForSearchBox = null;
+  }
+
+  updateLineItemDetails(event){
+    console.log('event line item', event);
+    this.transactionLineItemDaoList[event.index].saleQuantity = event.data.saleQuantity;
+    // this will convert numern into numer to show in 2 digits. cause i can not use .toFix here.
+    this.transactionLineItemDaoList[event.index].totalProductPrice = Math.round((event.data.saleQuantity * event.data.retail) * 1e2) / 1e2;
+    this.setTransactionDtoList();
+    this.persit.setProducts(this.transactionLineItemDaoList);
+
   }
 
   setTransactionDtoList() {
@@ -289,15 +286,20 @@ export class SaleComponent implements OnInit, AfterViewInit {
       this.disablePaymentButtonOnSale = false;
     }
   }
-
   submitCustomer() {
     this.persit.setCustomerDetailsForSale(this.selectedCustomer);
+
+    this.showCustomerSearchBox = !this.showCustomerSearchBox;
   }
 
   removeCustomerOnSale() {
     this.persit.clearCustomer();
     this.selectedCustomer = null;
     this.cust = null;
+    this.showCustomerSearchBox = !this.showCustomerSearchBox;
+  }
+  showCustomerDetailsPopup(){
+console.log('inside the mnethose');
   }
 
   print(obj) {
@@ -765,6 +767,7 @@ export class SaleComponent implements OnInit, AfterViewInit {
       this.disableStoreCreditButtons = true;
       this.printTransactionDto = null;
       this.taxPercent = this.storeDetails.tax;
+      this.showCustomerSearchBox = true;
 
     }
 
@@ -832,17 +835,6 @@ export class SaleComponent implements OnInit, AfterViewInit {
     $('#paymentModel').modal('toggle');
   }
 
-  manageTaxForTransaction() {
-    // this mean user is doing 0 % on sale page
-    if (this.taxPercent > 0) {
-      this.taxPercent = 0.00;
-    }
-    else {
-      this.taxPercent = this.storeDetails.tax;
-    }
-    this.setTransactionDtoList();
-
-  }
   
   filterProducts(event) {
     let query = event.query;
@@ -885,11 +877,62 @@ export class SaleComponent implements OnInit, AfterViewInit {
       });
   }
 
+  getProduct(){
+    this.productService.getProductDetails()
+    .subscribe((product: Product[]) =>{
+      this.productList = product;
+    });
+  }
+
+  getCategoryDetails(): void {
+    this.productService.getCategoryDetails()
+    .subscribe((categories: Category[]) => {
+    this.categoryDto = categories;
+    console.log('CategoryList' + this.categoryDto);
+      });
+  }
+
+  getProductByCategory(test: any){
+    console.log("category event",test);
+    this.productListByCategory = [];
+
+    let no: number = this.categoryDto[test].categoryId;
+    console.log("category event",no);
+
+    this.productList.forEach((product)=>{
+      if(product.categoryId == no){
+        this.productListByCategory.push(product);
+      }
+    })
+    this.productListByCategory = this.productListByCategory.slice();
+
+    console.log('category prodcut', this.productListByCategory)
+  }
+
   public getCustomerDetails() {
 
     this.customerService.getCustomerDetails()
       .subscribe((customer: Customer[]) => {
         this.customerDto = customer;
+      });
+  }
+
+  manageTaxForTransaction() {
+    // this mean user is doing 0 % on sale page
+    if (this.taxPercent > 0) {
+      this.taxPercent = 0.00;
+    }
+    else {
+      this.taxPercent = this.storeDetails.tax;
+    }
+    this.setTransactionDtoList();
+
+  }
+  public opneCashDrawer() {
+    console.log('Coming into cash drawer');
+    this.sellService.opneCashDrawer()
+      .subscribe(() => {
+        console.log('inside after caling opoen cash drawer');
       });
   }
 }
@@ -1002,3 +1045,4 @@ export class PaymentObjectForPaymentSellTable {
   paymentType: string;
   paymentAmount: number;
 }
+

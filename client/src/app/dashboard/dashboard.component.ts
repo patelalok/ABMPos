@@ -4,6 +4,7 @@ import { SalesDto, SalesSummaryDto } from 'app/report/sales/sales.component';
 import { ChartDto } from 'app/report/inventory/inventory.component';
 import { MatTableDataSource } from '@angular/material';
 import { Product } from 'app/sell/sale/sale.component';
+import { DateDto, DateService } from 'app/shared/services/date.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -21,6 +22,7 @@ export class DashboardComponent implements OnInit {
   explodeSlices = false;
   doughnut = false;
   productDto:  Product[] = []
+  dateDto =  new DateDto();
 ;
 displayedColumns = ['name','cost', 'retail', 'quantity'];
 dataSource = new MatTableDataSource<Product>();
@@ -31,44 +33,65 @@ colorScheme = {
   domain: ['#337ab7','#43a047','#e53935', '#fb8c00']
 };
 
-  constructor(private reportService: ReportService) { 
+  constructor(private reportService: ReportService, private dateServie: DateService) { 
 
   }
 
   ngOnInit() {
 
-    this.getTop50SellingProductList();
-    this.getSaleSummaryDetails();
-    this.getSalesByCategoryDetails();
+    this.getDashboardDetailBy('Today');
   }
-
   onSelect(event) {
     console.log(event);
   }
 
-  getSaleSummaryDetails(){
+  getSaleSummaryDetails(startDate: string, endDate:string){
 
-    this.reportService.getDashboardSalesSummaryReport('Sales By Year', '2018-01-01 00:00:00', '2018-12-31 23:59:59')
+    this.reportService.getDashboardSalesSummaryReport('Sales By Year', startDate, endDate)
         .subscribe((sales: SalesSummaryDto) => {
           this.salesSummaryDto = sales;
           this.getNumberCardDetailsForSales();
         });
   }
 
-  getSalesByCategoryDetails(){
-    this.reportService.getSalesDetails('Sales By Category','2018-01-01 00:00:00', '2018-12-31 23:59:59')
+  getSalesByCategoryDetails(startDate: string, endDate:string){
+    this.reportService.getSalesDetails('Sales By Category', startDate, endDate)
     .subscribe((sales: SalesDto[]) => {
       this.salesDto = sales;
       this.getPieChartForCategorySales();
     });
   }
-  getTop50SellingProductList(){
-    this.reportService.getTop50SellingProductList('Top50SellingItem','2018-01-01 00:00:00', '2018-12-31 23:59:59')
+  getTop50SellingProductList(startDate: string, endDate:string){
+    this.reportService.getTop50SellingProductList('Top50SellingItem', startDate, endDate)
     .subscribe((product: Product[]) => {
       this.productDto = product;
       this.dataSource.data = this.productDto;
       //this.getPieChartForCategorySales();
     });
+  }
+
+  getDashboardDetailBy(dashboardDetailsBy: string){
+
+    if(dashboardDetailsBy == 'Today'){
+      this.dateDto = this.dateServie.getCurrentDay();
+    }
+    else if(dashboardDetailsBy == 'Week'){
+      this.dateDto = this.dateServie.getLast7Day();
+    }
+    else if(dashboardDetailsBy == 'Month'){
+      this.dateDto = this.dateServie.getCurrentMonth();
+    }
+    else if(dashboardDetailsBy == 'Year'){
+      this.dateDto = this.dateServie.getCurrentYear();
+    }
+
+    else {
+      // TODO need to figure this out.
+    }
+
+    this.getTop50SellingProductList(this.dateDto.startDate, this.dateDto.endDate);
+    this.getSaleSummaryDetails(this.dateDto.startDate, this.dateDto.endDate);
+    this.getSalesByCategoryDetails(this.dateDto.startDate, this.dateDto.endDate);
   }
 
   getNumberCardDetailsForSales(){
