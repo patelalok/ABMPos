@@ -62,7 +62,8 @@ export class AddProductComponent implements OnInit {
         'ecommerce': [false, null],
         'varaint': [false, null],
         'enableDigitalPunch':[false, null],
-        'noOfSaleForFreeService': [null]
+        'noOfSaleForFreeService': [null],
+        'favorite': [false, null]
       }
     );
 
@@ -157,6 +158,7 @@ export class AddProductComponent implements OnInit {
         createdTimestamp: moment(Date.now()).format('YYYY-MM-DD HH:mm:ss'),
         //enableDigitalPunch: formValues.enableDigitalPunch,
         noOfSaleForFreeService: formValues.noOfSaleForFreeService,
+        favorite: formValues.favorite
 
        // productInventoryDaoList: this.productInventoryList
 
@@ -228,6 +230,7 @@ export interface ProductForm {
   varaint: boolean;
   active: boolean;
   relatedProduct: boolean;
+  favorite: boolean;
   returnRule: any;
   brandId: number;
   categoryId: number;

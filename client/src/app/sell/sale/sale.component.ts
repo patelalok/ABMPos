@@ -900,6 +900,7 @@ console.log('inside the mnethose');
     console.log("category event",no);
 
     this.productList.forEach((product)=>{
+
       if(product.categoryId == no){
         this.productListByCategory.push(product);
       }
@@ -956,6 +957,7 @@ export class Product {
   active: boolean;
   ecommerce: boolean;
   relatedProduct: boolean;
+  favorite?: boolean;
   saleQuantity: number;
   returnRule: any;
   createdTimestamp: any;

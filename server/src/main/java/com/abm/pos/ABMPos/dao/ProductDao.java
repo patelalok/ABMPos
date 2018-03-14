@@ -42,6 +42,7 @@ public class ProductDao implements Serializable {
     private boolean ecommerce;
     private boolean relatedProduct;
     private boolean enableDigitalPunch;
+    private  boolean favorite;
     private int NoOfSaleForFreeService;
 
 
@@ -315,5 +316,13 @@ public class ProductDao implements Serializable {
 
     public void setNoOfSaleForFreeService(int noOfSaleForFreeService) {
         NoOfSaleForFreeService = noOfSaleForFreeService;
+    }
+
+    public boolean isFavorite() {
+        return favorite;
+    }
+
+    public void setFavorite(boolean favorite) {
+        this.favorite = favorite;
     }
 }

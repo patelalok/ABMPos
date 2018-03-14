@@ -66,10 +66,12 @@ export class EditProductComponent implements OnInit {
             'quantity': [this.currentProduct.quantity,''],
             'minQuantity': [this.currentProduct.minQuantity,''],
             'tax': [this.currentProduct.tax, null],
-            'ecomerce': [this.currentProduct.ecommerce, null],
+            'ecommerce': [this.currentProduct.ecommerce, null],
             //'varaint': [this.currentProduct.variant, null],
             //'enableDigitalPunch':[this.currentProduct.enableDigitalPunch, null],
-            'noOfSaleForFreeService': [this.currentProduct.noOfSaleForFreeService, null]
+            'noOfSaleForFreeService': [this.currentProduct.noOfSaleForFreeService, null],
+            'favorite': [this.currentProduct.favorite, null]
+
             
           }
 
@@ -179,6 +181,7 @@ export class EditProductComponent implements OnInit {
         // enableDigitalPunch: formValues.enableDigitalPunch,
         noOfSaleForFreeService: formValues.noOfSaleForFreeService,
         createdTimestamp: moment(Date.now()).format('YYYY-MM-DD HH:mm:ss'),
+        favorite: formValues.favorite
 
           }
 

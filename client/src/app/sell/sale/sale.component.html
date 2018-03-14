@@ -55,12 +55,14 @@
                 <mat-card-title>
                     Categories
                 </mat-card-title>
-                <!-- <button class="category-button" (click)="this.getProductByCategory()" mat-raised-button>
+
+                <button class="category-button" (click)="this.getProductByCategory()" mat-raised-button>
                         FAVORITE
-                </button> -->
+                </button>
                 <button class="category-button" *ngFor="let category of this.categoryDto;let i = index" (click)="this.getProductByCategory(i)" mat-raised-button>
                 {{category.name}}
             </button>
+
             </mat-card>
         </div>
     </div>
