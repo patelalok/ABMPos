@@ -132,6 +132,7 @@ export class SaleComponent implements OnInit {
     else {
       this.showCustomerSearchBox = true;
     }
+    this.getFavoriteProduct();
     this.setTransactionDtoList();
   }
 
@@ -881,7 +882,16 @@ console.log('inside the mnethose');
     this.productService.getProductDetails()
     .subscribe((product: Product[]) =>{
       this.productList = product;
+
+        this.productList.forEach((product)=>{
+      if(product.favorite){
+        this.productListByCategory.push(product);
+      }
+    })
+    this.productListByCategory = this.productListByCategory.slice();
     });
+
+
   }
 
   getCategoryDetails(): void {
@@ -890,6 +900,16 @@ console.log('inside the mnethose');
     this.categoryDto = categories;
     console.log('CategoryList' + this.categoryDto);
       });
+  }
+
+  getFavoriteProduct(){
+    this.productListByCategory = [];
+    this.productList.forEach((product)=>{
+      if(product.favorite){
+        this.productListByCategory.push(product);
+      }
+    })
+    this.productListByCategory = this.productListByCategory.slice();
   }
 
   getProductByCategory(test: any){

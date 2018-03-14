@@ -71,11 +71,7 @@ export class EditProductComponent implements OnInit {
             //'enableDigitalPunch':[this.currentProduct.enableDigitalPunch, null],
             'noOfSaleForFreeService': [this.currentProduct.noOfSaleForFreeService, null],
             'favorite': [this.currentProduct.favorite, null]
-
-            
           }
-
-          
         );
 
         this.form.valueChanges
