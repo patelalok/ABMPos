@@ -57,7 +57,10 @@
                 </mat-card-title>
 
                 <button class="category-button" (click)="this.getFavoriteProduct()" mat-raised-button>
-                        FAVORITE
+                        <i class="fa fa-star" style = "color: orange"></i>
+                        FAVORITE                        
+                        <i class="fa fa-star" style = "color: orange"></i>
+
                 </button>
                 <button class="category-button" *ngFor="let category of this.categoryDto;let i = index" (click)="this.getProductByCategory(i)" mat-raised-button>
                 {{category.name}}

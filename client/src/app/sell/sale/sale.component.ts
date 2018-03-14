@@ -890,8 +890,6 @@ console.log('inside the mnethose');
     })
     this.productListByCategory = this.productListByCategory.slice();
     });
-
-
   }
 
   getCategoryDetails(): void {
@@ -901,7 +899,7 @@ console.log('inside the mnethose');
     console.log('CategoryList' + this.categoryDto);
       });
   }
-
+  
   getFavoriteProduct(){
     this.productListByCategory = [];
     this.productList.forEach((product)=>{
