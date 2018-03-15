@@ -30,7 +30,6 @@ public class ProductDao implements Serializable {
     private int minQuantity;
 
     //this is just to send as 1 when we sell the product default
-    //this is just to send as 1 when we sell the product default
     @Transient
     private int saleQuantity;
 

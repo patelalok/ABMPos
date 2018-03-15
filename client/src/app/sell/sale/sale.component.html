@@ -106,12 +106,23 @@
                 <!-- <p-header>Product Sale Table</p-header> -->
                 <p-column field="saleQuantity" header="Qty" [editable]="true" [style]="{'width':'10%','text-align':'center', 'overflow':'visible'}"></p-column>
                 <p-column field="description" header="Description" [style]="{'width':'60%','text-align':'center', 'overflow':'visible'}"></p-column>
-                <p-column field="totalProductPrice" header="Total" [style]="{'width':'20%','text-align':'center', 'overflow':'visible'}"></p-column>
+                <p-column field="retailWithDiscount" header="Retail" [editable]="true" [style]="{'width':'20%','text-align':'center', 'overflow':'visible'}">
+                    <ng-template let-product="rowData" pTemplate="body">
+                        <div>
+                            {{product.retailWithDiscount}}
+                        </div>
+                        <div *ngIf="product.retailWithDiscount < product.retail" style='color:red;text-decoration:line-through'>
+                            {{product.retail}}
+                        </div>
+
+
+                    </ng-template>
+                </p-column>
                 <p-column header="" styleClass="col-button" [style]="{'width':'10%','text-align':'center', 'overflow':'visible'}">
                     <ng-template let-product="rowData" pTemplate="body">
-                        <button mat-button class="btn-red deleteButtonSaleTable" mat-button (click)="this.setProductForDelete(product)" data-toggle="modal" data-target="#deleteProduct">
-                                    <i class="fa fa-trash" aria-hidden="true"></i>
-                                </button>
+                        <!-- <button class="btn-red" > -->
+                        <i (click)="this.setProductForDelete(product)" style="color:red;" data-toggle="modal" data-target="#deleteProduct" class="fa fa-trash" aria-hidden="true"></i>
+                        <!-- </button> -->
                     </ng-template>
                 </p-column>
 

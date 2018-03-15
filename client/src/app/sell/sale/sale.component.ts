@@ -185,7 +185,8 @@ export class SaleComponent implements OnInit {
 
   addTransactionLineItem(productObj: Product) {
     productObj.saleQuantity = 1;
-    productObj.totalProductPrice = productObj.saleQuantity *productObj.retail;
+    productObj.retailWithDiscount = productObj.retail;
+    productObj.totalProductPrice = productObj.saleQuantity *productObj.retailWithDiscount;
     this.transactionLineItemDaoList.push(productObj);
     this.transactionLineItemDaoList = this.transactionLineItemDaoList.slice();
     this.persit.setProducts(this.transactionLineItemDaoList);
@@ -223,14 +224,13 @@ export class SaleComponent implements OnInit {
     else if (this.discountType == 'By Percentage') {
       this.totalTransactionDiscount = parseFloat(((this.transactionDtoList.totalAmount * value) / 100).toFixed(2));
     }
-
     this.setTransactionDtoList();
   }
 
   updateProductQuantity(value: any) {
     console.log('Quantity change');
     this.transactionLineItemDaoList[this.transactionLineItemDaoList.length - 1].saleQuantity = value;
-    this.transactionLineItemDaoList[this.transactionLineItemDaoList.length - 1].totalProductPrice = parseFloat((this.transactionLineItemDaoList[this.transactionLineItemDaoList.length - 1].retailWithDiscount * this.transactionLineItemDaoList[this.transactionLineItemDaoList.length - 1].saleQuantity).toFixed(2));
+    this.transactionLineItemDaoList[this.transactionLineItemDaoList.length - 1].retailWithDiscount = parseFloat((this.transactionLineItemDaoList[this.transactionLineItemDaoList.length - 1].retailWithDiscount * this.transactionLineItemDaoList[this.transactionLineItemDaoList.length - 1].saleQuantity).toFixed(2));
     this.transactionLineItemDaoList = this.transactionLineItemDaoList.slice();
     this.persit.setProducts(this.transactionLineItemDaoList);
     this.setTransactionDtoList();
@@ -252,7 +252,8 @@ export class SaleComponent implements OnInit {
     console.log('event line item', event);
     this.transactionLineItemDaoList[event.index].saleQuantity = event.data.saleQuantity;
     // this will convert numern into numer to show in 2 digits. cause i can not use .toFix here.
-    this.transactionLineItemDaoList[event.index].totalProductPrice = Math.round((event.data.saleQuantity * event.data.retail) * 1e2) / 1e2;
+    this.transactionLineItemDaoList[event.index].retailWithDiscount = event.data.retailWithDiscount;
+    this.transactionLineItemDaoList[event.index].totalProductPrice = Math.round((event.data.saleQuantity * event.data.retailWithDiscount) * 1e2) / 1e2;
     this.setTransactionDtoList();
     this.persit.setProducts(this.transactionLineItemDaoList);
 
@@ -899,7 +900,7 @@ console.log('inside the mnethose');
     console.log('CategoryList' + this.categoryDto);
       });
   }
-  
+
   getFavoriteProduct(){
     this.productListByCategory = [];
     this.productList.forEach((product)=>{
