@@ -82,7 +82,7 @@ public class TransactionsManager {
                         }
 
                         // This is the digital punching logic for EYEBROW only :)
-                        if (productDao.getProductNo().equalsIgnoreCase("100000000014") && productDao.isEnableDigitalPunch()) {
+                        if (productDao.getProductNo().equalsIgnoreCase("100000000014")) {
                             if (null != transactionDao.getCustomerPhoneno()) {
                                 CustomerDao customerDao = customerRepository.findByPhoneNo(transactionDao.getCustomerPhoneno());
 
@@ -97,7 +97,7 @@ public class TransactionsManager {
                                     }
 
                                     // Here i need to reset the count after customer reach to final service.
-                                    if (customerDao.getNoOfEyebrow() > productDao.getNoOfSaleForFreeService()) {
+                                    if (customerDao.getNoOfEyebrow() > 7) {
                                         customerDao.setNoOfEyebrow(0);
                                     }
                                     customerRepository.save(customerDao);
@@ -108,28 +108,31 @@ public class TransactionsManager {
                 }
             }
 
-            if (null != transactionDao.getCustomerPhoneno()) {
-                if (transactionDao.getTransactionBalance() >= 0) {
-                    setCustomerBalance(transactionDao);
-                }
 
-                // Here i need to handle the case where customer is using Store credit to pay the amount.
-                // I need to update the store credit for the customer and handle the transaction.
-                if (transactionDao.getPaymentDao().get(0).getStoreCredit() > 0) {
-                    setCustomerStoreCredit(transactionDao);
-                }
-                // Here i need to handle the case where customer is using Loyalty Amount to pay the amount.
-                // I need to update the Loyalty  Amount for the customer and handle the transaction.
-                if (transactionDao.getPaymentDao().get(0).getLoyalty() > 0) {
-                    setCustomerLoyalty(transactionDao);
-                }
-                // Now here i need to check if loyalty enable for this store or not
-                // If Yes then i need to give customer loyalty points for the amount of purchase.
-                if (storeSetupRepository.getOne(1).getLoyaltyAmountForDollar() > 0) {
-                    double loyaltyAmount = (transactionDao.getSubtotal() - transactionDao.getTotalDiscount()) / storeSetupRepository.getOne(1).getLoyaltyAmountForDollar();
-                    addCustomerLoyaltyAmount(transactionDao, loyaltyAmount);
-                }
-            }
+//            DONOT DELETE THIS
+//            I dont need this for now
+//            if (null != transactionDao.getCustomerPhoneno()) {
+//                if (transactionDao.getTransactionBalance() > 0) {
+//                    setCustomerBalance(transactionDao);
+//                }
+//
+//                // Here i need to handle the case where customer is using Store credit to pay the amount.
+//                // I need to update the store credit for the customer and handle the transaction.
+//                if (transactionDao.getPaymentDao().get(0).getStoreCredit() > 0) {
+//                    setCustomerStoreCredit(transactionDao);
+//                }
+//                // Here i need to handle the case where customer is using Loyalty Amount to pay the amount.
+//                // I need to update the Loyalty  Amount for the customer and handle the transaction.
+//                if (transactionDao.getPaymentDao().get(0).getLoyalty() > 0) {
+//                    setCustomerLoyalty(transactionDao);
+//                }
+//                // Now here i need to check if loyalty enable for this store or not
+//                // If Yes then i need to give customer loyalty points for the amount of purchase.
+//                if (storeSetupRepository.getOne(1).getLoyaltyAmountForDollar() > 0) {
+//                    double loyaltyAmount = (transactionDao.getSubtotal() - transactionDao.getTotalDiscount()) / storeSetupRepository.getOne(1).getLoyaltyAmountForDollar();
+//                    addCustomerLoyaltyAmount(transactionDao, loyaltyAmount);
+//                }
+//            }
         }
         if ((transactionDao.getStatus().equalsIgnoreCase("Return") || transactionDao.getStatus().equalsIgnoreCase("Void"))) {
 

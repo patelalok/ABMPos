@@ -44,7 +44,7 @@
                     Products
                 </mat-card-title> -->
                 <button class="product-button" (click)="this.addProductForSale(i)" *ngFor="let prodcut of this.productListByCategory;let i = index" mat-raised-button>
-                    {{prodcut.description}}
+                    <p>{{prodcut.description}}</p>
                     <h6>{{prodcut.retail | currency:'USD':'true'}}</h6>
                 </button>
             </mat-card>
@@ -93,13 +93,15 @@
                 <span class="input-group-addon" id="basic-addon1">
                             <i class="fa fa-user-plus" aria-hidden="true"></i>
                  </span>
-                <a href="javascript:void(0)" (click)="this.showCustomerDetailsPopup()" data-toggle="modal" data-target="#customerDetailsModel">
+                <a *ngIf="this.selectedCustomer" href="javascript:void(0)" (click)="this.showCustomerDetailsPopup()" data-toggle="modal" data-target="#customerDetailsModel">
                         {{this.selectedCustomer.name}} | {{this.selectedCustomer.phoneNo}}
                 </a>
                 <button mat-button class="btn-red deleteButtonSaleTable" mat-button (click)="this.removeCustomerOnSale()">
                         <i class="fa fa-trash" aria-hidden="true"></i>
                 </button>
             </div>
+
+
             <br>
             <!-- Product Table -->
             <p-dataTable [value]="this.transactionLineItemDaoList" scrollable="true" [responsive]="true" scrollHeight="250px" [editable]="true" (onEditComplete)="updateLineItemDetails($event)">

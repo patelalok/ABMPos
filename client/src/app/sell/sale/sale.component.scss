@@ -4,6 +4,15 @@
     overflow-y: auto;
 }
 
+p {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    -webkit-line-clamp: 2;
+    margin: 0px;
+    // display: -webkit-box;
+    // -webkit-box-orient: vertical;
+}
+
 .flex-container-category>mat-card {
     background-color: #f1f1f1;
     margin: 8px;

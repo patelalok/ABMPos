@@ -185,17 +185,25 @@ export class SaleComponent implements OnInit {
 
   addTransactionLineItem(productObj: Product) {
     productObj.saleQuantity = 1;
+
+   
     productObj.retailWithDiscount = productObj.retail;
     productObj.totalProductPrice = productObj.saleQuantity *productObj.retailWithDiscount;
+
+    if(this.selectedCustomer && productObj.productNo == '100000000014' && this.selectedCustomer.noOfEyebrow == 7){
+      // This customer is eligable for free eybrow.
+      productObj.retailWithDiscount = 0.00;
+      productObj.totalProductPrice = productObj.saleQuantity *productObj.retailWithDiscount;      
+    }
     this.transactionLineItemDaoList.push(productObj);
     this.transactionLineItemDaoList = this.transactionLineItemDaoList.slice();
     this.persit.setProducts(this.transactionLineItemDaoList);
     this.setTransactionDtoList();
 
-    $(`lineitem${productObj.productNo}`).ready(function () {
-      // $(`lineitem${productObj.productNo}`).sc
-      document.getElementById(`lineitem${productObj.productNo}`).scrollIntoView();
-    });
+    // $(`lineitem${productObj.productNo}`).ready(function () {
+    //   // $(`lineitem${productObj.productNo}`).sc
+    //   document.getElementById(`lineitem${productObj.productNo}`).scrollIntoView();
+    // });
 
   }
   
@@ -281,7 +289,7 @@ export class SaleComponent implements OnInit {
     this.transactionDtoList.totalAmount = +totalAfterDiscount + this.transactionDtoList.tax;
 
     // This logic helps to manage main payment button enable or diable.
-    if (this.transactionDtoList.totalAmount == 0) {
+    if (this.transactionDtoList.totalAmount < 0) {
       this.disablePaymentButtonOnSale = true;
     }
     else {
@@ -334,6 +342,7 @@ console.log('inside the mnethose');
     this.selectedCustomer = null;
     this.setTransactionDtoList();
     this.saleType = 'Complete';
+    this.showCustomerSearchBox = true;
     this.router.navigate(['/sell/sale']);
   }
 
