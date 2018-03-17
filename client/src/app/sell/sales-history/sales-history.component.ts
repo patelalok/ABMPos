@@ -219,14 +219,14 @@ export class SalesHistoryComponent implements OnInit {
   // Here i am setting status to void for transaction and transaction lineitem
   voidTransaction() {
 
-    // TODO need to figure out this timing issue. i can not send current tim, because user may want to see when this transactoin is created.
-    this.transactionToVoid.date = moment(Date.now()).format('YYYY-MM-DD HH:mm:ss');
+    // TODO need to figure out this timing issue. i can not send current time, because user may want to see when this transactoin is created.
+    //this.transactionToVoid.date = moment(Date.now()).format('YYYY-MM-DD HH:mm:ss');
     this.transactionToVoid.status = 'Void';
 
     this.transactionToVoid.transactionLineItemDaoList.forEach((lineItem) =>
   {
     lineItem.status = 'Void';
-    lineItem.date = moment(Date.now()).format('YYYY-MM-DD HH:mm:ss');
+    //lineItem.date = moment(Date.now()).format('YYYY-MM-DD HH:mm:ss');
   });
 
   this.transactionToVoid.paymentDao.forEach((payment)=> {
