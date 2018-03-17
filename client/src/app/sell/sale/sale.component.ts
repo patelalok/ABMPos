@@ -685,7 +685,10 @@ export class SaleComponent implements OnInit, AfterViewInit {
   // This is the method which handle completing the transaction and reset the all flag and other data.
   completeSale() {
 
+    //
     this.loadingService.loading = true;
+
+    
     let totalLineItemDiscount: number = 0.00
     console.log('sales type', this.saleType);
     // setting customer details
@@ -694,6 +697,8 @@ export class SaleComponent implements OnInit, AfterViewInit {
       this.transactionDtoList.customerFirstLastName = this.selectedCustomer.name;
       this.transactionDtoList.previousBalance = this.selectedCustomer.balance;
     }
+
+    this.loadingService.loading = true;
 
     this.transactionDtoList.status = this.saleType;
     // seeting current date and time using momemt.
@@ -757,8 +762,10 @@ export class SaleComponent implements OnInit, AfterViewInit {
 
     // NOW MAKING SERVICE CALL TO ADD TRANSACTION AND LINE ITEM DETAILS AND WILL ADD LINE ITEM DETAILS ONLY IF ADD TRANASACTION CALL IS SUCCESS !!!
     this.sellService.addTransactionDetails(this.transactionDtoList)
+    
       .subscribe(
         data => {
+
           this.printTransactionDto = data.json();
           if (this.saleType == 'Park') {
             this.toastr.success('Parked Transaction Successfully', 'Success!');
@@ -773,8 +780,8 @@ export class SaleComponent implements OnInit, AfterViewInit {
           console.log(JSON.stringify(error.json()));
         },
         () => {
-
         }
+        
 
       );
     //this.disableCompleteSaleButton = true;
@@ -785,10 +792,12 @@ export class SaleComponent implements OnInit, AfterViewInit {
 
     // console.log("done with sales");
 
-    this.loadingService.loading = false;
 
     // This will focus on the autocomplete field
     $('#productsearch > span > input').focus();
+
+    this.loadingService.loading = false;
+
   }
 
   // This method helps to add transaction as park, so user can use this transaction later
@@ -845,6 +854,7 @@ export class SaleComponent implements OnInit, AfterViewInit {
 
     // very important cause this will give problem after doing return transaction so, after any transactoin i need to do this.
     this.saleType = 'Complete';
+
   }
 
 
