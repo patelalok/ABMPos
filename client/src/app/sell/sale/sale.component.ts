@@ -887,6 +887,40 @@ export class SaleComponent implements OnInit, AfterViewInit {
 
   }
 
+  // This is from customer invoice popup model, Do not delete this.
+  printReceipt(transaction: TransactionDtoList){
+    this.sellService.printReceipt(transaction);
+  }
+
+    // This is from customer invoice popup model, Do not delete this.
+  sendEmail(transaction: TransactionDtoList){
+
+    if(null != transaction && null != transaction.customerPhoneno && transaction.customerPhoneno.length > 0) {
+
+      // Todo need to add sppiner for this so user can wait that email is sending, cuase its taking littel bit more time to send an email.
+      this.sellService.sendEmail(transaction.transactionComId)
+      .subscribe((data) =>
+    {
+      //this.loadingServie.loading = true;
+      if(data.text())
+      {
+        //this.loadingServie.loading = false;
+        this.toastr.success('Email Send Sucessfully !!', 'Success!');
+      }
+      console.log('send email response', data.text());
+    },
+    (error) => {
+     // this.loadingServie.loading = false;
+      this.toastr.error('Something goes wrong, not able to send an email now !!', 'Error!');
+      console.log(JSON.stringify(error.json()));
+  });
+    }
+
+    else{
+      this.toastr.error('Can not find email address for transaction !!', 'Error!');
+    }
+  }
+
   printReciept() {
     this.sellService.printReceipt(this.printTransactionDto);
     this.clearAllDateAfterTransactionComplete();
