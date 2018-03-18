@@ -784,15 +784,6 @@ export class SaleComponent implements OnInit, AfterViewInit {
         
 
       );
-    //this.disableCompleteSaleButton = true;
-    // console.log('Transaction Details', this.transactionDtoList);
-    // console.log('TransactionLineItem Details', this.transactionLineItemDaoList);
-    // console.log('Payment Dto', this.paymentDto);
-    //this.disablePaymentButtons = true;
-
-    // console.log("done with sales");
-
-
     // This will focus on the autocomplete field
     $('#productsearch > span > input').focus();
 

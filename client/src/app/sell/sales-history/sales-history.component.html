@@ -97,7 +97,7 @@
 
                         <!-- // Do not remove this, this is for park sales where i can redirect user to start the transaction. -->
                         <!-- <button *ngIf="transaction.status != 'Return' " class="btn-red action-button-table" mat-button [routerLink]="['/sell', {transactionComId: transaction.transactionComId}]"> -->
-                        <button *ngIf="transaction.status == 'Complete' " class="btn-red action-button-table" mat-button (click)="setTransactoinToVoid(transaction)" data-toggle="modal" data-target="#voidTransaction">
+                        <button *ngIf="transaction.status == 'Complete' " class="btn-red action-button-table" mat-button (click)="this.setTransactoinToVoid(transaction)" data-toggle="modal" data-target="#voidTransaction">
 
                             <i class="fa fa-ban" aria-hidden="true"></i>
                         </button>
