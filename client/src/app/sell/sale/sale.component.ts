@@ -372,6 +372,9 @@ export class SaleComponent implements OnInit, AfterViewInit {
     this.sellService.getPendingInvoiceByCustomer(this.selectedCustomer.phoneNo)
     .subscribe(transaction => {
       transaction.forEach(trans => {
+
+        // This is very important line if i wont set here, i can not handle date change logic for transaction.
+        trans.originalDate = trans.date;
         trans.time = moment(trans.date).format('hh:mm A');
         trans.date = moment(trans.date).format('MM-DD-YYYY');
 
@@ -701,10 +704,25 @@ export class SaleComponent implements OnInit, AfterViewInit {
     this.loadingService.loading = true;
 
     this.transactionDtoList.status = this.saleType;
-    // seeting current date and time using momemt.
-    this.transactionDtoList.date = moment(Date.now()).format('YYYY-MM-DD HH:mm:ss');
+
+
+
+    // Here I need to fix the problem when customer is just paying the balacne of transaction.
+    // So if the transaction has transaction Id then dont send the date just finish the transaction with old date.
+    // This means this new transaction
+    if(this.transactionDtoList.transactionComId == undefined){
+      // seeting current date and time using momemt.
+      this.transactionDtoList.date = moment(Date.now()).format('YYYY-MM-DD HH:mm:ss');
+    }
+    // Do not do anything, just let it go so date wont chance.
+    else {
+      this.transactionDtoList.date = this.transactionDtoList.originalDate;
+      console.log('old transaction', this.transactionDtoList.originalDate);
+    }
+
     // Setting payment dto into transaction dto, because can not send both as @request body from angular..
-    this.paymentDto.date = this.transactionDtoList.date;
+    // Always need to pass, latest date so i can handle different payment date for same transaction.
+    this.paymentDto.date = moment(Date.now()).format('YYYY-MM-DD HH:mm:ss');
     this.paymentDao.push(this.paymentDto);
     this.transactionDtoList.paymentDao = this.paymentDao;
 
@@ -1076,6 +1094,9 @@ export class TransactionLineItemDaoList {
 }
 
 export class TransactionDtoList {
+
+  // this date helps 
+  originalDate: any;
   date: any;
   time: any;
   totalAmount: number;
