@@ -247,7 +247,7 @@ public class TransactionsManager {
             // This is very important, if i dont do this then it will messed up complete count of the quantity.
             ProductInventoryDao productInventoryDaoFinal = new ProductInventoryDao();
             if (null != productInventoryDao) {
-                productInventoryDaoFinal.setCost(productInventoryDao.getCost());
+                productInventoryDaoFinal.setCost(Math.abs(productInventoryDao.getCost()));
                 productInventoryDaoFinal.setProductNo(lineItemDao.getProductNo());
                 productInventoryDaoFinal.setRetail(Math.abs((lineItemDao.getRetail())));
                 productInventoryDaoFinal.setQuantity(lineItemDao.getSaleQuantity());

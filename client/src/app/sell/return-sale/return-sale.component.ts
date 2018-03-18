@@ -159,6 +159,7 @@ export class ReturnSaleComponent implements OnInit, AfterViewInit {
 
     // Price by customer logic.
     if (null != this.selectedCustomer && this.selectedCustomer != undefined) {
+
       if (this.productPriceArryByCustomer && null != this.productPriceArryByCustomer && this.productPriceArryByCustomer.length > 0) {
 
         this.productPriceArryByCustomer.forEach((product) => {
@@ -166,6 +167,8 @@ export class ReturnSaleComponent implements OnInit, AfterViewInit {
           if (product[0] == productObj.productNo) {
             productObj.retailWithDiscount = -product[1];
             productObj.retail = -productObj.retail;
+            productObj.cost = -productObj.cost;
+
           }
         })
       }
