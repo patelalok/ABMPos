@@ -23,8 +23,6 @@ public class EmployeeManager {
     @Autowired
     private ClockInRepository clockInRepository;
 
-
-    @CachePut("employee")
     public void addEmployee(EmployeeDao employeeDao) {
 
         employeeRepository.save(employeeDao);

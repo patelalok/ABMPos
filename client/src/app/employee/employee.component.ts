@@ -43,8 +43,6 @@ export class EmployeeComponent implements OnInit {
         'hourlyRate': [''],
         'commissionPercentage': [''],
         'id': ['']
-
-
       }
     );
   }
@@ -53,31 +51,24 @@ export class EmployeeComponent implements OnInit {
     //this.employeeService.saveData(event.data.username);
     console.log('employeeObjectFrom ui', event);
     this.router.navigate(['/clockIn', event.username]);
-
   }
-
   getEmployeeDetails() {
     this.employeeService.getEmployeeDetails()
       .subscribe((emp: Employee[]) => {
         this.employeeDto = emp;
       });
   }
-
   showDialog() {
     this.displayDialog = !this.displayDialog;
   }
   showDialogToAdd() {
     this.employee = new PrimeEmployee();
     this.displayDialog = true;
-
   }
-
   resrtForm() {
     this.employeeForm.reset();
   }
-
   addEmployee() {
-    
     this.employeeService.addOrUpdateEmployee(this.employeeForm.value);
     this.employeeForm.reset();
     this.displayDialog = false;
@@ -101,10 +92,8 @@ export class EmployeeComponent implements OnInit {
     this.employeeForm.get('hourlyRate').setValue(employee.hourlyRate);
     this.employeeForm.get('commissionPercentage').setValue(employee.commissionPercentage);
     this.employeeForm.get('id').setValue(employee.id);
-
   }
   setEmployyeForDelete(employee: Employee) {
-
     this.selectedEmployeeForDelete = employee;
   }
 
