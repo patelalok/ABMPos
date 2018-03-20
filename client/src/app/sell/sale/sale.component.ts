@@ -947,10 +947,8 @@ export class SaleComponent implements OnInit, AfterViewInit {
   }
 
   public getCustomerDetails() {
-    this.customerService.getCustomerDetails()
-      .subscribe((customer: Customer[]) => {
-        this.customerDto = customer;
-      });
+    this.customerDto = this.customerService.getCustomerDetails();
+    console.log('customer details from service', this.customerDto);
   }
 
 
@@ -987,10 +985,10 @@ export class SaleComponent implements OnInit, AfterViewInit {
 
   filterCustomers(event) {
     let query = event.query;
-    this.customerService.getCustomerDetails()
+    this.customerService.getCustomerDetailsFromBackEnd()
       .subscribe((customers) => {
         // console.log(products);
-        this.filteredCustomer = this.filterCustomer(query, customers);
+        this.filteredCustomer = this.filterCustomer(query,customers);
       });
   }
 

@@ -178,18 +178,18 @@ items: MenuItem[];
   filterCustomers(event) {
     let query = event.query;
     this.customerService.getCustomerDetails()
-      .subscribe((customers) => {
-        // console.log(products);
-        this.filteredCustomer = this.filterCustomer(query, customers);
-      });
+      // .subscribe((customers) => {
+      //   // console.log(products);
+      //   this.filteredCustomer = this.filterCustomer(query, customers);
+      // });
   }
 
   public getCustomerDetails() {
 
-    this.customerService.getCustomerDetails()
-      .subscribe((customer: Customer[]) => {
-        this.customerDto = customer;
-      });
+    // this.customerService.getCustomerDetails()
+    //   .subscribe((customer: Customer[]) => {
+    //     this.customerDto = customer;
+    //   });
   }
 
   public addTransactionLineItem(productObj: Product): TransactionLineItemDaoList[] {

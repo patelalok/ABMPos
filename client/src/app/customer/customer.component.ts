@@ -16,6 +16,8 @@ export class CustomerComponent implements OnInit {
 
   customerForm: FormGroup;
   customerDto: Customer[];
+  _subscription: any;
+
 
   // Its redudanct Need to fix when you work in delete part..TODO
   selectedCustomerForDelete: Customer;
@@ -30,9 +32,12 @@ export class CustomerComponent implements OnInit {
   storeCreditDto: StoreCreditDto[] = [];
   addStoreCreditObject = new StoreCreditDto();
   transactionDetails: TransactionDtoList[] = [];
+  isAdd: boolean;
 
 
-  constructor(private customerService: CustomerService, private sellService: SellService ,private formBuilder: FormBuilder) { }
+  constructor(private customerService: CustomerService, private sellService: SellService ,private formBuilder: FormBuilder) { 
+    this.getCustomerDetails()
+  }
 
   ngOnInit() {
 
@@ -60,11 +65,14 @@ export class CustomerComponent implements OnInit {
   }
 
   getCustomerDetails() {
-    this.customerService.getCustomerDetails()
-      .subscribe((cust: Customer[]) => {
-        this.customerDto = cust;
-        console.log('Customer Detail', this.customerDto);
-      });
+
+    this.customerService.getCustomerDetails();
+    this._subscription = this.customerService.customerListChange
+    .subscribe((cust)=>{
+      this.customerDto = cust;
+      this.customerDto = this.customerDto.slice();
+    })
+
   }
 
   showDialog() {
@@ -72,16 +80,12 @@ export class CustomerComponent implements OnInit {
   }
 
   resrtForm() {
-
     this.customerForm.reset();
   }
 
   addCustomer() {
 
-    let newCustomer = this.customerForm.value;
-    this.customerService.addOrUpdateCustomer(this.customerForm.value);
-    this.customerDto.push(newCustomer);
-    this.customerDto = this.customerDto.slice();
+    this.customerService.addOrUpdateCustomer(this.customerForm.value, this.isAdd);
     this.customerForm.reset();
     this.displayDialog = false;
   }
@@ -97,6 +101,7 @@ export class CustomerComponent implements OnInit {
     this.displayDialog = false;
   }
   showDialogToAdd() {
+    this.isAdd = true;
     this.newCustomer = true;
     this.customer = new Customer();
     this.showDeleteButton = false;
@@ -106,6 +111,7 @@ export class CustomerComponent implements OnInit {
 
   updateCusotmer(customer: Customer) {
 
+    this.isAdd = false;
     this.displayDialog = true;
     //Seeting the value into form for UPDATE TODO WRITE SEPARETE METHOD FOR THIS.
     this.customerForm.get('name').setValue(customer.name);

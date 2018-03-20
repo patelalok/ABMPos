@@ -18,11 +18,11 @@ export class CustomerPaymentHistoryComponent implements OnInit {
   }
 
   getCustomerDetails() {
-    this.customerService.getCustomerDetails()
-      .subscribe((cust: Customer[]) => {
-        this.customerDto = cust;
-        console.log('Customer Detail', this.customerDto);
-      });
+    // this.customerService.getCustomerDetails()
+    //   .subscribe((cust: Customer[]) => {
+    //     this.customerDto = cust;
+    //     console.log('Customer Detail', this.customerDto);
+    //   });
   }
   onRowSelect(event){
     

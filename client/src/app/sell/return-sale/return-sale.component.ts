@@ -454,12 +454,12 @@ export class ReturnSaleComponent implements OnInit, AfterViewInit {
   }
 
   filterCustomers(event) {
-    let query = event.query;
-    this.customerService.getCustomerDetails()
-      .subscribe((customers) => {
-        // console.log(products);
-        this.filteredCustomer = this.filterCustomer(query, customers);
-      });
+    // let query = event.query;
+    // this.customerService.getCustomerDetails()
+    //   .subscribe((customers) => {
+    //     // console.log(products);
+    //     this.filteredCustomer = this.filterCustomer(query, customers);
+    //   });
   }
 
 
@@ -477,10 +477,10 @@ export class ReturnSaleComponent implements OnInit, AfterViewInit {
 
   getCustomerDetails() {
 
-    this.customerService.getCustomerDetails()
-      .subscribe((customer: Customer[]) => {
-        this.customerDto = customer;
-      });
+    // this.customerService.getCustomerDetails()
+    //   .subscribe((customer: Customer[]) => {
+    //     this.customerDto = customer;
+    //   });
   }
 
 }

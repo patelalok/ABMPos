@@ -6,16 +6,41 @@ import { Category, Brand, Vendor, Model, ProductVariantDetail, CategoryTest } fr
 import { StoreCreditDto, Customer } from 'app/customer/customer.component';
 import { environment } from 'environments/environment';
 import { Product } from 'app/sell/sale/sale.component';
+import { Subject } from 'rxjs';
+import { ToastsManager } from 'ng2-toastr';
 
 
 @Injectable()
 export class CustomerService {
 private url: string; 
-constructor(private http: Http) { 
-  this.url = environment.reportUrl; 
+customerList: Customer[] = [];
+customerListChange: Subject<Customer[]> = new Subject<Customer[]>();
+ 
+
+constructor(private http: Http, private toastr: ToastsManager) { 
+  this.url = environment.reportUrl;
+  this.getCustomerDetails();
 }
 
-    getCustomerDetails(): Observable<Customer[]> {
+getCustomerDetails(): Customer[]
+{
+  if(this.customerList && this.customerList.length <= 0){
+    this.getCustomerDetailsFromBackEnd()
+    .subscribe((cust)=>{
+      this.customerList = cust;
+      this.customerListChange.next(this.customerList);
+      return this.customerList;
+    })
+  }
+  else {
+    console.log('Customer List alredy exists', this.customerList)
+    this.customerListChange.next(this.customerList);
+    return this.customerList;
+
+  }
+}
+
+    getCustomerDetailsFromBackEnd(): Observable<Customer[]> {
       return this.http.get(this.url+'/getCustomer')
       .map(this.extractData)
       .catch(this.handleError);
@@ -38,15 +63,30 @@ constructor(private http: Http) {
       
     }
 
-    addOrUpdateCustomer(customer: Customer)
+    addOrUpdateCustomer(customer: Customer, add: boolean)
     {
-     console.log("Customer to be Added" + customer.name);
       this.http.post(this.url+'/addCustomer', customer)
       .subscribe(data => {
-        console.log("Response From Add Customer call" + data);
+        if(data.status == 200 || data.status == 201){
+
+          if(add){
+            this.customerList.push(customer);
+            this.toastr.success('Customer Added Successfully!!', 'Success!');
+
+          }
+          else {
+            let index = this.customerList.findIndex((el) => el.phoneNo == customer.phoneNo);
+            this.customerList[index] = customer;
+            this.toastr.success('Customer Updated Successfully!!', 'Success!');
+
+          }
+          this.customerList = this.customerList.slice();
+          this.customerListChange.next(this.customerList);
+        }
       },
         error => {
-      console.log(JSON.stringify(error.json()));
+          this.toastr.error('Opps something goes wrong!!', 'Error!');
+          console.log(JSON.stringify(error.json()));
     });
     }
 
