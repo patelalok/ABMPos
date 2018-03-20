@@ -15,7 +15,6 @@ export class ModelService {
 
     addOrUpdateModel(model: ModelTest)
     {
-      
       return this.http.post('http://localhost:8080/addModel', model)
     }
 

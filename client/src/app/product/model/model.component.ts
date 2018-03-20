@@ -50,13 +50,34 @@ export class ModelComponent implements OnInit {
 
     addModel() {
         let newModel = this.modelForm.value;
-        this.modelService.addOrUpdateModel(this.modelForm.value);
-        this.modelDto.push(newModel);
-        this.modelDto = this.modelDto.slice();
-        this.displayDialog = false;
+        this.modelService.addOrUpdateModel(this.modelForm.value)
+        .subscribe(
+            (data) => {
+                this.modelDto.push(newModel);
+                this.modelDto = this.modelDto.slice();
+                this.displayDialog = false;
+              this.toastr.success('Model Added Successfully!!', 'Success!');
+              console.log(data);
+            },
+            (error) => {
+              this.toastr.error(error, 'Error!');
+              console.log(JSON.stringify(error.json()));
+          });
     }
     updateModel(event) {
-        this.modelService.addOrUpdateModel(event.data);
+
+        this.modelService.addOrUpdateModel(event.data)
+        .subscribe(
+            (data) => {
+              this.toastr.success('Model Updated Successfully!!', 'Success!');
+              console.log(data);
+            },
+            (error) => {
+              this.toastr.error(error, 'Error!');
+              console.log(JSON.stringify(error.json()));
+          });
+        this.modelDto.push(event.data);
+        this.modelDto = this.modelDto.slice();
     }
 
     setModelForDelete(model: Model) {
