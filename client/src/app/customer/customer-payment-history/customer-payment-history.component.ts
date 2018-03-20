@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CustomerService } from '../customer.service';
-import { Customer, PrimeCustomer } from 'app/customer/customer.component';
+import { Customer } from 'app/customer/customer.component';
 import { TransactionDtoList } from '../../sell/sale/sale.component';
 
 @Component({
@@ -9,7 +9,7 @@ import { TransactionDtoList } from '../../sell/sale/sale.component';
   styleUrls: ['./customer-payment-history.component.scss']
 })
 export class CustomerPaymentHistoryComponent implements OnInit {
-  customerDto: PrimeCustomer[];
+  customerDto: Customer[];
   customerTransactionDetails: TransactionDtoList[] = [];
   constructor(private customerService: CustomerService) { }
 

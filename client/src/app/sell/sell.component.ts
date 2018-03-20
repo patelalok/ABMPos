@@ -9,7 +9,7 @@ import { PersistenceService } from "../shared/services/persistence.service";
 import { StoreSetupService } from 'app/shared/storesetup/storesetup.service';
 import { StoreSetupDto } from 'app/shared/storesetup/storesetup.component';
 import { CustomerService } from 'app/customer/customer.service';
-import { Customer, CustomerInterface, PrimeCustomer } from 'app/customer/customer.component';
+import { Customer } from 'app/customer/customer.component';
 import * as moment from 'moment';
 import { DomSanitizer } from '@angular/platform-browser';
 import { fadeInAnimation } from 'app/shared/animations/fade-in.animation';
@@ -33,7 +33,7 @@ export class SellComponent implements OnInit, AfterViewInit {
   @HostBinding('@fadeInAnimation') fadeInAnimation;
   myControl = new FormControl();
   product: Product[];
-  customerDto: PrimeCustomer[];
+  customerDto: Customer[];
   cust: any;
 
   p: any;
@@ -453,8 +453,8 @@ items: MenuItem[];
     return filtered;
   }
 
-  filterCustomer(query, customers: PrimeCustomer[]): PrimeCustomer[] {
-    let filtered: PrimeCustomer[] = [];
+  filterCustomer(query, customers: Customer[]): Customer[] {
+    let filtered: Customer[] = [];
     for (let i = 0; i < customers.length; i++) {
       let cust = customers[i];
       if (cust.name.toLowerCase().includes(query.toLowerCase()) || cust.companyName.toLowerCase().includes(query.toLowerCase()) || cust.phoneNo.includes(query)) {

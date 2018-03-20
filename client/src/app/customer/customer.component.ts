@@ -15,14 +15,14 @@ import { TransactionDtoList } from '../sell/sale/sale.component';
 export class CustomerComponent implements OnInit {
 
   customerForm: FormGroup;
-  customerDto: PrimeCustomer[];
+  customerDto: Customer[];
 
   // Its redudanct Need to fix when you work in delete part..TODO
   selectedCustomerForDelete: Customer;
   selectedCustomerForStoreCredit: Customer;
   displayDialog = false;
   newCustomer: boolean;
-  customer: CustomerInterface = new PrimeCustomer();
+  customer: Customer = new Customer();
   msgs: Message[] = [];
   showDeleteButton = true;
   storeCreditAmount: number;
@@ -98,7 +98,7 @@ export class CustomerComponent implements OnInit {
   }
   showDialogToAdd() {
     this.newCustomer = true;
-    this.customer = new PrimeCustomer();
+    this.customer = new Customer();
     this.showDeleteButton = false;
     this.displayDialog = true;
 
@@ -168,10 +168,10 @@ export class CustomerComponent implements OnInit {
 
 }
 
-export class PrimeCustomer implements CustomerInterface {
+// export class PrimeCustomer implements CustomerInterface {
 
-  constructor(public phoneNo?, public name?, public companyName?, public email?, public taxId?, public dateOfBirth?, public type?, public gender?, public street?, public city?, public state?, public country?, public zipCode?, public storeCredit?, public balance?, public lastUpdatedStoreCreditDate?, public password?, public createdDate?) { }
-}
+//   constructor(public phoneNo?, public name?, public companyName?, public email?, public taxId?, public dateOfBirth?, public type?, public gender?, public street?, public city?, public state?, public country?, public zipCode?, public storeCredit?, public balance?, public lastUpdatedStoreCreditDate?, public password?, public createdDate?) { }
+// }
 
 export class Customer {
   phoneNo: string;
@@ -195,26 +195,26 @@ export class Customer {
   customerNote: any;
 }
 
-export interface CustomerInterface {
-  phoneNo?;
-  name?;
-  companyName?;
-  email?;
-  taxId?;
-  dateOfBirth?;
-  type?;
-  gender?;
-  street?;
-  city?;
-  state?;
-  country?;
-  zipCode?;
-  storeCredit?;
-  balance?;
-  lastUpdatedStoreCreditDate?;
-  password?;
-  createdDate?;
-}
+// export interface CustomerInterface {
+//   phoneNo?;
+//   name?;
+//   companyName?;
+//   email?;
+//   taxId?;
+//   dateOfBirth?;
+//   type?;
+//   gender?;
+//   street?;
+//   city?;
+//   state?;
+//   country?;
+//   zipCode?;
+//   storeCredit?;
+//   balance?;
+//   lastUpdatedStoreCreditDate?;
+//   password?;
+//   createdDate?;
+// }
 
 export class StoreCreditDto {
 

@@ -3,7 +3,7 @@ import {Http, Response, Headers} from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import { FormControl } from '@angular/forms/forms';
 import { Category, Brand, Vendor, Model, ProductVariantDetail, CategoryTest } from 'app/product/product.component';
-import { CustomerInterface, StoreCreditDto, Customer } from 'app/customer/customer.component';
+import { StoreCreditDto, Customer } from 'app/customer/customer.component';
 import { environment } from 'environments/environment';
 import { Product } from 'app/sell/sale/sale.component';
 
@@ -15,7 +15,7 @@ constructor(private http: Http) {
   this.url = environment.reportUrl; 
 }
 
-    getCustomerDetails(): Observable<CustomerInterface[]> {
+    getCustomerDetails(): Observable<Customer[]> {
       return this.http.get(this.url+'/getCustomer')
       .map(this.extractData)
       .catch(this.handleError);
@@ -38,7 +38,7 @@ constructor(private http: Http) {
       
     }
 
-    addOrUpdateCustomer(customer: CustomerInterface)
+    addOrUpdateCustomer(customer: Customer)
     {
      console.log("Customer to be Added" + customer.name);
       this.http.post(this.url+'/addCustomer', customer)

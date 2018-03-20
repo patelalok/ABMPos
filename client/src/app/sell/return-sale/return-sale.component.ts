@@ -8,7 +8,7 @@ import { SelectItem } from 'primeng/primeng';
 import { StoreSetupService } from 'app/shared/storesetup/storesetup.service';
 import { StoreSetupDto } from 'app/shared/storesetup/storesetup.component';
 import { CustomerService } from 'app/customer/customer.service';
-import { Customer, CustomerInterface, PrimeCustomer } from 'app/customer/customer.component';
+import { Customer } from 'app/customer/customer.component';
 import * as moment from 'moment';
 import { DomSanitizer } from '@angular/platform-browser';
 import { fadeInAnimation } from 'app/shared/animations/fade-in.animation';
@@ -37,7 +37,7 @@ export class ReturnSaleComponent implements OnInit, AfterViewInit {
   selectedProduct: Product;
 
 
-  customerDto: PrimeCustomer[];
+  customerDto: Customer[];
   cust: any;
   filteredCustomer: any[];
   selectedCustomer: Customer;
@@ -463,8 +463,8 @@ export class ReturnSaleComponent implements OnInit, AfterViewInit {
   }
 
 
-  filterCustomer(query, customers: PrimeCustomer[]): PrimeCustomer[] {
-    let filtered: PrimeCustomer[] = [];
+  filterCustomer(query, customers: Customer[]): Customer[] {
+    let filtered: Customer[] = [];
     for (let i = 0; i < customers.length; i++) {
       let cust = customers[i];
       if (cust.name.toLowerCase().includes(query.toLowerCase()) || cust.companyName.toLowerCase().includes(query.toLowerCase()) || cust.phoneNo.includes(query)) {
