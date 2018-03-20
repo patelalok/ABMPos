@@ -33,6 +33,7 @@ export class SaleComponent implements OnInit, AfterViewInit {
   @HostBinding('@fadeInAnimation') fadeInAnimation;
 
   product: Product[] = [];
+  productList: Product[] = []
   productForSearchBox: any;
   selectedProduct: Product;
   isProductExistsInSellList = false;
@@ -77,11 +78,17 @@ export class SaleComponent implements OnInit, AfterViewInit {
   popupMessage: string;
   items: MenuItem[];
 
-  constructor(
-    private sellService: SellService, private persit: PersistenceService, private productService: ProductService, private storeSetupService: StoreSetupService, private customerService: CustomerService, private sanitizer: DomSanitizer, private route: ActivatedRoute, private router: Router, private toastr: ToastsManager, private loadingService: LoadingService) { }
-  ngOnInit() {
+  _subscriptionCustomer: any;
+  _subscriptionProduct: any;
 
- 
+
+  constructor(
+    private sellService: SellService, private persit: PersistenceService, private productService: ProductService, private storeSetupService: StoreSetupService, private customerService: CustomerService, private sanitizer: DomSanitizer, private route: ActivatedRoute, private router: Router, private toastr: ToastsManager, private loadingService: LoadingService) { 
+      this.getCustomerDetails();
+      this.getProductDetails();
+
+    }
+  ngOnInit() {
     this.items = [
       { name: 'Return', icon: 'fa fa-reply-all fa-x', link: '/return' },
       { name: 'Purchase Order', icon: 'fa fa-bookmark fa-x', link: '/sell/purchaseOrder' }
@@ -99,6 +106,7 @@ export class SaleComponent implements OnInit, AfterViewInit {
       });
 
     this.getCustomerDetails();
+    this.getProductDetails();
     this.selectedCustomer = this.persit.getCustomerDetailsForSale();
 
     // This will help to get customer product price, cause its cusotmer is selected then definetly the price is stored in local storage.
@@ -159,7 +167,7 @@ export class SaleComponent implements OnInit, AfterViewInit {
 
       this.transactionLineItemDaoList.push(productObj);
       this.product = null;
-      this.productForSearchBox = null
+      this.productForSearchBox = null;
       this.transactionLineItemDaoList[this.transactionLineItemDaoList.length - 1].retailWithDiscount = productObj.retailWithDiscount;
       this.transactionLineItemDaoList = this.transactionLineItemDaoList.slice();
       this.setTransactionDtoList()
@@ -220,23 +228,39 @@ export class SaleComponent implements OnInit, AfterViewInit {
     $('#productsearch > span > input').focus();
   }
 
-  testScan(value: any){
-    console.log('before value', value);
-    if(value.length > 11)
-    {
-      this.product.forEach((p)=>{
+  scanProduct($event){
+    // if(event.length > 10)
+    // {
+      console.log('event', $event);
+      // this.productList.forEach((scanProduct)=>{
+      //   if(event == scanProduct.productNo){
+      //     this.addTransactionLineItem(scanProduct);
+      //     this.product = null;
+      //   }
+      // });
 
-        if(p.productNo == value)
-        {
-          this.addTransactionLineItem(value);
-          console.log("ok found wiht scanner", value);
-        }
-    })
+
+    // }
   }
-      
-    
-  }
+
   submitProduct(value: any) {
+
+    let productFound: boolean;
+    if(value.length > 10){
+      console.log('from submit product', value);
+      this.productList.forEach((product)=>{
+        if(value == product.productNo){
+          productFound = true;
+          this.addTransactionLineItem(product);
+        }
+      })
+
+      if(!productFound){
+        alert("Sorry Can Not Find The Product!!!");
+        this.productForSearchBox = null;
+      }
+    }
+   
     if (typeof value === 'string') {
       if (value !== '' && value !== undefined && value.indexOf('.') !== 0) {
         if (value.match(/[a-z]/i)) {
@@ -947,8 +971,13 @@ export class SaleComponent implements OnInit, AfterViewInit {
   }
 
   public getCustomerDetails() {
-    this.customerDto = this.customerService.getCustomerDetails();
-    console.log('customer details from service', this.customerDto);
+
+    this.customerService.getCustomerDetails();
+    this._subscriptionCustomer = this.customerService.customerListChange
+    .subscribe((cust)=>{
+      this.customerDto = cust;
+      this.customerDto = this.customerDto.slice();
+    });
   }
 
 
@@ -965,11 +994,11 @@ export class SaleComponent implements OnInit, AfterViewInit {
 
   filterProducts(event) {
     let query = event.query;
-    this.productService.getProductDetails()
-      .subscribe((products) => {
+    // this.productService.getProductDetails()
+    //   .subscribe((products) => {
         // console.log(products);
-        this.product = this.filterProduct(query, products);
-      });
+        this.product = this.filterProduct(query, this.productList);
+      // });
   }
 
   filterProduct(query, products: Product[]): Product[] {
@@ -985,11 +1014,11 @@ export class SaleComponent implements OnInit, AfterViewInit {
 
   filterCustomers(event) {
     let query = event.query;
-    this.customerService.getCustomerDetailsFromBackEnd()
-      .subscribe((customers) => {
+    // this.customerService.getCustomerDetailsFromBackEnd()
+    //   .subscribe((customers) => {
         // console.log(products);
-        this.filteredCustomer = this.filterCustomer(query,customers);
-      });
+        this.filteredCustomer = this.filterCustomer(query,this.customerDto);
+      // });
   }
 
   filterCustomer(query, customers: Customer[]): Customer[] {
@@ -1002,6 +1031,18 @@ export class SaleComponent implements OnInit, AfterViewInit {
     }
     return filtered;
 
+  }
+  getProductDetails() {
+
+    this.productService.getProductDetails();
+   this._subscriptionProduct =  this.productService.productListChange.subscribe((product)=>{
+      this.productList = product;
+    })
+    // this.productService.getProductDetails()
+    // .subscribe((products) => {
+      // console.log(products);
+    //   this.productList = products;
+    // });
   }
 
   disgardCompleteSale() {
@@ -1018,6 +1059,12 @@ export class SaleComponent implements OnInit, AfterViewInit {
   print(obj) {
     console.log("Coming form print", obj);
   }
+
+  ngOnDestroy() {
+    //prevent memory leak when component destroyed
+     this._subscriptionCustomer.unsubscribe();
+     this._subscriptionProduct.unsubscribe();
+   }
 }
 
 

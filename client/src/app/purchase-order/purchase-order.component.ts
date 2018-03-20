@@ -38,7 +38,7 @@ export class PurchaseOrderComponent implements OnInit {
     this.productInventotyList = this.persit.getProductInventoryForAdd() || [];
   }
   getProductDetails() {
-    this.productService.getProductDetails()
+    this.productService.getProductDetailsFromBackEnd()
       .subscribe((pro: Product[]) => {
         this.productDto = pro;
         this.filteredProductByVendor = this.productDto;
@@ -57,7 +57,7 @@ export class PurchaseOrderComponent implements OnInit {
   // TODO NEED TO make it common so i can use other places too.
   filterProducts(event) {
     let query = event.query;
-    this.productService.getProductDetails()
+    this.productService.getProductDetailsFromBackEnd()
       .subscribe((products) => {
         // console.log(products);
         this.product = this.filterProduct(query, products);

@@ -70,7 +70,7 @@ export class ProductTableComponent implements OnInit {
 
   getProductDetails() {
     this.loadingService.loading = true;
-    this.productService.getProductDetails()
+    this.productService.getProductDetailsFromBackEnd()
       .subscribe((pro: Product[]) => {
         // console.log(pro); 
         // this.productViewList = pro.slice(0,500);

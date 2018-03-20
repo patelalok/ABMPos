@@ -168,11 +168,11 @@ items: MenuItem[];
   
   filterProducts(event) {
     let query = event.query;
-    this.productService.getProductDetails()
-      .subscribe((products) => {
-        // console.log(products);
-        this.product = this.filterProduct(query, products);
-      });
+    // this.productService.getProductDetails()
+    //   .subscribe((products) => {
+    //     // console.log(products);
+    //     this.product = this.filterProduct(query, products);
+    //   });
   }
 
   filterCustomers(event) {

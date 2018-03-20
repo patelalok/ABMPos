@@ -1,11 +1,11 @@
-<div class="row">
+<div class="row" *ngIf="this.productList && this.productList.length > 0">
     <div class="col-lg-9">
         <mat-card>
             <div class="row">
                 <div class="align-self-center col-lg-7" style="max-height: 500px !important;">
 
-                    <p-autoComplete id="productsearch" [(ngModel)]="this.productForSearchBox" class="full-width m-1" [suggestions]="product" placeholder="Scan or Search Product" (onFocus)="print($event)" (onBlur)="print($event)" (completeMethod)="filterProducts($event)"
-                        name="test" [minLength]="3" (keyup.enter)="submitProduct(productForSearchBox)" field="description">
+                    <p-autoComplete id="productsearch" [(ngModel)]="this.productForSearchBox" class="full-width m-1" [suggestions]="product" placeholder="Scan or Search Product" (completeMethod)="filterProducts($event)" name="test" [minLength]="3" (keyup.enter)="submitProduct(productForSearchBox)"
+                        field="description">
                         <ng-template>
                             <span style="max-width:500px !important">
                                 </span>
@@ -476,7 +476,8 @@
                     <p-column field="transactionBalance" header="Total" [style]="{'width': '15%'}"></p-column>
                     <p-column field="status" header="Action" [style]="{'width': '20%'}">
                         <ng-template let-transaction="rowData" pTemplate="body">
-                            <button class="btn-green action-button-table" mat-button data-dismiss="modal" (click)="this.setDataForPaymentModelForPendingInvoice(transaction)" data-toggle="modal" data-target="#paymentModel">
+                            <button class="btn-green action-b1268901272349
+                            utton-table" mat-button data-dismiss="modal" (click)="this.setDataForPaymentModelForPendingInvoice(transaction)" data-toggle="modal" data-target="#paymentModel">
                                             <i class="" aria-hidden="true">
                                                 PAY
                                             </i>

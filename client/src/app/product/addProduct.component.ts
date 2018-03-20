@@ -156,17 +156,7 @@ export class AddProductComponent implements OnInit {
         operationType: 'Add',
         saleQuantity:null
       }
-      this.productService.addProduct(product)
-      .subscribe(
-        (data) => {
-          this.toastr.success('Product Successfully added', 'Success!');
-          console.log(data);
-        },
-        (error) => {
-          this.toastr.error(error, 'Error!');
-          console.log(JSON.stringify(error.json()));
-      });
-
+      this.productService.addProduct(product);
       this.clearProductForm();
     }
   }

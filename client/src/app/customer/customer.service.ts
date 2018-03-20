@@ -36,7 +36,6 @@ getCustomerDetails(): Customer[]
     console.log('Customer List alredy exists', this.customerList)
     this.customerListChange.next(this.customerList);
     return this.customerList;
-
   }
 }
 

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 
 @Component({
@@ -10,6 +10,14 @@ export class TestCustomerUiComponent {
 
   displayedColumns = ['position', 'name', 'weight', 'symbol'];
   dataSource = ELEMENT_DATA;
+
+  constructor(private changeDetector: ChangeDetectorRef){
+
+  }
+  ngOnInit() {
+    this.dataSource = ELEMENT_DATA
+    this.changeDetector.detectChanges();
+  }
 }
 
 export interface Element {

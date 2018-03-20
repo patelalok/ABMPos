@@ -45,7 +45,6 @@ const routes: Routes = [
   { path: 'dashboard', component: DashboardComponent},
   { path: 'repair', component: RepairComponent},
   { path: 'add-repair', component: AddRepairComponent},
-  { path: 'testCustUi', component: TestCustomerUiComponent},
   
   { path: 'clockIn/:username', component: ClockinComponent},
   { path: 'expense', component: ExpenseComponent},

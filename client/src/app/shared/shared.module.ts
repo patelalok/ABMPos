@@ -27,6 +27,8 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { TopSubNavbarComponent } from 'app/shared/top-sub-navbar/top-sub-navbar.component';
 import { UtilService } from './services/util.service';
 import { GobalProdcutService } from 'app/shared/global-product.service';
+import {CdkTableModule} from '@angular/cdk/table';
+
 
 @NgModule({
   imports: [
@@ -50,7 +52,8 @@ import { GobalProdcutService } from 'app/shared/global-product.service';
     FooterComponent,
     MatChipsModule,
     MatTabsModule,
-    MatTableModule
+    MatTableModule,
+    CdkTableModule
   ],
   providers: [PersistenceService, DateService, UtilService,GobalProdcutService]
 })

@@ -5,6 +5,7 @@ import { Message } from 'primeng/primeng';
 import * as moment from 'moment';
 import { SellService } from '../sell/sell.service';
 import { TransactionDtoList } from '../sell/sale/sale.component';
+import { LoadingService } from 'app/loading.service';
 
 
 @Component({
@@ -35,8 +36,8 @@ export class CustomerComponent implements OnInit {
   isAdd: boolean;
 
 
-  constructor(private customerService: CustomerService, private sellService: SellService ,private formBuilder: FormBuilder) { 
-    this.getCustomerDetails()
+  constructor(private customerService: CustomerService, private sellService: SellService ,private formBuilder: FormBuilder, private loadingServie: LoadingService) { 
+    this.getCustomerDetails();
   }
 
   ngOnInit() {
@@ -65,12 +66,14 @@ export class CustomerComponent implements OnInit {
   }
 
   getCustomerDetails() {
-
+    
+    this.loadingServie.loading = true;
     this.customerService.getCustomerDetails();
     this._subscription = this.customerService.customerListChange
     .subscribe((cust)=>{
       this.customerDto = cust;
       this.customerDto = this.customerDto.slice();
+      this.loadingServie.loading = false;
     })
 
   }
@@ -171,6 +174,11 @@ export class CustomerComponent implements OnInit {
       this.transactionDetails = transaction;
     });
   }
+
+  ngOnDestroy() {
+    //prevent memory leak when component destroyed
+     this._subscription.unsubscribe(); 
+   }
 
 }
 

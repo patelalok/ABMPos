@@ -4,63 +4,61 @@ import { Observable } from 'rxjs/Observable';
 import { FormControl } from '@angular/forms/forms';
 import { Category, Brand, Vendor, Model, ProductVariantDetail, CategoryTest,ProductInventory } from 'app/product/product.component';
 import { environment } from 'environments/environment';
-import { Observer, ReplaySubject } from 'rxjs';
+import { Observer, ReplaySubject, Subject } from 'rxjs';
 import { Product, TransactionLineItemDaoList } from 'app/sell/sale/sale.component';
+import { ToastsManager } from 'ng2-toastr';
 
 
 @Injectable()
 export class ProductService {
   private url: string; 
-  private fullProductList: Product[];
-  private dataObs$ = new ReplaySubject(1);
+  private productList: Product[];
+  productListChange: Subject<Product[]> = new Subject<Product[]>();
 
-  testData: string;
+  // private dataObs$ = new ReplaySubject(1);
 
-  constructor(private http: Http) {
+  constructor(private http: Http, private toastr: ToastsManager) {
     this.url = environment.reportUrl; 
-
+    this.getProductDetails();
    }
 
-  getProductDetails(): Observable<Product[]> {
-    // if(!this.fullProductList){
-      return this.http.get(this.url+'/getProductTableDetails')
-        .map(this.extractData)
-        .map((list) => {
-          console.log('Caching product list...');
-          this.fullProductList = list;
-          return this.fullProductList;
-        })
-        .catch(this.handleError);
+   addProduct(product: Product) {
+    this.http.post(this.url+'/addProduct', product)
+    .subscribe(data => {
+      if(data.status == 200 || data.status == 201){
+        this.toastr.success('Product Added Successfully!!', 'Success!');
+          this.productList.push(product);
+          this.productList = this.productList.slice();
+          this.productListChange.next(this.productList);
+        }
+    },
+      error => {
+        this.toastr.error('Opps something goes wrong!!', 'Error!');
+        console.log(JSON.stringify(error.json()));
+  });
+  }
+
+  getProductDetails()  {
+
+    // if(this.productList && this.productList.length <= 0){
+      this.getProductDetailsFromBackEnd()
+      .subscribe((product)=>{
+        this.productList = product;
+        this.productListChange.next(this.productList);
+        return this.productList;
+      })
     // }
-    // else{
-    //   return Observable.create((observer: Observer<any>) => {
-    //     console.log('Returning cached product list');
-    //     observer.next(this.fullProductList);
-    //     observer.complete();  
-    //   }); 
+    // else {
+    //   console.log('Product List alredy exists', this.productList)
+    //   this.productListChange.next(this.productList);
+    //   return this.productList;
     // }
   }
 
-  getProductDetailsUsingCache(){
-    if(!this.dataObs$.observers.length)
-    this.http.get(this.url+'/getProductTableDetails')
-    .subscribe(
-      (data:any) => this.dataObs$.next(data._body),
-      error => {
-        this.dataObs$.error(error);
-        // Recreate the Observable as after Error we cannot emit data anymore
-        this.dataObs$ = new ReplaySubject(1);
-    }
-    );
-
-    // this.dataObs$
-    // .subscribe(test =>{
-    //   console.log('test', test)
-    // })
-
-    console.log('cached product response', this.dataObs$);
-    return this.dataObs$;
-
+  getProductDetailsFromBackEnd(): Observable<Product[]>{
+    return this.http.get(this.url+'/getProductTableDetails')
+    .map(this.extractData)
+    .catch(this.handleError);
   }
 
   getProductInventoryByProductNo(productNo: string) : Observable<ProductInventory[]>{
@@ -123,21 +121,7 @@ export class ProductService {
       .catch(this.handleError);
   }
 
-  addProduct(product: Product) {
-    console.log("Product Added", product.description);
-    return this.http.post(this.url+'/addProduct', product)
-      .map((product: any) => {
-        console.log('Adding product'); 
-        if(this.fullProductList){
-          this.fullProductList.push(product);
-          //Sorting logic here 
 
-          this.fullProductList = this.fullProductList.slice(); 
-
-          return this.fullProductList; 
-        }
-      });
-  }
 
   // TODO:  This is redudant, but need to do it cause i have two obejct for backend dto and product, i need to fix this.
   // editProduct(product: BackendProductDto) {

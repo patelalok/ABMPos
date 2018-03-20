@@ -429,7 +429,7 @@ export class ReturnSaleComponent implements OnInit, AfterViewInit {
 
   filterProducts(event) {
     let query = event.query;
-    this.productService.getProductDetails()
+    this.productService.getProductDetailsFromBackEnd()
       .subscribe((products: Product[]) => {
         // console.log(products);
         this.product = this.filterProduct(query, products);

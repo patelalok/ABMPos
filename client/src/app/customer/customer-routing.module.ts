@@ -13,6 +13,8 @@ const routes: Routes = [
     canActivate: [AuthGuard],
   },
   { path: 'customer-history', component:  CustomerPaymentHistoryComponent},
+  { path: 'testCustUi', component: TestCustomerUiComponent},
+
   // { path: 'test', component:  TestCustomerUiComponent},
 
 ];
