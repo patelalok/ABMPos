@@ -95,7 +95,7 @@ export class CustomerComponent implements OnInit {
   }
 
   deleteCustomer() {
-    this.customerService.deleteCustomer(this.selectedCustomerForDelete.phoneNo);
+    this.customerService.deleteCustomer(this.selectedCustomerForDelete);
     this.getCustomerDetails();
 
     this.displayDialog = false;

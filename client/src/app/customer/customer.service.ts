@@ -100,13 +100,26 @@ getCustomerDetails(): Customer[]
     });
     }
 
-    deleteCustomer(phoneNo: string)
+    deleteCustomer(customerForDelete: Customer)
     {
-      this.http.delete(this.url+'/deleteCustomer?phoneNo=' + phoneNo)
+      this.http.delete(this.url+'/deleteCustomer?phoneNo=' + customerForDelete.phoneNo)
        .subscribe(data => {
-        console.log('Customer Deleted With this !!' + phoneNo);
+         if(data.status == 200){
+           let index = this.customerList.indexOf(customerForDelete, 0);
+           this.customerList = this.customerList.splice(0,index).concat(this.customerList.slice(index));
+           this.customerListChange.next(this.customerList);
+           this.toastr.success('Customer Deleted Successfully!!', 'Success!');
+
+           console.log('customer index', index)
+         }
+         else if(data.status == 409){
+          this.toastr.error('Can not Deleted Customer,Because this customer has transactin history!!', 'Error!');
+         }
+        console.log('Customer Deleted With this !!' + customerForDelete);
       },
         error => {
+          this.toastr.error('Opps something goes wrong!!', 'Error!');
+
       console.log(JSON.stringify(error.json()));
     });
 
