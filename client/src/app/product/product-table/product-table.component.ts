@@ -309,6 +309,7 @@ export class ProductTableComponent implements OnInit {
   }
 
   addProductInventory(){
+
     let productInventoryObj: ProductInventory = new ProductInventory();
 
     productInventoryObj.productNo = this.productInventoryList[0].productNo;
@@ -317,13 +318,19 @@ export class ProductTableComponent implements OnInit {
     productInventoryObj.quantity = this.quantity;
     productInventoryObj.createdTimestamp = moment(Date.now()).format('YYYY-MM-DD HH:mm:ss');
 
-    this.productInventoryList.push(productInventoryObj);
+    //this.productInventoryList.push(productInventoryObj);
 
-    this.productService.addProductInventory(this.productInventoryList)
-    .subscribe((productInventory) => {
-      if(null != productInventory){
+    this.productService.addProductInventory(productInventoryObj)
+    .subscribe((data) => {
+      if(null != data){
+        let response = data.json();
+        let backendResponse: ProductInventory = response;
+
+        let index = this.productViewList.findIndex((el) => el.productNo == productInventoryObj.productNo);
+        this.productViewList[index].quantity = backendResponse.quantity;
+    
+        this.productViewList = this.productViewList.slice();
         this.toastr.success('Inventory Added Successfully !!', 'Success!');
-
       }
       else{
         this.toastr.error('Opps Something Goes Wrong !!', 'Error!');
@@ -344,35 +351,43 @@ export class ProductTableComponent implements OnInit {
   updateProductInventory(event) {
 
     let product: Product = event.data;
+
+    let quantity: number = Number(product.quantity);
     console.log('Updating product inventory', product);
 
     console.log('event on inventoty', event.date);
-    let productInventory: ProductInventory[] = []; 
+    //let productInventory: ProductInventory[] = []; 
     
-    productInventory.push(event.data);
+    //productInventory.push(event.data);
 
-    console.log('product invetrory object', productInventory);
+    //console.log('product invetrory object', productInventory);
 
-    this.productService.updateProductInventory(productInventory)
+    this.productService.updateProductInventory(product)
     .subscribe(data => {
 
       if(data){
-        this.toastr.success('Inventory Updated Successfully !!', 'Success!');
+        let response = data.json();
+        let backendResponse: ProductInventory = response;
+
+        let index = this.productViewList.findIndex((el) => el.productNo == product.productNo);
+        this.productViewList[index].quantity = backendResponse.quantity;
+        this.productViewList = this.productViewList.slice();
+        this.toastr.success('Inventory Added Successfully !!', 'Success!');
       }
     },
     error => {
       this.toastr.error('Opps Something goes wrong !!', 'Error!!');
       console.log(JSON.stringify(error.json()));
     });
-    
-    let index = this.productViewList.findIndex((el) => el.productNo == product.productNo);
+    // let index = this.productViewList.findIndex((el) => el.productNo == product.productNo);
 
-    this.productViewList[index] = {
-      ...this.productViewList[index],
-      ...product
-    };
 
-    this.productViewList = this.productViewList.slice();
+    // this.productViewList[index] = {
+    //   ...this.productViewList[index],
+    //   ...product
+    // };
+
+    // this.productViewList = this.productViewList.slice();
 
     this.hideProductModal();
 

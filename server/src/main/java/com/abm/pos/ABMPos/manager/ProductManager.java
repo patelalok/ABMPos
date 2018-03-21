@@ -111,35 +111,55 @@ public class ProductManager{
 
        return productRepository.save(productDao);
     }
-    public List<ProductInventoryDao> addProductInventory(List<ProductInventoryDao> productInventoryDao) {
+    public ProductInventoryDao addProductInventory(ProductInventoryDao productInventoryDao) {
 
-        List<ProductInventoryDao> productInventoryDaoList = productInventoryRepository.save(productInventoryDao);
+        ProductInventoryDao productInventoryDaoList = productInventoryRepository.save(productInventoryDao);
         List<ProductInventoryDao> productInventoryDaoList1 = new ArrayList<>();
+        List<ProductInventoryDao> productInventoryDaoListForZeroQuantity = new ArrayList<>();
+
 
         // I need to do this because, if there is any product with NEGATIVE Quantity, I need to delete that inventory, cause if i dont delete, that will messed up current stock, cause negative minus the positive inventory make complete count wrong.
-        if(null != productInventoryDaoList && productInventoryDaoList.size() >=1)
+        if(null != productInventoryDaoList)
         {
-            productInventoryDaoList1 = productInventoryRepository.findAllByProductNo(productInventoryDaoList.get(0).getProductNo());
+            productInventoryDaoList1 = productInventoryRepository.findAllByProductNo(productInventoryDaoList.getProductNo());
 
             int totalProduct = 0;
 
-            for(ProductInventoryDao productInventoryDao1:productInventoryDaoList1 )
+            for(ProductInventoryDao productInventoryDao1:productInventoryDaoList1)
             {
                 // this will delete inventory details with negative quantity.
-                // Very Important. productInventoryDaoList1.size() > 1 condition.
-                if(productInventoryDaoList1.size() > 1 && productInventoryDao1.getQuantity() < 0)
+                // Very Important. productInventoryDaoList1.size() > 0 condition.
+                if(productInventoryDaoList1.size() > 0 && productInventoryDao1.getQuantity() < 0)
                 {
                     productInventoryRepository.delete(productInventoryDao1);
                 }
+                else {
+                    // Now I need to update product table here, I need to do this, JUST SHOW CORRECT STOCK ON THE PRODUCT PAGE, CAUSE I CAN NOT CALCULATE FROM THE INVENTORY,
+                    // SO I NEED MAKE SURE WHEN EVER INVENTORY CHANGES I NEED TO CHANGE THE QUANTITY IN PRODUCT TABLE.
 
-                // Now I need to update product table here, I need to do this, JUST SHOW CORRECT STOCK ON THE PRODUCT PAGE, CAUSE I CAN NOT CALCULATE FROM THE INVENTORY,
-                // SO I NEED MAKE SURE WHEN EVER INVENTORY CHANGES I NEED TO CHANGE THE QUANTITY IN PRODUCT TABLE.
-
-                totalProduct = totalProduct + productInventoryDao1.getQuantity();
+                    totalProduct = totalProduct + productInventoryDao1.getQuantity();
+                }
 
             }
             // Now i need to update quantity in product table
-            productRepository.updateQuantityAfterInventoryUpdate(totalProduct,productInventoryDaoList.get(0).getCost(),productInventoryDaoList.get(0).getProductNo());
+            productRepository.updateQuantityAfterInventoryUpdate(totalProduct,productInventoryDaoList.getCost(),productInventoryDaoList.getProductNo());
+
+            // Now I need to get the inventory again to delete the inventory with 0, I need to do here because i am deleting with <0 above;
+            productInventoryDaoListForZeroQuantity = productInventoryRepository.findAllByProductNo(productInventoryDaoList.getProductNo());
+            for(ProductInventoryDao productInventoryDaoForZeroQuantity:productInventoryDaoListForZeroQuantity)
+            {
+                // this will delete inventory details with negative quantity.
+                // Very Important. productInventoryDaoList1.size() > 0 condition, this will work becuase customer has just added or updated inventory.So we have one positive value.
+                if(productInventoryDaoListForZeroQuantity.size() > 0 && productInventoryDaoForZeroQuantity.getQuantity() <= 0)
+                {
+                    productInventoryRepository.delete(productInventoryDaoForZeroQuantity);
+                }
+            }
+
+
+            // I am returing this object back so, i can use this count to display on product table.
+            productInventoryDaoList.setQuantity(totalProduct);
+
         }
 
         return productInventoryDaoList;

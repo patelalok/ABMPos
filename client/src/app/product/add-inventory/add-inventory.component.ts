@@ -262,22 +262,22 @@ getVendorDetails() {
       }
       addProductInventoryToBackEnd() {
 
-        this.productInventotyList.forEach((inventory) =>
-        {
-          inventory.createdTimestamp = moment(Date.now()).format('YYYY-MM-DD HH:mm:ss');
-        });
+        // this.productInventotyList.forEach((inventory) =>
+        // {
+        //   inventory.createdTimestamp = moment(Date.now()).format('YYYY-MM-DD HH:mm:ss');
+        // });
 
-        this.productService.addProductInventory(this.productInventotyList)
-        .subscribe(data => {
+        // this.productService.addProductInventory(this.productInventotyList)
+        // .subscribe(data => {
 
-          if(data){
-            this.toastr.success('Inventory Added Successfully !!', 'Success!');
-          }
-        },
-        error => {
-          this.toastr.error('Opps Something goes wrong !!', 'Error!!');
-          console.log(JSON.stringify(error.json()));
-        });
+        //   if(data){
+        //     this.toastr.success('Inventory Added Successfully !!', 'Success!');
+        //   }
+        // },
+        // error => {
+        //   this.toastr.error('Opps Something goes wrong !!', 'Error!!');
+        //   console.log(JSON.stringify(error.json()));
+        // });
 
       }
 

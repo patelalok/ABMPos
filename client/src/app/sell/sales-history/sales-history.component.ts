@@ -79,8 +79,10 @@ export class SalesHistoryComponent implements OnInit {
         .subscribe(transaction => {
   
           transaction.forEach(trans => {
-            trans.time = moment(trans.date).format('hh:mm A');
-            trans.date = moment(trans.date).format('MM-DD-YYYY');
+            // This helps to manage date for park sale and other edit sale logic.
+            trans.originalDate = trans.date;
+            trans.time = moment(trans.originalDate).format('hh:mm A');
+            trans.onlyDate = moment(trans.originalDate).format('MM-DD-YYYY');
           })
           this.transactionDetails = transaction;
           this.loadingServie.loading = false;
@@ -149,8 +151,9 @@ export class SalesHistoryComponent implements OnInit {
       .subscribe(transaction => {
        
         transaction.forEach(trans => {
-          trans.time = moment(trans.date).format('hh:mm A');
-          trans.date = moment(trans.date).format('MM-DD-YYYY');
+          trans.originalDate = trans.date;
+            trans.time = moment(trans.originalDate).format('hh:mm A');
+            trans.onlyDate = moment(trans.originalDate).format('MM-DD-YYYY');
         })
         this.transactionDetailsOriginal = transaction;
         this.transactionDetails = this.transactionDetailsOriginal;

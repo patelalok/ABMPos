@@ -80,6 +80,7 @@ export class SaleComponent implements OnInit, AfterViewInit {
 
   _subscriptionCustomer: any;
   _subscriptionProduct: any;
+  parkDate: any;
 
 
   constructor(
@@ -740,7 +741,7 @@ export class SaleComponent implements OnInit, AfterViewInit {
     }
     // Do not do anything, just let it go so date wont chance.
     else {
-      this.transactionDtoList.date = this.transactionDtoList.originalDate;
+      this.transactionDtoList.date = this.parkDate;
       console.log('old transaction', this.transactionDtoList.originalDate);
     }
 
@@ -898,7 +899,9 @@ export class SaleComponent implements OnInit, AfterViewInit {
     let phoneNo: any;
     this.sellService.getTransactionById(transactionComId)
       .subscribe((transaction: TransactionDtoList) => {
+        console.log('transaction after park', transaction);
         this.transactionDtoList.transactionComId = transaction.transactionComId;
+        this.parkDate = transaction.date;
         phoneNo = transaction.customerPhoneno;
         console.log('phono', phoneNo);
         if(phoneNo)
@@ -1142,6 +1145,7 @@ export class TransactionDtoList {
 
   // this date helps 
   originalDate: any;
+  onlyDate: any;
   date: any;
   time: any;
   totalAmount: number;

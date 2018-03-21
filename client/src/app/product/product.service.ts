@@ -165,7 +165,7 @@ export class ProductService {
             // })
         }
 
-  addProductInventory(productInventory: ProductInventory[]) {
+  addProductInventory(productInventory: ProductInventory) {
     console.log("Product Added", productInventory);
     return this.http.post(this.url+'/addProductInventory', productInventory);
   }
@@ -177,7 +177,7 @@ export class ProductService {
     return this.http.post(this.url+'/addProduct', product);
   }
 
-  updateProductInventory(productInventory: ProductInventory[]) {
+  updateProductInventory(productInventory: ProductInventory) {
     return this.http.post(this.url+'/addProductInventory', productInventory);
   }
 

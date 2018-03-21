@@ -42,7 +42,7 @@ export class ProductComponent implements OnInit {
 
     this.items = [
       { name: 'Inventory', icon: 'fa fa-tags fa-x', link: '/product/productTable' },
-      { name: 'Phone', icon: 'fa fa-phone-volumefa-x', link: '/product/phone' },
+      { name: 'Phone', icon: 'fa fa-mobile fa-x', link: '/product/phone' },
       { name: 'Category', icon: 'fa fa-list fa-x', link: '/product/category' },
       { name: 'Brand', icon: 'fa fa-bookmark fa-x', link: '/product/brand' },
       { name: 'Vendor', icon: 'fa fa-user fa-x', link: '/product/vendor' },
