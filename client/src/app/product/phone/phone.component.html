@@ -3,13 +3,14 @@
         <h4>Manage Phone</h4>
     </mat-card-title>
     <mat-card-content>
-        <div class="row d-flex align-items-center">
+        <!-- <div class="row d-flex align-items-center"> -->
+        <div class="row">
             <div class="col-md-3">
                 <!-- <p-autoComplete [(ngModel)]="productFilterBox" styleClass="wid100" [suggestions]="backendProductDto" (completeMethod)="filterProducts($event)" name="test" [minLength]="1" (keyup.enter)="submitProduct(p)"
                         field="description">
                     </p-autoComplete> -->
 
-                <input class="form-control " [formControl]="this.searchPhoneTextBox" type="text" placeholder="Search By IMEI No Or Model Name">
+                <input class="form-control" type="text" placeholder="Search By IMEI No Or Model Name">
             </div>
 
             <div class="col-md-2">
@@ -32,13 +33,161 @@
             </div> -->
 
             <div class="col-md-5 d-flex align-items-center justify-content-end">
-                <button type="button" mat-raised-button class="bg-primary text-white action-button-lg" style="margin-right: 15px" [routerLink]="['/product/add']">
+                <button type="button" mat-raised-button class="bg-primary text-white action-button-lg" style="margin-right: 15px" data-toggle="modal" data-target="#addPhone">
                         <i class="fa fa-plus-square" aria-hidden="true" label="Add"></i>
                         Add Phone
                     </button>
             </div>
-
-
         </div>
+        <div class="row">
+            <div class="col-md-2">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col">Phone</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>@mdo</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="col-md-10">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col">IMEI</th>
+                            <th scope="col">Vendor</th>
+                            <th scope="col">Cost</th>
+                            <th scope="col">Retail</th>
+                            <th scope="col">Action</th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>@mdo</td>
+                            <td>@mdo</td>
+                            <td>@mdo</td>
+                            <td>@mdo</td>
+                            <td>@mdo</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+
+        <!-- </div> -->
     </mat-card-content>
 </mat-card>
+
+<!-- Start Of payment model -->
+<form *ngIf="this.phoneForm != null" [formGroup]="phoneForm">
+
+    <div class="modal fade" id="addPhone" role="dialog">
+        <div class="modal-dialog modal-lg">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 class="modal-title">Add Phone</h3>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+
+                </div>
+                <div class="modal-body">
+                    <mat-card>
+                        <mat-card-content>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="row m-2">
+                                        <div class="col-md-4 product-textbox">
+                                            <label>Product No:</label>
+                                        </div>
+
+                                        <div class="col-md-5 product-textbox">
+                                            <input type="text" class="form-control" formControlName="productNo" placeholder="Please Enter ProductNo">
+                                            <!--<input type="submit" value="submit" [disabled]="!form.valid">-->
+                                            <div *ngIf="phoneForm.get('productNo').hasError('required') && phoneForm.get('productNo').touched" class="alert alert-danger">
+                                                *Required!!
+                                            </div>
+                                            <div *ngIf="phoneForm.get('productNo').hasError('pattern') && phoneForm.get('productNo').touched" class="alert alert-danger">
+                                                *Value Not Alloewd</div>
+                                        </div>
+
+                                        <div class="col-md-3 product-textbox d-flex justify-content-end">
+                                            <button class="btn-gray action-button" style="width: 100%" mat-raised-button (click)="getAutoGeneratedProductNo()">Generate</button>
+                                        </div>
+                                    </div>
+
+                                    <div class="row m-2">
+
+                                        <div class="col-md-4 product-textbox">
+                                            <label class="control-label"> Description:</label>
+                                        </div>
+
+                                        <div class="col-md-8 product-textbox">
+                                            <input type="text" class="form-control" style="text-transform:uppercase" formControlName="description" placeholder="Please Enter Description">
+                                            <p *ngIf="phoneForm.get('description').hasError('required') && phoneForm.get('description').touched" class="alert alert-danger">
+                                                *Required!!</p>
+                                        </div>
+                                    </div>
+                                    <div class="row m-2">
+
+                                        <div class="col-md-4 product-textbox">
+                                            <label class="control-label">Brand Name:</label>
+                                        </div>
+
+                                        <div class="col-md-8 product-textbox">
+                                            <select class="form-control" formControlName="brand" name="brand">
+                                                            <option *ngFor = "let brand of brandDto" [ngValue]="brand">
+                                                                {{brand.name}}
+                                                            </option>
+                                                        </select>
+                                            <p *ngIf="phoneForm.get('brand').hasError('required')" class="alert alert-danger">
+                                                *Required!!</p>
+                                        </div>
+                                    </div>
+
+                                    <div class="row m-2">
+
+                                        <div class="col-md-4 product-textbox">
+                                            <label class="control-label"> Model Name:</label>
+                                        </div>
+                                        <div class="col-md-8 product-textbox">
+                                            <select class="form-control" name="model">
+                                                            <option *ngFor = "let model of modelDto">
+                                                                {{model.name}}
+                                                                </option>
+                                                        </select>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <mat-card-footer>
+                                <!--Submit button Row-->
+                                <div class="d-flex p-md-3 justify-content-center">
+                                    <button mat-raised-button class="bg-danger text-white m-2 action-button-lg" routerLink="/product/productTable">Cancel</button>
+                                    <button mat-raised-button class="bg btn-green text-white m-2 action-button-lg" type="submit" (click)="this.addPhone()" [disabled]="phoneForm.invalid">
+                                            <i class="fa fa-paper-plane" aria-hidden="true" ></i>
+                                                Add Phone
+                                        </button>
+                                </div>
+                            </mat-card-footer>
+                        </mat-card-content>
+                    </mat-card>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    </div>
+
+                </div>
+
+
+            </div>
+
+        </div>
+    </div>
+</form>

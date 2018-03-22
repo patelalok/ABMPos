@@ -246,9 +246,7 @@ export class ReturnSaleComponent implements OnInit, AfterViewInit {
     });
   console.log('customer', this.selectedCustomer);
     })
-
-
- 
+    
   }
   removeCustomerOnSale() {
     this.selectedCustomer = null;
