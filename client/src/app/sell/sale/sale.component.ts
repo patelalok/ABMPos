@@ -389,37 +389,45 @@ export class SaleComponent implements OnInit, AfterViewInit {
   }
 
   submitCustomer() {
-    if (this.selectedCustomer.type == 'Business') {
-      this.taxPercent = 0.00;
-    }
 
-    let totalPreviousBalance = 0;
-    this.sellService.getPendingInvoiceByCustomer(this.selectedCustomer.phoneNo)
-    .subscribe(transaction => {
-      transaction.forEach(trans => {
+    this.customerService.getCustomerDetailsByPhoneNo(this.selectedCustomer.phoneNo)
+    .subscribe((customer)=>{
+      this.selectedCustomer = customer;
 
-        // This is very important line if i wont set here, i can not handle date change logic for transaction.
-        trans.originalDate = trans.date;
-        trans.time = moment(trans.date).format('hh:mm A');
-        trans.date = moment(trans.date).format('MM-DD-YYYY');
-
-        // Calculating totalPendingInvoice here, so i dont need to maintain in backend and in customer table.
-        totalPreviousBalance = +totalPreviousBalance +trans.transactionBalance;
-        console.log('total Previous balance', totalPreviousBalance);
-      })
-      this.pendingInvoiceTransactionList = transaction;
-      this.selectedCustomer.balance = totalPreviousBalance;
-    });
-
-    this.persit.setCustomerDetailsForSale(this.selectedCustomer);
-
-    this.sellService.getProductPriceByCustomer(this.selectedCustomer.phoneNo)
-      .subscribe((productPrice) => {
-        this.productPriceArryByCustomer = productPrice;
-        this.persit.setCustomerProductPriceForSale(this.productPriceArryByCustomer);
+      if (this.selectedCustomer.type == 'Business') {
+        this.taxPercent = 0.00;
+      }
+      let totalPreviousBalance = 0;
+      this.sellService.getPendingInvoiceByCustomer(this.selectedCustomer.phoneNo)
+      .subscribe(transaction => {
+        transaction.forEach(trans => {
+  
+          // This is very important line if i wont set here, i can not handle date change logic for transaction.
+          trans.originalDate = trans.date;
+          trans.time = moment(trans.date).format('hh:mm A');
+          trans.date = moment(trans.date).format('MM-DD-YYYY');
+  
+          // Calculating totalPendingInvoice here, so i dont need to maintain in backend and in customer table.
+          totalPreviousBalance = +totalPreviousBalance +trans.transactionBalance;
+          console.log('total Previous balance', totalPreviousBalance);
+        })
+        this.pendingInvoiceTransactionList = transaction;
+        this.selectedCustomer.balance = totalPreviousBalance;
       });
+  
+      this.persit.setCustomerDetailsForSale(this.selectedCustomer);
+  
+      this.sellService.getProductPriceByCustomer(this.selectedCustomer.phoneNo)
+        .subscribe((productPrice) => {
+          this.productPriceArryByCustomer = productPrice;
+          this.persit.setCustomerProductPriceForSale(this.productPriceArryByCustomer);
+        });
+  
+        this.setTransactionDtoList();
+    })
+ 
 
-      this.setTransactionDtoList();
+  
   }
 
   removeCustomerOnSale() {

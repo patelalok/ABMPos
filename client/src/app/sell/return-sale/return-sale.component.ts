@@ -69,6 +69,9 @@ export class ReturnSaleComponent implements OnInit, AfterViewInit {
   popupHeader: string;
   popupMessage: string;
 
+  _subscriptionCustomer: any;
+
+
   constructor(
     private sellService: SellService,
     private productService: ProductService,
@@ -80,6 +83,7 @@ export class ReturnSaleComponent implements OnInit, AfterViewInit {
     private router: Router,
     private toastr: ToastsManager
   ) {
+    this.getCustomerDetails();
 
   }
 
@@ -228,15 +232,23 @@ export class ReturnSaleComponent implements OnInit, AfterViewInit {
 
   }
   submitCustomer(a: any) {
-    this.selectedCustomer = a;
-    if (this.selectedCustomer.type == 'Business') {
-      this.taxPercent = 0;
-    }
+
+    this.customerService.getCustomerDetailsByPhoneNo(a.phoneNo)
+    .subscribe((customer)=>{
+      this.selectedCustomer = customer;
+      if (this.selectedCustomer.type == 'Business') {
+        this.taxPercent = 0;
+      }
+
     this.sellService.getProductPriceByCustomer(this.selectedCustomer.phoneNo)
-      .subscribe((productPrice) => {
-        this.productPriceArryByCustomer = productPrice;
-      });
-    console.log('customer', this.selectedCustomer);
+    .subscribe((productPrice) => {
+      this.productPriceArryByCustomer = productPrice;
+    });
+  console.log('customer', this.selectedCustomer);
+    })
+
+
+ 
   }
   removeCustomerOnSale() {
     this.selectedCustomer = null;
@@ -454,14 +466,13 @@ export class ReturnSaleComponent implements OnInit, AfterViewInit {
   }
 
   filterCustomers(event) {
-    // let query = event.query;
-    // this.customerService.getCustomerDetails()
+    let query = event.query;
+    // this.customerService.getCustomerDetailsFromBackEnd()
     //   .subscribe((customers) => {
-    //     // console.log(products);
-    //     this.filteredCustomer = this.filterCustomer(query, customers);
-    //   });
+        // console.log(products);
+        this.filteredCustomer = this.filterCustomer(query,this.customerDto);
+      // });
   }
-
 
   filterCustomer(query, customers: Customer[]): Customer[] {
     let filtered: Customer[] = [];
@@ -477,11 +488,18 @@ export class ReturnSaleComponent implements OnInit, AfterViewInit {
 
   getCustomerDetails() {
 
-    // this.customerService.getCustomerDetails()
-    //   .subscribe((customer: Customer[]) => {
-    //     this.customerDto = customer;
-    //   });
+    this.customerService.getCustomerDetails();
+    this._subscriptionCustomer = this.customerService.customerListChange
+    .subscribe((cust)=>{
+      this.customerDto = cust;
+      this.customerDto = this.customerDto.slice();
+    });
   }
+  ngOnDestroy() {
+    //prevent memory leak when component destroyed
+     this._subscriptionCustomer.unsubscribe();
+    //  this._subscriptionProduct.unsubscribe();
+   }
 
 }
 
