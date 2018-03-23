@@ -7,6 +7,7 @@ import { environment } from 'environments/environment';
 import { Observer, ReplaySubject, Subject } from 'rxjs';
 import { Product, TransactionLineItemDaoList } from 'app/sell/sale/sale.component';
 import { ToastsManager } from 'ng2-toastr';
+import { Phone } from './phone/phone.component';
 
 
 @Injectable()
@@ -57,6 +58,22 @@ export class ProductService {
 
   getProductDetailsFromBackEnd(): Observable<Product[]>{
     return this.http.get(this.url+'/getProductTableDetails')
+    .map(this.extractData)
+    .catch(this.handleError);
+  }
+
+  addIMEIForPhone(phone: Phone){
+    return this.http.post(this.url+'/imei', phone);
+  }
+
+  getIMEIDetailByPhone(productNo: string): Observable<Phone[]> {
+    return this.http.get(this.url+'/imei?productNo='+productNo)
+    .map(this.extractData)
+    .catch(this.handleError); 
+   }
+   
+  getPhoneDetailsFromBackEnd(): Observable<Product[]>{
+    return this.http.get(this.url+'/phone')
     .map(this.extractData)
     .catch(this.handleError);
   }
@@ -121,31 +138,6 @@ export class ProductService {
       .catch(this.handleError);
   }
 
-
-
-  // TODO:  This is redudant, but need to do it cause i have two obejct for backend dto and product, i need to fix this.
-  // editProduct(product: BackendProductDto) {
-  //   console.log("Product Added", product.description);
-  //   this.http.post(this.url+'/addProduct', product)
-      // .subscribe(data => {
-      //   alert('ok');
-      //   console.log(data);
-      // },
-      // error => {
-      //   console.log(JSON.stringify(error.json()));
-      // });
-  //     .map((updatedProduct: any) => {
-  //       let index = this.fullProductList.findIndex((product) => {
-  //         return product.productNo === (<Product>updatedProduct).productNo; 
-  //       })
-  //       if(index)
-  //         this.fullProductList[index] = updatedProduct; 
-        
-  //       this.fullProductList = this.fullProductList.slice(); 
-
-  //       return this.fullProductList; 
-  //     })
-  // }
 
         // TODO:  This is redudant, but need to do it cause i have two obejct for backend dto and product, i need to fix this.
         editProduct(product: Product) {

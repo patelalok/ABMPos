@@ -15,6 +15,7 @@ public class Phone {
     private double cost;
     private double retail;
     private String createdTimestamp;
+    private boolean sold;
 
     public Long getImei() {
         return imei;
@@ -62,5 +63,13 @@ public class Phone {
 
     public void setCreatedTimestamp(String createdTimestamp) {
         this.createdTimestamp = createdTimestamp;
+    }
+
+    public boolean isSold() {
+        return sold;
+    }
+
+    public void setSold(boolean sold) {
+        this.sold = sold;
     }
 }

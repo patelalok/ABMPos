@@ -183,14 +183,14 @@ export class ProductCommonTest {
 export class ProductInventory {
   productNo: string;
   description:string;
-  cost: number;
-  retail: number;
-  markup: number;
-  quantity: number;
-  createdTimestamp: any;
-  vendorId: number;
-  date: any;
-  time: any;
+  cost?: number;
+  retail?: number;
+  markup?: number;
+  quantity?: number;
+  createdTimestamp?: any;
+  vendorId?: number;
+  date?: any;
+  time?: any;
 }
 
 

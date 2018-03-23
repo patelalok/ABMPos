@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ProductService } from '../product.service';
-import { Model, Brand } from 'app/product/product.component';
+import { Model, Brand, Vendor } from 'app/product/product.component';
 import { ProductForm } from 'app/product/addProduct.component';
 import { Product } from 'app/sell/sale/sale.component';
 import * as moment from 'moment';
+import { ToastsManager } from 'ng2-toastr';
 
 
 @Component({
@@ -17,23 +18,57 @@ export class PhoneComponent implements OnInit {
   searchPhoneTextBox:string;
   modelDto: Model[];
   brandDto: Brand[];
-  constructor(private formBuilder: FormBuilder, private productService: ProductService) { }
+  vendorDto: Vendor[];
+  phoneDto: Product[];
+  imeiDto: Phone[];
+  selectedPhone: Product;
+  selectedImei: Phone;
+  newImei: boolean;
+  displayDialog: boolean;
+  cols: any[];
+  phone = new Phone();
+
+
+
+
+  constructor(private formBuilder: FormBuilder, private productService: ProductService, private toastr: ToastsManager) { }
 
   phoneForm: FormGroup;
+  imeiForm: FormGroup;
 
 
   ngOnInit() {
+
     this.phoneForm = this.formBuilder.group(
       {
         'productNo': [null, [Validators.required, Validators.pattern('^[0-9]+$')]],
         'description': ['', Validators.required],
-        'brand': [null, Validators.required]
+        'brand': [null, Validators.required],
+        'model': [null, Validators.required]
+
       }
     );
+
+    this.imeiForm = this.formBuilder.group({
+      'imei': [null, [Validators.required, Validators.pattern('^[0-9]+$')]],
+      'vendor': ['', Validators.required],
+      'cost': [null, Validators.required],
+      'retail': [null, Validators.required],
+
+    })
+
+  //   this.cols = [
+  //     { field: 'imei', header: 'IMEI' },
+  //     { field: 'vendorId', header: 'VendorId' },
+  //     { field: 'cost', header: 'Cost' },
+  //     { field: 'retail', header: 'Retail' }
+  // ];
 
     this.productService.getModelDetails()
     .subscribe((models: Model[]) => {
       this.modelDto = models;
+      this.phoneForm.get('model').setValue(this.modelDto[0]);
+
       console.log('ModelList' + this.modelDto);
     });
 
@@ -42,6 +77,35 @@ export class PhoneComponent implements OnInit {
       this.brandDto = brands;
       this.phoneForm.get('brand').setValue(this.brandDto[0]);
       console.log('BrandList' + this.brandDto);
+    });
+
+    this.productService.getPhoneDetailsFromBackEnd()
+    .subscribe((phone)=>{
+      this.phoneDto = phone;
+      console.log('Phones' + this.phoneDto);
+    })
+
+    this.productService.getVendorDetails()
+    .subscribe((vendors: Vendor[]) => {
+      this.vendorDto = vendors;
+      this.imeiForm.get('vendor').setValue(this.vendorDto[0]);
+      console.log('VendorList' + this.vendorDto);
+    });
+
+   this.getIMEIDetailsByPhone('890100000884');
+  }
+
+  getIMEIDetailsByPhone(productNo: string){
+
+    this.productService.getIMEIDetailByPhone(productNo)
+    .subscribe((imeis)=>{
+
+        imeis.forEach((imei)=>{
+        imei.time = moment(imei.createdTimestamp).format('hh:mm A');
+        imei.date = moment(imei.createdTimestamp).format('MM-DD-YYYY');
+      })
+      this.imeiDto = imeis;
+      this.imeiDto = this.imeiDto.slice();
     });
   }
 
@@ -52,41 +116,26 @@ export class PhoneComponent implements OnInit {
 
       let product: Product = {
         productNo: formValues.productNo,
+        description: formValues.description.toUpperCase(),
         categoryId: 10,
         brandId: formValues.brand.brandId,
-       vendorId: 0,
-        modelId: null,
+        modelId: formValues.model.modelId,
         alternetNo: '',
-        cost: formValues.cost,
-        retail: formValues.retail,
-        date: null,
-        description: formValues.description.toUpperCase(),
-        discount: null,
-        imeiNo: null,
         active: true,
         ecommerce: formValues.ecommerce,
-        relatedProduct: formValues.relatedProduct,
         tax: formValues.tax,
-        varaint: formValues.varaint,
-        markup: formValues.markup,
-        minQuantity: formValues.minQuantity,
-        quantity: formValues.quantity,
-        retailWithDiscount: null,
         returnRule: formValues.returnRule,
-        status: null,
-        taxAmountOnProduct: null,
-        totalProductPrice: null,
-        transactionComId: null,
-        time: null,
         createdTimestamp: moment(Date.now()).format('YYYY-MM-DD HH:mm:ss'),
-        productInventoryDaoList: [],
         operationType: 'Add',
-        saleQuantity:null
       }
       this.productService.addProduct(product);
+      this.phoneDto.push(product);
+      this.phoneDto = this.phoneDto.slice();
+      this.hidePhoneModal()
       this.clearProductForm();
     }
   }
+
 
   clearProductForm() {
     // this.form.get('productNo').setValue(null);
@@ -111,15 +160,95 @@ export class PhoneComponent implements OnInit {
       });
   }
 
+  addIMEI(){
+
+    let newIMEI = new Phone();
+
+    newIMEI.imei = this.imeiForm.get('imei').value;
+    newIMEI.productNo =this.selectedPhone.productNo
+    newIMEI.cost = this.imeiForm.get('cost').value;
+    newIMEI.retail = this.imeiForm.get('retail').value;
+
+    let tempVendor: Vendor = this.imeiForm.get('vendor').value;
+    newIMEI.vendorId = tempVendor.vendorId;
+    newIMEI.createdTimestamp = moment(Date.now()).format('YYYY-MM-DD HH:mm:ss');
+    newIMEI.sold = false;
+
+    console.log('phone before add', newIMEI);
+    if(this.imeiForm.valid){
+      this.productService.addIMEIForPhone(newIMEI)
+      .subscribe(data => {
+        console.log('response', data);
+        if(data.status == 200 || data.status == 201){
+          this.toastr.success('Phone Added Successfully!!', 'Success!');
+          this.imeiDto.push(newIMEI);
+          this.imeiDto =  this.imeiDto.slice();
+          this.imeiForm.get('imei').setValue('');
+          }
+      },
+        error => {
+          this.toastr.error('Opps something goes wrong!!', 'Error!');
+          console.log(JSON.stringify(error.json()));
+    });
+    }
+    else {
+      alert("Please add required feilds");
+    }
+  }
+
+  updateImeiDetails(event){
+    console.log('update imei', event.data)  
+
+    event.data.productNo = this.selectedPhone.productNo;
+    this.productService.addIMEIForPhone(event.data)
+    .subscribe(data => {
+      if(data.status == 200 || data.status == 201){
+        this.toastr.success('Phone Updated Successfully!!', 'Success!');
+        this.imeiDto =  this.imeiDto.slice();
+        }
+    },
+      error => {
+        this.toastr.error('Opps something goes wrong!!', 'Error!');
+        console.log(JSON.stringify(error.json()));
+  });
+  }
+
+  setPhone(phone: Product){
+    this.selectedPhone = phone;
+    this.getIMEIDetailsByPhone(this.selectedPhone.productNo);
+    console.log('phone', phone);
+  }
+
+  hidePhoneModal() {
+    console.log('Hiding modal');
+    $('#addPhone').modal('hide');
+  }
+
+//   onRowSelect(event) {
+//     this.newImei = false;
+//     this.phone = this.cloneImei(event.data);
+//     this.displayDialog = true;
+// }
+// cloneImei(c: Phone): Phone {
+//   let phone = new Phone;
+//   for (let prop in c) {
+//     phone[prop] = c[prop];
+//   }
+//   return phone;
+// }
+
 }
 
-export class Phone{
+export class Phone {
   imei: any;
   productNo: any;
-  venderId: number;
+  vendorId: number;
   venderName: string;
   cost: number;
   retail: number;
   createdTimestamp: any;
+  sold:boolean;
+  date:any;
+  time:any;
 
 }

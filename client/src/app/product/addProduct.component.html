@@ -93,13 +93,12 @@
                         </div>
 
                         <div class="row m-1">
-
                             <div class="col-md-4 product-textbox">
                                 <label class="control-label"> Model Name:</label>
                             </div>
                             <div class="col-md-8 product-textbox">
-                                <select class="form-control" name="model">
-                                            <option *ngFor = "let model of modelDto">
+                                <select class="form-control" formControlName="model" name="model">
+                                            <option *ngFor = "let model of modelDto" [ngValue]="model">
                                                 {{model.name}}
                                                 </option>
                                         </select>

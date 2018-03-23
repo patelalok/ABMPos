@@ -52,7 +52,8 @@ export class AddProductComponent implements OnInit {
         'description': ['', Validators.required],
         'category': [null, Validators.required],
         'brand': [null, Validators.required],
-        'vendor': [null, Validators.required],
+        'vendor': [null],
+        'model': [null],
         'cost': [null, [Validators.required, Validators.pattern('^[0-9-.]+$')]],
         'markup': [null, Validators.pattern('^[0-9-.]+$')],
         'retail': [null, [Validators.required, Validators.pattern('^[0-9-.]+$')]],
@@ -88,6 +89,8 @@ export class AddProductComponent implements OnInit {
     this.productService.getModelDetails()
       .subscribe((models: Model[]) => {
         this.modelDto = models;
+       this.form.get('model').setValue(this.modelDto[0]);
+
         console.log('ModelList' + this.modelDto);
       });
 
@@ -128,13 +131,11 @@ export class AddProductComponent implements OnInit {
         categoryId: formValues.category.categoryId,
         brandId: formValues.brand.brandId,
         vendorId: formValues.vendor.vendorId,
-        modelId: null,
+        modelId: formValues.model.modelId,
         alternetNo: formValues.alternetNo,
         cost: formValues.cost,
         retail: formValues.retail,
-        date: null,
         description: formValues.description.toUpperCase(),
-        discount: null,
         imeiNo: null,
         active: true,
         ecommerce: formValues.ecommerce,
@@ -144,17 +145,10 @@ export class AddProductComponent implements OnInit {
         markup: formValues.markup,
         minQuantity: formValues.minQuantity,
         quantity: formValues.quantity,
-        retailWithDiscount: null,
         returnRule: formValues.returnRule,
-        status: null,
-        taxAmountOnProduct: null,
-        totalProductPrice: null,
-        transactionComId: null,
-        time: null,
         createdTimestamp: moment(Date.now()).format('YYYY-MM-DD HH:mm:ss'),
         productInventoryDaoList: this.productInventoryList,
-        operationType: 'Add',
-        saleQuantity:null
+        operationType: 'Add'
       }
       this.productService.addProduct(product);
       this.clearProductForm();
@@ -196,30 +190,31 @@ export class AddProductComponent implements OnInit {
 export interface ProductForm {
 
   productNo: string;
-  productVariantNo: number;
+  productVariantNo?: number;
   description: string;
-  category: Category;
-  brand: Brand
-  vendor: Vendor;
-  model: Model;
-  alternetNo: string;
-  cost: number;
-  retail: number;
-  markup: number;
-  quantity: number;
-  minQuantity: number;
-  tax: boolean;
-  varaint: boolean;
-  active: boolean;
-  relatedProduct: boolean;
-  returnRule: any;
-  brandId: number;
+  category?: Category;
+  brand?: Brand
+  vendor?: Vendor;
+  model?: Model;
+  alternetNo?: string;
+  cost?: number;
+  retail?: number;
+  markup?: number;
+  quantity?: number;
+  minQuantity?: number;
+  tax?: boolean;
+  varaint?: boolean;
+  active?: boolean;
+  relatedProduct?: boolean;
+  returnRule?: any;
+  brandId?: number;
   categoryId: number;
-  vendorId: number;
-  modelId: number;
-  ecommerce: boolean;
-  variant: boolean;
-  customLoyaltyAmount: number;
-  productInventoryDaoList: ProductInventory[];
+  vendorId?: number;
+  modelId?: number;
+  ecommerce?: boolean;
+  variant?: boolean;
+  customLoyaltyAmount?: number;
+  productInventoryDaoList?: ProductInventory[];
+  // isSold?:boolean;
 
 }
