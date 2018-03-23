@@ -787,15 +787,15 @@ public class ReportManager {
         {
             for(SalesSummaryDto salesSummaryDtoLocal: salesSummaryDtoList)
             {
-                salesSummaryDto.setCash(salesSummaryDto.getCash() + salesSummaryDtoLocal.getCash());
-                salesSummaryDto.setCredit(salesSummaryDto.getCredit() + salesSummaryDtoLocal.getCredit());
-                salesSummaryDto.setDebit(salesSummaryDto.getDebit() + salesSummaryDtoLocal.getDebit());
-                salesSummaryDto.setCheck(salesSummaryDto.getCheck() + salesSummaryDtoLocal.getCheck());
-                salesSummaryDto.setTax(salesSummaryDto.getTax() + salesSummaryDtoLocal.getTax());
-                salesSummaryDto.setDiscount(salesSummaryDto.getDiscount() + salesSummaryDtoLocal.getDiscount());
-                salesSummaryDto.setReturns(salesSummaryDto.getReturns() + salesSummaryDtoLocal.getReturns());
-                salesSummaryDto.setProfit(salesSummaryDto.getProfit() + salesSummaryDtoLocal.getProfit());
-                salesSummaryDto.setSubtotal(salesSummaryDto.getSubtotal() + salesSummaryDtoLocal.getSubtotal());
+                salesSummaryDto.setCash(salesSummaryDtoLocal.getCash());
+                salesSummaryDto.setCredit(salesSummaryDtoLocal.getCredit());
+                salesSummaryDto.setDebit( salesSummaryDtoLocal.getDebit());
+                salesSummaryDto.setCheck(salesSummaryDtoLocal.getCheck());
+                salesSummaryDto.setTax(salesSummaryDtoLocal.getTax());
+                salesSummaryDto.setDiscount(salesSummaryDtoLocal.getDiscount());
+                salesSummaryDto.setReturns( salesSummaryDtoLocal.getReturns());
+                salesSummaryDto.setProfit( salesSummaryDtoLocal.getProfit());
+                salesSummaryDto.setSubtotal(salesSummaryDtoLocal.getSubtotal());
             }
 
             salesSummaryDtoFinal.setCash(salesSummaryDto.getCash());
