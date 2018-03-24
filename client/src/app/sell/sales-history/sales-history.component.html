@@ -229,6 +229,15 @@
                                 </div>
 
                                 <div class="row">
+                                    <div class="col-md-6" *ngIf="receipt.paymentDao[0].giftCard != 0">
+                                        Gift Card:
+                                    </div>
+                                    <div class="col-md-6" *ngIf="receipt.paymentDao[0].giftCard != 0">
+                                        $ {{receipt.paymentDao[0].giftCard}}
+                                    </div>
+                                </div>
+
+                                <div class="row">
                                     <div class="col-md-6" *ngIf="receipt.paymentDao[0].debit != 0">
                                         Debit:
                                     </div>

@@ -19,6 +19,7 @@ public class PaymentDao {
 
     private double cash;
     private double credit;
+    private double giftCard;
     private double debit;
 
     // Because JPA is creating problem with only check.
@@ -150,5 +151,13 @@ public class PaymentDao {
 
     public void setTransactionNote(String transactionNote) {
         this.transactionNote = transactionNote;
+    }
+
+    public double getGiftCard() {
+        return giftCard;
+    }
+
+    public void setGiftCard(double giftCard) {
+        this.giftCard = giftCard;
     }
 }

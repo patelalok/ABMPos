@@ -391,6 +391,27 @@ console.log('inside the mnethose');
       this.validatePaymentButtons(paymentAmount);
 
     }
+
+    else if (paymentType == 'Gift Card') {
+      if (null != this.paymentDto && this.paymentDto.giftCard > 0) {
+        this.paymentDto.giftCard = +this.paymentDto.giftCard + paymentAmount;
+      }
+      else {
+        // I need to do this, cause right now if total is $20 and user click on $100 its storing as $100 in payment table which is wrong and will messed up whole reporting so need to manage here.
+        if (paymentAmount > this.dueAmountForTransaction) {
+          this.paymentDto.giftCard = this.dueAmountForTransaction;
+        }
+        else {
+          this.paymentDto.giftCard = paymentAmount;
+        }
+      }
+      this.paymentObjectForPaymentSellTable.push({ 'paymentType': 'Gift Card', 'paymentAmount': paymentAmount })
+
+      this.validatePaymentButtons(paymentAmount);
+
+    }
+
+
     else if (paymentType == 'Debit') {
       if (null != this.paymentDto && this.paymentDto.debit > 0) {
         this.paymentDto.debit = +this.paymentDto.debit + paymentAmount;
@@ -595,6 +616,9 @@ console.log('inside the mnethose');
       }
       if (payment.paymentType == 'Credit' && payment.paymentAmount > 0) {
         this.paymentDto.credit = this.paymentDto.credit - payment.paymentAmount;
+      }
+      if (payment.paymentType == 'Gift Card' && payment.paymentAmount > 0) {
+        this.paymentDto.giftCard = this.paymentDto.giftCard - payment.paymentAmount;
       }
       if (payment.paymentType == 'Debit' && payment.paymentAmount > 0) {
         this.paymentDto.debit = this.paymentDto.debit - payment.paymentAmount;
@@ -1053,6 +1077,7 @@ export class PaymentDto {
   date: any;
   cash: number;
   credit: number;
+  giftCard: number;
   debit: number;
   checkAmount: number;
   storeCredit: number;

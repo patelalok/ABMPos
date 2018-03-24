@@ -14,16 +14,19 @@ public class CloseRegisterDao {
     private String username;
     private double reportCash;
     private double reportCredit;
+    private double reportGiftCard;
     private double reportDebit;
     private double reportCheck;
     private double reportTotalAmount;
     private double closeCash;
     private double closeCredit;
+    private double closeGiftCard;
     private double closeDebit;
     private double closeCheck;
     private double closeTotalAmount;
     private double differenceCash;
     private double differenceCredit;
+    private double differenceGiftCard;
     private double differenceDebit;
     private double differenceCheck;
     private double differenceTotal;
@@ -287,5 +290,29 @@ public class CloseRegisterDao {
 
     public void setTip(double tip) {
         this.tip = tip;
+    }
+
+    public double getReportGiftCard() {
+        return reportGiftCard;
+    }
+
+    public void setReportGiftCard(double reportGiftCard) {
+        this.reportGiftCard = reportGiftCard;
+    }
+
+    public double getCloseGiftCard() {
+        return closeGiftCard;
+    }
+
+    public void setCloseGiftCard(double closeGiftCard) {
+        this.closeGiftCard = closeGiftCard;
+    }
+
+    public double getDifferenceGiftCard() {
+        return differenceGiftCard;
+    }
+
+    public void setDifferenceGiftCard(double differenceGiftCard) {
+        this.differenceGiftCard = differenceGiftCard;
     }
 }

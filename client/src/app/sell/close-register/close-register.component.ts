@@ -38,15 +38,18 @@ export class CloseRegisterComponent implements OnInit {
         'reportCash': [null],
         'reportCredit': [null],
         'reportDebit': [null],
+        'reportGiftCard': [null],
         'reportCheck': [null],
         'reportTotalAmount': [null],
         'closeCash': [null],
         'closeCredit': [null],
+        'closeGiftCard': [null],
         'closeDebit': [null],
         'closeCheck': [null],
         'closeTotalAmount': [null],
         'differenceCash': [null],
         'differenceCredit': [null],
+        'differenceGiftCard': [null],
         'differenceDebit': [null],
         'differenceCheck': [null],
         'differenceTotal': [null],
@@ -72,6 +75,7 @@ export class CloseRegisterComponent implements OnInit {
         this.closeRegisterForm.patchValue(<any>{
           differenceCash: (formValues.closeCash - formValues.reportCash).toFixed(2),
           differenceCredit: (formValues.closeCredit - formValues.reportCredit).toFixed(2),
+          differenceGiftCard: (formValues.closeGiftCard - formValues.reportGiftCard).toFixed(2),
           differenceDebit: (formValues.closeDebit - formValues.reportDebit).toFixed(2),
           differenceCheck: (formValues.closeCheck - formValues.reportCheck).toFixed(2),
           closeTotalAmount: ((formValues.closeCash) + (+formValues.closeCredit) + (+formValues.closeDebit) + (+formValues.closeCheck)).toFixed(2),
@@ -122,6 +126,9 @@ export class CloseRegisterComponent implements OnInit {
 
       this.closeRegisterForm.get('reportCredit').setValue(this.closeRegisterDto.reportCredit);
       this.closeRegisterForm.get('closeCredit').setValue(this.closeRegisterDto.closeCredit);
+
+      this.closeRegisterForm.get('reportGiftCard').setValue(this.closeRegisterDto.reportGiftCard);
+      this.closeRegisterForm.get('closeGiftCard').setValue(this.closeRegisterDto.closeGiftCard);
 
       this.closeRegisterForm.get('reportDebit').setValue(this.closeRegisterDto.reportDebit);
       this.closeRegisterForm.get('closeDebit').setValue(this.closeRegisterDto.closeDebit);
@@ -195,16 +202,19 @@ export class CloseRegisterDto {
   username: string;
   reportCash: number;
   reportCredit: number;
+  reportGiftCard: number;
   reportDebit: number;
   reportCheck: number;
   reportTotalAmount: number;
   closeCash: number;
   closeCredit: number;
+  closeGiftCard:number;
   closeDebit: number;
   closeCheck: number;
   closeTotalAmount: number;
   differenceCash: number;
   differenceCredit: number;
+  differenceGiftCard: number;
   differenceDebit: number;
   differenceCheck: number;
   differenceTotal: number;

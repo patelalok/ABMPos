@@ -146,6 +146,26 @@
                         <div class="row close-row ">
 
                             <div class="col-md-3">
+                                <p>Gift Card</p>
+                            </div>
+
+                            <div class="col-md-3">
+                                <input type="number" class="form-control" formControlName="closeGiftCard">
+                            </div>
+
+                            <div class="col-md-3">
+                                <input type="number" class="form-control" disabled="true" formControlName="reportGiftCard">
+                            </div>
+
+                            <div class="col-md-3">
+                                <input [style.color]="this.closeRegisterForm.get('differenceGiftCard').value >=0 ? 'green' : 'red' " class="form-control" disabled="true" type="number" formControlName="differenceGiftCard">
+                            </div>
+
+                        </div>
+
+                        <div class="row close-row ">
+
+                            <div class="col-md-3">
                                 <p>Other Payment</p>
                             </div>
                             <div class="col-md-3">

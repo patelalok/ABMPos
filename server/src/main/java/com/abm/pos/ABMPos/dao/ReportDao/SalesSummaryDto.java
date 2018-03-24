@@ -5,6 +5,7 @@ public class SalesSummaryDto {
     private String name;
     private double cash;
     private double credit;
+    private double giftCard;
     private double debit;
     private double check;
     private double tax;
@@ -36,6 +37,14 @@ public class SalesSummaryDto {
 
     public void setCredit(double credit) {
         this.credit = credit;
+    }
+
+    public double getGiftCard() {
+        return giftCard;
+    }
+
+    public void setGiftCard(double giftCard) {
+        this.giftCard = giftCard;
     }
 
     public double getDebit() {

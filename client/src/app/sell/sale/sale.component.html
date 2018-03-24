@@ -353,7 +353,7 @@
                     </div>
 
                     <div class="col-md-3">
-                        <button mat-raised-button class="secondary-button" [disabled]="true">Layby</button>
+                        <button mat-raised-button class="secondary-button" (click)="this.setPaymentDto('Gift Card',this.payAmountTextBox)" [disabled]="this.disablePaymentButtons">Gift Card</button>
                     </div>
                 </div>
 

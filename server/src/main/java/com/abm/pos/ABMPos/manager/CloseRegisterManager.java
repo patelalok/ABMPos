@@ -70,6 +70,7 @@ public class CloseRegisterManager {
             closeRegisterDao.setOnAccount(paymentDao.getOnAccount());
             closeRegisterDao.setStoreCredit(paymentDao.getStoreCredit());
             closeRegisterDao.setLoyalty(paymentDao.getLoyalty());
+            closeRegisterDao.setReportGiftCard(paymentDao.getGiftCard());
         }
 
         // Now need get transaction details from transaction table.
@@ -95,6 +96,7 @@ public class CloseRegisterManager {
             closeRegisterDao.setCloseCredit(closeRegisterDao1.getCloseCredit());
             closeRegisterDao.setCloseDebit(closeRegisterDao1.getCloseDebit());
             closeRegisterDao.setCloseCheck(closeRegisterDao1.getCloseCheck());
+            closeRegisterDao.setCloseGiftCard(closeRegisterDao.getCloseGiftCard());
             closeRegisterDao.setId(closeRegisterDao1.getId());
 
         }
@@ -147,6 +149,7 @@ public class CloseRegisterManager {
                         paymentDao.setStoreCredit(Double.parseDouble(j[4].toString()));
                         paymentDao.setOnAccount(Double.parseDouble(j[5].toString()));
                         paymentDao.setLoyalty(Double.parseDouble(j[6].toString()));
+                        paymentDao.setGiftCard(Double.parseDouble(j[7].toString()));
 
                     }
                 }
