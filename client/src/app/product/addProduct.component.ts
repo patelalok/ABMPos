@@ -53,6 +53,7 @@ export class AddProductComponent implements OnInit {
         'category': [null, Validators.required],
         'brand': [null, Validators.required],
         'vendor': [null, Validators.required],
+        'model': [null],
         'cost': [null, [Validators.required, Validators.pattern('^[0-9-.]+$')]],
         'markup': [null, Validators.pattern('^[0-9-.]+$')],
         'retail': [null, [Validators.required, Validators.pattern('^[0-9-.]+$')]],
@@ -88,6 +89,7 @@ export class AddProductComponent implements OnInit {
     this.productService.getModelDetails()
       .subscribe((models: Model[]) => {
         this.modelDto = models;
+        this.form.get('model').setValue(this.modelDto[0]);
         console.log('ModelList' + this.modelDto);
       });
 
@@ -128,7 +130,7 @@ export class AddProductComponent implements OnInit {
         categoryId: formValues.category.categoryId,
         brandId: formValues.brand.brandId,
         vendorId: formValues.vendor.vendorId,
-        modelId: null,
+        modelId: formValues.model.modelId,
         alternetNo: formValues.alternetNo,
         cost: formValues.cost,
         retail: formValues.retail,

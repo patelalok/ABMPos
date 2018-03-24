@@ -22,7 +22,8 @@
                                     *Required!!
                                 </div>
                                 <div *ngIf="form.get('productNo').hasError('pattern') && form.get('productNo').touched" class="alert alert-danger">
-                                    *Value Not Alloewd</div>
+                                    *Value Not Alloewd
+                                </div>
                             </div>
 
                             <div class="col-md-3 product-textbox d-flex justify-content-end">
@@ -98,8 +99,8 @@
                                 <label class="control-label"> Model Name:</label>
                             </div>
                             <div class="col-md-8 product-textbox">
-                                <select class="form-control" name="model">
-                                            <option *ngFor = "let model of modelDto">
+                                <select class="form-control" name="model" formControlName="model">
+                                            <option *ngFor = "let model of modelDto" [ngValue]="model">
                                                 {{model.name}}
                                                 </option>
                                         </select>
