@@ -67,6 +67,12 @@ public class TransactionController {
         return transactionManager.getTransactionById(transactionCompId);
     }
 
+    @RequestMapping(value = "/getPaymentDetailsById", method = RequestMethod.GET, produces = "application/json")
+    public List<PaymentDao> getPaymentDetailsById(@RequestParam int transactionCompId)
+    {
+        return transactionManager.getPaymentDetailsById(transactionCompId);
+    }
+
     @RequestMapping(value = "/getTransactionByDate", method = RequestMethod.GET, produces = "application/json")
     public List<TransactionDao> getTransactionByDate(String startDate,String endDate)
     {

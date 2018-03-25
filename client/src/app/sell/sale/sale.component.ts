@@ -749,7 +749,7 @@ export class SaleComponent implements OnInit, AfterViewInit {
     }
     // Do not do anything, just let it go so date wont chance.
     else {
-      this.transactionDtoList.date = this.parkDate;
+      this.transactionDtoList.date = this.transactionDtoList.originalDate;
       console.log('old transaction', this.transactionDtoList.originalDate);
     }
 
@@ -781,8 +781,7 @@ export class SaleComponent implements OnInit, AfterViewInit {
       // This means customer has put this invoice ON ACCOUNT, OR THIS IS PARK SALE, I need to check that logic here.
 
       if(this.saleType == 'Park'){
-
-        console.log('come for park now, so wont process as pending')
+        console.log('come for park now, so wont process as pending');
       }
       else {
         this.transactionDtoList.status = 'Pending';
@@ -909,7 +908,7 @@ export class SaleComponent implements OnInit, AfterViewInit {
       .subscribe((transaction: TransactionDtoList) => {
         console.log('transaction after park', transaction);
         this.transactionDtoList.transactionComId = transaction.transactionComId;
-        this.parkDate = transaction.date;
+        this.transactionDtoList.originalDate = transaction.date;
         phoneNo = transaction.customerPhoneno;
         console.log('phono', phoneNo);
         if(phoneNo)

@@ -24,12 +24,12 @@
 
             </div>
             <div class="col-md-2">
-                <select *ngIf="this.listOfProductOption != null" class="form-control " #dropdown (change)="fiterProductByDropdown(dropdown.value)">
+                <!-- <select *ngIf="this.listOfProductOption != null" class="form-control " #dropdown (change)="fiterProductByDropdown(dropdown.value)">
                         <option [value]="-1">All {{this.selectedProductDropdownOption}}</option>
                         <option *ngFor="let option of this.listOfProductOption" [value]="option.id">
                             {{option.name}}
                         </option>
-                    </select>
+                    </select> -->
             </div>
 
             <div class="col-md-5 d-flex align-items-center justify-content-end">

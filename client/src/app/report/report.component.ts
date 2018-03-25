@@ -14,11 +14,11 @@ export class ReportComponent implements OnInit {
   ngOnInit() {
     
     if (this.router.url == "/report")
-      this.router.navigate(['/report/inventory']);
+      this.router.navigate(['/report/sales']);
 
     this.items = [
-      { name: 'Inventory', icon: 'fa fa-tags fa-x', link: '/report/inventory' },
       { name: 'Sales', icon: 'fa fa-line-chart fa-x', link: '/report/sales' },
+      { name: 'Inventory', icon: 'fa fa-tags fa-x', link: '/report/inventory' }
       // { name: 'Profit & Loss', icon: 'fa fa-pie-chart fa-x', link: '/report/profit-loss' },
       // { name: 'Low Stock', icon: 'fa fa-tag fa-x', link: '/report/profit-loss' },
       // { name: 'Expense', icon: 'fa fa-money fa-x', link: '' },

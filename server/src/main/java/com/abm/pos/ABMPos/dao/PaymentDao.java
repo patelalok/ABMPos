@@ -15,7 +15,7 @@ public class PaymentDao {
     private int transactionPaymentId;
 
 //    private int alok;
-    private int transaction_com_id;
+    private int transactionComId;
 
     private String status;
     private String date;
@@ -164,11 +164,11 @@ public class PaymentDao {
 //    }
 
 
-    public int getTransaction_com_id() {
-        return transaction_com_id;
+    public int getTransactionComId() {
+        return transactionComId;
     }
 
-    public void setTransaction_com_id(int transaction_com_id) {
-        this.transaction_com_id = transaction_com_id;
+    public void setTransactionComId(int transactionComId) {
+        this.transactionComId = transactionComId;
     }
 }
