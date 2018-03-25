@@ -132,8 +132,8 @@ export class ProductService {
       .catch(this.handleError);
   }
 
-  getProductHistory(productNo: string, timeDuration: string): Observable<TransactionLineItemDaoList[]> {
-    return this.http.get(this.url+'getProductHistory?productNo=' + productNo + '&timeDuration=' + timeDuration)
+  getProductHistory(productNo: string, startDate: string, endDate: string): Observable<TransactionLineItemDaoList[]> {
+    return this.http.get(this.url+'/getProductHistory?productNo='+productNo+'&startDate='+startDate+'&endDate='+endDate)
       .map(this.extractData)
       .catch(this.handleError);
   }

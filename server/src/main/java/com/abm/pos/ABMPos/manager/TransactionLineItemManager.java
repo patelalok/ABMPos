@@ -36,19 +36,8 @@ public class TransactionLineItemManager {
         return null;
     }
 
-    public List<TransactionLineItemDao> getProductHistory(String productNo, String duration) {
+    public List<TransactionLineItemDao> getProductHistory(String productNo, String startDate, String endDate) {
+        return transactionLineItemRepository.getProductHistory(productNo, startDate, endDate);
 
-        TimeIntervalDto timeIntervalDto;
-
-        timeIntervalDto = utility.getDateByInputString(duration);
-
-        if(null != timeIntervalDto && null != timeIntervalDto.getStartDate() && null != timeIntervalDto.getEndDate())
-        {
-            return transactionLineItemRepository.getProductHistory(productNo, timeIntervalDto.getStartDate(), timeIntervalDto.getEndDate());
-        }
-        else {
-
-            return null;
-        }
     }
 }

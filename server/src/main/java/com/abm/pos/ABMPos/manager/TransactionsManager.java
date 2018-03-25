@@ -643,7 +643,7 @@ public class TransactionsManager {
                         totalTable.addCell(new Phrase("Loyalty", new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
                         totalTable.addCell(new Phrase("$ " + String.valueOf(paymentDaos.getLoyalty()), new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
                     }
-                    
+
                 }
 
                 if (transactionDao.getTransactionBalance() > 0) {

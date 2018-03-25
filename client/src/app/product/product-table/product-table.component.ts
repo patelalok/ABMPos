@@ -12,6 +12,7 @@ import { LoadingService } from 'app/loading.service';
 import { ToastsManager } from 'ng2-toastr';
 import { error } from 'selenium-webdriver';
 import { Product, TransactionLineItemDaoList } from 'app/sell/sale/sale.component';
+import { DateService, DateDto } from '../../shared/services/date.service';
 declare var $: JQueryStatic;
 
 @Component({
@@ -47,6 +48,9 @@ export class ProductTableComponent implements OnInit {
   productHistoryDropDown: any = 'Today';
   updateProductObject: Product;
   productInventoryList: ProductInventory[] = [];
+  dateDto = new DateDto();
+  totalSaleQuantity: number = 0;
+
 
   dropdownOptionValue: number;
   cost: number;
@@ -54,7 +58,7 @@ export class ProductTableComponent implements OnInit {
 
 
   loading: boolean = false;
-  constructor(private productService: ProductService, private loadingService: LoadingService, private toastr: ToastsManager) { }
+  constructor(private productService: ProductService, private loadingService: LoadingService, private toastr: ToastsManager, private dateService: DateService) { }
 
   ngOnInit() {
 
@@ -258,13 +262,52 @@ export class ProductTableComponent implements OnInit {
   }
 
   getProductHistory(): void {
-    //TODO NEED TO write service call to get the product history!!
 
-    this.productService.getProductHistory(this.selectedProductForHistory.productNo, this.productHistoryDropDown)
+    if(this.productHistoryDropDown == 'Today'){
+      this.dateDto = this.dateService.getCurrentDay();
+    }
+    else if(this.productHistoryDropDown == 'Yesterday'){
+      this.dateDto = this.dateService.getPreviousDay();
+
+    }
+    else if(this.productHistoryDropDown == 'This Week'){
+      this.dateDto = this.dateService.getLast7Day();
+      
+    }
+    else if(this.productHistoryDropDown == 'Last Week'){
+      this.dateDto = this.dateService.getLast7Day();
+      
+    }
+    else if(this.productHistoryDropDown == 'This Month'){
+      this.dateDto = this.dateService.getCurrentMonth();
+      
+    }
+    else if(this.productHistoryDropDown == 'Last Month'){
+      this.dateDto = this.dateService.getLastMonth();
+      
+    }
+    else if(this.productHistoryDropDown == 'Last 3 Months'){
+      this.dateDto = this.dateService.getLast3Months();
+      
+    } else if(this.productHistoryDropDown == 'Last 6 Months'){
+      this.dateDto = this.dateService.getLast6Months();
+      
+    }
+    else if(this.productHistoryDropDown == 'This Year'){
+      this.dateDto = this.dateService.getCurrentYear();
+      
+    }
+    else if(this.productHistoryDropDown == 'Last Year'){
+      this.dateDto = this.dateService.getLastYear();
+    }
+
+    this.totalSaleQuantity = 0;
+    this.productService.getProductHistory(this.selectedProductForHistory.productNo, this.dateDto.startDate, this.dateDto.endDate)
       .subscribe((productHistory: TransactionLineItemDaoList[]) => {
         productHistory.forEach((history => {
           history.time = moment(history.date).format('hh:mm A');
           history.date = moment(history.date).format('MM/DD/YYYY');
+          this.totalSaleQuantity = +this.totalSaleQuantity+history.saleQuantity;
         }))
 
         this.productHistoryDto = productHistory;

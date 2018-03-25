@@ -140,20 +140,22 @@
 
 
 <!-- Start Of Product History model -->
+
+
 <div class="modal fade" id="productHistoryModel" role="dialog">
     <div class="modal-dialog modal-lg">
 
         <!-- Modal content-->
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
                 <h3 class="modal-title">Product History</h3>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
             </div>
             <div class="modal-body">
 
-                <div class="row">
-                    <div class="col-md-4">
-                        <select class="form-control form-control-lg" [(ngModel)]="this.productHistoryDropDown" (change)="this.getProductHistory()">
+                <div style="display:flex; justify-content: space-between;">
+                    <!-- <div class="col-md-4"> -->
+                    <div> <select class="form-control form-control-lg" [(ngModel)]="this.productHistoryDropDown" (change)="this.getProductHistory()">
                             <option>Today</option>
                             <option>Yesterday</option>
                             <option>This Week</option>
@@ -167,7 +169,13 @@
                             <option>Custom</option>
 
                         </select>
+                    </div>
 
+
+                    <!-- </div> -->
+
+                    <div>
+                        <h5>Total Number Of Product Sold: {{this.totalSaleQuantity}}</h5>
                     </div>
 
                 </div>
@@ -177,30 +185,30 @@
                         <thead>
                             <tr>
 
+                                <th>Date</th>
+                                <th>Time</th>
                                 <th>Product No</th>
                                 <th>Product Sold</th>
                                 <th>Cost</th>
                                 <th>Retail</th>
-                                <th>Date</th>
-                                <th>Time</th>
+
                             </tr>
                         </thead>
                         <tbody>
                             <tr *ngFor="let product of this.productHistoryDto">
-                                <td>{{product.productNo}}</td>
-                                <td>{{product.quantity}}</td>
-                                <td>{{product.cost}}</td>
-                                <td>{{product.retail}}</td>
                                 <td>{{product.date}}</td>
                                 <td>{{product.time}}</td>
+                                <td>{{product.productNo}}</td>
+                                <td>{{product.saleQuantity}}</td>
+                                <td>{{product.cost}}</td>
+                                <td>{{product.retail}}</td>
+
                             </tr>
                         </tbody>
                     </table>
 
                 </div>
-                <div class="row">
-                    <h5>Total Number Of Product Sold: 324(TODO CENTER)</h5>
-                </div>
+
 
             </div>
             <div class="modal-footer">
