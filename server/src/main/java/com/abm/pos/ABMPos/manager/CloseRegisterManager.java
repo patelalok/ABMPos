@@ -96,7 +96,7 @@ public class CloseRegisterManager {
             closeRegisterDao.setCloseCredit(closeRegisterDao1.getCloseCredit());
             closeRegisterDao.setCloseDebit(closeRegisterDao1.getCloseDebit());
             closeRegisterDao.setCloseCheck(closeRegisterDao1.getCloseCheck());
-            closeRegisterDao.setCloseGiftCard(closeRegisterDao.getCloseGiftCard());
+            closeRegisterDao.setCloseGiftCard(closeRegisterDao1.getCloseGiftCard());
             closeRegisterDao.setId(closeRegisterDao1.getId());
 
         }
