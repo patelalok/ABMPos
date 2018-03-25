@@ -66,6 +66,7 @@ export class EditProductComponent implements OnInit {
             'category': [null, Validators.required],
             'brand': [null, Validators.required],
             'vendor': [null, Validators.required],
+            'model': [null],
             // 'costPrice': [this.currentProduct.cost, [Validators.required, Validators.pattern('^[0-9-.]+$')]],
             'markup': [null, Validators.pattern('^[0-9-.]+$')],
             'retail': [this.currentProduct.retail, [Validators.required, Validators.pattern('^[0-9-.]+$')]],
@@ -114,6 +115,8 @@ export class EditProductComponent implements OnInit {
       this.productService.getModelDetails()
         .subscribe((models: Model[]) => {
           this.modelDto = models;
+          currentModel = this.modelDto.filter((el)=> el.modelId==this.currentProduct.modelId)[0];
+          this.form.get('model').setValue(currentModel);
           console.log('ModelList' + this.modelDto);
         });
 
@@ -148,7 +151,7 @@ export class EditProductComponent implements OnInit {
         categoryId: formValues.category.categoryId,
         brandId: formValues.brand.brandId,
         vendorId: formValues.vendor.vendorId,
-        modelId: null,
+        modelId: formValues.model.modelId,
         cost: formValues.cost,
         retail: formValues.retail,
         description: formValues.description.toUpperCase(),

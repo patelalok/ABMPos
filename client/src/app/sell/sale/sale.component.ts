@@ -229,6 +229,7 @@ export class SaleComponent implements OnInit, AfterViewInit {
     $('#productsearch > span > input').focus();
   }
 
+
   scanProduct($event){
     // if(event.length > 10)
     // {
@@ -723,6 +724,7 @@ export class SaleComponent implements OnInit, AfterViewInit {
 
     //
     this.loadingService.loading = true;
+    this.disableCompleteSaleButton = true;
 
     
     let totalLineItemDiscount: number = 0.00
@@ -895,6 +897,8 @@ export class SaleComponent implements OnInit, AfterViewInit {
 
     // very important cause this will give problem after doing return transaction so, after any transactoin i need to do this.
     this.saleType = 'Complete';
+
+    this.testFocus();
 
   }
 
