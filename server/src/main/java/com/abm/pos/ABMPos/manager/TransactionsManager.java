@@ -597,54 +597,53 @@ public class TransactionsManager {
 
 
                     if (paymentDaos.getCash() != 0) {
+                        totalTable.addCell(new Phrase("Cash", new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
+                        totalTable.addCell(new Phrase("$ " + String.valueOf(paymentDaos.getCash()), new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
 
                         totalTable.addCell(new Phrase("Pay On", new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
                         totalTable.addCell(new Phrase(payDate.format(d1)+" "+payTime.format(d1), new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
-
-                        totalTable.addCell(new Phrase("Cash", new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
-                        totalTable.addCell(new Phrase("$ " + String.valueOf(paymentDaos.getCash()), new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
                     }
                     if (paymentDaos.getChangeForCash() != 0) {
                         totalTable.addCell(new Phrase("Change", new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
                         totalTable.addCell(new Phrase("$ " + String.valueOf(paymentDaos.getChangeForCash()), new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
                     }
                     if (paymentDaos.getCredit() != 0) {
-                        totalTable.addCell(new Phrase("Pay On", new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
-                        totalTable.addCell(new Phrase(payDate.format(d1)+" "+payTime.format(d1), new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
-
                         totalTable.addCell(new Phrase("Credit Card", new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
                         totalTable.addCell(new Phrase("$ " + String.valueOf(paymentDaos.getCredit()), new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
+
+                        totalTable.addCell(new Phrase("Pay On", new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
+                        totalTable.addCell(new Phrase(payDate.format(d1)+" "+payTime.format(d1), new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
                     }
                     if (paymentDaos.getDebit() != 0) {
-                        totalTable.addCell(new Phrase("Pay On", new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
-                        totalTable.addCell(new Phrase(payDate.format(d1)+" "+payTime.format(d1), new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
-
                         totalTable.addCell(new Phrase("Debit Card", new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
                         totalTable.addCell(new Phrase("$ " + String.valueOf(paymentDaos.getDebit()), new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
-                    }
-                    if (paymentDaos.getCheckAmount() != 0) {
+
                         totalTable.addCell(new Phrase("Pay On", new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
                         totalTable.addCell(new Phrase(payDate.format(d1)+" "+payTime.format(d1), new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
-
+                    }
+                    if (paymentDaos.getCheckAmount() != 0) {
                         totalTable.addCell(new Phrase("Check", new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
                         totalTable.addCell(new Phrase("$ " + String.valueOf(paymentDaos.getCheckAmount()), new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
+
+                        totalTable.addCell(new Phrase("Pay On", new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
+                        totalTable.addCell(new Phrase(payDate.format(d1)+" "+payTime.format(d1), new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
                     }
 // else if (paymentDaos.getOnAccount() != 0) {
 //                        totalTable.addCell(new Phrase("On Account", new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
 //                        totalTable.addCell(new Phrase("$ " + String.valueOf(transactionDao.getPaymentDao().get(0).getOnAccount()), new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
 //                    }
                     if (paymentDaos.getStoreCredit() != 0) {
-                        totalTable.addCell(new Phrase("Pay On", new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
-                        totalTable.addCell(new Phrase(payDate.format(d1)+" "+payTime.format(d1), new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
-
                         totalTable.addCell(new Phrase("Store Credit", new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
                         totalTable.addCell(new Phrase("$ " + String.valueOf(paymentDaos.getStoreCredit()), new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
+
+                        totalTable.addCell(new Phrase("Pay On", new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
+                        totalTable.addCell(new Phrase(payDate.format(d1)+" "+payTime.format(d1), new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
                     }
                     if (paymentDaos.getLoyalty() != 0) {
                         totalTable.addCell(new Phrase("Loyalty", new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
                         totalTable.addCell(new Phrase("$ " + String.valueOf(paymentDaos.getLoyalty()), new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
                     }
-
+                    
                 }
 
                 if (transactionDao.getTransactionBalance() > 0) {

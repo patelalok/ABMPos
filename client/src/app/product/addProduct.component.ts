@@ -52,11 +52,7 @@ export class AddProductComponent implements OnInit {
         'description': ['', Validators.required],
         'category': [null, Validators.required],
         'brand': [null, Validators.required],
-<<<<<<< HEAD
         'vendor': [null],
-=======
-        'vendor': [null, Validators.required],
->>>>>>> excel
         'model': [null],
         'cost': [null, [Validators.required, Validators.pattern('^[0-9-.]+$')]],
         'markup': [null, Validators.pattern('^[0-9-.]+$')],
@@ -93,12 +89,8 @@ export class AddProductComponent implements OnInit {
     this.productService.getModelDetails()
       .subscribe((models: Model[]) => {
         this.modelDto = models;
-<<<<<<< HEAD
        this.form.get('model').setValue(this.modelDto[0]);
 
-=======
-        this.form.get('model').setValue(this.modelDto[0]);
->>>>>>> excel
         console.log('ModelList' + this.modelDto);
       });
 
