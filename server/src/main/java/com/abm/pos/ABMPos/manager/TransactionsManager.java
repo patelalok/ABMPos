@@ -656,9 +656,10 @@ public class TransactionsManager {
 
                 if(null != transactionDao.getCustomerPhoneno())
                 {
-                    double totalDueBalance = transactionRepository.getTransactionDueAmountByCustomer(transactionDao.getCustomerPhoneno());
+                    List<Double> totalDueBalance;
+                    totalDueBalance = transactionRepository.getTransactionDueAmountByCustomer(transactionDao.getCustomerPhoneno());
 
-                    if (totalDueBalance > 0) {
+                    if (null != totalDueBalance && null != totalDueBalance.get(0) && totalDueBalance.get(0) > 0) {
                         totalTable.addCell(new Phrase("Total Balance Due", new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
                         totalTable.addCell(new Phrase("$ " + String.valueOf(totalDueBalance), new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
                     }
