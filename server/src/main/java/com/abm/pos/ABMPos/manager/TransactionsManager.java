@@ -651,6 +651,20 @@ public class TransactionsManager {
                     totalTable.addCell(new Phrase("Balance Due", new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
                     totalTable.addCell(new Phrase("$ " + String.valueOf(transactionDao.getTransactionBalance()), new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
                 }
+
+                // Now to get sum of pending invoice to show, total balance due.
+
+                if(null != transactionDao.getCustomerPhoneno())
+                {
+                    double totalDueBalance = transactionRepository.getTransactionDueAmountByCustomer(transactionDao.getCustomerPhoneno());
+
+                    if (totalDueBalance > 0) {
+                        totalTable.addCell(new Phrase("Total Balance Due", new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
+                        totalTable.addCell(new Phrase("$ " + String.valueOf(totalDueBalance), new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
+                    }
+                }
+
+
             }
 
 

@@ -11,6 +11,7 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { SalesComponent } from './sales/sales.component';
 import {NgxChartsModule} from '@swimlane/ngx-charts';
 import { ProfitLossComponent } from './profit-loss/profit-loss.component';
+import { CustomerReportComponent } from './customer-report/customer-report.component';
 
 
 @NgModule({
@@ -26,7 +27,7 @@ import { ProfitLossComponent } from './profit-loss/profit-loss.component';
    // ChartsModule
   ],
   providers: [ReportService ],
-  declarations: [ReportComponent, InventoryComponent, SalesComponent, ProfitLossComponent],
+  declarations: [ReportComponent, InventoryComponent, SalesComponent, ProfitLossComponent, CustomerReportComponent],
   bootstrap: [ReportComponent, InventoryComponent]
   
 })

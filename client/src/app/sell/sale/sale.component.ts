@@ -946,6 +946,7 @@ export class SaleComponent implements OnInit, AfterViewInit {
 
   // This is from customer invoice popup model, Do not delete this.
   printReceipt(transaction: TransactionDtoList){
+    
     this.sellService.printReceipt(transaction);
   }
 
