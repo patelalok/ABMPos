@@ -155,15 +155,15 @@ export class EditProductComponent implements OnInit {
 
       let formValues: ProductForm = this.form.value;
 
-    
-      this.productList.forEach((product)=>{
-        if(product.alternetNo == formValues.alternetNo){
-          isAlternetNoExists = true;
-          alert('Duplicate AlternetNo Number, Please Use Different AlternetNo Number!!!')
-        }
-      });
+      // TO DO NEED TO CHECK THIS LOGIC.
+      // this.productList.forEach((product)=>{
+      //   if(product.alternetNo == formValues.alternetNo){
+      //     isAlternetNoExists = true;
+      //     alert('Duplicate AlternetNo Number, Please Use Different AlternetNo Number!!!')
+      //   }
+      // });
 
-      if(!isAlternetNoExists){
+      // if(!isAlternetNoExists){
 
       let product: Product = {
         productNo: formValues.productNo,
@@ -204,7 +204,7 @@ export class EditProductComponent implements OnInit {
       this.productService.addProduct(product);
       this.router.navigate(['/product/productTable']); 
     }
-  }
+  //}
   }
 
   updateProductInventory(event) {

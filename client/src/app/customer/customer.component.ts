@@ -87,19 +87,45 @@ export class CustomerComponent implements OnInit {
   }
 
   addCustomer() {
-    let customerExists: boolean;
+    let customerExists = false;
+    let BreakException = {};
+
+
+    // I need to remove current element and then check for unique phone number other wise it will alwas find one match.
+
+    if(!this.isAdd)
+    {
+      let index = this.customerDto.findIndex((el) => el.phoneNo == this.customerForm.value.phoneNo);
+      this.customerDto = this.customerDto.splice(0,1).concat(this.customerDto.slice(index));
+    }
+
     this.customerDto.forEach((customer)=>{
+
       if(customer.phoneNo == this.customerForm.get('phoneNo').value){
         customerExists = true;
         alert('Duplicate Customer, Please Use Different PhoneNo!!!')
       }
-    })
 
-    if(!customerExists){
-      this.customerService.addOrUpdateCustomer(this.customerForm.value, this.isAdd);
-      this.customerForm.reset();
-      this.displayDialog = false;
+
+      let formCustomerEmail: string = this.customerForm.get('email').value;
+      let custObjEmail: string = customer.email;
+      if(customer.email && formCustomerEmail.toLocaleUpperCase() === custObjEmail.toLocaleUpperCase()){
+          customerExists = true;
+          alert('Duplicate Customer, Please Use Different Email Address!!!');
+          throw BreakException;
+        }
     }
+   
+  );
+  if(!customerExists){
+    this.customerService.addOrUpdateCustomer(this.customerForm.value, this.isAdd);
+    this.customerForm.reset();
+    this.displayDialog = false;
+    throw BreakException;
+
+  }
+
+  
 
   
   }
