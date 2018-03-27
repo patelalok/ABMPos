@@ -221,6 +221,9 @@ export class SaleComponent implements OnInit, AfterViewInit {
       // $(`lineitem${productObj.productNo}`).sc
       document.getElementById(`lineitem${productObj.productNo}`).scrollIntoView();
     });
+    // this.product = null;
+    // this.productForSearchBox = null;
+    // this.filterProducts(null);
     return this.transactionLineItemDaoList;
   }
   // #productsearch > span > input
@@ -248,12 +251,13 @@ export class SaleComponent implements OnInit, AfterViewInit {
   submitProduct(value: any) {
 
     let productFound: boolean;
-    if(value.length > 10){
+    if(value.length > 6){
       console.log('from submit product', value);
       this.productList.forEach((product)=>{
         if(value == product.productNo){
           productFound = true;
           this.addTransactionLineItem(product);
+        
         }
       })
 
@@ -279,6 +283,11 @@ export class SaleComponent implements OnInit, AfterViewInit {
     else if (value != null) {
       this.addTransactionLineItem(value);
     }
+
+    setTimeout(() => {
+      this.product = null;
+      this.productForSearchBox = null; 
+    }, 1000)
   }
 
   setProductForDelete(product: Product) {
@@ -1008,8 +1017,18 @@ export class SaleComponent implements OnInit, AfterViewInit {
   }
 
   filterProducts(event) {
+    // if(!event){
+    //   this.product = null; 
+
+    //   return;
+    // }
     let query = event.query;
     // this.productService.getProductDetails()
+    // if(!query){
+    //   this.product = null; 
+
+    //   return;
+    // }
     //   .subscribe((products) => {
         // console.log(products);
         this.product = this.filterProduct(query, this.productList);
