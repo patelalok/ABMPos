@@ -38,8 +38,14 @@ export class AddProductComponent implements OnInit {
   finalProductTosend: Product;
   productInventory = new ProductInventory();
   productInventoryList: ProductInventory[] = [];
+  _subscriptionProduct: any;
+  productList: Product[] = [];
+
+
 
   constructor(private productService: ProductService, private formBuilder: FormBuilder, private toastr: ToastsManager) {
+    this.getProductDetails();
+
   }
 
   ngOnInit() {
@@ -61,7 +67,8 @@ export class AddProductComponent implements OnInit {
         'minQuantity': [null, [Validators.pattern('^[0-9]+$')]],
         'tax': [true, null],
         'ecommerce': [false, null],
-        'varaint': [false, null]
+        'varaint': [false, null],
+        'alternetNo':[null]
       }
     );
 
@@ -94,6 +101,9 @@ export class AddProductComponent implements OnInit {
         console.log('ModelList' + this.modelDto);
       });
 
+      this.getProductDetails();
+
+
 
     // DO NOT DELETE THIS NEED WHEN YOU HANDLE PRODUCT VARIENT
     // this.productService.getProductVariantDetails()
@@ -110,14 +120,30 @@ export class AddProductComponent implements OnInit {
   }
 
   addProduct() {
-    {
 
-   
+    let isProductExists: boolean;
+    let isAlternateNoExists: boolean;
 
+  
+    
       this.productInventoryList.push(this.productInventory);
 
       let formValues: ProductForm = this.form.value;
 
+      this.productList.forEach((product)=>{
+
+        if(product.productNo == formValues.productNo){
+          isProductExists = true;
+          alert('Duplicate Product Number, Please Use Different Product Number!!!')
+        }
+        if(product.alternetNo && product.alternetNo == formValues.alternetNo){
+          isAlternateNoExists = true;
+          alert('Duplicate AlternetNo Number, Please Use Different AlternetNo Number!!!')
+        }
+      });
+
+      if(!isProductExists && !isAlternateNoExists)
+      {
       // Here i need to add product inventory details to the product inventory table 
       this.productInventory.productNo = formValues.productNo;
       this.productInventory.cost = formValues.cost;
@@ -152,7 +178,7 @@ export class AddProductComponent implements OnInit {
       }
       this.productService.addProduct(product);
       this.clearProductForm();
-    }
+    }   
   }
 
   clearProductForm() {
@@ -183,6 +209,23 @@ export class AddProductComponent implements OnInit {
     this.displayDialog = !this.displayDialog;
 
   }
+
+  getProductDetails() {
+
+    this.productService.getProductDetails();
+   this._subscriptionProduct =  this.productService.productListChange.subscribe((product)=>{
+      this.productList = product;
+    })
+    // this.productService.getProductDetails()
+    // .subscribe((products) => {
+      // console.log(products);
+    //   this.productList = products;
+    // });
+  }
+  ngOnDestroy() {
+    //prevent memory leak when component destroyed
+     this._subscriptionProduct.unsubscribe();
+   }
 
 
 }

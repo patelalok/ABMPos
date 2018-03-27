@@ -87,10 +87,21 @@ export class CustomerComponent implements OnInit {
   }
 
   addCustomer() {
+    let customerExists: boolean;
+    this.customerDto.forEach((customer)=>{
+      if(customer.phoneNo == this.customerForm.get('phoneNo').value){
+        customerExists = true;
+        alert('Duplicate Customer, Please Use Different PhoneNo!!!')
+      }
+    })
 
-    this.customerService.addOrUpdateCustomer(this.customerForm.value, this.isAdd);
-    this.customerForm.reset();
-    this.displayDialog = false;
+    if(!customerExists){
+      this.customerService.addOrUpdateCustomer(this.customerForm.value, this.isAdd);
+      this.customerForm.reset();
+      this.displayDialog = false;
+    }
+
+  
   }
 
   setCustomerForDelete(cust: Customer) {

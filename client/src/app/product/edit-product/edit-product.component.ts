@@ -32,10 +32,14 @@ export class EditProductComponent implements OnInit {
   formProduct = new Product();
   finalProductTosend: Product;
   selectedProductInventoryForDelete: ProductInventory;
+  _subscriptionProduct: any;
+  productList: Product[] = [];
  
 
   currentProduct: Product; 
   constructor(private productService: ProductService, private formBuilder: FormBuilder, private route: ActivatedRoute, private router: Router, private toastr: ToastsManager) {
+    this.getProductDetails();
+
   }
 
   ngOnInit() {
@@ -73,7 +77,9 @@ export class EditProductComponent implements OnInit {
             'quantity': [this.currentProduct.quantity,''],
             'minQuantity': [this.currentProduct.minQuantity,''],
             'tax': [this.currentProduct.tax, null],
-            'ecomerce': [this.currentProduct.ecommerce, null]
+            'ecomerce': [this.currentProduct.ecommerce, null],
+            'alternetNo':[this.currentProduct.alternetNo, null]
+            
           }
         );
 
@@ -124,6 +130,7 @@ export class EditProductComponent implements OnInit {
       });
     }
 
+    this.getProductDetails();
 
 
     // DO NOT DELETE THIS NEED WHEN YOU HANDLE PRODUCT VARIENT
@@ -144,8 +151,20 @@ export class EditProductComponent implements OnInit {
 
   addProduct() {
     {
+      let isAlternetNoExists: boolean;
 
       let formValues: ProductForm = this.form.value;
+
+    
+      this.productList.forEach((product)=>{
+        if(product.alternetNo == formValues.alternetNo){
+          isAlternetNoExists = true;
+          alert('Duplicate AlternetNo Number, Please Use Different AlternetNo Number!!!')
+        }
+      });
+
+      if(!isAlternetNoExists){
+
       let product: Product = {
         productNo: formValues.productNo,
         categoryId: formValues.category.categoryId,
@@ -182,20 +201,10 @@ export class EditProductComponent implements OnInit {
         
           }
 
-      this.productService.editProduct(product)
-      .subscribe(data => {
-        if(data){
-          this.toastr.success('Product Updated Successfully!!', 'Success');
-        }
-       },
-       error => {
-         this.toastr.error('Something Goes Wrong!!', 'Error');
-       });
-      //this.clearProductForm();
-
-      this.router.navigate(['/product/productTable']);
-      
+      this.productService.addProduct(product);
+      this.router.navigate(['/product/productTable']); 
     }
+  }
   }
 
   updateProductInventory(event) {
@@ -224,4 +233,20 @@ export class EditProductComponent implements OnInit {
     this.displayDialog = !this.displayDialog;
 
   }
+  getProductDetails() {
+  this.productService.getProductDetails();
+  this._subscriptionProduct =  this.productService.productListChange.subscribe((product)=>{
+     this.productList = product;
+   })
+   // this.productService.getProductDetails()
+   // .subscribe((products) => {
+     // console.log(products);
+   //   this.productList = products;
+   // });
+ }
+
+  ngOnDestroy() {
+    //prevent memory leak when component destroyed
+     this._subscriptionProduct.unsubscribe();
+   }
 }
