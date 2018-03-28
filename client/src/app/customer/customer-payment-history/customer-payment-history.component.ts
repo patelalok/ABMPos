@@ -10,23 +10,37 @@ import { TransactionDtoList } from '../../sell/sale/sale.component';
 })
 export class CustomerPaymentHistoryComponent implements OnInit {
   customerDto: Customer[];
+  _subscription: any;
+
   customerTransactionDetails: TransactionDtoList[] = [];
-  constructor(private customerService: CustomerService) { }
+  constructor(private customerService: CustomerService) {
+    this.getCustomerDetails();
+
+   }
 
   ngOnInit() {
     this.getCustomerDetails();
   }
 
   getCustomerDetails() {
-    // this.customerService.getCustomerDetails()
-    //   .subscribe((cust: Customer[]) => {
-    //     this.customerDto = cust;
-    //     console.log('Customer Detail', this.customerDto);
-    //   });
+   // this.loadingServie.loading = true;
+    this.customerService.getCustomerDetails();
+    this._subscription = this.customerService.customerListChange
+    .subscribe((cust)=>{
+      this.customerDto = cust;
+      this.customerDto = this.customerDto.slice();
+      //this.loadingServie.loading = false;
+    })
   }
   onRowSelect(event){
     
-    console.log('event', event);
+    console.log('event', event.data);
   }
+
+  ngOnDestroy() {
+    //prevent memory leak when component destroyed
+     this._subscription.unsubscribe(); 
+   }
+
 
 }

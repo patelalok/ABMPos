@@ -49,7 +49,7 @@ export class CustomerComponent implements OnInit {
         'phoneNo': ['', [Validators.required, Validators.pattern('^[0-9]+$')]], //TODO - Need to fix this for phono no.
         // 'phoneNo': [''],
         'username': [null],
-        'email': [''], // TODO - Need to fox this too .com is not validating
+        'email': [null], // TODO - Need to fox this too .com is not validating
         'dateOfBirth': [null],
         'taxId': [''],
         'street': [null],
@@ -87,47 +87,45 @@ export class CustomerComponent implements OnInit {
   }
 
   addCustomer() {
-    let customerExists = false;
-    let BreakException = {};
+    // let customerExists = false;
+    // let BreakException = {};
 
 
     // I need to remove current element and then check for unique phone number other wise it will alwas find one match.
 
-    if(!this.isAdd)
-    {
-      let index = this.customerDto.findIndex((el) => el.phoneNo == this.customerForm.value.phoneNo);
-      this.customerDto = this.customerDto.splice(0,1).concat(this.customerDto.slice(index));
-    }
+    // if(!this.isAdd)
+    // {
+    //   let index = this.customerDto.findIndex((el) => el.phoneNo == this.customerForm.value.phoneNo);
+    //   if (index > -1) {
+    //   this.customerDto = this.customerDto.splice(index,1).concat(this.customerDto.slice(index));
+    //   }
+    // }
 
-    this.customerDto.forEach((customer)=>{
+  //   this.customerDto.forEach((customer)=>{
 
-      if(customer.phoneNo == this.customerForm.get('phoneNo').value){
-        customerExists = true;
-        alert('Duplicate Customer, Please Use Different PhoneNo!!!')
-      }
+  //     if(customer.phoneNo == this.customerForm.get('phoneNo').value){
+  //       customerExists = true;
+  //       alert('Duplicate Customer, Please Use Different PhoneNo!!!')
+  //     }
 
 
-      let formCustomerEmail: string = this.customerForm.get('email').value;
-      let custObjEmail: string = customer.email;
-      if(customer.email && formCustomerEmail.toLocaleUpperCase() === custObjEmail.toLocaleUpperCase()){
-          customerExists = true;
-          alert('Duplicate Customer, Please Use Different Email Address!!!');
-          throw BreakException;
-        }
-    }
+  //     let formCustomerEmail: string = this.customerForm.get('email').value;
+  //     let custObjEmail: string = customer.email;
+  //     if(customer.email && formCustomerEmail.toUpperCase() === custObjEmail.toUpperCase()){
+  //         customerExists = true;
+  //         alert('Duplicate Customer, Please Use Different Email Address!!!');
+  //         throw BreakException;
+  //       }
+  //   }
    
-  );
-  if(!customerExists){
+  // );
+  // if(!customerExists){
     this.customerService.addOrUpdateCustomer(this.customerForm.value, this.isAdd);
     this.customerForm.reset();
     this.displayDialog = false;
-    throw BreakException;
+    // throw BreakException;
 
-  }
-
-  
-
-  
+  // }
   }
 
   setCustomerForDelete(cust: Customer) {

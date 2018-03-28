@@ -10,6 +10,10 @@ export class CustomerReportComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
+
+
   }
+
+  
 
 }

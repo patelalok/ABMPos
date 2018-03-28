@@ -8,21 +8,29 @@
     </mat-card-title>
     <mat-card-content>
         <div class="row">
-            <div class="col-md-3">
-                <p-dataTable [value]="this.customerDto" [editable]="true" scrollable="true" [responsive]="true" scrollHeight="500px" selectionMode="single" (onRowSelect)="onRowSelect($event)">
-                    <p-column field="name" header="Name" filterPlaceholder="Search For Customer Name" [filter]="true"></p-column>
-                    <p-column field="balance" header="Balance" [sortable]="true" [filter]="true"></p-column>
+            <div class="col-md-2">
+                <p-dataTable [value]="this.customerDto" scrollable="true" [responsive]="true" scrollHeight="500px" selectionMode="single" (onRowSelect)="onRowSelect($event)">
+                    <p-column [style]="{'text-align': 'left'}" field="name" header="Name" filterPlaceholder="Search For Customer Name" [filter]="true"></p-column>
+                    <!-- <p-column field="balance" header="Balance" [sortable]="true" [filter]="true"></p-column> -->
                 </p-dataTable>
             </div>
-            <div class=col-md-9>
-                <p-dataTable [value]="this.customerDto" [editable]="true" scrollable="true" [responsive]="true" scrollHeight="500px" selectionMode="single" (onRowSelect)="onRowSelect($event)">
-                    <p-column field="" header="Invoice-No"></p-column>
-                    <p-column field="" header="Date"></p-column>
-                    <p-column field="" header="Time"></p-column>
-                    <p-column field="" header="Total Amount"></p-column>
-                    <p-column field="" header="Status"></p-column>
-                    <p-column field="" header="Action"></p-column>
-                </p-dataTable>
+            <div class=col-md-10>
+                <mat-tab-group>
+                    <mat-tab label="Transaction Details">
+                        <p-dataTable [value]="" [editable]="true" scrollable="true" [responsive]="true" scrollHeight="500px" selectionMode="single" (onRowSelect)="onRowSelect($event)">
+                            <p-column field="" header="Invoice-No"></p-column>
+                            <p-column field="" header="Date"></p-column>
+                            <p-column field="" header="Time"></p-column>
+                            <p-column field="" header="Total Amount"></p-column>
+                            <p-column field="" header="Due Amount"></p-column>
+                            <p-column field="" header="Status"></p-column>
+                            <p-column field="" header="Action"></p-column>
+                        </p-dataTable>
+                    </mat-tab>
+                    <mat-tab label="Customer Details">
+                        Customer Details
+                    </mat-tab>
+                </mat-tab-group>
             </div>
         </div>
     </mat-card-content>
