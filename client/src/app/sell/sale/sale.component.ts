@@ -895,7 +895,7 @@ console.log('inside the mnethose');
     let filtered: PrimeCustomer[] = [];
     for (let i = 0; i < customers.length; i++) {
       let cust = customers[i];
-      if (cust.name.toLowerCase().includes(query.toLowerCase()) || cust.companyName.toLowerCase().includes(query.toLowerCase()) || cust.phoneNo.includes(query)) {
+      if (cust.name.toLowerCase().includes(query.toLowerCase()) || cust.phoneNo.includes(query)) {
         filtered.push(cust);
       }
     }
