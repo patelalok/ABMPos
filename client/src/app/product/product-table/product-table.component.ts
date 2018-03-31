@@ -341,11 +341,20 @@ export class ProductTableComponent implements OnInit {
     // Newly added inventory details.
     this.productService.getProductInventoryByProductNo(productNo)
     .subscribe((inventory: ProductInventory[]) => {
+
+      // this logic helps when there is no data in inventory table.
+      if(inventory.length == 0){
+        let inventoryObj = new ProductInventory();
+        inventoryObj.productNo = productNo;
+        inventory.push(inventoryObj)
+      }
+
       this.productInventoryList = inventory;
 
       this.productInventoryList.forEach((inventory) => {
         inventory.time = moment(inventory.createdTimestamp).format('hh:mm A');
         inventory.date = moment(inventory.createdTimestamp).format('MM-DD-YYYY');
+        inventory.productNo = productNo;
       
       })
     });
@@ -357,7 +366,7 @@ export class ProductTableComponent implements OnInit {
 
     productInventoryObj.productNo = this.productInventoryList[0].productNo;
     productInventoryObj.cost = this.cost;
-    productInventoryObj.retail = this.productInventoryList[0].retail;
+    //productInventoryObj.retail = this.productInventoryList[0].retail;
     productInventoryObj.quantity = this.quantity;
     productInventoryObj.createdTimestamp = moment(Date.now()).format('YYYY-MM-DD HH:mm:ss');
 
@@ -371,6 +380,7 @@ export class ProductTableComponent implements OnInit {
 
         let index = this.productViewList.findIndex((el) => el.productNo == productInventoryObj.productNo);
         this.productViewList[index].quantity = backendResponse.quantity;
+        this.productFullList[index].cost = backendResponse.cost;
     
         this.productViewList = this.productViewList.slice();
         this.toastr.success('Inventory Added Successfully !!', 'Success!');
@@ -414,6 +424,8 @@ export class ProductTableComponent implements OnInit {
 
         let index = this.productViewList.findIndex((el) => el.productNo == product.productNo);
         this.productViewList[index].quantity = backendResponse.quantity;
+        this.productViewList[index].cost = backendResponse.cost;
+
         this.productViewList = this.productViewList.slice();
         this.toastr.success('Inventory Added Successfully !!', 'Success!');
       }
