@@ -130,7 +130,10 @@ public class TransactionsManager {
                     }
                     // TODO need to handle this case  :(
                     else {
-                        System.out.println("OPPS Some problem need to handle this.");
+                        // Hopefully this logic will work.
+                        transactionLineItemDaoListNew.add(lineItemDao);
+                        purchasedQuantity = 0;
+                        System.out.println("No Inventory details for this product.");
                     }
                 }
                 while (purchasedQuantity != 0);
