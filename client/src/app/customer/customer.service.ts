@@ -5,7 +5,7 @@ import { FormControl } from '@angular/forms/forms';
 import { Category, Brand, Vendor, Model, ProductVariantDetail, CategoryTest } from 'app/product/product.component';
 import { StoreCreditDto, Customer } from 'app/customer/customer.component';
 import { environment } from 'environments/environment';
-import { Product } from 'app/sell/sale/sale.component';
+import { Product, TransactionDtoList } from 'app/sell/sale/sale.component';
 import { Subject } from 'rxjs';
 import { ToastsManager } from 'ng2-toastr';
 
@@ -57,9 +57,11 @@ getCustomerDetails(): Customer[]
       .catch(this.handleError);
     }
 
-    getCustomerTransactionDetails()
+    getCustomerTransactionDetails(startDate: string, endDate:string,phoneNo:string) : Observable<TransactionDtoList[]>
     {
-      
+      return this.http.get(this.url+'/getAllInvoiceByCustomer?startDate='+startDate+'&endDate='+endDate+'&phoneNo='+phoneNo)
+      .map(this.extractData)
+      .catch(this.handleError);
     }
 
     addOrUpdateCustomer(customer: Customer, add: boolean)

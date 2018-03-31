@@ -28,6 +28,8 @@ import { TopSubNavbarComponent } from 'app/shared/top-sub-navbar/top-sub-navbar.
 import { UtilService } from './services/util.service';
 import { GobalProdcutService } from 'app/shared/global-product.service';
 import {CdkTableModule} from '@angular/cdk/table';
+import {TableModule} from 'primeng/table';
+
 
 
 @NgModule({
@@ -53,7 +55,8 @@ import {CdkTableModule} from '@angular/cdk/table';
     MatChipsModule,
     MatTabsModule,
     MatTableModule,
-    CdkTableModule
+    CdkTableModule,
+    TableModule
   ],
   providers: [PersistenceService, DateService, UtilService,GobalProdcutService]
 })

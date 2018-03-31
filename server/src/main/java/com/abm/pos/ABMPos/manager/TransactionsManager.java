@@ -789,10 +789,23 @@ public class TransactionsManager {
     public List<TransactionDao> getAllInvoiceByCustomer(String startDate, String endDate, String phoneNo) {
 
         List<TransactionDao> transactionDaoList = new ArrayList<>();
+        List<TransactionDao> newTransactionDaoList = new ArrayList<>();
 
-      //  transactionDaoList = transactionRepository.findAllByCustomerPhonenoAndAndDateBetween(phoneNo, startDate, endDate);
 
-        return transactionDaoList;
+        transactionDaoList = transactionRepository.findAllByCustomerPhonenoAndDateBetweenOrderByDateDesc(phoneNo, startDate, endDate);
+
+        if(null != transactionDaoList) {
+            for (TransactionDao transactionDao : transactionDaoList) {
+
+                List<PaymentDao> paymentDaoList = paymentRepository.findAllByTransactionComId(transactionDao.getTransactionComId());
+                if(null != paymentDaoList){
+                    transactionDao.setPaymentDao(paymentDaoList);
+                }
+
+                newTransactionDaoList.add(transactionDao);
+            }
+        }
+        return newTransactionDaoList;
     }
 
     public List<PaymentDao> getPaymentDetailsById(int transactionCompId) {

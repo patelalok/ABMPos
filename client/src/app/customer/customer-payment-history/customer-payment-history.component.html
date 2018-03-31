@@ -9,7 +9,7 @@
     <mat-card-content>
         <div class="row">
             <div class="col-md-2">
-                <p-dataTable [value]="this.customerDto" scrollable="true" [responsive]="true" scrollHeight="500px" selectionMode="single" (onRowSelect)="onRowSelect($event)">
+                <p-dataTable [value]="this.customerDto" scrollable="true" [responsive]="true" scrollHeight="500px" selectionMode="single" (onRowSelect)="onRowSelectFromCustomer($event)">
                     <p-column [style]="{'text-align': 'left'}" field="name" header="Name" filterPlaceholder="Search For Customer Name" [filter]="true"></p-column>
                     <!-- <p-column field="balance" header="Balance" [sortable]="true" [filter]="true"></p-column> -->
                 </p-dataTable>
@@ -17,15 +17,105 @@
             <div class=col-md-10>
                 <mat-tab-group>
                     <mat-tab label="Transaction Details">
-                        <p-dataTable [value]="" [editable]="true" scrollable="true" [responsive]="true" scrollHeight="500px" selectionMode="single" (onRowSelect)="onRowSelect($event)">
-                            <p-column field="" header="Invoice-No"></p-column>
-                            <p-column field="" header="Date"></p-column>
-                            <p-column field="" header="Time"></p-column>
-                            <p-column field="" header="Total Amount"></p-column>
-                            <p-column field="" header="Due Amount"></p-column>
-                            <p-column field="" header="Status"></p-column>
+                        <!-- <p-dataTable [value]="this.transactionList" [editable]="true" scrollable="true" [responsive]="true" scrollHeight="500px" selectionMode="single" (onRowSelect)="onRowSelect($event)">
+                            <p-column field="transactionComId" header="Invoice-No"></p-column>
+                            <p-column field="onlyDate" header="Date"></p-column>
+                            <p-column field="time" header="Time"></p-column>
+                            <p-column field="totalAmount" header="Total Amount"></p-column>
+                            <p-column field="transactionBalance" header="Due Amount"></p-column>
+                            <p-column field="status" header="Status"></p-column>
                             <p-column field="" header="Action"></p-column>
-                        </p-dataTable>
+                        </p-dataTable> -->
+
+                        <p-table [columns]="cols" [value]="this.transactionList" dataKey="transactionComId">
+                            <ng-template pTemplate="header" let-columns>
+                                <tr>
+                                    <th style="width: 2.25em"></th>
+                                    <th *ngFor="let col of columns">
+                                        {{col.header}}
+                                    </th>
+                                </tr>
+                            </ng-template>
+                            <ng-template pTemplate="body" let-rowData let-expanded="expanded" let-columns="columns">
+                                <tr>
+                                    <td>
+                                        <a href="#" [pRowToggler]="rowData">
+                                            <i [ngClass]="expanded ? 'fa fa-fw fa-chevron-circle-down' : 'fa fa-fw fa-chevron-circle-right'"></i>
+                                        </a>
+                                    </td>
+                                    <td *ngFor="let col of columns">
+                                        {{rowData[col.field]}}
+                                    </td>
+                                </tr>
+                            </ng-template>
+                            <ng-template pTemplate="rowexpansion" let-rowData let-columns="columns">
+                                <tr>
+                                    <td [attr.colspan]="columns.length + 1">
+                                        <div class="ui-g ui-fluid" style="font-size:16px;padding:20px">
+
+                                            <p-table [value]="cars">
+                                                <ng-template pTemplate="header">
+                                                    <tr>
+                                                        <th>Date</th>
+                                                        <th>Time</th>
+                                                        <th>Cash</th>
+                                                        <th>Credit</th>
+                                                        <th>Debit</th>
+                                                        <th>Check</th>
+                                                        <th>Action</th>
+
+                                                    </tr>
+                                                </ng-template>
+                                                <ng-template pTemplate="body" let-rowData>
+                                                    <tr>
+                                                        <td pEditableColumn>
+                                                            <p-cellEditor>
+                                                                <ng-template pTemplate="input">
+                                                                    <input type="text" [(ngModel)]="rowData.vin">
+                                                                </ng-template>
+                                                                <ng-template pTemplate="output">
+                                                                    {{rowData.vin}}
+                                                                </ng-template>
+                                                            </p-cellEditor>
+                                                        </td>
+                                                        <td pEditableColumn>
+                                                            <p-cellEditor>
+                                                                <ng-template pTemplate="input">
+                                                                    <input type="text" [(ngModel)]="rowData.year" required>
+                                                                </ng-template>
+                                                                <ng-template pTemplate="output">
+                                                                    {{rowData.year}}
+                                                                </ng-template>
+                                                            </p-cellEditor>
+                                                        </td>
+                                                        <td pEditableColumn>
+                                                            <p-cellEditor>
+                                                                <ng-template pTemplate="input">
+                                                                    <input type="text" [(ngModel)]="rowData.brand">
+                                                                </ng-template>
+                                                                <ng-template pTemplate="output">
+                                                                    {{rowData.brand}}
+                                                                </ng-template>
+                                                            </p-cellEditor>
+                                                        </td>
+                                                        <td pEditableColumn>
+                                                            <p-cellEditor>
+                                                                <ng-template pTemplate="input">
+                                                                    <input type="text" [(ngModel)]="rowData.color">
+                                                                </ng-template>
+                                                                <ng-template pTemplate="output">
+                                                                    {{rowData.color}}
+                                                                </ng-template>
+                                                            </p-cellEditor>
+                                                        </td>
+                                                    </tr>
+                                                </ng-template>
+                                            </p-table>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </ng-template>
+                        </p-table>
                     </mat-tab>
                     <mat-tab label="Customer Details">
                         Customer Details

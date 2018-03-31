@@ -21,7 +21,7 @@ public interface TransactionRepository extends JpaRepository<TransactionDao, Int
 
     List<TransactionDao> findAllByStatusEqualsAndCustomerPhoneno(String status, String phoneNo);
 
-    List<TransactionDao> findAllByCustomerPhonenoAndAndDateBetween(String phoneNo, String startDate, String endDate);
+    List<TransactionDao> findAllByCustomerPhonenoAndDateBetweenOrderByDateDesc(String phoneNo, String startDate, String endDate);
 
     // I have hard coded this value to fix the, product of adding prevois invoices balance.
     @Query("SELECT SUM(t.transactionBalance) from TransactionDao t where t.customerPhoneno = ?1 AND t.status = 'Pending' ")
