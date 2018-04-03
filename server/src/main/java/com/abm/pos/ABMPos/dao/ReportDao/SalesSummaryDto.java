@@ -7,6 +7,7 @@ public class SalesSummaryDto {
     private double credit;
     private double debit;
     private double check;
+    private double storeCredit;
     private double tax;
     private double subtotal;
     private double discount;
@@ -53,6 +54,14 @@ public class SalesSummaryDto {
 
     public void setCheck(double check) {
         this.check = check;
+    }
+
+    public double getStoreCredit() {
+        return storeCredit;
+    }
+
+    public void setStoreCredit(double storeCredit) {
+        this.storeCredit = storeCredit;
     }
 
     public double getTax() {

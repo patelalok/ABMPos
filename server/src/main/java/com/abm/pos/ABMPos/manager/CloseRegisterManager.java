@@ -100,6 +100,7 @@ public class CloseRegisterManager {
                 closeRegisterDao.setTax(transactionDao.getTax());
                 closeRegisterDao.setTotalDiscount(transactionDao.getTotalDiscount());
                 closeRegisterDao.setTotalReturn(transactionDao.getTotalReturn());
+                closeRegisterDao.setShipping(transactionDao.getShipping());
             }
 
             // Here i need to check if there is any data from user, this happens when user close the register more then 2 times or
@@ -183,9 +184,10 @@ public class CloseRegisterManager {
                     transactionDao.setTotalAmount((Double.parseDouble(j[0].toString())));
                     transactionDao.setTax((Double.parseDouble(j[1].toString())));
                     transactionDao.setTotalDiscount((Double.parseDouble(j[2].toString())));
+                    transactionDao.setShipping((Double.parseDouble(j[3].toString())));
 
-                    if(null != j[3]){
-                        transactionDao.setTotalReturn(Double.parseDouble(j[3].toString()));
+                    if(null != j[4]){
+                        transactionDao.setTotalReturn(Double.parseDouble(j[4].toString()));
                     }
                 }
             }

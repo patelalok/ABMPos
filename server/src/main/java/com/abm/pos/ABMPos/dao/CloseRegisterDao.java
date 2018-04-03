@@ -39,6 +39,7 @@ public class CloseRegisterDao {
     private double loyalty;
     private double inHandCash;
     private String note;
+    private double shipping;
 
     @Transient
     private double totalDueBalance;
@@ -334,5 +335,13 @@ public class CloseRegisterDao {
 
     public void setTotalDueBalance(double totalDueBalance) {
         this.totalDueBalance = totalDueBalance;
+    }
+
+    public double getShipping() {
+        return shipping;
+    }
+
+    public void setShipping(double shipping) {
+        this.shipping = shipping;
     }
 }

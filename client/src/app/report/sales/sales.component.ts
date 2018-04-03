@@ -188,6 +188,7 @@ export class SalesSummaryDto {
   credit: number;
   debit: number;
   check: number;
+  storeCredit:number;
   tax: number;
   subtotal: number;
   discount: number;

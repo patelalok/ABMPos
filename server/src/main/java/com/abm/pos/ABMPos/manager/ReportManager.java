@@ -185,6 +185,7 @@ public class ReportManager {
         double totalAmount = 0;
         double totalProfit = 0;
         double totalDueAmount = 0;
+        double totalStoreCredit = 0;
         // double totalMarkup = 0;
 
         if (null != result) {
@@ -196,11 +197,12 @@ public class ReportManager {
                 salesSummaryDto.setCredit(Double.parseDouble(j[2].toString()));
                 salesSummaryDto.setDebit(Double.parseDouble(j[3].toString()));
                 salesSummaryDto.setCheck(Double.parseDouble(j[4].toString()));
-                salesSummaryDto.setTax(Double.parseDouble(j[5].toString()));
-                salesSummaryDto.setTotalAmount(Double.parseDouble(j[6].toString()));
-                salesSummaryDto.setDueBalance(Double.parseDouble(j[7].toString()));
-                salesSummaryDto.setDiscount(Double.parseDouble(j[8].toString()));
-                salesSummaryDto.setProfit(Double.parseDouble(j[9].toString()));
+                salesSummaryDto.setStoreCredit(Double.parseDouble(j[5].toString()));
+                salesSummaryDto.setTax(Double.parseDouble(j[6].toString()));
+                salesSummaryDto.setTotalAmount(Double.parseDouble(j[7].toString()));
+                salesSummaryDto.setDueBalance(Double.parseDouble(j[8].toString()));
+                salesSummaryDto.setDiscount(Double.parseDouble(j[9].toString()));
+                salesSummaryDto.setProfit(Double.parseDouble(j[10].toString()));
 
                 salesSummaryDtoList.add(salesSummaryDto);
             }
@@ -211,6 +213,7 @@ public class ReportManager {
                 totalCredit = +totalCredit + sales.getCredit();
                 totalDebit = +totalDebit + sales.getDebit();
                 totalCheck = +totalCheck + sales.getCheck();
+                totalStoreCredit = +totalStoreCredit + sales.getStoreCredit();
 
                 totalTax = +totalTax + sales.getTax();
                 totalDiscount = +totalDiscount + sales.getDiscount();
@@ -228,6 +231,7 @@ public class ReportManager {
             salesSummaryDto.setCredit(totalCredit);
             salesSummaryDto.setDebit(totalDebit);
             salesSummaryDto.setCheck(totalCheck);
+            salesSummaryDto.setStoreCredit(totalStoreCredit);
             salesSummaryDto.setTax(totalTax);
             salesSummaryDto.setDiscount(totalDiscount);
             salesSummaryDto.setTotalAmount(totalAmount);

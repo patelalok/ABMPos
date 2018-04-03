@@ -220,6 +220,12 @@ public class TransactionsManager {
             paymentDao = transactionDao.getPaymentDao().get(0);
 
             if(null != paymentDao) {
+
+                // This logic helps when user is returing the transactin by giving store credit to the user, so here i need to store store credit as negative value to show correct reporting.
+                if(paymentDao.getStoreCredit() > 0 && transactionDao.getStatus().equalsIgnoreCase("Return")){
+                    // funny logic, i love it.
+                    paymentDao.setStoreCredit(paymentDao.getStoreCredit() * -1);
+                }
                 paymentRepository.insertPaymentDetail(transactionDao.getTransactionComId(),
                         transactionDao.getStatus(),
                         paymentDao.getDate(),

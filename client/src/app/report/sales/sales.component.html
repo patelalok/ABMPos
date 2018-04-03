@@ -165,6 +165,11 @@
                             {{summary.check | currency:'USD':'true'}}
                         </ng-template>
                     </p-column>
+                    <p-column field="storeCredit" header="Store Credit" [sortable]="true">
+                        <ng-template let-summary="rowData" pTemplate="body">
+                            {{summary.storeCredit | currency:'USD':'true'}}
+                        </ng-template>
+                    </p-column>
                     <p-column field="tax" header="Tax" [sortable]="true">
                         <ng-template let-summary="rowData" pTemplate="body">
                             {{summary.tax | currency:'USD':'true'}}

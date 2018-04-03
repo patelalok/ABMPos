@@ -31,37 +31,37 @@ public interface TransactionRepository extends JpaRepository<TransactionDao, Int
     List<Object[]> getTransactionByDate(String startDate, String endDate);
 
 //    @Query("SELECT SUM(subtotal), SUM(tax), SUM(totalDiscount)  FROM TransactionDao  WHERE (status = 'Complete' OR status = 'Return') AND (date BETWEEN ?1 AND ?2) ")
-    @Query("SELECT SUM(subtotal),SUM(tax),SUM(totalDiscount),(SELECT SUM(totalAmount) from TransactionDao WHERE status = 'Return' AND (date BETWEEN ?1 AND ?2 )) As totalReturn FROM TransactionDao  WHERE (status = 'Complete' OR status = 'Return') AND (date BETWEEN ?1 AND ?2)")
+    @Query("SELECT SUM(totalAmount),SUM(tax),SUM(totalDiscount),SUM(shipping),(SELECT SUM(totalAmount) from TransactionDao WHERE status = 'Return' AND (date BETWEEN ?1 AND ?2 )) As totalReturn FROM TransactionDao  WHERE (status = 'Complete' OR status = 'Return') AND (date BETWEEN ?1 AND ?2)")
     List<Object[]> getSumOfTransactionDetailsForCloseRegister(String startDate, String endDate);
 
     @Query(value = "SELECT monthname(t.date) AS NameOfMonth,\n" +
-            "SUM(payment.cash) cash,\n" +
-            "SUM(payment.credit) credit,\n" +
-            "SUM(payment.debit) debit,\n" +
-            "SUM(payment.check_amount) checkAmount,\n" +
-            "SUM(t.tax) tax,\n" +
-            "SUM(t.total_amount) totalAmount,\n" +
-            "SUM(CASE WHEN t.status = 'Pending' THEN t.transaction_balance ELSE 0 end) dueBalance,\n" +
-            "SUM(t.total_discount) discount,\n" +
-            "SUM(temp.profit) profit\n" +
-            "FROM transaction t\n" +
+            "            SUM(payment.cash) cash,\n" +
+            "            SUM(payment.credit) credit,\n" +
+            "            SUM(payment.debit) debit,\n" +
+            "            SUM(payment.check_amount) checkAmount,\n" +
+            "            SUM(payment.store_credit) store_credit,\n" +
+            "            SUM(t.tax) tax,\n" +
+            "            SUM(t.total_amount) totalAmount,\n" +
+            "            SUM(CASE WHEN t.status = 'Pending' THEN t.transaction_balance ELSE 0 end) dueBalance,\n" +
+            "            SUM(t.total_discount) discount,\n" +
+            "            SUM(temp.profit) profit\n" +
+            "            FROM transaction t\n" +
+            "\n" +
+            "            INNER JOIN (SELECT t.transaction_com_id, sum(p.cash) cash,SUM(p.credit) credit,SUM(p.debit) debit,SUM(p.check_amount) check_Amount, SUM(p.store_credit) store_credit\n" +
+            "            from transaction_payment p INNER JOIN transaction t ON t.transaction_com_id = p.transaction_com_id\n" +
+            "            WHERE p.date BETWEEN ?1 AND ?2\n" +
+            "            AND (p.status = 'Complete' OR p.status = 'Return' OR p.status = 'Pending') GROUP BY t.transaction_com_id ) AS payment on\n" +
+            "            payment.transaction_com_id = t.transaction_com_id\n" +
             "            \n" +
-            "\tINNER JOIN (SELECT t.transaction_com_id, sum(p.cash) cash,SUM(p.credit) credit,SUM(p.debit) debit,SUM(p.check_amount) check_Amount\n" +
-            "\tfrom transaction_payment p INNER JOIN transaction t ON t.transaction_com_id = p.transaction_com_id\n" +
-            "\tWHERE p.date BETWEEN ?1 AND ?2\n" +
-            "\tAND (p.status = 'Complete' OR p.status = 'Return' OR p.status = 'Pending') GROUP BY t.transaction_com_id ) AS payment on \n" +
-            "\tpayment.transaction_com_id = t.transaction_com_id\n" +
-            "            \n" +
-            "\tINNER JOIN (SELECT t.transaction_com_id, SUM((l.retail_with_discount * l.sale_quantity) - (l.cost * l.sale_quantity)) profit\n" +
-            "\tFROM transaction_line_item l\n" +
-            "\tINNER JOIN transaction t on t.transaction_com_id = l.transaction_com_id\n" +
-            "\tWHERE l.date BETWEEN ?1 AND ?2\n" +
-            "\tAND (l.status = 'Complete' OR l.status = 'Return' OR l.status = 'Pending') GROUP BY t.transaction_com_id)\n" +
-            "\tAS temp  ON temp.transaction_com_id = t.transaction_com_id\n" +
-            "             \n" +
-            "WHERE t.date BETWEEN ?1 AND ?2\n" +
-            "AND (t.status = 'Complete' OR t.status = 'Return' OR t.status = 'Pending')\n" +
-            "GROUP BY NameOfMonth ORDER BY field(NameOfMonth,'January','February','March','April','May','June','July','August','September','October','November','December')\n", nativeQuery = true)
+            "            INNER JOIN (SELECT t.transaction_com_id, SUM((l.retail_with_discount * l.sale_quantity) - (l.cost * l.sale_quantity)) profit\n" +
+            "            FROM transaction_line_item l\n" +
+            "            INNER JOIN transaction t on t.transaction_com_id = l.transaction_com_id\n" +
+            "            WHERE l.date BETWEEN ?1 AND ?2\n" +
+            "            AND (l.status = 'Complete' OR l.status = 'Return' OR l.status = 'Pending') GROUP BY t.transaction_com_id)\n" +
+            "            AS temp  ON temp.transaction_com_id = t.transaction_com_id\n" +
+            "            WHERE t.date BETWEEN ?1 AND ?2\n" +
+            "            AND (t.status = 'Complete' OR t.status = 'Return' OR t.status = 'Pending')\n" +
+            "            GROUP BY NameOfMonth ORDER BY field(NameOfMonth,'January','February','March','April','May','June','July','August','September','October','November','December')", nativeQuery = true)
     List<Object[]> getYearlySalesReport(String startDate, String endDate);
     
     @Query(value = "SELECT DATE(t.date) AS dates,\n" +
@@ -70,13 +70,13 @@ public interface TransactionRepository extends JpaRepository<TransactionDao, Int
             "SUM(payment.debit) debit,\n" +
             "SUM(payment.check_amount) checkAmount,\n" +
             "SUM(t.tax) tax,\n" +
-            "SUM(t.total_amount) totalAmount,\n" +
+            "SUM(t.total_amount) totalAmount,SUM(payment.store_credit) store_credit, \n" +
             "SUM(CASE WHEN t.status = 'Pending' THEN t.transaction_balance ELSE 0 end) dueBalance,\n" +
             "SUM(t.total_discount) discount,\n" +
             "SUM(temp.profit) profit\n" +
             "FROM transaction t\n" +
             "            \n" +
-            "\tINNER JOIN (SELECT t.transaction_com_id, sum(p.cash) cash,SUM(p.credit) credit,SUM(p.debit) debit,SUM(p.check_amount) check_Amount\n" +
+            "\tINNER JOIN (SELECT t.transaction_com_id, sum(p.cash) cash,SUM(p.credit) credit,SUM(p.debit) debit,SUM(p.check_amount) check_Amount,SUM(p.store_credit) store_credit\n\n" +
             "\tfrom transaction_payment p INNER JOIN transaction t ON t.transaction_com_id = p.transaction_com_id\n" +
             "\tWHERE p.date BETWEEN ?1 AND ?2\n" +
             "\n" +
@@ -104,13 +104,13 @@ public interface TransactionRepository extends JpaRepository<TransactionDao, Int
             "SUM(payment.debit) debit,\n" +
             "SUM(payment.check_amount) checkAmount,\n" +
             "SUM(t.tax) tax,\n" +
-            "SUM(t.total_amount) totalAmount,\n" +
+            "SUM(t.total_amount) totalAmount,SUM(payment.store_credit) store_credit, \n" +
             "SUM(CASE WHEN t.status = 'Pending' THEN t.transaction_balance ELSE 0 end) dueBalance,\n" +
             "SUM(t.total_discount) discount,\n" +
             "SUM(temp.profit) profit\n" +
             "FROM transaction t\n" +
             "            \n" +
-            "\tINNER JOIN (SELECT t.transaction_com_id, sum(p.cash) cash,SUM(p.credit) credit,SUM(p.debit) debit,SUM(p.check_amount) check_Amount\n" +
+            "\tINNER JOIN (SELECT t.transaction_com_id, sum(p.cash) cash,SUM(p.credit) credit,SUM(p.debit) debit,SUM(p.check_amount) check_Amount,SUM(p.store_credit) store_credit \n" +
             "\tfrom transaction_payment p INNER JOIN transaction t ON t.transaction_com_id = p.transaction_com_id\n" +
             "\tWHERE p.date BETWEEN ?1 AND ?2\n" +
             "\n" +
