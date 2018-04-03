@@ -383,15 +383,20 @@ export class SaleComponent implements OnInit, AfterViewInit {
     let totalAfterDiscount: number = this.transactionDtoList.subtotal - this.totalTransactionDiscount;
     this.transactionDtoList.tax = ((totalAfterDiscount * this.taxPercent / 100));
     this.transactionDtoList.totalAmount = +totalAfterDiscount + this.transactionDtoList.tax;
-    this.transactionDtoList.shipping = this.shippingAmount;
+        // logic helps to fix the problem when user first put transactin on on account with shippiing price..and then try to pay, its not adding shipping amount in the transactionTotal amout
+    // So this logic wil fix that problem. // This condition is true only when user is taking regular transaction, if not then i need to add shiping details in the transacttion total.
+    if(this.transactionDtoList.shipping == NaN || this.transactionDtoList.shipping <=0 || this.transactionDtoList.shipping == undefined){
+      this.transactionDtoList.shipping = this.shippingAmount;
+    }
     this.transactionDtoList.totalAmount = +this.transactionDtoList.totalAmount + this.transactionDtoList.shipping;
 
+    console.log('total amount', this.transactionDtoList.totalAmount);
     // This logic helps to manage main payment button enable or diable.
-    if (this.transactionDtoList.totalAmount == 0) {
-      this.disablePaymentButtonOnSale = true;
+    if (this.transactionDtoList.totalAmount > 0) {
+      this.disablePaymentButtonOnSale = false;
     }
     else {
-      this.disablePaymentButtonOnSale = false;
+      this.disablePaymentButtonOnSale = true;
     }
 
     // Here I need to cache the Shipping amount cause if user refresh or come back from other page i need to show shipping amount all the time.
