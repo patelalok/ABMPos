@@ -680,6 +680,12 @@ public class TransactionsManager {
 
             doc.add(totalTable);
 
+            Paragraph notes = new Paragraph("Receipt Notes: ");
+            Paragraph transactionNotes = new Paragraph(transactionDao.getNote());
+            transactionNotes.setSpacingBefore(30f);
+
+            doc.add(notes);
+            doc.add(transactionNotes);
 
         } catch (Exception ex) {
             ex.printStackTrace();
