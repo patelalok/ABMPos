@@ -76,7 +76,10 @@ public class TransactionsManager {
             List<TransactionLineItemDao> transactionLineItemDaoListNew = new ArrayList<>();
             transactionLineItemDaoList = transactionDao.getTransactionLineItemDaoList();
 
-            if(transactionDao.getTransactionComId() == 0) {
+            if(transactionDao.getTransactionComId() == 0 || transactionDao.isParkSale()) {
+
+                // Very important to do this other this will create problem again
+                transactionDao.setParkSale(false);
                 for (TransactionLineItemDao lineItemDao : transactionLineItemDaoList) {
 
                     // I need to set this up to keep track of the inventory, so with this i will know, whether i need to call Product inventory table again or not.
@@ -212,6 +215,11 @@ public class TransactionsManager {
                 paymentRepository.deletePaymentDetails(transactionDao.getTransactionComId());
             }
         }
+
+        else if(transactionDao.getStatus().equalsIgnoreCase("Park")){
+            transactionDao.setParkSale(true);
+        }
+
 
         TransactionDao transactionDao1 = transactionRepository.save(transactionDao);
 

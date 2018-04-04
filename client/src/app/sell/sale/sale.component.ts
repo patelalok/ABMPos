@@ -927,6 +927,7 @@ export class SaleComponent implements OnInit, AfterViewInit {
         this.transactionDtoList.transactionComId = transaction.transactionComId;
         this.transactionDtoList.originalDate = transaction.date;
         this.shippingAmount = transaction.shipping;
+        this.transactionDtoList.parkSale = transaction.parkSale;
         phoneNo = transaction.customerPhoneno;
         console.log('phono', phoneNo);
         if(phoneNo)
@@ -1207,6 +1208,7 @@ export class TransactionDtoList {
   previousTransactionId: any;
   description: string;
   rma: boolean;
+  parkSale: boolean;
 }
 
 export class PaymentDto {

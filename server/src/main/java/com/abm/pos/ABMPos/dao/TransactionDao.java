@@ -31,6 +31,7 @@ public class TransactionDao {
     private String customerFirstLastName;
     private String note;
     private boolean rma;
+    private boolean parkSale;
 
     //this is need to handle store credit scenario
     @Transient
@@ -228,5 +229,13 @@ public class TransactionDao {
 
     public void setRma(boolean rma) {
         this.rma = rma;
+    }
+
+    public boolean isParkSale() {
+        return parkSale;
+    }
+
+    public void setParkSale(boolean parkSale) {
+        this.parkSale = parkSale;
     }
 }

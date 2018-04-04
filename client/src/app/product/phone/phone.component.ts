@@ -93,7 +93,7 @@ export class PhoneComponent implements OnInit {
       console.log('VendorList' + this.vendorDto);
     });
 
-   this.getIMEIDetailsByPhone('890100000884');
+  //  this.getIMEIDetailsByPhone(this.phoneDto[0].productNo);
   }
 
   getIMEIDetailsByPhone(productNo: string){
@@ -104,6 +104,16 @@ export class PhoneComponent implements OnInit {
         imeis.forEach((imei)=>{
         imei.time = moment(imei.createdTimestamp).format('hh:mm A');
         imei.date = moment(imei.createdTimestamp).format('MM-DD-YYYY');
+
+        // This logic helps to show vendor name all the time from vendor id.
+        this.vendorDto.forEach((vendor)=>{
+          if(vendor.vendorId == imei.vendorId){
+            imei.vendorName = vendor.name;
+          }
+
+        })
+
+
       })
       this.imeiDto = imeis;
       this.imeiDto = this.imeiDto.slice();
@@ -172,11 +182,25 @@ export class PhoneComponent implements OnInit {
 
     let tempVendor: Vendor = this.imeiForm.get('vendor').value;
     newIMEI.vendorId = tempVendor.vendorId;
+    newIMEI.vendorName = tempVendor.name;
     newIMEI.createdTimestamp = moment(Date.now()).format('YYYY-MM-DD HH:mm:ss');
     newIMEI.sold = false;
 
     console.log('phone before add', newIMEI);
     if(this.imeiForm.valid){
+
+      let imeiExsits: boolean;
+      // Now Need to check if this IMEI alredy exists or not,
+      for(let a = 0; a < this.imeiDto.length; a ++ ){
+
+        if(this.imeiDto[a].imei == newIMEI.imei){
+          imeiExsits = true;
+         alert('This IMEI Alredy Exists!!');
+        }
+      }
+
+      if(!imeiExsits)
+{
       this.productService.addIMEIForPhone(newIMEI)
       .subscribe(data => {
         console.log('response', data);
@@ -191,7 +215,9 @@ export class PhoneComponent implements OnInit {
           this.toastr.error('Opps something goes wrong!!', 'Error!');
           console.log(JSON.stringify(error.json()));
     });
-    }
+  }
+}
+  
     else {
       alert("Please add required feilds");
     }
@@ -267,7 +293,9 @@ export class Phone {
   imei: any;
   productNo: any;
   vendorId: number;
-  venderName: string;
+  vendorName: string;
+  color:string;
+  memory: string;
   cost: number;
   retail: number;
   createdTimestamp: any;

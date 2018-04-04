@@ -16,6 +16,8 @@ public class Phone {
     private double retail;
     private String createdTimestamp;
     private boolean sold;
+    private String color;
+    private String memory;
 
     public Long getImei() {
         return imei;
@@ -72,4 +74,21 @@ public class Phone {
     public void setSold(boolean sold) {
         this.sold = sold;
     }
+
+    public String getColor() {
+        return color;
+    }
+
+    public void setColor(String color) {
+        this.color = color;
+    }
+
+    public String getMemory() {
+        return memory;
+    }
+
+    public void setMemory(String memory) {
+        this.memory = memory;
+    }
+
 }

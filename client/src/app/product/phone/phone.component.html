@@ -59,7 +59,7 @@
                     <mat-tab label="IMEI Details">
                         <form *ngIf="this.imeiForm != null" [formGroup]="imeiForm">
                             <div class="row">
-                                <div class="col-md-4">
+                                <div class="col-md-3">
                                     <input class="form-control" type="text" placeholder="Scan IMEI to add" formControlName="imei">
                                 </div>
                                 <div class="col-md-2">
@@ -69,12 +69,22 @@
                                                 </option>
                                         </select>
                                 </div>
-                                <div class="col-md-2">
-                                    <input class="form-control" type="text" placeholder="Enter Cost Price" formControlName="cost">
+                                <div class="col-md-1">
+                                    <input class="form-control" type="text" placeholder="Cost" formControlName="cost">
                                 </div>
 
-                                <div class="col-md-2">
-                                    <input class="form-control" type="text" placeholder="Enter Cost Retail" formControlName="retail">
+                                <div class="col-md-1">
+                                    <input class="form-control" type="text" placeholder="Retail" formControlName="retail">
+                                </div>
+                                <div class="col-md-1">
+                                    <select class="form-control" name="vendor" formControlName="vendor">
+                                            <option>Color</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-1">
+                                    <select class="form-control" name="vendor" formControlName="vendor">
+                                        <option>Memory</option>
+                                    </select>
                                 </div>
                                 <div class="col-md-2">
                                     <button type="button" mat-raised-button class="text-white form-control" style="background:#28a745" (click)="this.addIMEI()">
@@ -87,7 +97,7 @@
                         </form>
                         <p-dataTable [value]="this.imeiDto" class="m-1" [editable]="true" scrollable="true" [responsive]="true" scrollHeight="300px" (onEditComplete)="this.updateImeiDetails($event)">
                             <p-column field="imei" header="IMEI" [editable]="true"></p-column>
-                            <p-column field="vendorId" header="Vendor"></p-column>
+                            <p-column field="vendorName" header="Vendor"></p-column>
                             <p-column field="cost" header="Cost" [editable]="true"></p-column>
                             <p-column field="retail" header="Retail" [editable]="true"></p-column>
                             <p-column field="date" header="Date"></p-column>
@@ -188,6 +198,9 @@
                     </mat-tab>
                     <mat-tab label="Phone Details">
                         Phone Details
+                    </mat-tab>
+                    <mat-tab label="IMEI Tracker">
+                        IMEI Tracker
                     </mat-tab>
                 </mat-tab-group>
                 <!-- <table class="table">
