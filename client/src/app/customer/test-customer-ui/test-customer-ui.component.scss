@@ -4,24 +4,8 @@
     padding: 30px;
     border: 1px solid #eee;
     box-shadow: 0 0 10px rgba(0, 0, 0, .15);
-    font-size: 16px;
-    line-height: 24px;
-    font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif;
-    color: #555;
-}
-
-.test {
-    height: 842px;
-    width: 595px;
-    /* to centre page on screen*/
-    margin-left: auto;
-    margin-right: auto;
-    margin: auto;
-    padding: 30px;
-    border: 1px solid #eee;
-    box-shadow: 0 0 10px rgba(0, 0, 0, .15);
-    font-size: 16px;
-    line-height: 24px;
+    font-size: 14px;
+    line-height: 20px;
     font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif;
     color: #555;
 }
@@ -37,10 +21,9 @@
     vertical-align: top;
 }
 
-.invoice-box table tr td:nth-child(2) {
-    text-align: right;
-}
-
+// .invoice-box table tr td {
+//     text-align: right;
+// }
 .invoice-box table tr.top table td {
     padding-bottom: 20px;
 }
@@ -78,23 +61,27 @@
     font-weight: bold;
 }
 
+
+/* 
 @media only screen and (max-width: 600px) {
     .invoice-box table tr.top table td {
         width: 100%;
         display: block;
         text-align: center;
     }
+    
     .invoice-box table tr.information table td {
         width: 100%;
         display: block;
         text-align: center;
     }
-}
+}*/
 
 
 /** RTL **/
 
-.rtl {
+
+/*   .rtl {
     direction: rtl;
     font-family: Tahoma, 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif;
 }
@@ -105,47 +92,4 @@
 
 .rtl table tr td:nth-child(2) {
     text-align: left;
-}
-
-.example-container {
-    display: flex;
-    flex-direction: column;
-    min-width: 300px;
-}
-
-
-/*
-   * Styles to make the demo's cdk-table match the material design spec
-   * https://material.io/guidelines/components/data-tables.html
-   */
-
-.example-table {
-    flex: 1 1 auto;
-    overflow: auto;
-    max-height: 500px;
-}
-
-.example-header-row,
-.example-row {
-    display: flex;
-    border-bottom: 1px solid #ccc;
-    align-items: center;
-    height: 32px;
-    padding: 0 8px;
-}
-
-.example-cell,
-.example-header-cell {
-    flex: 1;
-}
-
-.example-header-cell {
-    font-size: 12px;
-    font-weight: bold;
-    color: rgba(0, 0, 0, 0.54);
-}
-
-.example-cell {
-    font-size: 13px;
-    color: rgba(0, 0, 0, 0.87);
-}
+}*/

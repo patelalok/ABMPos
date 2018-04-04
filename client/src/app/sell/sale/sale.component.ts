@@ -385,9 +385,10 @@ export class SaleComponent implements OnInit, AfterViewInit {
     this.transactionDtoList.totalAmount = +totalAfterDiscount + this.transactionDtoList.tax;
         // logic helps to fix the problem when user first put transactin on on account with shippiing price..and then try to pay, its not adding shipping amount in the transactionTotal amout
     // So this logic wil fix that problem. // This condition is true only when user is taking regular transaction, if not then i need to add shiping details in the transacttion total.
-    if(this.transactionDtoList.shipping == NaN || this.transactionDtoList.shipping <=0 || this.transactionDtoList.shipping == undefined){
+    if(this.transactionDtoList.shipping == NaN || this.transactionDtoList.shipping <=0 || this.transactionDtoList.shipping == undefined || this.shippingAmount > 0){
       this.transactionDtoList.shipping = this.shippingAmount;
     }
+  
     this.transactionDtoList.totalAmount = +this.transactionDtoList.totalAmount + this.transactionDtoList.shipping;
 
     console.log('total amount', this.transactionDtoList.totalAmount);
@@ -927,6 +928,7 @@ export class SaleComponent implements OnInit, AfterViewInit {
         console.log('transaction after park', transaction);
         this.transactionDtoList.transactionComId = transaction.transactionComId;
         this.transactionDtoList.originalDate = transaction.date;
+        this.shippingAmount = transaction.shipping;
         phoneNo = transaction.customerPhoneno;
         console.log('phono', phoneNo);
         if(phoneNo)
@@ -1089,6 +1091,9 @@ export class SaleComponent implements OnInit, AfterViewInit {
     this.persit.clearCustomer();
     this.persit.clearCustomerPriceForSale();
     this.transactionLineItemDaoList = [];
+    this.persit.clearShippingAmount();
+    this.shippingAmount = 0.00;
+    this.transactionDtoList = new TransactionDtoList();
     // This is very import fist i need to remove the cusotmer details and then only call set transaction otherwise customer balace will stays and will show amount on payment which is wrong.
     this.selectedCustomer = null;
     this.setTransactionDtoList();
