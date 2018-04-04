@@ -608,7 +608,6 @@ export class SaleComponent implements OnInit, AfterViewInit {
   validatePaymentButtons(paymentAmount: number) {
 
     let totalPaidAmout = 0.00;
-
     // This means cutomer has paid full amount.
     if (this.dueAmountForTransaction - paymentAmount <= 0) {
       this.dueAmountForTransaction = Math.round((this.dueAmountForTransaction - paymentAmount) * 1e2) / 1e2;
@@ -654,7 +653,6 @@ export class SaleComponent implements OnInit, AfterViewInit {
     else {
       this.disableStoreCreditButtons = true;
     }
-
   }
 
   // This method helps to take payment when customer is trying to pay for pending invoice.
