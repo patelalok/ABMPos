@@ -34,5 +34,10 @@ public class PhoneController {
 
         return phoneManager.getImeiByPhone(productNo);
     }
+    @RequestMapping(value = "/imei", method = RequestMethod.DELETE, produces = "application/json")
+    public void deleteImei(@RequestParam Long imei){
+
+        phoneManager.deleteImei(imei);
+    }
 
 }

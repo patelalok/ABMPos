@@ -71,6 +71,11 @@ export class ProductService {
     .map(this.extractData)
     .catch(this.handleError); 
    }
+
+   deleteImeiForPhone(imei: Phone){
+     return this.http.delete(this.url+'/imei?imei='+imei);
+     
+   }
    
   getPhoneDetailsFromBackEnd(): Observable<Product[]>{
     return this.http.get(this.url+'/phone')

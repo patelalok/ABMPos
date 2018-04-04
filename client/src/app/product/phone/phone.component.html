@@ -85,7 +85,7 @@
 
                             </div>
                         </form>
-                        <p-dataTable [value]="this.imeiDto" [editable]="true" scrollable="true" [responsive]="true" scrollHeight="300px" (onEditComplete)="this.updateImeiDetails($event)">
+                        <p-dataTable [value]="this.imeiDto" class="m-1" [editable]="true" scrollable="true" [responsive]="true" scrollHeight="300px" (onEditComplete)="this.updateImeiDetails($event)">
                             <p-column field="imei" header="IMEI" [editable]="true"></p-column>
                             <p-column field="vendorId" header="Vendor"></p-column>
                             <p-column field="cost" header="Cost" [editable]="true"></p-column>
@@ -94,7 +94,14 @@
                             <p-column field="time" header="Time"></p-column>
 
 
-                            <p-column field="" header="Action" [editable]="true"></p-column>
+                            <p-column field="" header="Action">
+                                <ng-template let-imei="rowData" pTemplate="body" class="m-auto">
+
+                                    <button mat-button class="btn-red action-button-table" mat-button (click)="this.setImeiToDelete(imei)" data-toggle="modal" data-target="#deleteImei">
+                                            <i class="fa fa-trash" aria-hidden="true"></i>
+                                        </button>
+                                </ng-template>
+                            </p-column>
 
                         </p-dataTable>
                         <!-- <p-table [columns]="cols" [value]="this.imeiDto" selectionMode="single" [(selection)]="this.selectedImei" (onRowSelect)="onRowSelect($event)" [paginator]="true" [rows]="15">
@@ -319,3 +326,25 @@
         </div>
     </div>
 </form>
+
+<!-- Start of Delete product up -->
+<div class="modal fade" id="deleteImei" role="dialog">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Delete IMEI</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p>Are You Sure You Want To Delete This IMEI</p>
+            </div>
+            <div class="modal-footer">
+
+                <button type="button" class="btn btn-danger" data-dismiss="modal" (click)="this.deleteImei()">Yes</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- End of Delete product up -->

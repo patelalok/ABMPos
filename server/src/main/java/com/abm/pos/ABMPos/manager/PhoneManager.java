@@ -32,4 +32,9 @@ public class PhoneManager {
 
         return phoneRepository.findAllByProductNoAndSold(productNo, false);
     }
+
+    public void deleteImei(Long imei) {
+
+        phoneRepository.delete(imei);
+    }
 }

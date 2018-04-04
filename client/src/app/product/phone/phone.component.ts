@@ -27,6 +27,7 @@ export class PhoneComponent implements OnInit {
   displayDialog: boolean;
   cols: any[];
   phone = new Phone();
+  selectedImeiForDelete: Phone;
 
 
 
@@ -222,6 +223,29 @@ export class PhoneComponent implements OnInit {
   hidePhoneModal() {
     console.log('Hiding modal');
     $('#addPhone').modal('hide');
+  }
+
+  setImeiToDelete(imei: Phone){
+    this.selectedImeiForDelete = imei;
+  }
+  deleteImei(){
+    this.productService.deleteImeiForPhone(this.selectedImeiForDelete.imei)
+    .subscribe(data => {
+      if(data.status == 200 || data.status == 201){
+        this.toastr.success('Imei Deleted Successfully!!', 'Success!');
+
+        let index = this.imeiDto.indexOf(this.selectedImeiForDelete, 0);
+        if(index > -1){
+          this.imeiDto.splice(index, 1);
+          this.imeiDto =  this.imeiDto.slice();
+        }
+        }
+    },
+      error => {
+        this.toastr.error('Opps something goes wrong!!', 'Error!');
+        console.log(JSON.stringify(error.json()));
+  });
+
   }
 
 //   onRowSelect(event) {
