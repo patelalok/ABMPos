@@ -340,15 +340,24 @@ public class TransactionsManager {
         TransactionDao transactionDao = transactionRepository.findOne(transactionCompId);
 
         transactionDao.setStoreSetupDao(storeSetupRepository.findOne(1));
+
         List<TransactionLineItemDao> transactionLineItemDaoList = new ArrayList<>();
 
         for (TransactionLineItemDao lineItem : transactionDao.getTransactionLineItemDaoList()) {
-            ProductDao productDao = productRepository.findOneByProductNo(lineItem.getProductNo());
 
-            if (null != productDao) {
-                lineItem.setDescription(productDao.getDescription());
+            if(null == lineItem.getDescription() || lineItem.getDescription().length() < 1) {
+                ProductDao productDao = productRepository.findOneByProductNo(lineItem.getProductNo());
+
+                if (null != productDao) {
+                    lineItem.setDescription(productDao.getDescription());
+                    transactionLineItemDaoList.add(lineItem);
+                }
+
+            }
+            else {
                 transactionLineItemDaoList.add(lineItem);
             }
+
         }
 
         transactionDao.setTransactionLineItemDaoList(transactionLineItemDaoList);

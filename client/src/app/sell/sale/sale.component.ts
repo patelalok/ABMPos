@@ -332,6 +332,7 @@ export class SaleComponent implements OnInit, AfterViewInit {
   updateLineItemDetails(event) {
     this.transactionLineItemDaoList[event.index].saleQuantity = event.data.saleQuantity;
     this.transactionLineItemDaoList[event.index].retailWithDiscount = event.data.retailWithDiscount;
+    this.transactionLineItemDaoList[event.index].description = event.data.description;
     // this will convert numern into numer to show in 2 digits. cause i can not use .toFix here.
     this.transactionLineItemDaoList[event.index].totalProductPrice = Math.round((event.data.saleQuantity * event.data.retailWithDiscount) * 1e2) / 1e2;
     this.setTransactionDtoList()
@@ -910,9 +911,7 @@ export class SaleComponent implements OnInit, AfterViewInit {
 
     // very important cause this will give problem after doing return transaction so, after any transactoin i need to do this.
     this.saleType = 'Complete';
-
     this.testFocus();
-
   }
 
 
