@@ -12,6 +12,7 @@
     line-height: 20px;
     font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif;
     color: #555;
+    background: #FFFFFF;
 }
 
 .invoice-box table {
@@ -23,6 +24,14 @@
 .invoice-box table td {
     padding: 5px;
     vertical-align: top;
+}
+
+.td-align-right {
+    text-align: right;
+}
+
+.td-align-center {
+    text-align: center;
 }
 
 // .invoice-box table tr td {  // Please do not use this.

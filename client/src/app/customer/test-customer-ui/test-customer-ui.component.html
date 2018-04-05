@@ -13,7 +13,8 @@
     <mat-row *cdkRowDef="let data; columns: displayedColumns;"></mat-row>
 </mat-table> -->
 
-<div class="invoice-box" *ngIf="this.transactionDto">
+
+<div class="invoice-box" *ngIf="this.transactionDto" id="print-section">
     <table>
         <!-- <tr class="top"> -->
         <!-- <td colspan="2"> -->
@@ -23,8 +24,8 @@
                 <img src="/assets/image/Excellogo.png" style="width:100%; max-width:300px;">
             </td>
 
-            <td style="text-align: right;">
-                INVOICE #: {{this.transactionDto.transactionComId}}<br> CREATED: January 1, 2015<br> CREATED BY: ALOK PATEL
+            <td class="td-align-right">
+                INVOICE #: {{this.transactionDto.transactionComId}}<br> DATE: {{this.transactionDto.onlyDate}} - {{this.transactionDto.time}}<br> CREATED BY: ALOK PATEL
             </td>
         </tr>
     </table>
@@ -38,7 +39,7 @@
                             EXCELL WIRELESS<br> 5955 JIMMY CARTER BLVD<br> NORCROSS ,GA - 30071 <br>USA
                         </td>
 
-                        <td style="text-align: right;">
+                        <td class="td-align-right">
                             Acme Corp.<br> John Doe<br> john@example.com
                         </td>
                     </tr>
@@ -50,8 +51,9 @@
     <table class="table table-striped table-bordered">
         <thead>
             <tr>
-                <th scope="col" style="width: 70%;">DESCRIPTION</th>
-                <th scope="col" style="width: 10%;">QTY</th>
+                <th scope="col" style="width: 17%;">PRODUCT NO</th>
+                <th scope="col" style="width: 63%; text-align: left">DESCRIPTION</th>
+                <th scope="col" style="width: 5%;">QTY</th>
                 <th scope="col">RETAIL</th>
                 <th scope="col" style="text-align: right;">AMOUNT</th>
             </tr>
@@ -59,10 +61,11 @@
 
         <tbody>
             <tr *ngFor="let trans of this.transactionDto.transactionLineItemDaoList">
-                <td>{{trans.description}}</td>
-                <td>{{trans.saleQuantity}}</td>
-                <td>{{trans.retail}}</td>
-                <td style="text-align: right;">{{trans.totalProductPrice}}</td>
+                <td>{{trans.productNo}}</td>
+                <td style="text-align: left;">{{trans.description}}</td>
+                <td style="text-align: center;">{{trans.saleQuantity}}</td>
+                <td style="text-align: center;">{{trans.retail}}</td>
+                <td style="text-align: center;">{{trans.totalProductPrice}}</td>
             </tr>
         </tbody>
     </table>
@@ -73,7 +76,7 @@
             <td>
                 SUBTOTAL
             </td>
-            <td style="text-align: right;">
+            <td class="td-align-right">
                 {{this.transactionDto.subtotal | currency:'USD':'true'}}
             </td>
         </tr>
@@ -81,7 +84,7 @@
             <td>
                 TAX
             </td>
-            <td style="text-align: right;">
+            <td class="td-align-right">
                 {{this.transactionDto.tax | currency:'USD':'true'}}
             </td>
         </tr>
@@ -89,7 +92,7 @@
             <td>
                 DISCOUNT
             </td>
-            <td style="text-align: right;">
+            <td class="td-align-right">
                 {{this.transactionDto.totalDiscount | currency:'USD':'true'}}
             </td>
         </tr>
@@ -97,7 +100,7 @@
             <td>
                 QUANTITY
             </td>
-            <td style="text-align: right;">
+            <td class="td-align-right">
                 {{this.transactionDto.quantity}}
             </td>
         </tr>
@@ -106,7 +109,7 @@
             <td>
                 <h6>TOTAL</h6>
             </td>
-            <td style="text-align: right;">
+            <td class="td-align-right">
                 <h6> {{this.transactionDto.totalAmount | currency:'USD':'true'}}</h6>
             </td>
         </tr>
@@ -114,7 +117,7 @@
             <td>
                 <h6>BALANCE DUE</h6>
             </td>
-            <td style="text-align: right;">
+            <td class="td-align-right">
                 <h6> {{this.transactionDto.transactionBalance | currency:'USD':'true'}}</h6>
             </td>
         </tr>
@@ -133,11 +136,11 @@
             </tr>
         </thead>
         <tbody>
-            <tr>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td style="text-align: right;"></td>
+            <tr *ngFor="let payment of this.paymentDetails">
+                <td>{{payment.paymentType}}</td>
+                <td style="text-align: center;">{{payment.paymentAmount | currency:'USD':'true'}}</td>
+                <td style="text-align: center;"> {{payment.pymentDate}}</td>
+                <td style="text-align: center;">{{payment.paymentTime}}</td>
             </tr>
         </tbody>
     </table>
@@ -147,7 +150,7 @@
             <td>
                 <h5>TOTAL BALANCE DUE</h5>
             </td>
-            <td style="text-align: right;">
+            <td class="td-align-right">
                 <h5> {{this.transactionDto.totalAmount | currency:'USD':'true'}}</h5>
             </td>
         </tr>
@@ -155,5 +158,6 @@
 
     <hr>
 
-
 </div>
+
+<button (click)="print()">print</button>

@@ -1,4 +1,4 @@
-import { Component, ViewChild, ElementRef, OnInit, Pipe, PipeTransform, AfterViewInit, HostBinding } from '@angular/core';
+import { Component, ViewChild, ElementRef, OnInit, Pipe, PipeTransform, AfterViewInit, HostBinding, Inject } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { LazyLoadEvent } from 'primeng/primeng';
 import { SellService } from 'app/sell/sell.service';
@@ -21,12 +21,19 @@ import { PersistenceService } from 'app/shared/services/persistence.service';
 import { forEach } from '@angular/router/src/utils/collection';
 import { ProductService } from 'app/product/product.service';
 import { LoadingService } from '../../loading.service';
+import * as jsPDF from 'jspdf'
+import { UtilService } from '../../shared/services/util.service';
+
 declare var $: JQueryStatic;
 @Component({
   selector: 'app-sale',
   templateUrl: './sale.component.html',
   styleUrls: ['./sale.component.scss'],
   animations: [fadeInAnimation],
+  providers: [
+    { provide: 'Window',  useValue: window }
+  ]
+  
   // host: { '[@fadeInAnimation]': '' }
 })
 export class SaleComponent implements OnInit, AfterViewInit {
@@ -60,6 +67,10 @@ export class SaleComponent implements OnInit, AfterViewInit {
   taxPercent: number = 0.00;
   shippingAmount: number = 0.00;
 
+// This is for printing payment details on receipt.
+  paymentDetails: Payment[] = [];
+
+
   // This help when customer has paid full amount, so now user should not able to click on any payment button.
   // These both buttons are on payment page pop up.
   disablePaymentButtons: boolean = false;
@@ -84,7 +95,7 @@ export class SaleComponent implements OnInit, AfterViewInit {
 
 
   constructor(
-    private sellService: SellService, private persit: PersistenceService, private productService: ProductService, private storeSetupService: StoreSetupService, private customerService: CustomerService, private sanitizer: DomSanitizer, private route: ActivatedRoute, private router: Router, private toastr: ToastsManager, private loadingService: LoadingService) { 
+    private sellService: SellService,  @Inject('Window') private window: Window, private persit: PersistenceService, private productService: ProductService, private storeSetupService: StoreSetupService, private customerService: CustomerService, private sanitizer: DomSanitizer, private route: ActivatedRoute, private router: Router, private toastr: ToastsManager, private loadingService: LoadingService, private utilService: UtilService) { 
       this.getCustomerDetails();
       this.getProductDetails();
 
@@ -994,9 +1005,87 @@ export class SaleComponent implements OnInit, AfterViewInit {
   }
 
   printReciept() {
-    this.sellService.printReceipt(this.printTransactionDto);
-    this.clearAllDateAfterTransactionComplete();
-    $('#paymentModel').modal('toggle');
+    //this.sellService.printReceipt(this.printTransactionDto);
+    this.printTransactionDto.time = moment(this.printTransactionDto.originalDate).format('hh:mm A');
+    this.printTransactionDto.onlyDate = moment(this.printTransactionDto.originalDate).format('MM-DD-YYYY');
+
+    const elementToPrint = document.getElementById('print-section'); //The html element to become a pdf
+    const doc = new jsPDF('p', 'pt', 'a4');
+
+
+
+    // working fine
+    doc.addHTML(elementToPrint, () => {
+
+      // this.printTransactionDto.paymentDao.forEach((payment)=>{
+
+      for(let i = 0; i < this.printTransactionDto.paymentDao.length; i ++){
+
+        let paymentObject = new Payment();
+  
+        if(this.printTransactionDto.paymentDao[i].cash > 0){
+          paymentObject.paymentAmount = this.printTransactionDto.paymentDao[i].cash;
+          paymentObject.paymentType = 'CASH';
+          paymentObject.pymentDate = moment(this.printTransactionDto.paymentDao[i].date).format('MM-DD-YYYY');
+          paymentObject.paymentTime =  moment(this.printTransactionDto.paymentDao[i].date).format('hh:mm A');
+  
+          this.paymentDetails.push(paymentObject);
+        }
+  
+        else if(this.printTransactionDto.paymentDao[i].credit > 0){
+  
+          paymentObject.paymentAmount = this.printTransactionDto.paymentDao[i].credit;
+          paymentObject.paymentType = 'CREDIT';
+          paymentObject.pymentDate = moment(this.printTransactionDto.paymentDao[i].date).format('MM-DD-YYYY');
+          paymentObject.paymentTime =  moment(this.printTransactionDto.paymentDao[i].date).format('hh:mm A');
+  
+          this.paymentDetails.push(paymentObject);
+        }
+        else if(this.printTransactionDto.paymentDao[i].checkAmount > 0){
+  
+          paymentObject.paymentAmount = this.printTransactionDto.paymentDao[i].checkAmount;
+          paymentObject.paymentType = 'CHECK';
+          paymentObject.pymentDate = moment(this.printTransactionDto.paymentDao[i].date).format('MM-DD-YYYY');
+          paymentObject.paymentTime =  moment(this.printTransactionDto.paymentDao[i].date).format('hh:mm A');
+  
+          this.paymentDetails.push(paymentObject);
+        }
+        else if(this.printTransactionDto.paymentDao[i].debit > 0){
+  
+          paymentObject.paymentAmount = this.printTransactionDto.paymentDao[i].debit;
+          paymentObject.paymentType = 'DEBIT';
+          paymentObject.pymentDate = moment(this.printTransactionDto.paymentDao[i].date).format('MM-DD-YYYY');
+          paymentObject.paymentTime =  moment(this.printTransactionDto.paymentDao[i].date).format('hh:mm A');
+  
+          this.paymentDetails.push(paymentObject);
+        }
+        else if(this.printTransactionDto.paymentDao[i].storeCredit > 0){
+  
+          paymentObject.paymentAmount = this.printTransactionDto.paymentDao[i].storeCredit;
+          paymentObject.paymentType = 'STORE CREDIT';
+          paymentObject.pymentDate = moment(this.printTransactionDto.paymentDao[i].date).format('MM-DD-YYYY');
+          paymentObject.paymentTime =  moment(this.printTransactionDto.paymentDao[i].date).format('hh:mm A');
+  
+          this.paymentDetails.push(paymentObject);
+        }
+  
+      }
+          //pdf.save('web.pdf');
+     // window.open(doc.output('bloburl'), '_blank');.
+     doc.autoPrint();
+     this.utilService.printBlobUrl(doc.output('bloburl'));
+
+     this.clearAllDateAfterTransactionComplete();
+     $('#paymentModel').modal('toggle');
+  }
+  );
+
+ 
+  
+
+    
+    // this.clearAllDateAfterTransactionComplete();
+    // $('#paymentModel').modal('toggle');
   }
 
   public getCustomerDetails() {
@@ -1239,6 +1328,13 @@ export class CustomerProductPrice {
   retail?: number;
   cost?: number;
   lastUpdatedTimestamp?: string;
+}
+
+export class Payment {
+  paymentType: string;
+  paymentAmount: number;
+  pymentDate: any;
+  paymentTime: any;
 }
 
 
