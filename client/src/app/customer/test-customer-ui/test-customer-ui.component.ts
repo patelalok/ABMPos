@@ -53,7 +53,7 @@ export class TestCustomerUiComponent implements  OnInit{
 
 getTransactionDetail(){
 
-  this.sellService.getTransactionById(1000)
+  this.sellService.getTransactionById(1100)
   .subscribe((tran)=>{
   this.transactionDto = tran;
   })

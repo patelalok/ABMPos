@@ -47,7 +47,7 @@
         </tr>
     </table>
 
-    <table>
+    <table class="table table-striped table-bordered">
         <thead>
             <tr>
                 <th scope="col" style="width: 70%;">DESCRIPTION</th>
@@ -66,4 +66,94 @@
             </tr>
         </tbody>
     </table>
+
+    <hr>
+    <table>
+        <tr class="subtotal-tr">
+            <td>
+                SUBTOTAL
+            </td>
+            <td style="text-align: right;">
+                {{this.transactionDto.subtotal | currency:'USD':'true'}}
+            </td>
+        </tr>
+        <tr class="subtotal-tr">
+            <td>
+                TAX
+            </td>
+            <td style="text-align: right;">
+                {{this.transactionDto.tax | currency:'USD':'true'}}
+            </td>
+        </tr>
+        <tr class="subtotal-tr">
+            <td>
+                DISCOUNT
+            </td>
+            <td style="text-align: right;">
+                {{this.transactionDto.totalDiscount | currency:'USD':'true'}}
+            </td>
+        </tr>
+        <tr class="subtotal-tr">
+            <td>
+                QUANTITY
+            </td>
+            <td style="text-align: right;">
+                {{this.transactionDto.quantity}}
+            </td>
+        </tr>
+
+        <tr class="subtotal-tr">
+            <td>
+                <h6>TOTAL</h6>
+            </td>
+            <td style="text-align: right;">
+                <h6> {{this.transactionDto.totalAmount | currency:'USD':'true'}}</h6>
+            </td>
+        </tr>
+        <tr class="subtotal-tr">
+            <td>
+                <h6>BALANCE DUE</h6>
+            </td>
+            <td style="text-align: right;">
+                <h6> {{this.transactionDto.transactionBalance | currency:'USD':'true'}}</h6>
+            </td>
+        </tr>
+
+    </table>
+
+    <hr>
+
+    <table class="table table-striped table-bordered">
+        <thead>
+            <tr>
+                <th scope="col" style="width: 40%;">Payment Method</th>
+                <th scope="col" style="text-align: center;">Amount</th>
+                <th scope="col" style="text-align: center;">Date</th>
+                <th scope="col" style="text-align: center;">Time</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td style="text-align: right;"></td>
+            </tr>
+        </tbody>
+    </table>
+
+    <table>
+        <tr class="subtotal-tr">
+            <td>
+                <h5>TOTAL BALANCE DUE</h5>
+            </td>
+            <td style="text-align: right;">
+                <h5> {{this.transactionDto.totalAmount | currency:'USD':'true'}}</h5>
+            </td>
+        </tr>
+    </table>
+
+    <hr>
+
+
 </div>
