@@ -13,30 +13,29 @@
     <mat-row *cdkRowDef="let data; columns: displayedColumns;"></mat-row>
 </mat-table> -->
 
-<div class="invoice-box">
-    <table cellpadding="0" cellspacing="0">
-        <tr class="top">
-            <td colspan="2">
-                <table>
-                    <tr>
-                        <td class="title">
-                            <img src="https://www.sparksuite.com/images/logo.png" style="width:100%; max-width:300px;">
-                        </td>
+<div class="invoice-box" *ngIf="this.transactionDto">
+    <table>
+        <!-- <tr class="top"> -->
+        <!-- <td colspan="2"> -->
+        <!-- <table> -->
+        <tr>
+            <td class="title">
+                <img src="/assets/image/Excellogo.png" style="width:100%; max-width:300px;">
+            </td>
 
-                        <td style="text-align: right;">
-                            Invoice #: 123<br> Created: January 1, 2015<br> Due: February 1, 2015
-                        </td>
-                    </tr>
-                </table>
+            <td style="text-align: right;">
+                INVOICE #: {{this.transactionDto.transactionComId}}<br> CREATED: January 1, 2015<br> CREATED BY: ALOK PATEL
             </td>
         </tr>
+    </table>
 
+    <table>
         <tr class="information">
-            <td colspan="2">
+            <td>
                 <table>
                     <tr>
                         <td>
-                            Sparksuite, Inc.<br> 12345 Sunny Road<br> Sunnyville, CA 12345
+                            EXCELL WIRELESS<br> 5955 JIMMY CARTER BLVD<br> NORCROSS ,GA - 30071 <br>USA
                         </td>
 
                         <td style="text-align: right;">
@@ -46,241 +45,25 @@
                 </table>
             </td>
         </tr>
-
-        <tr class="heading">
-            <td>
-                Item
-            </td>
-
-            <td>
-                Price
-            </td>
-            <td>
-                Price
-            </td>
-
     </table>
-</div>
 
-<!-- <div class="invoice-box">
-    <table cellpadding="0" cellspacing="0">
-        <tr class="top">
-            <td colspan="2">
-                <table>
-                    <tr>
-                        <td class="title">
-                            <img src="https://www.sparksuite.com/images/logo.png" style="width:100%; max-width:300px;">
-                        </td>
-
-                        <td>
-                            Invoice #: 123<br> Created: January 1, 2015<br> Due: February 1, 2015
-                        </td>
-                    </tr>
-                </table>
-            </td>
-        </tr>
-
-        <tr class="information">
-            <td colspan="2">
-                <table>
-                    <tr>
-                        <td>
-                            Sparksuite, Inc.<br> 12345 Sunny Road<br> Sunnyville, CA 12345
-                        </td>
-
-                        <td>
-                            Acme Corp.<br> John Doe<br> john@example.com
-                        </td>
-                    </tr>
-                </table>
-            </td>
-        </tr>
-
-        <tr class="heading">
-            <td>
-                Payment Method
-            </td>
-
-            <td>
-                Check #
-            </td>
-        </tr>
-
-        <tr class="details">
-            <td>
-                Check
-            </td>
-
-            <td>
-                1000
-            </td>
-        </tr>
-
-        <tr class="heading">
-            <td>
-                Item
-            </td>
-
-            <td>
-                Price
-            </td>
-        </tr>
-
-        <tr class="item">
-            <td>
-                Website design
-            </td>
-
-            <td>
-                $300.00
-            </td>
-        </tr>
-
-        <tr class="item">
-            <td>
-                Hosting (3 months)
-            </td>
-
-            <td>
-                $75.00
-            </td>
-        </tr>
-
-        <tr class="item last">
-            <td>
-                Domain name (1 year)
-            </td>
-
-            <td>
-                $10.00
-            </td>
-        </tr>
-
-        <tr class="total">
-            <td></td>
-
-            <td>
-                Total: $385.00
-            </td>
-        </tr>
-    </table>
-</div> -->
-
-<!-- <div class="invoice-box">
-    <table cellpadding="0" cellspacing="0">
-        <tr class="top">
-            <td colspan="2">
-                <table>
-                    <tr>
-                        <td class="title">
-                            <img src="/assets/image/Excellogo.png" style="width:70%; max-width:200px;">
-                        </td>
-
-                        <td>
-                            <div>
-                                <h2>Invoice# 1232</h2>
-                            </div>
-                            <div>
-                                <h4>Date 2018-01-14 </h4>
-                            </div>
-                   
-                        </td>
-                    </tr>
-                </table>
-            </td>
-        </tr>
-
-        <tr class="information">
-            <td colspan="2">
-                <table>
-                    <tr>
-                        <td>
-                            EXCELL WIRELESS<br> 5955 JIMMY CARTER BLVD.<br> NORCROSS ,GA - 30071 <br>USA
-                        </td>
-
-                        <td>
-                            EXCELL WIRELESS<br> 5955 JIMMY CARTER BLVD.<br> NORCROSS ,GA - 30071 <br>USA
-                        </td>
-                    </tr>
-                </table>
-            </td>
-        </tr>
-    </table>
     <table>
         <thead>
             <tr>
-                <th>
-                    ITEM
-                </th>
-                <th>
-                    QTY
-                </th>
-                <th>
-                    RATE
-                </th>
-                <th>
-                    AMOUNT
-                </th>
+                <th scope="col" style="width: 70%;">DESCRIPTION</th>
+                <th scope="col" style="width: 10%;">QTY</th>
+                <th scope="col">RETAIL</th>
+                <th scope="col" style="text-align: right;">AMOUNT</th>
             </tr>
         </thead>
-        <tbody>
 
-            <tr>
-                <td>
-                    IPHONE 6S LCD DIGITIZER STANDARD QUALITY (WHITE)
-                </td>
-                <td>
-                    10
-                </td>
-                <td>
-                    $ 15.99
-                </td>
-                <td>
-                    $ 199.99
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    iPad Air 1 Digitizer with Home Button Assembly with Adhesive (Black)
-                </td>
-                <td>
-                    QTY
-                </td>
-                <td>
-                    $ 15.99
-                </td>
-                <td>
-                    AMOUNT
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    iPad Mini 3 Digitizer with Home button and Adhesive OEM Grade (Black) </td>
-                <td>
-                    QTY
-                </td>
-                <td>
-                    $ 15.99
-                </td>
-                <td>
-                    AMOUNT
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    iPhone 6S Plus Full Assembly Glass Digitizer & LCD Display + Front Camera and Proximity Sensor (White)
-                </td>
-                <td>
-                    QTY
-                </td>
-                <td>
-                        $ 15.99
-                </td>
-                <td>
-                    AMOUNT
-                </td>
+        <tbody>
+            <tr *ngFor="let trans of this.transactionDto.transactionLineItemDaoList">
+                <td>{{trans.description}}</td>
+                <td>{{trans.saleQuantity}}</td>
+                <td>{{trans.retail}}</td>
+                <td style="text-align: right;">{{trans.totalProductPrice}}</td>
             </tr>
         </tbody>
-
     </table>
-</div> -->
+</div>
