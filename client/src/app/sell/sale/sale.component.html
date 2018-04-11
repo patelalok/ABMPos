@@ -505,11 +505,8 @@
 
 <!-- Start of Receipt Template -->
 
-<div class="invoice-box" *ngIf="this.printTransactionDto" id="print-section">
+<!-- <div class="invoice-box" *ngIf="this.printTransactionDto" id="print-section">
     <table>
-        <!-- <tr class="top"> -->
-        <!-- <td colspan="2"> -->
-        <!-- <table> -->
         <tr>
             <td class="title">
                 <img src="/assets/image/Excellogo.png" style="width:100%; max-width:300px;">
@@ -542,8 +539,8 @@
     <table class="table table-striped table-bordered">
         <thead>
             <tr>
-                <th scope="col" style="width: 17%;">PRODUCT NO</th>
-                <th scope="col" style="width: 63%; text-align: left">DESCRIPTION</th>
+                <th scope="col" style="width: 18%;">PRODUCT NO</th>
+                <th scope="col" style="width: 62%; text-align: left">DESCRIPTION</th>
                 <th scope="col" style="width: 5%;">QTY</th>
                 <th scope="col">RETAIL</th>
                 <th scope="col" style="text-align: right;">AMOUNT</th>
@@ -627,11 +624,11 @@
             </tr>
         </thead>
         <tbody>
-            <tr *ngFor="let payment of this.paymentDetails">
-                <td>{{payment.paymentType}}</td>
-                <td style="text-align: center;">{{payment.paymentAmount | currency:'USD':'true'}}</td>
-                <td style="text-align: center;"> {{payment.pymentDate}}</td>
-                <td style="text-align: center;">{{payment.paymentTime}}</td>
+            <tr *ngFor="let a of this.printTransactionDto.paymentDetails">
+                <td>{{a.paymentType}}</td>
+                <td style="text-align: center;">{{a.paymentAmount | currency:'USD':'true'}}</td>
+                <td style="text-align: center;"> {{a.paymentDate}}</td>
+                <td style="text-align: center;">{{a.paymentTime}}</td>
             </tr>
         </tbody>
     </table>
@@ -649,5 +646,5 @@
 
     <hr>
 
-</div>
+</div> -->
 <!-- End of Receipt Template -->

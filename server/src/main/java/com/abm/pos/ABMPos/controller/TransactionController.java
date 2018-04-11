@@ -14,6 +14,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.util.List;
 
 
@@ -36,7 +37,7 @@ public class TransactionController {
     }
 
     @RequestMapping(value = "/getA4Receipt", method = RequestMethod.GET, produces = "application/json")
-    public ResponseEntity<byte[]> getA4Receipt(@RequestParam int receiptNo) throws DocumentException {
+    public ResponseEntity<byte[]> getA4Receipt(@RequestParam int receiptNo) throws DocumentException, IOException {
 
         byte [] pdfDataBytes = transactionManager.getA4Receipt(receiptNo);
         HttpHeaders headers = new HttpHeaders();

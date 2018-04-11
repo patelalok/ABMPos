@@ -1,5 +1,7 @@
 package com.abm.pos.ABMPos.dao;
 
+import com.abm.pos.ABMPos.dto.PaymentDetails;
+
 import javax.persistence.*;
 import java.util.List;
 
@@ -49,6 +51,12 @@ public class TransactionDao {
 
     @Transient
     private List<PaymentDao> paymentDao;
+
+    @Transient
+    private List<PaymentDetails> paymentDetails;
+
+    @Transient
+    private Double totalDueBalance;
 
 //    @OneToMany(cascade = CascadeType.ALL)
 //    @JoinColumn(name = "transaction_com_id")
@@ -237,5 +245,21 @@ public class TransactionDao {
 
     public void setParkSale(boolean parkSale) {
         this.parkSale = parkSale;
+    }
+
+    public List<PaymentDetails> getPaymentDetails() {
+        return paymentDetails;
+    }
+
+    public void setPaymentDetails(List<PaymentDetails> paymentDetails) {
+        this.paymentDetails = paymentDetails;
+    }
+
+    public Double getTotalDueBalance() {
+        return totalDueBalance;
+    }
+
+    public void setTotalDueBalance(Double totalDueBalance) {
+        this.totalDueBalance = totalDueBalance;
     }
 }

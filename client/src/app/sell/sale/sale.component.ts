@@ -68,7 +68,7 @@ export class SaleComponent implements OnInit, AfterViewInit {
   shippingAmount: number = 0.00;
 
 // This is for printing payment details on receipt.
-  paymentDetails: Payment[] = [];
+
 
 
   // This help when customer has paid full amount, so now user should not able to click on any payment button.
@@ -101,6 +101,7 @@ export class SaleComponent implements OnInit, AfterViewInit {
 
     }
   ngOnInit() {
+
     this.items = [
       { name: 'Return', icon: 'fa fa-reply-all fa-x', link: '/return' },
       { name: 'Purchase Order', icon: 'fa fa-bookmark fa-x', link: '/sell/purchaseOrder' }
@@ -268,7 +269,7 @@ export class SaleComponent implements OnInit, AfterViewInit {
         if(value == product.productNo){
           productFound = true;
           this.addTransactionLineItem(product);
-        
+          this.timeOut();
         }
       })
 
@@ -295,11 +296,18 @@ export class SaleComponent implements OnInit, AfterViewInit {
       this.addTransactionLineItem(value);
     }
 
-    setTimeout(() => {
-      this.product = null;
-      this.productForSearchBox = null; 
-    }, 1000)
+    // setTimeout(() => {
+    //   this.product = null;
+    //   this.productForSearchBox = null; 
+    // }, 1000)
   }
+
+  timeOut(){
+  setTimeout(() => {
+    this.product = null;
+    this.productForSearchBox = null; 
+  }, 500)
+}
 
   setProductForDelete(product: Product) {
     this.selectedProduct = product;
@@ -1005,80 +1013,36 @@ export class SaleComponent implements OnInit, AfterViewInit {
   }
 
   printReciept() {
-    //this.sellService.printReceipt(this.printTransactionDto);
-    this.printTransactionDto.time = moment(this.printTransactionDto.originalDate).format('hh:mm A');
-    this.printTransactionDto.onlyDate = moment(this.printTransactionDto.originalDate).format('MM-DD-YYYY');
+    this.sellService.printReceipt(this.printTransactionDto);
+         this.clearAllDateAfterTransactionComplete();
+       $('#paymentModel').modal('toggle');
 
-    const elementToPrint = document.getElementById('print-section'); //The html element to become a pdf
-    const doc = new jsPDF('p', 'pt', 'a4');
+       
+    // this.printTransactionDto.time = moment(this.printTransactionDto.date).format('hh:mm A');
+    // this.printTransactionDto.onlyDate = moment(this.printTransactionDto.date).format('MM-DD-YYYY');
 
+    //     const elementToPrint = document.getElementById('print-section'); //The html element to become a pdf
+    //     const doc = new jsPDF('p', 'pt', 'a4');
+    //   // working fine
+    //   doc.addHTML(elementToPrint, () => {
 
+    //     let pageHeight = doc.internal.pageSize.height;
+    //     let y = 500;
+    //     if(y >= pageHeight){
+    //       doc.addPage();
+    //       y =0;
+    //     }
+    //         //pdf.save('web.pdf');
+    //    // window.open(doc.output('bloburl'), '_blank');.
+    //    doc.autoPrint();
+    //    this.utilService.printBlobUrl(doc.output('bloburl'));
 
-    // working fine
-    doc.addHTML(elementToPrint, () => {
-
-      // this.printTransactionDto.paymentDao.forEach((payment)=>{
-
-      for(let i = 0; i < this.printTransactionDto.paymentDao.length; i ++){
-
-        let paymentObject = new Payment();
-  
-        if(this.printTransactionDto.paymentDao[i].cash > 0){
-          paymentObject.paymentAmount = this.printTransactionDto.paymentDao[i].cash;
-          paymentObject.paymentType = 'CASH';
-          paymentObject.pymentDate = moment(this.printTransactionDto.paymentDao[i].date).format('MM-DD-YYYY');
-          paymentObject.paymentTime =  moment(this.printTransactionDto.paymentDao[i].date).format('hh:mm A');
-  
-          this.paymentDetails.push(paymentObject);
-        }
-  
-        else if(this.printTransactionDto.paymentDao[i].credit > 0){
-  
-          paymentObject.paymentAmount = this.printTransactionDto.paymentDao[i].credit;
-          paymentObject.paymentType = 'CREDIT';
-          paymentObject.pymentDate = moment(this.printTransactionDto.paymentDao[i].date).format('MM-DD-YYYY');
-          paymentObject.paymentTime =  moment(this.printTransactionDto.paymentDao[i].date).format('hh:mm A');
-  
-          this.paymentDetails.push(paymentObject);
-        }
-        else if(this.printTransactionDto.paymentDao[i].checkAmount > 0){
-  
-          paymentObject.paymentAmount = this.printTransactionDto.paymentDao[i].checkAmount;
-          paymentObject.paymentType = 'CHECK';
-          paymentObject.pymentDate = moment(this.printTransactionDto.paymentDao[i].date).format('MM-DD-YYYY');
-          paymentObject.paymentTime =  moment(this.printTransactionDto.paymentDao[i].date).format('hh:mm A');
-  
-          this.paymentDetails.push(paymentObject);
-        }
-        else if(this.printTransactionDto.paymentDao[i].debit > 0){
-  
-          paymentObject.paymentAmount = this.printTransactionDto.paymentDao[i].debit;
-          paymentObject.paymentType = 'DEBIT';
-          paymentObject.pymentDate = moment(this.printTransactionDto.paymentDao[i].date).format('MM-DD-YYYY');
-          paymentObject.paymentTime =  moment(this.printTransactionDto.paymentDao[i].date).format('hh:mm A');
-  
-          this.paymentDetails.push(paymentObject);
-        }
-        else if(this.printTransactionDto.paymentDao[i].storeCredit > 0){
-  
-          paymentObject.paymentAmount = this.printTransactionDto.paymentDao[i].storeCredit;
-          paymentObject.paymentType = 'STORE CREDIT';
-          paymentObject.pymentDate = moment(this.printTransactionDto.paymentDao[i].date).format('MM-DD-YYYY');
-          paymentObject.paymentTime =  moment(this.printTransactionDto.paymentDao[i].date).format('hh:mm A');
-  
-          this.paymentDetails.push(paymentObject);
-        }
-  
+    //    this.clearAllDateAfterTransactionComplete();
+    //    $('#paymentModel').modal('toggle');
+    // }
+    // );
       }
-          //pdf.save('web.pdf');
-     // window.open(doc.output('bloburl'), '_blank');.
-     doc.autoPrint();
-     this.utilService.printBlobUrl(doc.output('bloburl'));
 
-     this.clearAllDateAfterTransactionComplete();
-     $('#paymentModel').modal('toggle');
-  }
-  );
 
  
   
@@ -1086,7 +1050,7 @@ export class SaleComponent implements OnInit, AfterViewInit {
     
     // this.clearAllDateAfterTransactionComplete();
     // $('#paymentModel').modal('toggle');
-  }
+ // }
 
   public getCustomerDetails() {
 
@@ -1297,6 +1261,7 @@ export class TransactionDtoList {
   description: string;
   rma: boolean;
   parkSale: boolean;
+  paymentDetails: PaymentDetails[];
 }
 
 export class PaymentDto {
@@ -1330,10 +1295,10 @@ export class CustomerProductPrice {
   lastUpdatedTimestamp?: string;
 }
 
-export class Payment {
+export class PaymentDetails {
   paymentType: string;
   paymentAmount: number;
-  pymentDate: any;
+  paymentDate: any;
   paymentTime: any;
 }
 

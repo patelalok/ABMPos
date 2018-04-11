@@ -1,6 +1,7 @@
 package com.abm.pos.ABMPos.manager;
 
 import com.abm.pos.ABMPos.dao.*;
+import com.abm.pos.ABMPos.dto.PaymentDetails;
 import com.abm.pos.ABMPos.repository.*;
 import com.abm.pos.ABMPos.util.Utility;
 import com.itextpdf.text.*;
@@ -23,6 +24,8 @@ import java.util.ArrayList;
 import java.util.Date;
 
 import org.thymeleaf.context.Context;
+
+import javax.swing.text.TabStop;
 
 
 /**
@@ -225,6 +228,10 @@ public class TransactionsManager {
 
         // I need to do this because, I am not able to update payment, just payment table becuase of forign key problem.
         // Every time inserting manually.
+
+        List<PaymentDao> paymentDaoList = new ArrayList<>();
+        List<PaymentDetails> paymentDetailsList = new ArrayList<>();
+
         if(transactionDao1.getTransactionComId() != 0){
 
             PaymentDao paymentDao = new PaymentDao();
@@ -251,9 +258,86 @@ public class TransactionsManager {
                         paymentDao.getCreditCardLast4()
                 );
             }
-            List<PaymentDao> paymentDaoList = new ArrayList<>();
-            transactionDao.setPaymentDao(paymentDaoList);
+//            transactionDao.setPaymentDao(paymentDaoList);
+
+           // paymentDaoList = paymentRepository.findAllByTransactionComId(transactionDao.getTransactionComId());
         }
+
+
+
+
+        // for(PaymentDao paymentDao : paymentDaoList){
+
+
+        //     DateFormat f = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        //     Date d1 = null;
+        //     try {
+        //         d1 = f.parse(paymentDao.getDate());
+        //     } catch (ParseException e) {
+        //         e.printStackTrace();
+        //     }
+        //     DateFormat payDate = new SimpleDateFormat("dd MMMM yyyy");//NEED TO CHECK THIS
+        //     DateFormat payTime = new SimpleDateFormat("hh:mm a");
+
+        //     PaymentDetails paymentDetails = new PaymentDetails();
+
+        //     if(paymentDao.getCash() > 0){
+
+        //         paymentDetails.setPaymentType("CASH");
+        //         paymentDetails.setPaymentAmount(paymentDao.getCash());
+        //         paymentDetails.setPaymentDate(payDate.format(d1));
+        //         paymentDetails.setPaymentTime(payTime.format(d1));
+
+        //         paymentDetailsList.add(paymentDetails);
+
+        //     }
+        //     if(paymentDao.getCredit() > 0){
+
+        //         paymentDetails.setPaymentType("CREDIT");
+        //         paymentDetails.setPaymentAmount(paymentDao.getCredit());
+        //         paymentDetails.setPaymentDate(payDate.format(d1));
+        //         paymentDetails.setPaymentTime(payTime.format(d1));
+
+        //         paymentDetailsList.add(paymentDetails);
+
+        //     }
+        //     if(paymentDao.getCheckAmount() > 0){
+
+        //         paymentDetails.setPaymentType("CHECK");
+        //         paymentDetails.setPaymentAmount(paymentDao.getCheckAmount());
+        //         paymentDetails.setPaymentDate(payDate.format(d1));
+        //         paymentDetails.setPaymentTime(payTime.format(d1));
+
+        //         paymentDetailsList.add(paymentDetails);
+
+        //     }
+        //     if(paymentDao.getDebit() > 0){
+
+        //         paymentDetails.setPaymentType("DEBIT");
+        //         paymentDetails.setPaymentAmount(paymentDao.getDebit());
+        //         paymentDetails.setPaymentDate(payDate.format(d1));
+        //         paymentDetails.setPaymentTime(payTime.format(d1));
+
+        //         paymentDetailsList.add(paymentDetails);
+
+        //     }
+        //     if(paymentDao.getStoreCredit() > 0){
+
+        //         paymentDetails.setPaymentType("STORE CREDIT");
+        //         paymentDetails.setPaymentAmount(paymentDao.getStoreCredit());
+        //         paymentDetails.setPaymentDate(payDate.format(d1));
+        //         paymentDetails.setPaymentTime(payTime.format(d1));
+
+        //         paymentDetailsList.add(paymentDetails);
+
+        //     }
+
+
+        // }
+
+        transactionDao1.setPaymentDao(paymentDaoList);
+        //transactionDao1.setPaymentDetails(paymentDetailsList);
+
         return transactionDao1;
     }
 
@@ -478,7 +562,7 @@ public class TransactionsManager {
         return emailStatus.isSuccess();
     }
 
-    public byte[] getA4Receipt(int receiptNo) throws DocumentException {
+    public byte[] getA4Receipt(int receiptNo) throws DocumentException, IOException {
 
         TransactionDao transactionDao;
 
@@ -519,7 +603,7 @@ public class TransactionsManager {
 
             PdfPTable table = new PdfPTable(columnWidths);
 
-            PdfPTable table1 = new PdfPTable(colWidht2);
+           PdfPTable table1 = new PdfPTable(colWidht2);
 
             table.setSpacingBefore(5);
 //                table.setSpacingAfter(100);
@@ -547,10 +631,10 @@ public class TransactionsManager {
 
             // this all dyanamic data which i s cmming form DB
 
-            table1.addCell(new Phrase("Sale Date : " + date.format(d), new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
-            table1.addCell(new Phrase("Sale Time : " + time.format(d), new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
-            table1.addCell(new Phrase("CSR : " + transactionDao.getUsername(), new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
-            table1.addCell(new Phrase("Sales Id : " + transactionDao.getTransactionComId(), new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
+           table1.addCell(new Phrase("Sale Date : " + date.format(d), new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
+           table1.addCell(new Phrase("Sale Time : " + time.format(d), new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
+           table1.addCell(new Phrase("CSR : " + transactionDao.getUsername(), new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
+           table1.addCell(new Phrase("Sales Id : " + transactionDao.getTransactionComId(), new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
 
             for (TransactionLineItemDao lineItemDao : transactionDao.getTransactionLineItemDaoList()) {
                 table.getDefaultCell().setBorder(Rectangle.NO_BORDER);
@@ -564,11 +648,11 @@ public class TransactionsManager {
             }
 
             table1.setSpacingBefore(80);
-            table1.setWidthPercentage(100);
+           table1.setWidthPercentage(100);
 
-            table1.getDefaultCell().setBorder(Rectangle.NO_BORDER);
+           table1.getDefaultCell().setBorder(Rectangle.NO_BORDER);
 
-            doc.add(table1);
+           doc.add(table1);
             doc.add(table);
 
 
@@ -786,6 +870,18 @@ public class TransactionsManager {
 
         cb.beginText();
         cb.setFontAndSize(bfBold, 8);
+        cb.setTextMatrix(x, y);
+
+        if (null != text)
+            cb.showText(text.trim());
+        cb.endText();
+
+    }
+    private void headerDetails(PdfContentByte cb, float x, float y, String text) {
+
+
+        cb.beginText();
+        cb.setFontAndSize(bfBold, 12);
         cb.setTextMatrix(x, y);
 
         if (null != text)

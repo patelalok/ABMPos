@@ -35,6 +35,7 @@ export const printBlob = (blob: Blob) => {
 }
 
 export const printBlobUrl = (blobUrl:any) =>{
+  $('#printBlob').remove();
 
   if ($('#printBlob').length == 0) {
     $("body").append(
