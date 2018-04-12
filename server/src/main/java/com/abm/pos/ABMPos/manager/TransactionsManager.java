@@ -541,10 +541,12 @@ public class TransactionsManager {
 
             //setting transaction details
             context.setVariable("subtotal", transactionDao.getSubtotal());
-            context.setVariable("shipping", "00");//TODO need to figure out this problem
+            context.setVariable("shipping", transactionDao.getShipping());
             context.setVariable("quantity", transactionDao.getQuantity());
             context.setVariable("discount", transactionDao.getTotalDiscount());
-            context.setVariable("previousBalance", transactionDao.getPreviousBalance());
+
+            context.setVariable("storeCredit", transactionDao.getPaymentDao().get(0).getStoreCredit());
+//            context.setVariable("previousBalance", transactionDao.getPreviousBalance());
             context.setVariable("salesTax", transactionDao.getTax());
             context.setVariable("grandTotal", transactionDao.getTotalAmount());
             context.setVariable("balance", transactionDao.getTransactionBalance());
@@ -761,7 +763,7 @@ public class TransactionsManager {
 
                 if (transactionDao.getTransactionBalance() > 0) {
 
-                    totalTable.addCell(new Phrase("Balance Due", new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
+                    totalTable.addCell(new Phrase("Today's Balance Due", new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
                     totalTable.addCell(new Phrase("$ " + String.valueOf(transactionDao.getTransactionBalance()), new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
                 }
 
