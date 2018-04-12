@@ -6,10 +6,12 @@ import { FormControl, FormGroup, FormBuilder } from '@angular/forms';
 import { DateDto, DateService } from 'app/shared/services/date.service';
 import { Http } from '@angular/http';
 import { ResponseType, ResponseContentType } from '@angular/http';
-import { printBlob } from 'app/shared/services/util.service';
+import { printBlob, UtilService } from 'app/shared/services/util.service';
 import { ToastsManager } from 'ng2-toastr';
 import { LoadingService } from 'app/loading.service';
 import { TransactionLineItemDaoList, TransactionDtoList } from 'app/sell/sale/sale.component';
+import * as jsPDF from 'jspdf'
+
 
 declare var $: JQueryStatic;
 
@@ -25,6 +27,9 @@ export class SalesHistoryComponent implements OnInit {
   transactionLineItemDetails: TransactionLineItemDaoList[];
   salesHistoryDropdown: any = 'Today';
   dateDto = new DateDto();
+  transactionDto: TransactionDtoList;
+  test: boolean;
+
   
   // searchByCustomerInputBox: string;
   searchByCustomerInputBox = new FormControl();
@@ -35,7 +40,7 @@ export class SalesHistoryComponent implements OnInit {
   document: jspdf; 
   customDate: FormGroup; 
   
-  constructor(private sellService: SellService, private fb: FormBuilder, private dateService: DateService, private http: Http, private toastr: ToastsManager, private loadingServie: LoadingService) { }
+  constructor(private sellService: SellService, private fb: FormBuilder, private dateService: DateService, private http: Http, private toastr: ToastsManager, private loadingServie: LoadingService, private utilService: UtilService) { }
 
   ngOnInit() {
 
@@ -92,9 +97,29 @@ export class SalesHistoryComponent implements OnInit {
 
   printReceipt(transaction: TransactionDtoList){
 
-    this.sellService.printReceipt(transaction);
+    this.sellService.getTransactionById(transaction.transactionComId)
+    .subscribe((trans)=>{
+
+      this.transactionDto = transaction;
+      this.test = true;
+
+    });
+
+    this.transactionDto = transaction;
+    console.log('transaction dto', this.transactionDto);
+
+  const elementToPrint = document.getElementById('print-section'); //The html element to become a pdf
+
+  const doc = new jsPDF('p', 'pt', 'a4');
+  // working fine
+  doc.addHTML(elementToPrint, () => {
+    //this.sellService.printReceipt(transaction);
+    doc.autoPrint();
+    this.utilService.printBlobUrl(doc.output('bloburl'));
   
-  }
+  })
+  
+}
 
   onTransactionTypeDropdownChoose(){
 

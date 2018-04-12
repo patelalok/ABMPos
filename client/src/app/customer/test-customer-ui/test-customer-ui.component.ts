@@ -66,7 +66,7 @@ paymentDetails: Payment[] = [];
 
 getTransactionDetail(){
 
-  this.sellService.getTransactionById(1100)
+  this.sellService.getTransactionById(1729)
   .subscribe((trans)=>{
     trans.time = moment(trans.originalDate).format('hh:mm A');
     trans.onlyDate = moment(trans.originalDate).format('MM-DD-YYYY');
