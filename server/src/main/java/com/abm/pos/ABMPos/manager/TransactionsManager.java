@@ -606,14 +606,8 @@ public class TransactionsManager {
         PdfPTable totalDueAmount = new PdfPTable(2);
 
 
-
-
-        String[] header = new String[] { "PRODUCT NO", "DESCRIPTION", "QTY", "RETAIL", "AMOUNT" };
-        String[] paymentHeader = new String[] { "Payment Method", "Amount", "Date", "Time"};
-        String[] content = new String[] { "column 1", "column 2",
-                "99", "Test data ", "column 5" };
-        String[] paymentContent = new String[] { "CASH", "$195.29",
-                "03-01-2018", "02:40PM " };
+        String[] header = new String[]{"PRODUCT NO", "DESCRIPTION", "QTY", "RETAIL", "AMOUNT"};
+        String[] paymentHeader = new String[]{"PAYMENT METHOD", "AMOUNT", "DATE", "TIME"};
 
 
         storeTable.setWidthPercentage(100);
@@ -622,8 +616,6 @@ public class TransactionsManager {
         paymentTable.setWidthPercentage(100);
         paymentMethod.setWidthPercentage(100);
         totalDueAmount.setWidthPercentage(100);
-
-
 
 
         PdfPCell logo = new PdfPCell();
@@ -635,7 +627,7 @@ public class TransactionsManager {
         PdfPCell paymentType = new PdfPCell();
         PdfPCell paymentAmount = new PdfPCell();
 
-        PdfPCell paymentMethod1 =  new PdfPCell();
+        PdfPCell paymentMethod1 = new PdfPCell();
         PdfPCell amount = new PdfPCell();
         PdfPCell date = new PdfPCell();
         PdfPCell time = new PdfPCell();
@@ -644,202 +636,341 @@ public class TransactionsManager {
         PdfPCell totalBalanceDueAmount = new PdfPCell();
 
 
-
         Image companyLogo = Image.getInstance("/Users/apatel2/Downloads/ABMPos/server/src/main/resources/static/assets/image/Excellogo.png");
         logo.addElement(companyLogo);
         logo.setPadding(0);
         logo.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
         logo.setBorder(PdfPCell.NO_BORDER);
 
-        Paragraph paragraph = new Paragraph("INVOICE #: 1973");
-        paragraph.setAlignment(PdfPCell.ALIGN_RIGHT);
-        Paragraph paragraph1 = new Paragraph("DATE: 04-05-2018 05:06PM");
-        paragraph1.setAlignment(PdfPCell.ALIGN_RIGHT);
-        Paragraph paragraph2 = new Paragraph("CREATED BY: ALOK PATEL");
-        paragraph2.setAlignment(PdfPCell.ALIGN_RIGHT);
 
-        invoiceDetails.addElement(paragraph);
-        invoiceDetails.addElement(paragraph1);
-        invoiceDetails.addElement(paragraph2);
-        invoiceDetails.setBorder(PdfPCell.NO_BORDER);
+        if (null != transactionDao) {
 
-        storeTable.addCell(logo);
-        storeTable.addCell(invoiceDetails);
+            Paragraph paragraph = new Paragraph("INVOICE #:" + transactionDao.getTransactionComId());
+            paragraph.setAlignment(PdfPCell.ALIGN_RIGHT);
+            Paragraph paragraph1 = new Paragraph("DATE: " + transactionDao.getDate());
+            paragraph1.setAlignment(PdfPCell.ALIGN_RIGHT);
+            Paragraph paragraph2 = new Paragraph("CREATED BY: " + transactionDao.getUsername());
+            paragraph2.setAlignment(PdfPCell.ALIGN_RIGHT);
 
+            invoiceDetails.addElement(paragraph);
+            invoiceDetails.addElement(paragraph1);
+            invoiceDetails.addElement(paragraph2);
+            invoiceDetails.setBorder(PdfPCell.NO_BORDER);
 
-        Paragraph storeName = new Paragraph("EXCELL WIRELESS");
-        storeName.setAlignment(PdfPCell.ALIGN_LEFT);
-        Paragraph street = new Paragraph("5985 JIMMY CARTER BLVD");
-        street.setAlignment(PdfPCell.ALIGN_LEFT);
-        Paragraph city = new Paragraph("NORCROSS, GA, 30071");
-        city.setAlignment(PdfPCell.ALIGN_LEFT);
-        Paragraph phoneNo = new Paragraph("770-703-0801");
-        phoneNo.setAlignment(PdfPCell.ALIGN_LEFT);
-        Paragraph email = new Paragraph("ALOKPATEL.AU@GMAIL.COM");
-        email.setAlignment(PdfPCell.ALIGN_LEFT);
-
-        storeDetails.addElement(storeName);
-        storeDetails.addElement(street);
-        storeDetails.addElement(city);
-        storeDetails.addElement(phoneNo);
-        storeDetails.addElement(email);
-        storeDetails.setBorder(PdfPCell.NO_BORDER);
+            storeTable.addCell(logo);
+            storeTable.addCell(invoiceDetails);
 
 
-        Paragraph companyName = new Paragraph("EXCELL WIRELESS");
-        companyName.setAlignment(PdfPCell.ALIGN_RIGHT);
-        Paragraph customerName = new Paragraph("5985 JIMMY CARTER BLVD");
-        customerName.setAlignment(PdfPCell.ALIGN_RIGHT);
-        Paragraph custStreet = new Paragraph("NORCROSS, GA, 30071");
-        custStreet.setAlignment(PdfPCell.ALIGN_RIGHT);
-        Paragraph custCity = new Paragraph("770-703-0801");
-        custCity.setAlignment(PdfPCell.ALIGN_RIGHT);
-        Paragraph custPhone = new Paragraph("ALOKPATEL.AU@GMAIL.COM");
-        custPhone.setAlignment(PdfPCell.ALIGN_RIGHT);
+            if (null != transactionDao.getStoreSetupDao()) {
+                Paragraph storeName = new Paragraph(transactionDao.getStoreSetupDao().getName());
+                storeName.setAlignment(PdfPCell.ALIGN_LEFT);
+                Paragraph street = new Paragraph(transactionDao.getStoreSetupDao().getStreet());
+                street.setAlignment(PdfPCell.ALIGN_LEFT);
+                Paragraph city = new Paragraph(transactionDao.getStoreSetupDao().getCity() + " , " + transactionDao.getStoreSetupDao().getState() + " , " + transactionDao.getStoreSetupDao().getZipcode());
+                city.setAlignment(PdfPCell.ALIGN_LEFT);
+                Paragraph phoneNo = new Paragraph(transactionDao.getStoreSetupDao().getPhoneNo());
+                phoneNo.setAlignment(PdfPCell.ALIGN_LEFT);
+                Paragraph email = new Paragraph(transactionDao.getStoreSetupDao().getEmail());
 
-        customerDetails.addElement(companyName);
-        customerDetails.addElement(customerName);
-        customerDetails.addElement(custStreet);
-        customerDetails.addElement(custCity);
-        customerDetails.addElement(custPhone);
-        customerDetails.setBorder(PdfPCell.NO_BORDER);
+                email.setAlignment(PdfPCell.ALIGN_LEFT);
 
-        customerTable.addCell(storeDetails);
-        customerTable.addCell(customerDetails);
-
-        customerTable.setSpacingBefore(25);
-
-
-        lineItemTable.setHeaderRows(1);
-        lineItemTable.setWidths(new float[] {2.5f,7, 1, 1.5f, 2 });
-        lineItemTable.setSpacingBefore(25);
-        lineItemTable.setSplitLate(false);
-
-        for (String columnHeader : header) {
-            PdfPCell headerCell = new PdfPCell();
-            headerCell.addElement(new Phrase(columnHeader, FontFactory.getFont(FontFactory.HELVETICA, 10, Font.BOLD)));
-            headerCell.setHorizontalAlignment(Element.ALIGN_CENTER);
-            headerCell.setVerticalAlignment(Element.ALIGN_MIDDLE);
-            headerCell.setBorderColor(BaseColor.LIGHT_GRAY);
-            headerCell.setPadding(8);
-            lineItemTable.addCell(headerCell);
-        }
-        for (int i = 0; i < 5; i++) {
-            for (String text : content) {
-                PdfPCell cell = new PdfPCell();
-                cell.addElement(new Phrase(text, FontFactory.getFont(FontFactory.HELVETICA, 10, Font.NORMAL)));
-                cell.setBorderColor(BaseColor.LIGHT_GRAY);
-                cell.setPadding(5);
-                lineItemTable.addCell(cell);
+                storeDetails.addElement(storeName);
+                storeDetails.addElement(street);
+                storeDetails.addElement(city);
+                storeDetails.addElement(phoneNo);
+                storeDetails.addElement(email);
+                storeDetails.setBorder(PdfPCell.NO_BORDER);
             }
-        }
 
+            if (null != transactionDao.getCustomerPhoneno()) {
+                String phoneNo = transactionDao.getCustomerPhoneno();
+                CustomerDao customerDao = customerManager.getCustomerByPhoneNo(phoneNo);
 
-        Paragraph subtotal = new Paragraph("SUBTOTAL");
-        subtotal.setAlignment(PdfPCell.ALIGN_LEFT);
-        Paragraph tax = new Paragraph("TAX");
-        tax.setAlignment(PdfPCell.ALIGN_LEFT);
-        Paragraph discount = new Paragraph("DISCOUNT");
-        discount.setAlignment(PdfPCell.ALIGN_LEFT);
-        Paragraph quantity = new Paragraph("QUANTITY");
-        quantity.setAlignment(PdfPCell.ALIGN_LEFT);
-        Paragraph total = new Paragraph("TOTAL");
-        total.setAlignment(PdfPCell.ALIGN_LEFT);
-        Paragraph balanceDue = new Paragraph("BALANCE DUE");
-        balanceDue.setAlignment(PdfPCell.ALIGN_LEFT);
+                if (null != customerDao) {
 
-        paymentType.addElement(subtotal);
-        paymentType.addElement(tax);
-        paymentType.addElement(discount);
-        paymentType.addElement(quantity);
-        paymentType.addElement(total);
-        paymentType.addElement(balanceDue);
-        paymentType.setBorder(PdfPCell.NO_BORDER);
+                    Paragraph companyName = new Paragraph(customerDao.getCompanyName());
+                    companyName.setAlignment(PdfPCell.ALIGN_RIGHT);
+                    Paragraph customerName = new Paragraph(transactionDao.getCustomerFirstLastName());
+                    customerName.setAlignment(PdfPCell.ALIGN_RIGHT);
+                    Paragraph custStreet = new Paragraph(customerDao.getStreet());
+                    custStreet.setAlignment(PdfPCell.ALIGN_RIGHT);
+                    Paragraph custCity = new Paragraph(customerDao.getCity() + " , " + customerDao.getState() + " , " + customerDao.getZipCode());
+                    custCity.setAlignment(PdfPCell.ALIGN_RIGHT);
+                    Paragraph custPhone = new Paragraph(customerDao.getPhoneNo());
+                    custPhone.setAlignment(PdfPCell.ALIGN_RIGHT);
 
+                    customerDetails.addElement(companyName);
+                    customerDetails.addElement(customerName);
+                    customerDetails.addElement(custStreet);
+                    customerDetails.addElement(custCity);
+                    customerDetails.addElement(custPhone);
+                    customerDetails.setBorder(PdfPCell.NO_BORDER);
 
+                    customerTable.addCell(storeDetails);
+                    customerTable.addCell(customerDetails);
 
-        Paragraph subtotal1 = new Paragraph("$129.99");
-        subtotal1.setAlignment(PdfPCell.ALIGN_RIGHT);
-        Paragraph tax1 = new Paragraph("$14.99");
-        tax1.setAlignment(PdfPCell.ALIGN_RIGHT);
-        Paragraph discount1 = new Paragraph("$15.99");
-        discount1.setAlignment(PdfPCell.ALIGN_RIGHT);
-        Paragraph quantity1 = new Paragraph("13");
-        quantity1.setAlignment(PdfPCell.ALIGN_RIGHT);
-        Paragraph total1 = new Paragraph("$130.99");
-        total1.setAlignment(PdfPCell.ALIGN_RIGHT);
-        Paragraph balanceDue1 = new Paragraph("$100");
-        balanceDue1.setAlignment(PdfPCell.ALIGN_RIGHT);
+                    customerTable.setSpacingBefore(25);
 
-        paymentAmount.addElement(subtotal1);
-        paymentAmount.addElement(tax1);
-        paymentAmount.addElement(discount1);
-        paymentAmount.addElement(quantity1);
-        paymentAmount.addElement(total1);
-        paymentAmount.addElement(balanceDue1);
-        paymentAmount.setBorder(PdfPCell.NO_BORDER);
-
-        paymentTable.addCell(paymentType);
-        paymentTable.addCell(paymentAmount);
-
-
-        paymentTable.setSpacingBefore(25);
-
-        for (String payment : paymentHeader) {
-            PdfPCell headerCell = new PdfPCell();
-            headerCell.addElement(new Phrase(payment, FontFactory.getFont(FontFactory.HELVETICA, 11, Font.BOLD)));
-            headerCell.setHorizontalAlignment(Element.ALIGN_CENTER);
-            headerCell.setVerticalAlignment(Element.ALIGN_MIDDLE);
-            headerCell.setBorderColor(BaseColor.LIGHT_GRAY);
-            headerCell.setPadding(8);
-            paymentMethod.addCell(headerCell);
-        }
-
-        for (int i = 0; i < 2; i++) {
-            for (String text : paymentContent) {
-                PdfPCell cell = new PdfPCell();
-                cell.addElement(new Phrase(text, FontFactory.getFont(FontFactory.HELVETICA, 11, Font.NORMAL)));
-                cell.setBorderColor(BaseColor.LIGHT_GRAY);
-                cell.setPadding(5);
-                paymentMethod.addCell(cell);
+                }
             }
+
+            if (null != transactionDao.getTransactionLineItemDaoList()) {
+
+                lineItemTable.setHeaderRows(1);
+                lineItemTable.setWidths(new float[]{2.5f, 7.2f, 1, 1.5f, 1.8f});
+                lineItemTable.setSpacingBefore(25);
+                lineItemTable.setSplitLate(false);
+
+                for (String columnHeader : header) {
+                    PdfPCell headerCell = new PdfPCell();
+                    headerCell.addElement(new Phrase(columnHeader, FontFactory.getFont(FontFactory.HELVETICA, 10, Font.BOLD)));
+                    headerCell.setHorizontalAlignment(Element.ALIGN_CENTER);
+                    headerCell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+                    headerCell.setBorderColor(BaseColor.LIGHT_GRAY);
+                    headerCell.setPadding(8);
+                    lineItemTable.addCell(headerCell);
+                }
+
+                for (TransactionLineItemDao lineItem : transactionDao.getTransactionLineItemDaoList()) {
+                    PdfPCell cell1 = new PdfPCell();
+                    PdfPCell cell2 = new PdfPCell();
+                    PdfPCell cell3 = new PdfPCell();
+                    PdfPCell cell4 = new PdfPCell();
+                    PdfPCell cell5 = new PdfPCell();
+
+                    cell1.addElement(new Phrase(lineItem.getProductNo(), FontFactory.getFont(FontFactory.HELVETICA, 10, Font.NORMAL)));
+                    cell2.addElement(new Phrase(lineItem.getDescription(), FontFactory.getFont(FontFactory.HELVETICA, 10, Font.NORMAL)));
+                    cell3.setCellEvent(new PositionEvent(new Phrase(10, String.valueOf(lineItem.getSaleQuantity()), FontFactory.getFont(FontFactory.HELVETICA, 10, Font.NORMAL)), 0.5f, 0.5f, Element.ALIGN_CENTER));
+                    cell4.setCellEvent(new PositionEvent(new Phrase(10, String.valueOf(lineItem.getRetailWithDiscount()), FontFactory.getFont(FontFactory.HELVETICA, 10, Font.NORMAL)), 0.5f, 0.5f, Element.ALIGN_CENTER));
+                    cell5.setCellEvent(new PositionEvent(new Phrase(10, String.valueOf(lineItem.getTotalProductPrice()), FontFactory.getFont(FontFactory.HELVETICA, 10, Font.NORMAL)), 0.5f, 0.5f, Element.ALIGN_CENTER));
+
+//                    cell3.addElement(new Phrase(String.valueOf(lineItem.getSaleQuantity()),FontFactory.getFont(FontFactory.HELVETICA, 10, Font.NORMAL)));
+//                    cell4.addElement(new Phrase(String.valueOf(lineItem.getRetailWithDiscount()),FontFactory.getFont(FontFactory.HELVETICA, 10, Font.NORMAL)));
+//                    cell5.addElement(new Phrase(String.valueOf(lineItem.getTotalProductPrice()),FontFactory.getFont(FontFactory.HELVETICA, 10, Font.NORMAL)));
+
+                    cell1.setBorderColor(BaseColor.LIGHT_GRAY);
+                    cell2.setBorderColor(BaseColor.LIGHT_GRAY);
+                    cell3.setBorderColor(BaseColor.LIGHT_GRAY);
+                    cell4.setBorderColor(BaseColor.LIGHT_GRAY);
+                    cell5.setBorderColor(BaseColor.LIGHT_GRAY);
+
+                    lineItemTable.addCell(cell1);
+                    lineItemTable.addCell(cell2);
+                    lineItemTable.addCell(cell3);
+                    lineItemTable.addCell(cell4);
+                    lineItemTable.addCell(cell5);
+
+                }
+            }
+
+
+            Paragraph subtotal = new Paragraph("SUBTOTAL");
+            subtotal.setAlignment(PdfPCell.ALIGN_LEFT);
+            Paragraph tax = new Paragraph("TAX");
+            tax.setAlignment(PdfPCell.ALIGN_LEFT);
+            Paragraph discount = new Paragraph("DISCOUNT");
+            discount.setAlignment(PdfPCell.ALIGN_LEFT);
+            Paragraph quantity = new Paragraph("QUANTITY");
+            quantity.setAlignment(PdfPCell.ALIGN_LEFT);
+            Paragraph total = new Paragraph("TOTAL");
+            total.setAlignment(PdfPCell.ALIGN_LEFT);
+            Paragraph balanceDue = new Paragraph("BALANCE DUE");
+            balanceDue.setAlignment(PdfPCell.ALIGN_LEFT);
+
+            paymentType.addElement(subtotal);
+            paymentType.addElement(tax);
+            paymentType.addElement(discount);
+            paymentType.addElement(quantity);
+            paymentType.addElement(total);
+            paymentType.addElement(balanceDue);
+            paymentType.setBorder(PdfPCell.NO_BORDER);
+
+
+            Paragraph subtotal1 = new Paragraph("$ " + transactionDao.getSubtotal());
+            subtotal1.setAlignment(PdfPCell.ALIGN_RIGHT);
+            Paragraph tax1 = new Paragraph("$ " + transactionDao.getTax());
+            tax1.setAlignment(PdfPCell.ALIGN_RIGHT);
+            Paragraph discount1 = new Paragraph("$ " + transactionDao.getTotalDiscount());
+            discount1.setAlignment(PdfPCell.ALIGN_RIGHT);
+            Paragraph quantity1 = new Paragraph(transactionDao.getQuantity());
+            quantity1.setAlignment(PdfPCell.ALIGN_RIGHT);
+            Paragraph total1 = new Paragraph("$ " + transactionDao.getTotalAmount());
+            total1.setAlignment(PdfPCell.ALIGN_RIGHT);
+            Paragraph balanceDue1 = new Paragraph("$ " + transactionDao.getTransactionBalance());
+            balanceDue1.setAlignment(PdfPCell.ALIGN_RIGHT);
+
+            paymentAmount.addElement(subtotal1);
+            paymentAmount.addElement(tax1);
+            paymentAmount.addElement(discount1);
+            paymentAmount.addElement(quantity1);
+            paymentAmount.addElement(total1);
+            paymentAmount.addElement(balanceDue1);
+            paymentAmount.setBorder(PdfPCell.NO_BORDER);
+
+            paymentTable.addCell(paymentType);
+            paymentTable.addCell(paymentAmount);
+
+
+            paymentTable.setSpacingBefore(25);
+
+            if (null != transactionDao.getPaymentDao()) {
+
+                for (String payment : paymentHeader) {
+                    PdfPCell headerCell = new PdfPCell();
+                    headerCell.addElement(new Phrase(payment, FontFactory.getFont(FontFactory.HELVETICA, 11, Font.BOLD)));
+                    headerCell.setHorizontalAlignment(Element.ALIGN_CENTER);
+                    headerCell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+                    headerCell.setBorderColor(BaseColor.LIGHT_GRAY);
+                    headerCell.setPadding(8);
+                    paymentMethod.addCell(headerCell);
+                }
+
+
+                for (PaymentDao payment : transactionDao.getPaymentDao()) {
+
+                    PdfPCell cell1 = new PdfPCell();
+                    PdfPCell cell2 = new PdfPCell();
+                    PdfPCell cell3 = new PdfPCell();
+                    PdfPCell cell4 = new PdfPCell();
+
+                    DateFormat f = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
+                    Date d1 = null;
+                    try {
+                        d1 = f.parse(payment.getDate());
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
+                    DateFormat payDate = new SimpleDateFormat("MM-dd-yyyy");//NEED TO CHECK THIS
+                    DateFormat payTime = new SimpleDateFormat("hh:mm a");
+
+
+                    if (payment.getCash() != 0) {
+
+                        //cell1.setCellEvent(new PositionEvent(new Phrase(10, "CASH", FontFactory.getFont(FontFactory.HELVETICA, 10, Font.NORMAL)), 0.5f, 0.5f, Element.ALIGN_CENTER));
+                        //cell2.setCellEvent(new PositionEvent(new Phrase(10, String.valueOf(payment.getCash()), FontFactory.getFont(FontFactory.HELVETICA, 10, Font.NORMAL)), 0.5f, 0.5f, Element.ALIGN_CENTER));
+
+
+                        cell1.addElement(new Phrase("CASH", FontFactory.getFont(FontFactory.HELVETICA, 10, Font.NORMAL)));
+                        cell1.setVerticalAlignment(Element.ALIGN_MIDDLE);
+
+                        cell2.addElement(new Phrase("CASH", FontFactory.getFont(FontFactory.HELVETICA, 10, Font.NORMAL)));
+                        cell2.setVerticalAlignment(Element.ALIGN_MIDDLE);
+                        cell2.setHorizontalAlignment(Element.ALIGN_CENTER);
+
+
+
+
+
+                        // cell2.setCellEvent(new PositionEvent(new Phrase(10, String.valueOf(payment.getCash()), FontFactory.getFont(FontFactory.HELVETICA, 10, Font.NORMAL)), 0.5f, 0.5f, Element.ALIGN_CENTER));
+                      //  cell3.setCellEvent(new PositionEvent(new Phrase(10, String.valueOf(payDate.format(d1)), FontFactory.getFont(FontFactory.HELVETICA, 10, Font.NORMAL)), 0.5f, 0.5f, Element.ALIGN_CENTER));
+                        //cell4.setCellEvent(new PositionEvent(new Phrase(10, payTime.format(d1), FontFactory.getFont(FontFactory.HELVETICA, 10, Font.NORMAL)), 0.5f, 0.5f, Element.ALIGN_CENTER));
+                    }
+                    cell1.setBorderColor(BaseColor.LIGHT_GRAY);
+                    cell2.setBorderColor(BaseColor.LIGHT_GRAY);
+                    cell3.setBorderColor(BaseColor.LIGHT_GRAY);
+                    cell4.setBorderColor(BaseColor.LIGHT_GRAY);
+
+                    paymentMethod.addCell(cell1);
+                    paymentMethod.addCell(cell2);
+                    paymentMethod.addCell(cell3);
+                    paymentMethod.addCell(cell4);
+
+
+//                        totalTable.addCell(new Phrase("Pay On", new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
+//                        totalTable.addCell(new Phrase(payDate.format(d1)+" "+payTime.format(d1), new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
+//                    }
+//                    if (paymentDaos.getChangeForCash() != 0) {
+//                        totalTable.addCell(new Phrase("Change", new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
+//                        totalTable.addCell(new Phrase("$ " + String.valueOf(paymentDaos.getChangeForCash()), new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
+//                    }
+//                    if (paymentDaos.getCredit() != 0) {
+//                        totalTable.addCell(new Phrase("Credit Card", new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
+//                        totalTable.addCell(new Phrase("$ " + String.valueOf(paymentDaos.getCredit()), new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
+//
+//                        totalTable.addCell(new Phrase("Pay On", new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
+//                        totalTable.addCell(new Phrase(payDate.format(d1)+" "+payTime.format(d1), new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
+//                    }
+//                    if (paymentDaos.getDebit() != 0) {
+//                        totalTable.addCell(new Phrase("Debit Card", new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
+//                        totalTable.addCell(new Phrase("$ " + String.valueOf(paymentDaos.getDebit()), new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
+//
+//                        totalTable.addCell(new Phrase("Pay On", new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
+//                        totalTable.addCell(new Phrase(payDate.format(d1)+" "+payTime.format(d1), new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
+//                    }
+//                    if (paymentDaos.getCheckAmount() != 0) {
+//                        totalTable.addCell(new Phrase("Check", new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
+//                        totalTable.addCell(new Phrase("$ " + String.valueOf(paymentDaos.getCheckAmount()), new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
+//
+//                        totalTable.addCell(new Phrase("Pay On", new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
+//                        totalTable.addCell(new Phrase(payDate.format(d1)+" "+payTime.format(d1), new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
+//                    }
+//// else if (paymentDaos.getOnAccount() != 0) {
+////                        totalTable.addCell(new Phrase("On Account", new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
+////                        totalTable.addCell(new Phrase("$ " + String.valueOf(transactionDao.getPaymentDao().get(0).getOnAccount()), new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
+////                    }
+//                    if (paymentDaos.getStoreCredit() != 0) {
+//                        totalTable.addCell(new Phrase("Store Credit", new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
+//                        totalTable.addCell(new Phrase("$ " + String.valueOf(paymentDaos.getStoreCredit()), new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
+//
+//                        totalTable.addCell(new Phrase("Pay On", new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
+//                        totalTable.addCell(new Phrase(payDate.format(d1)+" "+payTime.format(d1), new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
+//                    }
+//                    if (paymentDaos.getLoyalty() != 0) {
+//                        totalTable.addCell(new Phrase("Loyalty", new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
+//                        totalTable.addCell(new Phrase("$ " + String.valueOf(paymentDaos.getLoyalty()), new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
+//                    }
+//
+
+
+                        //cell1.addElement(new Phrase(payment.getDate(), FontFactory.getFont(FontFactory.HELVETICA, 10, Font.NORMAL)));
+                        //cell2.addElement(new Phrase(payment.getDate(),FontFactory.getFont(FontFactory.HELVETICA, 10, Font.NORMAL)));
+                        //cell3.setCellEvent(new PositionEvent(new Phrase(10, String.valueOf(lineItem.getSaleQuantity()), FontFactory.getFont(FontFactory.HELVETICA, 10, Font.NORMAL)), 0.5f, 0.5f, Element.ALIGN_CENTER));
+                        //cell4.setCellEvent(new PositionEvent(new Phrase(10, String.valueOf(lineItem.getRetailWithDiscount()),FontFactory.getFont(FontFactory.HELVETICA, 10, Font.NORMAL)), 0.5f, 0.5f, Element.ALIGN_CENTER));
+
+
+
+                    }
+
+                    paymentMethod.setSpacingBefore(25);
+                }
+
+                totalDueAmount.setSpacingBefore(25);
+
+            if(transactionDao.getTotalDueBalance() > 0) {
+
+                Paragraph totalBalanceDueText = new Paragraph("TOTAL BALANCE DUE");
+                totalBalanceDueText.setAlignment(PdfPCell.ALIGN_LEFT);
+
+                totalBalanceDue.addElement(totalBalanceDueText);
+                totalBalanceDue.setBorder(PdfPCell.NO_BORDER);
+
+                Paragraph totalBalanceDueAmount1 = new Paragraph("$ " + transactionDao.getTotalDueBalance());
+                totalBalanceDueAmount1.setAlignment(PdfPCell.ALIGN_RIGHT);
+
+                totalBalanceDueAmount.addElement(totalBalanceDueAmount1);
+                totalBalanceDueAmount.setBorder(PdfPCell.NO_BORDER);
+
+                totalDueAmount.addCell(totalBalanceDue);
+                totalDueAmount.addCell(totalBalanceDueAmount);
+            }
+
+
+                doc.add(storeTable);
+
+                doc.add(customerTable);
+
+                doc.add(lineItemTable);
+
+                doc.add(paymentTable);
+
+                doc.add(paymentMethod);
+
+                doc.add(totalDueAmount);
+
+
+
         }
-
-        paymentMethod.setSpacingBefore(25);
-
-        totalDueAmount.setSpacingBefore(25);
-
-
-        Paragraph totalBalanceDueText = new Paragraph("TOTAL BALANCE DUE");
-        totalBalanceDueText.setAlignment(PdfPCell.ALIGN_LEFT);
-
-        totalBalanceDue.addElement(totalBalanceDueText);
-        totalBalanceDue.setBorder(PdfPCell.NO_BORDER);
-
-        Paragraph totalBalanceDueAmount1 = new Paragraph("$1990.00");
-        totalBalanceDueAmount1.setAlignment(PdfPCell.ALIGN_RIGHT);
-
-        totalBalanceDueAmount.addElement(totalBalanceDueAmount1);
-        totalBalanceDueAmount.setBorder(PdfPCell.NO_BORDER);
-
-        totalDueAmount.addCell(totalBalanceDue);
-        totalDueAmount.addCell(totalBalanceDueAmount);
-
-
-        doc.add(storeTable);
-
-        doc.add(customerTable);
-
-        doc.add(lineItemTable);
-
-        doc.add(paymentTable);
-
-        doc.add(paymentMethod);
-
-        doc.add(totalDueAmount);
-
-
-
     }
 
     public PdfPCell getCell(String text, int alignment) {
