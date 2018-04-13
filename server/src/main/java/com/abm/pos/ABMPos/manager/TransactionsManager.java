@@ -8,6 +8,7 @@ import com.itextpdf.text.*;
 import com.itextpdf.text.pdf.*;
 
 
+import com.itextpdf.text.pdf.draw.VerticalPositionMark;
 import org.springframework.beans.factory.annotation.Autowired;
 
 
@@ -562,6 +563,294 @@ public class TransactionsManager {
         return emailStatus.isSuccess();
     }
 
+    public byte[] testInvoice(int receiptNo) throws DocumentException, IOException {
+
+        TransactionDao transactionDao;
+
+        Document doc = new Document(PageSize.A4);
+        initializeFonts();
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        PdfWriter writer = PdfWriter.getInstance(doc, byteArrayOutputStream);
+        doc.open();
+        PdfContentByte cb = writer.getDirectContent();
+        transactionDao = getTransactionById(receiptNo);
+
+        if (null != transactionDao) {
+
+            //printCustomerDetailsTest(cb, transactionDao);
+            printStoreDetailsTest(cb, transactionDao, doc);
+            //printTransactionDetailsTest(doc, transactionDao);
+            //generateLineItemTable(cb);
+
+            printPageNumber(cb);
+        }
+        doc.close();
+
+        return byteArrayOutputStream.toByteArray();
+
+
+
+
+    }
+
+    private void printCustomerDetailsTest(PdfContentByte cb, TransactionDao transactionDao) {
+    }
+
+    private void printStoreDetailsTest(PdfContentByte cb, TransactionDao transactionDao, Document doc) throws IOException, DocumentException {
+
+        PdfPTable storeTable = new PdfPTable(2);
+        PdfPTable customerTable = new PdfPTable(2);
+        PdfPTable lineItemTable = new PdfPTable(5);
+        PdfPTable paymentTable = new PdfPTable(2);
+        PdfPTable paymentMethod = new PdfPTable(4);
+        PdfPTable totalDueAmount = new PdfPTable(2);
+
+
+
+
+        String[] header = new String[] { "PRODUCT NO", "DESCRIPTION", "QTY", "RETAIL", "AMOUNT" };
+        String[] paymentHeader = new String[] { "Payment Method", "Amount", "Date", "Time"};
+        String[] content = new String[] { "column 1", "column 2",
+                "99", "Test data ", "column 5" };
+        String[] paymentContent = new String[] { "CASH", "$195.29",
+                "03-01-2018", "02:40PM " };
+
+
+        storeTable.setWidthPercentage(100);
+        customerTable.setWidthPercentage(100);
+        lineItemTable.setWidthPercentage(100);
+        paymentTable.setWidthPercentage(100);
+        paymentMethod.setWidthPercentage(100);
+        totalDueAmount.setWidthPercentage(100);
+
+
+
+
+        PdfPCell logo = new PdfPCell();
+        PdfPCell invoiceDetails = new PdfPCell();
+
+        PdfPCell storeDetails = new PdfPCell();
+        PdfPCell customerDetails = new PdfPCell();
+
+        PdfPCell paymentType = new PdfPCell();
+        PdfPCell paymentAmount = new PdfPCell();
+
+        PdfPCell paymentMethod1 =  new PdfPCell();
+        PdfPCell amount = new PdfPCell();
+        PdfPCell date = new PdfPCell();
+        PdfPCell time = new PdfPCell();
+
+        PdfPCell totalBalanceDue = new PdfPCell();
+        PdfPCell totalBalanceDueAmount = new PdfPCell();
+
+
+
+        Image companyLogo = Image.getInstance("/Users/apatel2/Downloads/ABMPos/server/src/main/resources/static/assets/image/Excellogo.png");
+        logo.addElement(companyLogo);
+        logo.setPadding(0);
+        logo.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
+        logo.setBorder(PdfPCell.NO_BORDER);
+
+        Paragraph paragraph = new Paragraph("INVOICE #: 1973");
+        paragraph.setAlignment(PdfPCell.ALIGN_RIGHT);
+        Paragraph paragraph1 = new Paragraph("DATE: 04-05-2018 05:06PM");
+        paragraph1.setAlignment(PdfPCell.ALIGN_RIGHT);
+        Paragraph paragraph2 = new Paragraph("CREATED BY: ALOK PATEL");
+        paragraph2.setAlignment(PdfPCell.ALIGN_RIGHT);
+
+        invoiceDetails.addElement(paragraph);
+        invoiceDetails.addElement(paragraph1);
+        invoiceDetails.addElement(paragraph2);
+        invoiceDetails.setBorder(PdfPCell.NO_BORDER);
+
+        storeTable.addCell(logo);
+        storeTable.addCell(invoiceDetails);
+
+
+        Paragraph storeName = new Paragraph("EXCELL WIRELESS");
+        storeName.setAlignment(PdfPCell.ALIGN_LEFT);
+        Paragraph street = new Paragraph("5985 JIMMY CARTER BLVD");
+        street.setAlignment(PdfPCell.ALIGN_LEFT);
+        Paragraph city = new Paragraph("NORCROSS, GA, 30071");
+        city.setAlignment(PdfPCell.ALIGN_LEFT);
+        Paragraph phoneNo = new Paragraph("770-703-0801");
+        phoneNo.setAlignment(PdfPCell.ALIGN_LEFT);
+        Paragraph email = new Paragraph("ALOKPATEL.AU@GMAIL.COM");
+        email.setAlignment(PdfPCell.ALIGN_LEFT);
+
+        storeDetails.addElement(storeName);
+        storeDetails.addElement(street);
+        storeDetails.addElement(city);
+        storeDetails.addElement(phoneNo);
+        storeDetails.addElement(email);
+        storeDetails.setBorder(PdfPCell.NO_BORDER);
+
+
+        Paragraph companyName = new Paragraph("EXCELL WIRELESS");
+        companyName.setAlignment(PdfPCell.ALIGN_RIGHT);
+        Paragraph customerName = new Paragraph("5985 JIMMY CARTER BLVD");
+        customerName.setAlignment(PdfPCell.ALIGN_RIGHT);
+        Paragraph custStreet = new Paragraph("NORCROSS, GA, 30071");
+        custStreet.setAlignment(PdfPCell.ALIGN_RIGHT);
+        Paragraph custCity = new Paragraph("770-703-0801");
+        custCity.setAlignment(PdfPCell.ALIGN_RIGHT);
+        Paragraph custPhone = new Paragraph("ALOKPATEL.AU@GMAIL.COM");
+        custPhone.setAlignment(PdfPCell.ALIGN_RIGHT);
+
+        customerDetails.addElement(companyName);
+        customerDetails.addElement(customerName);
+        customerDetails.addElement(custStreet);
+        customerDetails.addElement(custCity);
+        customerDetails.addElement(custPhone);
+        customerDetails.setBorder(PdfPCell.NO_BORDER);
+
+        customerTable.addCell(storeDetails);
+        customerTable.addCell(customerDetails);
+
+        customerTable.setSpacingBefore(25);
+
+
+        lineItemTable.setHeaderRows(1);
+        lineItemTable.setWidths(new float[] {2.5f,7, 1, 1.5f, 2 });
+        lineItemTable.setSpacingBefore(25);
+        lineItemTable.setSplitLate(false);
+
+        for (String columnHeader : header) {
+            PdfPCell headerCell = new PdfPCell();
+            headerCell.addElement(new Phrase(columnHeader, FontFactory.getFont(FontFactory.HELVETICA, 10, Font.BOLD)));
+            headerCell.setHorizontalAlignment(Element.ALIGN_CENTER);
+            headerCell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+            headerCell.setBorderColor(BaseColor.LIGHT_GRAY);
+            headerCell.setPadding(8);
+            lineItemTable.addCell(headerCell);
+        }
+        for (int i = 0; i < 5; i++) {
+            for (String text : content) {
+                PdfPCell cell = new PdfPCell();
+                cell.addElement(new Phrase(text, FontFactory.getFont(FontFactory.HELVETICA, 10, Font.NORMAL)));
+                cell.setBorderColor(BaseColor.LIGHT_GRAY);
+                cell.setPadding(5);
+                lineItemTable.addCell(cell);
+            }
+        }
+
+
+        Paragraph subtotal = new Paragraph("SUBTOTAL");
+        subtotal.setAlignment(PdfPCell.ALIGN_LEFT);
+        Paragraph tax = new Paragraph("TAX");
+        tax.setAlignment(PdfPCell.ALIGN_LEFT);
+        Paragraph discount = new Paragraph("DISCOUNT");
+        discount.setAlignment(PdfPCell.ALIGN_LEFT);
+        Paragraph quantity = new Paragraph("QUANTITY");
+        quantity.setAlignment(PdfPCell.ALIGN_LEFT);
+        Paragraph total = new Paragraph("TOTAL");
+        total.setAlignment(PdfPCell.ALIGN_LEFT);
+        Paragraph balanceDue = new Paragraph("BALANCE DUE");
+        balanceDue.setAlignment(PdfPCell.ALIGN_LEFT);
+
+        paymentType.addElement(subtotal);
+        paymentType.addElement(tax);
+        paymentType.addElement(discount);
+        paymentType.addElement(quantity);
+        paymentType.addElement(total);
+        paymentType.addElement(balanceDue);
+        paymentType.setBorder(PdfPCell.NO_BORDER);
+
+
+
+        Paragraph subtotal1 = new Paragraph("$129.99");
+        subtotal1.setAlignment(PdfPCell.ALIGN_RIGHT);
+        Paragraph tax1 = new Paragraph("$14.99");
+        tax1.setAlignment(PdfPCell.ALIGN_RIGHT);
+        Paragraph discount1 = new Paragraph("$15.99");
+        discount1.setAlignment(PdfPCell.ALIGN_RIGHT);
+        Paragraph quantity1 = new Paragraph("13");
+        quantity1.setAlignment(PdfPCell.ALIGN_RIGHT);
+        Paragraph total1 = new Paragraph("$130.99");
+        total1.setAlignment(PdfPCell.ALIGN_RIGHT);
+        Paragraph balanceDue1 = new Paragraph("$100");
+        balanceDue1.setAlignment(PdfPCell.ALIGN_RIGHT);
+
+        paymentAmount.addElement(subtotal1);
+        paymentAmount.addElement(tax1);
+        paymentAmount.addElement(discount1);
+        paymentAmount.addElement(quantity1);
+        paymentAmount.addElement(total1);
+        paymentAmount.addElement(balanceDue1);
+        paymentAmount.setBorder(PdfPCell.NO_BORDER);
+
+        paymentTable.addCell(paymentType);
+        paymentTable.addCell(paymentAmount);
+
+
+        paymentTable.setSpacingBefore(25);
+
+        for (String payment : paymentHeader) {
+            PdfPCell headerCell = new PdfPCell();
+            headerCell.addElement(new Phrase(payment, FontFactory.getFont(FontFactory.HELVETICA, 11, Font.BOLD)));
+            headerCell.setHorizontalAlignment(Element.ALIGN_CENTER);
+            headerCell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+            headerCell.setBorderColor(BaseColor.LIGHT_GRAY);
+            headerCell.setPadding(8);
+            paymentMethod.addCell(headerCell);
+        }
+
+        for (int i = 0; i < 2; i++) {
+            for (String text : paymentContent) {
+                PdfPCell cell = new PdfPCell();
+                cell.addElement(new Phrase(text, FontFactory.getFont(FontFactory.HELVETICA, 11, Font.NORMAL)));
+                cell.setBorderColor(BaseColor.LIGHT_GRAY);
+                cell.setPadding(5);
+                paymentMethod.addCell(cell);
+            }
+        }
+
+        paymentMethod.setSpacingBefore(25);
+
+        totalDueAmount.setSpacingBefore(25);
+
+
+        Paragraph totalBalanceDueText = new Paragraph("TOTAL BALANCE DUE");
+        totalBalanceDueText.setAlignment(PdfPCell.ALIGN_LEFT);
+
+        totalBalanceDue.addElement(totalBalanceDueText);
+        totalBalanceDue.setBorder(PdfPCell.NO_BORDER);
+
+        Paragraph totalBalanceDueAmount1 = new Paragraph("$1990.00");
+        totalBalanceDueAmount1.setAlignment(PdfPCell.ALIGN_RIGHT);
+
+        totalBalanceDueAmount.addElement(totalBalanceDueAmount1);
+        totalBalanceDueAmount.setBorder(PdfPCell.NO_BORDER);
+
+        totalDueAmount.addCell(totalBalanceDue);
+        totalDueAmount.addCell(totalBalanceDueAmount);
+
+
+        doc.add(storeTable);
+
+        doc.add(customerTable);
+
+        doc.add(lineItemTable);
+
+        doc.add(paymentTable);
+
+        doc.add(paymentMethod);
+
+        doc.add(totalDueAmount);
+
+
+
+    }
+
+    public PdfPCell getCell(String text, int alignment) {
+        PdfPCell cell = new PdfPCell(new Phrase(text));
+        cell.setPadding(0);
+        cell.setHorizontalAlignment(alignment);
+        cell.setBorder(PdfPCell.NO_BORDER);
+        return cell;
+    }
+
+
     public byte[] getA4Receipt(int receiptNo) throws DocumentException, IOException {
 
         TransactionDao transactionDao;
@@ -591,6 +880,9 @@ public class TransactionsManager {
 
         return byteArrayOutputStream.toByteArray();
     }
+
+
+
 
     private void printTransactionDetails(Document doc, TransactionDao transactionDao) {
 

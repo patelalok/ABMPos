@@ -97,27 +97,28 @@ export class SalesHistoryComponent implements OnInit {
 
   printReceipt(transaction: TransactionDtoList){
 
-    this.sellService.getTransactionById(transaction.transactionComId)
-    .subscribe((trans)=>{
+    this.sellService.printReceipt(transaction);
+  //   this.sellService.getTransactionById(transaction.transactionComId)
+  //   .subscribe((trans)=>{
 
-      this.transactionDto = transaction;
-      this.test = true;
+  //     this.transactionDto = transaction;
+  //     this.test = true;
 
-    });
+  //   });
 
-    this.transactionDto = transaction;
-    console.log('transaction dto', this.transactionDto);
+  //   this.transactionDto = transaction;
+  //   console.log('transaction dto', this.transactionDto);
 
-  const elementToPrint = document.getElementById('print-section'); //The html element to become a pdf
+  // const elementToPrint = document.getElementById('print-section'); //The html element to become a pdf
 
-  const doc = new jsPDF('p', 'pt', 'a4');
-  // working fine
-  doc.addHTML(elementToPrint, () => {
-    //this.sellService.printReceipt(transaction);
-    doc.autoPrint();
-    this.utilService.printBlobUrl(doc.output('bloburl'));
+  // const doc = new jsPDF('p', 'pt', 'a4');
+  // // working fine
+  // doc.addHTML(elementToPrint, () => {
+    
+  //   doc.autoPrint();
+  //   this.utilService.printBlobUrl(doc.output('bloburl'));
   
-  })
+  // })
   
 }
 
