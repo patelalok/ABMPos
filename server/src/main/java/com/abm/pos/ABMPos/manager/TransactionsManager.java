@@ -618,12 +618,11 @@ public class TransactionsManager {
         PdfPCell totalBalanceDueAmount = new PdfPCell();
 
 
-        Image companyLogo = Image.getInstance("server/src/main/resources/static/assets/image/Excellogo.png");
+        Image companyLogo = Image.getInstance("C:\\Users\\MK THE PHONE STORE\\Desktop\\MK LOGO.png");
         logo.addElement(companyLogo);
         logo.setPadding(0);
         logo.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
         logo.setBorder(PdfPCell.NO_BORDER);
-
 
         if (null != transactionDao) {
 
