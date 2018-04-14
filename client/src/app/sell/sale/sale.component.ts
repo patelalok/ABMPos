@@ -1016,42 +1016,8 @@ export class SaleComponent implements OnInit, AfterViewInit {
     this.sellService.printReceipt(this.printTransactionDto);
          this.clearAllDateAfterTransactionComplete();
        $('#paymentModel').modal('toggle');
-
-       
-    // this.printTransactionDto.time = moment(this.printTransactionDto.date).format('hh:mm A');
-    // this.printTransactionDto.onlyDate = moment(this.printTransactionDto.date).format('MM-DD-YYYY');
-
-    //     const elementToPrint = document.getElementById('print-section'); //The html element to become a pdf
-    //     const doc = new jsPDF('p', 'pt', 'a4');
-    //   // working fine
-    //   doc.addHTML(elementToPrint, () => {
-
-    //     let pageHeight = doc.internal.pageSize.height;
-    //     let y = 500;
-    //     if(y >= pageHeight){
-    //       doc.addPage();
-    //       y =0;
-    //     }
-    //         //pdf.save('web.pdf');
-    //    // window.open(doc.output('bloburl'), '_blank');.
-    //    doc.autoPrint();
-    //    this.utilService.printBlobUrl(doc.output('bloburl'));
-
-    //    this.clearAllDateAfterTransactionComplete();
-    //    $('#paymentModel').modal('toggle');
-    // }
-    // );
-      }
-
-
- 
-  
-
-    
-    // this.clearAllDateAfterTransactionComplete();
-    // $('#paymentModel').modal('toggle');
- // }
-
+         }
+         
   public getCustomerDetails() {
 
     this.customerService.getCustomerDetails();

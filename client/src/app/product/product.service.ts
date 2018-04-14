@@ -2,12 +2,11 @@ import { Injectable } from '@angular/core';
 import { Http, Response, Headers } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import { FormControl } from '@angular/forms/forms';
-import { Category, Brand, Vendor, Model, ProductVariantDetail, CategoryTest,ProductInventory } from 'app/product/product.component';
+import { Category, Brand, Vendor, CategoryTest,ProductInventory } from 'app/product/product.component';
 import { environment } from 'environments/environment';
 import { Observer, ReplaySubject, Subject } from 'rxjs';
 import { Product, TransactionLineItemDaoList } from 'app/sell/sale/sale.component';
 import { ToastsManager } from 'ng2-toastr';
-import { Phone } from './phone/phone.component';
 
 
 @Injectable()
@@ -61,28 +60,7 @@ export class ProductService {
     .map(this.extractData)
     .catch(this.handleError);
   }
-
-  addIMEIForPhone(phone: Phone){
-    return this.http.post(this.url+'/imei', phone);
-  }
-
-  getIMEIDetailByPhone(productNo: string): Observable<Phone[]> {
-    return this.http.get(this.url+'/imei?productNo='+productNo)
-    .map(this.extractData)
-    .catch(this.handleError); 
-   }
-
-   deleteImeiForPhone(imei: Phone){
-     return this.http.delete(this.url+'/imei?imei='+imei);
-     
-   }
-   
-  getPhoneDetailsFromBackEnd(): Observable<Product[]>{
-    return this.http.get(this.url+'/phone')
-    .map(this.extractData)
-    .catch(this.handleError);
-  }
-
+  
   getProductInventoryByProductNo(productNo: string) : Observable<ProductInventory[]>{
    return this.http.get(this.url+'/getProductInventory?productNo='+productNo)
    .map(this.extractData)
@@ -109,24 +87,6 @@ export class ProductService {
 
   getVendorDetails(): Observable<Vendor[]> {
     return this.http.get(this.url+'/getVendor')
-      .map(this.extractData)
-      .catch(this.handleError);
-  }
-
-  getModelDetails(): Observable<Model[]> {
-    return this.http.get(this.url+'/getModel')
-      .map(this.extractData)
-      .catch(this.handleError);
-  }
-
-  getProductVariantDetails(): Observable<ProductVariantDetail[]> {
-    return this.http.get(this.url+'/getProductVariantDetails')
-      .map(this.extractData)
-      .catch(this.handleError);
-  }
-
-  getProductVariantDetailsByName(name: string): Observable<ProductVariantDetail[]> {
-    return this.http.get(this.url+'/getProductVariantDetailsByName?variantName=' + name)
       .map(this.extractData)
       .catch(this.handleError);
   }

@@ -3,7 +3,7 @@ import { ProductService } from "app/product/product.service";
 // import { FormBuilder } from "@angular/forms/forms";
 import { FormBuilder, Validators, FormGroup, FormControl } from '@angular/forms';
 import { MenuItem, LazyLoadEvent } from 'primeng/primeng';
-import {Category, Brand, Model, Vendor, ProductCommon, ProductInventory } from "app/product/product.component";
+import {Category, Brand, Vendor, ProductCommon, ProductInventory } from "app/product/product.component";
 import * as moment from 'moment';
 import { ViewChild } from '@angular/core/src/metadata/di';
 import { Element } from '@angular/compiler';
@@ -33,7 +33,6 @@ export class ProductTableComponent implements OnInit {
   categoryDto: Category[];
   brandDto: Brand[];
   vendorDto: Vendor[];
-  modelDto: Model[];
   items: MenuItem[];
   activeItem: MenuItem;
   selectedProductDropdownOption: any = "Select All";
@@ -162,21 +161,21 @@ export class ProductTableComponent implements OnInit {
   }
   onProductDropdownChoose(): void {
     console.log(this.selectedProductDropdownOption);
-    if (this.selectedProductDropdownOption === 'Brand') {
-      //console.log('inside the if for brand');
+    // if (this.selectedProductDropdownOption === 'Brand') {
+    //   //console.log('inside the if for brand');
 
-      //TODO need to figure out how to reuse this code.
-      this.productService.getBrandDetails()
-        .subscribe((brands: Brand[]) => {
-          this.listOfProductOption = [];
-          brands.forEach((el) => this.listOfProductOption.push({
-            id: el.brandId,
-            name: el.name
-          }));
-        });
+    //   //TODO need to figure out how to reuse this code.
+    //   this.productService.getBrandDetails()
+    //     .subscribe((brands: Brand[]) => {
+    //       this.listOfProductOption = [];
+    //       brands.forEach((el) => this.listOfProductOption.push({
+    //         id: el.brandId,
+    //         name: el.name
+    //       }));
+    //     });
 
-    }
-    else if (this.selectedProductDropdownOption === 'Category') {
+    // }
+     if (this.selectedProductDropdownOption === 'Category') {
       //console.log('inside the if for brand');
 
       this.productService.getCategoryDetails()
@@ -198,16 +197,7 @@ export class ProductTableComponent implements OnInit {
           }));
         });
     }
-    else if (this.selectedProductDropdownOption === 'Model') {
-      this.productService.getModelDetails()
-        .subscribe((models: Model[]) => {
-          this.listOfProductOption = [];
-          models.forEach((el) => this.listOfProductOption.push({
-            id: el.modelId,
-            name: el.name
-          }));
-        });
-    }
+ 
     else {
       this.listOfProductOption = null;
       this.productFullList = this.backendProductDto;

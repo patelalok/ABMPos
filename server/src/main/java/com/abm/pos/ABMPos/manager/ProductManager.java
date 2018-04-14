@@ -38,9 +38,6 @@ public class ProductManager{
     private ProductInventoryRepository productInventoryRepository;
 
     @Autowired
-    private CustomerProductPriceRepository customerProductPriceRepository;
-
-    @Autowired
     private Utility utility;
 
 
@@ -384,8 +381,4 @@ public class ProductManager{
         return productInventoryRepository.findAllByProductNo(productNo);
     }
 
-    public List<CustomerProductPrice> getProductPriceByCustomer(String phoneNo) {
-
-        return customerProductPriceRepository.findAllByPhoneNo(phoneNo);
-    }
 }

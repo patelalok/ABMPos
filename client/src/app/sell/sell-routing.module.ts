@@ -5,7 +5,6 @@ import { ProductComponent } from 'app/product/product.component';
 import { CategoryComponent } from 'app/product/category/category.component';
 import { VendorComponent } from 'app/product/vendor/vendor.component';
 import { BrandComponent } from 'app/product/brand/brand.component';
-import { ModelComponent } from 'app/product/model/model.component';
 import { AddProductComponent } from 'app/product/addProduct.component';
 import { CustomerComponent } from 'app/customer/customer.component';
 import { EmployeeComponent } from 'app/employee/employee.component';
@@ -22,8 +21,6 @@ import { SaleComponent } from 'app/sell/sale/sale.component';
 import { PromotionComponent } from 'app/promotion/promotion.component';
 import { CloseRegisterComponent } from 'app/sell/close-register/close-register.component';
 import { DashboardComponent } from 'app/dashboard/dashboard.component';
-import { RepairComponent } from '../repair/repair.component';
-import { AddRepairComponent } from '../repair/add-repair/add-repair.component';
 import { CustomerPaymentHistoryComponent } from 'app/customer/customer-payment-history/customer-payment-history.component';
 import { TestCustomerUiComponent } from '../customer/test-customer-ui/test-customer-ui.component';
 
@@ -43,8 +40,6 @@ const routes: Routes = [
   },
   { path: 'employee', component: EmployeeComponent},
   { path: 'dashboard', component: DashboardComponent},
-  { path: 'repair', component: RepairComponent},
-  { path: 'add-repair', component: AddRepairComponent},
   
   { path: 'clockIn/:username', component: ClockinComponent},
   { path: 'expense', component: ExpenseComponent},

@@ -23,9 +23,8 @@ export class ProductComponent implements OnInit {
   displayDialog = false;
   products: Product[];
   categoryDto: Category[];
-  brandDto: Brand[];
+  // brandDto: Brand[];
   vendorDto: Vendor[];
-  modelDto: Model[];
   items: MenuItem[];
   // activeItem: MenuItem;
   selectedProductDropdownOption: string;
@@ -42,25 +41,23 @@ export class ProductComponent implements OnInit {
 
     this.items = [
       { name: 'Inventory', icon: 'fa fa-tags fa-x', link: '/product/productTable' },
-      { name: 'Phone', icon: 'fa fa-mobile fa-x', link: '/product/phone' },
       { name: 'Category', icon: 'fa fa-list fa-x', link: '/product/category' },
-      { name: 'Brand', icon: 'fa fa-bookmark fa-x', link: '/product/brand' },
+      // { name: 'Brand', icon: 'fa fa-bookmark fa-x', link: '/product/brand' },
       { name: 'Vendor', icon: 'fa fa-user fa-x', link: '/product/vendor' },
-      { name: 'Model', icon: 'fa fa-mobile fa-x', link: '/product/model' }
     ];
   }
 
   onProductDropdownChoose(): void {
-    if (this.selectedProductDropdownOption === 'Brand') {
-      //console.log('inside the if for brand');
+    // if (this.selectedProductDropdownOption === 'Brand') {
+    //   //console.log('inside the if for brand');
 
-      //TODO need to figure out how to reuse this code.
-      this.productService.getBrandDetails()
-        .subscribe((brands: Brand[]) => {
-          this.listOfProductOption = brands;
-        });
-    }
-    else if (this.selectedProductDropdownOption === 'Category') {
+    //   //TODO need to figure out how to reuse this code.
+    //   this.productService.getBrandDetails()
+    //     .subscribe((brands: Brand[]) => {
+    //       this.listOfProductOption = brands;
+    //     });
+    // }
+    if (this.selectedProductDropdownOption === 'Category') {
       //console.log('inside the if for brand');
 
       this.productService.getCategoryDetails()
@@ -72,12 +69,6 @@ export class ProductComponent implements OnInit {
       this.productService.getVendorDetails()
         .subscribe((vendors: Vendor[]) => {
           this.listOfProductOption = vendors;
-        });
-    }
-    else if (this.selectedProductDropdownOption === 'Model') {
-      this.productService.getModelDetails()
-        .subscribe((models: Model[]) => {
-          this.listOfProductOption = models;
         });
     }
     else {
@@ -129,47 +120,10 @@ export interface VendorTest {
   email?;
 
 }
-
-export class Model {
-  modelId: number;
-  name: string;
-  description: string;
-}
-
-export class ModelTest {
-  modelId?;
-  name?;
-  description?;
-}
-
-export class ProductVariantDetail {
-  id: number;
-  name: string;
-  value: string;
-}
-
-// export class BackendProductDto {
-//   productNo: string;
-//   description: string;
-//   categoryName: string;
-//   cost: number;
-//   retail: number;
-//   markup: number;
-//   quantity: number;
-//   minQuantity: number;
-//   brandId: number;
-//   categoryId: number;
-//   vendorId: number;
-//   modelId: number;
-//   tax: boolean;
-//   ecommerce: boolean;
-//   active: boolean;
-//   variant: boolean;
-//   relatedProduct: boolean;
-//   createdTimestamp: any;
-//   customLoyaltyAmount: number;
-
-//   productInventoryDaoList: ProductInventory[];
+// export class ProductVariantDetail {
+//   id: number;
+//   name: string;
+//   value: string;
 // }
 export interface ProductCommon {
   name: string;
@@ -193,27 +147,4 @@ export class ProductInventory {
   time?: any;
 }
 
-
-      // markup: '',
-      // brandName: '',
-    // vendorName: '',
-    // modelName: '',
-    // alternetNo: '',
-    // minQuantity: '',
-    // isTax: '',
-    // isVariant: '',
-    // IsActive: '',
-    // IsEcomerce: '',
-    // IsRelatedProduct: '',
-    // defaultQuantity: '',
-
-    // transactionComId: '',
-
-    // date: '',
-    // status: '',
-    // discount: '',
-    // retailDiscount: '',
-    // totalProductPrice: '',
-    // totalProductPriceWithTax: '',
-    // imeiNo: '',
 

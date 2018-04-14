@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators, FormGroup, FormControl } from '@angular/forms';
 
-import {Category, Brand, Vendor, Model, ProductVariantDetail, ProductInventory } from 'app/product/product.component';
+import {Category, Brand, Vendor, ProductInventory } from 'app/product/product.component';
 import * as moment from 'moment';
 import { ProductService } from 'app/product/product.service';
 import { ProductForm } from 'app/product/addProduct.component';
@@ -22,9 +22,6 @@ export class EditProductComponent implements OnInit {
   categoryDto: Category[];
   brandDto: Brand[];
   vendorDto: Vendor[];
-  modelDto: Model[];
-  productVariantDetailsDto: ProductVariantDetail[];
-  productVariantDetailsByNameDto: ProductVariantDetail[];
   displayDialog = false;
   productNo: any;
   generatedProductNo: string;
@@ -68,9 +65,8 @@ export class EditProductComponent implements OnInit {
             'productNo': [this.currentProduct.productNo, [Validators.required, Validators.pattern('^[0-9]+$')]],
             'description': [this.currentProduct.description, Validators.required],
             'category': [null, Validators.required],
-            'brand': [null, Validators.required],
+            // 'brand': [null, Validators.required],
             'vendor': [null, Validators.required],
-            'model': [null],
             // 'costPrice': [this.currentProduct.cost, [Validators.required, Validators.pattern('^[0-9-.]+$')]],
             'markup': [null, Validators.pattern('^[0-9-.]+$')],
             'retail': [this.currentProduct.retail, [Validators.required, Validators.pattern('^[0-9-.]+$')]],
@@ -102,13 +98,12 @@ export class EditProductComponent implements OnInit {
           // console.log(this.form.value);
         });
 
-      this.productService.getBrandDetails()
-        .subscribe((brands: Brand[]) => {
-          this.brandDto = brands;
-          currentBrand = this.brandDto.filter((el)=> el.brandId==this.currentProduct.brandId)[0]; 
-          this.form.get('brand').setValue(currentBrand);
-          // console.log('BrandList' + this.brandDto);
-        });
+      // this.productService.getBrandDetails()
+      //   .subscribe((brands: Brand[]) => {
+      //     this.brandDto = brands;
+      //     currentBrand = this.brandDto.filter((el)=> el.brandId==this.currentProduct.brandId)[0]; 
+      //     this.form.get('brand').setValue(currentBrand);
+      //   });
 
       this.productService.getVendorDetails()
         .subscribe((vendors: Vendor[]) => {
@@ -117,16 +112,6 @@ export class EditProductComponent implements OnInit {
           this.form.get('vendor').setValue(currentVendor);
           // console.log('VendorList' + this.vendorDto);
         });
-
-      this.productService.getModelDetails()
-        .subscribe((models: Model[]) => {
-          this.modelDto = models;
-          currentModel = this.modelDto.filter((el)=> el.modelId==this.currentProduct.modelId)[0];
-          this.form.get('model').setValue(currentModel);
-          console.log('ModelList' + this.modelDto);
-        });
-
-
       });
     }
 
@@ -168,9 +153,8 @@ export class EditProductComponent implements OnInit {
       let product: Product = {
         productNo: formValues.productNo,
         categoryId: formValues.category.categoryId,
-        brandId: formValues.brand.brandId,
+        // brandId: formValues.brand.brandId,
         vendorId: formValues.vendor.vendorId,
-        modelId: formValues.model.modelId,
         cost: formValues.cost,
         retail: formValues.retail,
         description: formValues.description.toUpperCase(),

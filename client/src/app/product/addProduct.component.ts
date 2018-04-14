@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ProductService } from "app/product/product.service";
 // import { FormBuilder } from "@angular/forms/forms";
 import { FormBuilder, Validators, FormGroup, FormControl } from '@angular/forms';
-import { Category, Brand, Vendor, ProductVariantDetail, Model, ProductInventory } from "app/product/product.component";
+import { Category, Brand, Vendor, ProductInventory } from "app/product/product.component";
 import * as moment from 'moment';
 import { slideInOutAnimation } from 'app/shared/animations/slide-in-out.animation';
 import { ToastsManager } from 'ng2-toastr/src/toast-manager';
@@ -26,9 +26,6 @@ export class AddProductComponent implements OnInit {
   categoryDto: Category[];
   brandDto: Brand[];
   vendorDto: Vendor[];
-  modelDto: Model[];
-  productVariantDetailsDto: ProductVariantDetail[];
-  productVariantDetailsByNameDto: ProductVariantDetail[];
   displayDialog = false;
   productNo: any;
   generatedProductNo: string;
@@ -57,9 +54,8 @@ export class AddProductComponent implements OnInit {
         'productNo': [null, [Validators.required, Validators.pattern('^[0-9]+$')]],
         'description': ['', Validators.required],
         'category': [null, Validators.required],
-        'brand': [null, Validators.required],
+        // 'brand': [null, Validators.required],
         'vendor': [null],
-        'model': [null],
         'cost': [null, [Validators.required, Validators.pattern('^[0-9-.]+$')]],
         'markup': [null, Validators.pattern('^[0-9-.]+$')],
         'retail': [null, [Validators.required, Validators.pattern('^[0-9-.]+$')]],
@@ -67,7 +63,6 @@ export class AddProductComponent implements OnInit {
         'minQuantity': [null, [Validators.pattern('^[0-9]+$')]],
         'tax': [true, null],
         'ecommerce': [false, null],
-        'varaint': [false, null],
         'alternetNo':[null]
       }
     );
@@ -79,26 +74,18 @@ export class AddProductComponent implements OnInit {
         console.log('CategoryList' + this.categoryDto);
       });
 
-    this.productService.getBrandDetails()
-      .subscribe((brands: Brand[]) => {
-        this.brandDto = brands;
-        this.form.get('brand').setValue(this.brandDto[0]);
-        console.log('BrandList' + this.brandDto);
-      });
+    // this.productService.getBrandDetails()
+    //   .subscribe((brands: Brand[]) => {
+    //     this.brandDto = brands;
+    //     this.form.get('brand').setValue(this.brandDto[0]);
+    //     console.log('BrandList' + this.brandDto);
+    //   });
 
     this.productService.getVendorDetails()
       .subscribe((vendors: Vendor[]) => {
         this.vendorDto = vendors;
         this.form.get('vendor').setValue(this.vendorDto[0]);
         console.log('VendorList' + this.vendorDto);
-      });
-
-    this.productService.getModelDetails()
-      .subscribe((models: Model[]) => {
-        this.modelDto = models;
-       this.form.get('model').setValue(this.modelDto[0]);
-
-        console.log('ModelList' + this.modelDto);
       });
 
       this.getProductDetails();
@@ -124,8 +111,6 @@ export class AddProductComponent implements OnInit {
     let isProductExists: boolean;
     let isAlternateNoExists: boolean;
 
-  
-    
       this.productInventoryList.push(this.productInventory);
 
       let formValues: ProductForm = this.form.value;
@@ -155,9 +140,8 @@ export class AddProductComponent implements OnInit {
       let product: Product = {
         productNo: formValues.productNo,
         categoryId: formValues.category.categoryId,
-        brandId: formValues.brand.brandId,
+        // brandId: formValues.brand.brandId,
         vendorId: formValues.vendor.vendorId,
-        modelId: formValues.model.modelId,
         alternetNo: formValues.alternetNo,
         cost: formValues.cost,
         retail: formValues.retail,
@@ -190,9 +174,8 @@ export class AddProductComponent implements OnInit {
     // this.form.get('quantity').setValue(null);
     this.form.reset(<ProductForm>{
       category: this.categoryDto[0],
-      brand: this.brandDto[0],
+      // brand: this.brandDto[0],
       vendor: this.vendorDto[0],
-      model: this.modelDto[0]
     }); 
   }
 
@@ -238,7 +221,6 @@ export interface ProductForm {
   category?: Category;
   brand?: Brand
   vendor?: Vendor;
-  model?: Model;
   alternetNo?: string;
   cost?: number;
   retail?: number;
