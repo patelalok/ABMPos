@@ -549,12 +549,12 @@ public class TransactionsManager {
 //            }
         }
         assert transactionDao != null;
-        EmailStatus emailStatus = emailHtmlSender.send(email, transactionDao.getStoreSetupDao().getName() + "Order Details", "template-1", context);
+        EmailStatus emailStatus = emailHtmlSender.send(email, transactionDao.getStoreSetupDao().getName() + " ORDER DETAILS", "template-1", context);
 
         return emailStatus.isSuccess();
     }
 
-    public byte[] testInvoice(int receiptNo) throws DocumentException, IOException {
+    public byte[] getA4Receipt(int receiptNo) throws DocumentException, IOException {
 
         TransactionDao transactionDao;
 
@@ -572,14 +572,10 @@ public class TransactionsManager {
             printStoreDetailsTest(transactionDao, doc);
             //printTransactionDetailsTest(doc, transactionDao);
             //generateLineItemTable(cb);
-
-            printPageNumber(cb);
         }
         doc.close();
 
         return byteArrayOutputStream.toByteArray();
-
-
     }
 
     private void printStoreDetailsTest(TransactionDao transactionDao, Document doc) throws IOException, DocumentException {
@@ -756,10 +752,8 @@ public class TransactionsManager {
                     lineItemTable.addCell(cell3);
                     lineItemTable.addCell(cell4);
                     lineItemTable.addCell(cell5);
-
                 }
             }
-
 
             Paragraph subtotal = new Paragraph("SUBTOTAL", FontFactory.getFont(FontFactory.HELVETICA, 13, Font.NORMAL));
             subtotal.setAlignment(PdfPCell.ALIGN_LEFT);
@@ -780,13 +774,13 @@ public class TransactionsManager {
             paymentType.addElement(tax);
             paymentType.addElement(discount);
             paymentType.addElement(quantity);
-            paymentType.addElement(total);
-            paymentType.addElement(balanceDue);
-
 
             if(transactionDao.getShipping() > 0){
                 paymentType.addElement(shipping);
             }
+            paymentType.addElement(total);
+            paymentType.addElement(balanceDue);
+
             paymentType.setBorder(PdfPCell.NO_BORDER);
 
 
@@ -1040,313 +1034,6 @@ public class TransactionsManager {
         }
     }
 
-    public byte[] getA4Receipt(int receiptNo) throws DocumentException {
-
-        TransactionDao transactionDao;
-
-        // this will generate the PDF document as byte []
-        Document doc = new Document(PageSize.A4);
-        initializeFonts();
-        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-        PdfWriter writer = PdfWriter.getInstance(doc, byteArrayOutputStream);
-        doc.open();
-        PdfContentByte cb = writer.getDirectContent();
-
-
-        // this method call the database and sends the receipt details
-        transactionDao = getTransactionById(receiptNo);
-
-        if (null != transactionDao) {
-
-            printCustomerDetails(cb, transactionDao);
-            printStoreDetails(cb, transactionDao);
-            printTransactionDetails(doc, transactionDao);
-            //generateLineItemTable(cb);
-
-            printPageNumber(cb);
-        }
-        doc.close();
-
-        return byteArrayOutputStream.toByteArray();
-    }
-
-
-    private void printTransactionDetails(Document doc, TransactionDao transactionDao) {
-
-        try {
-            float[] columnWidths = {3, 9, 2, 2, 2};
-            float[] colWidht2 = {4, 4, 4, 4};
-
-
-            doc.add(new Paragraph(":"));
-
-            PdfPTable table = new PdfPTable(columnWidths);
-
-            PdfPTable table1 = new PdfPTable(colWidht2);
-
-            table.setSpacingBefore(5);
-//                table.setSpacingAfter(100);
-
-            table.setWidthPercentage(100);
-
-            table.addCell(new Phrase("Product No", new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
-            table.addCell(new Phrase("Product Description", new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
-//                table.addCell(new Phrase("Disc", new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
-            table.addCell(new Phrase("Retail", new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
-            table.addCell(new Phrase("Items", new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
-            table.addCell(new Phrase("Total", new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
-
-
-            DateFormat f = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-            Date d = null;
-            try {
-                d = f.parse(transactionDao.getDate());
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
-            DateFormat date = new SimpleDateFormat("MM/dd/yyyy");//NEED TO CHECK THIS
-            DateFormat time = new SimpleDateFormat("hh:mm:ss");
-
-
-            // this all dyanamic data which i s cmming form DB
-
-            table1.addCell(new Phrase("Sale Date : " + date.format(d), new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
-            table1.addCell(new Phrase("Sale Time : " + time.format(d), new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
-            table1.addCell(new Phrase("CSR : " + transactionDao.getUsername(), new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
-            table1.addCell(new Phrase("Sales Id : " + transactionDao.getTransactionComId(), new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
-
-            for (TransactionLineItemDao lineItemDao : transactionDao.getTransactionLineItemDaoList()) {
-                table.getDefaultCell().setBorder(Rectangle.NO_BORDER);
-                table.addCell(new Phrase(lineItemDao.getProductNo(), new Font(Font.FontFamily.HELVETICA, 8)));
-                table.addCell(new Phrase(lineItemDao.getDescription(), new Font(Font.FontFamily.HELVETICA, 8)));
-//                    table.addCell(new Phrase("$ " + String.valueOf(lineItemDao.getDiscount()), new Font(Font.FontFamily.HELVETICA, 8)));
-                table.addCell(new Phrase(String.valueOf(lineItemDao.getRetailWithDiscount()), new Font(Font.FontFamily.HELVETICA, 8)));
-                table.addCell(new Phrase(String.valueOf(lineItemDao.getSaleQuantity()), new Font(Font.FontFamily.HELVETICA, 8)));
-                table.addCell(new Phrase(String.valueOf(lineItemDao.getTotalProductPrice()), new Font(Font.FontFamily.HELVETICA, 8)));
-
-            }
-
-            table1.setSpacingBefore(80);
-            table1.setWidthPercentage(100);
-
-            table1.getDefaultCell().setBorder(Rectangle.NO_BORDER);
-
-            doc.add(table1);
-            doc.add(table);
-
-
-            PdfPTable totalTable = new PdfPTable(2);
-            totalTable.getDefaultCell().setBorder(Rectangle.NO_BORDER);
-
-            totalTable.setSpacingBefore(40);
-            totalTable.setHorizontalAlignment(Element.ALIGN_RIGHT);
-            totalTable.setWidthPercentage(32);
-
-
-            totalTable.addCell(new Phrase("Subtotal", new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
-            totalTable.addCell(new Phrase("$ " + String.valueOf(transactionDao.getSubtotal()), new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
-
-            totalTable.addCell(new Phrase("Tax", new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
-            totalTable.addCell(new Phrase("$ " + String.valueOf(transactionDao.getTax()), new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
-
-            totalTable.addCell(new Phrase("Discount", new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
-            totalTable.addCell(new Phrase("$ " + String.valueOf(transactionDao.getTotalDiscount()), new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
-
-            totalTable.addCell(new Phrase("Quantity", new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
-            totalTable.addCell(new Phrase(String.valueOf(transactionDao.getQuantity()), new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
-
-
-            // No need to show previous balance, casue now i have change the logic to pay invoice by transaction to fix the close register and other reporting issues.
-//                if(transactionDao.getPreviousBalance() != 0) {
-//
-//                    totalTable.addCell(new Phrase("Pre Balance", new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
-//                    totalTable.addCell(new Phrase("$ " + String.valueOf(transactionDao.getPreviousBalance()), new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
-//                }
-
-            if (transactionDao.getShipping() > 0) {
-
-                totalTable.addCell(new Phrase("Shipping", new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
-                totalTable.addCell(new Phrase("$ " + String.valueOf(transactionDao.getShipping()), new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
-            }
-
-            totalTable.addCell(new Phrase("Total", new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
-            totalTable.addCell(new Phrase("$ " + String.valueOf(transactionDao.getTotalAmount()), new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
-
-
-            if (null != transactionDao.getPaymentDao()) {
-
-                for (PaymentDao paymentDaos : transactionDao.getPaymentDao()) {
-
-                    Date d1 = null;
-                    try {
-                        d1 = f.parse(paymentDaos.getDate());
-                    } catch (ParseException e) {
-                        e.printStackTrace();
-                    }
-                    DateFormat payDate = new SimpleDateFormat("MM-dd-yyyy");//NEED TO CHECK THIS
-                    DateFormat payTime = new SimpleDateFormat("hh:mm a");
-
-
-                    if (paymentDaos.getCash() != 0) {
-                        totalTable.addCell(new Phrase("Cash", new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
-                        totalTable.addCell(new Phrase("$ " + String.valueOf(paymentDaos.getCash()), new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
-
-                        totalTable.addCell(new Phrase("Pay On", new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
-                        totalTable.addCell(new Phrase(payDate.format(d1) + " " + payTime.format(d1), new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
-                    }
-                    if (paymentDaos.getChangeForCash() != 0) {
-                        totalTable.addCell(new Phrase("Change", new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
-                        totalTable.addCell(new Phrase("$ " + String.valueOf(paymentDaos.getChangeForCash()), new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
-                    }
-                    if (paymentDaos.getCredit() != 0) {
-                        totalTable.addCell(new Phrase("Credit Card", new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
-                        totalTable.addCell(new Phrase("$ " + String.valueOf(paymentDaos.getCredit()), new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
-
-                        totalTable.addCell(new Phrase("Pay On", new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
-                        totalTable.addCell(new Phrase(payDate.format(d1) + " " + payTime.format(d1), new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
-                    }
-                    if (paymentDaos.getDebit() != 0) {
-                        totalTable.addCell(new Phrase("Debit Card", new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
-                        totalTable.addCell(new Phrase("$ " + String.valueOf(paymentDaos.getDebit()), new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
-
-                        totalTable.addCell(new Phrase("Pay On", new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
-                        totalTable.addCell(new Phrase(payDate.format(d1) + " " + payTime.format(d1), new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
-                    }
-                    if (paymentDaos.getCheckAmount() != 0) {
-                        totalTable.addCell(new Phrase("Check", new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
-                        totalTable.addCell(new Phrase("$ " + String.valueOf(paymentDaos.getCheckAmount()), new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
-
-                        totalTable.addCell(new Phrase("Pay On", new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
-                        totalTable.addCell(new Phrase(payDate.format(d1) + " " + payTime.format(d1), new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
-                    }
-// else if (paymentDaos.getOnAccount() != 0) {
-//                        totalTable.addCell(new Phrase("On Account", new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
-//                        totalTable.addCell(new Phrase("$ " + String.valueOf(transactionDao.getPaymentDao().get(0).getOnAccount()), new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
-//                    }
-                    if (paymentDaos.getStoreCredit() != 0) {
-                        totalTable.addCell(new Phrase("Store Credit", new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
-                        totalTable.addCell(new Phrase("$ " + String.valueOf(paymentDaos.getStoreCredit()), new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
-
-                        totalTable.addCell(new Phrase("Pay On", new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
-                        totalTable.addCell(new Phrase(payDate.format(d1) + " " + payTime.format(d1), new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
-                    }
-                    if (paymentDaos.getLoyalty() != 0) {
-                        totalTable.addCell(new Phrase("Loyalty", new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
-                        totalTable.addCell(new Phrase("$ " + String.valueOf(paymentDaos.getLoyalty()), new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
-                    }
-
-                }
-
-                if (transactionDao.getTransactionBalance() > 0) {
-
-                    totalTable.addCell(new Phrase("Today's Balance Due", new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
-                    totalTable.addCell(new Phrase("$ " + String.valueOf(transactionDao.getTransactionBalance()), new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
-                }
-
-                // Now to get sum of pending invoice to show, total balance due.
-
-                if (null != transactionDao.getCustomerPhoneno()) {
-                    List<Double> totalDueBalance;
-                    totalDueBalance = transactionRepository.getTransactionDueAmountByCustomer(transactionDao.getCustomerPhoneno());
-
-                    if (null != totalDueBalance && null != totalDueBalance.get(0) && totalDueBalance.get(0) > 0) {
-                        totalTable.addCell(new Phrase("Total Balance Due", new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
-                        totalTable.addCell(new Phrase("$ " + String.valueOf(totalDueBalance), new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
-                    }
-                }
-
-
-            }
-
-
-            doc.add(totalTable);
-
-            Paragraph notes = new Paragraph("Receipt Notes: ");
-            Paragraph transactionNotes = new Paragraph(transactionDao.getNote());
-            transactionNotes.setSpacingBefore(30f);
-
-            doc.add(notes);
-            doc.add(transactionNotes);
-
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
-
-    }
-
-    private void printCustomerDetails(PdfContentByte cb, TransactionDao transactionDao) {
-
-        if (null != transactionDao && null != transactionDao.getCustomerPhoneno()) {
-
-
-            String test = transactionDao.getCustomerPhoneno();
-
-            CustomerDao customerDao = customerManager.getCustomerByPhoneNo(test);
-
-            if (null != customerDao) {
-
-                createCustomerDetails(cb, 460, 800, customerDao.getCompanyName());
-                createCustomerDetails(cb, 460, 785, customerDao.getName());
-                createCustomerDetails(cb, 460, 770, customerDao.getStreet());
-                createCustomerDetails(cb, 460, 755, customerDao.getCity() + customerDao.getState() + customerDao.getZipCode());
-                createCustomerDetails(cb, 460, 740, customerDao.getCountry());
-            }
-        }
-
-    }
-
-    private void printStoreDetails(PdfContentByte cb, TransactionDao transactionDao) {
-
-        if (null != transactionDao.getStoreSetupDao()) {
-            createCustomerDetails(cb, 35, 800, transactionDao.getStoreSetupDao().getName());
-            createCustomerDetails(cb, 35, 785, transactionDao.getStoreSetupDao().getStreet());
-            createCustomerDetails(cb, 35, 770, transactionDao.getStoreSetupDao().getCity() + " ," + transactionDao.getStoreSetupDao().getState() + " - " + transactionDao.getStoreSetupDao().getZipcode());
-            createCustomerDetails(cb, 35, 755, "USA");
-            createCustomerDetails(cb, 35, 740, transactionDao.getStoreSetupDao().getPhoneNo());
-        }
-
-
-    }
-
-    private void initializeFonts() {
-
-
-        try {
-            bfBold = BaseFont.createFont(BaseFont.HELVETICA_BOLD, BaseFont.CP1252, BaseFont.NOT_EMBEDDED);
-            bf = BaseFont.createFont(BaseFont.HELVETICA, BaseFont.CP1252, BaseFont.NOT_EMBEDDED);
-
-        } catch (DocumentException | IOException e) {
-            e.printStackTrace();
-        }
-
-
-    }
-
-    private void printPageNumber(PdfContentByte cb) {
-
-
-        cb.beginText();
-        cb.setFontAndSize(bfBold, 8);
-        cb.showTextAligned(PdfContentByte.ALIGN_CENTER, "Page No. " + (pageNumber + 1), 570, 25, 0);
-        cb.endText();
-
-        pageNumber++;
-
-    }
-
-    private void createCustomerDetails(PdfContentByte cb, float x, float y, String text) {
-
-
-        cb.beginText();
-        cb.setFontAndSize(bfBold, 8);
-        cb.setTextMatrix(x, y);
-
-        if (null != text)
-            cb.showText(text.trim());
-        cb.endText();
-
-    }
-
     public List<TransactionDao> getPendingInvoiceByCustomer(String phoneNo) {
 
         return transactionRepository.findAllByStatusEqualsAndCustomerPhoneno("Pending", phoneNo);
@@ -1378,4 +1065,313 @@ public class TransactionsManager {
 
         return paymentRepository.findAllByTransactionComId(transactionCompId);
     }
+
+//    public byte[] getA4Receipt(int receiptNo) throws DocumentException {
+//
+//        TransactionDao transactionDao;
+//
+//        // this will generate the PDF document as byte []
+//        Document doc = new Document(PageSize.A4);
+//        initializeFonts();
+//        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+//        PdfWriter writer = PdfWriter.getInstance(doc, byteArrayOutputStream);
+//        doc.open();
+//        PdfContentByte cb = writer.getDirectContent();
+//
+//
+//        // this method call the database and sends the receipt details
+//        transactionDao = getTransactionById(receiptNo);
+//
+//        if (null != transactionDao) {
+//
+//            printCustomerDetails(cb, transactionDao);
+//            printStoreDetails(cb, transactionDao);
+//            printTransactionDetails(doc, transactionDao);
+//            //generateLineItemTable(cb);
+//
+//            printPageNumber(cb);
+//        }
+//        doc.close();
+//
+//        return byteArrayOutputStream.toByteArray();
+//    }
+
+//
+//    private void printTransactionDetails(Document doc, TransactionDao transactionDao) {
+//
+//        try {
+//            float[] columnWidths = {3, 9, 2, 2, 2};
+//            float[] colWidht2 = {4, 4, 4, 4};
+//
+//
+//            doc.add(new Paragraph(":"));
+//
+//            PdfPTable table = new PdfPTable(columnWidths);
+//
+//            PdfPTable table1 = new PdfPTable(colWidht2);
+//
+//            table.setSpacingBefore(5);
+////                table.setSpacingAfter(100);
+//
+//            table.setWidthPercentage(100);
+//
+//            table.addCell(new Phrase("Product No", new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
+//            table.addCell(new Phrase("Product Description", new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
+////                table.addCell(new Phrase("Disc", new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
+//            table.addCell(new Phrase("Retail", new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
+//            table.addCell(new Phrase("Items", new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
+//            table.addCell(new Phrase("Total", new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
+//
+//
+//            DateFormat f = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+//            Date d = null;
+//            try {
+//                d = f.parse(transactionDao.getDate());
+//            } catch (ParseException e) {
+//                e.printStackTrace();
+//            }
+//            DateFormat date = new SimpleDateFormat("MM/dd/yyyy");//NEED TO CHECK THIS
+//            DateFormat time = new SimpleDateFormat("hh:mm:ss");
+//
+//
+//            // this all dyanamic data which i s cmming form DB
+//
+//            table1.addCell(new Phrase("Sale Date : " + date.format(d), new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
+//            table1.addCell(new Phrase("Sale Time : " + time.format(d), new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
+//            table1.addCell(new Phrase("CSR : " + transactionDao.getUsername(), new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
+//            table1.addCell(new Phrase("Sales Id : " + transactionDao.getTransactionComId(), new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
+//
+//            for (TransactionLineItemDao lineItemDao : transactionDao.getTransactionLineItemDaoList()) {
+//                table.getDefaultCell().setBorder(Rectangle.NO_BORDER);
+//                table.addCell(new Phrase(lineItemDao.getProductNo(), new Font(Font.FontFamily.HELVETICA, 8)));
+//                table.addCell(new Phrase(lineItemDao.getDescription(), new Font(Font.FontFamily.HELVETICA, 8)));
+////                    table.addCell(new Phrase("$ " + String.valueOf(lineItemDao.getDiscount()), new Font(Font.FontFamily.HELVETICA, 8)));
+//                table.addCell(new Phrase(String.valueOf(lineItemDao.getRetailWithDiscount()), new Font(Font.FontFamily.HELVETICA, 8)));
+//                table.addCell(new Phrase(String.valueOf(lineItemDao.getSaleQuantity()), new Font(Font.FontFamily.HELVETICA, 8)));
+//                table.addCell(new Phrase(String.valueOf(lineItemDao.getTotalProductPrice()), new Font(Font.FontFamily.HELVETICA, 8)));
+//
+//            }
+//
+//            table1.setSpacingBefore(80);
+//            table1.setWidthPercentage(100);
+//
+//            table1.getDefaultCell().setBorder(Rectangle.NO_BORDER);
+//
+//            doc.add(table1);
+//            doc.add(table);
+//
+//
+//            PdfPTable totalTable = new PdfPTable(2);
+//            totalTable.getDefaultCell().setBorder(Rectangle.NO_BORDER);
+//
+//            totalTable.setSpacingBefore(40);
+//            totalTable.setHorizontalAlignment(Element.ALIGN_RIGHT);
+//            totalTable.setWidthPercentage(32);
+//
+//
+//            totalTable.addCell(new Phrase("Subtotal", new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
+//            totalTable.addCell(new Phrase("$ " + String.valueOf(transactionDao.getSubtotal()), new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
+//
+//            totalTable.addCell(new Phrase("Tax", new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
+//            totalTable.addCell(new Phrase("$ " + String.valueOf(transactionDao.getTax()), new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
+//
+//            totalTable.addCell(new Phrase("Discount", new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
+//            totalTable.addCell(new Phrase("$ " + String.valueOf(transactionDao.getTotalDiscount()), new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
+//
+//            totalTable.addCell(new Phrase("Quantity", new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
+//            totalTable.addCell(new Phrase(String.valueOf(transactionDao.getQuantity()), new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
+//
+//
+//            // No need to show previous balance, casue now i have change the logic to pay invoice by transaction to fix the close register and other reporting issues.
+////                if(transactionDao.getPreviousBalance() != 0) {
+////
+////                    totalTable.addCell(new Phrase("Pre Balance", new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
+////                    totalTable.addCell(new Phrase("$ " + String.valueOf(transactionDao.getPreviousBalance()), new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
+////                }
+//
+//            if (transactionDao.getShipping() > 0) {
+//
+//                totalTable.addCell(new Phrase("Shipping", new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
+//                totalTable.addCell(new Phrase("$ " + String.valueOf(transactionDao.getShipping()), new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
+//            }
+//
+//            totalTable.addCell(new Phrase("Total", new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
+//            totalTable.addCell(new Phrase("$ " + String.valueOf(transactionDao.getTotalAmount()), new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
+//
+//
+//            if (null != transactionDao.getPaymentDao()) {
+//
+//                for (PaymentDao paymentDaos : transactionDao.getPaymentDao()) {
+//
+//                    Date d1 = null;
+//                    try {
+//                        d1 = f.parse(paymentDaos.getDate());
+//                    } catch (ParseException e) {
+//                        e.printStackTrace();
+//                    }
+//                    DateFormat payDate = new SimpleDateFormat("MM-dd-yyyy");//NEED TO CHECK THIS
+//                    DateFormat payTime = new SimpleDateFormat("hh:mm a");
+//
+//
+//                    if (paymentDaos.getCash() != 0) {
+//                        totalTable.addCell(new Phrase("Cash", new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
+//                        totalTable.addCell(new Phrase("$ " + String.valueOf(paymentDaos.getCash()), new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
+//
+//                        totalTable.addCell(new Phrase("Pay On", new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
+//                        totalTable.addCell(new Phrase(payDate.format(d1) + " " + payTime.format(d1), new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
+//                    }
+//                    if (paymentDaos.getChangeForCash() != 0) {
+//                        totalTable.addCell(new Phrase("Change", new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
+//                        totalTable.addCell(new Phrase("$ " + String.valueOf(paymentDaos.getChangeForCash()), new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
+//                    }
+//                    if (paymentDaos.getCredit() != 0) {
+//                        totalTable.addCell(new Phrase("Credit Card", new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
+//                        totalTable.addCell(new Phrase("$ " + String.valueOf(paymentDaos.getCredit()), new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
+//
+//                        totalTable.addCell(new Phrase("Pay On", new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
+//                        totalTable.addCell(new Phrase(payDate.format(d1) + " " + payTime.format(d1), new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
+//                    }
+//                    if (paymentDaos.getDebit() != 0) {
+//                        totalTable.addCell(new Phrase("Debit Card", new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
+//                        totalTable.addCell(new Phrase("$ " + String.valueOf(paymentDaos.getDebit()), new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
+//
+//                        totalTable.addCell(new Phrase("Pay On", new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
+//                        totalTable.addCell(new Phrase(payDate.format(d1) + " " + payTime.format(d1), new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
+//                    }
+//                    if (paymentDaos.getCheckAmount() != 0) {
+//                        totalTable.addCell(new Phrase("Check", new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
+//                        totalTable.addCell(new Phrase("$ " + String.valueOf(paymentDaos.getCheckAmount()), new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
+//
+//                        totalTable.addCell(new Phrase("Pay On", new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
+//                        totalTable.addCell(new Phrase(payDate.format(d1) + " " + payTime.format(d1), new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
+//                    }
+//// else if (paymentDaos.getOnAccount() != 0) {
+////                        totalTable.addCell(new Phrase("On Account", new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
+////                        totalTable.addCell(new Phrase("$ " + String.valueOf(transactionDao.getPaymentDao().get(0).getOnAccount()), new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
+////                    }
+//                    if (paymentDaos.getStoreCredit() != 0) {
+//                        totalTable.addCell(new Phrase("Store Credit", new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
+//                        totalTable.addCell(new Phrase("$ " + String.valueOf(paymentDaos.getStoreCredit()), new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
+//
+//                        totalTable.addCell(new Phrase("Pay On", new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
+//                        totalTable.addCell(new Phrase(payDate.format(d1) + " " + payTime.format(d1), new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
+//                    }
+//                    if (paymentDaos.getLoyalty() != 0) {
+//                        totalTable.addCell(new Phrase("Loyalty", new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
+//                        totalTable.addCell(new Phrase("$ " + String.valueOf(paymentDaos.getLoyalty()), new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
+//                    }
+//
+//                }
+//
+//                if (transactionDao.getTransactionBalance() > 0) {
+//
+//                    totalTable.addCell(new Phrase("Today's Balance Due", new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
+//                    totalTable.addCell(new Phrase("$ " + String.valueOf(transactionDao.getTransactionBalance()), new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
+//                }
+//
+//                // Now to get sum of pending invoice to show, total balance due.
+//
+//                if (null != transactionDao.getCustomerPhoneno()) {
+//                    List<Double> totalDueBalance;
+//                    totalDueBalance = transactionRepository.getTransactionDueAmountByCustomer(transactionDao.getCustomerPhoneno());
+//
+//                    if (null != totalDueBalance && null != totalDueBalance.get(0) && totalDueBalance.get(0) > 0) {
+//                        totalTable.addCell(new Phrase("Total Balance Due", new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
+//                        totalTable.addCell(new Phrase("$ " + String.valueOf(totalDueBalance), new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD)));
+//                    }
+//                }
+//
+//
+//            }
+//
+//
+//            doc.add(totalTable);
+//
+//            Paragraph notes = new Paragraph("Receipt Notes: ");
+//            Paragraph transactionNotes = new Paragraph(transactionDao.getNote());
+//            transactionNotes.setSpacingBefore(30f);
+//
+//            doc.add(notes);
+//            doc.add(transactionNotes);
+//
+//        } catch (Exception ex) {
+//            ex.printStackTrace();
+//        }
+//
+//    }
+
+//    private void printCustomerDetails(PdfContentByte cb, TransactionDao transactionDao) {
+//
+//        if (null != transactionDao && null != transactionDao.getCustomerPhoneno()) {
+//
+//
+//            String test = transactionDao.getCustomerPhoneno();
+//
+//            CustomerDao customerDao = customerManager.getCustomerByPhoneNo(test);
+//
+//            if (null != customerDao) {
+//
+//                createCustomerDetails(cb, 460, 800, customerDao.getCompanyName());
+//                createCustomerDetails(cb, 460, 785, customerDao.getName());
+//                createCustomerDetails(cb, 460, 770, customerDao.getStreet());
+//                createCustomerDetails(cb, 460, 755, customerDao.getCity() + customerDao.getState() + customerDao.getZipCode());
+//                createCustomerDetails(cb, 460, 740, customerDao.getCountry());
+//            }
+//        }
+//
+//    }
+
+//    private void printStoreDetails(PdfContentByte cb, TransactionDao transactionDao) {
+//
+//        if (null != transactionDao.getStoreSetupDao()) {
+//            createCustomerDetails(cb, 35, 800, transactionDao.getStoreSetupDao().getName());
+//            createCustomerDetails(cb, 35, 785, transactionDao.getStoreSetupDao().getStreet());
+//            createCustomerDetails(cb, 35, 770, transactionDao.getStoreSetupDao().getCity() + " ," + transactionDao.getStoreSetupDao().getState() + " - " + transactionDao.getStoreSetupDao().getZipcode());
+//            createCustomerDetails(cb, 35, 755, "USA");
+//            createCustomerDetails(cb, 35, 740, transactionDao.getStoreSetupDao().getPhoneNo());
+//        }
+//
+//
+//    }
+
+    private void initializeFonts() {
+
+
+        try {
+            bfBold = BaseFont.createFont(BaseFont.HELVETICA_BOLD, BaseFont.CP1252, BaseFont.NOT_EMBEDDED);
+            bf = BaseFont.createFont(BaseFont.HELVETICA, BaseFont.CP1252, BaseFont.NOT_EMBEDDED);
+
+        } catch (DocumentException | IOException e) {
+            e.printStackTrace();
+        }
+
+
+    }
+
+//    private void printPageNumber(PdfContentByte cb) {
+//
+//
+//        cb.beginText();
+//        cb.setFontAndSize(bfBold, 8);
+//        cb.showTextAligned(PdfContentByte.ALIGN_CENTER, "Page No. " + (pageNumber + 1), 570, 25, 0);
+//        cb.endText();
+//
+//        pageNumber++;
+//
+//    }
+
+//    private void createCustomerDetails(PdfContentByte cb, float x, float y, String text) {
+//
+//
+//        cb.beginText();
+//        cb.setFontAndSize(bfBold, 8);
+//        cb.setTextMatrix(x, y);
+//
+//        if (null != text)
+//            cb.showText(text.trim());
+//        cb.endText();
+//
+//    }
+
+
 }

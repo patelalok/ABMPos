@@ -561,7 +561,7 @@ public class ReportManager {
     }
 
 
-    private void printPageNumber(PdfContentByte cb) {
+    public void printPageNumber(PdfContentByte cb) {
 
 
         cb.beginText();

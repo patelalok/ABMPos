@@ -39,7 +39,7 @@ public class TransactionController {
     @RequestMapping(value = "/getA4Receipt", method = RequestMethod.GET, produces = "application/json")
     public ResponseEntity<byte[]> getA4Receipt(@RequestParam int receiptNo) throws DocumentException, IOException {
 
-        byte [] pdfDataBytes = transactionManager.testInvoice(receiptNo);
+        byte [] pdfDataBytes = transactionManager.getA4Receipt(receiptNo);
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.parseMediaType("application/pdf"));
         headers.add("Access-Control-Allow-Origin", "*");

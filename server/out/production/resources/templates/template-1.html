@@ -28,9 +28,10 @@ th {
 <body>
 <div>
 
-    <span>Dear</span> <span th:text="${firstName}"></span>
+    <span>Dear &nbsp;</span> <span th:text="${firstName}"></span>
 
-    <p> Thank You for shopping with MK PHONES ATL, Please find your order details below.</p>
+    <p> Thank You for shopping with us, We appreciate your business.</p>
+    <p>Please find your order details below.</p>
 
     <br />
     <br />
@@ -38,10 +39,12 @@ th {
     <h2>Shipping Address</h2>
     <h3 th:text="${firstName}">firstName</h3>
     <h3 th:text="${companyName}">companyName</h3>
-    <h3 th:text="${addressLine}">addressLine</h3>
+    <p>
+        <h3 th:text="${addressLine}">addressLine</h3>
     <h3 th:text="${City}">City</h3>
     <h3 th:text="${State}">State</h3>
     <h3 th:text="${zipcode}">zipcode</h3>
+    </p>
     <h3 th:text="${phoneNo}">phoneNo</h3>
 </div>
 <hr />
