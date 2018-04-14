@@ -44,6 +44,17 @@ private url: string;
     });
     }
 
+    addImage(image: any) {
+      console.log('Image To Add' + image);
+       this.http.post(this.url+'/insertStoreImage',image)
+       .subscribe(data => {
+         console.log('Response From Add Customer call' + data);
+       },
+         error => {
+       console.log(JSON.stringify(error.json()));
+     });
+         }
+
 
     private extractData(res: Response): StoreSetupDto[] {
         let body = res.json();

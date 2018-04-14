@@ -4,6 +4,7 @@ import { PersistenceService } from 'app/shared/services/persistence.service';
 import { Router } from '@angular/router';
 import { MenuItem } from 'app/shared/top-navbar/top-navbar.component';
 import { FormBuilder, FormGroup } from '@angular/forms';
+import { Product } from 'app/sell/sale/sale.component';
 
 @Component({
   selector: 'app-storesetup',
@@ -14,7 +15,8 @@ export class StoresetupComponent implements OnInit {
   storeDetails = new StoreSetupDto();
   items: MenuItem[];
   storeForm: FormGroup;
-  
+  image: any;
+  formData: FormData;
 
   constructor(private storeSetupService: StoreSetupService, private persit: PersistenceService, private router: Router, private formBuilder: FormBuilder) { }
 
@@ -79,6 +81,16 @@ export class StoresetupComponent implements OnInit {
   saveStoreDetails() {
     this.storeSetupService.saveStoreDetails(this.storeForm.value);
   }
+  addImage(event) {
+    const element: any = (document.querySelectorAll('#file-input')[0]);
+    //console.log('image', element.files[0]);
+   // console.log('Event', event.target.files[0]);
+    this.image = event.target.files;
+
+    this.formData = new FormData();
+    this.formData.append('file', this.image);
+    this.storeSetupService.addImage(this.formData);
+}
 
 }
 

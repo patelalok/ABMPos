@@ -892,6 +892,9 @@ export class SaleComponent implements OnInit, AfterViewInit {
 
   clearAllDateAfterTransactionComplete() {
 
+    // For now i have to do this to fix the issue with quantity not showing 
+    this.getProductDetails();
+
     // This is important to handle when user click on Close button from payment popup, we need to clear data only when transaction is completed ottherwise just need to close the popup.
     if (null != this.printTransactionDto) {
       this.transactionDtoList = new TransactionDtoList();
@@ -1134,6 +1137,7 @@ export class SaleComponent implements OnInit, AfterViewInit {
     this.productService.getProductDetails();
    this._subscriptionProduct =  this.productService.productListChange.subscribe((product)=>{
       this.productList = product;
+      this.productList = this.productList.slice();
     })
     // this.productService.getProductDetails()
     // .subscribe((products) => {
@@ -1155,6 +1159,8 @@ export class SaleComponent implements OnInit, AfterViewInit {
     this.setTransactionDtoList();
     this.saleType = 'Complete';
     this.router.navigate(['/sell/sale']);
+    //this.productList = [];
+    this.getProductDetails();
   }
   print(obj) {
     console.log("Coming form print", obj);
