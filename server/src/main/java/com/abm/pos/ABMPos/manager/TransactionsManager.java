@@ -155,11 +155,6 @@ public class TransactionsManager {
 
         } else if (transactionDao.getStatus().equalsIgnoreCase("Return") || transactionDao.getStatus().equalsIgnoreCase("Void")) {
 
-            // this logic help to, manage regular return and RMI return, cause in RMI return we do not need to insert inventory again.
-            if (!transactionDao.isRma()) {
-                // Managing inventory for the RETURN or VOID
-                manageProductInventoryAfterSale(transactionDao);
-            }
 
             // Handing store credit here
             // This means user is giving store credit to the customer so i need to add customers store credit with valid reason.
@@ -459,10 +454,9 @@ public class TransactionsManager {
                 transactionDao.setQuantity((Integer) j[6]);
                 transactionDao.setCustomerPhoneno(String.valueOf(j[7]));
                 transactionDao.setStatus(String.valueOf(j[8]));
-                transactionDao.setPreviousBalance(Double.parseDouble(j[9].toString()));
-                transactionDao.setTransactionBalance(Double.parseDouble(j[10].toString()));
-                transactionDao.setUsername(String.valueOf(j[11]));
-                transactionDao.setCustomerFirstLastName(String.valueOf(j[12]));
+                transactionDao.setTransactionBalance(Double.parseDouble(j[9].toString()));
+                transactionDao.setUsername(String.valueOf(j[10]));
+                transactionDao.setCustomerFirstLastName(String.valueOf(j[11]));
 
                 transactionDaoList.add(transactionDao);
             }
@@ -507,7 +501,6 @@ public class TransactionsManager {
 
             //setting transaction details
             context.setVariable("subtotal", transactionDao.getSubtotal());
-            context.setVariable("shipping", transactionDao.getShipping());
             context.setVariable("quantity", transactionDao.getQuantity());
             context.setVariable("discount", transactionDao.getTotalDiscount());
 
@@ -751,9 +744,6 @@ public class TransactionsManager {
             paymentType.addElement(discount);
             paymentType.addElement(quantity);
 
-            if(transactionDao.getShipping() > 0){
-                paymentType.addElement(shipping);
-            }
             paymentType.addElement(total);
             paymentType.addElement(balanceDue);
 
@@ -768,8 +758,6 @@ public class TransactionsManager {
             discount1.setAlignment(PdfPCell.ALIGN_RIGHT);
             Paragraph quantity1 = new Paragraph(String.valueOf(transactionDao.getQuantity()), FontFactory.getFont(FontFactory.HELVETICA, 13, Font.NORMAL));
             quantity1.setAlignment(PdfPCell.ALIGN_RIGHT);
-            Paragraph shipping1 = new Paragraph(String.valueOf(transactionDao.getShipping()), FontFactory.getFont(FontFactory.HELVETICA, 13, Font.NORMAL));
-            shipping1.setAlignment(PdfPCell.ALIGN_RIGHT);
             Paragraph total1 = new Paragraph("$ " + transactionDao.getTotalAmount(), FontFactory.getFont(FontFactory.HELVETICA, 13, Font.NORMAL));
             total1.setAlignment(PdfPCell.ALIGN_RIGHT);
             Paragraph balanceDue1 = new Paragraph("$ " + transactionDao.getTransactionBalance(), FontFactory.getFont(FontFactory.HELVETICA, 13, Font.BOLD));
@@ -782,9 +770,6 @@ public class TransactionsManager {
             paymentAmount.addElement(total1);
             paymentAmount.addElement(balanceDue1);
 
-            if(transactionDao.getShipping() > 0){
-                paymentAmount.addElement(shipping1);
-            }
             paymentAmount.setBorder(PdfPCell.NO_BORDER);
 
             paymentTable.addCell(paymentType);

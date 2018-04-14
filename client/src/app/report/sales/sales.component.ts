@@ -97,12 +97,9 @@ export class SalesComponent implements OnInit {
       else if(this.salesDropdown === 'Sales By Vendor') {
         this.dateDto = this.dateService.getDateByInput(this.salesDateDropdown)
       }
-      else if(this.salesDropdown === 'Sales By Brand') {
-        this.dateDto = this.dateService.getDateByInput(this.salesDateDropdown)
-      }
-      else if(this.salesDropdown === 'Sales By Model') {
-        this.dateDto = this.dateService.getDateByInput(this.salesDateDropdown)
-      }
+      // else if(this.salesDropdown === 'Sales By Brand') {
+      //   this.dateDto = this.dateService.getDateByInput(this.salesDateDropdown)
+      // }
       else if(this.salesDropdown === 'Sales By Product') {
         this.dateDto = this.dateService.getDateByInput(this.salesDateDropdown)
       }

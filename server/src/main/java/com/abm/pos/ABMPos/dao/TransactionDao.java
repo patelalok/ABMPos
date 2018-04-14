@@ -23,16 +23,13 @@ public class TransactionDao {
     private double tax;
     private double totalDiscount;
     private double  subtotal;
-    private double shipping;
     private int quantity;
     private String customerPhoneno;
     private String status;
-    private double previousBalance;
     private double transactionBalance;
     private String username;
     private String customerFirstLastName;
     private String note;
-    private boolean rma;
     private boolean parkSale;
 
     //this is need to handle store credit scenario
@@ -136,13 +133,6 @@ public class TransactionDao {
         this.status = status;
     }
 
-    public double getPreviousBalance() {
-        return previousBalance;
-    }
-
-    public void setPreviousBalance(double previousBalance) {
-        this.previousBalance = previousBalance;
-    }
 
     public double getTransactionBalance() {
         return transactionBalance;
@@ -221,22 +211,6 @@ public class TransactionDao {
 
     public void setStoreSetupDao(StoreSetupDao storeSetupDao) {
         this.storeSetupDao = storeSetupDao;
-    }
-
-    public double getShipping() {
-        return shipping;
-    }
-
-    public void setShipping(double shipping) {
-        this.shipping = shipping;
-    }
-
-    public boolean isRma() {
-        return rma;
-    }
-
-    public void setRma(boolean rma) {
-        this.rma = rma;
     }
 
     public boolean isParkSale() {

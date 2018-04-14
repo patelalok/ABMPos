@@ -31,7 +31,7 @@ public interface TransactionRepository extends JpaRepository<TransactionDao, Int
     List<Object[]> getTransactionByDate(String startDate, String endDate);
 
 //    @Query("SELECT SUM(subtotal), SUM(tax), SUM(totalDiscount)  FROM TransactionDao  WHERE (status = 'Complete' OR status = 'Return') AND (date BETWEEN ?1 AND ?2) ")
-    @Query("SELECT SUM(totalAmount),SUM(tax),SUM(totalDiscount),SUM(shipping),(SELECT SUM(totalAmount) from TransactionDao WHERE status = 'Return' AND (date BETWEEN ?1 AND ?2 )) As totalReturn FROM TransactionDao  WHERE (status = 'Complete' OR status = 'Return') AND (date BETWEEN ?1 AND ?2)")
+    @Query("SELECT SUM(totalAmount),SUM(tax),SUM(totalDiscount),(SELECT SUM(totalAmount) from TransactionDao WHERE status = 'Return' AND (date BETWEEN ?1 AND ?2 )) As totalReturn FROM TransactionDao  WHERE (status = 'Complete' OR status = 'Return') AND (date BETWEEN ?1 AND ?2)")
     List<Object[]> getSumOfTransactionDetailsForCloseRegister(String startDate, String endDate);
 
     @Query(value = "SELECT monthname(t.date) AS NameOfMonth,\n" +

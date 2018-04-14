@@ -153,17 +153,17 @@ export class SaleComponent implements OnInit, AfterViewInit {
   public addTransactionLineItem(productObj: Product): TransactionLineItemDaoList[] {
 
     // Price by customer logic.
-    if (null != this.selectedCustomer && this.selectedCustomer != undefined) {
-      if (this.productPriceArryByCustomer && null != this.productPriceArryByCustomer && this.productPriceArryByCustomer.length > 0) {
+    // if (null != this.selectedCustomer && this.selectedCustomer != undefined) {
+    //   if (this.productPriceArryByCustomer && null != this.productPriceArryByCustomer && this.productPriceArryByCustomer.length > 0) {
 
-        this.productPriceArryByCustomer.forEach((product) => {
-          // here product[1] is the product no coming from back end, i am sending only 2 values prodcut no and retail.  like this--->["23424234234", 12.99]
-          if (product[0] == productObj.productNo) {
-            productObj.retailWithDiscount = product[1];
-          }
-        })
-      }
-    }
+    //     this.productPriceArryByCustomer.forEach((product) => {
+    //       // here product[1] is the product no coming from back end, i am sending only 2 values prodcut no and retail.  like this--->["23424234234", 12.99]
+    //       if (product[0] == productObj.productNo) {
+    //         productObj.retailWithDiscount = product[1];
+    //       }
+    //     })
+    //   }
+    // }
     // This will help to add retailWithDiscount first time when user add the first line item
     if (productObj.retailWithDiscount <= 0) {
       productObj.retailWithDiscount = productObj.retail;
@@ -279,7 +279,7 @@ export class SaleComponent implements OnInit, AfterViewInit {
       }
     }
    
-    if (typeof value === 'string') {
+    else if (typeof value === 'string') {
       if (value !== '' && value !== undefined && value.indexOf('.') !== 0) {
         if (value.match(/[a-z]/i)) {
           // Not sure wt it is doing

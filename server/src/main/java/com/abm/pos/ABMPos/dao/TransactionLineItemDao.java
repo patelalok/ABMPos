@@ -25,6 +25,8 @@ public class TransactionLineItemDao {
     private double discount;
     private double totalProductPrice;
     private String imeiNo;
+
+    @Transient
     private String description;
 
 

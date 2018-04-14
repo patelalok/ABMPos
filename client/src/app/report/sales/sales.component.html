@@ -13,8 +13,7 @@
                     <option>Sales Summary</option>
                     <option>Sales By Category</option>
                     <option>Sales By Vendor</option>
-                    <option>Sales By Brand</option>
-                    <option>Sales By Model</option>
+                    <!-- <option>Sales By Brand</option> -->
                     <option>Sales By Product</option>
                     <option>Sales By Employee</option>
                     <option>Sales By Customer</option>
@@ -165,11 +164,11 @@
                             {{summary.check | currency:'USD':'true'}}
                         </ng-template>
                     </p-column>
-                    <p-column field="storeCredit" header="Store Credit" [sortable]="true">
+                    <!-- <p-column field="storeCredit" header="Store Credit" [sortable]="true">
                         <ng-template let-summary="rowData" pTemplate="body">
                             {{summary.storeCredit | currency:'USD':'true'}}
                         </ng-template>
-                    </p-column>
+                    </p-column> -->
                     <p-column field="tax" header="Tax" [sortable]="true">
                         <ng-template let-summary="rowData" pTemplate="body">
                             {{summary.tax | currency:'USD':'true'}}
@@ -187,11 +186,12 @@
                             {{summary.returns | currency:'USD':'true'}}
                         </ng-template>
                     </p-column> -->
-                    <p-column field="dueBalance" header="Due Balance">
+
+                    <!-- <p-column field="dueBalance" header="Due Balance">
                         <ng-template let-summary="rowData" pTemplate="body">
                             {{summary.dueBalance | currency:'USD':'true'}}
                         </ng-template>
-                    </p-column>
+                    </p-column> -->
                     <p-column field="profit" header="Profit" [sortable]="true">
                         <ng-template let-summary="rowData" pTemplate="body">
                             {{summary.profit | currency:'USD':'true'}}
