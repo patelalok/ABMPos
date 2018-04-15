@@ -65,6 +65,18 @@ private url: string;
     return details$; 
   }
 
+  opneCashDrawer() {
+    return this.http.get(this.url+'/openCashDrawer')
+    //.map(this.extractData)
+    //.catch(this.handleError);
+  }
+
+  printThermalReceipt(transaction: TransactionDtoList) {
+    // this.document.
+    return this.http.get(this.url+'/getThermalReceipt?receiptNo='+transaction.transactionComId)
+    .map(this.extractData)
+    .catch(this.handleError);
+}
   
   getCurrentSaleCustomer(){
     let details$: Observable<Customer>; 

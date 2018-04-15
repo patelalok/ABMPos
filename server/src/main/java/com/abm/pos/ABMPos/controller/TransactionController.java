@@ -15,6 +15,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
+import java.text.ParseException;
 import java.util.List;
 
 
@@ -53,6 +54,19 @@ public class TransactionController {
         ResponseEntity<byte[]> response = new ResponseEntity<byte[]>(pdfDataBytes, headers, HttpStatus.OK);
         return response;
 
+    }
+
+    @RequestMapping(value = "/getThermalReceipt", method = RequestMethod.GET)
+    public void getThermalReceipt(@RequestParam int receiptNo) throws ParseException {
+
+        System.out.println("coming for thermal print");
+        transactionManager.printTransaction(receiptNo);
+    }
+
+    @RequestMapping(value = "/openCashDrawer", method = RequestMethod.GET)
+    public void openCashDrawer() {
+        System.out.println("coming to open open cash drawer");
+        transactionManager.openCashDrawer();
     }
 
 

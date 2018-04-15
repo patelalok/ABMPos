@@ -1018,11 +1018,21 @@ export class SaleComponent implements OnInit, AfterViewInit {
     }
   }
 
+  // printReciept() {
+  //   this.sellService.printReceipt(this.printTransactionDto);
+  //        this.clearAllDateAfterTransactionComplete();
+  //      $('#paymentModel').modal('toggle');
+  //        }
+
   printReciept() {
-    this.sellService.printReceipt(this.printTransactionDto);
-         this.clearAllDateAfterTransactionComplete();
-       $('#paymentModel').modal('toggle');
-         }
+    console.log('coming for thermal print');
+    this.sellService.printThermalReceipt(this.printTransactionDto)
+      .subscribe((data) => {
+        console.log(data);
+      });
+    this.clearAllDateAfterTransactionComplete();
+    $('#paymentModel').modal('toggle');
+  }
          
   public getCustomerDetails() {
 
@@ -1128,6 +1138,15 @@ export class SaleComponent implements OnInit, AfterViewInit {
   print(obj) {
     console.log("Coming form print", obj);
   }
+  
+  public opneCashDrawer() {
+    console.log('Coming into cash drawer');
+    this.sellService.opneCashDrawer()
+      .subscribe(() => {
+        console.log('inside after caling opoen cash drawer');
+      });
+  }
+
 
   ngOnDestroy() {
     //prevent memory leak when component destroyed
