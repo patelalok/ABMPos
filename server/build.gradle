@@ -40,12 +40,97 @@ task buildDocker(type: Docker, dependsOn: build) {
 }
 
 
+//dependencies {
+//
+//	compile('org.springframework.boot:spring-boot-starter-data-jpa')
+//	compile('org.springframework.boot:spring-boot-starter-data-rest')
+//	compile('org.springframework.boot:spring-boot-starter-jdbc')
+//	compile('org.springframework.boot:spring-boot-starter-web')
+//	//http://mvnrepository.com/artifact/com.itextpdf/itextpdf
+//	compile group: 'com.itextpdf', name: 'itextpdf', version: '5.4.0'
+//
+//	compile group: 'org.springframework.boot', name: 'spring-boot-starter-mail', version: '1.2.0.RELEASE'
+//
+//	// https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-thymeleaf
+//	compile group: 'org.springframework.boot', name: 'spring-boot-starter-thymeleaf', version: '1.5.2.RELEASE'
+//	//This dependency helps to connect to google cloud sql with socket.
+//	compile 'com.google.cloud.sql:mysql-socket-factory:1.0.2'
+//
+//	// https://mvnrepository.com/artifact/com.google.cloud.sql/mysql-socket-factory
+//	compile group: 'com.google.cloud.sql', name: 'mysql-socket-factory', version: '1.0.0-beta1'
+//
+//	// https://mvnrepository.com/artifact/com.google.cloud.sql/mysql-socket-factory-connector-j-6
+//	compile group: 'com.google.cloud.sql', name: 'mysql-socket-factory-connector-j-6', version: '1.0.2'
+//
+//	// https://mvnrepository.com/artifact/com.google.oauth-client/google-oauth-client
+//	compile group: 'com.google.oauth-client', name: 'google-oauth-client', version: '1.22.0'
+//
+//	// https://mvnrepository.com/artifact/com.google.apis/google-api-services-oauth2
+//	compile group: 'com.google.apis', name: 'google-api-services-oauth2', version: 'v2-rev124-1.22.0'
+//
+//	// https://mvnrepository.com/artifact/com.google.apis/google-api-services-plus
+//	compile group: 'com.google.apis', name: 'google-api-services-plus', version: 'v1-rev499-1.22.0'
+//
+//	// https://mvnrepository.com/artifact/com.google.http-client/google-http-client-jackson2
+//	compile group: 'com.google.http-client', name: 'google-http-client-jackson2', version: '1.22.0'
+//
+//	// https://mvnrepository.com/artifact/com.google.oauth-client/google-oauth-client-jetty
+//	compile group: 'com.google.oauth-client', name: 'google-oauth-client-jetty', version: '1.22.0'
+//	compile 'org.apache.commons:commons-lang3:3.5'
+//
+//	// https://mvnrepository.com/artifact/nz.net.ultraq.thymeleaf/thymeleaf-layout-dialect
+//	compile group: 'nz.net.ultraq.thymeleaf', name: 'thymeleaf-layout-dialect', version: '1.2'
+//	runtime('mysql:mysql-connector-java')
+//	testCompile('org.springframework.boot:spring-boot-starter-test')
+//}
 dependencies {
 
 	compile('org.springframework.boot:spring-boot-starter-data-jpa')
 	compile('org.springframework.boot:spring-boot-starter-data-rest')
 	compile('org.springframework.boot:spring-boot-starter-jdbc')
 	compile('org.springframework.boot:spring-boot-starter-web')
+
+	compile files(
+			'C:\\Program Files\\EPSON\\JavaPOS\\lib\\jpos1141.jar',
+			'C:\\Program Files\\EPSON\\JavaPOS\\lib\\pos.jar',
+			'C:\\Program Files\\EPSON\\JavaPOS\\lib\\epsonupos.jar',
+			'C:\\Program Files\\EPSON\\JavaPOS\\lib\\uposcommon.jar',
+			'C:\\Program Files\\EPSON\\JavaPOS\\lib\\xercesImpl.jar',
+			'C:\\Program Files\\EPSON\\JavaPOS\\lib\\xml-apis.jar',
+			'C:\\Program Files\\EPSON\\JavaPOS\\lib\\epsonupos.admin.jar',
+			'C:\\Program Files\\EPSON\\JavaPOS\\lib\\epsonupos.T88V.jar',
+			'C:\\Program Files\\EPSON\\JavaPOS\\lib\\epsonupos.T88VI.jar',
+			'C:\\Program Files\\EPSON\\JavaPOS\\lib\\epsonupos.trace.jar',
+			'C:\\Program Files\\EPSON\\JavaPOS\\lib\\pos.v4.0001.jar',
+			'C:\\Program Files\\EPSON\\JavaPOS\\lib\\pos.v4.0001_01.jar',
+			'C:\\Program Files\\EPSON\\JavaPOS\\lib\\pos.v4.0001_02.jar',
+			'C:\\Program Files\\EPSON\\JavaPOS\\lib\\uposcommon.core.v1.14.0001.jar',
+			'C:\\Program Files\\EPSON\\JavaPOS\\lib\\epsonupos.previous.jar',
+			'C:\\Program Files\\EPSON\\JavaPOS\\lib\\epsonupos.T20.jar',
+			'C:\\Program Files\\EPSON\\JavaPOS\\lib\\epsonupos.T20II.jar',
+			'C:\\Program Files\\EPSON\\JavaPOS\\lib\\epsonupos.Mobile1.jar',
+			'C:\\Program Files\\EPSON\\JavaPOS\\lib\\epsonupos.m30.jar',
+			'C:\\Program Files\\EPSON\\JavaPOS\\lib\\epsonupos.d30.jar',
+			'C:\\Program Files\\EPSON\\JavaPOS\\lib\\epsonupos.core.v1.14.0001.jar',
+			'C:\\Program Files\\EPSON\\JavaPOS\\lib\\epsonupos.H6000IV.jar',
+			'C:\\Program Files\\EPSON\\JavaPOS\\lib\\epsonupos.H2000.jar',
+			'C:\\Program Files\\EPSON\\JavaPOS\\lib\\epsonupos.T81.jar',
+			'C:\\Program Files\\EPSON\\JavaPOS\\lib\\epsonupos.T81II.jar',
+			'C:\\Program Files\\EPSON\\JavaPOS\\lib\\epsonupos.T82.jar',
+			'C:\\Program Files\\EPSON\\JavaPOS\\lib\\epsonupos.T82II.jar',
+			'C:\\Program Files\\EPSON\\JavaPOS\\lib\\epsonupos.T70II.jar',
+			'C:\\Program Files\\EPSON\\JavaPOS\\lib\\uposcommon.core.v1.14.0001m.jar',
+			'C:\\Program Files\\EPSON\\JavaPOS\\lib\\epsonupos.core.v1.14.0001m.jar',
+			'C:\\Program Files\\EPSON\\JavaPOS\\lib\\epsonupos.core.v1.14.0001T1.jar',
+			'C:\\Program Files\\EPSON\\JavaPOS\\lib\\epsonupos.P20.jar',
+			'C:\\Program Files\\EPSON\\JavaPOS\\lib\\epsonupos.P60II.jar',
+			'C:\\Program Files\\EPSON\\JavaPOS\\lib\\epsonupos.L90LinerFree.jar',
+			'C:\\Program Files\\EPSON\\JavaPOS\\lib\\epsonupos.P80.jar',
+			'C:\\Program Files\\EPSON\\JavaPOS\\lib\\epsonupos.L90.jar',
+			'C:\\Program Files\\EPSON\\JavaPOS\\lib\\epsonupos.J7K.jar'
+	)
+	compile group: "com.twilio.sdk", name: "twilio", version: "7.17.+"
+
 	//http://mvnrepository.com/artifact/com.itextpdf/itextpdf
 	compile group: 'com.itextpdf', name: 'itextpdf', version: '5.4.0'
 
@@ -53,33 +138,59 @@ dependencies {
 
 	// https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-thymeleaf
 	compile group: 'org.springframework.boot', name: 'spring-boot-starter-thymeleaf', version: '1.5.2.RELEASE'
-	//This dependency helps to connect to google cloud sql with socket.
-	compile 'com.google.cloud.sql:mysql-socket-factory:1.0.2'
-
-	// https://mvnrepository.com/artifact/com.google.cloud.sql/mysql-socket-factory
-	compile group: 'com.google.cloud.sql', name: 'mysql-socket-factory', version: '1.0.0-beta1'
-
-	// https://mvnrepository.com/artifact/com.google.cloud.sql/mysql-socket-factory-connector-j-6
-	compile group: 'com.google.cloud.sql', name: 'mysql-socket-factory-connector-j-6', version: '1.0.2'
-
-	// https://mvnrepository.com/artifact/com.google.oauth-client/google-oauth-client
-	compile group: 'com.google.oauth-client', name: 'google-oauth-client', version: '1.22.0'
-
-	// https://mvnrepository.com/artifact/com.google.apis/google-api-services-oauth2
-	compile group: 'com.google.apis', name: 'google-api-services-oauth2', version: 'v2-rev124-1.22.0'
-
-	// https://mvnrepository.com/artifact/com.google.apis/google-api-services-plus
-	compile group: 'com.google.apis', name: 'google-api-services-plus', version: 'v1-rev499-1.22.0'
-
-	// https://mvnrepository.com/artifact/com.google.http-client/google-http-client-jackson2
-	compile group: 'com.google.http-client', name: 'google-http-client-jackson2', version: '1.22.0'
-
-	// https://mvnrepository.com/artifact/com.google.oauth-client/google-oauth-client-jetty
-	compile group: 'com.google.oauth-client', name: 'google-oauth-client-jetty', version: '1.22.0'
-	compile 'org.apache.commons:commons-lang3:3.5'
 
 	// https://mvnrepository.com/artifact/nz.net.ultraq.thymeleaf/thymeleaf-layout-dialect
 	compile group: 'nz.net.ultraq.thymeleaf', name: 'thymeleaf-layout-dialect', version: '1.2'
+
+
+	// This helps to add local jars from the project, in this  case these are EPSON printer jars
+	//compile fileTree(dir: 'C:\\Program Files\\EPSON\\JavaPOS\\lib', include: '*.jar')
 	runtime('mysql:mysql-connector-java')
 	testCompile('org.springframework.boot:spring-boot-starter-test')
 }
+
+jar {
+	manifest.attributes (
+			//'Class-Path': configurations.runtime.files.collect{ it.absolutePath }.join(' ')
+			'Class-Path':
+					'/C:/Program%20Files/EPSON/JavaPOS/lib/jpos1141.jar ' +
+							'/C:/Program%20Files/EPSON/JavaPOS/lib/pos.jar ' +
+							'/C:/Program%20Files/EPSON/JavaPOS/lib/epsonupos.jar ' +
+							'/C:/Program%20Files/EPSON/JavaPOS/lib/uposcommon.jar ' +
+							'/C:/Program%20Files/EPSON/JavaPOS/lib/xercesImpl.jar ' +
+							'/C:/Program%20Files/EPSON/JavaPOS/lib/xml-apis.jar ' +
+							'/C:/Program%20Files/EPSON/JavaPOS/lib/epsonupos.admin.jar ' +
+							'/C:/Program%20Files/EPSON/JavaPOS/lib/epsonupos.T88V.jar ' +
+							'/C:/Program%20Files/EPSON/JavaPOS/lib/epsonupos.T88VI.jar ' +
+							'/C:/Program%20Files/EPSON/JavaPOS/lib/epsonupos.trace.jar ' +
+							'/C:/Program%20Files/EPSON/JavaPOS/lib/pos.v4.0001.jar ' +
+							'/C:/Program%20Files/EPSON/JavaPOS/lib/pos.v4.0001_01.jar ' +
+							'/C:/Program%20Files/EPSON/JavaPOS/lib/pos.v4.0001_02.jar ' +
+							'/C:/Program%20Files/EPSON/JavaPOS/lib/uposcommon.core.v1.14.0001.jar ' +
+							'/C:/Program%20Files/EPSON/JavaPOS/lib/epsonupos.previous.jar ' +
+							'/C:/Program%20Files/EPSON/JavaPOS/lib/epsonupos.T20.jar ' +
+							'/C:/Program%20Files/EPSON/JavaPOS/lib/epsonupos.T20II.jar ' +
+							'/C:/Program%20Files/EPSON/JavaPOS/lib/epsonupos.Mobile1.jar ' +
+							'/C:/Program%20Files/EPSON/JavaPOS/lib/epsonupos.m30.jar ' +
+							'/C:/Program%20Files/EPSON/JavaPOS/lib/epsonupos.d30.jar ' +
+							'/C:/Program%20Files/EPSON/JavaPOS/lib/epsonupos.core.v1.14.0001.jar ' +
+							'/C:/Program%20Files/EPSON/JavaPOS/lib/epsonupos.H6000IV.jar ' +
+							'/C:/Program%20Files/EPSON/JavaPOS/lib/epsonupos.H2000.jar ' +
+							'/C:/Program%20Files/EPSON/JavaPOS/lib/epsonupos.T81.jar ' +
+							'/C:/Program%20Files/EPSON/JavaPOS/lib/epsonupos.T81II.jar ' +
+							'/C:/Program%20Files/EPSON/JavaPOS/lib/epsonupos.T82.jar ' +
+							'/C:/Program%20Files/EPSON/JavaPOS/lib/epsonupos.T82II.jar ' +
+							'/C:/Program%20Files/EPSON/JavaPOS/lib/epsonupos.T70II.jar ' +
+							'/C:/Program%20Files/EPSON/JavaPOS/lib/uposcommon.core.v1.14.0001m.jar ' +
+							'/C:/Program%20Files/EPSON/JavaPOS/lib/epsonupos.core.v1.14.0001m.jar ' +
+							'/C:/Program%20Files/EPSON/JavaPOS/lib/epsonupos.core.v1.14.0001T1.jar ' +
+							'/C:/Program%20Files/EPSON/JavaPOS/lib/epsonupos.P20.jar ' +
+							'/C:/Program%20Files/EPSON/JavaPOS/lib/epsonupos.P60II.jar ' +
+							'/C:/Program%20Files/EPSON/JavaPOS/lib/epsonupos.L90LinerFree.jar ' +
+							'/C:/Program%20Files/EPSON/JavaPOS/lib/epsonupos.P80.jar ' +
+							'/C:/Program%20Files/EPSON/JavaPOS/lib/epsonupos.L90.jar ' +
+							'/C:/Program%20Files/EPSON/JavaPOS/lib/epsonupos.J7K.jar'
+	)
+
+}
+

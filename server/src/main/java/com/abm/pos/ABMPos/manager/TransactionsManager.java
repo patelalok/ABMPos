@@ -1,17 +1,14 @@
 package com.abm.pos.ABMPos.manager;
 
+import com.abm.pos.ABMPos.ReceiptFormatter;
 import com.abm.pos.ABMPos.dao.*;
-import com.abm.pos.ABMPos.dto.PaymentDetails;
 import com.abm.pos.ABMPos.repository.*;
 import com.abm.pos.ABMPos.util.Utility;
 import com.itextpdf.text.*;
 import com.itextpdf.text.pdf.*;
 
 
-import com.itextpdf.text.pdf.draw.VerticalPositionMark;
 import org.springframework.beans.factory.annotation.Autowired;
-
-
 import org.springframework.stereotype.Component;
 
 import java.io.ByteArrayOutputStream;
@@ -26,7 +23,12 @@ import java.util.Date;
 
 import org.thymeleaf.context.Context;
 
-import javax.swing.text.TabStop;
+import jpos.JposException;
+import jpos.POSPrinter;
+import jpos.CashDrawer;
+import jpos.POSPrinterConst;
+import jpos.util.JposPropertiesConst;
+
 
 
 /**
@@ -1333,6 +1335,166 @@ public class TransactionsManager {
 //        cb.endText();
 //
 //    }
+
+    public String printTransaction(int transactionId) throws ParseException {
+        System.setProperty(JposPropertiesConst.JPOS_POPULATOR_FILE_PROP_NAME, "C:\\jpos.xml");
+
+        String ESC = ((char) 0x1b) + "";
+        String LF = ((char) 0x0a) + "";
+
+        String GS = ((char) 0x1d) + "";
+
+        POSPrinter printer = new POSPrinter();
+        //CashDrawer drawer = new CashDrawer();
+
+        String error = "";
+        String receipt = "";
+        try {
+            printer.open("POSPrinter");
+            printer.claim(1);
+            printer.setDeviceEnabled(true);
+            printer.setMapMode(POSPrinterConst.PTR_MM_METRIC);
+            do {
+                if (printer.getCoverOpen()) {
+                    error = "printer.getCoverOpen() == true"; // thats why i need to output simple json , for testing, can you do ta
+                    break;
+                }
+
+                if (printer.getRecEmpty()) {
+                    error = "printer.getRecEmpty() == true";
+                    break;
+                }
+                // I need get transactionDao code here
+                /// could you create it?sure
+
+
+                TransactionDao transactionDao = new TransactionDao();
+                //StoreSetupDao storeSetupDao = new StoreSetupDao();
+
+                transactionDao = getTransactionById(transactionId);
+                transactionDao.setStoreSetupDao(storeSetupRepository.findOne(1));
+
+                String date_s = transactionDao.getDate();
+                //2018-01-19 09:27:01.0
+                Date date = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").parse(date_s);
+
+                ReceiptFormatter formatter = new ReceiptFormatter();
+//                formatter.add2Columns(
+//                        "%s %n%s".format(new SimpleDateFormat("MM/dd/yyyy").format(date), new SimpleDateFormat("hh:mma").format(date)), 0, 26,
+//                        "Ref No. %d %nStation 1".format(String.valueOf(transactionDao.getTransactionComId())), 0, 26);
+
+                formatter.add2Columns(
+                        new SimpleDateFormat("MM/dd/yyyy").format(date) + " \n" + new SimpleDateFormat("hh:mma").format(date), 0, 23, ReceiptFormatter.TextAlign.LEFT,
+                        "Ref No. " + String.valueOf(transactionDao.getTransactionComId()) + " \nStation 1", 0, 23, ReceiptFormatter.TextAlign.RIGHT);
+
+                //formatter.addLineBreak(1);
+                // formatter.addLines("%s \n%s \n%s, %s %s".format(transactionDao.getStoreSetupDao().getName(), transactionDao.getStoreSetupDao().getStreet(), transactionDao.getStoreSetupDao().getCity(), transactionDao.getStoreSetupDao().getState(), transactionDao.getStoreSetupDao().getZipcode()), 46, ReceiptFormatter.TextAlign.CENTER);
+                formatter.addLines(transactionDao.getStoreSetupDao().getName() + " \n" + transactionDao.getStoreSetupDao().getStreet() + " \n" + transactionDao.getStoreSetupDao().getCity() + ", " + transactionDao.getStoreSetupDao().getState() + " \n" + transactionDao.getStoreSetupDao().getZipcode()+ " \n" + transactionDao.getStoreSetupDao().getPhoneNo(), 46, ReceiptFormatter.TextAlign.CENTER);
+                formatter.addLineBreak(1);
+                formatter.add2Columns("Clerk", 0, 15, transactionDao.getUsername(), 0, 20);
+                formatter.addLineBreak(1);
+
+                ReceiptFormatter.Table table = new ReceiptFormatter.Table(new ReceiptFormatter.TableColumnSettings[]{
+                        new ReceiptFormatter.TableColumnSettings("Item", 8, ReceiptFormatter.TextAlign.CENTER),
+                        new ReceiptFormatter.TableColumnSettings("Description", 25, ReceiptFormatter.TextAlign.LEFT),
+                        new ReceiptFormatter.TableColumnSettings("Qty", 3, ReceiptFormatter.TextAlign.CENTER),
+                        new ReceiptFormatter.TableColumnSettings("Amount", 6, ReceiptFormatter.TextAlign.RIGHT)
+                });
+
+                if(null!= transactionDao) {
+
+                    for (TransactionLineItemDao item : transactionDao.getTransactionLineItemDaoList()) {
+                        String prodNo = item.getProductNo().toString();
+                        table.addRow(prodNo.substring(prodNo.length() - 8), item.getDescription(), String.valueOf(item.getSaleQuantity()), "$" + String.valueOf(item.getTotalProductPrice()));
+                    }
+
+                    formatter.printTable(table);
+                    formatter.addLineStrike(46);
+                    formatter.add3ColumnsLastRight("", 0, 15, "Sub Total", 0, 21, "$" + String.valueOf(transactionDao.getSubtotal()), 0, 10);
+                    formatter.add3ColumnsLastRight("", 0, 15, "Tax " + String.valueOf(transactionDao.getStoreSetupDao().getTax()) + "%", 0, 21, "$ "+transactionDao.getTax(), 0, 10);
+                    formatter.add3ColumnsLastRight("", 0, 15, "Discount ", 0, 21, "$ "+transactionDao.getTotalDiscount(), 0, 10);
+                    formatter.add3ColumnsLastRight("", 0, 15, "Total", 0, 21, "$" + String.valueOf(transactionDao.getTotalAmount()), 0, 10);
+                    if(transactionDao.getPaymentDao().get(0).getCash() > 0) {
+                        formatter.add3ColumnsLastRight("Cash", 0, 15, "Tendered", 0, 21, "$" + String.valueOf(transactionDao.getPaymentDao().get(0).getCash()), 0, 10);
+                    }
+                    else if(transactionDao.getPaymentDao().get(0).getCredit() > 0){
+                        formatter.add3ColumnsLastRight("Credit Card", 0, 15, "Tendered", 0, 21, "$" + String.valueOf(transactionDao.getPaymentDao().get(0).getCredit()), 0, 10);
+                    }
+                    else if(transactionDao.getPaymentDao().get(0).getDebit() > 0){
+                        formatter.add3ColumnsLastRight("Debit Card", 0, 15, "Tendered", 0, 21, "$" + String.valueOf(transactionDao.getPaymentDao().get(0).getDebit()), 0, 10);
+                    }
+                    else if(transactionDao.getPaymentDao().get(0).getCheckAmount() > 0){
+                        formatter.add3ColumnsLastRight("Check", 0, 15, "Tendered", 0, 21, "$" + String.valueOf(transactionDao.getPaymentDao().get(0).getCheckAmount()), 0, 10);
+                    }
+                    formatter.addLineBreak(1);
+                    formatter.addLines("Thank you for your business", 46, ReceiptFormatter.TextAlign.CENTER);
+
+                    printer.transactionPrint(POSPrinterConst.PTR_S_RECEIPT, POSPrinterConst.PTR_TP_TRANSACTION);
+                    //printer.printNormal(POSPrinterConst.PTR_S_RECEIPT, ESC+'@'+ESC+((char)51)+""+((char)40)+"");
+                    for (String o : formatter.createReceipt()) {
+                        printer.printNormal(POSPrinterConst.PTR_S_RECEIPT, o + "\n");
+                        printer.printNormal(POSPrinterConst.PTR_S_RECEIPT, ESC + "|9uF");
+                        receipt += o + "\n";
+                    }
+                    printer.printNormal(POSPrinterConst.PTR_S_RECEIPT, "\n\n\n\n\n");
+                    printer.printNormal(POSPrinterConst.PTR_S_RECEIPT, ESC + "|100fP");
+                    printer.transactionPrint(POSPrinterConst.PTR_S_RECEIPT, POSPrinterConst.PTR_TP_NORMAL);
+                }
+            } while (false);
+
+            //drawer.open("CashDrawer1");
+            //drawer.claim(1000);
+            //drawer.setDeviceEnabled(true);
+            // drawer.openDrawer();
+        } catch (JposException e) {
+            //e.printStackTrace();
+            error = e.getMessage();
+        } finally {
+            try {
+                printer.close();
+                // drawer.close();
+            } catch (Exception e) {
+            }
+        }
+        TransactionDao print = new TransactionDao();
+
+        print.setStoreSetupDao(storeSetupRepository.findOne(1));
+
+        print = transactionRepository.findOne(7);
+
+        //return print; /// this will ooutputted to browser?yes let me show u
+        return (error == "") ? ("{\"success\": 1}") : ("{\"success\":0,\"error\": \"" + error.replaceAll("\"", "\\\"") + "\"}");
+    }
+
+
+    public void openCashDrawer() {
+
+        POSPrinter printer = new POSPrinter();
+        CashDrawer drawer = new CashDrawer();
+        try {
+            printer.open("POSPrinter");
+            printer.claim(1);
+            printer.setDeviceEnabled(true);
+            printer.setMapMode(POSPrinterConst.PTR_MM_METRIC);
+            System.setProperty(JposPropertiesConst.JPOS_POPULATOR_FILE_PROP_NAME, "C:\\jpos.xml");
+
+            drawer.open("CashDrawer");
+            drawer.claim(1000);
+            drawer.setDeviceEnabled(true);
+            drawer.openDrawer();
+
+        } catch (JposException e) {
+            //e.printStackTrace();
+        } finally {
+            try {
+                printer.close();
+                drawer.close();
+            } catch (Exception ignored) {
+            }
+        }
+    }
+
+
 
 
 }
