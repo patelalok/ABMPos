@@ -392,7 +392,7 @@
                         <button mat-raised-button class="primary-button" (click)="this.setPaymentDto('Cash', 100)" [disabled]="this.disablePaymentButtonsWithAmount">$100</button>
                     </div>
                 </div>
-                <div class="row" style="margin-top: 30px">
+                <!-- <div class="row" style="margin-top: 30px">
 
                     <div class="col-md-3">
                         <button (click)="this.setPaymentDto('OnAccount', this.payAmountTextBox)" mat-raised-button class="secondary-button" [disabled]="this.disableOnAccountButtons">On Account</button>
@@ -409,13 +409,13 @@
                     <div class="col-md-3">
                         <button mat-raised-button class="secondary-button" [disabled]="true">Layby</button>
                     </div>
-                </div>
+                </div> -->
 
-                <div class="row" style="margin-top: 30px">
+                <!-- <div class="row" style="margin-top: 30px">
                     <div class="col-md-12">
                         <input [(ngModel)]="this.transactionNotes" class="form-control form-control-lg" type="text" placeholder="Add Sales Notes">
                     </div>
-                </div>
+                </div> -->
 
                 <div class="row" style="margin-top: 30px">
                     <div class="col-md-3">
@@ -432,15 +432,12 @@
                 </div>
 
                 <div class="row" style="margin-top: 30px" *ngIf="null != this.printTransactionDto">
-                    <div class="col-md-3">
-
-                    </div>
 
                     <div class="col-md-6">
                         <button mat-raised-button [ngClass]="{'primary-button': this.saleType == 'Complete' || 'Pending', 'danger-button': this.saleType == 'Return' }" (click)="this.printReciept()" data-dismiss="modal" data-toggle="modal">Print Reciept</button>
                     </div>
-
-                    <div class="col-md-3">
+                    <div class="col-md-6">
+                        <button mat-raised-button [ngClass]="{'primary-button': this.saleType == 'Complete' || 'Pending', 'danger-button': this.saleType == 'Return' }" (click)="this.clearAllDateAfterTransactionComplete()" data-dismiss="modal" data-toggle="modal">No Reciept</button>
 
                     </div>
                 </div>

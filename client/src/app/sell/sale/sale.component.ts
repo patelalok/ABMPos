@@ -925,6 +925,9 @@ export class SaleComponent implements OnInit, AfterViewInit {
       this.printTransactionDto = null;
 
       this.taxPercent = this.storeDetails.tax;
+
+      $('#paymentModel').modal('toggle');
+
     }
 
     else {
