@@ -887,6 +887,9 @@ export class SaleComponent implements OnInit, AfterViewInit {
 
   clearAllDateAfterTransactionComplete() {
 
+
+    // THIS IS temp solution to fix quanity issue.
+    this.getProductDetails();
     // This is important to handle when user click on Close button from payment popup, we need to clear data only when transaction is completed ottherwise just need to close the popup.
     if (null != this.printTransactionDto) {
       this.transactionDtoList = new TransactionDtoList();
@@ -1104,11 +1107,13 @@ export class SaleComponent implements OnInit, AfterViewInit {
   }
 
   disgardCompleteSale() {
+
+    this.getProductDetails();
     this.persit.clearProducts();
     this.persit.clearCustomer();
     this.persit.clearCustomerPriceForSale();
     this.transactionLineItemDaoList = [];
-    this.persit.clearShippingAmount();
+    // this.persit.clearShippingAmount();
     this.shippingAmount = 0.00;
     this.transactionDtoList = new TransactionDtoList();
     // This is very import fist i need to remove the cusotmer details and then only call set transaction otherwise customer balace will stays and will show amount on payment which is wrong.
