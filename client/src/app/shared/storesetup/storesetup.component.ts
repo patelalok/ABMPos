@@ -12,11 +12,11 @@ import { Product } from 'app/sell/sale/sale.component';
   styleUrls: ['./storesetup.component.scss']
 })
 export class StoresetupComponent implements OnInit {
+  formData: FormData;
   storeDetails = new StoreSetupDto();
   items: MenuItem[];
   storeForm: FormGroup;
   image: any;
-  formData: FormData;
 
   constructor(private storeSetupService: StoreSetupService, private persit: PersistenceService, private router: Router, private formBuilder: FormBuilder) { }
 
@@ -83,9 +83,9 @@ export class StoresetupComponent implements OnInit {
   }
   addImage(event) {
     const element: any = (document.querySelectorAll('#file-input')[0]);
-    //console.log('image', element.files[0]);
+    console.log('image', element.files[0]);
    // console.log('Event', event.target.files[0]);
-    this.image = event.target.files;
+    this.image = element.files[0];
 
     this.formData = new FormData();
     this.formData.append('file', this.image);

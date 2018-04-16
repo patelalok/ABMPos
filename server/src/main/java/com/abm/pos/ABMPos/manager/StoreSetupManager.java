@@ -44,8 +44,10 @@ public class StoreSetupManager {
         //Here getting image as MultipartFile and then getting input stream of the file and then getting the size of the file.
         SqlLobValue lobValue = new SqlLobValue(file.getInputStream(), (int) file.getSize(), lobHandler);
 
-        int a = jdbcTemplate.update("UPDATE store_setup SET logo = ? WHERE id = 1" ,new Object[]{lobValue}, new int[] {Types.BLOB, Types.LONGNVARCHAR} );
+        int a = jdbcTemplate.update("UPDATE store_setup SET logo = ? WHERE id = 1" ,new Object[]{lobValue}, new int[] {Types.BLOB} );
 //                jdbcTemplate.update("INSERT INTO  product_image ('product_no', 'image') VALUE (?1,?2)" , lobValue, productNo);
         System.out.println(a);
     }
-}
+
+    }
+

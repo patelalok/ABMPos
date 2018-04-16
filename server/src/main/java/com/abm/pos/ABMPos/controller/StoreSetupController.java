@@ -37,6 +37,7 @@ public class StoreSetupController {
 
         storeSetupManager.insertStoreImage(file);
     }
+
     @RequestMapping(value = "/getStoreSetupDetails", method = RequestMethod.GET, produces = "application/json")
     public StoreSetupDao getStoreSetupDetails()
     {

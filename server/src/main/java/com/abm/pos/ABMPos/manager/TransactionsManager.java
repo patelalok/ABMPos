@@ -618,13 +618,23 @@ public class TransactionsManager {
         PdfPCell totalBalanceDueAmount = new PdfPCell();
 
 
-        Image companyLogo = Image.getInstance("C:\\Users\\MK THE PHONE STORE\\Desktop\\MK LOGO.png");
-        logo.addElement(companyLogo);
-        logo.setPadding(0);
-        logo.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
-        logo.setBorder(PdfPCell.NO_BORDER);
+
+
+
+
+
 
         if (null != transactionDao) {
+
+            if(null != transactionDao.getStoreSetupDao())
+            {
+                // Image companyLogo = Image.getInstance("C:\\Users\\MK THE PHONE STORE\\Desktop\\MK LOGO.png");
+                Image companyLogo = Image.getInstance(transactionDao.getStoreSetupDao().getLogo());
+                logo.addElement(companyLogo);
+                logo.setPadding(0);
+                logo.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
+                logo.setBorder(PdfPCell.NO_BORDER);
+            }
 
             DateFormat f = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
