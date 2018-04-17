@@ -98,8 +98,7 @@ public class ReportController {
         return reportManager.getOpenInvoice(startDate, endDate);
     }
     @RequestMapping(value = "/printOpenInvoice", method = RequestMethod.GET, produces = "application/json")
-    public ResponseEntity<byte[]> printOpenInvoice(String startDate, String endDate)
-    {
+    public ResponseEntity<byte[]> printOpenInvoice(String startDate, String endDate) throws DocumentException {
         byte [] pdfDataBytes =  reportManager.printOpenInvoice(startDate, endDate);
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.parseMediaType("application/pdf"));

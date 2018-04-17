@@ -11,14 +11,14 @@ import org.thymeleaf.context.Context;
 @Component
 public class EmailHtmlSender {
 
-    @Autowired
-    private EmailSender emailSender;
-
-    @Autowired
-    private TemplateEngine templateEngine;
-
-    public EmailStatus send(String to, String subject, String templateName, Context context) {
-        String body = templateEngine.process(templateName, context);
-        return emailSender.sendHtml(to, subject, body);
-    }
+//    @Autowired
+//    private EmailSender emailSender;
+//
+//    @Autowired
+//    private TemplateEngine templateEngine;
+//
+//    public EmailStatus send(String to, String subject, String templateName, Context context) {
+//        String body = templateEngine.process(templateName, context);
+//        return emailSender.sendHtml(to, subject, body);
+//    }
 }

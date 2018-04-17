@@ -17,15 +17,28 @@ import org.springframework.stereotype.Component;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 
+import java.io.OutputStream;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Properties;
 
 import org.thymeleaf.context.Context;
 
+import javax.activation.DataHandler;
+import javax.activation.DataSource;
+import javax.mail.Message;
+import javax.mail.PasswordAuthentication;
+import javax.mail.Session;
+import javax.mail.Transport;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeBodyPart;
+import javax.mail.internet.MimeMessage;
+import javax.mail.internet.MimeMultipart;
+import javax.mail.util.ByteArrayDataSource;
 import javax.swing.text.TabStop;
 
 
@@ -502,9 +515,60 @@ public class TransactionsManager {
         return transactionRepository.save(transactionDao);
     }
 
-    public boolean sendEmail(int receiptId) {
+//    public boolean sendEmail(int receiptId) {
+//
+//        Context context = new Context();
+//        TransactionDao transactionDao = getTransactionById(receiptId);
+//        String email = null;
+//        if (null != transactionDao && transactionDao.getCustomerPhoneno().length() > 1 && null != transactionDao.getTransactionLineItemDaoList() && null != transactionDao.getPaymentDao()) {
+//            //First get customer details to send an email.
+//            CustomerDao customerDao;
+//            customerDao = customerRepository.findByPhoneNo(transactionDao.getCustomerPhoneno());
+//
+//            if (null != customerDao && null != customerDao.getEmail()) {
+//
+//                email = customerDao.getEmail();
+//                //setting shipping details
+//                context.setVariable("firstName", customerDao.getName());
+//                context.setVariable("companyName", customerDao.getCompanyName());
+//                context.setVariable("addressLine", customerDao.getStreet());
+//                context.setVariable("City", customerDao.getCity());
+//                context.setVariable("State", customerDao.getState());
+//                context.setVariable("zipcode", customerDao.getZipCode());
+//                context.setVariable("phoneNo", customerDao.getPhoneNo());
+//            }
+//
+//
+//            //setting line item details
+//            context.setVariable("lineItem", transactionDao.getTransactionLineItemDaoList());
+//
+//            //setting transaction details
+//            context.setVariable("subtotal", transactionDao.getSubtotal());
+//            context.setVariable("shipping", transactionDao.getShipping());
+//            context.setVariable("quantity", transactionDao.getQuantity());
+//            context.setVariable("discount", transactionDao.getTotalDiscount());
+//
+//            context.setVariable("storeCredit", transactionDao.getPaymentDao().get(0).getStoreCredit());
+////            context.setVariable("previousBalance", transactionDao.getPreviousBalance());
+//            context.setVariable("salesTax", transactionDao.getTax());
+//            context.setVariable("grandTotal", transactionDao.getTotalAmount());
+//            context.setVariable("balance", transactionDao.getTransactionBalance());
+//
+//
+//            //By this logic if email is failing i will get an email
+////            if( null != receiptDtoList.get(0).getCustomerDtosList().get(0).getEmail())
+////            {
+////                email = receiptDtoList.get(0).getCustomerDtosList().get(0).getEmail();
+////            }
+//        }
+//        assert transactionDao != null;
+//        EmailStatus emailStatus = emailHtmlSender.send(email, transactionDao.getStoreSetupDao().getName() + " ORDER DETAILS", "template-1", context);
+//
+//        return emailStatus.isSuccess();
+//    }
 
-        Context context = new Context();
+    public boolean sendEmail(int receiptId) throws DocumentException {
+
         TransactionDao transactionDao = getTransactionById(receiptId);
         String email = null;
         if (null != transactionDao && transactionDao.getCustomerPhoneno().length() > 1 && null != transactionDao.getTransactionLineItemDaoList() && null != transactionDao.getPaymentDao()) {
@@ -512,46 +576,128 @@ public class TransactionsManager {
             CustomerDao customerDao;
             customerDao = customerRepository.findByPhoneNo(transactionDao.getCustomerPhoneno());
 
-            if (null != customerDao && null != customerDao.getEmail()) {
+            if (null != customerDao && null != customerDao.getEmail() && null !=transactionDao.getStoreSetupDao() && null!= transactionDao.getStoreSetupDao().getEmail()) {
 
-                email = customerDao.getEmail();
-                //setting shipping details
-                context.setVariable("firstName", customerDao.getName());
-                context.setVariable("companyName", customerDao.getCompanyName());
-                context.setVariable("addressLine", customerDao.getStreet());
-                context.setVariable("City", customerDao.getCity());
-                context.setVariable("State", customerDao.getState());
-                context.setVariable("zipcode", customerDao.getZipCode());
-                context.setVariable("phoneNo", customerDao.getPhoneNo());
+                String from = transactionDao.getStoreSetupDao().getEmail();
+                String to = customerDao.getEmail();
+
+                String newline = System.getProperty("line.separator");
+                String content = "Dear "+transactionDao.getCustomerFirstLastName()+ newline
+                        +newline
+                        +newline
+                        + "Thank You for shopping with us, We appreciate your business." + newline
+                        + "Please find your order details below.";
+                String subject = transactionDao.getStoreSetupDao().getName() + " ORDER DETAILS";
+                final String password = "Lakhani6";
+
+                Properties props = new Properties();
+                props.setProperty("mail.transport.protocol", "smtp");
+                props.setProperty("mail.host", "smtp.gmail.com");
+                props.put("mail.smtp.auth", "true");
+                props.put("mail.smtp.port", "465");
+                props.put("mail.debug", "true");
+                props.put("mail.smtp.socketFactory.port", "465");
+                props.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
+                props.put("mail.smtp.socketFactory.fallback", "false");
+                Session session = Session.getDefaultInstance(props,
+                        new javax.mail.Authenticator() {
+                            protected PasswordAuthentication getPasswordAuthentication() {
+                                return new PasswordAuthentication(from, password);
+                            }
+                        });
+                ByteArrayOutputStream outputStream = null;
+
+                try {
+                    //construct the text body part
+                    MimeBodyPart textBodyPart = new MimeBodyPart();
+                    textBodyPart.setText(content);
+
+                    //now write the PDF content to the output stream
+                    outputStream = new ByteArrayOutputStream();
+                    byte[] bytes = getA4Receipt(receiptId);
+
+                    //construct the pdf body part
+                    DataSource dataSource = new ByteArrayDataSource(bytes, "application/pdf");
+                    MimeBodyPart pdfBodyPart = new MimeBodyPart();
+                    pdfBodyPart.setDataHandler(new DataHandler(dataSource));
+                    pdfBodyPart.setFileName("Invoice.pdf");
+
+                    //construct the mime multi part
+                    MimeMultipart mimeMultipart = new MimeMultipart();
+                    mimeMultipart.addBodyPart(textBodyPart);
+                    mimeMultipart.addBodyPart(pdfBodyPart);
+
+                    //create the sender/recipient addresses
+                    InternetAddress iaSender = new InternetAddress(from);
+                    InternetAddress iaRecipient = new InternetAddress(to);
+
+                    //construct the mime message
+//                    MimeMessage mimeMessage = new MimeMessage(session);
+//                    mimeMessage.setSender(iaSender);
+//                    mimeMessage.setSubject(subject);
+//                    mimeMessage.setRecipient(Message.RecipientType.TO, iaRecipient);
+//                    mimeMessage.setContent(mimeMultipart);
+
+
+                    Transport transport = session.getTransport();
+                    InternetAddress addressFrom = new InternetAddress(from);
+
+                    MimeMessage message = new MimeMessage(session);
+
+                    message.setSender(addressFrom);
+                    message.setSubject(subject);
+                    message.setContent(mimeMultipart);
+                    message.addRecipient(Message.RecipientType.TO, new InternetAddress(to));
+
+                    transport.connect();
+                    Transport.send(message);
+                    transport.close();
+
+                    System.out.println("sent from " + to +
+                            ", to " + to +
+                            "; server = " + from + ", port = " + from);
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+        } finally {
+            //clean off
+            if(null != outputStream) {
+                try { outputStream.close(); outputStream = null; }
+                catch(Exception ex) { }
             }
-
-
-            //setting line item details
-            context.setVariable("lineItem", transactionDao.getTransactionLineItemDaoList());
-
-            //setting transaction details
-            context.setVariable("subtotal", transactionDao.getSubtotal());
-            context.setVariable("shipping", transactionDao.getShipping());
-            context.setVariable("quantity", transactionDao.getQuantity());
-            context.setVariable("discount", transactionDao.getTotalDiscount());
-
-            context.setVariable("storeCredit", transactionDao.getPaymentDao().get(0).getStoreCredit());
-//            context.setVariable("previousBalance", transactionDao.getPreviousBalance());
-            context.setVariable("salesTax", transactionDao.getTax());
-            context.setVariable("grandTotal", transactionDao.getTotalAmount());
-            context.setVariable("balance", transactionDao.getTransactionBalance());
-
-
-            //By this logic if email is failing i will get an email
-//            if( null != receiptDtoList.get(0).getCustomerDtosList().get(0).getEmail())
-//            {
-//                email = receiptDtoList.get(0).getCustomerDtosList().get(0).getEmail();
-//            }
         }
-        assert transactionDao != null;
-        EmailStatus emailStatus = emailHtmlSender.send(email, transactionDao.getStoreSetupDao().getName() + " ORDER DETAILS", "template-1", context);
 
-        return emailStatus.isSuccess();
+                }
+
+            }
+        return true;
+
+    }
+
+
+
+    /**
+     * Writes the content of a PDF file (using iText API)
+     * to the {@link OutputStream}.
+     * @param  {@link OutputStream}.
+     * @throws Exception
+     */
+    public void writePdf(OutputStream outputStream) throws Exception {
+        Document document = new Document();
+        PdfWriter.getInstance(document, outputStream);
+
+        document.open();
+
+        document.addTitle("Test PDF");
+        document.addSubject("Testing email PDF");
+        document.addKeywords("iText, email");
+        document.addAuthor("Jee Vang");
+        document.addCreator("Jee Vang");
+
+        Paragraph paragraph = new Paragraph();
+        paragraph.add(new Chunk("hello!"));
+        document.add(paragraph);
+
+        document.close();
     }
 
     public byte[] getA4Receipt(int receiptNo) throws DocumentException, IOException {

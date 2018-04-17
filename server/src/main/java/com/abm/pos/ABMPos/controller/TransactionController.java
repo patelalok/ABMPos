@@ -112,8 +112,7 @@ public class TransactionController {
     }
 
     @RequestMapping(value = "/sendEmail", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public boolean sendEmail(@RequestParam int transactionCompId)
-    {
+    public boolean sendEmail(@RequestParam int transactionCompId) throws DocumentException {
         return transactionManager.sendEmail(transactionCompId);
     }
 
