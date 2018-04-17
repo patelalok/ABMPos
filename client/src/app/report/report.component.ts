@@ -19,7 +19,8 @@ export class ReportComponent implements OnInit {
     this.items = [
       { name: 'Sales', icon: 'fa fa-line-chart fa-x', link: '/report/sales' },
       { name: 'Inventory', icon: 'fa fa-tags fa-x', link: '/report/inventory' },
-      { name: 'Customer', icon: 'fa fa-user fa-x', link: '/report/customer-report' }
+      { name: 'Customer', icon: 'fa fa-user fa-x', link: '/report/customer-report' },
+      { name: 'Opne Invoice', icon: 'fa fa-file fa-x', link: '/report/open-invoice' }
 
       // { name: 'Profit & Loss', icon: 'fa fa-pie-chart fa-x', link: '/report/profit-loss' },
       // { name: 'Low Stock', icon: 'fa fa-tag fa-x', link: '/report/profit-loss' },

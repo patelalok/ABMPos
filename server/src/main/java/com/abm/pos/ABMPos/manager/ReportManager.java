@@ -4,17 +4,17 @@ import com.abm.pos.ABMPos.dao.ReportDao.InventoryDto;
 import com.abm.pos.ABMPos.dao.ReportDao.SalesDto;
 import com.abm.pos.ABMPos.dao.ReportDao.SalesSummaryDto;
 import com.abm.pos.ABMPos.dao.StoreSetupDao;
+import com.abm.pos.ABMPos.dao.TransactionDao;
+import com.abm.pos.ABMPos.dao.TransactionLineItemDao;
 import com.abm.pos.ABMPos.repository.*;
 import com.abm.pos.ABMPos.util.Utility;
-import com.itextpdf.text.Document;
-import com.itextpdf.text.DocumentException;
-import com.itextpdf.text.PageSize;
-import com.itextpdf.text.pdf.PdfContentByte;
-import com.itextpdf.text.pdf.PdfWriter;
+import com.itextpdf.text.*;
+import com.itextpdf.text.pdf.*;
 import org.apache.commons.lang3.ArrayUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
-import com.itextpdf.text.pdf.BaseFont;
+
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.text.DateFormat;
@@ -29,6 +29,9 @@ import java.util.List;
 
 @Component
 public class ReportManager {
+
+    @Autowired
+    private TransactionsManager  transactionsManager;
 
     private final Utility utility;
 
@@ -815,6 +818,110 @@ public class ReportManager {
         }
 
         return salesSummaryDtoFinal;
+
+    }
+
+    public List<SalesDto> getOpenInvoice(String startDate, String endDate) {
+
+        return null;
+    }
+
+    public byte[] printOpenInvoice(String startDate, String endDate) throws DocumentException {
+
+        TransactionDao transactionDao;
+        List<TransactionDao> transactionDaoList = new ArrayList<>();
+
+        Document doc = new Document(PageSize.A4);
+        initializeFonts();
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        PdfWriter writer = PdfWriter.getInstance(doc, byteArrayOutputStream);
+        doc.open();
+        PdfContentByte cb = writer.getDirectContent();
+        transactionDaoList = transactionsManager.getTransactionByDate(startDate,endDate);
+
+        if (null != transactionDaoList) {
+            printStoreDetailsTest(transactionDaoList, doc);
+        }
+        doc.close();
+
+        return byteArrayOutputStream.toByteArray();
+    }
+
+    private void printStoreDetailsTest(List<TransactionDao> transactionDaoList, Document doc) throws DocumentException {
+
+        StoreSetupDao storeSetupDao = storeSetupRepository.findOne(1);
+
+        if(storeSetupDao != null){
+
+            Paragraph paragraph = new Paragraph(storeSetupDao.getName());
+            paragraph.setAlignment(PdfPCell.ALIGN_CENTER);
+        }
+
+        PdfPTable mainTable = new PdfPTable(5);
+        String[] mainTableHeader = new String[]{"DATE", "TIME", "TRANS NO", "OPEN BALANCE", "FULL NAME"};
+        mainTable.setWidthPercentage(100);
+
+        DateFormat f = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
+        Date d1 = null;
+        try {
+            d1 = f.parse(""); // TODO NEED to figure this out, like what date i should put.
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        DateFormat transDate = new SimpleDateFormat("MM-dd-yyyy");//NEED TO CHECK THIS
+        DateFormat transTime = new SimpleDateFormat("hh:mm a");
+
+        // This will print table header only
+        mainTable.setHeaderRows(1);
+        mainTable.setWidths(new float[]{2.5f, 7.2f, 1, 1.5f, 1.8f});
+        mainTable.setSpacingBefore(25);
+        mainTable.setSplitLate(false);
+
+        for (String tableHeader : mainTableHeader) {
+            PdfPCell headerCell = new PdfPCell();
+            headerCell.addElement(new Phrase(tableHeader, FontFactory.getFont(FontFactory.HELVETICA, 10, Font.BOLD)));
+            headerCell.setHorizontalAlignment(Element.ALIGN_CENTER);
+            headerCell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+            headerCell.setBorderColor(BaseColor.LIGHT_GRAY);
+            headerCell.setPadding(5);
+            mainTable.addCell(headerCell);
+        }
+
+        // This will print body of the table.
+
+//        for (TransactionLineItemDao lineItem : transactionDao.getTransactionLineItemDaoList()) {
+//
+//            PdfPCell cell1 = new PdfPCell();
+//            PdfPCell cell2 = new PdfPCell();
+//            PdfPCell cell3 = new PdfPCell();
+//            PdfPCell cell4 = new PdfPCell();
+//            PdfPCell cell5 = new PdfPCell();
+//
+//            cell1.addElement(new Phrase(lineItem.getProductNo(), FontFactory.getFont(FontFactory.HELVETICA, 10, Font.NORMAL)));
+//            cell2.addElement(new Phrase(lineItem.getDescription(), FontFactory.getFont(FontFactory.HELVETICA, 10, Font.NORMAL)));
+//            cell3.setCellEvent(new PositionEvent(new Phrase(10, String.valueOf(lineItem.getSaleQuantity()), FontFactory.getFont(FontFactory.HELVETICA, 10, Font.NORMAL)), 0.5f, 0.5f, Element.ALIGN_CENTER));
+//            cell4.setCellEvent(new PositionEvent(new Phrase(10, String.valueOf(lineItem.getRetailWithDiscount()), FontFactory.getFont(FontFactory.HELVETICA, 10, Font.NORMAL)), 0.5f, 0.5f, Element.ALIGN_CENTER));
+//            cell5.setCellEvent(new PositionEvent(new Phrase(10, String.valueOf(lineItem.getTotalProductPrice()), FontFactory.getFont(FontFactory.HELVETICA, 10, Font.NORMAL)), 0.5f, 0.5f, Element.ALIGN_CENTER));
+//
+////                    cell3.addElement(new Phrase(String.valueOf(lineItem.getSaleQuantity()),FontFactory.getFont(FontFactory.HELVETICA, 10, Font.NORMAL)));
+////                    cell4.addElement(new Phrase(String.valueOf(lineItem.getRetailWithDiscount()),FontFactory.getFont(FontFactory.HELVETICA, 10, Font.NORMAL)));
+////                    cell5.addElement(new Phrase(String.valueOf(lineItem.getTotalProductPrice()),FontFactory.getFont(FontFactory.HELVETICA, 10, Font.NORMAL)));
+//
+//            cell1.setBorderColor(BaseColor.LIGHT_GRAY);
+//            cell2.setBorderColor(BaseColor.LIGHT_GRAY);
+//            cell3.setBorderColor(BaseColor.LIGHT_GRAY);
+//            cell4.setBorderColor(BaseColor.LIGHT_GRAY);
+//            cell5.setBorderColor(BaseColor.LIGHT_GRAY);
+//
+//            lineItemTable.addCell(cell1);
+//            lineItemTable.addCell(cell2);
+//            lineItemTable.addCell(cell3);
+//            lineItemTable.addCell(cell4);
+//            lineItemTable.addCell(cell5);
+//        }
+
+
 
     }
 }

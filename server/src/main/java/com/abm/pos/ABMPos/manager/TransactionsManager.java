@@ -812,12 +812,13 @@ public class TransactionsManager {
             paymentAmount.addElement(tax1);
             paymentAmount.addElement(discount1);
             paymentAmount.addElement(quantity1);
-            paymentAmount.addElement(total1);
-            paymentAmount.addElement(balanceDue1);
-
             if(transactionDao.getShipping() > 0){
                 paymentAmount.addElement(shipping1);
             }
+            paymentAmount.addElement(total1);
+            paymentAmount.addElement(balanceDue1);
+
+
             paymentAmount.setBorder(PdfPCell.NO_BORDER);
 
             paymentTable.addCell(paymentType);

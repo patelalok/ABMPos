@@ -1,0 +1,25 @@
+<mat-card>
+    <mat-card-title>
+        <h4>Open Invoice Report</h4>
+    </mat-card-title>
+    <mat-card-content>
+
+        <div>
+            <select class="form-control form-control" [(ngModel)]="this.salesHistoryDropdown">
+                  <option>Today</option>
+                  <option>Yesterday</option>
+                  <option>This Week</option>
+                  <option>Last Week</option>
+                  <option>This Month</option>
+                  <option>Last Month</option>
+                  <option>Last 3 Months</option>
+                  <option>Last 6 Months</option>
+                  <option>This Year</option>
+                  <option>Last Year</option>
+                  <option>Custom</option>
+
+              </select>
+
+        </div>
+    </mat-card-content>
+</mat-card>

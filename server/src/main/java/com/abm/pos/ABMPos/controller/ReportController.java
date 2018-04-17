@@ -92,4 +92,29 @@ public class ReportController {
         return reportManager.getTop50SellingItem(productReportType,startDate, endDate);
     }
 
+    @RequestMapping(value = "/getOpenInvoice", method = RequestMethod.GET, produces = "application/json")
+    public List<SalesDto> getOpenInvoice(String startDate, String endDate)
+    {
+        return reportManager.getOpenInvoice(startDate, endDate);
+    }
+    @RequestMapping(value = "/printOpenInvoice", method = RequestMethod.GET, produces = "application/json")
+    public ResponseEntity<byte[]> printOpenInvoice(String startDate, String endDate)
+    {
+        byte [] pdfDataBytes =  reportManager.printOpenInvoice(startDate, endDate);
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.parseMediaType("application/pdf"));
+        headers.add("Access-Control-Allow-Origin", "*");
+        headers.add("Access-Control-Allow-Methods", "GET, POST, PUT");
+        headers.add("Access-Control-Allow-Headers", "Content-Type");
+        headers.add("Cache-Control", "no-cache, no-store, must-revalidate");
+        headers.add("Pragma", "no-cache");
+        headers.add("Expires", "0");
+
+        headers.setCacheControl("must-revalidate, post-check=0, pre-check=0");
+        ResponseEntity<byte[]> response = new ResponseEntity<byte[]>(pdfDataBytes, headers, HttpStatus.OK);
+        return response;
+    }
+
+
+
 }

@@ -12,6 +12,7 @@ import { SalesComponent } from './sales/sales.component';
 import {NgxChartsModule} from '@swimlane/ngx-charts';
 import { ProfitLossComponent } from './profit-loss/profit-loss.component';
 import { CustomerReportComponent } from './customer-report/customer-report.component';
+import { OpenInvoiceComponent } from './open-invoice/open-invoice.component';
 
 
 @NgModule({
@@ -27,7 +28,7 @@ import { CustomerReportComponent } from './customer-report/customer-report.compo
    // ChartsModule
   ],
   providers: [ReportService ],
-  declarations: [ReportComponent, InventoryComponent, SalesComponent, ProfitLossComponent, CustomerReportComponent],
+  declarations: [ReportComponent, InventoryComponent, SalesComponent, ProfitLossComponent, CustomerReportComponent, OpenInvoiceComponent],
   bootstrap: [ReportComponent, InventoryComponent]
   
 })
