@@ -21,4 +21,5 @@ public interface TransactionLineItemRepository extends JpaRepository<Transaction
     List<TransactionLineItemDao> getProductHistory(String productNo, String startDate, String endDate);
 
 
+
 }

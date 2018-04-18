@@ -5,6 +5,8 @@ import { ReportService } from '../report.service';
 import * as moment from 'moment';
 import * as jspdf from "jspdf";
 import { DateDto, DateService } from 'app/shared/services/date.service';
+import { printBlob } from 'app/shared/services/util.service';
+
 
 
 @Component({
@@ -30,6 +32,8 @@ export class OpenInvoiceComponent implements OnInit {
       'fromDate' : new Date(),
       'toDate': new Date()
     });
+
+    this.getOpenInvoiceDetails(this.salesHistoryDropdown);
     
     this.customDate.valueChanges
     .subscribe((change) => {
@@ -54,6 +58,16 @@ export class OpenInvoiceComponent implements OnInit {
       //   console.log('open invoice', this.openInvoiceDto);
       // });
     });
+  }
+
+  printOpenInvoiceDetails(){
+
+    this.reportService.printOpenInvoiceDetails(this.dateDto.startDate, this.dateDto.endDate)
+    .subscribe((data) => {
+      printBlob(data._body);
+      
+    });
+    
   }
 
   getOpenInvoiceDetails(inputDate: any) {

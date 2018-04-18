@@ -50,6 +50,9 @@ public class TransactionsManager {
 
     @Autowired
     private TransactionRepository transactionRepository;
+
+    @Autowired
+    private  TransactionLineItemRepository transactionLineItemRepository;
     @Autowired
     private PaymentRepository paymentRepository;
     @Autowired
@@ -93,6 +96,15 @@ public class TransactionsManager {
             List<TransactionLineItemDao> transactionLineItemDaoListNew = new ArrayList<>();
             transactionLineItemDaoList = transactionDao.getTransactionLineItemDaoList();
 
+            // This Logic helps to solve the problem with data integrity exception, So i have to delete line item and then insert new details.
+//            if(transactionDao.isParkSale()){
+//                transactionLineItemRepository.delete(transactionDao.getTransactionLineItemDaoList());
+//            }
+
+            // This Logic helps to solve the problem with data integrity exception, So i have to delete line item and then insert new details.
+            if(transactionDao.isParkSale()){
+                transactionLineItemRepository.delete(transactionDao.getTransactionLineItemDaoList());
+            }
             if (transactionDao.getTransactionComId() == 0 || transactionDao.isParkSale()) {
 
                 // Very important to do this other this will create problem again
@@ -676,33 +688,6 @@ public class TransactionsManager {
 
     }
 
-
-    /**
-     * Writes the content of a PDF file (using iText API)
-     * to the {@link OutputStream}.
-     *
-     * @param {@link OutputStream}.
-     * @throws Exception
-     */
-    public void writePdf(OutputStream outputStream) throws Exception {
-        Document document = new Document();
-        PdfWriter.getInstance(document, outputStream);
-
-        document.open();
-
-        document.addTitle("Test PDF");
-        document.addSubject("Testing email PDF");
-        document.addKeywords("iText, email");
-        document.addAuthor("Jee Vang");
-        document.addCreator("Jee Vang");
-
-        Paragraph paragraph = new Paragraph();
-        paragraph.add(new Chunk("hello!"));
-        document.add(paragraph);
-
-        document.close();
-    }
-
     public byte[] getA4Receipt(int receiptNo) throws DocumentException, IOException {
 
         TransactionDao transactionDao;
@@ -903,6 +888,7 @@ public class TransactionsManager {
                     lineItemTable.addCell(cell4);
                     lineItemTable.addCell(cell5);
                 }
+
             }
 
             Paragraph subtotal = new Paragraph("SUBTOTAL", FontFactory.getFont(FontFactory.HELVETICA, 13, Font.NORMAL));

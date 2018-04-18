@@ -68,6 +68,16 @@ export class ReportService {
         .catch(this.handleError);
       }
 
+      printOpenInvoiceDetails(startDate: string, endDate: string): Observable<any>{
+        let url = this.url + '/printOpenInvoice?startDate='+ startDate+'&endDate='+endDate;
+        return this.http.get(
+          url, 
+          {responseType: ResponseContentType.Blob }
+        )
+        // .map(this.extractData)
+        .catch(this.handleError);
+      }
+
       private extractData(res: Response): InventoryDto[] {
         let body = res.json();
         // console.log(body);

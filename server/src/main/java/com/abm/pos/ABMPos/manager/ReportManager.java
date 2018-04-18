@@ -7,6 +7,7 @@ import com.abm.pos.ABMPos.dao.StoreSetupDao;
 import com.abm.pos.ABMPos.dao.TransactionDao;
 import com.abm.pos.ABMPos.dao.TransactionLineItemDao;
 import com.abm.pos.ABMPos.dto.CustomerSum;
+import com.abm.pos.ABMPos.dto.DateTimeDto;
 import com.abm.pos.ABMPos.dto.OpenInvoiceResponse;
 import com.abm.pos.ABMPos.repository.*;
 import com.abm.pos.ABMPos.util.Utility;
@@ -830,7 +831,6 @@ public class ReportManager {
         List<CustomerSum> customerSumList = new ArrayList<>();
         List<TransactionDao> finalTransactionDaoList = new ArrayList<>();
         List<OpenInvoiceResponse> openInvoiceResponseList = new ArrayList<>();
-        OpenInvoiceResponse openInvoiceResponse = new OpenInvoiceResponse();
 
 
 
@@ -847,6 +847,8 @@ public class ReportManager {
             }
 
             for(CustomerSum customerSum: customerSumList){
+
+                OpenInvoiceResponse openInvoiceResponse = new OpenInvoiceResponse();
 
                 List <TransactionDao> transactionList = transactionRepository.findAllByCustomerPhonenoAndStatusAndDateBetween(customerSum.getPhoneNo(), "Pending", startDate, endDate);
                 openInvoiceResponse.setCustomerSum(customerSum);
@@ -865,50 +867,54 @@ public class ReportManager {
         TransactionDao transactionDao;
         List<TransactionDao> transactionDaoList = new ArrayList<>();
 
+        List<OpenInvoiceResponse> openInvoiceResponseList = new ArrayList<>();
+
         Document doc = new Document(PageSize.A4);
         initializeFonts();
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
         PdfWriter writer = PdfWriter.getInstance(doc, byteArrayOutputStream);
         doc.open();
         PdfContentByte cb = writer.getDirectContent();
-        transactionDaoList = transactionsManager.getTransactionByDate(startDate,endDate);
 
-        if (null != transactionDaoList) {
-            printStoreDetailsTest(transactionDaoList, doc);
+        //transactionDaoList = transactionsManager.getTransactionByDate(startDate,endDate);
+        openInvoiceResponseList = getOpenInvoice(startDate,endDate);
+
+        if (null != openInvoiceResponseList) {
+
+            printStoreDetailsTest(doc, startDate, endDate, openInvoiceResponseList);
+            printOpenInvoiceDetails(doc,openInvoiceResponseList);
         }
         doc.close();
 
         return byteArrayOutputStream.toByteArray();
     }
 
-    private void printStoreDetailsTest(List<TransactionDao> transactionDaoList, Document doc) throws DocumentException {
+    private void printStoreDetailsTest(Document doc, String startDate, String endDate,  List<OpenInvoiceResponse> openInvoiceResponseList) throws DocumentException {
 
+        System.out.println("lenght"+openInvoiceResponseList.size());
         StoreSetupDao storeSetupDao = storeSetupRepository.findOne(1);
 
-        if(storeSetupDao != null){
+        if (storeSetupDao != null) {
 
-            Paragraph paragraph = new Paragraph(storeSetupDao.getName());
-            paragraph.setAlignment(PdfPCell.ALIGN_CENTER);
+            Paragraph storeName = new Paragraph(storeSetupDao.getName(),FontFactory.getFont(FontFactory.HELVETICA, 18, Font.BOLD));
+            storeName.setAlignment(PdfPCell.ALIGN_CENTER);
+
+            Paragraph reportType = new Paragraph("Open Invoice Report",FontFactory.getFont(FontFactory.HELVETICA, 13, Font.BOLD));
+            reportType.setAlignment(PdfPCell.ALIGN_CENTER);
+            reportType.setSpacingBefore(20);
+
+            doc.add(storeName);
+            doc.add(reportType);
         }
+
 
         PdfPTable mainTable = new PdfPTable(5);
-        String[] mainTableHeader = new String[]{"DATE", "TIME", "TRANS NO", "OPEN BALANCE", "FULL NAME"};
+        String[] mainTableHeader = new String[]{"DATE", "TIME", "RECEIPT NO", "BALANCE", "FULL NAME"};
         mainTable.setWidthPercentage(100);
-
-        DateFormat f = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-
-        Date d1 = null;
-        try {
-            d1 = f.parse(""); // TODO NEED to figure this out, like what date i should put.
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        DateFormat transDate = new SimpleDateFormat("MM-dd-yyyy");//NEED TO CHECK THIS
-        DateFormat transTime = new SimpleDateFormat("hh:mm a");
 
         // This will print table header only
         mainTable.setHeaderRows(1);
-        mainTable.setWidths(new float[]{2.5f, 7.2f, 1, 1.5f, 1.8f});
+        mainTable.setWidths(new float[]{2, 2, 2, 2, 5});
         mainTable.setSpacingBefore(25);
         mainTable.setSplitLate(false);
 
@@ -921,6 +927,87 @@ public class ReportManager {
             headerCell.setPadding(5);
             mainTable.addCell(headerCell);
         }
+
+        // Now Printing Open Invoice Table Details
+        for (OpenInvoiceResponse openInvoiceResponse : openInvoiceResponseList) {
+
+            Paragraph companyName = new Paragraph(openInvoiceResponse.getCustomerSum().getCompanyName());
+            companyName.setAlignment(PdfPCell.ALIGN_LEFT);
+
+            doc.add(companyName);
+
+            PdfPCell cell1 = new PdfPCell();
+            PdfPCell cell2 = new PdfPCell();
+            PdfPCell cell3 = new PdfPCell();
+            PdfPCell cell4 = new PdfPCell();
+            PdfPCell cell5 = new PdfPCell();
+
+            for(TransactionDao transactionDao: openInvoiceResponse.getTransactionDaoList()){
+
+                DateTimeDto dateTimeDto = getDateAndTime(transactionDao.getDate());
+
+
+                cell1.addElement(new Phrase(dateTimeDto.getDate(), FontFactory.getFont(FontFactory.HELVETICA, 10, Font.NORMAL)));
+                cell2.addElement(new Phrase(dateTimeDto.getTime(), FontFactory.getFont(FontFactory.HELVETICA, 10, Font.NORMAL)));
+                cell3.addElement(new Phrase(String.valueOf(transactionDao.getTransactionComId()), FontFactory.getFont(FontFactory.HELVETICA, 10, Font.NORMAL)));
+                cell4.addElement(new Phrase(String.valueOf(transactionDao.getTransactionBalance()), FontFactory.getFont(FontFactory.HELVETICA, 10, Font.NORMAL)));
+                cell5.addElement(new Phrase(String.valueOf(transactionDao.getCustomerFirstLastName()), FontFactory.getFont(FontFactory.HELVETICA, 10, Font.NORMAL)));
+
+                cell1.setBorderColor(BaseColor.LIGHT_GRAY);
+                cell2.setBorderColor(BaseColor.LIGHT_GRAY);
+                cell3.setBorderColor(BaseColor.LIGHT_GRAY);
+                cell4.setBorderColor(BaseColor.LIGHT_GRAY);
+                cell5.setBorderColor(BaseColor.LIGHT_GRAY);
+
+
+            }
+            mainTable.addCell(cell1);
+            mainTable.addCell(cell2);
+            mainTable.addCell(cell3);
+            mainTable.addCell(cell4);
+            mainTable.addCell(cell5);
+
+            Paragraph totalBalanceName = new Paragraph("Total Balance");
+            totalBalanceName.setAlignment(PdfPCell.ALIGN_LEFT);
+            doc.add(totalBalanceName);
+
+            doc.add(mainTable);
+
+            Paragraph totalBalanceAmount = new Paragraph(String.valueOf(openInvoiceResponse.getCustomerSum().getTotalBalance()));
+            totalBalanceAmount.setAlignment(PdfPCell.ALIGN_RIGHT);
+            doc.add(totalBalanceAmount);
+
+        }
+
+    }
+
+    private DateTimeDto getDateAndTime(String date) {
+
+        DateFormat f = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
+        DateTimeDto dateTimeDto = new DateTimeDto();
+
+        Date d1 = null;
+        try {
+            d1 = f.parse(date);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        DateFormat transDate = new SimpleDateFormat("MM-dd-yyyy");//NEED TO CHECK THIS
+        DateFormat transTime = new SimpleDateFormat("hh:mm a");
+
+        dateTimeDto.setDate(transDate.format(d1));
+        dateTimeDto.setTime(transTime.format(d1));
+
+        return dateTimeDto;
+
+    }
+
+    private void printOpenInvoiceDetails(Document doc, List<OpenInvoiceResponse> openInvoiceResponseList) {
+
+    }
+
+
 
         // This will print body of the table.
 
@@ -954,9 +1041,5 @@ public class ReportManager {
 //            lineItemTable.addCell(cell4);
 //            lineItemTable.addCell(cell5);
 //        }
-
-
-
-    }
 }
 
