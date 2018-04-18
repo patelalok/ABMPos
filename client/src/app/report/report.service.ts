@@ -6,6 +6,7 @@ import { SalesDto, SalesSummaryDto } from 'app/report/sales/sales.component';
 import { environment } from 'environments/environment';
 import { ResponseContentType } from '@angular/http';
 import { Product } from 'app/sell/sale/sale.component';
+import { OpenInvoice } from './open-invoice/open-invoice.component';
 
 @Injectable()
 export class ReportService {
@@ -38,6 +39,11 @@ export class ReportService {
       }
       getTop50SellingProductList(productReportType:string, startDate:string, endDate:string): Observable<Product[]> {
         return this.http.get(this.url+'/getTop50SellingItem?productReportType=' + productReportType+'&startDate='+startDate+'&endDate='+endDate)
+        .map(this.extractData)
+        .catch(this.handleError);
+      }
+      getOpneInvoiceDetails(startDate:string, endDate:string) : Observable<OpenInvoice>{
+       return this.http.get(this.url+'/getOpenInvoice?startDate='+startDate+'&endDate='+endDate)
         .map(this.extractData)
         .catch(this.handleError);
       }

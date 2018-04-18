@@ -45,7 +45,8 @@ export class StoresetupComponent implements OnInit {
         'email': [null],
         'zipcode': [null],
         'tax': [null],
-        'loyaltyAmountForDollar': [null]
+        'loyaltyAmountForDollar': [null],
+        'emailPassword': [null]
       }
     );
 
@@ -106,4 +107,5 @@ export class StoreSetupDto {
   logo: any;
   receiptFooter: string;
   receiptType: number;
+  emailPassword:string;
 }

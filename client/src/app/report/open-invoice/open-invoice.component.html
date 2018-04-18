@@ -3,28 +3,62 @@
         <h4>Open Invoice Report</h4>
     </mat-card-title>
     <mat-card-content>
-        <div>
-            <select class="form-control form-control" [(ngModel)]="this.salesHistoryDropdown">
-                  <option>Today</option>
-                  <option>Yesterday</option>
-                  <option>This Week</option>
-                  <option>Last Week</option>
-                  <option>This Month</option>
-                  <option>Last Month</option>
-                  <option>Last 3 Months</option>
-                  <option>Last 6 Months</option>
-                  <option>This Year</option>
-                  <option>Last Year</option>
-                  <option>Custom</option>
+        <div class="row d-flex align-items-center">
 
-              </select>
+            <div class="col-md-2">
+                <select class="form-control form-control" [(ngModel)]="this.salesHistoryDropdown" (change)="this.getOpenInvoiceDetails(this.salesHistoryDropdown)">
+                    <option>Today</option>
+                    <option>Yesterday</option>
+                    <option>This Week</option>
+                    <option>Last Week</option>
+                    <option>This Month</option>
+                    <option>Last Month</option>
+                    <option>Last 3 Months</option>
+                    <option>Last 6 Months</option>
+                    <option>This Year</option>
+                    <option>Last Year</option>
+                    <option>Custom</option>
 
+                </select>
+
+            </div>
+            <div *ngIf="this.salesHistoryDropdown == 'Custom' " class="col-md-3 form-group d-flex align-items-center" [formGroup]="this.customDate">
+
+                <mat-form-field class="float-never col-md-6">
+                    <input formControlName="fromDate" matInput [matDatepicker]="fromDate" placeholder="Start Date" [max]="this.currentDate">
+                    <mat-datepicker-toggle matSuffix [for]="fromDate"></mat-datepicker-toggle>
+                    <mat-datepicker #fromDate></mat-datepicker>
+                </mat-form-field>
+                <label class="text-center">To</label>
+                <mat-form-field class="float-never col-md-6">
+                    <input class="" formControlName="toDate" matInput [matDatepicker]="toDate" placeholder="End Date" [min]="this.customDate.get('fromDate').value" [max]="this.currentDate">
+                    <mat-datepicker-toggle matSuffix [for]="toDate"></mat-datepicker-toggle>
+                    <mat-datepicker #toDate></mat-datepicker>
+                </mat-form-field>
+            </div>
         </div>
     </mat-card-content>
 
-    <mat-card-content>
-        <table>
+    <mat-card-content *ngIf="this.openInvoiceDto">
 
-        </table>
+        <div *ngFor="let invoice of this.openInvoiceDto">
+            <p> {{invoice.customerSum.companyName}}</p>
+            <!-- <p>{{invoice.transactionDtoList.transactionComId}}</p> -->
+
+        </div>
+        <!-- <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th scope="col">Date</th>
+                    <th scope="col">Time</th>
+                    <th scope="col">Receipt No</th>
+                    <th scope="col">Open Balance</th>
+                    <th scope="col">Full Name</th>
+                </tr>
+            </thead>
+            <tbody>
+             
+            </tbody>
+        </table> -->
     </mat-card-content>
 </mat-card>

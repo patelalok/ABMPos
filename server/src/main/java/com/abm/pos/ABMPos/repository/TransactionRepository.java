@@ -142,4 +142,12 @@ public interface TransactionRepository extends JpaRepository<TransactionDao, Int
             "WHERE t.date BETWEEN ?1 AND ?2 AND t.status = 'Pending'\n" +
             "group by NameOfMonth", nativeQuery = true)
     List<Object[]> getYearlySalesReportForDueBalance(String startDate, String endDate);
+
+    @Query(value = "select c.company_name, t.customer_phoneno, sum(t.transaction_balance)\n" +
+            "from transaction t inner join customer c on t.customer_phoneno = c.phone_no\n" +
+            "where status = 'Pending' and date between ?1 and ?2\n" +
+            "group by customer_phoneno, c.company_name;", nativeQuery = true)
+    List<Object[]> getCustomerDetailsForPendingInvoice(String startDate, String endDate);
+
+    List<TransactionDao> findAllByCustomerPhonenoAndStatusAndDateBetween(String phoneNo, String status, String startDate, String endDate);
 }

@@ -570,25 +570,33 @@ public class TransactionsManager {
     public boolean sendEmail(int receiptId) throws DocumentException {
 
         TransactionDao transactionDao = getTransactionById(receiptId);
-        String email = null;
+        boolean response = false;
         if (null != transactionDao && transactionDao.getCustomerPhoneno().length() > 1 && null != transactionDao.getTransactionLineItemDaoList() && null != transactionDao.getPaymentDao()) {
             //First get customer details to send an email.
             CustomerDao customerDao;
             customerDao = customerRepository.findByPhoneNo(transactionDao.getCustomerPhoneno());
 
-            if (null != customerDao && null != customerDao.getEmail() && null !=transactionDao.getStoreSetupDao() && null!= transactionDao.getStoreSetupDao().getEmail()) {
+            if (null != customerDao && null != customerDao.getEmail() && null != transactionDao.getStoreSetupDao() && null != transactionDao.getStoreSetupDao().getEmail() && null != transactionDao.getStoreSetupDao().getEmailPassword()) {
 
                 String from = transactionDao.getStoreSetupDao().getEmail();
                 String to = customerDao.getEmail();
 
                 String newline = System.getProperty("line.separator");
-                String content = "Dear "+transactionDao.getCustomerFirstLastName()+ newline
-                        +newline
-                        +newline
-                        + "Thank You for shopping with us, We appreciate your business." + newline
-                        + "Please find your order details below.";
+                String content = "Dear " + transactionDao.getCustomerFirstLastName() + newline
+                        + newline
+                        + newline
+                        + "Thank you for shopping with us, We appreciate your business." + newline
+                        + "Please find attachment for your order details."
+                        + newline
+                        + newline
+                        + newline
+                        + newline
+                        + "Thank You" + newline
+                        + transactionDao.getStoreSetupDao().getName();
+
+
                 String subject = transactionDao.getStoreSetupDao().getName() + " ORDER DETAILS";
-                final String password = "Lakhani6";
+                final String password = transactionDao.getStoreSetupDao().getEmailPassword();
 
                 Properties props = new Properties();
                 props.setProperty("mail.transport.protocol", "smtp");
@@ -627,18 +635,6 @@ public class TransactionsManager {
                     mimeMultipart.addBodyPart(textBodyPart);
                     mimeMultipart.addBodyPart(pdfBodyPart);
 
-                    //create the sender/recipient addresses
-                    InternetAddress iaSender = new InternetAddress(from);
-                    InternetAddress iaRecipient = new InternetAddress(to);
-
-                    //construct the mime message
-//                    MimeMessage mimeMessage = new MimeMessage(session);
-//                    mimeMessage.setSender(iaSender);
-//                    mimeMessage.setSubject(subject);
-//                    mimeMessage.setRecipient(Message.RecipientType.TO, iaRecipient);
-//                    mimeMessage.setContent(mimeMultipart);
-
-
                     Transport transport = session.getTransport();
                     InternetAddress addressFrom = new InternetAddress(from);
 
@@ -652,33 +648,40 @@ public class TransactionsManager {
                     transport.connect();
                     Transport.send(message);
                     transport.close();
+                    response = true;
 
                     System.out.println("sent from " + to +
                             ", to " + to +
                             "; server = " + from + ", port = " + from);
                 } catch (Exception ex) {
                     ex.printStackTrace();
-        } finally {
-            //clean off
-            if(null != outputStream) {
-                try { outputStream.close(); outputStream = null; }
-                catch(Exception ex) { }
-            }
-        }
-
+                    response = false;
+                } finally {
+                    //clean off
+                    if (null != outputStream) {
+                        try {
+                            outputStream.close();
+                            outputStream = null;
+                        } catch (Exception ex) {
+                            response = false;
+                        }
+                    }
                 }
 
             }
-        return true;
+
+        }
+
+        return response;
 
     }
-
 
 
     /**
      * Writes the content of a PDF file (using iText API)
      * to the {@link OutputStream}.
-     * @param  {@link OutputStream}.
+     *
+     * @param {@link OutputStream}.
      * @throws Exception
      */
     public void writePdf(OutputStream outputStream) throws Exception {
@@ -763,17 +766,9 @@ public class TransactionsManager {
         PdfPCell totalBalanceDue = new PdfPCell();
         PdfPCell totalBalanceDueAmount = new PdfPCell();
 
-
-
-
-
-
-
-
         if (null != transactionDao) {
 
-            if(null != transactionDao.getStoreSetupDao())
-            {
+            if (null != transactionDao.getStoreSetupDao()) {
                 // Image companyLogo = Image.getInstance("C:\\Users\\MK THE PHONE STORE\\Desktop\\MK LOGO.png");
                 Image companyLogo = Image.getInstance(transactionDao.getStoreSetupDao().getLogo());
                 logo.addElement(companyLogo);
@@ -795,7 +790,7 @@ public class TransactionsManager {
 
             Paragraph paragraph = new Paragraph("INVOICE #:" + transactionDao.getTransactionComId());
             paragraph.setAlignment(PdfPCell.ALIGN_RIGHT);
-            Paragraph paragraph1 = new Paragraph("DATE: " + transDate.format(d1)+" - "+transTime.format(d1));
+            Paragraph paragraph1 = new Paragraph("DATE: " + transDate.format(d1) + " - " + transTime.format(d1));
             paragraph1.setAlignment(PdfPCell.ALIGN_RIGHT);
             Paragraph paragraph2 = new Paragraph("CREATED BY: " + transactionDao.getUsername());
             paragraph2.setAlignment(PdfPCell.ALIGN_RIGHT);
@@ -930,7 +925,7 @@ public class TransactionsManager {
             paymentType.addElement(discount);
             paymentType.addElement(quantity);
 
-            if(transactionDao.getShipping() > 0){
+            if (transactionDao.getShipping() > 0) {
                 paymentType.addElement(shipping);
             }
             paymentType.addElement(total);
@@ -941,7 +936,7 @@ public class TransactionsManager {
 
             Paragraph subtotal1 = new Paragraph("$ " + transactionDao.getSubtotal(), FontFactory.getFont(FontFactory.HELVETICA, 13, Font.NORMAL));
             subtotal1.setAlignment(PdfPCell.ALIGN_RIGHT);
-            Paragraph tax1 = new Paragraph("$ " + transactionDao.getTax(),FontFactory.getFont(FontFactory.HELVETICA, 13, Font.NORMAL));
+            Paragraph tax1 = new Paragraph("$ " + transactionDao.getTax(), FontFactory.getFont(FontFactory.HELVETICA, 13, Font.NORMAL));
             tax1.setAlignment(PdfPCell.ALIGN_RIGHT);
             Paragraph discount1 = new Paragraph("$ " + transactionDao.getTotalDiscount(), FontFactory.getFont(FontFactory.HELVETICA, 13, Font.NORMAL));
             discount1.setAlignment(PdfPCell.ALIGN_RIGHT);
@@ -958,7 +953,7 @@ public class TransactionsManager {
             paymentAmount.addElement(tax1);
             paymentAmount.addElement(discount1);
             paymentAmount.addElement(quantity1);
-            if(transactionDao.getShipping() > 0){
+            if (transactionDao.getShipping() > 0) {
                 paymentAmount.addElement(shipping1);
             }
             paymentAmount.addElement(total1);
@@ -1011,7 +1006,7 @@ public class TransactionsManager {
                         cell4.setFixedHeight(30);
 
                         cell1.setCellEvent(new PositionEvent(new Phrase(10, "CASH", FontFactory.getFont(FontFactory.HELVETICA, 12, Font.NORMAL)), 0.5f, 0.5f, Element.ALIGN_CENTER));
-                        cell2.setCellEvent(new PositionEvent(new Phrase(10, "$ "+String.valueOf(payment.getCash()), FontFactory.getFont(FontFactory.HELVETICA, 12, Font.NORMAL)), 0.5f, 0.5f, Element.ALIGN_CENTER));
+                        cell2.setCellEvent(new PositionEvent(new Phrase(10, "$ " + String.valueOf(payment.getCash()), FontFactory.getFont(FontFactory.HELVETICA, 12, Font.NORMAL)), 0.5f, 0.5f, Element.ALIGN_CENTER));
                         cell3.setCellEvent(new PositionEvent(new Phrase(10, String.valueOf(payDate.format(d1)), FontFactory.getFont(FontFactory.HELVETICA, 12, Font.NORMAL)), 0.5f, 0.5f, Element.ALIGN_CENTER));
                         cell4.setCellEvent(new PositionEvent(new Phrase(10, payTime.format(d1), FontFactory.getFont(FontFactory.HELVETICA, 12, Font.NORMAL)), 0.5f, 0.5f, Element.ALIGN_CENTER));
 
@@ -1039,7 +1034,7 @@ public class TransactionsManager {
                         cell4.setFixedHeight(30);
 
                         cell1.setCellEvent(new PositionEvent(new Phrase(10, "CREDIT", FontFactory.getFont(FontFactory.HELVETICA, 12, Font.NORMAL)), 0.5f, 0.5f, Element.ALIGN_CENTER));
-                        cell2.setCellEvent(new PositionEvent(new Phrase(10, "$ "+String.valueOf(payment.getCredit()), FontFactory.getFont(FontFactory.HELVETICA, 12, Font.NORMAL)), 0.5f, 0.5f, Element.ALIGN_CENTER));
+                        cell2.setCellEvent(new PositionEvent(new Phrase(10, "$ " + String.valueOf(payment.getCredit()), FontFactory.getFont(FontFactory.HELVETICA, 12, Font.NORMAL)), 0.5f, 0.5f, Element.ALIGN_CENTER));
                         cell3.setCellEvent(new PositionEvent(new Phrase(10, String.valueOf(payDate.format(d1)), FontFactory.getFont(FontFactory.HELVETICA, 12, Font.NORMAL)), 0.5f, 0.5f, Element.ALIGN_CENTER));
                         cell4.setCellEvent(new PositionEvent(new Phrase(10, payTime.format(d1), FontFactory.getFont(FontFactory.HELVETICA, 12, Font.NORMAL)), 0.5f, 0.5f, Element.ALIGN_CENTER));
 
@@ -1067,7 +1062,7 @@ public class TransactionsManager {
                         cell4.setFixedHeight(30);
 
                         cell1.setCellEvent(new PositionEvent(new Phrase(10, "DEBIT", FontFactory.getFont(FontFactory.HELVETICA, 12, Font.NORMAL)), 0.5f, 0.5f, Element.ALIGN_CENTER));
-                        cell2.setCellEvent(new PositionEvent(new Phrase(10, "$ "+String.valueOf(payment.getDebit()), FontFactory.getFont(FontFactory.HELVETICA, 12, Font.NORMAL)), 0.5f, 0.5f, Element.ALIGN_CENTER));
+                        cell2.setCellEvent(new PositionEvent(new Phrase(10, "$ " + String.valueOf(payment.getDebit()), FontFactory.getFont(FontFactory.HELVETICA, 12, Font.NORMAL)), 0.5f, 0.5f, Element.ALIGN_CENTER));
                         cell3.setCellEvent(new PositionEvent(new Phrase(10, String.valueOf(payDate.format(d1)), FontFactory.getFont(FontFactory.HELVETICA, 12, Font.NORMAL)), 0.5f, 0.5f, Element.ALIGN_CENTER));
                         cell4.setCellEvent(new PositionEvent(new Phrase(10, payTime.format(d1), FontFactory.getFont(FontFactory.HELVETICA, 12, Font.NORMAL)), 0.5f, 0.5f, Element.ALIGN_CENTER));
 
@@ -1095,7 +1090,7 @@ public class TransactionsManager {
                         cell4.setFixedHeight(30);
 
                         cell1.setCellEvent(new PositionEvent(new Phrase(10, "CHECK", FontFactory.getFont(FontFactory.HELVETICA, 12, Font.NORMAL)), 0.5f, 0.5f, Element.ALIGN_CENTER));
-                        cell2.setCellEvent(new PositionEvent(new Phrase(10, "$ "+String.valueOf(payment.getCheckAmount()), FontFactory.getFont(FontFactory.HELVETICA, 12, Font.NORMAL)), 0.5f, 0.5f, Element.ALIGN_CENTER));
+                        cell2.setCellEvent(new PositionEvent(new Phrase(10, "$ " + String.valueOf(payment.getCheckAmount()), FontFactory.getFont(FontFactory.HELVETICA, 12, Font.NORMAL)), 0.5f, 0.5f, Element.ALIGN_CENTER));
                         cell3.setCellEvent(new PositionEvent(new Phrase(10, String.valueOf(payDate.format(d1)), FontFactory.getFont(FontFactory.HELVETICA, 12, Font.NORMAL)), 0.5f, 0.5f, Element.ALIGN_CENTER));
                         cell4.setCellEvent(new PositionEvent(new Phrase(10, payTime.format(d1), FontFactory.getFont(FontFactory.HELVETICA, 12, Font.NORMAL)), 0.5f, 0.5f, Element.ALIGN_CENTER));
 
@@ -1122,7 +1117,7 @@ public class TransactionsManager {
                         cell4.setFixedHeight(30);
 
                         cell1.setCellEvent(new PositionEvent(new Phrase(10, "STORE CREDIT", FontFactory.getFont(FontFactory.HELVETICA, 12, Font.NORMAL)), 0.5f, 0.5f, Element.ALIGN_CENTER));
-                        cell2.setCellEvent(new PositionEvent(new Phrase(10, "$ "+String.valueOf(payment.getStoreCredit()), FontFactory.getFont(FontFactory.HELVETICA, 12, Font.NORMAL)), 0.5f, 0.5f, Element.ALIGN_CENTER));
+                        cell2.setCellEvent(new PositionEvent(new Phrase(10, "$ " + String.valueOf(payment.getStoreCredit()), FontFactory.getFont(FontFactory.HELVETICA, 12, Font.NORMAL)), 0.5f, 0.5f, Element.ALIGN_CENTER));
                         cell3.setCellEvent(new PositionEvent(new Phrase(10, String.valueOf(payDate.format(d1)), FontFactory.getFont(FontFactory.HELVETICA, 12, Font.NORMAL)), 0.5f, 0.5f, Element.ALIGN_CENTER));
                         cell4.setCellEvent(new PositionEvent(new Phrase(10, payTime.format(d1), FontFactory.getFont(FontFactory.HELVETICA, 12, Font.NORMAL)), 0.5f, 0.5f, Element.ALIGN_CENTER));
 
@@ -1136,7 +1131,6 @@ public class TransactionsManager {
                         paymentMethod.addCell(cell3);
                         paymentMethod.addCell(cell4);
                     }
-
 
 
                 }
@@ -1180,7 +1174,7 @@ public class TransactionsManager {
 
             doc.add(totalDueAmount);
 
-            if(transactionDao.getNote().length() > 1) {
+            if (transactionDao.getNote().length() > 1) {
                 Paragraph notes = new Paragraph("Receipt Notes: ");
                 Paragraph transactionNotes = new Paragraph(transactionDao.getNote());
                 transactionNotes.setSpacingBefore(30f);

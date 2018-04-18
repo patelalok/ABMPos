@@ -3,6 +3,7 @@ package com.abm.pos.ABMPos.controller;
 import com.abm.pos.ABMPos.dao.ReportDao.InventoryDto;
 import com.abm.pos.ABMPos.dao.ReportDao.SalesDto;
 import com.abm.pos.ABMPos.dao.ReportDao.SalesSummaryDto;
+import com.abm.pos.ABMPos.dto.OpenInvoiceResponse;
 import com.abm.pos.ABMPos.manager.ReportManager;
 import com.itextpdf.text.DocumentException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -93,7 +94,7 @@ public class ReportController {
     }
 
     @RequestMapping(value = "/getOpenInvoice", method = RequestMethod.GET, produces = "application/json")
-    public List<SalesDto> getOpenInvoice(String startDate, String endDate)
+    public List<OpenInvoiceResponse> getOpenInvoice(String startDate, String endDate)
     {
         return reportManager.getOpenInvoice(startDate, endDate);
     }

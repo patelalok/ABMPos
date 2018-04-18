@@ -10,7 +10,6 @@ import { printBlob, UtilService } from 'app/shared/services/util.service';
 import { ToastsManager } from 'ng2-toastr';
 import { LoadingService } from 'app/loading.service';
 import { TransactionLineItemDaoList, TransactionDtoList } from 'app/sell/sale/sale.component';
-import * as jsPDF from 'jspdf'
 
 
 declare var $: JQueryStatic;

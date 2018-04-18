@@ -6,6 +6,8 @@ import com.abm.pos.ABMPos.dao.ReportDao.SalesSummaryDto;
 import com.abm.pos.ABMPos.dao.StoreSetupDao;
 import com.abm.pos.ABMPos.dao.TransactionDao;
 import com.abm.pos.ABMPos.dao.TransactionLineItemDao;
+import com.abm.pos.ABMPos.dto.CustomerSum;
+import com.abm.pos.ABMPos.dto.OpenInvoiceResponse;
 import com.abm.pos.ABMPos.repository.*;
 import com.abm.pos.ABMPos.util.Utility;
 import com.itextpdf.text.*;
@@ -821,9 +823,41 @@ public class ReportManager {
 
     }
 
-    public List<SalesDto> getOpenInvoice(String startDate, String endDate) {
+    public List<OpenInvoiceResponse> getOpenInvoice(String startDate, String endDate) {
 
-        return null;
+        List<Object[]> result = transactionRepository.getCustomerDetailsForPendingInvoice(startDate, endDate);
+
+        List<CustomerSum> customerSumList = new ArrayList<>();
+        List<TransactionDao> finalTransactionDaoList = new ArrayList<>();
+        List<OpenInvoiceResponse> openInvoiceResponseList = new ArrayList<>();
+        OpenInvoiceResponse openInvoiceResponse = new OpenInvoiceResponse();
+
+
+
+        if(null !=result){
+
+            for (Object[] j : result) {
+                CustomerSum customerSum = new CustomerSum();
+
+                customerSum.setCompanyName(j[0].toString());
+                customerSum.setPhoneNo(j[1].toString());
+                customerSum.setTotalBalance(Double.parseDouble(j[2].toString()));
+
+                customerSumList.add(customerSum);
+            }
+
+            for(CustomerSum customerSum: customerSumList){
+
+                List <TransactionDao> transactionList = transactionRepository.findAllByCustomerPhonenoAndStatusAndDateBetween(customerSum.getPhoneNo(), "Pending", startDate, endDate);
+                openInvoiceResponse.setCustomerSum(customerSum);
+                openInvoiceResponse.setTransactionDaoList(transactionList);
+
+                openInvoiceResponseList.add(openInvoiceResponse);
+            }
+
+        }
+
+        return openInvoiceResponseList;
     }
 
     public byte[] printOpenInvoice(String startDate, String endDate) throws DocumentException {
