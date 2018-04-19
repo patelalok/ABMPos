@@ -8,6 +8,7 @@ public class OpenInvoiceResponse {
 
     private CustomerSum  customerSum;
     private List<TransactionDao> transactionDaoList;
+    private double totalBalance;
 
     public CustomerSum getCustomerSum() {
         return customerSum;
@@ -23,5 +24,13 @@ public class OpenInvoiceResponse {
 
     public void setTransactionDaoList(List<TransactionDao> transactionDaoList) {
         this.transactionDaoList = transactionDaoList;
+    }
+
+    public double getTotalBalance() {
+        return totalBalance;
+    }
+
+    public void setTotalBalance(double totalBalance) {
+        this.totalBalance = totalBalance;
     }
 }

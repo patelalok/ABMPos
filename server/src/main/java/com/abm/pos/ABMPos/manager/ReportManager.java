@@ -833,9 +833,12 @@ public class ReportManager {
         List<TransactionDao> finalTransactionDaoList = new ArrayList<>();
         List<OpenInvoiceResponse> openInvoiceResponseList = new ArrayList<>();
 
+        double totalBalance = 0.00;
 
 
-        if(null !=result){
+
+        if(null !=result)
+        {
 
             for (Object[] j : result) {
                 CustomerSum customerSum = new CustomerSum();
@@ -843,6 +846,8 @@ public class ReportManager {
                 customerSum.setCompanyName(j[0].toString());
                 customerSum.setPhoneNo(j[1].toString());
                 customerSum.setTotalBalance(Double.parseDouble(j[2].toString()));
+
+                totalBalance = totalBalance + customerSum.getTotalBalance();
 
                 customerSumList.add(customerSum);
             }
@@ -854,6 +859,8 @@ public class ReportManager {
                 List <TransactionDao> transactionList = transactionRepository.findAllByCustomerPhonenoAndStatusAndDateBetween(customerSum.getPhoneNo(), "Pending", startDate, endDate);
                 openInvoiceResponse.setCustomerSum(customerSum);
                 openInvoiceResponse.setTransactionDaoList(transactionList);
+
+                openInvoiceResponse.setTotalBalance(totalBalance);
 
                 openInvoiceResponseList.add(openInvoiceResponse);
             }
@@ -914,9 +921,9 @@ public class ReportManager {
             dateTimeDto1 = getDateAndTime(endDate);
 
 
-            Paragraph fromDate = new Paragraph("FROM    "+dateTimeDto.getDate()+"   TO    "+dateTimeDto1.getDate(),FontFactory.getFont(FontFactory.HELVETICA, 13, Font.BOLD));
+            Paragraph fromDate = new Paragraph("FROM    "+dateTimeDto.getDate()+"   TO    "+dateTimeDto1.getDate(),FontFactory.getFont(FontFactory.HELVETICA, 10, Font.BOLD));
             fromDate.setAlignment(PdfPCell.ALIGN_CENTER);
-            fromDate.setSpacingBefore(10);
+            fromDate.setSpacingBefore(9);
             doc.add(fromDate);
 
 
@@ -1018,10 +1025,31 @@ public class ReportManager {
             totalBalanceAmount.setSpacingAfter(5);
             doc.add(totalBalanceAmount);
             LineSeparator objectName = new LineSeparator();
-
             doc.add(objectName);
 
         }
+
+        Paragraph finalTotalBalance = new Paragraph("TOTAL BALANCE DUE    "+ "$ "+Double.parseDouble(new DecimalFormat("##.####").format(openInvoiceResponseList.get(0).getTotalBalance())),FontFactory.getFont(FontFactory.HELVETICA, 14, Font.BOLD) );
+        finalTotalBalance.setAlignment(PdfPCell.ALIGN_LEFT);
+        finalTotalBalance.setSpacingBefore(10);
+        finalTotalBalance.setSpacingAfter(15);
+
+        doc.add(finalTotalBalance);
+
+        LineSeparator objectName = new LineSeparator();
+
+        LineSeparator objectName1 = new LineSeparator();
+        objectName1.setLineWidth(15);
+
+
+
+        doc.add(objectName);
+
+
+
+
+
+
     }
 
     private DateTimeDto getDateAndTime(String date) {
