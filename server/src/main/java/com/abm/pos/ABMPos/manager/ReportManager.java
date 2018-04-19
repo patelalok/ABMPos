@@ -13,6 +13,7 @@ import com.abm.pos.ABMPos.repository.*;
 import com.abm.pos.ABMPos.util.Utility;
 import com.itextpdf.text.*;
 import com.itextpdf.text.pdf.*;
+import com.itextpdf.text.pdf.draw.LineSeparator;
 import org.apache.commons.lang3.ArrayUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -891,7 +892,6 @@ public class ReportManager {
 
     private void printStoreDetailsTest(Document doc, String startDate, String endDate,  List<OpenInvoiceResponse> openInvoiceResponseList) throws DocumentException {
 
-        System.out.println("lenght"+openInvoiceResponseList.size());
         StoreSetupDao storeSetupDao = storeSetupRepository.findOne(1);
 
         if (storeSetupDao != null) {
@@ -899,12 +899,29 @@ public class ReportManager {
             Paragraph storeName = new Paragraph(storeSetupDao.getName(),FontFactory.getFont(FontFactory.HELVETICA, 18, Font.BOLD));
             storeName.setAlignment(PdfPCell.ALIGN_CENTER);
 
+
             Paragraph reportType = new Paragraph("Open Invoice Report",FontFactory.getFont(FontFactory.HELVETICA, 13, Font.BOLD));
             reportType.setAlignment(PdfPCell.ALIGN_CENTER);
-            reportType.setSpacingBefore(20);
+            reportType.setSpacingBefore(10);
 
             doc.add(storeName);
             doc.add(reportType);
+
+            DateTimeDto dateTimeDto;
+            dateTimeDto = getDateAndTime(startDate);
+
+            DateTimeDto dateTimeDto1;
+            dateTimeDto1 = getDateAndTime(endDate);
+
+
+            Paragraph fromDate = new Paragraph("FROM    "+dateTimeDto.getDate()+"   TO    "+dateTimeDto1.getDate(),FontFactory.getFont(FontFactory.HELVETICA, 13, Font.BOLD));
+            fromDate.setAlignment(PdfPCell.ALIGN_CENTER);
+            fromDate.setSpacingBefore(10);
+            doc.add(fromDate);
+
+
+
+
         }
 
 
@@ -915,14 +932,14 @@ public class ReportManager {
         // This will print table header only
         mainTable.setHeaderRows(1);
         mainTable.setWidths(new float[]{2, 2, 2, 2, 5});
-        mainTable.setSpacingBefore(25);
+        mainTable.setSpacingBefore(1);
         mainTable.setSplitLate(false);
 
         for (String tableHeader : mainTableHeader) {
             PdfPCell headerCell = new PdfPCell();
-            headerCell.addElement(new Phrase(tableHeader, FontFactory.getFont(FontFactory.HELVETICA, 10, Font.BOLD)));
-            headerCell.setHorizontalAlignment(Element.ALIGN_CENTER);
-            headerCell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+            Paragraph paragraph3 = new Paragraph(tableHeader, FontFactory.getFont(FontFactory.HELVETICA, 11, Font.BOLD));
+            paragraph3.setAlignment(Element.ALIGN_CENTER);
+            headerCell.addElement(paragraph3);
             headerCell.setBorderColor(BaseColor.LIGHT_GRAY);
             headerCell.setPadding(5);
             mainTable.addCell(headerCell);
@@ -931,27 +948,44 @@ public class ReportManager {
         // Now Printing Open Invoice Table Details
         for (OpenInvoiceResponse openInvoiceResponse : openInvoiceResponseList) {
 
-            Paragraph companyName = new Paragraph(openInvoiceResponse.getCustomerSum().getCompanyName());
+            Paragraph companyName = new Paragraph(openInvoiceResponse.getCustomerSum().getCompanyName(),FontFactory.getFont(FontFactory.HELVETICA, 10, Font.BOLD));
             companyName.setAlignment(PdfPCell.ALIGN_LEFT);
+            companyName.setSpacingBefore(5);
+            //companyName.setSpacingAfter(10);
+
 
             doc.add(companyName);
-
-            PdfPCell cell1 = new PdfPCell();
-            PdfPCell cell2 = new PdfPCell();
-            PdfPCell cell3 = new PdfPCell();
-            PdfPCell cell4 = new PdfPCell();
-            PdfPCell cell5 = new PdfPCell();
 
             for(TransactionDao transactionDao: openInvoiceResponse.getTransactionDaoList()){
 
                 DateTimeDto dateTimeDto = getDateAndTime(transactionDao.getDate());
 
+                PdfPCell cell1 = new PdfPCell();
+                PdfPCell cell2 = new PdfPCell();
+                PdfPCell cell3 = new PdfPCell();
+                PdfPCell cell4 = new PdfPCell();
+                PdfPCell cell5 = new PdfPCell();
 
-                cell1.addElement(new Phrase(dateTimeDto.getDate(), FontFactory.getFont(FontFactory.HELVETICA, 10, Font.NORMAL)));
-                cell2.addElement(new Phrase(dateTimeDto.getTime(), FontFactory.getFont(FontFactory.HELVETICA, 10, Font.NORMAL)));
-                cell3.addElement(new Phrase(String.valueOf(transactionDao.getTransactionComId()), FontFactory.getFont(FontFactory.HELVETICA, 10, Font.NORMAL)));
-                cell4.addElement(new Phrase(String.valueOf(transactionDao.getTransactionBalance()), FontFactory.getFont(FontFactory.HELVETICA, 10, Font.NORMAL)));
-                cell5.addElement(new Phrase(String.valueOf(transactionDao.getCustomerFirstLastName()), FontFactory.getFont(FontFactory.HELVETICA, 10, Font.NORMAL)));
+                // This helps set content in middle or center
+                cell1.setFixedHeight(30);
+                cell2.setFixedHeight(30);
+                cell3.setFixedHeight(30);
+                cell4.setFixedHeight(30);
+                cell5.setFixedHeight(30);
+
+
+                cell1.setCellEvent(new PositionEvent(new Phrase(1, dateTimeDto.getDate(), FontFactory.getFont(FontFactory.HELVETICA, 8, Font.NORMAL)), 0.5f, 0.5f, Element.ALIGN_CENTER));
+                cell2.setCellEvent(new PositionEvent(new Phrase(1, dateTimeDto.getTime(), FontFactory.getFont(FontFactory.HELVETICA, 8, Font.NORMAL)), 0.5f, 0.5f, Element.ALIGN_CENTER));
+                cell3.setCellEvent(new PositionEvent(new Phrase(1, String.valueOf(transactionDao.getTransactionComId()), FontFactory.getFont(FontFactory.HELVETICA, 8, Font.NORMAL)), 0.5f, 0.5f, Element.ALIGN_CENTER));
+                cell4.setCellEvent(new PositionEvent(new Phrase(1, "$ "+String.valueOf(transactionDao.getTransactionBalance()), FontFactory.getFont(FontFactory.HELVETICA, 8, Font.NORMAL)), 0.5f, 0.5f, Element.ALIGN_CENTER));
+                cell5.setCellEvent(new PositionEvent(new Phrase(1, String.valueOf(transactionDao.getCustomerFirstLastName()), FontFactory.getFont(FontFactory.HELVETICA, 8, Font.NORMAL)), 0.5f, 0.5f, Element.ALIGN_CENTER));
+
+//
+//                cell1.addElement(new Phrase(dateTimeDto.getDate(), FontFactory.getFont(FontFactory.HELVETICA, 10, Font.NORMAL)));
+//                cell2.addElement(new Phrase(dateTimeDto.getTime(), FontFactory.getFont(FontFactory.HELVETICA, 10, Font.NORMAL)));
+//                cell3.addElement(new Phrase(String.valueOf(transactionDao.getTransactionComId()), FontFactory.getFont(FontFactory.HELVETICA, 10, Font.NORMAL)));
+//                cell4.addElement(new Phrase(String.valueOf(transactionDao.getTransactionBalance()), FontFactory.getFont(FontFactory.HELVETICA, 10, Font.NORMAL)));
+//                cell5.addElement(new Phrase(String.valueOf(transactionDao.getCustomerFirstLastName()), FontFactory.getFont(FontFactory.HELVETICA, 10, Font.NORMAL)));
 
                 cell1.setBorderColor(BaseColor.LIGHT_GRAY);
                 cell2.setBorderColor(BaseColor.LIGHT_GRAY);
@@ -959,26 +993,35 @@ public class ReportManager {
                 cell4.setBorderColor(BaseColor.LIGHT_GRAY);
                 cell5.setBorderColor(BaseColor.LIGHT_GRAY);
 
+                cell1.setBorder(Rectangle.NO_BORDER);
+                cell2.setBorder(Rectangle.NO_BORDER);
+                cell3.setBorder(Rectangle.NO_BORDER);
+                cell4.setBorder(Rectangle.NO_BORDER);
+                cell5.setBorder(Rectangle.NO_BORDER);
 
+
+                mainTable.addCell(cell1);
+                mainTable.addCell(cell2);
+                mainTable.addCell(cell3);
+                mainTable.addCell(cell4);
+                mainTable.addCell(cell5);
             }
-            mainTable.addCell(cell1);
-            mainTable.addCell(cell2);
-            mainTable.addCell(cell3);
-            mainTable.addCell(cell4);
-            mainTable.addCell(cell5);
-
-            Paragraph totalBalanceName = new Paragraph("Total Balance");
-            totalBalanceName.setAlignment(PdfPCell.ALIGN_LEFT);
-            doc.add(totalBalanceName);
 
             doc.add(mainTable);
 
-            Paragraph totalBalanceAmount = new Paragraph(String.valueOf(openInvoiceResponse.getCustomerSum().getTotalBalance()));
-            totalBalanceAmount.setAlignment(PdfPCell.ALIGN_RIGHT);
+            mainTable = new PdfPTable(5);
+            mainTable.setWidthPercentage(100);
+            mainTable.setWidths(new float[]{2, 2, 2, 2, 5});
+
+            Paragraph totalBalanceAmount = new Paragraph("TOTAL BALANCE DUE    "+ "$ "+String.valueOf(openInvoiceResponse.getCustomerSum().getTotalBalance()),FontFactory.getFont(FontFactory.HELVETICA, 10, Font.BOLD) );
+            totalBalanceAmount.setAlignment(PdfPCell.ALIGN_LEFT);
+            totalBalanceAmount.setSpacingAfter(5);
             doc.add(totalBalanceAmount);
+            LineSeparator objectName = new LineSeparator();
+
+            doc.add(objectName);
 
         }
-
     }
 
     private DateTimeDto getDateAndTime(String date) {

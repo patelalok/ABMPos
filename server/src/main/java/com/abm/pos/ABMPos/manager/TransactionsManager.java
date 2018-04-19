@@ -844,8 +844,8 @@ public class TransactionsManager {
             if (null != transactionDao.getTransactionLineItemDaoList()) {
 
                 lineItemTable.setHeaderRows(1);
-                lineItemTable.setWidths(new float[]{2.5f, 7.2f, 1, 1.5f, 1.8f});
-                lineItemTable.setSpacingBefore(25);
+                lineItemTable.setWidths(new float[]{2.3f, 7.5f, 1, 1.5f, 1.8f});
+                lineItemTable.setSpacingBefore(15);
                 lineItemTable.setSplitLate(false);
 
                 for (String columnHeader : header) {
@@ -854,7 +854,7 @@ public class TransactionsManager {
                     headerCell.setHorizontalAlignment(Element.ALIGN_CENTER);
                     headerCell.setVerticalAlignment(Element.ALIGN_MIDDLE);
                     headerCell.setBorderColor(BaseColor.LIGHT_GRAY);
-                    headerCell.setPadding(8);
+                    headerCell.setPadding(4);
                     lineItemTable.addCell(headerCell);
                 }
 
@@ -866,11 +866,11 @@ public class TransactionsManager {
                     PdfPCell cell4 = new PdfPCell();
                     PdfPCell cell5 = new PdfPCell();
 
-                    cell1.addElement(new Phrase(lineItem.getProductNo(), FontFactory.getFont(FontFactory.HELVETICA, 10, Font.NORMAL)));
-                    cell2.addElement(new Phrase(lineItem.getDescription(), FontFactory.getFont(FontFactory.HELVETICA, 10, Font.NORMAL)));
-                    cell3.setCellEvent(new PositionEvent(new Phrase(10, String.valueOf(lineItem.getSaleQuantity()), FontFactory.getFont(FontFactory.HELVETICA, 10, Font.NORMAL)), 0.5f, 0.5f, Element.ALIGN_CENTER));
-                    cell4.setCellEvent(new PositionEvent(new Phrase(10, String.valueOf(lineItem.getRetailWithDiscount()), FontFactory.getFont(FontFactory.HELVETICA, 10, Font.NORMAL)), 0.5f, 0.5f, Element.ALIGN_CENTER));
-                    cell5.setCellEvent(new PositionEvent(new Phrase(10, String.valueOf(lineItem.getTotalProductPrice()), FontFactory.getFont(FontFactory.HELVETICA, 10, Font.NORMAL)), 0.5f, 0.5f, Element.ALIGN_CENTER));
+                    cell1.addElement(new Phrase(lineItem.getProductNo(), FontFactory.getFont(FontFactory.HELVETICA, 8, Font.NORMAL)));
+                    cell2.addElement(new Phrase(lineItem.getDescription(), FontFactory.getFont(FontFactory.HELVETICA, 8, Font.NORMAL)));
+                    cell3.setCellEvent(new PositionEvent(new Phrase(10, String.valueOf(lineItem.getSaleQuantity()), FontFactory.getFont(FontFactory.HELVETICA, 8, Font.NORMAL)), 0.5f, 0.5f, Element.ALIGN_CENTER));
+                    cell4.setCellEvent(new PositionEvent(new Phrase(10, String.valueOf(lineItem.getRetailWithDiscount()), FontFactory.getFont(FontFactory.HELVETICA, 8, Font.NORMAL)), 0.5f, 0.5f, Element.ALIGN_CENTER));
+                    cell5.setCellEvent(new PositionEvent(new Phrase(10, String.valueOf(lineItem.getTotalProductPrice()), FontFactory.getFont(FontFactory.HELVETICA, 8, Font.NORMAL)), 0.5f, 0.5f, Element.ALIGN_CENTER));
 
 //                    cell3.addElement(new Phrase(String.valueOf(lineItem.getSaleQuantity()),FontFactory.getFont(FontFactory.HELVETICA, 10, Font.NORMAL)));
 //                    cell4.addElement(new Phrase(String.valueOf(lineItem.getRetailWithDiscount()),FontFactory.getFont(FontFactory.HELVETICA, 10, Font.NORMAL)));
@@ -891,19 +891,19 @@ public class TransactionsManager {
 
             }
 
-            Paragraph subtotal = new Paragraph("SUBTOTAL", FontFactory.getFont(FontFactory.HELVETICA, 13, Font.NORMAL));
+            Paragraph subtotal = new Paragraph("SUBTOTAL", FontFactory.getFont(FontFactory.HELVETICA, 11, Font.NORMAL));
             subtotal.setAlignment(PdfPCell.ALIGN_LEFT);
-            Paragraph tax = new Paragraph("TAX", FontFactory.getFont(FontFactory.HELVETICA, 13, Font.NORMAL));
+            Paragraph tax = new Paragraph("TAX", FontFactory.getFont(FontFactory.HELVETICA, 11, Font.NORMAL));
             tax.setAlignment(PdfPCell.ALIGN_LEFT);
-            Paragraph discount = new Paragraph("DISCOUNT", FontFactory.getFont(FontFactory.HELVETICA, 13, Font.NORMAL));
+            Paragraph discount = new Paragraph("DISCOUNT", FontFactory.getFont(FontFactory.HELVETICA, 11, Font.NORMAL));
             discount.setAlignment(PdfPCell.ALIGN_LEFT);
-            Paragraph quantity = new Paragraph("QUANTITY", FontFactory.getFont(FontFactory.HELVETICA, 13, Font.NORMAL));
+            Paragraph quantity = new Paragraph("QUANTITY", FontFactory.getFont(FontFactory.HELVETICA, 11, Font.NORMAL));
             quantity.setAlignment(PdfPCell.ALIGN_LEFT);
-            Paragraph shipping = new Paragraph("SHIPPING", FontFactory.getFont(FontFactory.HELVETICA, 13, Font.NORMAL));
+            Paragraph shipping = new Paragraph("SHIPPING", FontFactory.getFont(FontFactory.HELVETICA, 11, Font.NORMAL));
             shipping.setAlignment(PdfPCell.ALIGN_LEFT);
-            Paragraph total = new Paragraph("TOTAL", FontFactory.getFont(FontFactory.HELVETICA, 13, Font.NORMAL));
+            Paragraph total = new Paragraph("TOTAL", FontFactory.getFont(FontFactory.HELVETICA, 11, Font.NORMAL));
             total.setAlignment(PdfPCell.ALIGN_LEFT);
-            Paragraph balanceDue = new Paragraph("BALANCE DUE", FontFactory.getFont(FontFactory.HELVETICA, 13, Font.BOLD));
+            Paragraph balanceDue = new Paragraph("BALANCE DUE", FontFactory.getFont(FontFactory.HELVETICA, 11, Font.BOLD));
             balanceDue.setAlignment(PdfPCell.ALIGN_LEFT);
 
             paymentType.addElement(subtotal);
@@ -920,19 +920,19 @@ public class TransactionsManager {
             paymentType.setBorder(PdfPCell.NO_BORDER);
 
 
-            Paragraph subtotal1 = new Paragraph("$ " + transactionDao.getSubtotal(), FontFactory.getFont(FontFactory.HELVETICA, 13, Font.NORMAL));
+            Paragraph subtotal1 = new Paragraph("$ " + transactionDao.getSubtotal(), FontFactory.getFont(FontFactory.HELVETICA, 11, Font.NORMAL));
             subtotal1.setAlignment(PdfPCell.ALIGN_RIGHT);
-            Paragraph tax1 = new Paragraph("$ " + transactionDao.getTax(), FontFactory.getFont(FontFactory.HELVETICA, 13, Font.NORMAL));
+            Paragraph tax1 = new Paragraph("$ " + transactionDao.getTax(), FontFactory.getFont(FontFactory.HELVETICA, 11, Font.NORMAL));
             tax1.setAlignment(PdfPCell.ALIGN_RIGHT);
-            Paragraph discount1 = new Paragraph("$ " + transactionDao.getTotalDiscount(), FontFactory.getFont(FontFactory.HELVETICA, 13, Font.NORMAL));
+            Paragraph discount1 = new Paragraph("$ " + transactionDao.getTotalDiscount(), FontFactory.getFont(FontFactory.HELVETICA, 11, Font.NORMAL));
             discount1.setAlignment(PdfPCell.ALIGN_RIGHT);
-            Paragraph quantity1 = new Paragraph(String.valueOf(transactionDao.getQuantity()), FontFactory.getFont(FontFactory.HELVETICA, 13, Font.NORMAL));
+            Paragraph quantity1 = new Paragraph(String.valueOf(transactionDao.getQuantity()), FontFactory.getFont(FontFactory.HELVETICA, 11, Font.NORMAL));
             quantity1.setAlignment(PdfPCell.ALIGN_RIGHT);
-            Paragraph shipping1 = new Paragraph(String.valueOf(transactionDao.getShipping()), FontFactory.getFont(FontFactory.HELVETICA, 13, Font.NORMAL));
+            Paragraph shipping1 = new Paragraph(String.valueOf(transactionDao.getShipping()), FontFactory.getFont(FontFactory.HELVETICA, 11, Font.NORMAL));
             shipping1.setAlignment(PdfPCell.ALIGN_RIGHT);
-            Paragraph total1 = new Paragraph("$ " + transactionDao.getTotalAmount(), FontFactory.getFont(FontFactory.HELVETICA, 13, Font.NORMAL));
+            Paragraph total1 = new Paragraph("$ " + transactionDao.getTotalAmount(), FontFactory.getFont(FontFactory.HELVETICA, 11, Font.NORMAL));
             total1.setAlignment(PdfPCell.ALIGN_RIGHT);
-            Paragraph balanceDue1 = new Paragraph("$ " + transactionDao.getTransactionBalance(), FontFactory.getFont(FontFactory.HELVETICA, 13, Font.BOLD));
+            Paragraph balanceDue1 = new Paragraph("$ " + transactionDao.getTransactionBalance(), FontFactory.getFont(FontFactory.HELVETICA, 11, Font.BOLD));
             balanceDue1.setAlignment(PdfPCell.ALIGN_RIGHT);
 
             paymentAmount.addElement(subtotal1);
@@ -952,13 +952,13 @@ public class TransactionsManager {
             paymentTable.addCell(paymentAmount);
 
 
-            paymentTable.setSpacingBefore(25);
+            paymentTable.setSpacingBefore(10);
 
             if (null != transactionDao.getPaymentDao()) {
 
                 for (String payment : paymentHeader) {
                     PdfPCell headerCell = new PdfPCell();
-                    Paragraph paragraph3 = new Paragraph(payment, FontFactory.getFont(FontFactory.HELVETICA, 11, Font.BOLD));
+                    Paragraph paragraph3 = new Paragraph(payment, FontFactory.getFont(FontFactory.HELVETICA, 10, Font.BOLD));
                     paragraph3.setAlignment(Element.ALIGN_CENTER);
                     headerCell.addElement(paragraph3);
                     headerCell.setBorderColor(BaseColor.LIGHT_GRAY);
