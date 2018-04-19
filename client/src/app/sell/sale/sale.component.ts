@@ -919,6 +919,8 @@ export class SaleComponent implements OnInit, AfterViewInit {
       this.shippingAmount = 0.00;
       this.totalTransactionDiscount = 0;
       this.persit.clearShippingAmount();
+      this.shippingAmount = 0.00;
+
       this.setTransactionDtoList();
       this.paymentDao = [];
 
@@ -962,7 +964,8 @@ export class SaleComponent implements OnInit, AfterViewInit {
         }
         
         this.persit.setProducts(transaction.transactionLineItemDaoList);
-        this.transactionLineItemDaoList = this.persit.getProducts() || [];  
+        this.transactionLineItemDaoList = this.persit.getProducts() || [];
+        this.setTransactionDtoList();  
       });
   }
 
