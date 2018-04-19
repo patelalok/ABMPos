@@ -1209,6 +1209,8 @@ export class Product {
   imeiNo?: any;
   productInventoryDaoList?: ProductInventory[];
   operationType?: string;
+  color?:string;
+  memory?:string;
 }
 export class TransactionLineItemDaoList {
 

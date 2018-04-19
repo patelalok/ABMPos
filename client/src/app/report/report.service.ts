@@ -42,7 +42,7 @@ export class ReportService {
         .map(this.extractData)
         .catch(this.handleError);
       }
-      getOpneInvoiceDetails(startDate:string, endDate:string) : Observable<OpenInvoice>{
+      getOpneInvoiceDetails(startDate:string, endDate:string) : Observable<OpenInvoice[]>{
        return this.http.get(this.url+'/getOpenInvoice?startDate='+startDate+'&endDate='+endDate)
         .map(this.extractData)
         .catch(this.handleError);

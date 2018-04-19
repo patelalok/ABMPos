@@ -30,12 +30,11 @@ import java.util.Date;
 import java.util.List;
 
 
-
 @Component
 public class ReportManager {
 
     @Autowired
-    private TransactionsManager  transactionsManager;
+    private TransactionsManager transactionsManager;
 
     private final Utility utility;
 
@@ -124,7 +123,7 @@ public class ReportManager {
                 inventoryDto.setCost(Double.parseDouble(j[2].toString()));
                 inventoryDto.setRetail(Double.parseDouble(j[3].toString()));
 
-                double markupPer = ((inventoryDto.getRetail() - inventoryDto.getCost())/inventoryDto.getCost()) * 100;
+                double markupPer = ((inventoryDto.getRetail() - inventoryDto.getCost()) / inventoryDto.getCost()) * 100;
                 DecimalFormat df = new DecimalFormat("#.##");
                 inventoryDto.setMarkup(Double.parseDouble(df.format(markupPer)));
 
@@ -292,7 +291,7 @@ public class ReportManager {
         int totalQuantity = 0;
         double totalProfit = 0;
         double totalDiscount = 0;
-       // double totalMarkup = 0;
+        // double totalMarkup = 0;
 
         if (null != result) {
             for (Object[] j : result) {
@@ -338,7 +337,7 @@ public class ReportManager {
 
         if (productReportType.equalsIgnoreCase("Top50SellingItem")) {
             //timeIntervalDto = utility.getDateByInputString(date);
-            List<Object[]> result = productRepository.getTop50SellingItem(startDate,endDate);
+            List<Object[]> result = productRepository.getTop50SellingItem(startDate, endDate);
             return setDataForCommonProductReports(result);
         } else if (productReportType.equalsIgnoreCase("Top50MostProfitableItem")) {
             //timeIntervalDto = utility.getDateByInputString(date);
@@ -384,17 +383,12 @@ public class ReportManager {
 
         List<InventoryDto> inventoryDtoList = new ArrayList<>();
 
-        if(inventoryReportBy.equalsIgnoreCase("Category"))
-        {
+        if (inventoryReportBy.equalsIgnoreCase("Category")) {
             inventoryDtoList = getReportByInventory("Category");
 
-        }
-        else if(inventoryReportBy.equalsIgnoreCase("Brand"))
-        {
+        } else if (inventoryReportBy.equalsIgnoreCase("Brand")) {
             inventoryDtoList = getReportByInventory("Brand");
-        }
-        else if(inventoryReportBy.equalsIgnoreCase("Vendor"))
-        {
+        } else if (inventoryReportBy.equalsIgnoreCase("Vendor")) {
             inventoryDtoList = getReportByInventory("Vendor");
         }
 
@@ -409,7 +403,7 @@ public class ReportManager {
             if (beginPage) {
                 beginPage = false;
                 generateLayoutForInventory(doc, cb, inventoryReportBy);
-                generateHeaderForInventory(doc, cb,inventoryReportBy);
+                generateHeaderForInventory(doc, cb, inventoryReportBy);
                 y = 570;
             }
             generateDetailForInventory(doc, cb, i, y, inventoryDtoList);
@@ -428,7 +422,6 @@ public class ReportManager {
         byte[] pdfDataBytes = byteArrayOutputStream.toByteArray();
 
 
-
         return pdfDataBytes;
 
     }
@@ -443,11 +436,11 @@ public class ReportManager {
             if (null != inventoryDtoList && inventoryDtoList.size() >= 1) {
 
 
-                    createForCommonReportsContentForInventory(cb, 23, y, inventoryDtoList.get(index).getName(), 0);
-                    createForCommonReportsContentForInventory(cb, 220, y,       df.format(inventoryDtoList.get(index).getQuantity()), 0);
-                    createForCommonReportsContentForInventory(cb, 330, y, "$" + df.format(inventoryDtoList.get(index).getCost()), 0);
-                    createForCommonReportsContentForInventory(cb, 420, y, "$" + df.format(inventoryDtoList.get(index).getRetail()), 0);
-                    createForCommonReportsContentForInventory(cb, 510, y,       df.format(inventoryDtoList.get(index).getMarkup()) + "%", 0);
+                createForCommonReportsContentForInventory(cb, 23, y, inventoryDtoList.get(index).getName(), 0);
+                createForCommonReportsContentForInventory(cb, 220, y, df.format(inventoryDtoList.get(index).getQuantity()), 0);
+                createForCommonReportsContentForInventory(cb, 330, y, "$" + df.format(inventoryDtoList.get(index).getCost()), 0);
+                createForCommonReportsContentForInventory(cb, 420, y, "$" + df.format(inventoryDtoList.get(index).getRetail()), 0);
+                createForCommonReportsContentForInventory(cb, 510, y, df.format(inventoryDtoList.get(index).getMarkup()) + "%", 0);
             }
 
         } catch (Exception ex) {
@@ -493,7 +486,7 @@ public class ReportManager {
             if (reportName.equalsIgnoreCase("Category")) {
                 createHeadingsForCommonReports(cb, 23, 605, "Category Name");
                 createHeadingsForCommonReportsName(cb, 168, 730, "Inventory By Category Report");
-            } else if (reportName.equalsIgnoreCase("Vendor")){
+            } else if (reportName.equalsIgnoreCase("Vendor")) {
                 createHeadingsForCommonReports(cb, 23, 605, "Vendor Name");
                 createHeadingsForCommonReportsName(cb, 175, 730, "Inventory By Vendor Report");
             } else if (reportName.equalsIgnoreCase("Brand")) {
@@ -516,7 +509,7 @@ public class ReportManager {
 
     private void createHeadingsForCommonReports(PdfContentByte cb, float x, float y, String text) {
         cb.beginText();
-        cb.setFontAndSize(bfBold,12);
+        cb.setFontAndSize(bfBold, 12);
         cb.setTextMatrix(x, y);
         cb.showText(text.trim());
         cb.endText();
@@ -530,7 +523,8 @@ public class ReportManager {
         cb.endText();
 
     }
-    private void generateHeaderForInventory(Document doc, PdfContentByte cb, String  reportName) {
+
+    private void generateHeaderForInventory(Document doc, PdfContentByte cb, String reportName) {
 
         try {
 
@@ -544,9 +538,8 @@ public class ReportManager {
 //            companyLogo.scalePercent(15);
 //            doc.add(companyLogo);
 
-            StoreSetupDao  storeSetupDao = storeSetupRepository.findOne(1);
-            if(null != storeSetupDao)
-            {
+            StoreSetupDao storeSetupDao = storeSetupRepository.findOne(1);
+            if (null != storeSetupDao) {
                 createHeadingsForCompanyName(cb, 265, 770, storeSetupDao.getName());
             }
 
@@ -556,12 +549,12 @@ public class ReportManager {
 
     }
 
-    private void createHeadingsForCompanyName(PdfContentByte cb, float x, float y, String text){
+    private void createHeadingsForCompanyName(PdfContentByte cb, float x, float y, String text) {
 
 
         cb.beginText();
         cb.setFontAndSize(bfBold, 12);
-        cb.setTextMatrix(x,y);
+        cb.setTextMatrix(x, y);
         cb.showText(text.trim());
         cb.endText();
 
@@ -579,7 +572,8 @@ public class ReportManager {
         pageNumber++;
 
     }
-    private void initializeFonts(){
+
+    private void initializeFonts() {
 
 
         try {
@@ -614,7 +608,7 @@ public class ReportManager {
         boolean beginPage = true;
         int y = 0;
 
-        if(null != salesDtoList) {
+        if (null != salesDtoList) {
             for (int i = 0; i < salesDtoList.size(); i++) {
                 if (beginPage) {
                     beginPage = false;
@@ -639,11 +633,11 @@ public class ReportManager {
         byte[] pdfDataBytes = byteArrayOutputStream.toByteArray();
 
 
-
         return pdfDataBytes;
 
 
     }
+
     private void generateLayout(Document doc, PdfContentByte cb, String reportName) {
 
         try {
@@ -671,7 +665,7 @@ public class ReportManager {
             if (reportName.equalsIgnoreCase("Sales By Category")) {
                 createHeadingsForCommonReports(cb, 23, 605, "Category Name");
                 createHeadingsForCommonReportsName(cb, 200, 730, "Sales By Category Report");
-            } else if(reportName.equalsIgnoreCase("Sales By Vendor")) {
+            } else if (reportName.equalsIgnoreCase("Sales By Vendor")) {
                 createHeadingsForCommonReports(cb, 23, 605, "Vendor Name");
                 createHeadingsForCommonReportsName(cb, 200, 730, "Sales By Vendor Report");
             } else if (reportName.equalsIgnoreCase("Sales By Brand")) {
@@ -736,9 +730,8 @@ public class ReportManager {
 //            companyLogo.scalePercent(15);
 //            doc.add(companyLogo);
 
-            StoreSetupDao  storeSetupDao = storeSetupRepository.findOne(1);
-            if(null != storeSetupDao)
-            {
+            StoreSetupDao storeSetupDao = storeSetupRepository.findOne(1);
+            if (null != storeSetupDao) {
                 createHeadingsForCompanyName(cb, 265, 770, storeSetupDao.getName());
             }
 
@@ -762,7 +755,7 @@ public class ReportManager {
             if (null != salesDtoList && salesDtoList.size() >= 1) {
 
                 createForCommonReportsContent(cb, 23, y, salesDtoList.get(index).getName(), 0);
-                createForCommonReportsContent(cb, 205, y,       df.format(salesDtoList.get(index).getQuantity()), 0);
+                createForCommonReportsContent(cb, 205, y, df.format(salesDtoList.get(index).getQuantity()), 0);
                 createForCommonReportsContent(cb, 284, y, "$" + df.format(salesDtoList.get(index).getDiscount()), 0);
 
                 createForCommonReportsContent(cb, 369, y, "$" + df.format(salesDtoList.get(index).getRetail()), 0);
@@ -777,13 +770,10 @@ public class ReportManager {
     }
 
     private void createForCommonReportsContent(PdfContentByte cb, float x, float y, String text, int align) {
-
-
         cb.beginText();
         cb.setFontAndSize(bf, 12);
         cb.showTextAligned(align, text.trim(), x, y, 0);
         cb.endText();
-
     }
 
     public SalesSummaryDto getDashboardReportBySalesSummary(String salesSummaryReportBy, String startDate, String endDate) {
@@ -792,20 +782,18 @@ public class ReportManager {
         SalesSummaryDto salesSummaryDto = new SalesSummaryDto();
         SalesSummaryDto salesSummaryDtoFinal = new SalesSummaryDto();
 
-        salesSummaryDtoList = getReportBySalesSummary(salesSummaryReportBy,startDate,endDate);
+        salesSummaryDtoList = getReportBySalesSummary(salesSummaryReportBy, startDate, endDate);
 
-        if(null != salesSummaryDtoList)
-        {
-            for(SalesSummaryDto salesSummaryDtoLocal: salesSummaryDtoList)
-            {
+        if (null != salesSummaryDtoList) {
+            for (SalesSummaryDto salesSummaryDtoLocal : salesSummaryDtoList) {
                 salesSummaryDto.setCash(salesSummaryDtoLocal.getCash());
                 salesSummaryDto.setCredit(salesSummaryDtoLocal.getCredit());
-                salesSummaryDto.setDebit( salesSummaryDtoLocal.getDebit());
+                salesSummaryDto.setDebit(salesSummaryDtoLocal.getDebit());
                 salesSummaryDto.setCheck(salesSummaryDtoLocal.getCheck());
                 salesSummaryDto.setTax(salesSummaryDtoLocal.getTax());
                 salesSummaryDto.setDiscount(salesSummaryDtoLocal.getDiscount());
-                salesSummaryDto.setReturns( salesSummaryDtoLocal.getReturns());
-                salesSummaryDto.setProfit( salesSummaryDtoLocal.getProfit());
+                salesSummaryDto.setReturns(salesSummaryDtoLocal.getReturns());
+                salesSummaryDto.setProfit(salesSummaryDtoLocal.getProfit());
                 salesSummaryDto.setSubtotal(salesSummaryDtoLocal.getSubtotal());
             }
 
@@ -818,11 +806,8 @@ public class ReportManager {
             salesSummaryDtoFinal.setReturns(salesSummaryDto.getReturns());
             salesSummaryDtoFinal.setProfit(salesSummaryDto.getProfit());
             salesSummaryDtoFinal.setSubtotal(salesSummaryDto.getSubtotal());
-
         }
-
         return salesSummaryDtoFinal;
-
     }
 
     public List<OpenInvoiceResponse> getOpenInvoice(String startDate, String endDate) {
@@ -830,15 +815,11 @@ public class ReportManager {
         List<Object[]> result = transactionRepository.getCustomerDetailsForPendingInvoice(startDate, endDate);
 
         List<CustomerSum> customerSumList = new ArrayList<>();
-        List<TransactionDao> finalTransactionDaoList = new ArrayList<>();
         List<OpenInvoiceResponse> openInvoiceResponseList = new ArrayList<>();
-
         double totalBalance = 0.00;
 
 
-
-        if(null !=result)
-        {
+        if (null != result) {
 
             for (Object[] j : result) {
                 CustomerSum customerSum = new CustomerSum();
@@ -852,11 +833,11 @@ public class ReportManager {
                 customerSumList.add(customerSum);
             }
 
-            for(CustomerSum customerSum: customerSumList){
+            for (CustomerSum customerSum : customerSumList) {
 
                 OpenInvoiceResponse openInvoiceResponse = new OpenInvoiceResponse();
 
-                List <TransactionDao> transactionList = transactionRepository.findAllByCustomerPhonenoAndStatusAndDateBetween(customerSum.getPhoneNo(), "Pending", startDate, endDate);
+                List<TransactionDao> transactionList = transactionRepository.findAllByCustomerPhonenoAndStatusAndDateBetween(customerSum.getPhoneNo(), "Pending", startDate, endDate);
                 openInvoiceResponse.setCustomerSum(customerSum);
                 openInvoiceResponse.setTransactionDaoList(transactionList);
 
@@ -872,10 +853,7 @@ public class ReportManager {
 
     public byte[] printOpenInvoice(String startDate, String endDate) throws DocumentException {
 
-        TransactionDao transactionDao;
-        List<TransactionDao> transactionDaoList = new ArrayList<>();
-
-        List<OpenInvoiceResponse> openInvoiceResponseList = new ArrayList<>();
+        List<OpenInvoiceResponse> openInvoiceResponseList;
 
         Document doc = new Document(PageSize.A4);
         initializeFonts();
@@ -884,30 +862,28 @@ public class ReportManager {
         doc.open();
         PdfContentByte cb = writer.getDirectContent();
 
-        //transactionDaoList = transactionsManager.getTransactionByDate(startDate,endDate);
-        openInvoiceResponseList = getOpenInvoice(startDate,endDate);
+        openInvoiceResponseList = getOpenInvoice(startDate, endDate);
 
         if (null != openInvoiceResponseList) {
 
             printStoreDetailsTest(doc, startDate, endDate, openInvoiceResponseList);
-            printOpenInvoiceDetails(doc,openInvoiceResponseList);
+            printOpenInvoiceDetails(doc, openInvoiceResponseList);
         }
         doc.close();
 
         return byteArrayOutputStream.toByteArray();
     }
 
-    private void printStoreDetailsTest(Document doc, String startDate, String endDate,  List<OpenInvoiceResponse> openInvoiceResponseList) throws DocumentException {
+    private void printStoreDetailsTest(Document doc, String startDate, String endDate, List<OpenInvoiceResponse> openInvoiceResponseList) throws DocumentException {
 
         StoreSetupDao storeSetupDao = storeSetupRepository.findOne(1);
 
         if (storeSetupDao != null) {
 
-            Paragraph storeName = new Paragraph(storeSetupDao.getName(),FontFactory.getFont(FontFactory.HELVETICA, 18, Font.BOLD));
+            Paragraph storeName = new Paragraph(storeSetupDao.getName(), FontFactory.getFont(FontFactory.HELVETICA, 18, Font.BOLD));
             storeName.setAlignment(PdfPCell.ALIGN_CENTER);
 
-
-            Paragraph reportType = new Paragraph("Open Invoice Report",FontFactory.getFont(FontFactory.HELVETICA, 13, Font.BOLD));
+            Paragraph reportType = new Paragraph("Open Invoice Report", FontFactory.getFont(FontFactory.HELVETICA, 13, Font.BOLD));
             reportType.setAlignment(PdfPCell.ALIGN_CENTER);
             reportType.setSpacingBefore(10);
 
@@ -920,18 +896,11 @@ public class ReportManager {
             DateTimeDto dateTimeDto1;
             dateTimeDto1 = getDateAndTime(endDate);
 
-
-            Paragraph fromDate = new Paragraph("FROM    "+dateTimeDto.getDate()+"   TO    "+dateTimeDto1.getDate(),FontFactory.getFont(FontFactory.HELVETICA, 10, Font.BOLD));
+            Paragraph fromDate = new Paragraph("FROM    " + dateTimeDto.getDate() + "   TO    " + dateTimeDto1.getDate(), FontFactory.getFont(FontFactory.HELVETICA, 10, Font.BOLD));
             fromDate.setAlignment(PdfPCell.ALIGN_CENTER);
             fromDate.setSpacingBefore(9);
             doc.add(fromDate);
-
-
-
-
         }
-
-
         PdfPTable mainTable = new PdfPTable(5);
         String[] mainTableHeader = new String[]{"DATE", "TIME", "RECEIPT NO", "BALANCE", "FULL NAME"};
         mainTable.setWidthPercentage(100);
@@ -955,15 +924,12 @@ public class ReportManager {
         // Now Printing Open Invoice Table Details
         for (OpenInvoiceResponse openInvoiceResponse : openInvoiceResponseList) {
 
-            Paragraph companyName = new Paragraph(openInvoiceResponse.getCustomerSum().getCompanyName(),FontFactory.getFont(FontFactory.HELVETICA, 10, Font.BOLD));
+            Paragraph companyName = new Paragraph(openInvoiceResponse.getCustomerSum().getCompanyName(), FontFactory.getFont(FontFactory.HELVETICA, 10, Font.BOLD));
             companyName.setAlignment(PdfPCell.ALIGN_LEFT);
             companyName.setSpacingBefore(5);
-            //companyName.setSpacingAfter(10);
-
-
             doc.add(companyName);
 
-            for(TransactionDao transactionDao: openInvoiceResponse.getTransactionDaoList()){
+            for (TransactionDao transactionDao : openInvoiceResponse.getTransactionDaoList()) {
 
                 DateTimeDto dateTimeDto = getDateAndTime(transactionDao.getDate());
 
@@ -984,7 +950,7 @@ public class ReportManager {
                 cell1.setCellEvent(new PositionEvent(new Phrase(1, dateTimeDto.getDate(), FontFactory.getFont(FontFactory.HELVETICA, 8, Font.NORMAL)), 0.5f, 0.5f, Element.ALIGN_CENTER));
                 cell2.setCellEvent(new PositionEvent(new Phrase(1, dateTimeDto.getTime(), FontFactory.getFont(FontFactory.HELVETICA, 8, Font.NORMAL)), 0.5f, 0.5f, Element.ALIGN_CENTER));
                 cell3.setCellEvent(new PositionEvent(new Phrase(1, String.valueOf(transactionDao.getTransactionComId()), FontFactory.getFont(FontFactory.HELVETICA, 8, Font.NORMAL)), 0.5f, 0.5f, Element.ALIGN_CENTER));
-                cell4.setCellEvent(new PositionEvent(new Phrase(1, "$ "+String.valueOf(transactionDao.getTransactionBalance()), FontFactory.getFont(FontFactory.HELVETICA, 8, Font.NORMAL)), 0.5f, 0.5f, Element.ALIGN_CENTER));
+                cell4.setCellEvent(new PositionEvent(new Phrase(1, "$ " + String.valueOf(transactionDao.getTransactionBalance()), FontFactory.getFont(FontFactory.HELVETICA, 8, Font.NORMAL)), 0.5f, 0.5f, Element.ALIGN_CENTER));
                 cell5.setCellEvent(new PositionEvent(new Phrase(1, String.valueOf(transactionDao.getCustomerFirstLastName()), FontFactory.getFont(FontFactory.HELVETICA, 8, Font.NORMAL)), 0.5f, 0.5f, Element.ALIGN_CENTER));
 
 //
@@ -1016,11 +982,12 @@ public class ReportManager {
 
             doc.add(mainTable);
 
+            // This will reset the table data and print details by customer.
             mainTable = new PdfPTable(5);
             mainTable.setWidthPercentage(100);
             mainTable.setWidths(new float[]{2, 2, 2, 2, 5});
 
-            Paragraph totalBalanceAmount = new Paragraph("TOTAL BALANCE DUE    "+ "$ "+String.valueOf(openInvoiceResponse.getCustomerSum().getTotalBalance()),FontFactory.getFont(FontFactory.HELVETICA, 10, Font.BOLD) );
+            Paragraph totalBalanceAmount = new Paragraph("TOTAL BALANCE DUE    " + "$ " + String.valueOf(openInvoiceResponse.getCustomerSum().getTotalBalance()), FontFactory.getFont(FontFactory.HELVETICA, 10, Font.BOLD));
             totalBalanceAmount.setAlignment(PdfPCell.ALIGN_LEFT);
             totalBalanceAmount.setSpacingAfter(5);
             doc.add(totalBalanceAmount);
@@ -1029,7 +996,8 @@ public class ReportManager {
 
         }
 
-        Paragraph finalTotalBalance = new Paragraph("TOTAL BALANCE DUE    "+ "$ "+Double.parseDouble(new DecimalFormat("##.####").format(openInvoiceResponseList.get(0).getTotalBalance())),FontFactory.getFont(FontFactory.HELVETICA, 14, Font.BOLD) );
+        // This will print the final total at the end of the report.
+        Paragraph finalTotalBalance = new Paragraph("TOTAL OPEN INVOICE BALANCE    " + "$ " + Double.parseDouble(new DecimalFormat("##.####").format(openInvoiceResponseList.get(0).getTotalBalance())), FontFactory.getFont(FontFactory.HELVETICA, 14, Font.BOLD));
         finalTotalBalance.setAlignment(PdfPCell.ALIGN_LEFT);
         finalTotalBalance.setSpacingBefore(10);
         finalTotalBalance.setSpacingAfter(15);
@@ -1041,15 +1009,7 @@ public class ReportManager {
         LineSeparator objectName1 = new LineSeparator();
         objectName1.setLineWidth(15);
 
-
-
         doc.add(objectName);
-
-
-
-
-
-
     }
 
     private DateTimeDto getDateAndTime(String date) {
@@ -1079,8 +1039,7 @@ public class ReportManager {
     }
 
 
-
-        // This will print body of the table.
+    // This will print body of the table.
 
 //        for (TransactionLineItemDao lineItem : transactionDao.getTransactionLineItemDaoList()) {
 //

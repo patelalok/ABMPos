@@ -18,9 +18,10 @@ export class OpenInvoiceComponent implements OnInit {
   salesHistoryDropdown: any = 'Today';
   currentDate = new Date(); 
   customDate: FormGroup;
-  openInvoiceDto: OpenInvoice;
+  openInvoiceDto: OpenInvoice[] = [];
   dateDto = new DateDto();
   openInvoiceDtoOriginal: OpenInvoice[] = [];
+  finalInvoiceBalance: number = 0;
 
 
 
@@ -117,31 +118,8 @@ export class OpenInvoiceComponent implements OnInit {
     this.reportService.getOpneInvoiceDetails(this.dateDto.startDate, this.dateDto.endDate)
       .subscribe(transaction => {
         this.openInvoiceDto = transaction;
-  
-    //   //   transaction.forEach((invoice)=>{
-    //   //    // this.openInvoiceDto.push(invoice);
-    //   //     //this.openInvoiceDto = this.openInvoiceDto.slice();
-          
-    //   //   //   invoice.transactionDtoList.forEach((trans)=>{
-    //   //   //     trans.originalDate = trans.date;
-    //   //   //     trans.time = moment(trans.originalDate).format('hh:mm A');
-    //   //   //     trans.onlyDate = moment(trans.originalDate).format('MM-DD-YYYY');
-    //   //   //   })
-
-    //   //   // })
-    //   //   // this.openInvoiceDtoOriginal = transaction;
-    //   //   // this.openInvoiceDto = this.openInvoiceDtoOriginal;
-    //   //   // console.log('open invoice', this.openInvoiceDto);
-    //   // }
-      
-    // );
-    
-    console.log('after slice', this.openInvoiceDto);
-
-    let tran : TransactionDtoList[] = [];
-    tran = this.openInvoiceDto.transactionDtoList;
-    console.log('trans', tran);
-
+        this.finalInvoiceBalance = parseFloat(this.openInvoiceDto[0].totalBalance.toFixed(2));
+        console.log('main obj', this.openInvoiceDto);  
   })
 
 }
@@ -149,7 +127,10 @@ export class OpenInvoiceComponent implements OnInit {
 
 export class  OpenInvoice {
   customerSum :CustomerSum;
-  transactionDtoList: TransactionDtoList[];
+  // transactionDtoList: Array<TransactionDtoList[]>;
+  transactionDaoList: TransactionDtoList[];
+  totalBalance: number;
+
 }
 
 export class CustomerSum {

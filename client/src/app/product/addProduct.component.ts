@@ -258,6 +258,8 @@ export interface ProductForm {
   variant?: boolean;
   customLoyaltyAmount?: number;
   productInventoryDaoList?: ProductInventory[];
+  color?: string;
+  memory?:string;
   // isSold?:boolean;
 
 }

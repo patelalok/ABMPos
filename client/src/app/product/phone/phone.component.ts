@@ -55,6 +55,8 @@ export class PhoneComponent implements OnInit {
       'vendor': ['', Validators.required],
       'cost': [null, Validators.required],
       'retail': [null, Validators.required],
+      'color': [null],
+      'memory':[null]
 
     })
 
@@ -138,6 +140,8 @@ export class PhoneComponent implements OnInit {
         returnRule: formValues.returnRule,
         createdTimestamp: moment(Date.now()).format('YYYY-MM-DD HH:mm:ss'),
         operationType: 'Add',
+        color:formValues.color,
+        memory: formValues.memory
       }
       this.productService.addProduct(product);
       this.phoneDto.push(product);

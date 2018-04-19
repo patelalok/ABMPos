@@ -41,30 +41,65 @@
                 <i class="fa fa-print fa-3x" aria-hidden="true" (click)="this.printOpenInvoiceDetails()" style="cursor: pointer;"></i>
 
             </div>
+            <div class="col-md-6" style="display: flex; justify-content: flex-end;">
+                <h4>TOTAL BALANCE DUE : {{this.finalInvoiceBalance | currency:'USD':'true'}}</h4>
+            </div>
 
         </div>
     </mat-card-content>
 
     <mat-card-content *ngIf="this.openInvoiceDto">
 
-        <div *ngFor="let invoice of this.openInvoiceDto">
-            <p> {{invoice.customerSum.companyName}}</p>
-            <!-- <p>{{invoice.transactionDtoList.transactionComId}}</p> -->
-
+        <hr>
+        <div class="row">
+            <div class="col-md-2">
+                <h6>DATE</h6>
+            </div>
+            <div class="col-md-2">
+                <h6>TIME</h6>
+            </div>
+            <div class="col-md-2">
+                <h6>RECEIPT NO</h6>
+            </div>
+            <div class="col-md-2">
+                <h6>OPEN BALANCE</h6>
+            </div>
+            <div class="col-md-4">
+                <h6>FULL NAME</h6>
+            </div>
         </div>
-        <!-- <table class="table table-striped">
-            <thead>
-                <tr>
-                    <th scope="col">Date</th>
-                    <th scope="col">Time</th>
-                    <th scope="col">Receipt No</th>
-                    <th scope="col">Open Balance</th>
-                    <th scope="col">Full Name</th>
-                </tr>
-            </thead>
-            <tbody>
-             
-            </tbody>
-        </table> -->
+        <hr>
+
+        <div *ngFor="let invoice of this.openInvoiceDto">
+            <div class="row">
+                <h6>{{invoice.customerSum.companyName}}</h6>
+            </div>
+
+            <hr>
+
+            <div class="row" *ngFor="let trans of invoice.transactionDaoList">
+                <div class="col-md-2">
+                    <p>{{trans.date}}</p>
+                </div>
+                <div class="col-md-2">
+                    <p>{{trans.date}}</p>
+                </div>
+                <div class="col-md-2">
+                    <p>{{trans.transactionComId}}</p>
+                </div>
+                <div class="col-md-2">
+                    <p>{{trans.transactionBalance | currency:'USD':'true'}}</p>
+                </div>
+                <div class="col-md-4">
+                    <p>{{trans.customerFirstLastName}}</p>
+                </div>
+            </div>
+
+            <hr>
+
+            <h6>TOTAL BALANCE : {{invoice.customerSum.totalBalance | currency:'USD':'true'}}</h6>
+
+            <hr>
+        </div>
     </mat-card-content>
 </mat-card>

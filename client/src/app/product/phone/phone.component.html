@@ -77,20 +77,25 @@
                                     <input class="form-control" type="text" placeholder="Retail" formControlName="retail">
                                 </div>
                                 <div class="col-md-1">
-                                    <select class="form-control" name="vendor" formControlName="vendor">
-                                            <option>Color</option>
+                                    <select class="form-control" name="color" formControlName="color">
+                                            <option>Red</option>
+                                            <option>Black</option>
+                                            <option>Pink</option>
+                                            <option>White</option>
                                     </select>
                                 </div>
                                 <div class="col-md-1">
-                                    <select class="form-control" name="vendor" formControlName="vendor">
-                                        <option>Memory</option>
+                                    <select class="form-control" name="memory" formControlName="memory">
+                                        <option>8 GB</option>
+                                        <option>16 GB</option>
+                                        <option>64 GB</option>
                                     </select>
                                 </div>
                                 <div class="col-md-2">
                                     <button type="button" mat-raised-button class="text-white form-control" style="background:#28a745" (click)="this.addIMEI()">
                                             <i class="fa fa-plus-square" aria-hidden="true" label="Add"></i>
                                             Add IMEI
-                                        </button>
+                                    </button>
                                 </div>
 
                             </div>
