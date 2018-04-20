@@ -122,8 +122,13 @@ export class EditProductComponent implements OnInit {
         .subscribe((models: Model[]) => {
           this.modelDto = models;
           currentModel = this.modelDto.filter((el)=> el.modelId==this.currentProduct.modelId)[0];
+
+          //This will help me fix the problem when model is undefined or not added befor.
+          if(currentModel == undefined){
+            currentModel = new Model();
+          }
+          //console.log('undfined model', currentModel);
           this.form.get('model').setValue(currentModel);
-          console.log('ModelList' + this.modelDto);
         });
 
 
