@@ -171,6 +171,7 @@ export class EditProductComponent implements OnInit {
       // if(!isAlternetNoExists){
 
       let product: Product = {
+        id: this.currentProduct.id,
         productNo: formValues.productNo,
         categoryId: formValues.category.categoryId,
         brandId: formValues.brand.brandId,
@@ -207,7 +208,7 @@ export class EditProductComponent implements OnInit {
           }
 
       this.productService.addProduct(product);
-      this.router.navigate(['/product/productTable']); 
+      //this.router.navigate(['/product/productTable']); 
     }
   //}
   }

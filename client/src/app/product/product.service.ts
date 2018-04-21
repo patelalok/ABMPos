@@ -28,7 +28,19 @@ export class ProductService {
     .subscribe(data => {
       if(data.status == 200 || data.status == 201){
         this.toastr.success('Product Added Successfully!!', 'Success!');
+
+        if(product.operationType == 'Edit'){
+          let index = this.productList.findIndex((el) => el.id == product.id);
+          console.log('edit index', index);
+          console.log('edit product', product);
+          this.productList[index] = product;
+          this.productList = this.productList.slice();
+
+        }
+        else {
           this.productList.push(product);
+        }
+  
           this.productList = this.productList.slice();
           this.productListChange.next(this.productList);
         }
@@ -145,22 +157,22 @@ export class ProductService {
 
 
         // TODO:  This is redudant, but need to do it cause i have two obejct for backend dto and product, i need to fix this.
-        editProduct(product: Product) {
-          console.log("Product Added", product.description);
-          return this.http.post(this.url+'/addProduct', product);
+        // editProduct(product: Product) {
+        //   console.log("Product Added", product.description);
+        //   return this.http.post(this.url+'/addProduct', product);
             
-            // .map((updatedProduct: any) => {
-            //   let index = this.fullProductList.findIndex((product) => {
-            //     return product.productNo === (<Product>updatedProduct).productNo; 
-            //   })
-            //   if(index)
-            //     this.fullProductList[index] = updatedProduct; 
+        //     // .map((updatedProduct: any) => {
+        //     //   let index = this.fullProductList.findIndex((product) => {
+        //     //     return product.productNo === (<Product>updatedProduct).productNo; 
+        //     //   })
+        //     //   if(index)
+        //     //     this.fullProductList[index] = updatedProduct; 
               
-            //   this.fullProductList = this.fullProductList.slice(); 
+        //     //   this.fullProductList = this.fullProductList.slice(); 
       
-            //   return this.fullProductList; 
-            // })
-        }
+        //     //   return this.fullProductList; 
+        //     // })
+        // }
 
   addProductInventory(productInventory: ProductInventory) {
     console.log("Product Added", productInventory);

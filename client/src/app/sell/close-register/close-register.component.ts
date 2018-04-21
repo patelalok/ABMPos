@@ -96,13 +96,10 @@ export class CloseRegisterComponent implements OnInit {
     });
     this.customDate.valueChanges
     .subscribe((change) => {
-      let customDateValues: {fromDate: Date} = change; 
+      let customDateValues: {toDate: Date, fromDate: Date} = change; 
 
-      this.dateDto.startDate = moment(customDateValues.fromDate).hour(0).format('YYYY-MM-DD HH:mm:ss');
-      this.dateDto.endDate = moment(customDateValues.fromDate).hour(23).minute(59).second(59).format('YYYY-MM-DD HH:mm:ss');
-
-
-      // this.dateDto.endDate = moment(customDateValues.toDate).hour(23).minute(59).format('YYYY-MM-DD HH:mm:ss');
+      this.dateDto.startDate = moment(customDateValues.fromDate).hour(0).format('YYYY-MM-DD HH:mm:ss'),
+      this.dateDto.endDate = moment(customDateValues.toDate).hour(23).minute(59).format('YYYY-MM-DD HH:mm:ss')
 
       this.getCloseRegisterDetails()
     }

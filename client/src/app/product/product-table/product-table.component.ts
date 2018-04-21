@@ -81,6 +81,7 @@ export class ProductTableComponent implements OnInit {
 
         // this.productViewList = pro;
         this.productFullList = pro;
+        this.productFullList = this.productFullList.slice();
         this.backendProductDto = pro;
 
         if (this.dropdownOptionValue)

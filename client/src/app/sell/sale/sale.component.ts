@@ -1178,6 +1178,7 @@ export class SaleComponent implements OnInit, AfterViewInit {
 
 
 export class Product {
+  id?: string;
   productNo: string;
   // productVariantNo: number;
   description: string;

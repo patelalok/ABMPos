@@ -15,7 +15,7 @@ import java.util.List;
  */
 
 @Transactional
-public interface ProductRepository extends JpaRepository<ProductDao, String> {
+public interface ProductRepository extends JpaRepository<ProductDao, Integer> {
 
     public static final String KEY = "products";
 

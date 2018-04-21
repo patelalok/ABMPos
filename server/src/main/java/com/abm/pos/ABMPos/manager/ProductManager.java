@@ -77,8 +77,21 @@ public class ProductManager{
 
         else if((null != productDao && productDao.getOperationType().equalsIgnoreCase("Edit")))
         {
-             productDao1 = productRepository.findOne(productDao.getProductNo());
+             productDao1 = productRepository.findOne(productDao.getId());
+
+             if(productDao1 != null){
+                 productDao1 = productRepository.save(productDao);
+             }
+
+             // This is important spacially when user changes the product no.
+//             if(productDao1 == null && productDao.getProductNo().length()>1 && productDao.getDescription().length() > 1){
+//                 productRepository.save(productDao);
+//                 productDao1 = productRepository.findOne(productDao.getProductNo());
+//             }
+
+
             int totalProduct = 0;
+
             // I need to do this cause i need to maintain retail price of the product in both product and product inventory Table.
             // So this is really important.
             if(null != productDao1 && productDao.getRetail() != productDao1.getRetail()) {
@@ -205,7 +218,7 @@ public class ProductManager{
     }
         public ProductDao getProductById(String productNo) {
 
-        return productRepository.findOne(productNo);
+        return productRepository.findOneByProductNo(productNo);
     }
 
     public void addProductVariant(ProductVariantDao productVariantDao) {
@@ -254,8 +267,15 @@ public class ProductManager{
         }
         if(isDeletableProduct)
         {
-            // This will only INACTIVE THE PRODUCT
-            productRepository.deleteProduct(productDao.getProductNo());
+            try{
+                // First try to delete, if it is sold before then just inactive the product.
+                productRepository.delete(productDao);
+            }
+            catch (Exception e){
+                // This will only INACTIVE THE PRODUCT
+                productRepository.deleteProduct(productDao.getProductNo());
+            }
+
             return "Success";
         }
         else
