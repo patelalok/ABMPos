@@ -1345,7 +1345,7 @@ public class TransactionsManager {
         String GS = ((char) 0x1d) + "";
 
         POSPrinter printer = new POSPrinter();
-        //CashDrawer drawer = new CashDrawer();
+        CashDrawer drawer = new CashDrawer();
 
         String error = "";
         String receipt = "";
@@ -1442,10 +1442,10 @@ public class TransactionsManager {
                 }
             } while (false);
 
-            //drawer.open("CashDrawer1");
-            //drawer.claim(1000);
-            //drawer.setDeviceEnabled(true);
-            // drawer.openDrawer();
+            drawer.open("CashDrawer");
+            drawer.claim(1000);
+            drawer.setDeviceEnabled(true);
+             drawer.openDrawer();
         } catch (JposException e) {
             //e.printStackTrace();
             error = e.getMessage();
