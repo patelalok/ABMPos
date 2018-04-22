@@ -30,10 +30,10 @@ export class CustomerPaymentHistoryComponent implements OnInit {
 
 
     this.cols = [
-      { field: 'transactionComId', header: 'Vin' },
-      { field: 'onlyDate', header: 'Year' },
-      { field: 'time', header: 'Brand' },
-      { field: 'totalAmount', header: 'Color' }
+      { field: 'transactionComId', header: 'Receipt No' },
+      { field: 'onlyDate', header: 'Date' },
+      { field: 'time', header: 'Time' },
+      { field: 'totalAmount', header: 'Total Amount' }
   ];
   }
 

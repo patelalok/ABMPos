@@ -150,6 +150,8 @@ export class HeaderComponent implements OnInit {
     this.employeeService.validateEmployee(this.clockInForm.get('username').value, this.clockInForm.get('password').value)
     .subscribe((valid) => {
 
+      console.log('after valid', valid);
+
       if(valid)
       {
         if(null != this.clockInList && this.clockInList.length > 0)
@@ -168,6 +170,10 @@ export class HeaderComponent implements OnInit {
           })
         }
         console.log('clock in List', this.clockInList);
+      }
+
+      else {
+        this.toastr.error("Wrong Credintails, Please Try Again!!", 'Error');
       }
 
       if(valid && this.isClockIn == false) {
@@ -242,10 +248,10 @@ export class HeaderComponent implements OnInit {
 
       let clockInViewList = new ClockIn();
 
-      clockInViewList.clockIn = moment(clockIn.clockIn).format('YYYY-MM-DD HH:mm:ss');
+      clockInViewList.clockIn = moment(clockIn.clockIn).format('hh:mm A')
       if(clockIn.clockOut != null){
 
-        clockInViewList.clockOut = moment(clockIn.clockOut).format('YYYY-MM-DD HH:mm:ss');
+        clockInViewList.clockOut = moment(clockIn.clockOut).format('hh:mm A')
       }
 
       if(clockIn.clockIn != null && clockIn.clockOut != null) {
