@@ -1452,7 +1452,7 @@ public class TransactionsManager {
         } finally {
             try {
                 printer.close();
-                // drawer.close();
+                 drawer.close();
             } catch (Exception e) {
             }
         }
