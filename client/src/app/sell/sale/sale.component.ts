@@ -755,6 +755,8 @@ export class SaleComponent implements OnInit, AfterViewInit {
   // This is the method which handle completing the transaction and reset the all flag and other data.
   completeSale() {
 
+    this.opneCashDrawer();
+
     //
     this.loadingService.loading = true;
     this.disableCompleteSaleButton = true;
