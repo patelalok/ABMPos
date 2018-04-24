@@ -12,6 +12,7 @@ import { EditProductComponent } from 'app/product/edit-product/edit-product.comp
 import { AuthGuard } from 'app/auth/auth.guard';
 import { AuthModule } from 'app/auth/auth.module';
 import { PhoneComponent } from './phone/phone.component';
+import { VariantComponent } from './variant/variant.component';
 
 
 const routes: Routes = [
@@ -30,7 +31,8 @@ const routes: Routes = [
       { path: 'model', component: ModelComponent},
       { path: 'addInventory', component: AddInventoryComponent},
       { path: 'category', component: CategoryComponent },
-      { path: 'phone', component: PhoneComponent}
+      { path: 'phone', component: PhoneComponent},
+      { path: 'variant', component: VariantComponent}
     ]
   },
 ];

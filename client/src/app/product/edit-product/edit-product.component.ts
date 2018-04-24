@@ -77,7 +77,7 @@ export class EditProductComponent implements OnInit {
             'quantity': [this.currentProduct.quantity,''],
             'minQuantity': [this.currentProduct.minQuantity,''],
             'tax': [this.currentProduct.tax, null],
-            'ecomerce': [this.currentProduct.ecommerce, null],
+            'ecommerce': [this.currentProduct.ecommerce, null],
             'alternetNo':[this.currentProduct.alternetNo, null]
             
           }

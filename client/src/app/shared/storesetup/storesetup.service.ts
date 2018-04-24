@@ -3,10 +3,6 @@ import {Http, Response, Headers} from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import { StoreSetupDto } from 'app/shared/storesetup/storesetup.component';
 import { environment } from 'environments/environment';
-
-
-
-
 @Injectable()
 export class StoreSetupService{
 private url: string;

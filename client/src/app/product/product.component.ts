@@ -46,7 +46,9 @@ export class ProductComponent implements OnInit {
       { name: 'Category', icon: 'fa fa-list fa-x', link: '/product/category' },
       { name: 'Brand', icon: 'fa fa-bookmark fa-x', link: '/product/brand' },
       { name: 'Vendor', icon: 'fa fa-user fa-x', link: '/product/vendor' },
-      { name: 'Model', icon: 'fa fa-mobile fa-x', link: '/product/model' }
+      { name: 'Model', icon: 'fa fa-mobile fa-x', link: '/product/model' },
+      { name: 'Manage Variant', icon: 'fa fa-object-group fa-x', link: '/product/variant' }
+
     ];
   }
 

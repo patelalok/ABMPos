@@ -1,0 +1,30 @@
+<mat-card>
+    <mat-card-title>
+        Manage Variant
+    </mat-card-title>
+    <mat-card-content>
+        <div class="row">
+            <div class="col-md-4">
+                <table class="table table-hover table-bordered table-bordered" style="margin-top: 22px;">
+                    <thead>
+                        <tr>
+                            <th scope="col">Variant Name</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="col-md-8">
+                <p-dataTable [value]="" class="m-1" [editable]="true" scrollable="true" [responsive]="true" scrollHeight="300px" (onEditComplete)="this.updateVariantValue($event)">
+                    <p-column field="imei" header="Variant Value" [editable]="true"></p-column>
+
+                </p-dataTable>
+            </div>
+        </div>
+    </mat-card-content>
+</mat-card>

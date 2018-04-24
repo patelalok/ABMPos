@@ -30,6 +30,7 @@ import { EditProductComponent } from './edit-product/edit-product.component';
 
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import { PhoneComponent } from './phone/phone.component';
+import { VariantComponent } from './variant/variant.component';
 
 
 @NgModule({
@@ -60,7 +61,8 @@ import { PhoneComponent } from './phone/phone.component';
     ProductTableComponent,
     AddInventoryComponent,
     EditProductComponent,
-    PhoneComponent],
+    PhoneComponent,
+    VariantComponent],
   providers: [ProductService, VendorService, CategoryService, BrandService, ModelService],
   bootstrap: [ProductComponent, AddProductComponent, AddInventoryComponent]
 })
