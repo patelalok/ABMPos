@@ -17,105 +17,131 @@
             <div class=col-md-10>
                 <mat-tab-group>
                     <mat-tab label="Transaction Details">
-                        <!-- <p-dataTable [value]="this.transactionList" [editable]="true" scrollable="true" [responsive]="true" scrollHeight="500px" selectionMode="single" (onRowSelect)="onRowSelect($event)">
-                            <p-column field="transactionComId" header="Invoice-No"></p-column>
-                            <p-column field="onlyDate" header="Date"></p-column>
-                            <p-column field="time" header="Time"></p-column>
-                            <p-column field="totalAmount" header="Total Amount"></p-column>
-                            <p-column field="transactionBalance" header="Due Amount"></p-column>
-                            <p-column field="status" header="Status"></p-column>
-                            <p-column field="" header="Action"></p-column>
-                        </p-dataTable> -->
 
-                        <p-table [columns]="cols" [value]="this.transactionList" dataKey="transactionComId">
-                            <ng-template pTemplate="header" let-columns>
+                        <table>
+                            <thead>
                                 <tr>
-                                    <th style="width: 2.25em"></th>
-                                    <th *ngFor="let col of columns">
-                                        {{col.header}}
-                                    </th>
+                                    <th>Receipt Id</th>
+                                    <th>Date</th>
+                                    <th>Time</th>
+                                    <th>Total Amount</th>
                                 </tr>
-                            </ng-template>
-                            <ng-template pTemplate="body" let-rowData let-expanded="expanded" let-columns="columns">
-                                <tr>
-                                    <td>
-                                        <a href="#" [pRowToggler]="rowData">
-                                            <i [ngClass]="expanded ? 'fa fa-fw fa-chevron-circle-down' : 'fa fa-fw fa-chevron-circle-right'"></i>
-                                        </a>
-                                    </td>
-                                    <td *ngFor="let col of columns">
-                                        {{rowData[col.field]}}
-                                    </td>
-                                </tr>
-                            </ng-template>
-                            <ng-template pTemplate="rowexpansion" let-rowData let-columns="columns">
-                                <tr>
-                                    <td [attr.colspan]="columns.length + 1">
-                                        <div class="ui-g ui-fluid" style="font-size:16px;padding:20px">
+                            </thead>
 
-                                            <p-table [value]="cars">
-                                                <ng-template pTemplate="header">
+                            <tbody>
+                                <ng-container *ngFor="let trans of this.transactionList">
+                                    <tr>
+                                        <td>
+                                            <button (click)="openCloseRow(trans.transactionComId)">
+                                                        <span *ngIf="rowSelected!=trans.transactionComId; else close">Open</span>
+                                                          <ng-template #close>
+                                                            <span>Close</span>
+                                                            </ng-template>
+                                                    </button>
+                                        </td>
+                                        <td>{{trans.transactionComId}}</td>
+                                        <td>{{trans.onlyDate}}</td>
+                                        <td>{{trans.totalAmount}}</td>
+                                    </tr>
+                                    <tr *ngIf="rowSelected==trans.transactionComId">
+                                        <td></td>
+                                        <td colspan="4">
+                                            <table class="table table-striped">
+                                                <thead>
                                                     <tr>
-                                                        <th>Date</th>
-                                                        <th>Time</th>
-                                                        <th>Cash</th>
-                                                        <th>Credit</th>
-                                                        <th>Debit</th>
-                                                        <th>Check</th>
-                                                        <th>Action</th>
+                                                        <th style="width:15%;">Comment</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr *ngFor="let payment of trans.paymentDao">
+                                                        <td style="width:15%;">{{payment.transactionComId}}</td>
+                                                        <td style="width:15%;">{{payment.cash}}</td>
+                                                        <td style="width:15%;">{{payment.credit}}</td>
+                                                        <td style="width:15%;">{{payment.debit}}</td>
+                                                        <td style="width:15%;">{{payment.check}}</td>
+
+
+
 
                                                     </tr>
-                                                </ng-template>
-                                                <ng-template pTemplate="body" let-rowData>
-                                                    <tr>
-                                                        <td pEditableColumn>
-                                                            <p-cellEditor>
-                                                                <ng-template pTemplate="input">
-                                                                    <input type="text" [(ngModel)]="rowData.vin">
-                                                                </ng-template>
-                                                                <ng-template pTemplate="output">
-                                                                    {{rowData.vin}}
-                                                                </ng-template>
-                                                            </p-cellEditor>
-                                                        </td>
-                                                        <td pEditableColumn>
-                                                            <p-cellEditor>
-                                                                <ng-template pTemplate="input">
-                                                                    <input type="text" [(ngModel)]="rowData.year" required>
-                                                                </ng-template>
-                                                                <ng-template pTemplate="output">
-                                                                    {{rowData.year}}
-                                                                </ng-template>
-                                                            </p-cellEditor>
-                                                        </td>
-                                                        <td pEditableColumn>
-                                                            <p-cellEditor>
-                                                                <ng-template pTemplate="input">
-                                                                    <input type="text" [(ngModel)]="rowData.brand">
-                                                                </ng-template>
-                                                                <ng-template pTemplate="output">
-                                                                    {{rowData.brand}}
-                                                                </ng-template>
-                                                            </p-cellEditor>
-                                                        </td>
-                                                        <td pEditableColumn>
-                                                            <p-cellEditor>
-                                                                <ng-template pTemplate="input">
-                                                                    <input type="text" [(ngModel)]="rowData.color">
-                                                                </ng-template>
-                                                                <ng-template pTemplate="output">
-                                                                    {{rowData.color}}
-                                                                </ng-template>
-                                                            </p-cellEditor>
-                                                        </td>
-                                                    </tr>
-                                                </ng-template>
-                                            </p-table>
-                                        </div>
-                                    </td>
-                                </tr>
-                            </ng-template>
-                        </p-table>
+                                                </tbody>
+                                            </table>
+                                        </td>
+
+                                    </tr>
+
+
+
+                                </ng-container>
+                            </tbody>
+                        </table>
+
+
+                        <!-- 
+                        <div class="panel panel-default">
+                   
+                            <div class="panel-body">
+                                <table class="table table-condensed" style="border-collapse:collapse;">
+                                    <thead>
+                                        <tr>
+                                            <th>Receipt Id</th>
+                                            <th>Date</th>
+                                            <th>Time</th>
+                                            <th>Total Amount</th>
+                                        </tr>
+                                    </thead>
+
+                                 <tbody>
+                                        <ng-container *ngFor="let trans of this.transactionList let i = index">
+
+                                            <tr data-toggle="collapse" data-target="#demo1" class="accordion-toggle">
+                                                <td><a >{{trans.transactionComId}}</a></td>
+                                                <td>{{trans.onlyDate}}</td>
+                                                <td>{{trans.time}}</td>
+                                                <td>{{trans.totalAmount}}</td>
+                                            </tr>
+                                            <tr>
+                                                <td colspan="12" class="">
+                                                    <div class="" id="demo1">
+                                                        <table class="table table-striped">
+                                                            <thead>
+                                                                <th>Date</th>
+                                                                <th>Time</th>
+                                                                <th>Cash </th>
+                                                                <th> Credit</th>
+                                                                <th> Debit</th>
+                                                                <th>Check</th>
+                                                                <th>Store Credit</th>
+                                                            </thead>
+                                                            <tbody>
+                                                                <ng-container *ngFor="let payment of trans.paymentDao let j = index">
+
+                                                                    <tr>
+                                                                        <td>{{payment.date}}</td>
+                                                                        <td>{{payment.date}}</td>
+                                                                        <td>{{payment.cash}}</td>
+                                                                        <td>{{payment.credit}}</td>
+                                                                        <td>{{payment.debit}}</td>
+                                                                        <td>{{payment.check}}</td>
+                                                                        <td>{{payment.storeCredit}}</td>
+
+                                                                    </tr>
+                                                                </ng-container>
+                                                            </tbody>
+                                                        </table>
+
+                                                    </div>
+                                                </td>
+                                            </tr>
+
+                                        </ng-container> 
+                                    </tbody>
+                                </table>
+                            </div>
+
+                        </div> -->
+
+
                     </mat-tab>
                     <mat-tab label="Customer Details">
                         Customer Details

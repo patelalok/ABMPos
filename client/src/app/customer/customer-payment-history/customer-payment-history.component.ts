@@ -16,6 +16,7 @@ export class CustomerPaymentHistoryComponent implements OnInit {
   selectedCustomer: Customer;
   _subscription: any;
   cols: any[];
+  rowSelected:number = -1;
 
 
 
@@ -27,7 +28,6 @@ export class CustomerPaymentHistoryComponent implements OnInit {
 
   ngOnInit() {
     this.getCustomerDetails();
-
 
     this.cols = [
       { field: 'transactionComId', header: 'Receipt No' },
@@ -62,8 +62,25 @@ export class CustomerPaymentHistoryComponent implements OnInit {
 
       this.transactionList = transaction;
       this.transactionList = this.transactionList.slice();
+      console.log('payment details', this.transactionList[0].paymentDao);
      
     })
+  }
+
+  public openCloseRow(idReserva: number): void {
+
+    if (this.rowSelected === -1) {
+      this.rowSelected = idReserva
+    }
+    else {
+      if (this.rowSelected == idReserva) {
+        this.rowSelected = -1
+      }
+      else {
+        this.rowSelected = idReserva
+      }
+
+    }
   }
 
   onRowSelectFromCustomer(event){
