@@ -4,6 +4,16 @@
             <div class="col-md-7">
                 <h4>Customer Payment History</h4>
             </div>
+            <div class="col-md-5">
+                <div class="btn-group" role="group" aria-label="Basic example">
+                    <button type="button" class="btn btn-secondary" (click)="getCustomerDetailBy('Today')">Today</button>
+                    <button type="button" class="btn btn-secondary" (click)="getCustomerDetailBy('Week')">Week</button>
+                    <button type="button" class="btn btn-secondary" (click)="getCustomerDetailBy('Month')">Month</button>
+                    <button type="button" class="btn btn-secondary" (click)="getCustomerDetailBy('Year')">Year</button>
+                    <button type="button" class="btn btn-secondary">Custom</button>
+                </div>
+
+            </div>
         </div>
     </mat-card-title>
     <mat-card-content>
@@ -15,63 +25,145 @@
                 </p-dataTable>
             </div>
             <div class=col-md-10>
+                <div style="display: flex;">
+
+                    <mat-card class="customer-mat-card" style="background: #fb8c00;">
+                        <mat-card-title>
+                            {{this.customerFinancialDto.dueBalance}}
+                        </mat-card-title>
+                        <mat-card-content>
+                            Balance Due
+                        </mat-card-content>
+                    </mat-card>
+                    <mat-card class="customer-mat-card" style="background: #337ab7;">
+                        <mat-card-title>
+                            {{this.customerFinancialDto.storeCredit}}
+
+                        </mat-card-title>
+                        <mat-card-content>
+                            Store Credit
+                        </mat-card-content>
+                    </mat-card>
+                    <mat-card class="customer-mat-card" style="background: #43a047;">
+                        <mat-card-title>
+                            {{this.customerFinancialDto.totalSpending}}
+
+                        </mat-card-title>
+                        <mat-card-content>
+                            Total Spending
+                        </mat-card-content>
+                    </mat-card>
+                    <mat-card class="customer-mat-card" style="background: #e53935;">
+                        <mat-card-title>
+                            {{this.customerFinancialDto.totalReturn}}
+
+
+                        </mat-card-title>
+                        <mat-card-content>
+                            Return
+                        </mat-card-content>
+                    </mat-card>
+                    <mat-card class="customer-mat-card" style="background: #337ab7;">
+                        <mat-card-title>
+                            {{this.customerFinancialDto.pendingInvoiceCount}}
+
+                        </mat-card-title>
+                        <mat-card-content>
+                            Open Invoices Count
+                        </mat-card-content>
+                    </mat-card>
+                    <mat-card class="customer-mat-card" style="background: #43a047;">
+                        <mat-card-title>
+                            Print
+                        </mat-card-title>
+                        <mat-card-content>
+                            Statement
+                        </mat-card-content>
+                    </mat-card>
+                </div>
+
                 <mat-tab-group>
                     <mat-tab label="Transaction Details">
+                        <table class="table table-striped table-bordered">
 
-                        <table>
                             <thead>
                                 <tr>
                                     <th>Receipt Id</th>
                                     <th>Date</th>
                                     <th>Time</th>
+                                    <th>Tax</th>
+                                    <th>Discount</th>
                                     <th>Total Amount</th>
+                                    <th>Status</th>
+
+                                    <th>Action</th>
                                 </tr>
+
                             </thead>
 
-                            <tbody>
+                            <tbody class="height500">
                                 <ng-container *ngFor="let trans of this.transactionList">
                                     <tr>
+                                        <td><a href="javascript:void(0)" (click)="openCloseRow(trans.transactionComId)">{{trans.transactionComId}}</a></td>
+                                        <td>{{trans.onlyDate}}</td>
+                                        <td>{{trans.onlyDate}}</td>
+                                        <td>{{trans.tax}}</td>
+                                        <td>{{trans.totalDiscount}}</td>
+                                        <td>{{trans.totalAmount}}</td>
                                         <td>
-                                            <button (click)="openCloseRow(trans.transactionComId)">
-                                                        <span *ngIf="rowSelected!=trans.transactionComId; else close">Open</span>
-                                                          <ng-template #close>
-                                                            <span>Close</span>
-                                                            </ng-template>
+                                            <mat-chip-list>
+                                                <mat-chip [ngClass]="[trans.status == 'Complete' ? 'complete':'', trans.status == 'Pending' ? 'pending':'', trans.status == 'Return' ? 'return':'', trans.status == 'Void' ? 'void':'', trans.status == 'Park' ? 'park':'']" selected="true">{{trans.status}}</mat-chip>
+                                            </mat-chip-list>
+                                        </td>
+                                        <td>
+                                            <button class="btn-blue action-button-table" mat-button (click)="this.printReceipt(transaction)">
+                                                        <i class="fa fa-print" aria-hidden="true"></i>
+                                                    </button>
+                                            <button class="btn-green action-button-table" mat-button (click)='this.sendEmail(transaction)'>
+                                                        <i class="fa fa-envelope" aria-hidden="true"></i>
+                                                    </button>
+
+                                            <!-- // Do not remove this, this is for park sales where i can redirect user to start the transaction. -->
+                                            <!-- <button *ngIf="transaction.status != 'Return' " class="btn-red action-button-table" mat-button [routerLink]="['/sell', {transactionComId: transaction.transactionComId}]"> -->
+                                            <button *ngIf=" trans.status == 'Complete' || trans.status == 'Pending' " class="btn-red action-button-table" mat-button (click)="trans.setTransactoinToVoid(transaction)" data-toggle="modal" data-target="#voidTransaction">
+                                                        <i class="fa fa-ban" aria-hidden="true"></i>
+                                                    </button>
+                                            <button *ngIf="trans.status == 'Park' || trans.status == 'Online' " class="btn-red action-button-table" mat-button [routerLink]="['/sell/sale', {transactionComId: transaction.transactionComId}]">
+                                                            <i class="fa fa-reply-all" aria-hidden="true"></i>
                                                     </button>
                                         </td>
-                                        <td>{{trans.transactionComId}}</td>
-                                        <td>{{trans.onlyDate}}</td>
-                                        <td>{{trans.totalAmount}}</td>
+
+
                                     </tr>
+
                                     <tr *ngIf="rowSelected==trans.transactionComId">
-                                        <td></td>
                                         <td colspan="4">
-                                            <table class="table table-striped">
+                                            <table class="table table-striped table-bordered">
+                                                <caption> Payment Details </caption>
                                                 <thead>
-                                                    <tr>
-                                                        <th style="width:15%;">Comment</th>
-                                                    </tr>
+                                                    <th>Date</th>
+                                                    <th>Time</th>
+                                                    <th>Cash </th>
+                                                    <th> Credit</th>
+                                                    <th> Debit</th>
+                                                    <th>Check</th>
+                                                    <th>Store Credit</th>
                                                 </thead>
                                                 <tbody>
                                                     <tr *ngFor="let payment of trans.paymentDao">
-                                                        <td style="width:15%;">{{payment.transactionComId}}</td>
-                                                        <td style="width:15%;">{{payment.cash}}</td>
-                                                        <td style="width:15%;">{{payment.credit}}</td>
-                                                        <td style="width:15%;">{{payment.debit}}</td>
-                                                        <td style="width:15%;">{{payment.check}}</td>
-
-
-
-
+                                                        <td>{{payment.date}}</td>
+                                                        <td>{{payment.date}}</td>
+                                                        <td>{{payment.cash}}</td>
+                                                        <td>{{payment.credit}}</td>
+                                                        <td>{{payment.debit}}</td>
+                                                        <td>{{payment.checkAmount}}</td>
+                                                        <td>{{payment.storeCredit}}</td>
                                                     </tr>
                                                 </tbody>
                                             </table>
                                         </td>
 
                                     </tr>
-
-
-
                                 </ng-container>
                             </tbody>
                         </table>

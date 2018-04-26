@@ -34,6 +34,9 @@ public interface TransactionRepository extends JpaRepository<TransactionDao, Int
     @Query("SELECT SUM(totalAmount),SUM(tax),SUM(totalDiscount),SUM(shipping),(SELECT SUM(totalAmount) from TransactionDao WHERE status = 'Return' AND (date BETWEEN ?1 AND ?2 )) As totalReturn FROM TransactionDao  WHERE (status = 'Complete' OR status = 'Return') AND (date BETWEEN ?1 AND ?2)")
     List<Object[]> getSumOfTransactionDetailsForCloseRegister(String startDate, String endDate);
 
+    @Query("SELECT COALESCE(SUM(transactionBalance), 0),COALESCE(SUM(totalAmount),0),(SELECT COALESCE(SUM(totalAmount),0) from TransactionDao WHERE status = 'Return' AND (date BETWEEN ?1 AND ?2 ) AND customerPhoneno = ?3 ) As totalReturn FROM TransactionDao  WHERE (status = 'Complete' OR status = 'Return' OR status = 'Pending') AND (date BETWEEN ?1 AND ?2) AND customerPhoneno = ?3")
+    List<Object[]> getCustomerFinancialDetails(String startDate, String endDate, String phoneNo);
+
     @Query(value = "SELECT monthname(t.date) AS NameOfMonth,\n" +
             "            SUM(payment.cash) cash,\n" +
             "            SUM(payment.credit) credit,\n" +

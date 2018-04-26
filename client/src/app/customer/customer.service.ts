@@ -8,6 +8,7 @@ import { environment } from 'environments/environment';
 import { Product, TransactionDtoList } from 'app/sell/sale/sale.component';
 import { Subject } from 'rxjs';
 import { ToastsManager } from 'ng2-toastr';
+import { CustomerFinancialDto } from './customer-payment-history/customer-payment-history.component';
 
 
 @Injectable()
@@ -60,6 +61,12 @@ getCustomerDetails(): Customer[]
     getCustomerTransactionDetails(startDate: string, endDate:string,phoneNo:string) : Observable<TransactionDtoList[]>
     {
       return this.http.get(this.url+'/getAllInvoiceByCustomer?startDate='+startDate+'&endDate='+endDate+'&phoneNo='+phoneNo)
+      .map(this.extractData)
+      .catch(this.handleError);
+    }
+    getCustomerFinancialDetails(startDate: string, endDate:string,phoneNo:string) : Observable<CustomerFinancialDto> {
+
+      return this.http.get(this.url+'/getCustomerFinancialDetails?startDate='+startDate+'&endDate='+endDate+'&phoneNo='+phoneNo)
       .map(this.extractData)
       .catch(this.handleError);
     }

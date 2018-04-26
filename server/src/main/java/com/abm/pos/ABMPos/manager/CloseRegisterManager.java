@@ -86,7 +86,7 @@ public class CloseRegisterManager {
                 closeRegisterDao.setReportCredit(paymentDao.getCredit());
                 closeRegisterDao.setReportDebit(paymentDao.getDebit());
                 closeRegisterDao.setReportCheck(paymentDao.getCheckAmount());
-                closeRegisterDao.setOnAccount(paymentDao.getOnAccount());
+//                closeRegisterDao.setOnAccount(paymentDao.getOnAccount());
                 closeRegisterDao.setStoreCredit(paymentDao.getStoreCredit());
                 closeRegisterDao.setLoyalty(paymentDao.getLoyalty());
             }
@@ -213,8 +213,8 @@ public class CloseRegisterManager {
                         paymentDao.setDebit(Double.parseDouble(j[2].toString()));
                         paymentDao.setCheckAmount(Double.parseDouble(j[3].toString()));
                         paymentDao.setStoreCredit(Double.parseDouble(j[4].toString()));
-                        paymentDao.setOnAccount(Double.parseDouble(j[5].toString()));
-                        paymentDao.setLoyalty(Double.parseDouble(j[6].toString()));
+//                        paymentDao.setOnAccount(Double.parseDouble(j[5].toString()));
+                        paymentDao.setLoyalty(Double.parseDouble(j[5].toString()));
 
                     }
                 }

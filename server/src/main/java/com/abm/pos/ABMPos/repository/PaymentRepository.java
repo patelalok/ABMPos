@@ -22,7 +22,7 @@ public interface PaymentRepository extends JpaRepository<PaymentDao, Integer> {
 
     List<PaymentDao> findAllByTransactionComId(int transactionCompId);
 
-    @Query("SELECT SUM(cash), sum(credit), SUM(debit), SUM(checkAmount), SUM(storeCredit), SUM(onAccount), SUM(loyalty) FROM PaymentDao WHERE date BETWEEN ?1 AND ?2 AND (status = 'Complete' OR status = 'Return' OR status = 'Pending') ")
+    @Query("SELECT SUM(cash), sum(credit), SUM(debit), SUM(checkAmount), SUM(storeCredit), SUM(loyalty) FROM PaymentDao WHERE date BETWEEN ?1 AND ?2 AND (status = 'Complete' OR status = 'Return' OR status = 'Pending') ")
     List<Object[]> sumOfAllPayments(String startDate, String endDate);
 
     @Query("SELECT SUM(cash), sum(credit), SUM(debit), SUM(checkAmount) FROM PaymentDao WHERE date BETWEEN ?1 AND ?2 AND status = 'Pending' ")

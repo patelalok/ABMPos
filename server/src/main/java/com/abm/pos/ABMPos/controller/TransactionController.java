@@ -1,11 +1,9 @@
 package com.abm.pos.ABMPos.controller;
 
 import com.abm.pos.ABMPos.dao.PaymentDao;
-import com.abm.pos.ABMPos.dao.ProductDao;
-import com.abm.pos.ABMPos.dao.ProductInventoryDao;
 import com.abm.pos.ABMPos.dao.TransactionDao;
+import com.abm.pos.ABMPos.dto.CustomerFinancialDto;
 import com.abm.pos.ABMPos.manager.TransactionsManager;
-import com.abm.pos.ABMPos.util.TimeIntervalDto;
 import com.itextpdf.text.DocumentException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -90,6 +88,11 @@ public class TransactionController {
     public List<TransactionDao> getAllInvoiceByCustomer(String startDate, String endDate, String phoneNo)
     {
         return transactionManager.getAllInvoiceByCustomer(startDate, endDate, phoneNo);
+    }
+    @RequestMapping(value = "/getCustomerFinancialDetails", method = RequestMethod.GET, produces = "application/json")
+    public CustomerFinancialDto getCustomerFinancialDetails(String startDate, String endDate, String phoneNo)
+    {
+        return transactionManager.getCustomerFinancialDetails(startDate, endDate, phoneNo);
     }
 
     @RequestMapping(value = "/voidTransaction", method = RequestMethod.POST)

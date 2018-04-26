@@ -27,7 +27,6 @@ public class PaymentDao {
     // Because JPA is creating problem with only check.
     private double checkAmount;
     private double storeCredit;
-    private double onAccount;
     private double loyalty;
     private double layby;
     private double changeForCash;
@@ -97,14 +96,6 @@ public class PaymentDao {
 
     public void setStoreCredit(double storeCredit) {
         this.storeCredit = storeCredit;
-    }
-
-    public double getOnAccount() {
-        return onAccount;
-    }
-
-    public void setOnAccount(double onAccount) {
-        this.onAccount = onAccount;
     }
 
     public double getLoyalty() {

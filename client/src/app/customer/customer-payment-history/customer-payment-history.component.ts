@@ -3,6 +3,7 @@ import { CustomerService } from '../customer.service';
 import { Customer } from 'app/customer/customer.component';
 import { TransactionDtoList } from '../../sell/sale/sale.component';
 import * as moment from 'moment';
+import { DateDto, DateService } from 'app/shared/services/date.service';
 
 
 @Component({
@@ -17,17 +18,21 @@ export class CustomerPaymentHistoryComponent implements OnInit {
   _subscription: any;
   cols: any[];
   rowSelected:number = -1;
-
+  customerFinancialDto = new CustomerFinancialDto();
+  dateDto =  new DateDto();
+  customerDetailsBy: string = 'Year';
+  
 
 
   customerTransactionDetails: TransactionDtoList[] = [];
-  constructor(private customerService: CustomerService) {
+  constructor(private customerService: CustomerService,private dateServie: DateService) {
     this.getCustomerDetails();
 
    }
 
   ngOnInit() {
     this.getCustomerDetails();
+    this.getCustomerDetailBy(this.customerDetailsBy);
 
     this.cols = [
       { field: 'transactionComId', header: 'Receipt No' },
@@ -44,13 +49,39 @@ export class CustomerPaymentHistoryComponent implements OnInit {
     .subscribe((cust)=>{
       this.customerDto = cust;
       this.customerDto = this.customerDto.slice();
+      this.selectedCustomer = this.customerDto[0];
       //this.loadingServie.loading = false;
     })
   }
 
-  getCustomerTransactionDetails(){
+  getCustomerDetailBy(customerDetailsBy: string){
 
-    this.customerService.getCustomerTransactionDetails('2018-01-01 00:00:00', '2018-12-31 23:59:59', this.selectedCustomer.phoneNo)
+    this.customerDetailsBy = customerDetailsBy;
+
+    if(customerDetailsBy == 'Today'){
+      this.dateDto = this.dateServie.getCurrentDay();
+      this.getCustomerTransactionDetails();
+    }
+    else if(customerDetailsBy == 'Week'){
+      this.dateDto = this.dateServie.getLast7Day();
+      this.getCustomerTransactionDetails();
+
+    }
+    else if(customerDetailsBy == 'Month'){
+      this.dateDto = this.dateServie.getCurrentMonth();
+      this.getCustomerTransactionDetails();
+
+    }
+    else if(customerDetailsBy == 'Year'){
+      this.dateDto = this.dateServie.getCurrentYear();
+      this.getCustomerTransactionDetails();
+    }
+  }
+
+  getCustomerTransactionDetails() {
+    if(this.selectedCustomer)
+    {
+    this.customerService.getCustomerTransactionDetails(this.dateDto.startDate, this.dateDto.endDate, this.selectedCustomer.phoneNo)
     .subscribe((transaction)=>{
 
       transaction.forEach(trans => {
@@ -62,10 +93,16 @@ export class CustomerPaymentHistoryComponent implements OnInit {
 
       this.transactionList = transaction;
       this.transactionList = this.transactionList.slice();
-      console.log('payment details', this.transactionList[0].paymentDao);
      
     })
+
+ 
+    this.customerService.getCustomerFinancialDetails(this.dateDto.startDate, this.dateDto.endDate,this.selectedCustomer.phoneNo)
+    .subscribe((financialDetails)=>{
+      this.customerFinancialDto = financialDetails;
+    });
   }
+}
 
   public openCloseRow(idReserva: number): void {
 
@@ -79,25 +116,29 @@ export class CustomerPaymentHistoryComponent implements OnInit {
       else {
         this.rowSelected = idReserva
       }
-
     }
   }
 
   onRowSelectFromCustomer(event){
 
     this.selectedCustomer = event.data;
-    this.getCustomerTransactionDetails()
+    this.getCustomerDetailBy(this.customerDetailsBy);
+    //this.getCustomerTransactionDetails();
     console.log('event', event.data);
   }
 
   onRowSelect(event){
-
-
   }
   ngOnDestroy() {
     //prevent memory leak when component destroyed
      this._subscription.unsubscribe(); 
    }
-
+}
+export class CustomerFinancialDto {
+  dueBalance: number;
+  storeCredit: number;
+  totalSpending: number;
+  totalReturn: number;
+  pendingInvoiceCount: number;
 
 }

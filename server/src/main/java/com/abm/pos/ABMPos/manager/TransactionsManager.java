@@ -1,6 +1,7 @@
 package com.abm.pos.ABMPos.manager;
 
 import com.abm.pos.ABMPos.dao.*;
+import com.abm.pos.ABMPos.dto.CustomerFinancialDto;
 import com.abm.pos.ABMPos.dto.PaymentDetails;
 import com.abm.pos.ABMPos.repository.*;
 import com.abm.pos.ABMPos.util.Utility;
@@ -264,19 +265,22 @@ public class TransactionsManager {
                     // funny logic, i love it.
                     paymentDao.setStoreCredit(paymentDao.getStoreCredit() * -1);
                 }
-                paymentRepository.insertPaymentDetail(transactionDao.getTransactionComId(),
-                        transactionDao.getStatus(),
-                        paymentDao.getDate(),
-                        paymentDao.getCash(),
-                        paymentDao.getCredit(),
-                        paymentDao.getDebit(),
-                        paymentDao.getCheckAmount(),
-                        paymentDao.getStoreCredit(),
-                        paymentDao.getLoyalty(),
-                        paymentDao.getLayby(),
-                        paymentDao.getChangeForCash(),
-                        paymentDao.getCreditCardLast4()
-                );
+
+                if(paymentDao.getCash() != 0 || paymentDao.getCredit() != 0  || paymentDao.getDebit() != 0  || paymentDao.getCheckAmount() != 0 || paymentDao.getStoreCredit()  != 0) {
+                    paymentRepository.insertPaymentDetail(transactionDao.getTransactionComId(),
+                            transactionDao.getStatus(),
+                            paymentDao.getDate(),
+                            paymentDao.getCash(),
+                            paymentDao.getCredit(),
+                            paymentDao.getDebit(),
+                            paymentDao.getCheckAmount(),
+                            paymentDao.getStoreCredit(),
+                            paymentDao.getLoyalty(),
+                            paymentDao.getLayby(),
+                            paymentDao.getChangeForCash(),
+                            paymentDao.getCreditCardLast4()
+                    );
+                }
             }
 //            transactionDao.setPaymentDao(paymentDaoList);
 
@@ -475,11 +479,11 @@ public class TransactionsManager {
                 paymentDao.setDebit(Double.parseDouble(j[6].toString()));
                 paymentDao.setCheckAmount(Double.parseDouble(j[7].toString()));
                 paymentDao.setStoreCredit(Double.parseDouble(j[8].toString()));
-                paymentDao.setOnAccount(Double.parseDouble(j[9].toString()));
-                paymentDao.setLoyalty(Double.parseDouble(j[10].toString()));
-                paymentDao.setLayby(Double.parseDouble(j[11].toString()));
-                paymentDao.setChangeForCash(Double.parseDouble(j[12].toString()));
-                paymentDao.setCreditCardLast4(Double.parseDouble(j[13].toString()));
+//                paymentDao.setOnAccount(Double.parseDouble(j[9].toString()));
+                paymentDao.setLoyalty(Double.parseDouble(j[9].toString()));
+                paymentDao.setLayby(Double.parseDouble(j[10].toString()));
+                paymentDao.setChangeForCash(Double.parseDouble(j[11].toString()));
+                paymentDao.setCreditCardLast4(Double.parseDouble(j[12].toString()));
 
                 paymentDaoList.add(paymentDao);
             }
@@ -1486,6 +1490,25 @@ public class TransactionsManager {
         }
 
 
+    }
+
+    public CustomerFinancialDto getCustomerFinancialDetails(String startDate, String endDate, String phoneNo) {
+
+        CustomerFinancialDto customerFinancialDto = new CustomerFinancialDto();
+
+        List<Object[]> result = transactionRepository.getCustomerFinancialDetails(startDate,endDate,phoneNo);
+
+        if(null !=result)
+        {
+            for(Object[] j: result)
+            {
+                customerFinancialDto.setDueBalance(Double.parseDouble(j[0].toString()));
+                customerFinancialDto.setTotalSpending(Double.parseDouble(j[1].toString()));
+                customerFinancialDto.setTotalReturn(Double.parseDouble(j[2].toString()));
+            }
+        }
+
+        return customerFinancialDto;
     }
 
 //    private void printPageNumber(PdfContentByte cb) {
