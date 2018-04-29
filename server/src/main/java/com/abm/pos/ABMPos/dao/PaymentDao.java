@@ -14,25 +14,12 @@ public class PaymentDao {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int transactionPaymentId;
 
-//    private int alok;
     private int transactionComId;
-
     private String status;
     private String date;
-
-    private double cash;
-    private double credit;
-    private double debit;
-
-    // Because JPA is creating problem with only check.
-    private double checkAmount;
-    private double storeCredit;
-    private double loyalty;
-    private double layby;
-    private double changeForCash;
-    private double creditCardLast4;
-    private String receiptNote;
-    private String transactionNote;
+    private double amount;
+    private String type;
+    private String note;
 
     public int getTransactionPaymentId() {
         return transactionPaymentId;
@@ -40,6 +27,14 @@ public class PaymentDao {
 
     public void setTransactionPaymentId(int transactionPaymentId) {
         this.transactionPaymentId = transactionPaymentId;
+    }
+
+    public int getTransactionComId() {
+        return transactionComId;
+    }
+
+    public void setTransactionComId(int transactionComId) {
+        this.transactionComId = transactionComId;
     }
 
     public String getStatus() {
@@ -58,108 +53,27 @@ public class PaymentDao {
         this.date = date;
     }
 
-    public double getCash() {
-        return cash;
+    public double getAmount() {
+        return amount;
     }
 
-    public void setCash(double cash) {
-        this.cash = cash;
+    public void setAmount(double amount) {
+        this.amount = amount;
     }
 
-    public double getCredit() {
-        return credit;
+    public String getType() {
+        return type;
     }
 
-    public void setCredit(double credit) {
-        this.credit = credit;
+    public void setType(String type) {
+        this.type = type;
     }
 
-    public double getDebit() {
-        return debit;
+    public String getNote() {
+        return note;
     }
 
-    public void setDebit(double debit) {
-        this.debit = debit;
-    }
-
-    public double getCheckAmount() {
-        return checkAmount;
-    }
-
-    public void setCheckAmount(double checkAmount) {
-        this.checkAmount = checkAmount;
-    }
-
-    public double getStoreCredit() {
-        return storeCredit;
-    }
-
-    public void setStoreCredit(double storeCredit) {
-        this.storeCredit = storeCredit;
-    }
-
-    public double getLoyalty() {
-        return loyalty;
-    }
-
-    public void setLoyalty(double loyalty) {
-        this.loyalty = loyalty;
-    }
-
-    public double getLayby() {
-        return layby;
-    }
-
-    public void setLayby(double layby) {
-        this.layby = layby;
-    }
-
-    public double getChangeForCash() {
-        return changeForCash;
-    }
-
-    public void setChangeForCash(double changeForCash) {
-        this.changeForCash = changeForCash;
-    }
-
-    public double getCreditCardLast4() {
-        return creditCardLast4;
-    }
-
-    public void setCreditCardLast4(double creditCardLast4) {
-        this.creditCardLast4 = creditCardLast4;
-    }
-
-    public String getReceiptNote() {
-        return receiptNote;
-    }
-
-    public void setReceiptNote(String receiptNote) {
-        this.receiptNote = receiptNote;
-    }
-
-    public String getTransactionNote() {
-        return transactionNote;
-    }
-
-    public void setTransactionNote(String transactionNote) {
-        this.transactionNote = transactionNote;
-    }
-
-//    public int getAlok() {
-//        return alok;
-//    }
-//
-//    public void setAlok(int alok) {
-//        this.alok = alok;
-//    }
-
-
-    public int getTransactionComId() {
-        return transactionComId;
-    }
-
-    public void setTransactionComId(int transactionComId) {
-        this.transactionComId = transactionComId;
+    public void setNote(String note) {
+        this.note = note;
     }
 }

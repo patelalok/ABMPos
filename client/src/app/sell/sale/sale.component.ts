@@ -56,7 +56,9 @@ export class SaleComponent implements OnInit, AfterViewInit {
   transactionDetails: TransactionDtoList[] = [];
   printTransactionDto: TransactionDtoList = null;
   pendingInvoiceTransactionList: TransactionDtoList[] = [];
-  paymentDto = new PaymentDto();
+  //paymentDto = new PaymentDto();
+
+  paymentDaoList: PaymentDao[] = [];
   discountType: string;
   discountTexBox: number;
   discountValue: number = 0;
@@ -76,7 +78,7 @@ export class SaleComponent implements OnInit, AfterViewInit {
   disablePaymentButtons: boolean = false;
   disablePaymentButtonsWithAmount = false;
   disableCompleteSaleButton: boolean = true;
-  paymentDao: PaymentDto[] = [];
+  paymentDao: PaymentDao[] = [];
   disablePaymentButtonOnSale: boolean = true;
   transactionNotes: string = '';
   disableOnAccountButtons: boolean = true;
@@ -498,136 +500,218 @@ export class SaleComponent implements OnInit, AfterViewInit {
 
   setPaymentDto(paymentType: any, paymentAmount: any) {
 
-    if (paymentType == 'Cash') {
+    let paymentDaoObj = new PaymentDao();
+
+    if (paymentType == 'CASH') {
+
+      paymentDaoObj.type = 'CASH';
+      // This mean customer has paid less or equal amount.
+      if(paymentAmount <= this.dueAmountForTransaction){
+        paymentDaoObj.amount = paymentAmount;
+      }
+      else {
+        paymentDaoObj.amount = this.dueAmountForTransaction;
+      }
+      this.paymentObjectForPaymentSellTable.push({ 'paymentType': 'CASH', 'paymentAmount': paymentAmount });
+      this.paymentDaoList.push(paymentDaoObj);
+      this.validatePaymentButtons(paymentAmount);
+    }
+
+
+
       // This is very rare scenario and it happens only if user is stupid but still i need to handle this,
       // Cause user can pay in cash two time by click on cash button by seletecting different buttons.
-      if (null != this.paymentDto && this.paymentDto.cash > 0) {
-        this.paymentDto.cash = +this.paymentDto.cash + paymentAmount;
-      }
-      else {
+
+
+
+      // if (null != this.paymentDto && this.paymentDto.cash > 0) {
+      //   this.paymentDto.cash = +this.paymentDto.cash + paymentAmount;
+      // }
+
+
+      // else {
         // I need to do this, cause right now if total is $20 and user click on $100 its storing as $100 in payment table which is wrong and will messed up whole reporting so need to manage here.
-        if (paymentAmount > this.dueAmountForTransaction) {
-          this.paymentDto.cash = this.dueAmountForTransaction;
+        // if (paymentAmount > this.dueAmountForTransaction) {
+        //   this.paymentDto.cash = this.dueAmountForTransaction;
+        // }
+        // else {
+        //   this.paymentDto.cash = paymentAmount;
+        // }
+     // }
+      // this.paymentObjectForPaymentSellTable.push({ 'paymentType': 'Cash', 'paymentAmount': paymentAmount });
+
+      // this.validatePaymentButtons(paymentAmount);
+    else if (paymentType == 'CREDIT') {
+
+        paymentDaoObj.type = 'CREDIT';
+        // This mean customer has paid less or equal amount.
+        if(paymentAmount <= this.dueAmountForTransaction){
+          paymentDaoObj.amount = paymentAmount;
         }
         else {
-          this.paymentDto.cash = paymentAmount;
+          paymentDaoObj.amount = this.dueAmountForTransaction;
         }
-      }
-      this.paymentObjectForPaymentSellTable.push({ 'paymentType': 'Cash', 'paymentAmount': paymentAmount })
-      this.validatePaymentButtons(paymentAmount);
+
+        this.paymentObjectForPaymentSellTable.push({ 'paymentType': 'CREDIT', 'paymentAmount': paymentAmount });
+        this.paymentDaoList.push(paymentDaoObj);
+
+        this.validatePaymentButtons(paymentAmount);
     }
-    else if (paymentType == 'Credit') {
-      if (null != this.paymentDto && this.paymentDto.credit > 0) {
-        this.paymentDto.credit = +this.paymentDto.credit + paymentAmount;
+    else if (paymentType == 'CHECK') {
+
+      paymentDaoObj.type = 'CHECK';
+      // This mean customer has paid less or equal amount.
+      if(paymentAmount <= this.dueAmountForTransaction){
+        paymentDaoObj.amount = paymentAmount;
       }
       else {
-        // I need to do this, cause right now if total is $20 and user click on $100 its storing as $100 in payment table which is wrong and will messed up whole reporting so need to manage here.
-        if (paymentAmount > this.dueAmountForTransaction) {
-          this.paymentDto.credit = this.dueAmountForTransaction;
-        }
-        else {
-          this.paymentDto.credit = paymentAmount;
-        }
+        paymentDaoObj.amount = this.dueAmountForTransaction;
       }
-      this.paymentObjectForPaymentSellTable.push({ 'paymentType': 'Credit', 'paymentAmount': paymentAmount })
+
+      this.paymentObjectForPaymentSellTable.push({ 'paymentType': 'CHECK', 'paymentAmount': paymentAmount });
+      this.paymentDaoList.push(paymentDaoObj);
       this.validatePaymentButtons(paymentAmount);
+  }
+//   else if (paymentType == 'DEBIT') {
+
+//     paymentDaoObj.type = 'DEBIT';
+//     // This mean customer has paid less or equal amount.
+//     if(paymentAmount <= this.dueAmountForTransaction){
+//       paymentDaoObj.amount = paymentAmount;
+//     }
+//     else {
+//       paymentDaoObj.amount = this.dueAmountForTransaction;
+//     }
+
+//     this.paymentObjectForPaymentSellTable.push({ 'paymentType': 'DEBIT', 'paymentAmount': paymentAmount });
+//     this.validatePaymentButtons(paymentAmount);
+// }
+  else if (paymentType == 'STORE CREDIT') {
+
+    paymentDaoObj.type = 'STORE CREDIT';
+    // This mean customer has paid less or equal amount.
+    if(paymentAmount <= this.dueAmountForTransaction){
+      paymentDaoObj.amount = paymentAmount;
     }
-    else if (paymentType == 'Debit') {
-      if (null != this.paymentDto && this.paymentDto.debit > 0) {
-        this.paymentDto.debit = +this.paymentDto.debit + paymentAmount;
-      }
-      else {
-        // I need to do this, cause right now if total is $20 and user click on $100 its storing as $100 in payment table which is wrong and will messed up whole reporting so need to manage here.
-        if (paymentAmount > this.dueAmountForTransaction) {
-          this.paymentDto.debit = this.dueAmountForTransaction;
-        }
-        else {
-          this.paymentDto.debit = paymentAmount;
-        }
-      }
-      this.paymentObjectForPaymentSellTable.push({ 'paymentType': 'Debit', 'paymentAmount': paymentAmount })
-
-      this.validatePaymentButtons(paymentAmount);
-
+    else {
+      paymentDaoObj.amount = this.dueAmountForTransaction;
     }
-    else if (paymentType == 'Check') {
-      if (null != this.paymentDto && this.paymentDto.checkAmount > 0) {
-        this.paymentDto.checkAmount = +this.paymentDto.checkAmount + paymentAmount;
-      }
-      else {
-        // I need to do this, cause right now if total is $20 and user click on $100 its storing as $100 in payment table which is wrong and will messed up whole reporting so need to manage here.
-        if (paymentAmount > this.dueAmountForTransaction) {
-          this.paymentDto.checkAmount = this.dueAmountForTransaction;
-        }
-        else {
-          this.paymentDto.checkAmount = paymentAmount;
-        }
-      }
-      this.paymentObjectForPaymentSellTable.push({ 'paymentType': 'Check', 'paymentAmount': paymentAmount })
 
-      this.validatePaymentButtons(paymentAmount);
-    }
-    else if (paymentType == 'StoreCredit') {
+    this.paymentObjectForPaymentSellTable.push({ 'paymentType': 'STORE CREDIT', 'paymentAmount': paymentAmount });
+    this.paymentDaoList.push(paymentDaoObj);
+    this.validatePaymentButtons(paymentAmount);
+}
+      // if (null != this.paymentDto && this.paymentDto.credit > 0) {
+      //   this.paymentDto.credit = +this.paymentDto.credit + paymentAmount;
+      // }
+      // else {
+      //   // I need to do this, cause right now if total is $20 and user click on $100 its storing as $100 in payment table which is wrong and will messed up whole reporting so need to manage here.
+      //   if (paymentAmount > this.dueAmountForTransaction) {
+      //     this.paymentDto.credit = this.dueAmountForTransaction;
+      //   }
+      //   else {
+      //     this.paymentDto.credit = paymentAmount;
+      //   }
+      // }
+      // this.paymentObjectForPaymentSellTable.push({ 'paymentType': 'Credit', 'paymentAmount': paymentAmount })
+      // this.validatePaymentButtons(paymentAmount);
+    
+    // else if (paymentType == 'Debit') {
+    //   if (null != this.paymentDto && this.paymentDto.debit > 0) {
+    //     this.paymentDto.debit = +this.paymentDto.debit + paymentAmount;
+    //   }
+    //   else {
+    //     // I need to do this, cause right now if total is $20 and user click on $100 its storing as $100 in payment table which is wrong and will messed up whole reporting so need to manage here.
+    //     if (paymentAmount > this.dueAmountForTransaction) {
+    //       this.paymentDto.debit = this.dueAmountForTransaction;
+    //     }
+    //     else {
+    //       this.paymentDto.debit = paymentAmount;
+    //     }
+    //   }
+    //   this.paymentObjectForPaymentSellTable.push({ 'paymentType': 'Debit', 'paymentAmount': paymentAmount })
 
-      // First need to check store credit already there added in payment dao or not, 
-      if (null != this.paymentDto && this.paymentDto.storeCredit > 0) {
-        if (paymentAmount > this.dueAmountForTransaction) {
-          // so By doing this i am just reducing the store credit which is used for this transaction and i can update rest on customer account.
+    //   this.validatePaymentButtons(paymentAmount);
 
-          this.paymentDto.storeCredit = +this.paymentDto.storeCredit + this.dueAmountForTransaction;
+    // }
+    // else if (paymentType == 'Check') {
+    //   if (null != this.paymentDto && this.paymentDto.checkAmount > 0) {
+    //     this.paymentDto.checkAmount = +this.paymentDto.checkAmount + paymentAmount;
+    //   }
+    //   else {
+    //     // I need to do this, cause right now if total is $20 and user click on $100 its storing as $100 in payment table which is wrong and will messed up whole reporting so need to manage here.
+    //     if (paymentAmount > this.dueAmountForTransaction) {
+    //       this.paymentDto.checkAmount = this.dueAmountForTransaction;
+    //     }
+    //     else {
+    //       this.paymentDto.checkAmount = paymentAmount;
+    //     }
+    //   }
+    //   this.paymentObjectForPaymentSellTable.push({ 'paymentType': 'Check', 'paymentAmount': paymentAmount })
 
-          this.paymentObjectForPaymentSellTable.push({ 'paymentType': 'StoreCredit', 'paymentAmount': this.paymentDto.storeCredit });
+    //   this.validatePaymentButtons(paymentAmount);
+    // }
+    // else if (paymentType == 'StoreCredit') {
 
-          this.validatePaymentButtons(this.paymentDto.storeCredit);
-        }
-        // Here i am using complete store credit of the customer
-        else {
+    //   // First need to check store credit already there added in payment dao or not, 
+    //   if (null != this.paymentDto && this.paymentDto.storeCredit > 0) {
+    //     if (paymentAmount > this.dueAmountForTransaction) {
+    //       // so By doing this i am just reducing the store credit which is used for this transaction and i can update rest on customer account.
 
-          this.paymentDto.storeCredit = paymentAmount;
-          this.paymentObjectForPaymentSellTable.push({ 'paymentType': 'StoreCredit', 'paymentAmount': this.paymentDto.storeCredit });
-          this.validatePaymentButtons(this.paymentDto.storeCredit);
-        }
-      }
-      else {
-        if (paymentAmount > this.dueAmountForTransaction) {
-          // so By doing this i am just reducing the store credit which is used for this transaction and i can update rest on customer account.
+    //       this.paymentDto.storeCredit = +this.paymentDto.storeCredit + this.dueAmountForTransaction;
 
-          this.paymentDto.storeCredit = this.dueAmountForTransaction;
+    //       this.paymentObjectForPaymentSellTable.push({ 'paymentType': 'StoreCredit', 'paymentAmount': this.paymentDto.storeCredit });
 
-          this.paymentObjectForPaymentSellTable.push({ 'paymentType': 'StoreCredit', 'paymentAmount': this.paymentDto.storeCredit });
+    //       this.validatePaymentButtons(this.paymentDto.storeCredit);
+    //     }
+    //     // Here i am using complete store credit of the customer
+    //     else {
 
-          this.validatePaymentButtons(this.paymentDto.storeCredit);
-        }
-        // Here i am using complete store credit of the customer
-        else {
-          this.paymentDto.storeCredit = paymentAmount;
-          this.paymentObjectForPaymentSellTable.push({ 'paymentType': 'StoreCredit', 'paymentAmount': this.paymentDto.storeCredit });
-          this.validatePaymentButtons(this.paymentDto.storeCredit);
-        }
-      }
+    //       this.paymentDto.storeCredit = paymentAmount;
+    //       this.paymentObjectForPaymentSellTable.push({ 'paymentType': 'StoreCredit', 'paymentAmount': this.paymentDto.storeCredit });
+    //       this.validatePaymentButtons(this.paymentDto.storeCredit);
+    //     }
+    //   }
+    //   else {
+    //     if (paymentAmount > this.dueAmountForTransaction) {
+    //       // so By doing this i am just reducing the store credit which is used for this transaction and i can update rest on customer account.
 
-      // Now I have to handle two scenario
-      // Case 1. Store credit can greater then equal to payment amount
-      // Case 2. Store credit can less then equal to payment amount
+    //       this.paymentDto.storeCredit = this.dueAmountForTransaction;
 
-      // Case 1: where payment amount is customers store credit because that what i am sending from ui
-    }
-    else if (paymentType == 'OnAccount') {
-      this.paymentDto.onAccount = paymentAmount;
-      this.paymentObjectForPaymentSellTable.push({ 'paymentType': 'OnAccount', 'paymentAmount': paymentAmount });
-      // this.validatePaymentButtons(this.paymentDto.onAccount);
-      this.disablePaymentButtons = true;
-      this.disablePaymentButtonsWithAmount = true;
-      // This mean customer has provide sufficient balance.
-      this.disableCompleteSaleButton = false;
-      this.disableOnAccountButtons = true;
+    //       this.paymentObjectForPaymentSellTable.push({ 'paymentType': 'StoreCredit', 'paymentAmount': this.paymentDto.storeCredit });
 
-      // Here i am blinding disabling store credit cause, it may create so me issue and i will check on delete payment method, wheather customer has store credit or not.
-      this.disableStoreCreditButtons = true;
-    }
-    else if (paymentType == 'Loyalty') {
-      this.paymentDto.loyalty = paymentAmount;
-    }
+    //       this.validatePaymentButtons(this.paymentDto.storeCredit);
+    //     }
+    //     // Here i am using complete store credit of the customer
+    //     else {
+    //       this.paymentDto.storeCredit = paymentAmount;
+    //       this.paymentObjectForPaymentSellTable.push({ 'paymentType': 'StoreCredit', 'paymentAmount': this.paymentDto.storeCredit });
+    //       this.validatePaymentButtons(this.paymentDto.storeCredit);
+    //     }
+    //   }
+
+    //   // Now I have to handle two scenario
+    //   // Case 1. Store credit can greater then equal to payment amount
+    //   // Case 2. Store credit can less then equal to payment amount
+
+    //   // Case 1: where payment amount is customers store credit because that what i am sending from ui
+    // }
+    // else if (paymentType == 'OnAccount') {
+    //   this.paymentDto.onAccount = paymentAmount;
+    //   this.paymentObjectForPaymentSellTable.push({ 'paymentType': 'OnAccount', 'paymentAmount': paymentAmount });
+    //   // this.validatePaymentButtons(this.paymentDto.onAccount);
+    //   this.disablePaymentButtons = true;
+    //   this.disablePaymentButtonsWithAmount = true;
+    //   // This mean customer has provide sufficient balance.
+    //   this.disableCompleteSaleButton = false;
+    //   this.disableOnAccountButtons = true;
+
+    //   // Here i am blinding disabling store credit cause, it may create so me issue and i will check on delete payment method, wheather customer has store credit or not.
+    //   this.disableStoreCreditButtons = true;
+    // }
+    // else if (paymentType == 'Loyalty') {
+    //   this.paymentDto.loyalty = paymentAmount;
+    // }
   }
 
   validatePaymentButtons(paymentAmount: number) {
@@ -658,7 +742,7 @@ export class SaleComponent implements OnInit, AfterViewInit {
   setDataForPaymentModel() {
 
     // these will help to clean the data if user close the popup and comeback again.
-    this.paymentDto = new PaymentDto();
+    //this.paymentDto = new PaymentDao();
     this.paymentObjectForPaymentSellTable = [];
     this.paymentDao = [];
 
@@ -713,24 +797,24 @@ export class SaleComponent implements OnInit, AfterViewInit {
 
       // Need to handle this, because i am adding payment type when user click on add payment,
       // So now when user delete the payment type, i need to change the payment object too, and remove the or subtract the payment amount.
-      if (payment.paymentType == 'Cash' && payment.paymentAmount > 0) {
-        this.paymentDto.cash = this.paymentDto.cash - payment.paymentAmount;
-      }
-      if (payment.paymentType == 'Credit' && payment.paymentAmount > 0) {
-        this.paymentDto.credit = this.paymentDto.credit - payment.paymentAmount;
-      }
-      if (payment.paymentType == 'Debit' && payment.paymentAmount > 0) {
-        this.paymentDto.debit = this.paymentDto.debit - payment.paymentAmount;
-      }
-      if (payment.paymentType == 'Check' && payment.paymentAmount > 0) {
-        this.paymentDto.checkAmount = this.paymentDto.checkAmount - payment.paymentAmount;
-      }
-      if (payment.paymentType == 'StoreCredit' && payment.paymentAmount > 0) {
-        this.paymentDto.storeCredit = this.paymentDto.storeCredit - payment.paymentAmount;
-      }
-      if (payment.paymentType == 'OnAccount' && payment.paymentAmount > 0) {
-        this.paymentDto.onAccount = this.paymentDto.onAccount - payment.paymentAmount;
-      }
+      // if (payment.paymentType == 'Cash' && payment.paymentAmount > 0) {
+      //   this.paymentDto.cash = this.paymentDto.cash - payment.paymentAmount;
+      // }
+      // if (payment.paymentType == 'Credit' && payment.paymentAmount > 0) {
+      //   this.paymentDto.credit = this.paymentDto.credit - payment.paymentAmount;
+      // }
+      // if (payment.paymentType == 'Debit' && payment.paymentAmount > 0) {
+      //   this.paymentDto.debit = this.paymentDto.debit - payment.paymentAmount;
+      // }
+      // if (payment.paymentType == 'Check' && payment.paymentAmount > 0) {
+      //   this.paymentDto.checkAmount = this.paymentDto.checkAmount - payment.paymentAmount;
+      // }
+      // if (payment.paymentType == 'StoreCredit' && payment.paymentAmount > 0) {
+      //   this.paymentDto.storeCredit = this.paymentDto.storeCredit - payment.paymentAmount;
+      // }
+      // if (payment.paymentType == 'OnAccount' && payment.paymentAmount > 0) {
+      //   this.paymentDto.onAccount = this.paymentDto.onAccount - payment.paymentAmount;
+      // }
     }
 
     if(payment.paymentType == 'OnAccount'){
@@ -761,7 +845,7 @@ export class SaleComponent implements OnInit, AfterViewInit {
   completeSale() {
 
     //
-    this.loadingService.loading = true;
+    // this.loadingService.loading = true;
     this.disableCompleteSaleButton = true;
 
     
@@ -795,9 +879,9 @@ export class SaleComponent implements OnInit, AfterViewInit {
 
     // Setting payment dto into transaction dto, because can not send both as @request body from angular..
     // Always need to pass, latest date so i can handle different payment date for same transaction.
-    this.paymentDto.date = moment(Date.now()).format('YYYY-MM-DD HH:mm:ss');
-    this.paymentDao.push(this.paymentDto);
-    this.transactionDtoList.paymentDao = this.paymentDao;
+    //this.paymentDto.date = moment(Date.now()).format('YYYY-MM-DD HH:mm:ss');
+    //this.paymentDao.push(this.paymentDto);
+    this.transactionDtoList.paymentDao = this.paymentDaoList;
 
     // this.transactionNotes is bind with the ng model on ui.
     this.transactionDtoList.note = this.transactionNotes
@@ -809,7 +893,7 @@ export class SaleComponent implements OnInit, AfterViewInit {
         // THIS means customer has over paid, this happens mostly in cash of when customer pay by cash.
     // So i am setting it as chnage amount.
     if (this.dueAmountForTransaction <= 0) {
-      this.paymentDto.changeForCash = Math.abs(this.dueAmountForTransaction);
+      //this.paymentDto.changeForCash = Math.abs(this.dueAmountForTransaction);
 
       // This means customer has paid, complete invoice, it was not here before but now i need to do it after adding logic for pending invoice.
       this.transactionDtoList.transactionBalance = 0.00
@@ -846,7 +930,7 @@ export class SaleComponent implements OnInit, AfterViewInit {
     // I am doing this to show subtotal without line item discount, so in invoice customer wont get confuse.
     this.transactionDtoList.subtotal = this.transactionDtoList.subtotal + this.transactionDtoList.totalDiscount;
 
-    for (let payment of this.paymentDao) {
+    for (let payment of this.paymentDaoList) {
       payment.status = this.saleType;
     }
 
@@ -904,7 +988,7 @@ export class SaleComponent implements OnInit, AfterViewInit {
       this.persit.clearCustomerPriceForSale();
 
       // Very importa can not assign to null
-      this.paymentDto = new PaymentDto();
+      //this.paymentDto = new PaymentDto();
 
       this.selectedCustomer = null;
       // this.disableCustomerSearchTextbox = false;
@@ -1271,7 +1355,7 @@ export class TransactionDtoList {
   lineItemDiscount: any;
   username: any;
   customerFirstLastName: string;
-  paymentDao: PaymentDto[];
+  paymentDao: PaymentDao[];
   transactionLineItemDaoList: TransactionLineItemDaoList[];
   note: string;
   previousTransactionId: any;
@@ -1281,23 +1365,14 @@ export class TransactionDtoList {
   paymentDetails: PaymentDetails[];
 }
 
-export class PaymentDto {
-  transactionComIdFk: number;
+export class PaymentDao {
+  transactionPaymentId: number;
   transactionComId: number;
-  date: any;
-  cash: number;
-  credit: number;
-  debit: number;
-  checkAmount: number;
-  storeCredit: number;
-  onAccount: number;
-  loyalty: number;
-  layby: number;
-  changeForCash: number;
-  creditCardLast4: string;
-  receiptNote: string;
-  transactionNote: string;
   status: string;
+  date: any;
+  amount: number;
+  type: string;
+  note: string;
 }
 
 export class PaymentObjectForPaymentSellTable {

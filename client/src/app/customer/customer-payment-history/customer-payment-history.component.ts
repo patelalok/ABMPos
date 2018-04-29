@@ -4,6 +4,7 @@ import { Customer } from 'app/customer/customer.component';
 import { TransactionDtoList } from '../../sell/sale/sale.component';
 import * as moment from 'moment';
 import { DateDto, DateService } from 'app/shared/services/date.service';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
 
 @Component({
@@ -21,11 +22,12 @@ export class CustomerPaymentHistoryComponent implements OnInit {
   customerFinancialDto = new CustomerFinancialDto();
   dateDto =  new DateDto();
   customerDetailsBy: string = 'Year';
+  customerForm: FormGroup;
   
 
 
   customerTransactionDetails: TransactionDtoList[] = [];
-  constructor(private customerService: CustomerService,private dateServie: DateService) {
+  constructor(private customerService: CustomerService,private dateServie: DateService, private formBuilder: FormBuilder) {
     this.getCustomerDetails();
 
    }
@@ -40,6 +42,26 @@ export class CustomerPaymentHistoryComponent implements OnInit {
       { field: 'time', header: 'Time' },
       { field: 'totalAmount', header: 'Total Amount' }
   ];
+
+  this.customerForm = this.formBuilder.group(
+    {
+      'name': [null, Validators.required],
+      'phoneNo': ['', [Validators.required, Validators.pattern('^[0-9]+$')]], //TODO - Need to fix this for phono no.
+      // 'phoneNo': [''],
+      'username': [null],
+      'email': [null], // TODO - Need to fox this too .com is not validating
+      'taxId': [''],
+      'street': [null],
+      'zipCode': [''],
+      'role': [null],
+      // 'gender': [''],
+      'city': [''],
+      'state': [''],
+      'type': [''],
+      'companyName': [''],
+      'customerNote':['']
+    }
+  );
   }
 
   getCustomerDetails() {

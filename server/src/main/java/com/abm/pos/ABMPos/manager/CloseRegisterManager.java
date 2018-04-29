@@ -82,13 +82,13 @@ public class CloseRegisterManager {
 
             if(null != paymentDao)
             {
-                closeRegisterDao.setReportCash(paymentDao.getCash());
-                closeRegisterDao.setReportCredit(paymentDao.getCredit());
-                closeRegisterDao.setReportDebit(paymentDao.getDebit());
-                closeRegisterDao.setReportCheck(paymentDao.getCheckAmount());
+                //closeRegisterDao.setReportCash(paymentDao.getCash());
+               // closeRegisterDao.setReportCredit(paymentDao.getCredit());
+                //closeRegisterDao.setReportDebit(paymentDao.getDebit());
+               // closeRegisterDao.setReportCheck(paymentDao.getCheckAmount());
 //                closeRegisterDao.setOnAccount(paymentDao.getOnAccount());
-                closeRegisterDao.setStoreCredit(paymentDao.getStoreCredit());
-                closeRegisterDao.setLoyalty(paymentDao.getLoyalty());
+                //closeRegisterDao.setStoreCredit(paymentDao.getStoreCredit());
+               // closeRegisterDao.setLoyalty(paymentDao.getLoyalty());
             }
 
             // Now need get transaction details from transaction table.
@@ -136,10 +136,10 @@ public class CloseRegisterManager {
             PaymentDao  paymentDaoPending  = getSumOfPendingTransaction(startDate, endDate);
             if(null != paymentDaoPending)
             {
-                closeRegisterDao.setCashFromPendingInvoice(paymentDaoPending.getCash());
-                closeRegisterDao.setCreditFromPendingInvoice(paymentDaoPending.getCredit());
-                closeRegisterDao.setDebitFromPendingInvoice(paymentDaoPending.getDebit());
-                closeRegisterDao.setCheckFromPendingInvoice(paymentDaoPending.getCheckAmount());
+               // closeRegisterDao.setCashFromPendingInvoice(paymentDaoPending.getCash());
+              //  closeRegisterDao.setCreditFromPendingInvoice(paymentDaoPending.getCredit());
+               // closeRegisterDao.setDebitFromPendingInvoice(paymentDaoPending.getDebit());
+               // closeRegisterDao.setCheckFromPendingInvoice(paymentDaoPending.getCheckAmount());
             }
 
             // This logic will help to get only transaction balance for start and end date.
@@ -153,20 +153,20 @@ public class CloseRegisterManager {
 
     private PaymentDao getSumOfPendingTransaction(String startDate, String endDate) {
 
-        List<Object[]> result = paymentRepository.sumOfPendingPayments(startDate, endDate);
+        //List<Object[]> result = paymentRepository.sumOfPendingPayments(startDate, endDate);
         PaymentDao paymentDao = new PaymentDao();
 
-        for(Object [] j : result)
-        {
-            if(j[0] != null) {
-                for (int i = 0; i <= result.size(); i++) {
-                    paymentDao.setCash((Double.parseDouble(j[0].toString())));
-                    paymentDao.setCredit((Double.parseDouble(j[1].toString())));
-                    paymentDao.setDebit((Double.parseDouble(j[2].toString())));
-                    paymentDao.setCheckAmount(Double.parseDouble(j[3].toString()));
-                }
-            }
-        }
+//        for(Object [] j : result)
+//        {
+//            if(j[0] != null) {
+//                for (int i = 0; i <= result.size(); i++) {
+//                  //  paymentDao.setCash((Double.parseDouble(j[0].toString())));
+//                    //paymentDao.setCredit((Double.parseDouble(j[1].toString())));
+//                    //paymentDao.setDebit((Double.parseDouble(j[2].toString())));
+//                    //paymentDao.setCheckAmount(Double.parseDouble(j[3].toString()));
+//                }
+//            }
+//        }
 
         return paymentDao;
 
@@ -198,28 +198,28 @@ public class CloseRegisterManager {
     private PaymentDao getSumOfAllPayments(String startDate, String endDate) {
 
         PaymentDao paymentDao = new PaymentDao();
-        List<Object[]> result =  paymentRepository.sumOfAllPayments(startDate, endDate);
-
-        if(result != null) {
-
-            for (Object [] j : result) {
-
-                if(j[0] != null) {
-
-                    for (int i = 0; i <= result.size(); i++) {
-
-                        paymentDao.setCash(Double.parseDouble(j[0].toString()));
-                        paymentDao.setCredit(Double.parseDouble(j[1].toString()));
-                        paymentDao.setDebit(Double.parseDouble(j[2].toString()));
-                        paymentDao.setCheckAmount(Double.parseDouble(j[3].toString()));
-                        paymentDao.setStoreCredit(Double.parseDouble(j[4].toString()));
-//                        paymentDao.setOnAccount(Double.parseDouble(j[5].toString()));
-                        paymentDao.setLoyalty(Double.parseDouble(j[5].toString()));
-
-                    }
-                }
-            }
-        }
+//        List<Object[]> result =  paymentRepository.sumOfAllPayments(startDate, endDate);
+//
+//        if(result != null) {
+//
+//            for (Object [] j : result) {
+//
+//                if(j[0] != null) {
+//
+//                    for (int i = 0; i <= result.size(); i++) {
+//
+//                      //  paymentDao.setCash(Double.parseDouble(j[0].toString()));
+//                        //paymentDao.setCredit(Double.parseDouble(j[1].toString()));
+//                        //paymentDao.setDebit(Double.parseDouble(j[2].toString()));
+//                        //paymentDao.setCheckAmount(Double.parseDouble(j[3].toString()));
+//                        //paymentDao.setStoreCredit(Double.parseDouble(j[4].toString()));
+////                        paymentDao.setOnAccount(Double.parseDouble(j[5].toString()));
+//                        //paymentDao.setLoyalty(Double.parseDouble(j[5].toString()));
+//
+//                    }
+//                }
+//            }
+//        }
 
         return paymentDao;
     }

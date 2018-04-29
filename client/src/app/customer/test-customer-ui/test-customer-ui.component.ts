@@ -75,51 +75,51 @@ getTransactionDetail(){
 
       let paymentObject = new Payment();
 
-      if(payment.cash > 0){
-        paymentObject.paymentAmount = payment.cash;
-        paymentObject.paymentType = 'CASH';
-        paymentObject.pymentDate = moment(payment.date).format('MM-DD-YYYY');
-        paymentObject.paymentTime =  moment(payment.date).format('hh:mm A');
+      // if(payment.cash > 0){
+      //   paymentObject.paymentAmount = payment.cash;
+      //   paymentObject.paymentType = 'CASH';
+      //   paymentObject.pymentDate = moment(payment.date).format('MM-DD-YYYY');
+      //   paymentObject.paymentTime =  moment(payment.date).format('hh:mm A');
 
-        this.paymentDetails.push(paymentObject);
-      }
+      //   this.paymentDetails.push(paymentObject);
+      // }
 
-      else if(payment.credit > 0){
+      // else if(payment.credit > 0){
 
-        paymentObject.paymentAmount = payment.credit;
-        paymentObject.paymentType = 'CREDIT';
-        paymentObject.pymentDate = moment(payment.date).format('MM-DD-YYYY');
-        paymentObject.paymentTime =  moment(payment.date).format('hh:mm A');
+      //   paymentObject.paymentAmount = payment.credit;
+      //   paymentObject.paymentType = 'CREDIT';
+      //   paymentObject.pymentDate = moment(payment.date).format('MM-DD-YYYY');
+      //   paymentObject.paymentTime =  moment(payment.date).format('hh:mm A');
 
-        this.paymentDetails.push(paymentObject);
-      }
-      else if(payment.checkAmount > 0){
+      //   this.paymentDetails.push(paymentObject);
+      // }
+      // else if(payment.checkAmount > 0){
 
-        paymentObject.paymentAmount = payment.checkAmount;
-        paymentObject.paymentType = 'CHECK';
-        paymentObject.pymentDate = moment(payment.date).format('MM-DD-YYYY');
-        paymentObject.paymentTime =  moment(payment.date).format('hh:mm A');
+      //   paymentObject.paymentAmount = payment.checkAmount;
+      //   paymentObject.paymentType = 'CHECK';
+      //   paymentObject.pymentDate = moment(payment.date).format('MM-DD-YYYY');
+      //   paymentObject.paymentTime =  moment(payment.date).format('hh:mm A');
 
-        this.paymentDetails.push(paymentObject);
-      }
-      else if(payment.debit > 0){
+      //   this.paymentDetails.push(paymentObject);
+      // }
+      // else if(payment.debit > 0){
 
-        paymentObject.paymentAmount = payment.debit;
-        paymentObject.paymentType = 'DEBIT';
-        paymentObject.pymentDate = moment(payment.date).format('MM-DD-YYYY');
-        paymentObject.paymentTime =  moment(payment.date).format('hh:mm A');
+      //   paymentObject.paymentAmount = payment.debit;
+      //   paymentObject.paymentType = 'DEBIT';
+      //   paymentObject.pymentDate = moment(payment.date).format('MM-DD-YYYY');
+      //   paymentObject.paymentTime =  moment(payment.date).format('hh:mm A');
 
-        this.paymentDetails.push(paymentObject);
-      }
-      else if(payment.storeCredit > 0){
+      //   this.paymentDetails.push(paymentObject);
+      // }
+      // else if(payment.storeCredit > 0){
 
-        paymentObject.paymentAmount = payment.storeCredit;
-        paymentObject.paymentType = 'STORE CREDIT';
-        paymentObject.pymentDate = moment(payment.date).format('MM-DD-YYYY');
-        paymentObject.paymentTime =  moment(payment.date).format('hh:mm A');
+      //   paymentObject.paymentAmount = payment.storeCredit;
+      //   paymentObject.paymentType = 'STORE CREDIT';
+      //   paymentObject.pymentDate = moment(payment.date).format('MM-DD-YYYY');
+      //   paymentObject.paymentTime =  moment(payment.date).format('hh:mm A');
 
-        this.paymentDetails.push(paymentObject);
-      }
+      //   this.paymentDetails.push(paymentObject);
+      // }
 
     });
     this.transactionDto = trans;

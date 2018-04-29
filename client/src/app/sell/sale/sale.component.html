@@ -208,6 +208,13 @@
                         <dd class="">{{this.transactionDtoList.totalAmount | currency:'USD':'true'}}</dd>
                     </dl>
                 </div>
+                <button mat-raised-button type="button" data-toggle="modal" data-target="#paymentModel" style="width: 100%; font-size: 20px" class="btn btn-red btn-lg text-white m-md-1 p-md-2">
+                    <div class="row p-md-1 font-weight-bold">
+                        <div class="col-md-6 text-left">Save & Pay Later</div>
+                        <div class="col-md-6 text-right">{{this.transactionDtoList.totalAmount | currency:'USD':'true'}}</div>
+                    </div>
+                </button>
+
                 <button *ngIf="this.saleType == 'Complete' " mat-raised-button [disabled]="this.disablePaymentButtonOnSale" type="button" (click)="this.setDataForPaymentModel()" data-toggle="modal" data-target="#paymentModel" style="width: 100%; font-size: 20px" class="btn btn-green btn-lg text-white m-md-1 p-md-2">
                     <div class="row p-md-1 font-weight-bold">
                         <div class="col-md-6 text-left">Payment</div>
@@ -215,13 +222,7 @@
                     </div>
                 </button>
 
-                <!-- <button *ngIf="this.saleType == 'Return' " mat-raised-button [disabled]="this.paymentButtonOnSale" type="button" (click)="this.setDataForPaymentModelForReturnSale()" data-toggle="modal" data-target="#paymentModel" style="width: 100%; font-size: 20px"
-                    class="btn btn-red btn-lg text-white m-md-1 p-md-2">
-                    <div class="row p-md-1 font-weight-bold">
-                        <div class="col-md-6 text-left">Return</div>
-                        <div class="col-md-6 text-right">{{this.transactionDtoList.totalAmount | currency:'USD':'true'}}</div>
-                    </div>
-                </button> -->
+
 
             </mat-card-content>
         </mat-card>
@@ -351,45 +352,45 @@
 
                 <div class="row" style="margin-top: 30px">
                     <div class="col-lg-3">
-                        <button mat-raised-button class="primary-button" (click)="this.setPaymentDto('Cash',this.payAmountTextBox)" [disabled]="this.disablePaymentButtons">Cash</button>
+                        <button mat-raised-button class="primary-button" (click)="this.setPaymentDto('CASH',this.payAmountTextBox)" [disabled]="this.disablePaymentButtons">Cash</button>
                     </div>
 
                     <div class="col-lg-3">
-                        <button mat-raised-button class="primary-button" (click)="this.setPaymentDto('Credit',this.payAmountTextBox)" [disabled]="this.disablePaymentButtons">Credit</button>
+                        <button mat-raised-button class="primary-button" (click)="this.setPaymentDto('CREDIT',this.payAmountTextBox)" [disabled]="this.disablePaymentButtons">Credit</button>
                     </div>
 
                     <div class="col-lg-3">
-                        <button mat-raised-button class="primary-button" (click)="this.setPaymentDto('Debit',this.payAmountTextBox)" [disabled]="true">Debit</button>
+                        <button mat-raised-button class="primary-button" (click)="this.setPaymentDto('DEBIT',this.payAmountTextBox)" [disabled]="true">Debit</button>
                     </div>
 
                     <div class="col-lg-3">
-                        <button mat-raised-button class="primary-button" (click)="this.setPaymentDto('Check',this.payAmountTextBox)" [disabled]="this.disablePaymentButtons">Check</button>
+                        <button mat-raised-button class="primary-button" (click)="this.setPaymentDto('CHECK',this.payAmountTextBox)" [disabled]="this.disablePaymentButtons">Check</button>
                     </div>
                 </div>
                 <div class="row" style="margin-top: 30px">
 
                     <div class="col-md-2">
-                        <button mat-raised-button class="primary-button" (click)="this.setPaymentDto('Cash', 1)" [disabled]="this.disablePaymentButtonsWithAmount">$1</button>
+                        <button mat-raised-button class="primary-button" (click)="this.setPaymentDto('CASH', 1)" [disabled]="this.disablePaymentButtonsWithAmount">$1</button>
                     </div>
 
                     <div class="col-md-2">
-                        <button mat-raised-button class="primary-button" (click)="this.setPaymentDto('Cash', 5)" [disabled]="this.disablePaymentButtonsWithAmount">$5</button>
+                        <button mat-raised-button class="primary-button" (click)="this.setPaymentDto('CASH', 5)" [disabled]="this.disablePaymentButtonsWithAmount">$5</button>
                     </div>
 
                     <div class="col-md-2">
-                        <button mat-raised-button class="primary-button" (click)="this.setPaymentDto('Cash', 10)" [disabled]="this.disablePaymentButtonsWithAmount">$10</button>
+                        <button mat-raised-button class="primary-button" (click)="this.setPaymentDto('CASH', 10)" [disabled]="this.disablePaymentButtonsWithAmount">$10</button>
                     </div>
 
                     <div class="col-md-2">
-                        <button mat-raised-button class="primary-button" (click)="this.setPaymentDto('Cash', 20)" [disabled]="this.disablePaymentButtonsWithAmount">$20</button>
+                        <button mat-raised-button class="primary-button" (click)="this.setPaymentDto('CASH', 20)" [disabled]="this.disablePaymentButtonsWithAmount">$20</button>
                     </div>
 
                     <div class="col-md-2">
-                        <button mat-raised-button class="primary-button" (click)="this.setPaymentDto('Cash', 50)" [disabled]="this.disablePaymentButtonsWithAmount">$50</button>
+                        <button mat-raised-button class="primary-button" (click)="this.setPaymentDto('CASH', 50)" [disabled]="this.disablePaymentButtonsWithAmount">$50</button>
                     </div>
 
                     <div class="col-md-2">
-                        <button mat-raised-button class="primary-button" (click)="this.setPaymentDto('Cash', 100)" [disabled]="this.disablePaymentButtonsWithAmount">$100</button>
+                        <button mat-raised-button class="primary-button" (click)="this.setPaymentDto('CASH', 100)" [disabled]="this.disablePaymentButtonsWithAmount">$100</button>
                     </div>
                 </div>
                 <div class="row" style="margin-top: 30px">
@@ -647,4 +648,4 @@
     <hr>
 
 </div> -->
-<!-- End of Receipt Template -->
+<!-- End of Receipt Template -->ß

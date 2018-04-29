@@ -153,4 +153,18 @@ public interface TransactionRepository extends JpaRepository<TransactionDao, Int
     List<Object[]> getCustomerDetailsForPendingInvoice(String startDate, String endDate);
 
     List<TransactionDao> findAllByCustomerPhonenoAndStatusAndDateBetween(String phoneNo, String status, String startDate, String endDate);
+
+    @Query(value = "SELECT t.transaction_com_id as a, t.date as b, p.date as c, t.total_amount as d, t.transaction_balance as e FROM transaction t\n" +
+            "LEFT JOIN transaction_payment p \n" +
+            "ON p.transaction_com_id = t.transaction_com_id\n" +
+            "WHERE t.date BETWEEN '2018-01-15 09:28:06' AND '2018-12-15 09:28:06' AND t.customer_phoneno = 7707030801;", nativeQuery = true)
+    List<Object[]> getCustomerStatement();
+
+//    @Query(value = "SELECT t.transaction_com_id,t.date, t.total_amount,t.transaction_balance\n" +
+//            "FROM transaction t \n" +
+//            "INNER JOIN customer c ON c.phone_no = t.customer_phoneno\n" +
+//            "WHERE status = 'Pending' \n" +
+//            "AND t.customer_phoneno = ?3 \n" +
+//            "AND date BETWEEN ?1 AND ?2 ", nativeQuery = true)
+//    List<Object[]> getOpenInvoiceByCustomer(String startDate, String endDate, String phoneNo);
 }

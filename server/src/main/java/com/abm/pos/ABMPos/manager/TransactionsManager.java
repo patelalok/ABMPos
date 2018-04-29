@@ -178,9 +178,15 @@ public class TransactionsManager {
 
             // Here i need to handle the case where customer is using Store credit to pay the amount.
             // I need to update the store credit for the customer and handle the transaction.
-            if (null != transactionDao.getCustomerPhoneno() && transactionDao.getPaymentDao().get(0).getStoreCredit() > 0) {
-                setCustomerStoreCredit(transactionDao);
-            }
+
+            // TODO Need add this logic for store credit
+//            if (null != transactionDao.getCustomerPhoneno() && transactionDao.getPaymentDao().get(0).getStoreCredit() > 0) {
+//                setCustomerStoreCredit(transactionDao);
+//            }
+
+
+
+
             // Here I am handling the logic for the customer price lock where customers price will be saved after every transactions. No matter how is the retail price.
             // Here is the problem though, on return i need to manage this logic on ui, otherwise customer get profited when he does the return.
 
@@ -217,18 +223,20 @@ public class TransactionsManager {
 
                 CustomerDao customerDao = customerRepository.findByPhoneNo(transactionDao.getCustomerPhoneno());
 
-                if (transactionDao.getPaymentDao().get(0).getStoreCredit() > 0) {
-                    StoreCreditDao storeCreditDao = new StoreCreditDao();
+                // TODO Need add this logic for store credit
 
-                    storeCreditDao.setAmount(transactionDao.getPaymentDao().get(0).getStoreCredit());
-                    storeCreditDao.setCustomerPhoneno(transactionDao.getCustomerPhoneno());
-                    storeCreditDao.setEmployeeName(transactionDao.getUsername());
-                    storeCreditDao.setReason("Return Credit For Transaction No: " + transactionDao.getTransactionComId());
-                    storeCreditDao.setCreatedTimestamp(transactionDao.getDate());
-
-                    storeCreditRepository.save(storeCreditDao);
-                    customerDao.setStoreCredit(customerDao.getStoreCredit() + transactionDao.getPaymentDao().get(0).getStoreCredit());
-                }
+//                if (transactionDao.getPaymentDao().get(0).getStoreCredit() > 0) {
+//                    StoreCreditDao storeCreditDao = new StoreCreditDao();
+//
+//                    storeCreditDao.setAmount(transactionDao.getPaymentDao().get(0).getStoreCredit());
+//                    storeCreditDao.setCustomerPhoneno(transactionDao.getCustomerPhoneno());
+//                    storeCreditDao.setEmployeeName(transactionDao.getUsername());
+//                    storeCreditDao.setReason("Return Credit For Transaction No: " + transactionDao.getTransactionComId());
+//                    storeCreditDao.setCreatedTimestamp(transactionDao.getDate());
+//
+//                    storeCreditRepository.save(storeCreditDao);
+//                    customerDao.setStoreCredit(customerDao.getStoreCredit() + transactionDao.getPaymentDao().get(0).getStoreCredit());
+//                }
 
                 // finally updating customers account details whether it is store credit or on on account choose by the customer on the
                 customerRepository.save(customerDao);
@@ -253,109 +261,51 @@ public class TransactionsManager {
 
         List<PaymentDao> paymentDaoList = new ArrayList<>();
 
-        if (transactionDao1.getTransactionComId() != 0) {
 
-            PaymentDao paymentDao;
-            paymentDao = transactionDao.getPaymentDao().get(0);
-
-            if (null != paymentDao) {
-
-                // This logic helps when user is returing the transactin by giving store credit to the user, so here i need to store store credit as negative value to show correct reporting.
-                if (paymentDao.getStoreCredit() > 0 && transactionDao.getStatus().equalsIgnoreCase("Return")) {
-                    // funny logic, i love it.
-                    paymentDao.setStoreCredit(paymentDao.getStoreCredit() * -1);
-                }
-
-                if(paymentDao.getCash() != 0 || paymentDao.getCredit() != 0  || paymentDao.getDebit() != 0  || paymentDao.getCheckAmount() != 0 || paymentDao.getStoreCredit()  != 0) {
-                    paymentRepository.insertPaymentDetail(transactionDao.getTransactionComId(),
-                            transactionDao.getStatus(),
-                            paymentDao.getDate(),
-                            paymentDao.getCash(),
-                            paymentDao.getCredit(),
-                            paymentDao.getDebit(),
-                            paymentDao.getCheckAmount(),
-                            paymentDao.getStoreCredit(),
-                            paymentDao.getLoyalty(),
-                            paymentDao.getLayby(),
-                            paymentDao.getChangeForCash(),
-                            paymentDao.getCreditCardLast4()
-                    );
-                }
-            }
-//            transactionDao.setPaymentDao(paymentDaoList);
-
-            // paymentDaoList = paymentRepository.findAllByTransactionComId(transactionDao.getTransactionComId());
+        for(PaymentDao payment: transactionDao.getPaymentDao()){
+            payment.setTransactionComId(transactionDao1.getTransactionComId());
         }
+        paymentRepository.save(transactionDao.getPaymentDao());
+//
+//        if (transactionDao1.getTransactionComId() != 0) {
+//
+//            PaymentDao paymentDao;
+//            paymentDao = transactionDao.getPaymentDao().get(0);
+//
+//            if (null != paymentDao) {
+//
+//                // TODO Need add this logic for store credit
+//
+//
+//                // This logic helps when user is returing the transactin by giving store credit to the user, so here i need to store store credit as negative value to show correct reporting.
+////                if (paymentDao.getStoreCredit() > 0 && transactionDao.getStatus().equalsIgnoreCase("Return")) {
+////                    // funny logic, i love it.
+////                    paymentDao.setStoreCredit(paymentDao.getStoreCredit() * -1);
+////                }
+//
+//                // TODO Need add this logic for store credit
+//
+////                if(paymentDao.getCash() != 0 || paymentDao.getCredit() != 0  || paymentDao.getDebit() != 0  || paymentDao.getCheckAmount() != 0 || paymentDao.getStoreCredit()  != 0) {
+////                    paymentRepository.insertPaymentDetail(transactionDao.getTransactionComId(),
+////                            transactionDao.getStatus(),
+////                            paymentDao.getDate(),
+////                            paymentDao.getCash(),
+////                            paymentDao.getCredit(),
+////                            paymentDao.getDebit(),
+////                            paymentDao.getCheckAmount(),
+////                            paymentDao.getStoreCredit(),
+////                            paymentDao.getLoyalty(),
+////                            paymentDao.getLayby(),
+////                            paymentDao.getChangeForCash(),
+////                            paymentDao.getCreditCardLast4()
+////                    );
+////                }
+//            }
+////            transactionDao.setPaymentDao(paymentDaoList);
+//
+//            // paymentDaoList = paymentRepository.findAllByTransactionComId(transactionDao.getTransactionComId());
+//        }
 
-
-        // for(PaymentDao paymentDao : paymentDaoList){
-
-
-        //     DateFormat f = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        //     Date d1 = null;
-        //     try {
-        //         d1 = f.parse(paymentDao.getDate());
-        //     } catch (ParseException e) {
-        //         e.printStackTrace();
-        //     }
-        //     DateFormat payDate = new SimpleDateFormat("dd MMMM yyyy");//NEED TO CHECK THIS
-        //     DateFormat payTime = new SimpleDateFormat("hh:mm a");
-
-        //     PaymentDetails paymentDetails = new PaymentDetails();
-
-        //     if(paymentDao.getCash() > 0){
-
-        //         paymentDetails.setPaymentType("CASH");
-        //         paymentDetails.setPaymentAmount(paymentDao.getCash());
-        //         paymentDetails.setPaymentDate(payDate.format(d1));
-        //         paymentDetails.setPaymentTime(payTime.format(d1));
-
-        //         paymentDetailsList.add(paymentDetails);
-
-        //     }
-        //     if(paymentDao.getCredit() > 0){
-
-        //         paymentDetails.setPaymentType("CREDIT");
-        //         paymentDetails.setPaymentAmount(paymentDao.getCredit());
-        //         paymentDetails.setPaymentDate(payDate.format(d1));
-        //         paymentDetails.setPaymentTime(payTime.format(d1));
-
-        //         paymentDetailsList.add(paymentDetails);
-
-        //     }
-        //     if(paymentDao.getCheckAmount() > 0){
-
-        //         paymentDetails.setPaymentType("CHECK");
-        //         paymentDetails.setPaymentAmount(paymentDao.getCheckAmount());
-        //         paymentDetails.setPaymentDate(payDate.format(d1));
-        //         paymentDetails.setPaymentTime(payTime.format(d1));
-
-        //         paymentDetailsList.add(paymentDetails);
-
-        //     }
-        //     if(paymentDao.getDebit() > 0){
-
-        //         paymentDetails.setPaymentType("DEBIT");
-        //         paymentDetails.setPaymentAmount(paymentDao.getDebit());
-        //         paymentDetails.setPaymentDate(payDate.format(d1));
-        //         paymentDetails.setPaymentTime(payTime.format(d1));
-
-        //         paymentDetailsList.add(paymentDetails);
-
-        //     }
-        //     if(paymentDao.getStoreCredit() > 0){
-
-        //         paymentDetails.setPaymentType("STORE CREDIT");
-        //         paymentDetails.setPaymentAmount(paymentDao.getStoreCredit());
-        //         paymentDetails.setPaymentDate(payDate.format(d1));
-        //         paymentDetails.setPaymentTime(payTime.format(d1));
-
-        //         paymentDetailsList.add(paymentDetails);
-
-        //     }
-
-
-        // }
 
         transactionDao1.setPaymentDao(paymentDaoList);
         //transactionDao1.setPaymentDetails(paymentDetailsList);
@@ -410,10 +360,12 @@ public class TransactionsManager {
 
         CustomerDao customerDao = customerRepository.findByPhoneNo(transactionDao.getCustomerPhoneno());
 
-        if (null != customerDao) {
-            customerDao.setStoreCredit(customerDao.getStoreCredit() - transactionDao.getPaymentDao().get(0).getStoreCredit());
-            customerRepository.save(customerDao);
-        }
+        // TODO Need add this logic for store credit
+
+//        if (null != customerDao) {
+//            customerDao.setStoreCredit(customerDao.getStoreCredit() - transactionDao.getPaymentDao().get(0).getStoreCredit());
+//            customerRepository.save(customerDao);
+//        }
     }
 
     private void deleteProductInventoryRow(ProductInventoryDao productInventoryDao) {
@@ -474,16 +426,19 @@ public class TransactionsManager {
                 paymentDao.setTransactionComId((Integer) j[1]);
                 paymentDao.setStatus(j[2].toString());
                 paymentDao.setDate(j[3].toString());
-                paymentDao.setCash(Double.parseDouble(j[4].toString()));
-                paymentDao.setCredit(Double.parseDouble(j[5].toString()));
-                paymentDao.setDebit(Double.parseDouble(j[6].toString()));
-                paymentDao.setCheckAmount(Double.parseDouble(j[7].toString()));
-                paymentDao.setStoreCredit(Double.parseDouble(j[8].toString()));
-//                paymentDao.setOnAccount(Double.parseDouble(j[9].toString()));
-                paymentDao.setLoyalty(Double.parseDouble(j[9].toString()));
-                paymentDao.setLayby(Double.parseDouble(j[10].toString()));
-                paymentDao.setChangeForCash(Double.parseDouble(j[11].toString()));
-                paymentDao.setCreditCardLast4(Double.parseDouble(j[12].toString()));
+
+                // TODO Need add this logic for store credit
+
+//                paymentDao.setCash(Double.parseDouble(j[4].toString()));
+//                paymentDao.setCredit(Double.parseDouble(j[5].toString()));
+//                paymentDao.setDebit(Double.parseDouble(j[6].toString()));
+//                paymentDao.setCheckAmount(Double.parseDouble(j[7].toString()));
+//                paymentDao.setStoreCredit(Double.parseDouble(j[8].toString()));
+////                paymentDao.setOnAccount(Double.parseDouble(j[9].toString()));
+//                paymentDao.setLoyalty(Double.parseDouble(j[9].toString()));
+//                paymentDao.setLayby(Double.parseDouble(j[10].toString()));
+//                paymentDao.setChangeForCash(Double.parseDouble(j[11].toString()));
+//                paymentDao.setCreditCardLast4(Double.parseDouble(j[12].toString()));
 
                 paymentDaoList.add(paymentDao);
             }
@@ -986,145 +941,145 @@ public class TransactionsManager {
                     DateFormat payTime = new SimpleDateFormat("hh:mm a");
 
 
-                    if (payment.getCash() != 0) {
-
-                        PdfPCell cell1 = new PdfPCell();
-                        PdfPCell cell2 = new PdfPCell();
-                        PdfPCell cell3 = new PdfPCell();
-                        PdfPCell cell4 = new PdfPCell();
-
-                        // This helps set content in middle or center
-                        cell1.setFixedHeight(30);
-                        cell2.setFixedHeight(30);
-                        cell3.setFixedHeight(30);
-                        cell4.setFixedHeight(30);
-
-                        cell1.setCellEvent(new PositionEvent(new Phrase(10, "CASH", FontFactory.getFont(FontFactory.HELVETICA, 12, Font.NORMAL)), 0.5f, 0.5f, Element.ALIGN_CENTER));
-                        cell2.setCellEvent(new PositionEvent(new Phrase(10, "$ " + String.valueOf(payment.getCash()), FontFactory.getFont(FontFactory.HELVETICA, 12, Font.NORMAL)), 0.5f, 0.5f, Element.ALIGN_CENTER));
-                        cell3.setCellEvent(new PositionEvent(new Phrase(10, String.valueOf(payDate.format(d1)), FontFactory.getFont(FontFactory.HELVETICA, 12, Font.NORMAL)), 0.5f, 0.5f, Element.ALIGN_CENTER));
-                        cell4.setCellEvent(new PositionEvent(new Phrase(10, payTime.format(d1), FontFactory.getFont(FontFactory.HELVETICA, 12, Font.NORMAL)), 0.5f, 0.5f, Element.ALIGN_CENTER));
-
-                        cell1.setBorderColor(BaseColor.LIGHT_GRAY);
-                        cell2.setBorderColor(BaseColor.LIGHT_GRAY);
-                        cell3.setBorderColor(BaseColor.LIGHT_GRAY);
-                        cell4.setBorderColor(BaseColor.LIGHT_GRAY);
-
-                        paymentMethod.addCell(cell1);
-                        paymentMethod.addCell(cell2);
-                        paymentMethod.addCell(cell3);
-                        paymentMethod.addCell(cell4);
-                    }
-                    if (payment.getCredit() != 0) {
-
-                        PdfPCell cell1 = new PdfPCell();
-                        PdfPCell cell2 = new PdfPCell();
-                        PdfPCell cell3 = new PdfPCell();
-                        PdfPCell cell4 = new PdfPCell();
-
-                        // This helps set content in middle or center
-                        cell1.setFixedHeight(30);
-                        cell2.setFixedHeight(30);
-                        cell3.setFixedHeight(30);
-                        cell4.setFixedHeight(30);
-
-                        cell1.setCellEvent(new PositionEvent(new Phrase(10, "CREDIT", FontFactory.getFont(FontFactory.HELVETICA, 12, Font.NORMAL)), 0.5f, 0.5f, Element.ALIGN_CENTER));
-                        cell2.setCellEvent(new PositionEvent(new Phrase(10, "$ " + String.valueOf(payment.getCredit()), FontFactory.getFont(FontFactory.HELVETICA, 12, Font.NORMAL)), 0.5f, 0.5f, Element.ALIGN_CENTER));
-                        cell3.setCellEvent(new PositionEvent(new Phrase(10, String.valueOf(payDate.format(d1)), FontFactory.getFont(FontFactory.HELVETICA, 12, Font.NORMAL)), 0.5f, 0.5f, Element.ALIGN_CENTER));
-                        cell4.setCellEvent(new PositionEvent(new Phrase(10, payTime.format(d1), FontFactory.getFont(FontFactory.HELVETICA, 12, Font.NORMAL)), 0.5f, 0.5f, Element.ALIGN_CENTER));
-
-                        cell1.setBorderColor(BaseColor.LIGHT_GRAY);
-                        cell2.setBorderColor(BaseColor.LIGHT_GRAY);
-                        cell3.setBorderColor(BaseColor.LIGHT_GRAY);
-                        cell4.setBorderColor(BaseColor.LIGHT_GRAY);
-
-                        paymentMethod.addCell(cell1);
-                        paymentMethod.addCell(cell2);
-                        paymentMethod.addCell(cell3);
-                        paymentMethod.addCell(cell4);
-                    }
-                    if (payment.getDebit() != 0) {
-
-                        PdfPCell cell1 = new PdfPCell();
-                        PdfPCell cell2 = new PdfPCell();
-                        PdfPCell cell3 = new PdfPCell();
-                        PdfPCell cell4 = new PdfPCell();
-
-                        // This helps set content in middle or center
-                        cell1.setFixedHeight(30);
-                        cell2.setFixedHeight(30);
-                        cell3.setFixedHeight(30);
-                        cell4.setFixedHeight(30);
-
-                        cell1.setCellEvent(new PositionEvent(new Phrase(10, "DEBIT", FontFactory.getFont(FontFactory.HELVETICA, 12, Font.NORMAL)), 0.5f, 0.5f, Element.ALIGN_CENTER));
-                        cell2.setCellEvent(new PositionEvent(new Phrase(10, "$ " + String.valueOf(payment.getDebit()), FontFactory.getFont(FontFactory.HELVETICA, 12, Font.NORMAL)), 0.5f, 0.5f, Element.ALIGN_CENTER));
-                        cell3.setCellEvent(new PositionEvent(new Phrase(10, String.valueOf(payDate.format(d1)), FontFactory.getFont(FontFactory.HELVETICA, 12, Font.NORMAL)), 0.5f, 0.5f, Element.ALIGN_CENTER));
-                        cell4.setCellEvent(new PositionEvent(new Phrase(10, payTime.format(d1), FontFactory.getFont(FontFactory.HELVETICA, 12, Font.NORMAL)), 0.5f, 0.5f, Element.ALIGN_CENTER));
-
-                        cell1.setBorderColor(BaseColor.LIGHT_GRAY);
-                        cell2.setBorderColor(BaseColor.LIGHT_GRAY);
-                        cell3.setBorderColor(BaseColor.LIGHT_GRAY);
-                        cell4.setBorderColor(BaseColor.LIGHT_GRAY);
-
-                        paymentMethod.addCell(cell1);
-                        paymentMethod.addCell(cell2);
-                        paymentMethod.addCell(cell3);
-                        paymentMethod.addCell(cell4);
-                    }
-                    if (payment.getCheckAmount() != 0) {
-
-                        PdfPCell cell1 = new PdfPCell();
-                        PdfPCell cell2 = new PdfPCell();
-                        PdfPCell cell3 = new PdfPCell();
-                        PdfPCell cell4 = new PdfPCell();
-
-                        // This helps set content in middle or center
-                        cell1.setFixedHeight(30);
-                        cell2.setFixedHeight(30);
-                        cell3.setFixedHeight(30);
-                        cell4.setFixedHeight(30);
-
-                        cell1.setCellEvent(new PositionEvent(new Phrase(10, "CHECK", FontFactory.getFont(FontFactory.HELVETICA, 12, Font.NORMAL)), 0.5f, 0.5f, Element.ALIGN_CENTER));
-                        cell2.setCellEvent(new PositionEvent(new Phrase(10, "$ " + String.valueOf(payment.getCheckAmount()), FontFactory.getFont(FontFactory.HELVETICA, 12, Font.NORMAL)), 0.5f, 0.5f, Element.ALIGN_CENTER));
-                        cell3.setCellEvent(new PositionEvent(new Phrase(10, String.valueOf(payDate.format(d1)), FontFactory.getFont(FontFactory.HELVETICA, 12, Font.NORMAL)), 0.5f, 0.5f, Element.ALIGN_CENTER));
-                        cell4.setCellEvent(new PositionEvent(new Phrase(10, payTime.format(d1), FontFactory.getFont(FontFactory.HELVETICA, 12, Font.NORMAL)), 0.5f, 0.5f, Element.ALIGN_CENTER));
-
-                        cell1.setBorderColor(BaseColor.LIGHT_GRAY);
-                        cell2.setBorderColor(BaseColor.LIGHT_GRAY);
-                        cell3.setBorderColor(BaseColor.LIGHT_GRAY);
-                        cell4.setBorderColor(BaseColor.LIGHT_GRAY);
-
-                        paymentMethod.addCell(cell1);
-                        paymentMethod.addCell(cell2);
-                        paymentMethod.addCell(cell3);
-                        paymentMethod.addCell(cell4);
-                    }
-                    if (payment.getStoreCredit() != 0) {
-                        PdfPCell cell1 = new PdfPCell();
-                        PdfPCell cell2 = new PdfPCell();
-                        PdfPCell cell3 = new PdfPCell();
-                        PdfPCell cell4 = new PdfPCell();
-
-                        // This helps set content in middle or center
-                        cell1.setFixedHeight(30);
-                        cell2.setFixedHeight(30);
-                        cell3.setFixedHeight(30);
-                        cell4.setFixedHeight(30);
-
-                        cell1.setCellEvent(new PositionEvent(new Phrase(10, "STORE CREDIT", FontFactory.getFont(FontFactory.HELVETICA, 12, Font.NORMAL)), 0.5f, 0.5f, Element.ALIGN_CENTER));
-                        cell2.setCellEvent(new PositionEvent(new Phrase(10, "$ " + String.valueOf(payment.getStoreCredit()), FontFactory.getFont(FontFactory.HELVETICA, 12, Font.NORMAL)), 0.5f, 0.5f, Element.ALIGN_CENTER));
-                        cell3.setCellEvent(new PositionEvent(new Phrase(10, String.valueOf(payDate.format(d1)), FontFactory.getFont(FontFactory.HELVETICA, 12, Font.NORMAL)), 0.5f, 0.5f, Element.ALIGN_CENTER));
-                        cell4.setCellEvent(new PositionEvent(new Phrase(10, payTime.format(d1), FontFactory.getFont(FontFactory.HELVETICA, 12, Font.NORMAL)), 0.5f, 0.5f, Element.ALIGN_CENTER));
-
-                        cell1.setBorderColor(BaseColor.LIGHT_GRAY);
-                        cell2.setBorderColor(BaseColor.LIGHT_GRAY);
-                        cell3.setBorderColor(BaseColor.LIGHT_GRAY);
-                        cell4.setBorderColor(BaseColor.LIGHT_GRAY);
-
-                        paymentMethod.addCell(cell1);
-                        paymentMethod.addCell(cell2);
-                        paymentMethod.addCell(cell3);
-                        paymentMethod.addCell(cell4);
-                    }
+//                    if (payment.getCash() != 0) {
+//
+//                        PdfPCell cell1 = new PdfPCell();
+//                        PdfPCell cell2 = new PdfPCell();
+//                        PdfPCell cell3 = new PdfPCell();
+//                        PdfPCell cell4 = new PdfPCell();
+//
+//                        // This helps set content in middle or center
+//                        cell1.setFixedHeight(30);
+//                        cell2.setFixedHeight(30);
+//                        cell3.setFixedHeight(30);
+//                        cell4.setFixedHeight(30);
+//
+//                        cell1.setCellEvent(new PositionEvent(new Phrase(10, "CASH", FontFactory.getFont(FontFactory.HELVETICA, 12, Font.NORMAL)), 0.5f, 0.5f, Element.ALIGN_CENTER));
+//                        cell2.setCellEvent(new PositionEvent(new Phrase(10, "$ " + String.valueOf(payment.getCash()), FontFactory.getFont(FontFactory.HELVETICA, 12, Font.NORMAL)), 0.5f, 0.5f, Element.ALIGN_CENTER));
+//                        cell3.setCellEvent(new PositionEvent(new Phrase(10, String.valueOf(payDate.format(d1)), FontFactory.getFont(FontFactory.HELVETICA, 12, Font.NORMAL)), 0.5f, 0.5f, Element.ALIGN_CENTER));
+//                        cell4.setCellEvent(new PositionEvent(new Phrase(10, payTime.format(d1), FontFactory.getFont(FontFactory.HELVETICA, 12, Font.NORMAL)), 0.5f, 0.5f, Element.ALIGN_CENTER));
+//
+//                        cell1.setBorderColor(BaseColor.LIGHT_GRAY);
+//                        cell2.setBorderColor(BaseColor.LIGHT_GRAY);
+//                        cell3.setBorderColor(BaseColor.LIGHT_GRAY);
+//                        cell4.setBorderColor(BaseColor.LIGHT_GRAY);
+//
+//                        paymentMethod.addCell(cell1);
+//                        paymentMethod.addCell(cell2);
+//                        paymentMethod.addCell(cell3);
+//                        paymentMethod.addCell(cell4);
+//                    }
+//                    if (payment.getCredit() != 0) {
+//
+//                        PdfPCell cell1 = new PdfPCell();
+//                        PdfPCell cell2 = new PdfPCell();
+//                        PdfPCell cell3 = new PdfPCell();
+//                        PdfPCell cell4 = new PdfPCell();
+//
+//                        // This helps set content in middle or center
+//                        cell1.setFixedHeight(30);
+//                        cell2.setFixedHeight(30);
+//                        cell3.setFixedHeight(30);
+//                        cell4.setFixedHeight(30);
+//
+//                        cell1.setCellEvent(new PositionEvent(new Phrase(10, "CREDIT", FontFactory.getFont(FontFactory.HELVETICA, 12, Font.NORMAL)), 0.5f, 0.5f, Element.ALIGN_CENTER));
+//                        cell2.setCellEvent(new PositionEvent(new Phrase(10, "$ " + String.valueOf(payment.getCredit()), FontFactory.getFont(FontFactory.HELVETICA, 12, Font.NORMAL)), 0.5f, 0.5f, Element.ALIGN_CENTER));
+//                        cell3.setCellEvent(new PositionEvent(new Phrase(10, String.valueOf(payDate.format(d1)), FontFactory.getFont(FontFactory.HELVETICA, 12, Font.NORMAL)), 0.5f, 0.5f, Element.ALIGN_CENTER));
+//                        cell4.setCellEvent(new PositionEvent(new Phrase(10, payTime.format(d1), FontFactory.getFont(FontFactory.HELVETICA, 12, Font.NORMAL)), 0.5f, 0.5f, Element.ALIGN_CENTER));
+//
+//                        cell1.setBorderColor(BaseColor.LIGHT_GRAY);
+//                        cell2.setBorderColor(BaseColor.LIGHT_GRAY);
+//                        cell3.setBorderColor(BaseColor.LIGHT_GRAY);
+//                        cell4.setBorderColor(BaseColor.LIGHT_GRAY);
+//
+//                        paymentMethod.addCell(cell1);
+//                        paymentMethod.addCell(cell2);
+//                        paymentMethod.addCell(cell3);
+//                        paymentMethod.addCell(cell4);
+//                    }
+//                    if (payment.getDebit() != 0) {
+//
+//                        PdfPCell cell1 = new PdfPCell();
+//                        PdfPCell cell2 = new PdfPCell();
+//                        PdfPCell cell3 = new PdfPCell();
+//                        PdfPCell cell4 = new PdfPCell();
+//
+//                        // This helps set content in middle or center
+//                        cell1.setFixedHeight(30);
+//                        cell2.setFixedHeight(30);
+//                        cell3.setFixedHeight(30);
+//                        cell4.setFixedHeight(30);
+//
+//                        cell1.setCellEvent(new PositionEvent(new Phrase(10, "DEBIT", FontFactory.getFont(FontFactory.HELVETICA, 12, Font.NORMAL)), 0.5f, 0.5f, Element.ALIGN_CENTER));
+//                        cell2.setCellEvent(new PositionEvent(new Phrase(10, "$ " + String.valueOf(payment.getDebit()), FontFactory.getFont(FontFactory.HELVETICA, 12, Font.NORMAL)), 0.5f, 0.5f, Element.ALIGN_CENTER));
+//                        cell3.setCellEvent(new PositionEvent(new Phrase(10, String.valueOf(payDate.format(d1)), FontFactory.getFont(FontFactory.HELVETICA, 12, Font.NORMAL)), 0.5f, 0.5f, Element.ALIGN_CENTER));
+//                        cell4.setCellEvent(new PositionEvent(new Phrase(10, payTime.format(d1), FontFactory.getFont(FontFactory.HELVETICA, 12, Font.NORMAL)), 0.5f, 0.5f, Element.ALIGN_CENTER));
+//
+//                        cell1.setBorderColor(BaseColor.LIGHT_GRAY);
+//                        cell2.setBorderColor(BaseColor.LIGHT_GRAY);
+//                        cell3.setBorderColor(BaseColor.LIGHT_GRAY);
+//                        cell4.setBorderColor(BaseColor.LIGHT_GRAY);
+//
+//                        paymentMethod.addCell(cell1);
+//                        paymentMethod.addCell(cell2);
+//                        paymentMethod.addCell(cell3);
+//                        paymentMethod.addCell(cell4);
+//                    }
+//                    if (payment.getCheckAmount() != 0) {
+//
+//                        PdfPCell cell1 = new PdfPCell();
+//                        PdfPCell cell2 = new PdfPCell();
+//                        PdfPCell cell3 = new PdfPCell();
+//                        PdfPCell cell4 = new PdfPCell();
+//
+//                        // This helps set content in middle or center
+//                        cell1.setFixedHeight(30);
+//                        cell2.setFixedHeight(30);
+//                        cell3.setFixedHeight(30);
+//                        cell4.setFixedHeight(30);
+//
+//                        cell1.setCellEvent(new PositionEvent(new Phrase(10, "CHECK", FontFactory.getFont(FontFactory.HELVETICA, 12, Font.NORMAL)), 0.5f, 0.5f, Element.ALIGN_CENTER));
+//                        cell2.setCellEvent(new PositionEvent(new Phrase(10, "$ " + String.valueOf(payment.getCheckAmount()), FontFactory.getFont(FontFactory.HELVETICA, 12, Font.NORMAL)), 0.5f, 0.5f, Element.ALIGN_CENTER));
+//                        cell3.setCellEvent(new PositionEvent(new Phrase(10, String.valueOf(payDate.format(d1)), FontFactory.getFont(FontFactory.HELVETICA, 12, Font.NORMAL)), 0.5f, 0.5f, Element.ALIGN_CENTER));
+//                        cell4.setCellEvent(new PositionEvent(new Phrase(10, payTime.format(d1), FontFactory.getFont(FontFactory.HELVETICA, 12, Font.NORMAL)), 0.5f, 0.5f, Element.ALIGN_CENTER));
+//
+//                        cell1.setBorderColor(BaseColor.LIGHT_GRAY);
+//                        cell2.setBorderColor(BaseColor.LIGHT_GRAY);
+//                        cell3.setBorderColor(BaseColor.LIGHT_GRAY);
+//                        cell4.setBorderColor(BaseColor.LIGHT_GRAY);
+//
+//                        paymentMethod.addCell(cell1);
+//                        paymentMethod.addCell(cell2);
+//                        paymentMethod.addCell(cell3);
+//                        paymentMethod.addCell(cell4);
+//                    }
+//                    if (payment.getStoreCredit() != 0) {
+//                        PdfPCell cell1 = new PdfPCell();
+//                        PdfPCell cell2 = new PdfPCell();
+//                        PdfPCell cell3 = new PdfPCell();
+//                        PdfPCell cell4 = new PdfPCell();
+//
+//                        // This helps set content in middle or center
+//                        cell1.setFixedHeight(30);
+//                        cell2.setFixedHeight(30);
+//                        cell3.setFixedHeight(30);
+//                        cell4.setFixedHeight(30);
+//
+//                        cell1.setCellEvent(new PositionEvent(new Phrase(10, "STORE CREDIT", FontFactory.getFont(FontFactory.HELVETICA, 12, Font.NORMAL)), 0.5f, 0.5f, Element.ALIGN_CENTER));
+//                        cell2.setCellEvent(new PositionEvent(new Phrase(10, "$ " + String.valueOf(payment.getStoreCredit()), FontFactory.getFont(FontFactory.HELVETICA, 12, Font.NORMAL)), 0.5f, 0.5f, Element.ALIGN_CENTER));
+//                        cell3.setCellEvent(new PositionEvent(new Phrase(10, String.valueOf(payDate.format(d1)), FontFactory.getFont(FontFactory.HELVETICA, 12, Font.NORMAL)), 0.5f, 0.5f, Element.ALIGN_CENTER));
+//                        cell4.setCellEvent(new PositionEvent(new Phrase(10, payTime.format(d1), FontFactory.getFont(FontFactory.HELVETICA, 12, Font.NORMAL)), 0.5f, 0.5f, Element.ALIGN_CENTER));
+//
+//                        cell1.setBorderColor(BaseColor.LIGHT_GRAY);
+//                        cell2.setBorderColor(BaseColor.LIGHT_GRAY);
+//                        cell3.setBorderColor(BaseColor.LIGHT_GRAY);
+//                        cell4.setBorderColor(BaseColor.LIGHT_GRAY);
+//
+//                        paymentMethod.addCell(cell1);
+//                        paymentMethod.addCell(cell2);
+//                        paymentMethod.addCell(cell3);
+//                        paymentMethod.addCell(cell4);
+//                    }
 
 
                 }

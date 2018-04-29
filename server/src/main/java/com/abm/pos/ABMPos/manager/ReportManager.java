@@ -1,11 +1,13 @@
 package com.abm.pos.ABMPos.manager;
 
+import com.abm.pos.ABMPos.dao.CustomerDao;
 import com.abm.pos.ABMPos.dao.ReportDao.InventoryDto;
 import com.abm.pos.ABMPos.dao.ReportDao.SalesDto;
 import com.abm.pos.ABMPos.dao.ReportDao.SalesSummaryDto;
 import com.abm.pos.ABMPos.dao.StoreSetupDao;
 import com.abm.pos.ABMPos.dao.TransactionDao;
 import com.abm.pos.ABMPos.dao.TransactionLineItemDao;
+import com.abm.pos.ABMPos.dto.CustomerStatementDto;
 import com.abm.pos.ABMPos.dto.CustomerSum;
 import com.abm.pos.ABMPos.dto.DateTimeDto;
 import com.abm.pos.ABMPos.dto.OpenInvoiceResponse;
@@ -57,6 +59,9 @@ public class ReportManager {
     private final EmployeeRepository employeeRepository;
 
     private final StoreSetupRepository storeSetupRepository;
+
+    @Autowired
+    private CustomerManager customerManager;
 
 
     private BaseFont bfBold;
@@ -911,15 +916,7 @@ public class ReportManager {
         mainTable.setSpacingBefore(1);
         mainTable.setSplitLate(false);
 
-        for (String tableHeader : mainTableHeader) {
-            PdfPCell headerCell = new PdfPCell();
-            Paragraph paragraph3 = new Paragraph(tableHeader, FontFactory.getFont(FontFactory.HELVETICA, 11, Font.BOLD));
-            paragraph3.setAlignment(Element.ALIGN_CENTER);
-            headerCell.addElement(paragraph3);
-            headerCell.setBorderColor(BaseColor.LIGHT_GRAY);
-            headerCell.setPadding(5);
-            mainTable.addCell(headerCell);
-        }
+        printTableHeader(mainTable, mainTableHeader);
 
         // Now Printing Open Invoice Table Details
         for (OpenInvoiceResponse openInvoiceResponse : openInvoiceResponseList) {
@@ -1038,38 +1035,215 @@ public class ReportManager {
 
     }
 
+    public List<CustomerStatementDto> getCustomerStatement(String startDate, String endDate, String phoneNo) {
 
-    // This will print body of the table.
+        List<Object[]> result = transactionRepository.getCustomerStatement();
+        List<CustomerStatementDto> customerStatementDtoList = new ArrayList<>();
 
-//        for (TransactionLineItemDao lineItem : transactionDao.getTransactionLineItemDaoList()) {
-//
-//            PdfPCell cell1 = new PdfPCell();
-//            PdfPCell cell2 = new PdfPCell();
-//            PdfPCell cell3 = new PdfPCell();
-//            PdfPCell cell4 = new PdfPCell();
-//            PdfPCell cell5 = new PdfPCell();
-//
-//            cell1.addElement(new Phrase(lineItem.getProductNo(), FontFactory.getFont(FontFactory.HELVETICA, 10, Font.NORMAL)));
-//            cell2.addElement(new Phrase(lineItem.getDescription(), FontFactory.getFont(FontFactory.HELVETICA, 10, Font.NORMAL)));
-//            cell3.setCellEvent(new PositionEvent(new Phrase(10, String.valueOf(lineItem.getSaleQuantity()), FontFactory.getFont(FontFactory.HELVETICA, 10, Font.NORMAL)), 0.5f, 0.5f, Element.ALIGN_CENTER));
-//            cell4.setCellEvent(new PositionEvent(new Phrase(10, String.valueOf(lineItem.getRetailWithDiscount()), FontFactory.getFont(FontFactory.HELVETICA, 10, Font.NORMAL)), 0.5f, 0.5f, Element.ALIGN_CENTER));
-//            cell5.setCellEvent(new PositionEvent(new Phrase(10, String.valueOf(lineItem.getTotalProductPrice()), FontFactory.getFont(FontFactory.HELVETICA, 10, Font.NORMAL)), 0.5f, 0.5f, Element.ALIGN_CENTER));
-//
-////                    cell3.addElement(new Phrase(String.valueOf(lineItem.getSaleQuantity()),FontFactory.getFont(FontFactory.HELVETICA, 10, Font.NORMAL)));
-////                    cell4.addElement(new Phrase(String.valueOf(lineItem.getRetailWithDiscount()),FontFactory.getFont(FontFactory.HELVETICA, 10, Font.NORMAL)));
-////                    cell5.addElement(new Phrase(String.valueOf(lineItem.getTotalProductPrice()),FontFactory.getFont(FontFactory.HELVETICA, 10, Font.NORMAL)));
-//
-//            cell1.setBorderColor(BaseColor.LIGHT_GRAY);
-//            cell2.setBorderColor(BaseColor.LIGHT_GRAY);
-//            cell3.setBorderColor(BaseColor.LIGHT_GRAY);
-//            cell4.setBorderColor(BaseColor.LIGHT_GRAY);
-//            cell5.setBorderColor(BaseColor.LIGHT_GRAY);
-//
-//            lineItemTable.addCell(cell1);
-//            lineItemTable.addCell(cell2);
-//            lineItemTable.addCell(cell3);
-//            lineItemTable.addCell(cell4);
-//            lineItemTable.addCell(cell5);
-//        }
+        if(null != result)
+        {
+            for(Object[] j: result)
+            {
+                CustomerStatementDto customerStatementDto = new CustomerStatementDto();
+
+                customerStatementDto.setTransactionComId(Integer.parseInt(j[0].toString()));
+                customerStatementDto.setTransactionDate(j[1].toString());
+                if(null != j[2]){
+                    customerStatementDto.setPaymentDate(j[2].toString());
+                }
+                customerStatementDto.setTransactionAmount(Double.parseDouble(j[3].toString()));
+                customerStatementDto.setTransactionBalance(Double.parseDouble(j[4].toString()));
+
+                customerStatementDtoList.add(customerStatementDto);
+            }
+        }
+
+
+        return customerStatementDtoList;
+    }
+
+    public byte[] printCustomerStatement(String startDate, String endDate, String phoneNo) throws DocumentException, IOException {
+
+        List<CustomerStatementDto> customerStatementDtoList;
+
+        Document doc = new Document(PageSize.A4);
+        initializeFonts();
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        PdfWriter writer = PdfWriter.getInstance(doc, byteArrayOutputStream);
+        doc.open();
+        PdfContentByte cb = writer.getDirectContent();
+
+        customerStatementDtoList = getCustomerStatement(startDate, endDate, phoneNo);
+
+        if (null != customerStatementDtoList) {
+
+            printCustomerStatementDetails(doc, startDate, endDate, phoneNo,customerStatementDtoList);
+
+            //printOpenInvoiceDetails(doc, openInvoiceResponseList);
+        }
+
+        doc.close();
+        return byteArrayOutputStream.toByteArray();
+
+    }
+
+    private void printCustomerStatementDetails(Document doc, String startDate, String endDate, String phoneNo, List<CustomerStatementDto> customerStatementDtoList) throws IOException, DocumentException {
+
+        PdfPTable storeTable = new PdfPTable(1);
+        PdfPTable customerTable = new PdfPTable(2);
+        PdfPTable statementTable = new PdfPTable(5);
+
+        storeTable.setWidthPercentage(100);
+        customerTable.setWidthPercentage(100);
+        statementTable.setWidthPercentage(100);
+
+        String[] header = new String[]{"DATE", "TIME", "RECEIPT NO", "AMOUNT", "BALANCE"};
+
+        PdfPCell logo = new PdfPCell();
+        PdfPCell storeDetails = new PdfPCell();
+        PdfPCell customerDetails = new PdfPCell();
+
+        StoreSetupDao storeSetupDao = storeSetupRepository.getOne(1);
+
+        if(null != storeSetupDao)
+        {
+            if(null != storeSetupDao.getLogo()){
+                Image companyLogo = Image.getInstance(storeSetupDao.getLogo());
+                companyLogo.setWidthPercentage(50);
+                logo.addElement(companyLogo);
+                logo.setPadding(0);
+                logo.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
+                logo.setBorder(PdfPCell.NO_BORDER);
+
+                storeTable.addCell(logo);
+
+            }
+
+            Paragraph storeName = new Paragraph(storeSetupDao.getName());
+            storeName.setAlignment(PdfPCell.ALIGN_LEFT);
+            Paragraph street = new Paragraph(storeSetupDao.getStreet());
+            street.setAlignment(PdfPCell.ALIGN_LEFT);
+            Paragraph city = new Paragraph(storeSetupDao.getCity() + " , " + storeSetupDao.getState() + " , " + storeSetupDao.getZipcode());
+            city.setAlignment(PdfPCell.ALIGN_LEFT);
+            Paragraph phoneNo1 = new Paragraph(storeSetupDao.getPhoneNo());
+            phoneNo1.setAlignment(PdfPCell.ALIGN_LEFT);
+            Paragraph email = new Paragraph(storeSetupDao.getEmail());
+            email.setAlignment(PdfPCell.ALIGN_LEFT);
+
+            storeDetails.addElement(storeName);
+            storeDetails.addElement(street);
+            storeDetails.addElement(city);
+            storeDetails.addElement(phoneNo1);
+            storeDetails.addElement(email);
+            storeDetails.setBorder(PdfPCell.NO_BORDER);
+
+        }
+
+        CustomerDao customerDao = customerManager.getCustomerByPhoneNo(phoneNo);
+
+        if (null != customerDao) {
+
+            Paragraph companyName = new Paragraph(customerDao.getCompanyName());
+            companyName.setAlignment(PdfPCell.ALIGN_RIGHT);
+            Paragraph customerName = new Paragraph(customerDao.getName());
+            customerName.setAlignment(PdfPCell.ALIGN_RIGHT);
+            Paragraph custStreet = new Paragraph(customerDao.getStreet());
+            custStreet.setAlignment(PdfPCell.ALIGN_RIGHT);
+            Paragraph custCity = new Paragraph(customerDao.getCity() + " , " + customerDao.getState() + " , " + customerDao.getZipCode());
+            custCity.setAlignment(PdfPCell.ALIGN_RIGHT);
+            Paragraph custPhone = new Paragraph(customerDao.getPhoneNo());
+            custPhone.setAlignment(PdfPCell.ALIGN_RIGHT);
+
+            customerDetails.addElement(companyName);
+            customerDetails.addElement(customerName);
+            customerDetails.addElement(custStreet);
+            customerDetails.addElement(custCity);
+            customerDetails.addElement(custPhone);
+            customerDetails.setBorder(PdfPCell.NO_BORDER);
+
+            customerTable.addCell(storeDetails);
+            customerTable.addCell(customerDetails);
+
+            customerTable.setSpacingBefore(25);
+
+        }
+
+        if(null !=customerStatementDtoList) {
+            statementTable.setHeaderRows(1);
+            statementTable.setWidths(new float[]{2, 2, 4, 2, 2});
+            statementTable.setSpacingBefore(1);
+            statementTable.setSplitLate(false);
+
+
+            printTableHeader(statementTable, header);
+
+            for (CustomerStatementDto customerStatementDto : customerStatementDtoList) {
+
+                DateTimeDto dateTimeDto = getDateAndTime(customerStatementDto.getTransactionDate());
+
+                PdfPCell cell1 = new PdfPCell();
+                PdfPCell cell2 = new PdfPCell();
+                PdfPCell cell3 = new PdfPCell();
+                PdfPCell cell4 = new PdfPCell();
+                PdfPCell cell5 = new PdfPCell();
+
+                // This helps set content in middle or center
+                cell1.setFixedHeight(30);
+                cell2.setFixedHeight(30);
+                cell3.setFixedHeight(30);
+                cell4.setFixedHeight(30);
+                cell5.setFixedHeight(30);
+
+                cell1.setCellEvent(new PositionEvent(new Phrase(1, dateTimeDto.getDate(), FontFactory.getFont(FontFactory.HELVETICA, 8, Font.NORMAL)), 0.5f, 0.5f, Element.ALIGN_CENTER));
+                cell2.setCellEvent(new PositionEvent(new Phrase(1, dateTimeDto.getTime(), FontFactory.getFont(FontFactory.HELVETICA, 8, Font.NORMAL)), 0.5f, 0.5f, Element.ALIGN_CENTER));
+                cell3.setCellEvent(new PositionEvent(new Phrase(1, String.valueOf(customerStatementDto.getTransactionComId()), FontFactory.getFont(FontFactory.HELVETICA, 8, Font.NORMAL)), 0.5f, 0.5f, Element.ALIGN_CENTER));
+                cell4.setCellEvent(new PositionEvent(new Phrase(1, String.valueOf(customerStatementDto.getTransactionAmount()), FontFactory.getFont(FontFactory.HELVETICA, 8, Font.NORMAL)), 0.5f, 0.5f, Element.ALIGN_CENTER));
+                cell5.setCellEvent(new PositionEvent(new Phrase(1, "$ " + String.valueOf(customerStatementDto.getTransactionBalance()), FontFactory.getFont(FontFactory.HELVETICA, 8, Font.NORMAL)), 0.5f, 0.5f, Element.ALIGN_CENTER));
+
+                cell1.setBorderColor(BaseColor.LIGHT_GRAY);
+                cell2.setBorderColor(BaseColor.LIGHT_GRAY);
+                cell3.setBorderColor(BaseColor.LIGHT_GRAY);
+                cell4.setBorderColor(BaseColor.LIGHT_GRAY);
+                cell5.setBorderColor(BaseColor.LIGHT_GRAY);
+
+                cell1.setBorder(Rectangle.NO_BORDER);
+                cell2.setBorder(Rectangle.NO_BORDER);
+                cell3.setBorder(Rectangle.NO_BORDER);
+                cell4.setBorder(Rectangle.NO_BORDER);
+                cell5.setBorder(Rectangle.NO_BORDER);
+
+                statementTable.addCell(cell1);
+                statementTable.addCell(cell2);
+                statementTable.addCell(cell3);
+                statementTable.addCell(cell4);
+                statementTable.addCell(cell5);
+
+            }
+
+        }
+
+        doc.add(storeTable);
+
+        doc.add(customerTable);
+        doc.add(statementTable);
+    }
+
+    private void printTableHeader(PdfPTable statementTable, String[] header) {
+        for (String tableHeader : header) {
+            PdfPCell headerCell = new PdfPCell();
+            Paragraph paragraph3 = new Paragraph(tableHeader, FontFactory.getFont(FontFactory.HELVETICA, 11, Font.BOLD));
+            paragraph3.setAlignment(Element.ALIGN_CENTER);
+            headerCell.addElement(paragraph3);
+            headerCell.setBorderColor(BaseColor.LIGHT_GRAY);
+            headerCell.setPadding(5);
+            statementTable.addCell(headerCell);
+        }
+    }
+
+
+    public List<TransactionDao> getOpenInvoiceByCustomer(String startDate, String endDate, String phoneNo) {
+
+        return transactionRepository.findAllByCustomerPhonenoAndStatusAndDateBetween(phoneNo, "Pending",startDate,endDate);
+    }
 }
 

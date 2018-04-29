@@ -926,7 +926,7 @@ items: MenuItem[];
     // Setting payment dto into transaction dto, because can not send both as @request body mfrom angular..
     this.paymentDto.date = this.transactionDtoList.date;
     this.paymentDao.push(this.paymentDto);
-    this.transactionDtoList.paymentDao = this.paymentDao;
+    //this.transactionDtoList.paymentDao = this.paymentDao;
 
     // Setting TransactionLineItemDetails
     // for (let lineItem of this.transactionLineItemDaoList) {

@@ -3,6 +3,8 @@ package com.abm.pos.ABMPos.controller;
 import com.abm.pos.ABMPos.dao.ReportDao.InventoryDto;
 import com.abm.pos.ABMPos.dao.ReportDao.SalesDto;
 import com.abm.pos.ABMPos.dao.ReportDao.SalesSummaryDto;
+import com.abm.pos.ABMPos.dao.TransactionDao;
+import com.abm.pos.ABMPos.dto.CustomerStatementDto;
 import com.abm.pos.ABMPos.dto.OpenInvoiceResponse;
 import com.abm.pos.ABMPos.manager.ReportManager;
 import com.itextpdf.text.DocumentException;
@@ -16,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.io.IOException;
 import java.util.List;
 
 @RestController
@@ -98,9 +101,37 @@ public class ReportController {
     {
         return reportManager.getOpenInvoice(startDate, endDate);
     }
+    @RequestMapping(value = "/getOpenInvoiceByCustomer", method = RequestMethod.GET, produces = "application/json")
+    public List<TransactionDao> getOpenInvoice(String startDate, String endDate, String phoneNo)
+    {
+        return reportManager.getOpenInvoiceByCustomer(startDate, endDate, phoneNo);
+    }
     @RequestMapping(value = "/printOpenInvoice", method = RequestMethod.GET, produces = "application/json")
     public ResponseEntity<byte[]> printOpenInvoice(String startDate, String endDate) throws DocumentException {
         byte [] pdfDataBytes =  reportManager.printOpenInvoice(startDate, endDate);
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.parseMediaType("application/pdf"));
+        headers.add("Access-Control-Allow-Origin", "*");
+        headers.add("Access-Control-Allow-Methods", "GET, POST, PUT");
+        headers.add("Access-Control-Allow-Headers", "Content-Type");
+        headers.add("Cache-Control", "no-cache, no-store, must-revalidate");
+        headers.add("Pragma", "no-cache");
+        headers.add("Expires", "0");
+
+        headers.setCacheControl("must-revalidate, post-check=0, pre-check=0");
+        ResponseEntity<byte[]> response = new ResponseEntity<byte[]>(pdfDataBytes, headers, HttpStatus.OK);
+        return response;
+    }
+
+    @RequestMapping(value = "/getCustomerStatement", method = RequestMethod.GET, produces = "application/json")
+    public List<CustomerStatementDto> getCustomerStatement(String startDate, String endDate, String phoneNo)
+    {
+        return reportManager.getCustomerStatement(startDate, endDate, phoneNo);
+    }
+
+    @RequestMapping(value = "/printCustomerStatement", method = RequestMethod.GET, produces = "application/json")
+    public ResponseEntity<byte[]> printCustomerStatement(String startDate, String endDate, String phoneNo) throws DocumentException, IOException {
+        byte [] pdfDataBytes =  reportManager.printCustomerStatement(startDate, endDate, phoneNo);
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.parseMediaType("application/pdf"));
         headers.add("Access-Control-Allow-Origin", "*");

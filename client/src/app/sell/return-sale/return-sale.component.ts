@@ -17,7 +17,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ToastsManager } from 'ng2-toastr/src/toast-manager';
 import { empty } from 'rxjs/Observer';
 import { MenuItem } from 'app/shared/top-navbar/top-navbar.component';
-import { TransactionLineItemDaoList, TransactionDtoList, PaymentDto, PaymentObjectForPaymentSellTable, Product } from 'app/sell/sale/sale.component';
+import { TransactionLineItemDaoList, TransactionDtoList, PaymentDao, PaymentObjectForPaymentSellTable, Product } from 'app/sell/sale/sale.component';
 import { PersistenceService } from 'app/shared/services/persistence.service';
 import { ProductService } from 'app/product/product.service';
 declare var $: JQueryStatic;
@@ -56,8 +56,8 @@ export class ReturnSaleComponent implements OnInit, AfterViewInit {
   discountType: string;
   discountTexBox: number;
   paymentObjectForPaymentSellTable: PaymentObjectForPaymentSellTable[] = [];
-  paymentDao: PaymentDto[] = [];
-  paymentDto = new PaymentDto();
+  paymentDao: PaymentDao[] = [];
+  paymentDto = new PaymentDao();
   dueAmountForTransaction: number;
 
   disablePaymentButtons: boolean = false;  // This help when customer has paid full amount, so now user should not able to click on any payment button.// These both buttons are on payment page pop up.
@@ -275,40 +275,40 @@ export class ReturnSaleComponent implements OnInit, AfterViewInit {
     }
   }
   setPaymentDtoForRetun(paymentType: any, paymentAmount: any) {
-    if (paymentType == 'Cash') {
-      this.paymentDto.cash = paymentAmount;
-      this.paymentObjectForPaymentSellTable.push({ 'paymentType': 'Cash', 'paymentAmount': paymentAmount })
-      this.validatePaymentForReturn();
-    }
-    else if (paymentType == 'Credit') {
-      this.paymentDto.credit = paymentAmount;
-      this.paymentObjectForPaymentSellTable.push({ 'paymentType': 'Credit', 'paymentAmount': paymentAmount })
-      this.validatePaymentForReturn();
-    }
-    else if (paymentType == 'Debit') {
-      this.paymentDto.debit = paymentAmount;
-      this.paymentObjectForPaymentSellTable.push({ 'paymentType': 'Debit', 'paymentAmount': paymentAmount })
-      this.validatePaymentForReturn();
-    }
-    else if (paymentType == 'Check') {
-      this.paymentDto.checkAmount = paymentAmount;
-      this.paymentObjectForPaymentSellTable.push({ 'paymentType': 'Check', 'paymentAmount': paymentAmount })
-      this.validatePaymentForReturn();
-    }
-    else if (paymentType == 'StoreCredit') {
-      // Converting negative amount to positive so i can add this amount in backend.
-      this.paymentDto.storeCredit = Math.abs(paymentAmount);
-      this.paymentObjectForPaymentSellTable.push({ 'paymentType': 'StoreCredit', 'paymentAmount': paymentAmount })
-      this.disableStoreCreditButtons = true;
-      this.validatePaymentForReturn();
-    }
-    else if (paymentType == 'OnAccount') {
-      // Converting negative amount to positive so i can add this amount in backend.
-      this.paymentDto.onAccount = Math.abs(paymentAmount);
-      this.paymentObjectForPaymentSellTable.push({ 'paymentType': 'OnAccount', 'paymentAmount': paymentAmount })
-      this.disableOnAccountButtons = true;
-      this.validatePaymentForReturn();
-    }
+    // if (paymentType == 'Cash') {
+    //   this.paymentDto.cash = paymentAmount;
+    //   this.paymentObjectForPaymentSellTable.push({ 'paymentType': 'Cash', 'paymentAmount': paymentAmount })
+    //   this.validatePaymentForReturn();
+    // }
+    // else if (paymentType == 'Credit') {
+    //   this.paymentDto.credit = paymentAmount;
+    //   this.paymentObjectForPaymentSellTable.push({ 'paymentType': 'Credit', 'paymentAmount': paymentAmount })
+    //   this.validatePaymentForReturn();
+    // }
+    // else if (paymentType == 'Debit') {
+    //   this.paymentDto.debit = paymentAmount;
+    //   this.paymentObjectForPaymentSellTable.push({ 'paymentType': 'Debit', 'paymentAmount': paymentAmount })
+    //   this.validatePaymentForReturn();
+    // }
+    // else if (paymentType == 'Check') {
+    //   this.paymentDto.checkAmount = paymentAmount;
+    //   this.paymentObjectForPaymentSellTable.push({ 'paymentType': 'Check', 'paymentAmount': paymentAmount })
+    //   this.validatePaymentForReturn();
+    // }
+    // else if (paymentType == 'StoreCredit') {
+    //   // Converting negative amount to positive so i can add this amount in backend.
+    //   this.paymentDto.storeCredit = Math.abs(paymentAmount);
+    //   this.paymentObjectForPaymentSellTable.push({ 'paymentType': 'StoreCredit', 'paymentAmount': paymentAmount })
+    //   this.disableStoreCreditButtons = true;
+    //   this.validatePaymentForReturn();
+    // }
+    // else if (paymentType == 'OnAccount') {
+    //   // Converting negative amount to positive so i can add this amount in backend.
+    //   this.paymentDto.onAccount = Math.abs(paymentAmount);
+    //   this.paymentObjectForPaymentSellTable.push({ 'paymentType': 'OnAccount', 'paymentAmount': paymentAmount })
+    //   this.disableOnAccountButtons = true;
+    //   this.validatePaymentForReturn();
+    // }
 
   }
   setHeaderAndMessageForDisgardPopup() {
@@ -335,7 +335,7 @@ export class ReturnSaleComponent implements OnInit, AfterViewInit {
   deletePaymentFromPaymentModel(payment: PaymentObjectForPaymentSellTable) {
     let index = this.paymentObjectForPaymentSellTable.indexOf(payment);
     if (index > -1) {
-      this.paymentDto = new PaymentDto();
+      this.paymentDto = new PaymentDao();
       this.paymentObjectForPaymentSellTable.splice(index, 1);
       this.dueAmountForTransaction = payment.paymentAmount;
       this.payAmountTextBox = this.dueAmountForTransaction;
@@ -350,7 +350,7 @@ export class ReturnSaleComponent implements OnInit, AfterViewInit {
     // This is important to handle when user clock on Close button from payment popup, we need to clear data only when transaction is completed ottherwise just need to close the popup.
     if (null != this.printTransactionDto) {
       // Very importa can not assign to null
-      this.paymentDto = new PaymentDto();
+      this.paymentDto = new PaymentDao();
       this.selectedCustomer = null;
       this.paymentObjectForPaymentSellTable = [];
       // This is payment button on the sale page, i need to do this because there is not data in sale table,

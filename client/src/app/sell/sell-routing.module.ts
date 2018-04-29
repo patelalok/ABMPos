@@ -26,6 +26,7 @@ import { RepairComponent } from '../repair/repair.component';
 import { AddRepairComponent } from '../repair/add-repair/add-repair.component';
 import { CustomerPaymentHistoryComponent } from 'app/customer/customer-payment-history/customer-payment-history.component';
 import { TestCustomerUiComponent } from '../customer/test-customer-ui/test-customer-ui.component';
+import { PaymentComponent } from './payment/payment.component';
 
 
 const routes: Routes = [
@@ -38,7 +39,8 @@ const routes: Routes = [
       { path: 'close-shift', component:  CloseRegisterComponent},
       { path: 'return', component:  ReturnSaleComponent},
       { path: 'close-register', component:  CloseRegisterComponent},
-      { path: 'sale', component:  SaleComponent}
+      { path: 'sale', component:  SaleComponent },
+      {path: 'payment', component: PaymentComponent}
     ]
   },
   { path: 'employee', component: EmployeeComponent},

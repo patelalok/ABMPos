@@ -19,6 +19,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ReturnSaleComponent } from './return-sale/return-sale.component';
 import { SaleComponent } from './sale/sale.component';
 import { CloseRegisterComponent } from './close-register/close-register.component';
+import { PaymentComponent } from './payment/payment.component';
 
 
 
@@ -34,7 +35,7 @@ import { CloseRegisterComponent } from './close-register/close-register.componen
     DropdownModule,
     SharedModule
   ],
-  declarations: [SellComponent, ReceiptComponent, SalesHistoryComponent, ReturnSaleComponent, SaleComponent,CloseRegisterComponent],
+  declarations: [SellComponent, ReceiptComponent, SalesHistoryComponent, ReturnSaleComponent, SaleComponent,CloseRegisterComponent, PaymentComponent],
   providers: [SellService, CustomerService],
   bootstrap: [SellComponent]
 })
