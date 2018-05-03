@@ -5,7 +5,7 @@ import { InventoryDto } from 'app/report/inventory/inventory.component';
 import { SalesDto, SalesSummaryDto } from 'app/report/sales/sales.component';
 import { environment } from 'environments/environment';
 import { ResponseContentType } from '@angular/http';
-import { Product } from 'app/sell/sale/sale.component';
+import { Product, TransactionDtoList } from 'app/sell/sale/sale.component';
 import { OpenInvoice } from './open-invoice/open-invoice.component';
 
 @Injectable()
@@ -47,6 +47,11 @@ export class ReportService {
         .map(this.extractData)
         .catch(this.handleError);
       }
+      getOpneInvoiceDetailsByCustomer(startDate:string, endDate:string, phoneNo: string) : Observable<TransactionDtoList[]>{
+        return this.http.get(this.url+'/getAllPendingInvoiceByCustomer?startDate='+startDate+'&endDate='+endDate+'&phoneNo='+phoneNo)
+         .map(this.extractData)
+         .catch(this.handleError);
+       }
 
       printInventoryReportPDF(options: ReportOptions): Observable<any> {
         let {inventoryReportBy} = options; 

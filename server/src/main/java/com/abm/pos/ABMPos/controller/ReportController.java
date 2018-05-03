@@ -101,10 +101,10 @@ public class ReportController {
     {
         return reportManager.getOpenInvoice(startDate, endDate);
     }
-    @RequestMapping(value = "/getOpenInvoiceByCustomer", method = RequestMethod.GET, produces = "application/json")
-    public List<TransactionDao> getOpenInvoice(String startDate, String endDate, String phoneNo)
+    @RequestMapping(value = "/getAllPendingInvoiceByCustomer", method = RequestMethod.GET, produces = "application/json")
+    public List<TransactionDao> getAllPendingInvoiceByCustomer(String startDate, String endDate, String phoneNo)
     {
-        return reportManager.getOpenInvoiceByCustomer(startDate, endDate, phoneNo);
+        return reportManager.getAllPendingInvoiceByCustomer(startDate, endDate, phoneNo);
     }
     @RequestMapping(value = "/printOpenInvoice", method = RequestMethod.GET, produces = "application/json")
     public ResponseEntity<byte[]> printOpenInvoice(String startDate, String endDate) throws DocumentException {

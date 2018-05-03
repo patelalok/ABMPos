@@ -9,7 +9,7 @@ import { Customer } from 'app/customer/customer.component';
 import { printBlob } from 'app/shared/services/util.service';
 import { environment } from 'environments/environment';
 import { CloseRegisterDto } from 'app/sell/close-register/close-register.component';
-import { Product, TransactionLineItemDaoList, CustomerProductPrice, TransactionDtoList } from 'app/sell/sale/sale.component';
+import { Product, TransactionLineItemDaoList, CustomerProductPrice, TransactionDtoList, PaymentDao } from 'app/sell/sale/sale.component';
 
 
 
@@ -95,6 +95,12 @@ private url: string;
       error => {
         console.log(JSON.stringify(error.json()));
       });
+  }
+
+  addPaymentDetails(paymentDaoList: PaymentDao[]){
+    return this.http.post(this.url+'/addPayment',paymentDaoList)
+    .map(this.extractData)
+    .catch(this.handleError);
   }
 
   voidTransaction(transactionToVoid: TransactionDtoList) {

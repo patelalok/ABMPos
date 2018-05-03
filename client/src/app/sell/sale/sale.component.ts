@@ -77,7 +77,7 @@ export class SaleComponent implements OnInit, AfterViewInit {
   // These both buttons are on payment page pop up.
   disablePaymentButtons: boolean = false;
   disablePaymentButtonsWithAmount = false;
-  disableCompleteSaleButton: boolean = true;
+  disableCompleteSaleButton: boolean = false;
   paymentDao: PaymentDao[] = [];
   disablePaymentButtonOnSale: boolean = true;
   transactionNotes: string = '';
@@ -586,21 +586,53 @@ export class SaleComponent implements OnInit, AfterViewInit {
 //     this.paymentObjectForPaymentSellTable.push({ 'paymentType': 'DEBIT', 'paymentAmount': paymentAmount });
 //     this.validatePaymentButtons(paymentAmount);
 // }
-  else if (paymentType == 'STORE CREDIT') {
+//   else if (paymentType == 'STORE CREDIT') {
 
-    paymentDaoObj.type = 'STORE CREDIT';
-    // This mean customer has paid less or equal amount.
-    if(paymentAmount <= this.dueAmountForTransaction){
-      paymentDaoObj.amount = paymentAmount;
-    }
-    else {
-      paymentDaoObj.amount = this.dueAmountForTransaction;
+//     paymentDaoObj.type = 'STORE CREDIT';
+//     // This mean customer has paid less or equal amount.
+//     if(paymentAmount <= this.dueAmountForTransaction){
+//       paymentDaoObj.amount = paymentAmount;
+//     }
+//     else {
+//       paymentDaoObj.amount = this.dueAmountForTransaction;
+//     }
+
+//     this.paymentObjectForPaymentSellTable.push({ 'paymentType': 'STORE CREDIT', 'paymentAmount': paymentAmount });
+//     this.paymentDaoList.push(paymentDaoObj);
+//     this.validatePaymentButtons(paymentAmount);
+// }
+
+    else if (paymentType == 'STORE CREDIT') {
+
+      paymentDaoObj.type = 'STORE CREDIT';
+
+        // Now I have to handle two scenario
+      // Case 1. Store credit can greater then equal to payment amount
+      // Case 2. Store credit can less then equal to payment amount
+
+      // Case 1: where payment amount is customers store credit because that what i am sending from ui
+        if (paymentAmount > this.dueAmountForTransaction) {
+          // so By doing this i am just reducing the store credit which is used for this transaction and i can update rest on customer account.
+
+          paymentDaoObj.amount = this.dueAmountForTransaction;
+
+          this.paymentObjectForPaymentSellTable.push({ 'paymentType': 'StoreCredit', 'paymentAmount': paymentDaoObj.amount });
+          this.validatePaymentButtons(paymentDaoObj.amount);
+        }
+        // Here i am using complete store credit of the customer
+        else {
+          paymentDaoObj.amount = paymentAmount;
+          this.paymentObjectForPaymentSellTable.push({ 'paymentType': 'StoreCredit', 'paymentAmount': paymentDaoObj.amount });
+          this.validatePaymentButtons(paymentDaoObj.amount);
+        }
+      }
     }
 
-    this.paymentObjectForPaymentSellTable.push({ 'paymentType': 'STORE CREDIT', 'paymentAmount': paymentAmount });
-    this.paymentDaoList.push(paymentDaoObj);
-    this.validatePaymentButtons(paymentAmount);
-}
+
+
+
+
+
       // if (null != this.paymentDto && this.paymentDto.credit > 0) {
       //   this.paymentDto.credit = +this.paymentDto.credit + paymentAmount;
       // }
@@ -696,6 +728,8 @@ export class SaleComponent implements OnInit, AfterViewInit {
 
     //   // Case 1: where payment amount is customers store credit because that what i am sending from ui
     // }
+
+
     // else if (paymentType == 'OnAccount') {
     //   this.paymentDto.onAccount = paymentAmount;
     //   this.paymentObjectForPaymentSellTable.push({ 'paymentType': 'OnAccount', 'paymentAmount': paymentAmount });
@@ -712,7 +746,7 @@ export class SaleComponent implements OnInit, AfterViewInit {
     // else if (paymentType == 'Loyalty') {
     //   this.paymentDto.loyalty = paymentAmount;
     // }
-  }
+
 
   validatePaymentButtons(paymentAmount: number) {
 
@@ -720,7 +754,7 @@ export class SaleComponent implements OnInit, AfterViewInit {
     // This means cutomer has paid full amount.
     if (this.dueAmountForTransaction - paymentAmount <= 0) {
       this.dueAmountForTransaction = Math.round((this.dueAmountForTransaction - paymentAmount) * 1e2) / 1e2;
-      this.disablePaymentButtons = true;
+      // this.disablePaymentButtons = true;
       this.disablePaymentButtonsWithAmount = true
 
       // This mean customer has provide sufficient balance.
@@ -752,7 +786,7 @@ export class SaleComponent implements OnInit, AfterViewInit {
 
     this.disablePaymentButtons = false;
     this.disablePaymentButtonsWithAmount = false;
-    this.disableCompleteSaleButton = true;
+    //this.disableCompleteSaleButton = true;
     this.disableOnAccountButtons = this.selectedCustomer == null;
 
     // This mean this customer has some store credit to use so i need to enable store credit button.
@@ -774,7 +808,7 @@ export class SaleComponent implements OnInit, AfterViewInit {
     //this.setTransactionDtoList();
     this.disablePaymentButtons = false;
     this.disablePaymentButtonsWithAmount = false;
-    this.disableCompleteSaleButton = true;
+    //this.disableCompleteSaleButton = true;
 
     this.disableOnAccountButtons = this.selectedCustomer == null;
       // This mean this customer has some store credit to use so i need to enable store credit button.
@@ -834,7 +868,7 @@ export class SaleComponent implements OnInit, AfterViewInit {
 
     this.payAmountTextBox = Math.round(this.dueAmountForTransaction * 1e2) / 1e2;
     if (this.dueAmountForTransaction > 0) {
-      this.disableCompleteSaleButton = true;
+      //this.disableCompleteSaleButton = true;
       this.disablePaymentButtons = false;
       this.disablePaymentButtonsWithAmount = false;
 
@@ -932,6 +966,7 @@ export class SaleComponent implements OnInit, AfterViewInit {
 
     for (let payment of this.paymentDaoList) {
       payment.status = this.saleType;
+      payment.date = this.transactionDtoList.date;
     }
 
     // NOW MAKING SERVICE CALL TO ADD TRANSACTION AND LINE ITEM DETAILS AND WILL ADD LINE ITEM DETAILS ONLY IF ADD TRANASACTION CALL IS SUCCESS !!!
@@ -1363,6 +1398,7 @@ export class TransactionDtoList {
   rma: boolean;
   parkSale: boolean;
   paymentDetails: PaymentDetails[];
+  paymentTableAmount: number;
 }
 
 export class PaymentDao {

@@ -842,7 +842,7 @@ public class ReportManager {
 
                 OpenInvoiceResponse openInvoiceResponse = new OpenInvoiceResponse();
 
-                List<TransactionDao> transactionList = transactionRepository.findAllByCustomerPhonenoAndStatusAndDateBetween(customerSum.getPhoneNo(), "Pending", startDate, endDate);
+                List<TransactionDao> transactionList = transactionRepository.findAllByCustomerPhonenoAndStatusAndDateBetweenOrderByDateAsc(customerSum.getPhoneNo(), "Pending", startDate, endDate);
                 openInvoiceResponse.setCustomerSum(customerSum);
                 openInvoiceResponse.setTransactionDaoList(transactionList);
 
@@ -1240,10 +1240,9 @@ public class ReportManager {
         }
     }
 
+    public List<TransactionDao> getAllPendingInvoiceByCustomer(String startDate, String endDate, String phoneNo) {
+        return transactionRepository.findAllByCustomerPhonenoAndStatusAndDateBetweenOrderByDateAsc(phoneNo, "Pending",startDate,endDate);
 
-    public List<TransactionDao> getOpenInvoiceByCustomer(String startDate, String endDate, String phoneNo) {
-
-        return transactionRepository.findAllByCustomerPhonenoAndStatusAndDateBetween(phoneNo, "Pending",startDate,endDate);
     }
 }
 

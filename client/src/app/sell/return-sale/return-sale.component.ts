@@ -56,8 +56,8 @@ export class ReturnSaleComponent implements OnInit, AfterViewInit {
   discountType: string;
   discountTexBox: number;
   paymentObjectForPaymentSellTable: PaymentObjectForPaymentSellTable[] = [];
-  paymentDao: PaymentDao[] = [];
-  paymentDto = new PaymentDao();
+  paymentDaoList: PaymentDao[] = [];
+  // paymentDto = new PaymentDao();
   dueAmountForTransaction: number;
 
   disablePaymentButtons: boolean = false;  // This help when customer has paid full amount, so now user should not able to click on any payment button.// These both buttons are on payment page pop up.
@@ -104,6 +104,7 @@ export class ReturnSaleComponent implements OnInit, AfterViewInit {
   }
 
   submitProduct(value: any) {
+
     if (typeof value === 'string') {
       // this is the senario where user is adding new product to Sell
       if (this.product != null && this.product.length > 0) {
@@ -275,6 +276,39 @@ export class ReturnSaleComponent implements OnInit, AfterViewInit {
     }
   }
   setPaymentDtoForRetun(paymentType: any, paymentAmount: any) {
+
+    let paymentDaoObj = new PaymentDao();
+
+     if (paymentType == 'CASH') {
+      this.paymentObjectForPaymentSellTable.push({ 'paymentType': 'CASH', 'paymentAmount': paymentAmount });
+      paymentDaoObj.amount = paymentAmount;
+      paymentDaoObj.type = 'CASH';
+      this.paymentDaoList.push(paymentDaoObj);
+      this.validatePaymentForReturn();
+    }
+    if (paymentType == 'CREDIT') {
+      this.paymentObjectForPaymentSellTable.push({ 'paymentType': 'CREDIT', 'paymentAmount': paymentAmount });
+      paymentDaoObj.amount = paymentAmount;
+      paymentDaoObj.type = 'CREDIT';
+      this.paymentDaoList.push(paymentDaoObj);
+      this.validatePaymentForReturn();
+    }
+    if (paymentType == 'CHECK') {
+      this.paymentObjectForPaymentSellTable.push({ 'paymentType': 'CHECK', 'paymentAmount': paymentAmount });
+      paymentDaoObj.amount = paymentAmount;
+      paymentDaoObj.type = 'CHECK';
+      this.paymentDaoList.push(paymentDaoObj);
+      this.validatePaymentForReturn();
+    }
+    if (paymentType == 'STORE CREDIT') {
+      paymentAmount = Math.abs(paymentAmount);
+      this.paymentObjectForPaymentSellTable.push({ 'paymentType': 'STORE CREDIT', 'paymentAmount': paymentAmount });
+      paymentDaoObj.amount = paymentAmount;
+      paymentDaoObj.type = 'STORE CREDIT';
+      this.paymentDaoList.push(paymentDaoObj);
+      this.validatePaymentForReturn();
+    }
+    
     // if (paymentType == 'Cash') {
     //   this.paymentDto.cash = paymentAmount;
     //   this.paymentObjectForPaymentSellTable.push({ 'paymentType': 'Cash', 'paymentAmount': paymentAmount })
@@ -335,7 +369,6 @@ export class ReturnSaleComponent implements OnInit, AfterViewInit {
   deletePaymentFromPaymentModel(payment: PaymentObjectForPaymentSellTable) {
     let index = this.paymentObjectForPaymentSellTable.indexOf(payment);
     if (index > -1) {
-      this.paymentDto = new PaymentDao();
       this.paymentObjectForPaymentSellTable.splice(index, 1);
       this.dueAmountForTransaction = payment.paymentAmount;
       this.payAmountTextBox = this.dueAmountForTransaction;
@@ -350,14 +383,13 @@ export class ReturnSaleComponent implements OnInit, AfterViewInit {
     // This is important to handle when user clock on Close button from payment popup, we need to clear data only when transaction is completed ottherwise just need to close the popup.
     if (null != this.printTransactionDto) {
       // Very importa can not assign to null
-      this.paymentDto = new PaymentDao();
       this.selectedCustomer = null;
       this.paymentObjectForPaymentSellTable = [];
       // This is payment button on the sale page, i need to do this because there is not data in sale table,
       this.disablePaymentButtonOnSale = true;
       this.transactionLineItemDaoList = [];
       this.setTransactionDtoList(this.transactionLineItemDaoList);
-      this.paymentDao = [];
+      this.paymentDaoList = [];
       this.transactionNotes = '';
       this.disableStoreCreditButtons = true;
       this.taxPercent = this.storeDetails.tax;
@@ -395,16 +427,15 @@ export class ReturnSaleComponent implements OnInit, AfterViewInit {
       this.transactionDtoList.previousBalance = this.selectedCustomer.balance;
     }
     // Setting payment dto into transaction dto, because can not send both as @request body mfrom angular..
-    this.paymentDto.date = this.transactionDtoList.date;
-    this.paymentDao.push(this.paymentDto);
-    this.transactionDtoList.paymentDao = this.paymentDao;
+    this.transactionDtoList.paymentDao = this.paymentDaoList;
     // Setting TransactionLineItemDetails
     for (let lineItem of this.transactionLineItemDaoList) {
       lineItem.status = 'Return';
       lineItem.date = this.transactionDtoList.date;
     }
-    for (let payment of this.paymentDao) {
+    for (let payment of this.paymentDaoList) {
       payment.status = 'Return';
+      payment.date = this.transactionDtoList.date;
     }
     this.transactionDtoList.note = this.transactionNotes
     this.transactionDtoList.rma = rma;
