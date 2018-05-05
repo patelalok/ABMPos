@@ -54,6 +54,12 @@ public class ReportController {
 
     }
 
+    @RequestMapping(value = "/getReportByPaymentSummary", method = RequestMethod.GET, produces = "application/json")
+    public List<SalesSummaryDto> getReportByPaymentSummary(String salesSummaryReportBy, String startDate, String endDate)
+    {
+        return reportManager.getReportByPaymentSummary(salesSummaryReportBy, startDate, endDate);
+    }
+
     @RequestMapping(value = "/getReportBySalesSummary", method = RequestMethod.GET, produces = "application/json")
     public List<SalesSummaryDto> getReportBySalesSummary(String salesSummaryReportBy, String startDate, String endDate)
     {

@@ -53,7 +53,7 @@ public class TransactionsManager {
     private TransactionRepository transactionRepository;
 
     @Autowired
-    private  TransactionLineItemRepository transactionLineItemRepository;
+    private TransactionLineItemRepository transactionLineItemRepository;
     @Autowired
     private PaymentRepository paymentRepository;
     @Autowired
@@ -103,7 +103,7 @@ public class TransactionsManager {
 //            }
 
             // This Logic helps to solve the problem with data integrity exception, So i have to delete line item and then insert new details.
-            if(transactionDao.isParkSale()){
+            if (transactionDao.isParkSale()) {
                 transactionLineItemRepository.delete(transactionDao.getTransactionLineItemDaoList());
             }
             if (transactionDao.getTransactionComId() == 0 || transactionDao.isParkSale()) {
@@ -178,10 +178,8 @@ public class TransactionsManager {
 
             // Here i need to handle the case where customer is using Store credit to pay the amount.
             // I need to update the store credit for the customer and handle the transaction.
-            for(PaymentDao payment : transactionDao.getPaymentDao())
-            {
-                if(null != transactionDao.getCustomerPhoneno() && payment.getType().equalsIgnoreCase("Store Credit") && payment.getAmount() > 0)
-                {
+            for (PaymentDao payment : transactionDao.getPaymentDao()) {
+                if (null != transactionDao.getCustomerPhoneno() && payment.getType().equalsIgnoreCase("Store Credit") && payment.getAmount() > 0) {
                     setCustomerStoreCredit(transactionDao);
                 }
             }
@@ -222,10 +220,8 @@ public class TransactionsManager {
 
                 CustomerDao customerDao = customerRepository.findByPhoneNo(transactionDao.getCustomerPhoneno());
 
-                for(PaymentDao paymentDao: transactionDao.getPaymentDao())
-                {
-                    if(null != customerDao && paymentDao.getType().equalsIgnoreCase("Store Credit") && paymentDao.getAmount() > 0)
-                    {
+                for (PaymentDao paymentDao : transactionDao.getPaymentDao()) {
+                    if (null != customerDao && paymentDao.getType().equalsIgnoreCase("Store Credit") && paymentDao.getAmount() > 0) {
                         StoreCreditDao storeCreditDao = new StoreCreditDao();
                         storeCreditDao.setAmount(paymentDao.getAmount());
                         storeCreditDao.setCustomerPhoneno(transactionDao.getCustomerPhoneno());
@@ -263,15 +259,15 @@ public class TransactionsManager {
         //List<PaymentDao> paymentDaoList = new ArrayList<>();
 
 
-        for(PaymentDao payment: transactionDao.getPaymentDao()){
+        for (PaymentDao payment : transactionDao.getPaymentDao()) {
 
             payment.setTransactionComId(transactionDao1.getTransactionComId());
 
             // This logic helps when user is returing the transactin by giving store credit to the user, so here i need to store store credit as negative value to show correct reporting.
-                if (payment.getType().equalsIgnoreCase("Store Credit") && payment.getAmount() > 0 && transactionDao.getStatus().equalsIgnoreCase("Return")) {
-                    // funny logic, i love it.
-                    payment.setAmount(payment.getAmount() * -1);
-                }
+            if (payment.getType().equalsIgnoreCase("Store Credit") && payment.getAmount() > 0 && transactionDao.getStatus().equalsIgnoreCase("Return")) {
+                // funny logic, i love it.
+                payment.setAmount(payment.getAmount() * -1);
+            }
         }
         paymentRepository.save(transactionDao.getPaymentDao());
 //
@@ -371,10 +367,8 @@ public class TransactionsManager {
 
         if (null != customerDao) {
 
-            for(PaymentDao payment : transactionDao.getPaymentDao())
-            {
-                if(null != transactionDao.getCustomerPhoneno())
-                {
+            for (PaymentDao payment : transactionDao.getPaymentDao()) {
+                if (null != transactionDao.getCustomerPhoneno()) {
                     customerDao.setStoreCredit(customerDao.getStoreCredit() - payment.getAmount());
                     customerRepository.save(customerDao);
                 }
@@ -658,7 +652,37 @@ public class TransactionsManager {
         Document doc = new Document(PageSize.A4);
         initializeFonts();
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+
         PdfWriter writer = PdfWriter.getInstance(doc, byteArrayOutputStream);
+        PdfPTable table = new PdfPTable(1);
+        table.setTotalWidth(523);
+        PdfPCell cell = new PdfPCell(new Phrase("***** ALL SALES ARE FINAL NO EXCHANGE AND NO RETURN ACCEPTED *****",FontFactory.getFont(FontFactory.HELVETICA, 8, Font.NORMAL)));
+        cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+        cell.setBorder(0);
+        cell.setBackgroundColor(BaseColor.LIGHT_GRAY);
+
+
+
+
+        table.addCell(cell);
+        cell = new PdfPCell(new Phrase("Any item returned its need to be in original packaging and only eligible for exchange and store credit as long as there is no physical damage and discontinued by carriers. If you prefer a store credit you will be refunded at the current sale price of the item or your purchase price(which is lower) and also 15% Restocking fess apply after 15 days period.",FontFactory.getFont(FontFactory.HELVETICA, 8, Font.NORMAL) ));
+        cell.setBorder(0);
+
+        cell.setBackgroundColor(BaseColor.LIGHT_GRAY);
+        table.addCell(cell);
+
+
+        cell = new PdfPCell(new Phrase("***** NO PHYSICAL DAMAGE COVERED *****",FontFactory.getFont(FontFactory.HELVETICA, 8, Font.NORMAL)));
+        cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+        cell.setBorder(0);
+        cell.setBackgroundColor(BaseColor.LIGHT_GRAY);
+
+
+        table.addCell(cell);
+
+        FooterTable event = new FooterTable(table);
+        writer.setPageEvent(event);
+
         doc.open();
         PdfContentByte cb = writer.getDirectContent();
         transactionDao = getTransactionById(receiptNo);
@@ -719,7 +743,7 @@ public class TransactionsManager {
             if (null != transactionDao.getStoreSetupDao()) {
                 // Image companyLogo = Image.getInstance("C:\\Users\\MK THE PHONE STORE\\Desktop\\MK LOGO.png");
 
-                if(null != transactionDao.getStoreSetupDao().getLogo()){
+                if (null != transactionDao.getStoreSetupDao().getLogo()) {
                     Image companyLogo = Image.getInstance(transactionDao.getStoreSetupDao().getLogo());
                     logo.addElement(companyLogo);
                     logo.setPadding(0);
@@ -944,30 +968,30 @@ public class TransactionsManager {
                     DateFormat payDate = new SimpleDateFormat("MM-dd-yyyy");//NEED TO CHECK THIS
                     DateFormat payTime = new SimpleDateFormat("hh:mm a");
 
-                        PdfPCell cell1 = new PdfPCell();
-                        PdfPCell cell2 = new PdfPCell();
-                        PdfPCell cell3 = new PdfPCell();
-                        PdfPCell cell4 = new PdfPCell();
+                    PdfPCell cell1 = new PdfPCell();
+                    PdfPCell cell2 = new PdfPCell();
+                    PdfPCell cell3 = new PdfPCell();
+                    PdfPCell cell4 = new PdfPCell();
 
-                        cell1.setFixedHeight(30);
-                        cell2.setFixedHeight(30);
-                        cell3.setFixedHeight(30);
-                        cell4.setFixedHeight(30);
+                    cell1.setFixedHeight(30);
+                    cell2.setFixedHeight(30);
+                    cell3.setFixedHeight(30);
+                    cell4.setFixedHeight(30);
 
-                        cell1.setCellEvent(new PositionEvent(new Phrase(10, payment.getType(), FontFactory.getFont(FontFactory.HELVETICA, 12, Font.NORMAL)), 0.5f, 0.5f, Element.ALIGN_CENTER));
-                        cell2.setCellEvent(new PositionEvent(new Phrase(10, "$ " + String.valueOf(payment.getAmount()), FontFactory.getFont(FontFactory.HELVETICA, 12, Font.NORMAL)), 0.5f, 0.5f, Element.ALIGN_CENTER));
-                        cell3.setCellEvent(new PositionEvent(new Phrase(10, String.valueOf(payDate.format(d1)), FontFactory.getFont(FontFactory.HELVETICA, 12, Font.NORMAL)), 0.5f, 0.5f, Element.ALIGN_CENTER));
-                        cell4.setCellEvent(new PositionEvent(new Phrase(10, payTime.format(d1), FontFactory.getFont(FontFactory.HELVETICA, 12, Font.NORMAL)), 0.5f, 0.5f, Element.ALIGN_CENTER));
+                    cell1.setCellEvent(new PositionEvent(new Phrase(10, payment.getType(), FontFactory.getFont(FontFactory.HELVETICA, 12, Font.NORMAL)), 0.5f, 0.5f, Element.ALIGN_CENTER));
+                    cell2.setCellEvent(new PositionEvent(new Phrase(10, "$ " + String.valueOf(payment.getAmount()), FontFactory.getFont(FontFactory.HELVETICA, 12, Font.NORMAL)), 0.5f, 0.5f, Element.ALIGN_CENTER));
+                    cell3.setCellEvent(new PositionEvent(new Phrase(10, String.valueOf(payDate.format(d1)), FontFactory.getFont(FontFactory.HELVETICA, 12, Font.NORMAL)), 0.5f, 0.5f, Element.ALIGN_CENTER));
+                    cell4.setCellEvent(new PositionEvent(new Phrase(10, payTime.format(d1), FontFactory.getFont(FontFactory.HELVETICA, 12, Font.NORMAL)), 0.5f, 0.5f, Element.ALIGN_CENTER));
 
-                        cell1.setBorderColor(BaseColor.LIGHT_GRAY);
-                        cell2.setBorderColor(BaseColor.LIGHT_GRAY);
-                        cell3.setBorderColor(BaseColor.LIGHT_GRAY);
-                        cell4.setBorderColor(BaseColor.LIGHT_GRAY);
+                    cell1.setBorderColor(BaseColor.LIGHT_GRAY);
+                    cell2.setBorderColor(BaseColor.LIGHT_GRAY);
+                    cell3.setBorderColor(BaseColor.LIGHT_GRAY);
+                    cell4.setBorderColor(BaseColor.LIGHT_GRAY);
 
-                        paymentMethod.addCell(cell1);
-                        paymentMethod.addCell(cell2);
-                        paymentMethod.addCell(cell3);
-                        paymentMethod.addCell(cell4);
+                    paymentMethod.addCell(cell1);
+                    paymentMethod.addCell(cell2);
+                    paymentMethod.addCell(cell3);
+                    paymentMethod.addCell(cell4);
 
                 }
 
@@ -1017,74 +1041,103 @@ public class TransactionsManager {
                 doc.add(notes);
                 doc.add(transactionNotes);
             }
+
         }
     }
 
-    public List<TransactionDao> getPendingInvoiceByCustomer(String phoneNo) {
+    public class FooterTable extends PdfPageEventHelper {
+        protected PdfPTable footer;
 
-        return transactionRepository.findAllByStatusEqualsAndCustomerPhoneno("Pending", phoneNo);
+        public FooterTable(PdfPTable footer) {
+            this.footer = footer;
+        }
+
+        public void onEndPage(PdfWriter writer, Document document) {
+            footer.writeSelectedRows(0, -4, 36, 64, writer.getDirectContent());
+        }
+//
+//        this is a footer xcvxcv sdfsdf sdfsdfsdf sfsfsfsfsfsf" +
+//                "sfscdsfsd sdfsdfsdf sfsdfsf s fsfsfsfsfsfsfsfs       sdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsd" +
+//                "sdfsdfsdfsdfsdfsdfasdfasdfasdfsadf sdafasdfsadfasdfasdfsadfasdfasdfasdfadsfasdfasdf" +
+//                "asdfasdfasdfasdfsdafadsfasdfasdfasd  sd  das f adsf asd f ads f ds f asd f sad f s dafsda f sad fa sdf asd f asd f asd f sad f sad f asdf asd f sad f asd f asdf a sdf as df asd f sa dfasdfas df sad f sad f asdf" +
+//                "asdf sda f sdaf asdf asdf a sdf  dsaf dsa f sd f ds f sda f sda f sad f sad f asd fa sd f sdaf as
+
+//    class MyFooter extends PdfPageEventHelper {
+//        Font ffont = new Font(Font.FontFamily.UNDEFINED, 5, Font.ITALIC);
+//
+//        public void onEndPage(PdfWriter writer, Document document) {
+//            PdfContentByte cb = writer.getDirectContent();
+//            Phrase footer = new Phrase(" f asd f asd f asd f as sdf asd", ffont);
+//            ColumnText.showTextAligned(cb, Element.ALIGN_CENTER,
+//                    footer,
+//                    (document.right() - document.left()) / 2 + document.leftMargin(),
+//                    document.bottom() - 10, 0);
+//        }
     }
 
-    public List<TransactionDao> getAllInvoiceByCustomer(String startDate, String endDate, String phoneNo) {
+        public List<TransactionDao> getPendingInvoiceByCustomer(String phoneNo) {
 
-        List<TransactionDao> transactionDaoList = new ArrayList<>();
-        List<TransactionDao> newTransactionDaoList = new ArrayList<>();
+            return transactionRepository.findAllByStatusEqualsAndCustomerPhoneno("Pending", phoneNo);
+        }
+
+        public List<TransactionDao> getAllInvoiceByCustomer(String startDate, String endDate, String phoneNo) {
+
+            List<TransactionDao> transactionDaoList = new ArrayList<>();
+            List<TransactionDao> newTransactionDaoList = new ArrayList<>();
 
 
-        transactionDaoList = transactionRepository.findAllByCustomerPhonenoAndStatusAndDateBetweenOrderByDateDesc(phoneNo, "Pending",startDate, endDate);
+            transactionDaoList = transactionRepository.findAllByCustomerPhonenoAndStatusAndDateBetweenOrderByDateDesc(phoneNo, "Pending", startDate, endDate);
 
-        if (null != transactionDaoList) {
-            for (TransactionDao transactionDao : transactionDaoList) {
+            if (null != transactionDaoList) {
+                for (TransactionDao transactionDao : transactionDaoList) {
 
-                List<PaymentDao> paymentDaoList = paymentRepository.findAllByTransactionComId(transactionDao.getTransactionComId());
-                if (null != paymentDaoList) {
-                    transactionDao.setPaymentDao(paymentDaoList);
+                    List<PaymentDao> paymentDaoList = paymentRepository.findAllByTransactionComId(transactionDao.getTransactionComId());
+                    if (null != paymentDaoList) {
+                        transactionDao.setPaymentDao(paymentDaoList);
+                    }
+
+                    newTransactionDaoList.add(transactionDao);
                 }
-
-                newTransactionDaoList.add(transactionDao);
             }
+            return newTransactionDaoList;
         }
-        return newTransactionDaoList;
-    }
 
-    public List<PaymentDao> getPaymentDetailsById(int transactionCompId) {
+        public List<PaymentDao> getPaymentDetailsById(int transactionCompId) {
 
-        return paymentRepository.findAllByTransactionComId(transactionCompId);
-    }
-
-
-    private void initializeFonts() {
-
-
-        try {
-            bfBold = BaseFont.createFont(BaseFont.HELVETICA_BOLD, BaseFont.CP1252, BaseFont.NOT_EMBEDDED);
-            bf = BaseFont.createFont(BaseFont.HELVETICA, BaseFont.CP1252, BaseFont.NOT_EMBEDDED);
-
-        } catch (DocumentException | IOException e) {
-            e.printStackTrace();
+            return paymentRepository.findAllByTransactionComId(transactionCompId);
         }
 
 
-    }
+        private void initializeFonts() {
 
-    public CustomerFinancialDto getCustomerFinancialDetails(String startDate, String endDate, String phoneNo) {
 
-        CustomerFinancialDto customerFinancialDto = new CustomerFinancialDto();
+            try {
+                bfBold = BaseFont.createFont(BaseFont.HELVETICA_BOLD, BaseFont.CP1252, BaseFont.NOT_EMBEDDED);
+                bf = BaseFont.createFont(BaseFont.HELVETICA, BaseFont.CP1252, BaseFont.NOT_EMBEDDED);
 
-        List<Object[]> result = transactionRepository.getCustomerFinancialDetails(startDate,endDate,phoneNo);
-
-        if(null !=result)
-        {
-            for(Object[] j: result)
-            {
-                customerFinancialDto.setDueBalance(Double.parseDouble(j[0].toString()));
-                customerFinancialDto.setTotalSpending(Double.parseDouble(j[1].toString()));
-                customerFinancialDto.setTotalReturn(Double.parseDouble(j[2].toString()));
+            } catch (DocumentException | IOException e) {
+                e.printStackTrace();
             }
+
+
         }
 
-        return customerFinancialDto;
-    }
+        public CustomerFinancialDto getCustomerFinancialDetails(String startDate, String endDate, String phoneNo) {
+
+            CustomerFinancialDto customerFinancialDto = new CustomerFinancialDto();
+
+            List<Object[]> result = transactionRepository.getCustomerFinancialDetails(startDate, endDate, phoneNo);
+
+            if (null != result) {
+                for (Object[] j : result) {
+                    customerFinancialDto.setDueBalance(Double.parseDouble(j[0].toString()));
+                    customerFinancialDto.setTotalSpending(Double.parseDouble(j[1].toString()));
+                    customerFinancialDto.setTotalReturn(Double.parseDouble(j[2].toString()));
+                }
+            }
+
+            return customerFinancialDto;
+        }
 
 //    private void printPageNumber(PdfContentByte cb) {
 //
@@ -1112,4 +1165,5 @@ public class TransactionsManager {
 //    }
 
 
-}
+    }
+

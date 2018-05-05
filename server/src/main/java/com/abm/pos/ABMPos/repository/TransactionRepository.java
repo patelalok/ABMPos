@@ -159,6 +159,9 @@ public interface TransactionRepository extends JpaRepository<TransactionDao, Int
             "ON p.transaction_com_id = t.transaction_com_id\n" +
             "WHERE t.date BETWEEN '2018-01-15 09:28:06' AND '2018-12-15 09:28:06' AND t.customer_phoneno = 7707030801;", nativeQuery = true)
     List<Object[]> getCustomerStatement();
+//
+//    @Query("")
+//    List<Object[]> getPaymentSummaryReport(String startDate, String endDate);
 
 //    @Query(value = "SELECT t.transaction_com_id,t.date, t.total_amount,t.transaction_balance\n" +
 //            "FROM transaction t \n" +

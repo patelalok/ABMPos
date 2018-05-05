@@ -1244,5 +1244,11 @@ public class ReportManager {
         return transactionRepository.findAllByCustomerPhonenoAndStatusAndDateBetweenOrderByDateAsc(phoneNo, "Pending",startDate,endDate);
 
     }
+
+    public List<SalesSummaryDto> getReportByPaymentSummary(String salesSummaryReportBy, String startDate, String endDate) {
+
+        //List<Object[]> result = transactionRepository.getPaymentSummaryReport(startDate,endDate);
+        return null;
+    }
 }
 
