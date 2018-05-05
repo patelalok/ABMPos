@@ -2,6 +2,7 @@ package com.abm.pos.ABMPos.controller;
 
 import com.abm.pos.ABMPos.dao.ProductDao;
 import com.abm.pos.ABMPos.dao.VendorDao;
+import com.abm.pos.ABMPos.dto.Response;
 import com.abm.pos.ABMPos.manager.VendorManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -45,7 +46,19 @@ public class VendorController {
     @RequestMapping(value = "/deleteVendor", method = RequestMethod.DELETE)
     public ResponseEntity deleteVendor(@RequestParam int vendorId)
     {
-        vendorManager.deleteVendor(vendorId);
-        return new ResponseEntity(HttpStatus.OK);
+        Response response = new Response();
+
+        String res = vendorManager.deleteVendor(vendorId);
+        if(res.contains("Successfully"))
+        {
+            response.setMessage(res);
+            System.out.println("Vendor Deleted Successfully!!");
+            return new ResponseEntity<>(response,HttpStatus.OK);
+        }
+        else
+        {
+            response.setMessage(res);
+            return new ResponseEntity<>(response,HttpStatus.CONFLICT);
+        }
     }
 }

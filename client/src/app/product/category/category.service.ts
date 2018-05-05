@@ -20,7 +20,7 @@ export class CategoryService {
     return this.http.post(this.url+'/addCategory', category);
   }
 
-  deleteCategory(categoryId: number) {
+  deleteCategory(categoryId: number): Observable<Response> {
     return this.http.delete(this.url+'/deleteCategory?categoryId=' + categoryId)
   }
 }

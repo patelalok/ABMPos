@@ -2,6 +2,7 @@ package com.abm.pos.ABMPos.controller;
 
 import com.abm.pos.ABMPos.dao.BrandDao;
 import com.abm.pos.ABMPos.dao.CategoryDao;
+import com.abm.pos.ABMPos.dto.Response;
 import com.abm.pos.ABMPos.manager.BrandManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -38,7 +39,19 @@ public class BrandController {
     @RequestMapping(value = "/deleteBrand", method = RequestMethod.DELETE)
     public ResponseEntity deleteBrand(@RequestParam int brandId)
     {
-        brandManager.deleteBrand(brandId);
-        return new ResponseEntity(HttpStatus.OK);
+        Response response = new Response();
+
+        String res = brandManager.deleteBrand(brandId);
+        if(res.contains("Successfully"))
+        {
+            response.setMessage(res);
+            System.out.println("Brand Deleted Successfully!!");
+            return new ResponseEntity<>(response,HttpStatus.OK);
+        }
+        else
+        {
+            response.setMessage(res);
+            return new ResponseEntity<>(response,HttpStatus.CONFLICT);
+        }
     }
 }

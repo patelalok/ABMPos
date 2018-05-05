@@ -22,8 +22,8 @@ export class BrandService {
      return this.http.post(this.url+'/addBrand', brand);
     }
 
-      deleteBrand(brandId: number)
+      deleteBrand(brandId: number) : Observable<Response>
     {
-      this.http.delete(this.url+'/deleteBrand?brandId=' + brandId)
+      return this.http.delete(this.url+'/deleteBrand?brandId=' + brandId)
     }
 }

@@ -25,15 +25,8 @@ export class VendorService {
     });
     }
 
-      deleteVendor(vendorId: number)
+      deleteVendor(vendorId: number): Observable<Response>
     {
-      this.http.delete('http://localhost:8080/deleteVendor?vendorId=' + vendorId)
-      .subscribe(data => {
-        alert('Vendor Deleted !!');
-        console.log(data);
-      },
-        error => {
-      console.log(JSON.stringify(error.json()));
-    });
+      return this.http.delete('http://localhost:8080/deleteVendor?vendorId=' + vendorId);
     }
 }

@@ -58,7 +58,9 @@ export class CategoryComponent implements OnInit {
         .subscribe(data => {
 
             if(data){
-                this.toastr.success('Category Added Successfully!!', 'Success!!')
+                this.toastr.success('Category Added Successfully!!', 'Success!!');
+                this.categoryForm.get('name').setValue('');
+                this.categoryForm.get('description').setValue('');
             }
             console.log(data);
           },
@@ -91,10 +93,26 @@ export class CategoryComponent implements OnInit {
         this.selectedCategoryForDelete = cate;
     }
     deleteCategory() {
-
-        let index = this.categoryDto.findIndex((el) => el.name == this.selectedCategoryForDelete.name); 
-        this.categoryDto = this.categoryDto.splice(0, index).concat(this.categoryDto.splice(index));
-        this.categoryService.deleteCategory(this.selectedCategoryForDelete.categoryId);
+        this.categoryService.deleteCategory(this.selectedCategoryForDelete.categoryId)
+        .subscribe((data)=>{
+            if(data && data.status == 200){
+                let index = this.categoryDto.findIndex((el) => el.name == this.selectedCategoryForDelete.name);
+                if(index > -1)
+                {
+                    this.categoryDto.splice(index,1);
+                    this.categoryDto = this.categoryDto.slice();
+                    this.toastr.success(data.json().message,'Success!!');
+                }
+                // this.categoryDto = this.categoryDto.splice(0, index).concat(this.categoryDto.splice(index));            
+            }
+            else {
+                this.toastr.error(data.json().message,'Error!!');
+            }
+        },
+        error => {
+            this.toastr.error('Something Goes Wrong!!', 'Error!!')
+    }
+    )
     } 
 
     showDialogToAdd() {
@@ -104,5 +122,9 @@ export class CategoryComponent implements OnInit {
 
 class PrimeCategory implements CategoryTest {
     constructor(public name?, public description?) {}
+}
+
+export class Response {
+    message: string;
 }
 

@@ -1,6 +1,7 @@
 package com.abm.pos.ABMPos.controller;
 
 import com.abm.pos.ABMPos.dao.ModelDao;
+import com.abm.pos.ABMPos.dto.Response;
 import com.abm.pos.ABMPos.manager.ModelManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -36,7 +37,19 @@ public class ModelController {
     @RequestMapping(value = "/deleteModel", method = RequestMethod.DELETE)
     public ResponseEntity deleteModel(@RequestParam int modelId)
     {
-        modelManager.deleteModel(modelId);
-        return new ResponseEntity(HttpStatus.OK);
+        Response response = new Response();
+
+        String res = modelManager.deleteModel(modelId);
+        if(res.contains("Successfully"))
+        {
+            response.setMessage(res);
+            System.out.println("Model Deleted Successfully!!");
+            return new ResponseEntity<>(response,HttpStatus.OK);
+        }
+        else
+        {
+            response.setMessage(res);
+            return new ResponseEntity<>(response,HttpStatus.CONFLICT);
+        }
     }
 }

@@ -57,6 +57,9 @@ export class ModelComponent implements OnInit {
                 this.modelDto = this.modelDto.slice();
                 this.displayDialog = false;
               this.toastr.success('Model Added Successfully!!', 'Success!');
+              this.modelForm.get('name').setValue('');
+              this.modelForm.get('description').setValue('');
+
               console.log(data);
             },
             (error) => {
@@ -85,10 +88,25 @@ export class ModelComponent implements OnInit {
     }
 
     deleteModel() {
-
-        let index = this.modelDto.findIndex((el) => el.name == this.selectedModelForDelete.name); 
-        this.modelDto = this.modelDto.splice(0, index).concat(this.modelDto.splice(index)); 
-        this.modelService.deleteModel(this.selectedModelForDelete.modelId);
+        this.modelService.deleteModel(this.selectedModelForDelete.modelId)
+        .subscribe((data)=>{
+            if(data && data.status == 200){
+                let index = this.modelDto.findIndex((el) => el.name == this.selectedModelForDelete.name); 
+                if(index > -1)
+                {
+                    this.modelDto.splice(index,1);
+                    this.modelDto = this.modelDto.slice();
+                    this.toastr.success(data.json().message,'Success!!');
+                }
+            }
+            else {
+                this.toastr.error(data.json().message,'Error!!');
+            }
+        },
+        error => {
+            this.toastr.error('Something Goes Wrong!!', 'Error!!')
+    }
+    )
     }
 
     showDialogToAdd() {

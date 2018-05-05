@@ -1,7 +1,9 @@
 package com.abm.pos.ABMPos.manager;
 
 import com.abm.pos.ABMPos.dao.CategoryDao;
+import com.abm.pos.ABMPos.dao.ProductDao;
 import com.abm.pos.ABMPos.repository.CategoryRepository;
+import com.abm.pos.ABMPos.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -18,14 +20,42 @@ public class CategoryManager {
     @Autowired
     private CategoryRepository categoryRepository;
 
+    @Autowired
+    private ProductRepository productRepository;
+
 
     public void addCategory(CategoryDao categoryDao)
     {
         categoryRepository.save(categoryDao);
     }
 
-    public void deleteCategory(int categoryId) {
-        categoryRepository.delete(categoryId);
+    public String deleteCategory(int categoryId) {
+
+        boolean isDeletableCategory = true;
+        String response = "";
+
+
+        try
+        {
+            List<ProductDao> productDaoList = productRepository.findAllByCategoryId(String.valueOf(categoryId));
+            if(null != productDaoList && productDaoList.size() > 0)
+            {
+                isDeletableCategory = false;
+                System.out.println("Can Not Deleted Category!!!");
+                response = "Can Not Delete Category, Please Delete All Products From This Category First";
+            }
+
+            if(isDeletableCategory){
+                categoryRepository.delete(categoryId);
+                System.out.println("Category Deleted Successfully!!!");
+                response = "Category Delete Successfully";
+            }
+        }
+        catch (Exception e){
+            System.out.println("Opps Some Exception is coming!!!");
+        }
+
+        return response;
     }
 
     public List<CategoryDao> getCategoryForAddProductPage() {

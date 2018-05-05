@@ -5,6 +5,7 @@ import { Category, CategoryTest, VendorTest, Vendor } from 'app/product/product.
 import { Message } from 'primeng/primeng';
 import { VendorService } from 'app/product/vendor/vendor.service';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { ToastsManager } from 'ng2-toastr';
 
 
 @Component({
@@ -25,7 +26,7 @@ export class VendorComponent implements OnInit {
 
     vendor: VendorTest = new PrimeVendor();
 
-    constructor(private vendorService: VendorService, private productService: ProductService, private formBuilder: FormBuilder) { }
+    constructor(private vendorService: VendorService, private productService: ProductService, private formBuilder: FormBuilder, private toastr: ToastsManager) { }
 
     ngOnInit() {
 
@@ -102,10 +103,24 @@ export class VendorComponent implements OnInit {
         this.selectedVendorForDelete = vendor;
     }
     deleteVendor() {
-
-        let index = this.vendorDto.findIndex((el) => el.name == this.selectedVendorForDelete.name);
-        this.vendorDto = this.vendorDto.splice(0, index).concat(this.vendorDto.splice(index));
-        this.vendorService.deleteVendor(this.selectedVendorForDelete.vendorId);
+        this.vendorService.deleteVendor(this.selectedVendorForDelete.vendorId)
+        .subscribe((data)=>{
+            if(data && data.status == 200){
+                let index = this.vendorDto.findIndex((el) => el.name == this.selectedVendorForDelete.name);
+                if(index > -1)
+                {
+                    this.vendorDto.splice(index,1);
+                    this.vendorDto = this.vendorDto.slice();
+                    this.toastr.success(data.json().message,'Success!!');
+                }
+            }
+            else {
+                this.toastr.error(data.json().message,'Error!!');
+            }
+        },
+        error => {
+            this.toastr.error('Something Goes Wrong!!', 'Error!!')
+    })
     }
 
     showDialogToAdd() {

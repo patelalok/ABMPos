@@ -39,6 +39,8 @@ public interface ProductRepository extends JpaRepository<ProductDao, Integer> {
     //@Cacheable(value = "products")
     List<ProductDao> getAllActiveProductForSellPage();
 
+    List<ProductDao> findAllByCategoryId(String categoryId);
+
     ProductDao findOneByProductNo(String productNo);
 
     @Modifying
@@ -87,4 +89,10 @@ public interface ProductRepository extends JpaRepository<ProductDao, Integer> {
             "GROUP BY p.description, p.product_no\n" +
             "ORDER BY profit DESC LIMIT 50", nativeQuery = true)
     List<Object[]> getTop50MostProfitableItem(String startDate, String endDate);
+
+    List<ProductDao> findAllByBrandId(String s);
+
+    List<ProductDao> findAllByModelId(String s);
+
+    List<ProductDao> findAllByVendorId(String s);
 }

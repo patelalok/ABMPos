@@ -1,6 +1,7 @@
 package com.abm.pos.ABMPos.controller;
 
 import com.abm.pos.ABMPos.dao.CategoryDao;
+import com.abm.pos.ABMPos.dto.Response;
 import com.abm.pos.ABMPos.manager.CategoryManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -35,11 +36,23 @@ public class CategoryController {
         return categoryManager.getCategoryForAddProductPage();
     }
 
-    @RequestMapping(value = "/deleteCategory", method = RequestMethod.DELETE)
+    @RequestMapping(value = "/deleteCategory", method = RequestMethod.DELETE, produces = "application/json")
     public ResponseEntity deleteCategory(@RequestParam int categoryId)
     {
-        categoryManager.deleteCategory(categoryId);
-        System.out.println("Category Deleted Successfully!!");
-        return new ResponseEntity(HttpStatus.OK);
+        Response response = new Response();
+
+        String res = categoryManager.deleteCategory(categoryId);
+        if(res.contains("Successfully"))
+        {
+            response.setMessage(res);
+            System.out.println("Category Deleted Successfully!!");
+            return new ResponseEntity<>(response,HttpStatus.OK);
+        }
+        else
+        {
+            response.setMessage(res);
+            return new ResponseEntity<>(response,HttpStatus.CONFLICT);
+        }
+
     }
 }

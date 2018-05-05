@@ -264,13 +264,8 @@ export class SaleComponent implements OnInit, AfterViewInit {
 
   submitProduct(value: any) {
 
-    this.productList.forEach((p)=>{
-      if(p.productNo == value.productNo){
-        console.log('product form product list', p);
-      }
-    })
     let productFound: boolean;
-    if(value.length > 6){
+    if(value.length > 7 && (value.match(/[0-9]/i))){
       console.log('from submit product', value);
       this.productList.forEach((product)=>{
         if(value == product.productNo){

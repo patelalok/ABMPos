@@ -57,6 +57,9 @@ export class BrandComponent implements OnInit {
         .subscribe(
             (data) => {
               this.toastr.success('Brand Added Successfully!!', 'Success!');
+              this.brandForm.get('name').setValue('');
+              this.brandForm.get('description').setValue('');
+
               console.log(data);
             },
             (error) => {
@@ -87,9 +90,25 @@ export class BrandComponent implements OnInit {
         this.selectedBrandForDelete = brand;
     }
     deleteBrand() {
-        let index = this.brandDto.findIndex((el) => el.name == this.selectedBrandForDelete.name); 
-        this.brandDto = this.brandDto.splice(0, index).concat(this.brandDto.splice(index)); 
-        this.brandService.deleteBrand(this.selectedBrandForDelete.brandId);
+        this.brandService.deleteBrand(this.selectedBrandForDelete.brandId)
+        .subscribe((data)=>{
+            if(data && data.status == 200){
+                let index = this.brandDto.findIndex((el) => el.name == this.selectedBrandForDelete.name); 
+                if(index > -1)
+                {
+                    this.brandDto.splice(index,1);
+                    this.brandDto = this.brandDto.slice();
+                    this.toastr.success(data.json().message,'Success!!');
+                }
+            }
+            else {
+                this.toastr.error(data.json().message,'Error!!');
+            }
+        },
+        error => {
+            this.toastr.error('Something Goes Wrong!!', 'Error!!')
+    })
+        
     }
 
     showDialogToAdd() {
