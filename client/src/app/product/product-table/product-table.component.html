@@ -155,6 +155,14 @@
 
                 <div style="display:flex; justify-content: space-between;">
                     <!-- <div class="col-md-4"> -->
+
+                        <mat-slide-toggle
+                        class="example-margin"
+                        [color]="color"
+                        [checked]="checked"
+                        [disabled]="disabled">
+                      Show RMA!
+                    </mat-slide-toggle>
                     <div> <select class="form-control form-control-lg" [(ngModel)]="this.productHistoryDropDown" (change)="this.getProductHistory()">
                             <option>Today</option>
                             <option>Yesterday</option>

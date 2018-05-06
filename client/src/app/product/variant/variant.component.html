@@ -12,17 +12,16 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td></td>
+                        <tr *ngFor = "let v of this.variantDto"> 
+                            <td (click) = "this.getVariantDetails(v)">{{v}}</td>
                         </tr>
                     </tbody>
                 </table>
             </div>
 
             <div class="col-md-8">
-                <p-dataTable [value]="" class="m-1" [editable]="true" scrollable="true" [responsive]="true" scrollHeight="300px" (onEditComplete)="this.updateVariantValue($event)">
-                    <p-column field="imei" header="Variant Value" [editable]="true"></p-column>
-
+                <p-dataTable [value]="this.variantDetailsDto" class="m-1" [editable]="true" scrollable="true" [responsive]="true" scrollHeight="300px" (onEditComplete)="this.updateVariantValue($event)">
+                    <p-column field="value" header="Variant Value" [editable]="true"></p-column>
                 </p-dataTable>
             </div>
         </div>

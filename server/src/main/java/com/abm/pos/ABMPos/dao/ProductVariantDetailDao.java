@@ -1,17 +1,16 @@
 package com.abm.pos.ABMPos.dao;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 /**
  * Created by apatel2 on 5/16/17.
  */
 
 @Entity
-@Table(name = "product_variant_detail")
+@Table(name = "product_variant_details")
 public class ProductVariantDetailDao {
 
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Id
     private int id;
 
