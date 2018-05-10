@@ -96,6 +96,13 @@ export class Category implements ProductCommon {
   name: string;
   description: string;
 }
+
+export class SubCategory implements ProductCommon {
+  id: number;
+  name: string;
+  categoryId: number;
+  description: string;
+}
 export interface CategoryTest {
   categoryId?;
   name?;

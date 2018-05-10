@@ -232,8 +232,7 @@ public class ProductManager{
     }
 
     public void addProductVariantDetails(ProductVariantDetailDao productVariantDetailDao) {
-
-       // productVariantDetailsRepository.save(productVariantDetailDao);
+        productVariantDetailsRepository.save(productVariantDetailDao);
     }
 
     public List<ProductVariantDetailDao> getProductVariantDetails() {

@@ -1297,6 +1297,7 @@ export class Product {
   // productVariantNo: number;
   description: string;
   categoryId: number;
+  subCategoryId?:number;
   brandId?: number
   vendorId?: number;
   modelId?: number;

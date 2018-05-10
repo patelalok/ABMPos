@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ProductVariantDetail } from '../product.component';
 import { ProductService } from '../product.service';
+import { ToastsManager } from 'ng2-toastr';
 
 @Component({
   selector: 'app-variant',
@@ -11,7 +12,7 @@ export class VariantComponent implements OnInit {
 
   variantDto: ProductVariantDetail[] = [];
   variantDetailsDto: ProductVariantDetail[] = [];
-  constructor(private productService: ProductService) { }
+  constructor(private productService: ProductService, private toastr: ToastsManager) { }
 
   ngOnInit() {
     this.getAllVariant();
@@ -38,6 +39,18 @@ export class VariantComponent implements OnInit {
 
   updateVariantValue(event){
 
+    this.productService.addProductVariantDetails(event.data)
+    .subscribe((response)=>{
+      if(response || response.statusText == 'OK'){
+        this.toastr.success('Variant Details Updated Successfully!!');
+      }
+    },
+    error =>{
+      this.toastr.error('Opps Something Goes Wrong!!');
+    }
+  )
+
+    console.log(event);
   }
 
 

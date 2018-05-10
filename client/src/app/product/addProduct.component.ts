@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ProductService } from "app/product/product.service";
 // import { FormBuilder } from "@angular/forms/forms";
 import { FormBuilder, Validators, FormGroup, FormControl } from '@angular/forms';
-import { Category, Brand, Vendor, ProductVariantDetail, Model, ProductInventory } from "app/product/product.component";
+import { Category, Brand, Vendor, ProductVariantDetail, Model, ProductInventory, SubCategory } from "app/product/product.component";
 import * as moment from 'moment';
 import { slideInOutAnimation } from 'app/shared/animations/slide-in-out.animation';
 import { ToastsManager } from 'ng2-toastr/src/toast-manager';
@@ -24,6 +24,7 @@ export class AddProductComponent implements OnInit {
   form: FormGroup;
   backendProductDto: Product[];
   categoryDto: Category[];
+  subCategoryDto: SubCategory[];
   brandDto: Brand[];
   vendorDto: Vendor[];
   modelDto: Model[];
@@ -57,6 +58,7 @@ export class AddProductComponent implements OnInit {
         'productNo': [null, [Validators.required, Validators.pattern('^[0-9]+$')]],
         'description': ['', Validators.required],
         'category': [null, Validators.required],
+        'subCategory':[null],
         'brand': [null, Validators.required],
         'vendor': [null],
         'model': [null],
@@ -77,6 +79,13 @@ export class AddProductComponent implements OnInit {
         this.categoryDto = categories;
         this.form.get('category').setValue(this.categoryDto[0]);
         console.log('CategoryList' + this.categoryDto);
+      });
+
+      this.productService.getSubCategoryDetailsByCategoryId(12)
+      .subscribe((subCategory: SubCategory[]) => {
+        this.subCategoryDto = subCategory;
+        // this.form.get('category').setValue(this.categoryDto[0]);
+        // console.log('CategoryList' + this.categoryDto);
       });
 
     this.productService.getBrandDetails()
@@ -207,6 +216,16 @@ export class AddProductComponent implements OnInit {
       console.log(event);
   }
 
+  onSelect(categoryId: any){
+
+console.log(categoryId);
+    // this.productService.getSubCategoryDetailsByCategoryId(12)
+    // .subscribe((subCategory: SubCategory[]) => {
+    //   this.subCategoryDto = subCategory;
+    //   this.subCategoryDto = this.subCategoryDto.slice();
+    // })
+  }
+
   showDialog() {
 
     this.displayDialog = !this.displayDialog;
@@ -239,6 +258,7 @@ export interface ProductForm {
   productVariantNo?: number;
   description: string;
   category?: Category;
+  subCategory?:SubCategory;
   brand?: Brand
   vendor?: Vendor;
   model?: Model;

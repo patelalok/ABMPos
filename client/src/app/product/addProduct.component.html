@@ -50,12 +50,28 @@
                                 <label class="control-label">Category Name:</label>
                             </div>
                             <div class="col-md-8 product-textbox">
-                                <select class="form-control" formControlName="category">
-                                            <option *ngFor="let category of categoryDto" [ngValue]= "category">
+                                <select class="form-control" formControlName="category" (change)="onSelect($event.target.value)">
+                                            <option *ngFor="let category of categoryDto" [ngValue]= "category" >
                                                 {{category.name}}
                                                 </option>
                                         </select>
                                 <p *ngIf="form.get('category').hasError('required')" class="alert alert-danger">
+                                    *Required!!</p>
+                            </div>
+                        </div>
+
+                        <div class="row m-2">
+
+                            <div class="col-md-4 product-textbox">
+                                <label class="control-label">Sub-Category Name:</label>
+                            </div>
+                            <div class="col-md-8 product-textbox">
+                                <select class="form-control" formControlName="subCategory">
+                                            <option *ngFor="let subCategory of this.subCategoryDto" [ngValue]= "subCategory">
+                                                {{subCategory.name}}
+                                                </option>
+                                        </select>
+                                <p *ngIf="form.get('subCategory').hasError('required')" class="alert alert-danger">
                                     *Required!!</p>
                             </div>
                         </div>

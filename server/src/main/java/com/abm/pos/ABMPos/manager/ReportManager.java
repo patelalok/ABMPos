@@ -157,30 +157,22 @@ public class ReportManager {
     public List<SalesSummaryDto> getReportBySalesSummary(String salesReportBy, String startDate, String endDate) {
 
         if (salesReportBy.equalsIgnoreCase("Sales By Year")) {
-
             List<Object[]> result = transactionRepository.getYearlySalesReport(startDate, endDate);
             return setDataForCommonSalesReport(result);
-//            }
         } else if (salesReportBy.equalsIgnoreCase("Sales By Month")) {
             List<Object[]> result = transactionRepository.getMonthlySalesReport(startDate, endDate);
             return setDataForCommonSalesReport(result);
-//            }
-        }
-        // TODO NEED TO FIGURE THIS OUT.
-        else if (salesReportBy.equalsIgnoreCase("Sales By Week")) {
-
+        } else if (salesReportBy.equalsIgnoreCase("Sales By Week")) {
+            List<Object[]> result = transactionRepository.getWeeklySalesReport(startDate, endDate);
+            return setDataForCommonSalesReport(result);
         } else if (salesReportBy.equalsIgnoreCase("Sales By Day")) {
             List<Object[]> result = transactionRepository.getMonthlySalesReport(startDate, endDate);
             return setDataForCommonSalesReport(result);
-//            }
         } else if (salesReportBy.equalsIgnoreCase("Sales By Hour")) {
             List<Object[]> result = transactionRepository.getHourlySalesReport(startDate, endDate);
             return setDataForCommonSalesReport(result);
-//            }
         }
-
         return null;
-
     }
 
     private List<SalesSummaryDto> setDataForCommonSalesReport(List<Object[]> result) {
@@ -189,13 +181,13 @@ public class ReportManager {
 
         double totalCash = 0;
         double totalCredit = 0;
-        double totalDebit = 0;
+//        double totalDebit = 0;
         double totalCheck = 0;
-        double totalTax = 0;
-        double totalDiscount = 0;
-        double totalAmount = 0;
-        double totalProfit = 0;
-        double totalDueAmount = 0;
+//        double totalTax = 0;
+//        double totalDiscount = 0;
+//        double totalAmount = 0;
+//        double totalProfit = 0;
+//        double totalDueAmount = 0;
         double totalStoreCredit = 0;
         // double totalMarkup = 0;
 
@@ -206,14 +198,14 @@ public class ReportManager {
                 salesSummaryDto.setName(j[0].toString());
                 salesSummaryDto.setCash(Double.parseDouble(j[1].toString()));
                 salesSummaryDto.setCredit(Double.parseDouble(j[2].toString()));
-                salesSummaryDto.setDebit(Double.parseDouble(j[3].toString()));
-                salesSummaryDto.setCheck(Double.parseDouble(j[4].toString()));
-                salesSummaryDto.setStoreCredit(Double.parseDouble(j[5].toString()));
-                salesSummaryDto.setTax(Double.parseDouble(j[6].toString()));
-                salesSummaryDto.setTotalAmount(Double.parseDouble(j[7].toString()));
-                salesSummaryDto.setDueBalance(Double.parseDouble(j[8].toString()));
-                salesSummaryDto.setDiscount(Double.parseDouble(j[9].toString()));
-                salesSummaryDto.setProfit(Double.parseDouble(j[10].toString()));
+//                salesSummaryDto.setDebit(Double.parseDouble(j[3].toString()));
+                salesSummaryDto.setCheck(Double.parseDouble(j[3].toString()));
+                salesSummaryDto.setStoreCredit(Double.parseDouble(j[4].toString()));
+//                salesSummaryDto.setTax(Double.parseDouble(j[6].toString()));
+//                salesSummaryDto.setTotalAmount(Double.parseDouble(j[7].toString()));
+//                salesSummaryDto.setDueBalance(Double.parseDouble(j[8].toString()));
+//                salesSummaryDto.setDiscount(Double.parseDouble(j[9].toString()));
+//                salesSummaryDto.setProfit(Double.parseDouble(j[10].toString()));
 
                 salesSummaryDtoList.add(salesSummaryDto);
             }
@@ -222,16 +214,16 @@ public class ReportManager {
 
                 totalCash = +totalCash + sales.getCash();
                 totalCredit = +totalCredit + sales.getCredit();
-                totalDebit = +totalDebit + sales.getDebit();
+//                totalDebit = +totalDebit + sales.getDebit();
                 totalCheck = +totalCheck + sales.getCheck();
                 totalStoreCredit = +totalStoreCredit + sales.getStoreCredit();
 
-                totalTax = +totalTax + sales.getTax();
-                totalDiscount = +totalDiscount + sales.getDiscount();
-
-                totalAmount = +totalAmount + sales.getTotalAmount();
-                totalDueAmount = +totalDueAmount + sales.getDueBalance();
-                totalProfit = +totalProfit + sales.getProfit();
+//                totalTax = +totalTax + sales.getTax();
+//                totalDiscount = +totalDiscount + sales.getDiscount();
+//
+//                totalAmount = +totalAmount + sales.getTotalAmount();
+//                totalDueAmount = +totalDueAmount + sales.getDueBalance();
+//                totalProfit = +totalProfit + sales.getProfit();
 
             }
 
@@ -240,14 +232,14 @@ public class ReportManager {
             salesSummaryDto.setName("TOTAL");
             salesSummaryDto.setCash(totalCash);
             salesSummaryDto.setCredit(totalCredit);
-            salesSummaryDto.setDebit(totalDebit);
+//            salesSummaryDto.setDebit(totalDebit);
             salesSummaryDto.setCheck(totalCheck);
             salesSummaryDto.setStoreCredit(totalStoreCredit);
-            salesSummaryDto.setTax(totalTax);
-            salesSummaryDto.setDiscount(totalDiscount);
-            salesSummaryDto.setTotalAmount(totalAmount);
-            salesSummaryDto.setDueBalance(totalDueAmount);
-            salesSummaryDto.setProfit(totalProfit);
+//            salesSummaryDto.setTax(totalTax);
+//            salesSummaryDto.setDiscount(totalDiscount);
+//            salesSummaryDto.setTotalAmount(totalAmount);
+//            salesSummaryDto.setDueBalance(totalDueAmount);
+//            salesSummaryDto.setProfit(totalProfit);
 
             salesSummaryDtoList.add(salesSummaryDto);
 
@@ -260,10 +252,8 @@ public class ReportManager {
     public List<SalesDto> getReportBySales(String salesReportBy, String startDate, String endDate) {
 
         if (salesReportBy.equalsIgnoreCase("Sales By Category")) {
-
             List<Object[]> result = categoryRepository.getSalesReportByCategory(startDate, endDate);
             return setDataForCommonReportBySales(result);
-
         } else if (salesReportBy.equalsIgnoreCase("Sales By Brand")) {
             List<Object[]> result = brandRepository.getSalesReportByBrand(startDate, endDate);
             return setDataForCommonReportBySales(result);

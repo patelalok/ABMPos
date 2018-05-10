@@ -3,6 +3,14 @@
         Manage Variant
     </mat-card-title>
     <mat-card-content>
+        <div class="row" style="display:flex;justify-content: flex-end;">
+            <div>
+                    <button type="button" data-toggle="modal" data-target="#addVariant" mat-raised-button class="bg-primary text-white action-button-lg" style="margin-right: 15px">
+                        <i class="fa fa-plus-square" aria-hidden="true" label="Add"></i>
+                        Add Variant
+                    </button>
+            </div>
+        </div>
         <div class="row">
             <div class="col-md-4">
                 <table class="table table-hover table-bordered table-bordered" style="margin-top: 22px;">
@@ -27,3 +35,31 @@
         </div>
     </mat-card-content>
 </mat-card>
+
+
+<!-- Start of Add Variant Popup -->
+<div class="modal fade" id="addVariant" role="dialog">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Add Variant</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <div class="modal-body">
+                        <!-- <select class="form-control" formControlName="name" name="name">
+                                <option *ngFor = "let v of this.variantDto" [ngValue]="name">
+                                    {{v}}
+                                </option>
+                            </select> -->
+                    <input type="text" class="form-control">
+                </div>
+                <div class="modal-footer">
+    
+                    <button type="button" class="btn btn-success" data-dismiss="modal" (click)="this.addVariant()">Add Variant</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- End of Add Variant Popup -->

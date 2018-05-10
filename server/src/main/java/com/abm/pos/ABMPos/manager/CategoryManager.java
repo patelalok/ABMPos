@@ -2,8 +2,10 @@ package com.abm.pos.ABMPos.manager;
 
 import com.abm.pos.ABMPos.dao.CategoryDao;
 import com.abm.pos.ABMPos.dao.ProductDao;
+import com.abm.pos.ABMPos.dao.SubCategoryDao;
 import com.abm.pos.ABMPos.repository.CategoryRepository;
 import com.abm.pos.ABMPos.repository.ProductRepository;
+import com.abm.pos.ABMPos.repository.SubCategoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -22,6 +24,9 @@ public class CategoryManager {
 
     @Autowired
     private ProductRepository productRepository;
+
+    @Autowired
+    private SubCategoryRepository subCategoryRepository;
 
 
     public void addCategory(CategoryDao categoryDao)
@@ -83,5 +88,10 @@ public class CategoryManager {
 ////        }
 //        categoryDaoList.add(categoryDao);
 //        return categoryDaoList;
+    }
+
+    public List<SubCategoryDao> getSubCategory(int categoryId) {
+
+        return subCategoryRepository.findAllByCategoryId(categoryId);
     }
 }

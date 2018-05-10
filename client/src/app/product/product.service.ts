@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Http, Response, Headers } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import { FormControl } from '@angular/forms/forms';
-import { Category, Brand, Vendor, Model, ProductVariantDetail, CategoryTest,ProductInventory } from 'app/product/product.component';
+import { Category, Brand, Vendor, Model, ProductVariantDetail, CategoryTest,ProductInventory, SubCategory } from 'app/product/product.component';
 import { environment } from 'environments/environment';
 import { Observer, ReplaySubject, Subject } from 'rxjs';
 import { Product, TransactionLineItemDaoList } from 'app/sell/sale/sale.component';
@@ -106,6 +106,11 @@ export class ProductService {
       .map(this.extractData)
       .catch(this.handleError);
   }
+  getSubCategoryDetailsByCategoryId(categoryId:number): Observable<SubCategory[]>{
+    return this.http.get(this.url+'/getSubCategory?categoryId='+categoryId)
+  .map(this.extractData)
+  .catch(this.handleError);
+  }
   getProductDetailsById(productNo: string): Observable<Product> {
     let url = this.url+`/getProductById?productNo=${productNo}`;
     return this.http.get(url)
@@ -179,8 +184,11 @@ export class ProductService {
     return this.http.post(this.url+'/addProductInventory', productInventory);
   }
 
-  updateProductRetailPrice(product: Product) {
+  addProductVariantDetails(productVariantDetailDao: ProductVariantDetail){
+    return this.http.post(this.url+'/addProductVariantDetails',productVariantDetailDao);
+  }
 
+  updateProductRetailPrice(product: Product) {
     // Need to do this because of backend logic.
     product.operationType = 'Edit';
     return this.http.post(this.url+'/addProduct', product);

@@ -1,6 +1,7 @@
 package com.abm.pos.ABMPos.controller;
 
 import com.abm.pos.ABMPos.dao.CategoryDao;
+import com.abm.pos.ABMPos.dao.SubCategoryDao;
 import com.abm.pos.ABMPos.dto.Response;
 import com.abm.pos.ABMPos.manager.CategoryManager;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,6 +35,12 @@ public class CategoryController {
     public List<CategoryDao> getCategory()
     {
         return categoryManager.getCategoryForAddProductPage();
+    }
+
+    @RequestMapping(value = "/getSubCategory", method = RequestMethod.GET)
+    public List<SubCategoryDao> getSubCategory(int categoryId)
+    {
+        return categoryManager.getSubCategory(categoryId);
     }
 
     @RequestMapping(value = "/deleteCategory", method = RequestMethod.DELETE, produces = "application/json")

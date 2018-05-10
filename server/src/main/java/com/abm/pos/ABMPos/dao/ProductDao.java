@@ -24,6 +24,8 @@ public class ProductDao implements Serializable {
 
     private String categoryId;
 
+    private String subCategoryId;
+
     private String brandId;
 
     private String vendorId;
@@ -110,6 +112,14 @@ public class ProductDao implements Serializable {
 
     public void setCategoryId(String categoryId) {
         this.categoryId = categoryId;
+    }
+
+    public String getSubCategoryId() {
+        return subCategoryId;
+    }
+
+    public void setSubCategoryId(String subCategoryId) {
+        this.subCategoryId = subCategoryId;
     }
 
     public String getBrandId() {
