@@ -16,6 +16,7 @@ public class TransactionLineItemDao {
 
     private String date;
     private String status;
+    private int productId;
     private String productNo;
     private int productVariantNo;
     private int saleQuantity;
@@ -131,5 +132,13 @@ public class TransactionLineItemDao {
 
     public void setRetailWithDiscount(double retailWithDiscount) {
         this.retailWithDiscount = retailWithDiscount;
+    }
+
+    public int getProductId() {
+        return productId;
+    }
+
+    public void setProductId(int productId) {
+        this.productId = productId;
     }
 }

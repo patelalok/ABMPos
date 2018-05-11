@@ -81,12 +81,15 @@ export class AddProductComponent implements OnInit {
         console.log('CategoryList' + this.categoryDto);
       });
 
-      this.productService.getSubCategoryDetailsByCategoryId(12)
+      if(this.categoryDto)
+      {
+      this.productService.getSubCategoryDetailsByCategoryId(this.categoryDto[0].categoryId)
       .subscribe((subCategory: SubCategory[]) => {
         this.subCategoryDto = subCategory;
-        // this.form.get('category').setValue(this.categoryDto[0]);
+        this.form.get('subCategory').setValue(this.subCategoryDto[0]);
         // console.log('CategoryList' + this.categoryDto);
       });
+    }
 
     this.productService.getBrandDetails()
       .subscribe((brands: Brand[]) => {
@@ -128,7 +131,7 @@ export class AddProductComponent implements OnInit {
     //     });
   }
 
-  addProduct() {
+  addProduct(isAddClone:boolean) {
 
     let isProductExists: boolean;
     let isAlternateNoExists: boolean;
@@ -186,7 +189,16 @@ export class AddProductComponent implements OnInit {
         operationType: 'Add'
       }
       this.productService.addProduct(product);
-      this.clearProductForm();
+
+      if(isAddClone){
+        this.form.get('productNo').setValue(null);
+        this.form.get('tax').setValue(true);
+
+      }
+      else {
+        this.clearProductForm();
+
+      }
     }   
   }
 
@@ -216,18 +228,22 @@ export class AddProductComponent implements OnInit {
       console.log(event);
   }
 
-  onSelect(categoryId: any){
+  onCategorySelect(event){
 
-console.log(categoryId);
-    // this.productService.getSubCategoryDetailsByCategoryId(12)
-    // .subscribe((subCategory: SubCategory[]) => {
-    //   this.subCategoryDto = subCategory;
-    //   this.subCategoryDto = this.subCategoryDto.slice();
-    // })
+console.log(event.target.selectedIndex);
+
+let selectedCategory: Category = this.categoryDto[event.target.selectedIndex];
+
+    this.productService.getSubCategoryDetailsByCategoryId(selectedCategory.categoryId)
+    .subscribe((subCategory: SubCategory[]) => {
+      this.subCategoryDto = subCategory;
+      this.subCategoryDto = this.subCategoryDto.slice();
+      this.form.get('subCategory').setValue(this.subCategoryDto[0]);
+      console.log('sub CategoryId', this.subCategoryDto);
+    })
   }
 
   showDialog() {
-
     this.displayDialog = !this.displayDialog;
 
   }

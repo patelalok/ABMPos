@@ -13,6 +13,7 @@ public class ProductInventoryDao {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
 
+    private int productId;
     private String productNo;
     private double cost;
     private double retail;
@@ -27,6 +28,14 @@ public class ProductInventoryDao {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public int getProductId() {
+        return productId;
+    }
+
+    public void setProductId(int productId) {
+        this.productId = productId;
     }
 
     public String getProductNo() {

@@ -171,7 +171,7 @@ export class EditProductComponent implements OnInit {
       // if(!isAlternetNoExists){
 
       let product: Product = {
-        id: this.currentProduct.id,
+        productId: this.currentProduct.productId,
         productNo: formValues.productNo,
         categoryId: formValues.category.categoryId,
         brandId: formValues.brand.brandId,

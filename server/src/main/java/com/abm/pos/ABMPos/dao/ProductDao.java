@@ -16,7 +16,7 @@ public class ProductDao implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private int id;
+    private int productId;
 
     private String productNo;
 
@@ -82,12 +82,12 @@ public class ProductDao implements Serializable {
     @Transient
     private String operationType;
 
-    public int getId() {
-        return id;
+    public int getProductId() {
+        return productId;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setProductId(int productId) {
+        this.productId = productId;
     }
 
     public String getProductNo() {

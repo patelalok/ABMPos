@@ -50,7 +50,7 @@
                                 <label class="control-label">Category Name:</label>
                             </div>
                             <div class="col-md-8 product-textbox">
-                                <select class="form-control" formControlName="category" (change)="onSelect($event.target.value)">
+                                <select class="form-control"  formControlName="category" (change)="onCategorySelect($event)">
                                             <option *ngFor="let category of categoryDto" [ngValue]= "category" >
                                                 {{category.name}}
                                                 </option>
@@ -282,9 +282,13 @@
                 <!--Submit button Row-->
                 <div class="d-flex p-md-3 justify-content-center">
                     <button mat-raised-button class="bg-danger text-white m-2 action-button-lg" routerLink="/product/productTable">Cancel</button>
-                    <button mat-raised-button class="bg btn-green text-white m-2 action-button-lg" type="submit" (click)="addProduct()" [disabled]="form.invalid">
+                    <button mat-raised-button class="bg btn-green text-white m-2 action-button-lg" type="submit" (click)="addProduct(false)" [disabled]="form.invalid">
                         <i class="fa fa-paper-plane" aria-hidden="true" ></i>
                             Add Product
+                    </button>
+                    <button mat-raised-button class="bg btn-green text-white m-2 action-button-lg" type="submit" (click)="addProduct(true)" [disabled]="form.invalid">
+                        <i class="fa fa-paper-plane" aria-hidden="true" ></i>
+                            Add & Clone
                     </button>
                 </div>
             </mat-card-footer>

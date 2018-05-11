@@ -30,7 +30,7 @@ export class ProductService {
         this.toastr.success('Product Added Successfully!!', 'Success!');
 
         if(product.operationType == 'Edit'){
-          let index = this.productList.findIndex((el) => el.id == product.id);
+          let index = this.productList.findIndex((el) => el.productId == product.productId);
           console.log('edit index', index);
           console.log('edit product', product);
           this.productList[index] = product;

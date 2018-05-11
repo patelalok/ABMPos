@@ -63,6 +63,7 @@ public class ProductManager{
             // Now i need to add inventory for this product, need to do this manually cause the JPA is gives problem in get so i need handle manually.
             ProductInventoryDao productInventoryDao = new ProductInventoryDao();
 
+            productInventoryDao.setProductId(productDao.getProductId());
             productInventoryDao.setProductNo(productDao.getProductNo());
             productInventoryDao.setCreatedTimestamp(productDao.getCreatedTimestamp());
             productInventoryDao.setCost(productDao.getCost());
@@ -77,7 +78,7 @@ public class ProductManager{
 
         else if((null != productDao && productDao.getOperationType().equalsIgnoreCase("Edit")))
         {
-             productDao1 = productRepository.findOne(productDao.getId());
+             productDao1 = productRepository.findOne(productDao.getProductId());
 
              if(productDao1 != null){
                  productDao1 = productRepository.save(productDao);
