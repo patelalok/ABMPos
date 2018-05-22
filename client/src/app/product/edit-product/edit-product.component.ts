@@ -273,6 +273,7 @@ export class EditProductComponent implements OnInit {
       value2:formValues.value2,
       variant3:formValues.variant3,
       value3:formValues.value3,
+      createdTimestamp: formValues.createdTimestamp
     }
 
     this.productService.addProductVariant(productVariant);

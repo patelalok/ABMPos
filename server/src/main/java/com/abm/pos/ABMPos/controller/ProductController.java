@@ -24,15 +24,6 @@ public class ProductController {
 
     @Autowired
     private TransactionLineItemManager transactionLineItemManager;
-//
-//    @Autowired
-//    ProductInventoryRepository productInventoryRepository;
-//
-//    @RequestMapping(value = "/getProductInventory", method = RequestMethod.GET, produces = "application/json")
-//    public ProductInventoryDao getProductInventory()
-//    {
-//        return productInventoryRepository.test();
-//    }
 
     @RequestMapping(value = "/addProduct", method = RequestMethod.POST, consumes = "application/json")
     public ProductDao addProduct(@RequestBody ProductDao productDao)

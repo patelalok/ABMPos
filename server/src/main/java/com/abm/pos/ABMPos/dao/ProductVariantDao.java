@@ -20,6 +20,14 @@ public class ProductVariantDao {
     private String value2;
     private String variant3;
     private String value3;
+    private byte[] image;
+    private String createdTimestamp;
+
+    @Transient
+    private double cost;
+    private double retail;
+    private int quantity;
+    private int minQuantity;
 
     public int getProductId() {
         return productId;
@@ -83,5 +91,53 @@ public class ProductVariantDao {
 
     public void setValue3(String value3) {
         this.value3 = value3;
+    }
+
+    public double getCost() {
+        return cost;
+    }
+
+    public void setCost(double cost) {
+        this.cost = cost;
+    }
+
+    public double getRetail() {
+        return retail;
+    }
+
+    public void setRetail(double retail) {
+        this.retail = retail;
+    }
+
+    public int getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
+    }
+
+    public int getMinQuantity() {
+        return minQuantity;
+    }
+
+    public void setMinQuantity(int minQuantity) {
+        this.minQuantity = minQuantity;
+    }
+
+    public byte[] getImage() {
+        return image;
+    }
+
+    public void setImage(byte[] image) {
+        this.image = image;
+    }
+
+    public String getCreatedTimestamp() {
+        return createdTimestamp;
+    }
+
+    public void setCreatedTimestamp(String createdTimestamp) {
+        this.createdTimestamp = createdTimestamp;
     }
 }

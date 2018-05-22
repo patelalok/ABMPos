@@ -1344,6 +1344,7 @@ export class ProductVariant {
   value2?:string;
   variant3?:string;
   value3?:string;
+  createdTimestamp: any;
 
 }
 export class TransactionLineItemDaoList {

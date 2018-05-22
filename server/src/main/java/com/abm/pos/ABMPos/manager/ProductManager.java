@@ -41,6 +41,9 @@ public class ProductManager{
     private CustomerProductPriceRepository customerProductPriceRepository;
 
     @Autowired
+    private ProductImageRepository productImageRepository;
+
+    @Autowired
     private Utility utility;
 
 
@@ -224,7 +227,30 @@ public class ProductManager{
 
     public void addProductVariant(ProductVariantDao productVariantDao) {
 
-        productVariantRepository.save(productVariantDao);
+        ProductVariantDao p = productVariantRepository.save(productVariantDao);
+
+
+        // Here I need to add inventory details as soon as product variant added.
+        if(null !=p){
+
+            ProductInventoryDao productInventoryDao = new ProductInventoryDao();
+
+            productInventoryDao.setProductNo(productVariantDao.getProductNo());
+            productInventoryDao.setCost(productVariantDao.getCost());
+            productInventoryDao.setRetail(productVariantDao.getRetail());
+            productInventoryDao.setQuantity(productVariantDao.getQuantity());
+            productInventoryDao.setCreatedTimestamp(productVariantDao.getCreatedTimestamp());
+
+            productInventoryRepository.save(productInventoryDao);
+
+            // Here I need to add Entry in Image Table as soon as product variant added.
+
+            ProductImageDao productImageDao = new ProductImageDao();
+            productImageDao.setProductNo(productVariantDao.getProductNo());
+            productImageRepository.save(productImageDao);
+
+        }
+
     }
 
     public List<ProductVariantDao> getProductVariant() {
