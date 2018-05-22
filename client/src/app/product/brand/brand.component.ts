@@ -42,12 +42,10 @@ export class BrandComponent implements OnInit {
         this.msgs.push({ severity: severity, summary: summary, detail: detail });
     }
 
-
     getBrandDetails(): void {
         this.productService.getBrandDetails()
             .subscribe((brand: Brand[]) => {
                 this.brandDto = brand;
-                console.log('BrandList' + this.brandDto);
             });
     }
 

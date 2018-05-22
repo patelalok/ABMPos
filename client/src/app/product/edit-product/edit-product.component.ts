@@ -7,7 +7,7 @@ import { ProductService } from 'app/product/product.service';
 import { ProductForm } from 'app/product/addProduct.component';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastsManager } from 'ng2-toastr';
-import { Product } from 'app/sell/sale/sale.component';
+import { Product, ProductVariant } from 'app/sell/sale/sale.component';
 
 
 
@@ -18,6 +18,7 @@ import { Product } from 'app/sell/sale/sale.component';
 })
 export class EditProductComponent implements OnInit {
   form: FormGroup;
+  variantForm: FormGroup;
   backendProductDto: Product[];
   categoryDto: Category[];
   brandDto: Brand[];
@@ -34,6 +35,10 @@ export class EditProductComponent implements OnInit {
   selectedProductInventoryForDelete: ProductInventory;
   _subscriptionProduct: any;
   productList: Product[] = [];
+  variantDto: ProductVariantDetail[] = [];
+  productVariantDetails: ProductVariantDetail[] = [];
+  productVariantDto: ProductVariant[] = [];
+
  
 
   currentProduct: Product; 
@@ -82,6 +87,23 @@ export class EditProductComponent implements OnInit {
             
           }
         );
+        this.variantForm =  this.formBuilder.group({
+          
+            'productNo': [null, [Validators.required, Validators.pattern('^[0-9]+$')]],
+            'cost': [null, [Validators.required, Validators.pattern('^[0-9-.]+$')]],
+            // 'markup': [null, Validators.pattern('^[0-9-.]+$')],
+            'retail': [null, [Validators.required, Validators.pattern('^[0-9-.]+$')]],
+            'quantity': [null, [Validators.required, Validators.pattern('^[0-9]+$')]],
+            'variant1': [null, [Validators.required]],
+            //'variant2': [null],
+           // 'variant3': [null],
+            'value1': [null],
+            //'value2': [null],
+            //'value3': [null]
+            // 'minQuantity': [null, [Validators.pattern('^[0-9]+$')]],
+            // 'ecommerce': [false, null],
+            // 'alternetNo':[null]
+        })
 
         this.form.valueChanges
         .subscribe((changes) => {
@@ -89,6 +111,15 @@ export class EditProductComponent implements OnInit {
           console.log('form valurs', this.form.valid);
 
           console.log('complete form', this.form.value);
+
+        })
+
+        this.variantForm.valueChanges
+        .subscribe((changes) => {
+          console.log('form valurs', this.variantForm.errors);
+          console.log('form valurs', this.variantForm.valid);
+
+          console.log('complete form', this.variantForm.value);
 
         })
    
@@ -131,11 +162,24 @@ export class EditProductComponent implements OnInit {
           this.form.get('model').setValue(currentModel);
         });
 
+        this.productService.getProductVariantDetails()
+        .subscribe((variants:ProductVariantDetail[] )=>{
+          this.variantDto = variants;
+          if(this.variantDto != null) {
+          this.variantForm.get('variant1').setValue(this.variantDto[0]);
+          // this.variantForm.get('variant2').setValue(this.variantDto[0].value);
+          // this.variantForm.get('variant3').setValue(this.variantDto[0].value);
+          }
+        })
+
+        this.getProductVariantById(this.currentProduct.productId);
+
 
       });
     }
 
     this.getProductDetails();
+    
 
 
     // DO NOT DELETE THIS NEED WHEN YOU HANDLE PRODUCT VARIENT
@@ -153,6 +197,8 @@ export class EditProductComponent implements OnInit {
 
   
   }
+
+
 
   addProduct() {
     {
@@ -203,14 +249,65 @@ export class EditProductComponent implements OnInit {
         varaint: null,
         operationType: 'Edit',
         saleQuantity:0
-
-        
           }
 
       this.productService.addProduct(product);
       //this.router.navigate(['/product/productTable']); 
     }
   //}
+  }
+
+  addProductVariant(){
+
+    let formValues: ProductVariant = this.variantForm.value;
+
+    let productVariant: ProductVariant = {
+      productId: this.currentProduct.productId,
+      productNo: formValues.productNo,
+      cost:formValues.cost,
+      retail: formValues.retail,
+      quantity:formValues.quantity,
+      variant1:formValues.variant1,
+      value1:formValues.value1,
+      variant2:formValues.variant2,
+      value2:formValues.value2,
+      variant3:formValues.variant3,
+      value3:formValues.value3,
+    }
+
+    this.productService.addProductVariant(productVariant);
+
+  }
+  updateProductVariant(product: ProductVariant){
+
+    this.variantForm.get('productNo').setValue(product.productNo);
+    this.variantForm.get('variant1').setValue(product.variant1);
+    this.variantForm.get('value1').setValue(product.value1);
+    this.variantForm.get('cost').setValue(product.cost);
+    this.variantForm.get('retail').setValue(product.retail);
+    this.variantForm.get('quantity').setValue(product.quantity);
+
+    console.log('update product', product);
+  }
+
+  onVariantSelect(event){
+    // console.log(event.target.selectedIndex);
+    // let selectedVariant: ProductVariantDetail = this.variantDto[event.target.selectedIndex];
+
+    // this.productService.getProductVariantDetailsByName(selectedVariant)
+    // .subscribe((variantDetails: ProductVariantDetail[]) => {
+    //   this.productVariantDetails = variantDetails;
+    //   this.productVariantDetails = this.productVariantDetails.slice();
+    //   this.variantForm.get('value1').setValue(this.productVariantDetails[0].value);
+    // })
+  }
+
+  getProductVariantById(productId:number){
+
+    this.productService.getProductVariantById(productId)
+    .subscribe((product:ProductVariant[])=>{
+      this.productVariantDto = product;
+    });
   }
 
   updateProductInventory(event) {
@@ -235,9 +332,7 @@ export class EditProductComponent implements OnInit {
     this.form.get('quantity').setValue(null);
   }
   showDialog() {
-
     this.displayDialog = !this.displayDialog;
-
   }
   getProductDetails() {
   this.productService.getProductDetails();

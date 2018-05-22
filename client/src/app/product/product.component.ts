@@ -95,6 +95,9 @@ export class Category implements ProductCommon {
   categoryId: number;
   name: string;
   description: string;
+  tier1: number;
+  tier2: number;
+  tier3: number;
 }
 
 export class SubCategory implements ProductCommon {
@@ -102,6 +105,9 @@ export class SubCategory implements ProductCommon {
   name: string;
   categoryId: number;
   description: string;
+  tier1: number;
+  tier2: number;
+  tier3: number;
 }
 export interface CategoryTest {
   categoryId?;

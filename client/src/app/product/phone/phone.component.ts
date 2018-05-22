@@ -130,7 +130,7 @@ export class PhoneComponent implements OnInit {
       let product: Product = {
         productNo: formValues.productNo,
         description: formValues.description.toUpperCase(),
-        categoryId: 10,
+        categoryId: 1,
         brandId: formValues.brand.brandId,
         modelId: formValues.model.modelId,
         alternetNo: '',

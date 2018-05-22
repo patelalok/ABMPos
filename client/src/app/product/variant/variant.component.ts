@@ -20,21 +20,32 @@ export class VariantComponent implements OnInit {
 
   getAllVariant(){
     this.productService.getProductVariantDetails()
-    .subscribe((variants)=>{
+    .subscribe((variants:ProductVariantDetail[] )=>{
       this.variantDto = variants;
       console.log('dto', this.variantDto);
       console.log('sd', variants);
     })
   }
 
-  getVariantDetails(name: string){
+  getVariantDetails(event){
 
-    this.productService.getProductVariantDetailsByName(name)
-    .subscribe((variants)=>{
-      this.variantDetailsDto = variants;
-      console.log('dto', this.variantDto);
-      console.log('sd', variants);
-    })
+    console.log(event.target.selectedIndex);
+
+    if(event.target.selectedIndex == 0){
+      $('#addVariant').modal('show');
+    }
+    else {
+      let selectedVariant: ProductVariantDetail = this.variantDto[event.target.selectedIndex - 1];
+
+      console.log(selectedVariant);
+      this.productService.getProductVariantDetailsByName(selectedVariant)
+      .subscribe((variants)=>{
+        this.variantDetailsDto = variants;
+        this.variantDetailsDto = this.variantDetailsDto.slice();
+        console.log('dto', this.variantDto);
+        console.log('sd', variants);
+      })
+    }
   }
 
   updateVariantValue(event){
@@ -51,6 +62,26 @@ export class VariantComponent implements OnInit {
   )
 
     console.log(event);
+  }
+
+  addVariant(name: string){
+    let productVariantDetail = new ProductVariantDetail() ;
+    productVariantDetail.name = name;
+
+    this.productService.addProductVariantDetails(productVariantDetail)
+    .subscribe((response)=>{
+      if(response || response.statusText == 'OK'){
+        this.toastr.success('Variant Details Added Successfully!!');
+        console.log(response);
+        this.variantDto.push(response.json().name)
+      }
+    },
+    error =>{
+      this.toastr.error('Opps Something Goes Wrong!!');
+    }
+  )
+
+
   }
 
 

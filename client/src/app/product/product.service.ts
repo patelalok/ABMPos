@@ -5,7 +5,7 @@ import { FormControl } from '@angular/forms/forms';
 import { Category, Brand, Vendor, Model, ProductVariantDetail, CategoryTest,ProductInventory, SubCategory } from 'app/product/product.component';
 import { environment } from 'environments/environment';
 import { Observer, ReplaySubject, Subject } from 'rxjs';
-import { Product, TransactionLineItemDaoList } from 'app/sell/sale/sale.component';
+import { Product, TransactionLineItemDaoList, ProductVariant } from 'app/sell/sale/sale.component';
 import { ToastsManager } from 'ng2-toastr';
 import { Phone } from './phone/phone.component';
 
@@ -51,6 +51,16 @@ export class ProductService {
   });
   }
 
+  addProductVariant(productVariant: ProductVariant){
+    this.http.post(this.url+'/addProductVariant', productVariant)
+    .subscribe(data => {
+      if(data.status == 200 || data.status == 201){
+        this.toastr.success('Product Variant Added Successfully!!', 'Success!');
+      }
+      });
+
+  }
+
   getProductDetails()  {
 
     // if(this.productList && this.productList.length <= 0){
@@ -70,6 +80,12 @@ export class ProductService {
 
   getProductDetailsFromBackEnd(): Observable<Product[]>{
     return this.http.get(this.url+'/getProductTableDetails')
+    .map(this.extractData)
+    .catch(this.handleError);
+  }
+
+  getProductVariantById(productId:number): Observable<ProductVariant[]>{
+    return this.http.get(this.url+'/getProductVariantById?productId='+productId)
     .map(this.extractData)
     .catch(this.handleError);
   }
@@ -111,8 +127,8 @@ export class ProductService {
   .map(this.extractData)
   .catch(this.handleError);
   }
-  getProductDetailsById(productNo: string): Observable<Product> {
-    let url = this.url+`/getProductById?productNo=${productNo}`;
+  getProductDetailsById(productId: string): Observable<Product> {
+    let url = this.url+`/getProductById?productId=${productId}`;
     return this.http.get(url)
       .map(this.extractData)
       .catch(this.handleError);
@@ -142,7 +158,7 @@ export class ProductService {
       .catch(this.handleError);
   }
 
-  getProductVariantDetailsByName(name: string): Observable<ProductVariantDetail[]> {
+  getProductVariantDetailsByName(name: any): Observable<ProductVariantDetail[]> {
     return this.http.get(this.url+'/getProductVariantDetailsByName?variantName=' + name)
       .map(this.extractData)
       .catch(this.handleError);

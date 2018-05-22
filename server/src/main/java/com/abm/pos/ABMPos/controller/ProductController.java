@@ -74,9 +74,9 @@ public class ProductController {
 //    }
 
     @RequestMapping(value = "/getProductById", method = RequestMethod.GET, produces = "application/json")
-    public ProductDao getProductById(@RequestParam String productNo)
+    public ProductDao getProductById(@RequestParam Integer productId)
     {
-        return productManager.getProductById(productNo);
+        return productManager.getProductById(productId);
     }
 
     @RequestMapping(value = "/getProductPriceByCustomer", method = RequestMethod.GET, produces = "application/json")
@@ -133,6 +133,12 @@ public class ProductController {
     {
         productManager.addProductVariant(productVariantDao);
         return new ResponseEntity(HttpStatus.CREATED);
+    }
+
+    @RequestMapping(value = "/getProductVariantById", method = RequestMethod.GET, produces = "application/json")
+    public List<ProductVariantDao> getProductVariantById(@RequestParam Integer productId)
+    {
+        return productManager.getProductVariantById(productId);
     }
 
     @RequestMapping(value = "/getProductVariant", method = RequestMethod.GET, produces = "application/json")

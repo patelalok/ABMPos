@@ -41,7 +41,6 @@ export class AddInventoryComponent implements OnInit {
           .subscribe((pro: Product[]) => {
             this.productDto = pro;
             this.filteredProductByVendor = this.productDto;
-            console.log('ProductList' + this.productDto);
           });
     
       }

@@ -41,7 +41,7 @@ public interface ProductRepository extends JpaRepository<ProductDao, Integer> {
 
     List<ProductDao> findAllByCategoryId(String categoryId);
 
-    ProductDao findOneByProductNo(String productNo);
+    ProductDao findOneByProductId(Integer productId);
 
     @Modifying
     @Query("UPDATE ProductDao SET quantity = ?1, cost = ?2 WHERE productNo = ?3")

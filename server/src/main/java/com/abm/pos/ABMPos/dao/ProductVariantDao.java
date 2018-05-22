@@ -10,21 +10,16 @@ import javax.persistence.*;
 @Table(name = "product_variant")
 public class ProductVariantDao {
 
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Id
-    private int id;
-
     private int productId;
-    private String name;
-    private String value;
 
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
+    @Id
+    private String productNo;
+    private String variant1;
+    private String value1;
+    private String variant2;
+    private String value2;
+    private String variant3;
+    private String value3;
 
     public int getProductId() {
         return productId;
@@ -34,19 +29,59 @@ public class ProductVariantDao {
         this.productId = productId;
     }
 
-    public String getName() {
-        return name;
+    public String getProductNo() {
+        return productNo;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setProductNo(String productNo) {
+        this.productNo = productNo;
     }
 
-    public String getValue() {
-        return value;
+    public String getVariant1() {
+        return variant1;
     }
 
-    public void setValue(String value) {
-        this.value = value;
+    public void setVariant1(String variant1) {
+        this.variant1 = variant1;
+    }
+
+    public String getValue1() {
+        return value1;
+    }
+
+    public void setValue1(String value1) {
+        this.value1 = value1;
+    }
+
+    public String getVariant2() {
+        return variant2;
+    }
+
+    public void setVariant2(String variant2) {
+        this.variant2 = variant2;
+    }
+
+    public String getValue2() {
+        return value2;
+    }
+
+    public void setValue2(String value2) {
+        this.value2 = value2;
+    }
+
+    public String getVariant3() {
+        return variant3;
+    }
+
+    public void setVariant3(String variant3) {
+        this.variant3 = variant3;
+    }
+
+    public String getValue3() {
+        return value3;
+    }
+
+    public void setValue3(String value3) {
+        this.value3 = value3;
     }
 }

@@ -47,7 +47,6 @@ export class CategoryComponent implements OnInit {
       this.productService.getCategoryDetails()
       .subscribe((categories: Category[]) => {
       this.categoryDto = categories;
-      console.log('CategoryList' + this.categoryDto);
         });
     }
 

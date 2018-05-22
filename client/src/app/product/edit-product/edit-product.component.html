@@ -9,34 +9,21 @@
 
                 <div class="col-md-6">
 
-                    <div class="row m-2">
+                    <!-- <div class="row m-2">
                         <div class="col-md-4 product-textbox">
                             <label>Product No:</label>
                         </div>
 
                         <div class="col-md-8 product-textbox">
                             <input type="text" class="form-control" formControlName="productNo" placeholder="Please Enter ProductNo">
-                            <!--<input type="submit" value="submit" [disabled]="!form.valid">-->
                             <div *ngIf="form.get('productNo').hasError('required') && form.get('productNo').touched" class="alert alert-danger">
                                 *Required!!
                             </div>
                             <div *ngIf="form.get('productNo').hasError('pattern') && form.get('productNo').touched" class="alert alert-danger">
                                 *Value Not Alloewd</div>
                         </div>
-                    </div>
-                    <div class="row m-2">
-
-                        <div class="col-md-4 product-textbox">
-                            <label class="control-label"> Description:</label>
-                        </div>
-
-                        <div class="col-md-8 product-textbox">
-                            <input type="text" class="form-control" style="text-transform:uppercase" formControlName="description" placeholder="Please Enter Description">
-                            <p *ngIf="form.get('description').hasError('required') && form.get('description').touched" class="alert alert-danger">
-                                *Required!!</p>
-                        </div>
-                    </div>
-
+                    </div> -->
+                
                     <div class="row m-2">
                         <div class="col-md-4 product-textbox">
                             <label class="control-label">Category Name:</label>
@@ -51,6 +38,21 @@
                                 *Required!!</p>
                         </div>
                     </div>
+
+                    <div class="row m-2">
+                            <div class="col-md-4 product-textbox">
+                                <label class="control-label">Sub Category Name:</label>
+                            </div>
+                            <div class="col-md-8 product-textbox">
+                                <select class="form-control" formControlName="category">
+                                          <option *ngFor="let category of categoryDto" [ngValue]= "category">
+                                              {{category.name}}
+                                              </option>
+                                      </select>
+                                <p *ngIf="form.get('category').hasError('required')" class="alert alert-danger">
+                                    *Required!!</p>
+                            </div>
+                        </div>
 
                     <div class="row m-2">
 
@@ -140,7 +142,7 @@
                         </div>
                     </div>
 
-                    <div class="row m-2">
+                    <!-- <div class="row m-2">
 
                         <div class="col-md-4 product-textbox">
                             <label class="control-label">Alternate No:</label>
@@ -149,8 +151,8 @@
                         <div class="col-md-8 product-textbox">
                             <input type="text" class="form-control" formControlName="alternetNo" placeholder="Please Enter Alternate No">
                         </div>
-                    </div>
-                    <div class="row m-2">
+                    </div> -->
+                    <!-- <div class="row m-2">
 
 
                         <label class="col-md-4 control-label product-textbox">
@@ -169,20 +171,48 @@
                                   </select>
 
                         </div>
-                    </div>
+                    </div> -->
                     <div class="row m-2">
 
                         <div class="col-md-12 product-textbox">
-                            <div class="checkbox">
+                            <div class="row">
+                            <div class="checkbox col-md-4" >
                                 <label>
                                         <input type="checkbox" formControlName="tax">
                                          Is Taxable
                                       </label>
                             </div>
+                            <div class="checkbox col-md-4">
+                                <label>
+                                        <input type="checkbox" formControlName="ecommerce">
+                                         Is Ecomerce
+                                      </label>
+                            </div>
+                            <div class="checkbox col-md-4">
+                                <label>
+                                        <input type="checkbox" (click) = "showDialog()">
+                                         Is Variant
+                                      </label>
+                            </div>
                         </div>
                     </div>
-
+                    </div>
                     <div class="row m-2">
+
+                            <div class="col-md-4 product-textbox">
+                                <label class="control-label"> Description:</label>
+                            </div>
+    
+                            <div class="col-md-8 product-textbox">
+                                <textarea class="form-control" style="text-transform:uppercase" formControlName="description" placeholder="Please Enter Description" id="exampleFormControlTextarea1" rows="2"></textarea>
+
+                                <!-- <input type="text" class="form-control" style="text-transform:uppercase" formControlName="description" placeholder="Please Enter Description"> -->
+                                <p *ngIf="form.get('description').hasError('required') && form.get('description').touched" class="alert alert-danger">
+                                    *Required!!</p>
+                            </div>
+                        </div>
+
+                    <!-- <div class="row m-2">
 
 
                         <div class="col-md-12 product-textbox">
@@ -193,8 +223,8 @@
                                       </label>
                             </div>
                         </div>
-                    </div>
-                    <div class="row m-2">
+                    </div> -->
+                    <!-- <div class="row m-2">
 
                         <div class="col-md-12 product-textbox">
                             <div class="checkbox">
@@ -204,7 +234,7 @@
                                       </label>
                             </div>
                         </div>
-                    </div>
+                    </div> -->
 
                     <!-- <div class="col-md-12 ">
                                 <div class="radio">
@@ -228,25 +258,37 @@
 
             <div class="row">
                 <div class="col-md-12">
-                    <h4>Product Inventory Details</h4>
-                    <p-dataTable [value]="this.currentProduct.productInventoryDaoList" [editable]="true" scrollable="true" [responsive]="true" scrollHeight="300px" (onEditComplete)="this.updateProductInventory($event)">
-                        <p-column header="Cost" field="cost" [editable]="true">
-                            <ng-template let-product="rowData" pTemplate="body">
-                                {{product.cost | currency:'USD':'true'}}
-                            </ng-template>
-                        </p-column>
-
-                        <p-column field="quantity" header="Quantity" [editable]="true"></p-column>
-
-                        <p-column field="date" header="Date"></p-column>
-
-                        <p-column field="time" header="Time"></p-column>
-
-                        <p-column [style]="{'width': '5%'}" header="Action">
+                    <div class = "my-md-2" style="display: flex; justify-content:space-between;">
+                         <h4>Product Inventory Details</h4>
+                        <button type="button" mat-raised-button class="bg-primary text-white action-button-lg" data-target="#addVariant" data-toggle="modal">
+                            <i class="fa fa-plus-square" aria-hidden="true" label="Add"></i>
+                                Add Variant
+                        </button>
+                    </div>
+                   
+               
+                    <p-dataTable [value]="this.productVariantDto" [editable]="true" scrollable="true" [responsive]="true" scrollHeight="300px" (onEditComplete)="this.updateProductInventory($event)">
+                        <p-column  field="productNo" header="ProductNo"></p-column>
+                        <p-column field="variant1" header="Variant1" [editable]="true"></p-column>
+                        <p-column field="value1" header="Value1"></p-column>
+                        <p-column field="cost" header="Cost"></p-column>
+                        <p-column field="retail" header="Retail"></p-column>
+                        <p-column field="quantity" header="Quantity"></p-column>
+                        
+                        <p-column [style]="{'width': '20%'}" header="Action">
                             <ng-template let-product="rowData" pTemplate="body" class="m-auto">
 
-                                <button class="btn-red action-button-table" mat-button (click)="this.setProductInventoryDetailsForDelete(product)" data-toggle="modal" data-target="#deleteProductInventory">
+                                <button class="btn-blue action-button-table" mat-button data-target="#addVariant" data-toggle="modal" (click) = "this.updateProductVariant(product)">
+                                    <i class="fa fa-pencil" aria-hidden="true"></i>
+                                </button>
+                            <button mat-button class="btn-red action-button-table" mat-button (click)="this.setProductToDelete(product)" data-toggle="modal" data-target="#deleteProduct">
                                     <i class="fa fa-trash" aria-hidden="true"></i>
+                                </button>
+                            <button mat-button class="btn-green action-button-table" mat-button (click)="this.setProductForHistory(product)" data-toggle="modal" data-target="#productHistoryModel">
+                                    <i class="fa fa-history" aria-hidden="true"></i>
+                                </button>
+                            <button mat-button class="btn-gray action-button-table" mat-button data-toggle="modal" data-target="#productHistoryModel">
+                                    <i class="fa fa-barcode" aria-hidden="true"></i>
                                 </button>
 
                             </ng-template>
@@ -301,6 +343,113 @@
 </div>
 
 <!-- End of Delete Vendor Popup -->
+
+<!-- Start Of Add Variant Logic -->
+
+<!-- Start of Invoce by Customer Popup -->
+<div class="modal fade" id="addVariant" role="dialog">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Add Product Variant</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <form *ngIf="this.variantForm != null" [formGroup]="this.variantForm">
+                        <div class="row">
+                         <div class="col-md-3">
+                            <ul>
+                                <li>
+                                    <label>Product No
+                                        <em>*</em>
+                                    </label>
+                                    <div>
+                                        <input type="text" class="form-control" formControlName = "productNo">
+                                    </div>
+                                </li>
+                            </ul>
+                         </div>
+                         <div class="col-md-3">
+                                <ul>
+                                        <li>
+                                            <label>Cost Price
+                                                <em>*</em>
+                                            </label>
+                                            <div>
+                                                <input type="number" class="form-control" formControlName = "cost">
+                                            </div>
+                                        </li>
+                                    </ul>
+                         </div>
+                         <div class="col-md-3">
+                                <ul>
+                                        <li>
+                                            <label>Retail Price
+                                                <em>*</em>
+                                            </label>
+                                            <div>
+                                                <input type="number" class="form-control" formControlName = "retail">
+                                            </div>
+                                        </li>
+                                    </ul>
+                         </div>
+                         <div class="col-md-3">
+                                <ul>
+                                        <li>
+                                            <label>Quantity
+                                                <em>*</em>
+                                            </label>
+                                            <div>
+                                                <input type="number" class="form-control" formControlName = "quantity">
+                                            </div>
+                                        </li>
+                                    </ul>
+                         </div>
+                         </div>
+                         <div class="row">
+                         <div class="col-md-3">
+                            <ul>
+                                <li>
+                                        <label>Variant 1
+                                                <em>*</em>
+                                            </label>
+                                </li>
+                                <select class="form-control" formControlName = "variant1" (change) = "this.onVariantSelect($event)">
+                                    <option *ngFor="let variant of this.variantDto">
+                                        {{variant}}
+                                    </option>
+                                </select>
+                                <input type="text" formControlName = "value1" class="form-control">
+                                <!-- <select class="form-control" formControlName = "value1">
+                                        <option *ngFor="let v of this.productVariantDetails">
+                                            {{v.value}}
+                                        </option>
+                                    </select> -->
+                            </ul>
+                         </div>
+                        </div>
+                        <div class="row d-flex p-md-3 justify-content-center">
+                                        <button mat-raised-button class="bg-danger text-white m-2 action-button-lg" data-dismiss="modal">Cancel</button>
+                                        <button mat-raised-button class="bg btn-green text-white m-2 action-button-lg" type="submit" (click) = "this.addProductVariant()" data-dismiss="modal" [disabled]="this.variantForm.invalid">
+                                            <i class="fa fa-paper-plane" aria-hidden="true" ></i>
+                                                Add Variant
+                                        </button>
+                                        <button mat-raised-button class="bg btn-green text-white m-2 action-button-lg" type="submit" [disabled]="this.variantForm.invalid">
+                                            <i class="fa fa-paper-plane" aria-hidden="true" ></i>
+                                                Add & Clone
+                                        </button>
+                        </div>
+                        
+                    </form>
+                </div>
+                <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    </div>
+            </div>
+        </div>
+    </div>
+
+<!-- End Of Add Variant Logic -->
 
 
 

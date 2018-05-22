@@ -19,4 +19,5 @@ public interface ProductVariantDetailRepository extends JpaRepository<ProductVar
 
 //    @Query("SELECT v FROM ProductVariantDetailDao v WHERE v.name = ?1")
     List<ProductVariantDetailDao> findDistinctByName(String name);
+
 }

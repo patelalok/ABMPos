@@ -1331,6 +1331,21 @@ export class Product {
   color?:string;
   memory?:string;
 }
+
+export class ProductVariant {
+  productId: number;
+  productNo: string;
+  cost?:number;
+  retail?: number;
+  quantity?:number;
+  variant1:string;
+  value1:string;
+  variant2?:string;
+  value2?:string;
+  variant3?:string;
+  value3?:string;
+
+}
 export class TransactionLineItemDaoList {
 
   productId?:number;

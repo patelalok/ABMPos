@@ -412,7 +412,7 @@ public class TransactionsManager {
         for (TransactionLineItemDao lineItem : transactionDao.getTransactionLineItemDaoList()) {
 
             if (null == lineItem.getDescription() || lineItem.getDescription().length() < 1) {
-                ProductDao productDao = productRepository.findOneByProductNo(lineItem.getProductNo());
+                ProductDao productDao = productRepository.findOneByProductId(lineItem.getProductId());
 
                 if (null != productDao) {
                     lineItem.setDescription(productDao.getDescription());

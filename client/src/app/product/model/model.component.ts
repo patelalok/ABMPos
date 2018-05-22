@@ -44,7 +44,6 @@ export class ModelComponent implements OnInit {
         this.productService.getModelDetails()
             .subscribe((models: Model[]) => {
                 this.modelDto = models;
-                console.log('ModelList' + this.modelDto);
             });
     }
 

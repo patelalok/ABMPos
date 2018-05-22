@@ -217,9 +217,9 @@ public class ProductManager{
 
         return productRepository.getAllActiveProductForSellPage();
     }
-        public ProductDao getProductById(String productNo) {
+        public ProductDao getProductById(Integer productId) {
 
-        return productRepository.findOneByProductNo(productNo);
+        return productRepository.findOneByProductId(productId);
     }
 
     public void addProductVariant(ProductVariantDao productVariantDao) {
@@ -407,5 +407,10 @@ public class ProductManager{
     public List<CustomerProductPrice> getProductPriceByCustomer(String phoneNo) {
 
         return customerProductPriceRepository.findAllByPhoneNo(phoneNo);
+    }
+
+    public List<ProductVariantDao> getProductVariantById(Integer productId) {
+        return productVariantRepository.findAllByProductId(productId);
+
     }
 }
