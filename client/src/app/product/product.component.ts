@@ -201,6 +201,9 @@ export class ProductInventory {
   description:string;
   cost?: number;
   retail?: number;
+  tier1?: number;
+  tier2?: number;
+  tier3?: number;
   markup?: number;
   quantity?: number;
   createdTimestamp?: any;

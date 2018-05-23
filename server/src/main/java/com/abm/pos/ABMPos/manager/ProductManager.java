@@ -240,6 +240,10 @@ public class ProductManager{
             productInventoryDao.setProductNo(productVariantDao.getProductNo());
             productInventoryDao.setCost(productVariantDao.getCost());
             productInventoryDao.setRetail(productVariantDao.getRetail());
+            productInventoryDao.setTier1(productVariantDao.getTier1());
+            productInventoryDao.setTier2(productVariantDao.getTier2());
+            productInventoryDao.setTier3(productVariantDao.getTier3());
+
             productInventoryDao.setQuantity(productVariantDao.getQuantity());
             productInventoryDao.setCreatedTimestamp(productVariantDao.getCreatedTimestamp());
 

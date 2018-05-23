@@ -24,6 +24,15 @@ public class ProductVariantDao {
     private String createdTimestamp;
 
     @Transient
+    private double tier1;
+    @Transient
+    private double tier2;
+    @Transient
+    private double tier3;
+
+
+
+    @Transient
     private double cost;
     @Transient
     private double retail;
@@ -142,5 +151,29 @@ public class ProductVariantDao {
 
     public void setCreatedTimestamp(String createdTimestamp) {
         this.createdTimestamp = createdTimestamp;
+    }
+
+    public double getTier1() {
+        return tier1;
+    }
+
+    public void setTier1(double tier1) {
+        this.tier1 = tier1;
+    }
+
+    public double getTier2() {
+        return tier2;
+    }
+
+    public void setTier2(double tier2) {
+        this.tier2 = tier2;
+    }
+
+    public double getTier3() {
+        return tier3;
+    }
+
+    public void setTier3(double tier3) {
+        this.tier3 = tier3;
     }
 }

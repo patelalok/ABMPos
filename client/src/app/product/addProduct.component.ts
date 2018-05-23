@@ -281,6 +281,9 @@ export interface ProductForm {
   alternetNo?: string;
   cost?: number;
   retail?: number;
+  tier1?: number;
+  tier2?: number;
+  tier3?: number;
   markup?: number;
   quantity?: number;
   minQuantity?: number;

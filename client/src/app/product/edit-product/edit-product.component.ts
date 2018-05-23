@@ -73,7 +73,7 @@ export class EditProductComponent implements OnInit {
         let currentModel = {}; 
         this.form = this.formBuilder.group(
           {
-            'productNo': [this.currentProduct.productNo, [Validators.required, Validators.pattern('^[0-9]+$')]],
+            // 'productNo': [this.currentProduct.productNo, [Validators.required, Validators.pattern('^[0-9]+$')]],
             'description': [this.currentProduct.description, Validators.required],
             'category': [null, Validators.required],
             'brand': [null, Validators.required],
@@ -82,6 +82,9 @@ export class EditProductComponent implements OnInit {
             // 'costPrice': [this.currentProduct.cost, [Validators.required, Validators.pattern('^[0-9-.]+$')]],
             'markup': [null, Validators.pattern('^[0-9-.]+$')],
             'retail': [this.currentProduct.retail, [Validators.required, Validators.pattern('^[0-9-.]+$')]],
+            'tier1': [this.currentProduct.tier1, [Validators.required, Validators.pattern('^[0-9-.]+$')]],
+            'tier2': [this.currentProduct.tier2, [Validators.required, Validators.pattern('^[0-9-.]+$')]],
+            'tier3': [this.currentProduct.tier3, [Validators.required, Validators.pattern('^[0-9-.]+$')]],
             'quantity': [this.currentProduct.quantity,''],
             'minQuantity': [this.currentProduct.minQuantity,''],
             'tax': [this.currentProduct.tax, null],
@@ -95,7 +98,11 @@ export class EditProductComponent implements OnInit {
             'productNo': [null, [Validators.required, Validators.pattern('^[0-9]+$')]],
             'cost': [null, [Validators.required, Validators.pattern('^[0-9-.]+$')]],
             // 'markup': [null, Validators.pattern('^[0-9-.]+$')],
-            'retail': [null, [Validators.required, Validators.pattern('^[0-9-.]+$')]],
+            // 'retail': [null, [Validators.required, Validators.pattern('^[0-9-.]+$')]],
+            'tier1': [this.currentProduct.tier1, [Validators.required, Validators.pattern('^[0-9-.]+$')]],
+            'tier2': [this.currentProduct.tier2, [Validators.required, Validators.pattern('^[0-9-.]+$')]],
+            'tier3': [this.currentProduct.tier3, [Validators.required, Validators.pattern('^[0-9-.]+$')]],
+
             'quantity': [null, [Validators.required, Validators.pattern('^[0-9]+$')]],
             'variant1': [null, [Validators.required]],
             //'variant2': [null],
@@ -228,6 +235,9 @@ export class EditProductComponent implements OnInit {
         modelId: formValues.model.modelId,
         cost: formValues.cost,
         retail: formValues.retail,
+        tier1: formValues.tier1,
+        tier2: formValues.tier2,
+        tier3: formValues.tier3,
         description: formValues.description.toUpperCase(),
         active: true,
         ecommerce: formValues.ecommerce,
@@ -268,7 +278,10 @@ export class EditProductComponent implements OnInit {
       productId: this.currentProduct.productId,
       productNo: formValues.productNo,
       cost:formValues.cost,
-      retail: formValues.retail,
+      // retail: formValues.retail,
+      tier1: formValues.tier1,
+      tier2: formValues.tier2,
+      tier3: formValues.tier3,
       quantity:formValues.quantity,
       variant1:formValues.variant1,
       value1:formValues.value1,
@@ -282,14 +295,17 @@ export class EditProductComponent implements OnInit {
     this.productService.addProductVariant(productVariant);
 
   }
-  updateProductVariant(product: ProductVariant){
+  updateProductVariant(product: VariantInventoryDto){
 
-    this.variantForm.get('productNo').setValue(product.productNo);
-    this.variantForm.get('variant1').setValue(product.variant1);
-    this.variantForm.get('value1').setValue(product.value1);
-    this.variantForm.get('cost').setValue(product.cost);
-    this.variantForm.get('retail').setValue(product.retail);
-    this.variantForm.get('quantity').setValue(product.quantity);
+    console.log('update variant', product);
+    this.variantForm.get('productNo').setValue(product.productVariantDao.productNo);
+    this.variantForm.get('variant1').setValue(product.productVariantDao.variant1);
+    this.variantForm.get('value1').setValue(product.productVariantDao.value1);
+    // this.variantForm.get('cost').setValue(product.cost);
+    // this.variantForm.get('tier1').setValue(product.tier1);
+    // this.variantForm.get('tier2').setValue(product.tier2);
+    // this.variantForm.get('tier3').setValue(product.tier3);
+    // this.variantForm.get('quantity').setValue(product.quantity);
 
     console.log('update product', product);
   }
@@ -329,6 +345,10 @@ export class EditProductComponent implements OnInit {
         break;
       }    
     }
+  }
+
+  setProductRetailPriceTierForSelectedVariant(productNo: any){
+
   }
   addProductInventory(){
     let productInventoryObj: ProductInventory = new ProductInventory();
@@ -415,6 +435,11 @@ export class EditProductComponent implements OnInit {
   
       this.hideProductModal();
   
+    }
+
+    updateProductVariantRetailTierPrice(event){
+
+      console.log('retail tier update', event.data);
     }
   
     hideProductModal() {

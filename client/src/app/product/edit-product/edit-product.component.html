@@ -108,13 +108,30 @@
                         <label class="col-md-4 control-label product-textbox">
                                     Retail Price:
                                 </label>
-                        <div class="col-md-8 product-textbox">
-                            <input type="number" formControlName="retail" class="form-control">
-                            <p *ngIf="form.get('retail').hasError('required') && form.get('retail').touched" class="alert alert-danger">
+                        <div class="col-md-2 product-textbox">
+                            Tier1 :
+                            <input type="number" formControlName="tier1" class="form-control">
+                            <!-- <p *ngIf="form.get('retail').hasError('required') && form.get('retail').touched" class="alert alert-danger">
                                 *Required!!</p>
                             <p *ngIf="form.get('retail').hasError('pattern') && form.get('retail').touched" class="alert alert-danger">
-                                *Value Not Alloewd*</p>
+                                *Value Not Alloewd*</p> -->
                         </div>
+                        <div class="col-md-2 product-textbox">
+                                Tier2 :
+                                <input type="number" formControlName="tier2" class="form-control">
+                                <!-- <p *ngIf="form.get('retail').hasError('required') && form.get('retail').touched" class="alert alert-danger">
+                                    *Required!!</p>
+                                <p *ngIf="form.get('retail').hasError('pattern') && form.get('retail').touched" class="alert alert-danger">
+                                    *Value Not Alloewd*</p> -->
+                            </div>
+                            <div class="col-md-2 product-textbox">
+                                    Tier3 :
+                                    <input type="number" formControlName="tier3" class="form-control">
+                                    <!-- <p *ngIf="form.get('retail').hasError('required') && form.get('retail').touched" class="alert alert-danger">
+                                        *Required!!</p>
+                                    <p *ngIf="form.get('retail').hasError('pattern') && form.get('retail').touched" class="alert alert-danger">
+                                        *Value Not Alloewd*</p> -->
+                                </div>
                     </div>
 
                     <div class="row m-2">
@@ -276,7 +293,11 @@
                                 <a href="JavaScript:void(0);" (click)="setProductInventoryForSelectedProduct(product.productInventoryDao[0].productNo)" data-toggle="modal" data-target="#productInventory">{{product.productInventoryDao[0].cost}}</a>
                             </ng-template>
                         </p-column>
-                        <p-column field="retail" header="Retail"></p-column>
+                        <p-column field="retail" header="Retail">
+                                <ng-template let-product="rowData" pTemplate="body">
+                                        <a href="JavaScript:void(0);" (click) = "setProductInventoryForSelectedProduct(product.productInventoryDao[0].productNo)" data-toggle="modal" data-target="#retailTier">{{product.productInventoryDao[0].tier1}} , {{product.productInventoryDao[0].tier2}} , {{product.productInventoryDao[0].tier3}}  </a>
+                                    </ng-template>
+                        </p-column>
                         <p-column field="totalQuantity" header="Quantity"></p-column>
                         
                         <p-column [style]="{'width': '20%'}" header="Action">
@@ -361,7 +382,7 @@
                 <div class="modal-body">
                     <form *ngIf="this.variantForm != null" [formGroup]="this.variantForm">
                         <div class="row">
-                         <div class="col-md-3">
+                         <div class="col-md-4">
                             <ul>
                                 <li>
                                     <label>Product No
@@ -373,7 +394,7 @@
                                 </li>
                             </ul>
                          </div>
-                         <div class="col-md-3">
+                         <div class="col-md-4">
                                 <ul>
                                         <li>
                                             <label>Cost Price
@@ -385,19 +406,8 @@
                                         </li>
                                     </ul>
                          </div>
-                         <div class="col-md-3">
-                                <ul>
-                                        <li>
-                                            <label>Retail Price
-                                                <em>*</em>
-                                            </label>
-                                            <div>
-                                                <input type="number" class="form-control" formControlName = "retail">
-                                            </div>
-                                        </li>
-                                    </ul>
-                         </div>
-                         <div class="col-md-3">
+    
+                         <div class="col-md-4">
                                 <ul>
                                         <li>
                                             <label>Quantity
@@ -409,6 +419,47 @@
                                         </li>
                                     </ul>
                          </div>
+                         </div>
+                         <div class="row">
+                                <!-- <label>Retail Price
+                                        <em>*</em>
+                                    </label> -->
+                                <div class="col-md-4">
+                                        <ul>
+                                            <li>
+                                                <label>Retail Tier1
+                                                    <em>*</em>
+                                                </label>
+                                                <div>
+                                                    <input type="number" class="form-control" formControlName = "tier1">
+                                                </div>
+                                             </li>
+                                        </ul>
+                                 </div>
+                                 <div class="col-md-4">
+                                        <ul>
+                                            <li>
+                                                <label>Retail Tier2
+                                                    <em>*</em>
+                                                </label>
+                                                <div>
+                                                    <input type="number" class="form-control" formControlName = "tier2">
+                                                </div>
+                                             </li>
+                                        </ul>
+                                 </div>
+                                 <div class="col-md-4">
+                                        <ul>
+                                            <li>
+                                                <label>Retail Tier3
+                                                    <em>*</em>
+                                                </label>
+                                                <div>
+                                                    <input type="number" class="form-control" formControlName = "tier3">
+                                                </div>
+                                             </li>
+                                        </ul>
+                                 </div>
                          </div>
                          <div class="row">
                          <div class="col-md-3">
@@ -455,7 +506,7 @@
 
 <!-- End Of Add Variant Logic -->
 
-!-- Start Of Cost price and Quantity model -->
+<!-- Start Of Cost price and Quantity model -->
 <div class="modal fade" id="productInventory" role="dialog" (keyup.enter)="this.hideProductModal()">
     <div class="modal-dialog modal-lg">
 
@@ -512,6 +563,40 @@
 
 </div>
  <!-- Start Of Cost price and Quantity model -->
+
+     <!-- Start Of Retail Tier Model -->
+     <div class="modal fade" id="retailTier" role="dialog" (keyup.enter)="this.hideProductModal()">
+        <div class="modal-dialog modal-lg">
+    
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Manage Retail Tier Price</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <div class="modal-body">
+    
+                    <div class="row">
+                            <p-dataTable [value]="this.productInventoryList" [editable]="true" scrollable="true" [responsive]="true" scrollHeight="300px" (onEditComplete)="this.updateProductVariantRetailTierPrice($event)">
+                                    <p-column field="tier1" header="Tier1" [editable]="true"></p-column>
+                                    <p-column field="tier2" header="Tier2" [editable]="true"></p-column>
+                                    <p-column field="tier3" header="Tier3"[editable]="true"></p-column>
+            
+                                </p-dataTable>
+                    </div>
+                </div>
+    
+    
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+    
+    
+        </div>
+    
+    </div>
+     <!-- End Of Retail Tier Model -->
 
 
 

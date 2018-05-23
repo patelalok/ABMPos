@@ -1304,6 +1304,9 @@ export class Product {
   alternetNo?: string;
   cost?: number;
   retail?: number;
+  tier1?: number;
+  tier2?: number;
+  tier3?: number;
   markup?: number;
   quantity?: number;
   minQuantity?: number;
@@ -1337,6 +1340,9 @@ export class ProductVariant {
   productNo: string;
   cost?:number;
   retail?: number;
+  tier1?: number;
+  tier2?: number;
+  tier3?: number;
   quantity?:number;
   variant1:string;
   value1:string;
