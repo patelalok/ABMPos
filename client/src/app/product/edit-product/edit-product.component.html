@@ -267,13 +267,17 @@
                     </div>
                    
                
-                    <p-dataTable [value]="this.productVariantDto" [editable]="true" scrollable="true" [responsive]="true" scrollHeight="300px" (onEditComplete)="this.updateProductInventory($event)">
-                        <p-column  field="productNo" header="ProductNo"></p-column>
-                        <p-column field="variant1" header="Variant1" [editable]="true"></p-column>
-                        <p-column field="value1" header="Value1"></p-column>
-                        <p-column field="cost" header="Cost"></p-column>
+                    <p-dataTable [value]="this.productVariantInventoryDto" [editable]="true" scrollable="true" [responsive]="true" scrollHeight="300px" (onEditComplete)="this.updateProductInventory($event)">
+                        <p-column  field="productVariantDao.productNo" header="ProductNo"></p-column>
+                        <p-column field="productVariantDao.variant1" header="Variant1" [editable]="true"></p-column>
+                        <p-column field="productVariantDao.value1" header="Value1"></p-column>
+                        <p-column field="cost" header="Cost">
+                            <ng-template let-product="rowData" pTemplate="body">
+                                <a href="JavaScript:void(0);" (click)="setProductInventoryForSelectedProduct(product.productInventoryDao[0].productNo)" data-toggle="modal" data-target="#productInventory">{{product.productInventoryDao[0].cost}}</a>
+                            </ng-template>
+                        </p-column>
                         <p-column field="retail" header="Retail"></p-column>
-                        <p-column field="quantity" header="Quantity"></p-column>
+                        <p-column field="totalQuantity" header="Quantity"></p-column>
                         
                         <p-column [style]="{'width': '20%'}" header="Action">
                             <ng-template let-product="rowData" pTemplate="body" class="m-auto">
@@ -450,6 +454,64 @@
     </div>
 
 <!-- End Of Add Variant Logic -->
+
+!-- Start Of Cost price and Quantity model -->
+<div class="modal fade" id="productInventory" role="dialog" (keyup.enter)="this.hideProductModal()">
+    <div class="modal-dialog modal-lg">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Product Inventory</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
+
+                <div class="row">
+                    <div class="col-md-4">
+                        <input class="form-control" [(ngModel)]="this.cost" type="number" placeholder="Cost">
+                    </div>
+                    <div class="col-md-4">
+                        <input class="form-control" [(ngModel)]="this.quantity" type="number" placeholder="Quantity">
+                    </div>
+                    <div class="col-md-4">
+                        <button type="button" mat-raised-button class="bg-primary text-white" style="width: 100%;" (click)="this.addProductInventory()" data-dismiss="modal">
+                                <i class="fa fa-plus-square" aria-hidden="true" label="Add"></i>
+                                Add Product Inventory
+                        </button>
+                    </div>
+
+                </div>
+                <div class="row p-3">
+                    <p-dataTable [value]="this.productInventoryList" [editable]="true" scrollable="true" [responsive]="true" scrollHeight="300px" (onEditComplete)="this.updateProductInventory($event)">
+                        <p-column field="cost" header="Cost" [editable]="true">
+                            <ng-template let-product="rowData" pTemplate="body">
+                                {{product.cost | currency:'USD':'true'}}
+                            </ng-template>
+                        </p-column>
+
+                        <p-column field="quantity" header="Quantity" [editable]="true"></p-column>
+
+                        <p-column field="date" header="Date"></p-column>
+
+                        <p-column field="time" header="Time"></p-column>
+
+                    </p-dataTable>
+                </div>
+
+            </div>
+
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+
+
+    </div>
+
+</div>
+ <!-- Start Of Cost price and Quantity model -->
 
 
 

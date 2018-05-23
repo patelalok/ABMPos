@@ -25,8 +25,11 @@ public class ProductVariantDao {
 
     @Transient
     private double cost;
+    @Transient
     private double retail;
+    @Transient
     private int quantity;
+    @Transient
     private int minQuantity;
 
     public int getProductId() {

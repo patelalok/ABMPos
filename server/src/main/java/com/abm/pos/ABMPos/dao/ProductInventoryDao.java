@@ -21,6 +21,9 @@ public class ProductInventoryDao {
     private int quantity;
     private String createdTimestamp;
 
+    @Transient
+    private int totalQuantity;
+
 
     public int getId() {
         return id;
@@ -84,5 +87,13 @@ public class ProductInventoryDao {
 
     public void setCreatedTimestamp(String createdTimestamp) {
         this.createdTimestamp = createdTimestamp;
+    }
+
+    public int getTotalQuantity() {
+        return totalQuantity;
+    }
+
+    public void setTotalQuantity(int totalQuantity) {
+        this.totalQuantity = totalQuantity;
     }
 }

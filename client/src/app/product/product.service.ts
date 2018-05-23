@@ -5,7 +5,7 @@ import { FormControl } from '@angular/forms/forms';
 import { Category, Brand, Vendor, Model, ProductVariantDetail, CategoryTest,ProductInventory, SubCategory } from 'app/product/product.component';
 import { environment } from 'environments/environment';
 import { Observer, ReplaySubject, Subject } from 'rxjs';
-import { Product, TransactionLineItemDaoList, ProductVariant } from 'app/sell/sale/sale.component';
+import { Product, TransactionLineItemDaoList, ProductVariant, VariantInventoryDto } from 'app/sell/sale/sale.component';
 import { ToastsManager } from 'ng2-toastr';
 import { Phone } from './phone/phone.component';
 
@@ -84,7 +84,7 @@ export class ProductService {
     .catch(this.handleError);
   }
 
-  getProductVariantById(productId:number): Observable<ProductVariant[]>{
+  getProductVariantById(productId:number): Observable<VariantInventoryDto[]>{
     return this.http.get(this.url+'/getProductVariantById?productId='+productId)
     .map(this.extractData)
     .catch(this.handleError);

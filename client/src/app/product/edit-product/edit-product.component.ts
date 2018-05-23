@@ -7,7 +7,7 @@ import { ProductService } from 'app/product/product.service';
 import { ProductForm } from 'app/product/addProduct.component';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastsManager } from 'ng2-toastr';
-import { Product, ProductVariant } from 'app/sell/sale/sale.component';
+import { Product, ProductVariant, VariantInventoryDto } from 'app/sell/sale/sale.component';
 
 
 
@@ -37,7 +37,10 @@ export class EditProductComponent implements OnInit {
   productList: Product[] = [];
   variantDto: ProductVariantDetail[] = [];
   productVariantDetails: ProductVariantDetail[] = [];
-  productVariantDto: ProductVariant[] = [];
+  productVariantInventoryDto: VariantInventoryDto[] = [];
+  productInventoryList: ProductInventory[] = [];
+  cost: number;
+  quantity: number;
 
  
 
@@ -273,7 +276,7 @@ export class EditProductComponent implements OnInit {
       value2:formValues.value2,
       variant3:formValues.variant3,
       value3:formValues.value3,
-      createdTimestamp: formValues.createdTimestamp
+      createdTimestamp: moment(Date.now()).format('YYYY-MM-DD HH:mm:ss')
     }
 
     this.productService.addProductVariant(productVariant);
@@ -306,14 +309,119 @@ export class EditProductComponent implements OnInit {
   getProductVariantById(productId:number){
 
     this.productService.getProductVariantById(productId)
-    .subscribe((product:ProductVariant[])=>{
-      this.productVariantDto = product;
+    .subscribe((product:VariantInventoryDto[])=>{
+      this.productVariantInventoryDto = product;
+      console.log('variant Inventory', this.productVariantInventoryDto);
     });
   }
 
-  updateProductInventory(event) {
-    this.productService.updateProductInventory(event.data);
+  setProductInventoryForSelectedProduct(productNo: any){
+
+    for(let p of this.productVariantInventoryDto){
+      if(p.productVariantDao.productNo == productNo){
+        this.productInventoryList = p.productInventoryDao;
+
+        this.productInventoryList.forEach((inventory)=>{
+          inventory.time = moment(inventory.createdTimestamp).format('hh:mm A');
+          inventory.date = moment(inventory.createdTimestamp).format('MM-DD-YYYY');
+        });
+        this.productInventoryList = this.productInventoryList.slice();
+        break;
+      }    
+    }
   }
+  addProductInventory(){
+    let productInventoryObj: ProductInventory = new ProductInventory();
+
+    productInventoryObj.productId = this.currentProduct.productId;
+    productInventoryObj.productNo = this.productInventoryList[0].productNo;
+    productInventoryObj.cost = this.cost;
+    //productInventoryObj.retail = this.productInventoryList[0].retail;
+    productInventoryObj.quantity = this.quantity;
+    productInventoryObj.createdTimestamp = moment(Date.now()).format('YYYY-MM-DD HH:mm:ss');
+
+    //this.productInventoryList.push(productInventoryObj);
+
+    this.productService.addProductInventory(productInventoryObj)
+    .subscribe((data) => {
+      if(null != data){
+        let response = data.json();
+        let backendResponse: ProductInventory = response;
+
+        let index = this.productInventoryList.findIndex((el) => el.productNo == productInventoryObj.productNo);
+        this.productInventoryList[index].quantity = backendResponse.quantity;
+        this.productInventoryList[index].cost = backendResponse.cost;
+    
+        this.productInventoryList = this.productInventoryList.slice();
+        this.toastr.success('Inventory Added Successfully !!', 'Success!');
+      }
+      else{
+        this.toastr.error('Opps Something Goes Wrong !!', 'Error!');
+
+      }
+    },
+    error => {
+      this.toastr.error('Opps Something goes wrong !!', 'Error!!');
+      console.log(JSON.stringify(error.json()));
+    });
+
+    this.cost = null;
+    this.quantity = null;
+
+    }
+
+    updateProductInventory(event) {
+
+      let product: Product = event.data;
+  
+      let quantity: number = Number(product.quantity);
+      console.log('Updating product inventory', product);
+  
+      console.log('event on inventoty', event.date);
+      //let productInventory: ProductInventory[] = []; 
+      
+      //productInventory.push(event.data);
+  
+      //console.log('product invetrory object', productInventory);
+  
+      this.productService.updateProductInventory(product)
+      .subscribe(data => {
+  
+        if(data){
+          let response = data.json();
+          let backendResponse: ProductInventory = response;
+  
+          let index = this.productInventoryList.findIndex((el) => el.productNo == product.productNo);
+          this.productInventoryList[index].quantity = backendResponse.quantity;
+          this.productInventoryList[index].cost = backendResponse.cost;
+  
+          this.productInventoryList = this.productInventoryList.slice();
+          this.toastr.success('Inventory Updated Successfully !!', 'Success!');
+        }
+      },
+      error => {
+        this.toastr.error('Opps Something goes wrong !!', 'Error!!');
+        console.log(JSON.stringify(error.json()));
+      });
+      // let index = this.productViewList.findIndex((el) => el.productNo == product.productNo);
+  
+  
+      // this.productViewList[index] = {
+      //   ...this.productViewList[index],
+      //   ...product
+      // };
+  
+      // this.productViewList = this.productViewList.slice();
+  
+      this.hideProductModal();
+  
+    }
+  
+    hideProductModal() {
+      console.log('Hiding modal');
+      $('#productInventory').modal('hide');
+    }
+
 
   setProductInventoryDetailsForDelete(inventory: ProductInventory) {
 

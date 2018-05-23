@@ -197,6 +197,7 @@ export class ProductCommonTest {
 
 export class ProductInventory {
   productNo: string;
+  productId?: number;
   description:string;
   cost?: number;
   retail?: number;

@@ -1347,6 +1347,12 @@ export class ProductVariant {
   createdTimestamp: any;
 
 }
+
+export class VariantInventoryDto {
+  productVariantDao: ProductVariant;
+  productInventoryDao: ProductInventory[];
+  totalQuantity: number;
+}
 export class TransactionLineItemDaoList {
 
   productId?:number;

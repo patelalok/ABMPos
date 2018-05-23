@@ -37,11 +37,11 @@ public class CategoryController {
         return categoryManager.getCategoryForAddProductPage();
     }
 
-    @RequestMapping(value = "/getSubCategory", method = RequestMethod.GET)
-    public List<SubCategoryDao> getSubCategory(int categoryId)
-    {
-        return categoryManager.getSubCategory(categoryId);
-    }
+//    @RequestMapping(value = "/getSubCategory", method = RequestMethod.GET)
+//    public List<SubCategoryDao> getSubCategory(int categoryId)
+//    {
+//        return categoryManager.getSubCategory(categoryId);
+//    }
 
     @RequestMapping(value = "/deleteCategory", method = RequestMethod.DELETE, produces = "application/json")
     public ResponseEntity deleteCategory(@RequestParam int categoryId)

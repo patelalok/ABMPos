@@ -1,6 +1,7 @@
 package com.abm.pos.ABMPos.controller;
 
 import com.abm.pos.ABMPos.dao.*;
+import com.abm.pos.ABMPos.dto.VariantInventoryDto;
 import com.abm.pos.ABMPos.manager.ProductManager;
 import com.abm.pos.ABMPos.manager.TransactionLineItemManager;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -127,7 +128,7 @@ public class ProductController {
     }
 
     @RequestMapping(value = "/getProductVariantById", method = RequestMethod.GET, produces = "application/json")
-    public List<ProductVariantDao> getProductVariantById(@RequestParam Integer productId)
+    public List<VariantInventoryDto> getProductVariantById(@RequestParam Integer productId)
     {
         return productManager.getProductVariantById(productId);
     }
