@@ -439,6 +439,16 @@ export class EditProductComponent implements OnInit {
 
     updateProductVariantRetailTierPrice(event){
 
+      this.productService.updateRetailTierPrice(event.data)
+      .subscribe((data)=>{
+        if(data){
+          this.toastr.success('Retail Tier Price Updated Successfully !!', 'Success!');
+        }
+      },
+      error => {
+        this.toastr.error('Opps Something goes wrong !!', 'Error!!');
+        console.log(JSON.stringify(error.json()));
+      });
       console.log('retail tier update', event.data);
     }
   

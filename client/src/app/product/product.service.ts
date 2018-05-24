@@ -209,6 +209,11 @@ export class ProductService {
     product.operationType = 'Edit';
     return this.http.post(this.url+'/addProduct', product);
   }
+  updateRetailTierPrice(productVariant: ProductVariant) {
+    // Need to do this because of backend logic.
+    productVariant.operationType = 'retailTierEdit';
+    return this.http.post(this.url+'/addProductVariant', productVariant);
+  }
 
   updateProductInventory(productInventory: ProductInventory) {
     return this.http.post(this.url+'/addProductInventory', productInventory);

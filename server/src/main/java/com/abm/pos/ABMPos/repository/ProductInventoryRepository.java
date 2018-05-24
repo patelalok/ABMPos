@@ -23,6 +23,6 @@ public interface ProductInventoryRepository extends JpaRepository<ProductInvento
     int getCountOfRowByProductNo(String productNo);
 
     @Modifying
-    @Query("UPDATE ProductInventoryDao SET retail = ?1 WHERE productNo = ?2")
-    void updateProductRetailPrice(double retail, String productNo);
+    @Query("UPDATE ProductInventoryDao SET tier1 = ?1, tier2 = ?2, tier3 = ?3 WHERE productNo = ?4")
+    void updateProductRetailPrice(double tier1,double tier2,double tier3, String productNo);
 }

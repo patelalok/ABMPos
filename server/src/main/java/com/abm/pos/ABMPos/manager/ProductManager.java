@@ -99,9 +99,10 @@ public class ProductManager{
 
             // I need to do this cause i need to maintain retail price of the product in both product and product inventory Table.
             // So this is really important.
+            // TODO NEED FIX this with new tier retail price logic.
             if(null != productDao1 && productDao.getRetail() != productDao1.getRetail()) {
 
-                productInventoryRepository.updateProductRetailPrice(productDao.getRetail(), productDao.getProductNo());
+                productInventoryRepository.updateProductRetailPrice(productDao.getTier1(),productDao.getTier2(),productDao.getTier3(), productDao.getProductNo());
             }
                     // This will sync the product quantity after every update.
             assert productDao1 != null;
@@ -228,33 +229,41 @@ public class ProductManager{
 
     public void addProductVariant(ProductVariantDao productVariantDao) {
 
-        ProductVariantDao p = productVariantRepository.save(productVariantDao);
+        // This Logic to only update product tier retail price.
+        if(productVariantDao.getOperationType().equalsIgnoreCase("retailTierEdit"))
+        {
+            productInventoryRepository.updateProductRetailPrice(productVariantDao.getTier1(),productVariantDao.getTier2(),productVariantDao.getTier3(), productVariantDao.getProductNo());
+        }
+        else {
+
+            ProductVariantDao p = productVariantRepository.save(productVariantDao);
 
 
-        // Here I need to add inventory details as soon as product variant added.
-        if(null !=p){
+            // Here I need to add inventory details as soon as product variant added.
+            if (null != p) {
 
-            ProductInventoryDao productInventoryDao = new ProductInventoryDao();
+                ProductInventoryDao productInventoryDao = new ProductInventoryDao();
 
-            productInventoryDao.setProductId(productVariantDao.getProductId());
-            productInventoryDao.setProductNo(productVariantDao.getProductNo());
-            productInventoryDao.setCost(productVariantDao.getCost());
-            productInventoryDao.setRetail(productVariantDao.getRetail());
-            productInventoryDao.setTier1(productVariantDao.getTier1());
-            productInventoryDao.setTier2(productVariantDao.getTier2());
-            productInventoryDao.setTier3(productVariantDao.getTier3());
+                productInventoryDao.setProductId(productVariantDao.getProductId());
+                productInventoryDao.setProductNo(productVariantDao.getProductNo());
+                productInventoryDao.setCost(productVariantDao.getCost());
+                productInventoryDao.setRetail(productVariantDao.getRetail());
+                productInventoryDao.setTier1(productVariantDao.getTier1());
+                productInventoryDao.setTier2(productVariantDao.getTier2());
+                productInventoryDao.setTier3(productVariantDao.getTier3());
 
-            productInventoryDao.setQuantity(productVariantDao.getQuantity());
-            productInventoryDao.setCreatedTimestamp(productVariantDao.getCreatedTimestamp());
+                productInventoryDao.setQuantity(productVariantDao.getQuantity());
+                productInventoryDao.setCreatedTimestamp(productVariantDao.getCreatedTimestamp());
 
-            productInventoryRepository.save(productInventoryDao);
+                productInventoryRepository.save(productInventoryDao);
 
-            // Here I need to add Entry in Image Table as soon as product variant added.
+                // Here I need to add Entry in Image Table as soon as product variant added.
 
-            ProductImageDao productImageDao = new ProductImageDao();
-            productImageDao.setProductNo(productVariantDao.getProductNo());
-            productImageRepository.save(productImageDao);
+                ProductImageDao productImageDao = new ProductImageDao();
+                productImageDao.setProductNo(productVariantDao.getProductNo());
+                productImageRepository.save(productImageDao);
 
+            }
         }
 
     }

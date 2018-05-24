@@ -1351,6 +1351,8 @@ export class ProductVariant {
   variant3?:string;
   value3?:string;
   createdTimestamp: any;
+  operationType?: string;
+
 
 }
 

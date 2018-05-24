@@ -30,6 +30,9 @@ public class ProductVariantDao {
     @Transient
     private double tier3;
 
+    @Transient
+    private String operationType;
+
 
 
     @Transient
@@ -175,5 +178,13 @@ public class ProductVariantDao {
 
     public void setTier3(double tier3) {
         this.tier3 = tier3;
+    }
+
+    public String getOperationType() {
+        return operationType;
+    }
+
+    public void setOperationType(String operationType) {
+        this.operationType = operationType;
     }
 }
