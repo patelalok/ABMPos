@@ -223,6 +223,41 @@
     </div>
 </div>
 
+<!-- Start of Product Variant Popup -->
+<div class="modal fade" id="productVariantPopup" role="dialog">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Please Select Product Variant Below</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <p-dataTable [value]="this.productPopupVariantList" scrollable="true" scrollHeight="500px" [responsive]="true">
+                        <p-column field="productNo" header="Product No"></p-column>
+                        <p-column field="variant1" header="Variant1"></p-column>
+                        <p-column field="value1" header="Value1"></p-column>
+                        <p-column field="variant2" header="Variant2"></p-column>
+                        <p-column field="value2" header="Value2"></p-column>
+                        <p-column field="variant3" header="Variant3"></p-column>
+                        <p-column field="value3" header="Value3"></p-column>
+                        <p-column field="tier1" header="Retail Tier">
+
+                        <ng-template let-product="rowData" pTemplate="body">
+                                {{product.tier1}} , {{product.tier2}} , {{product.tier3}}
+                            </ng-template>
+                        </p-column>
+                    </p-dataTable>
+                </div>
+                <div class="modal-footer">
+    
+                    <!-- <button type="button" class="btn btn-danger" data-dismiss="modal" (click)="this.deleteCustomer()">Yes</button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button> -->
+                </div>
+            </div>
+        </div>
+    </div>
+<!-- End of Product Variant Popup -->
+
 <!-- Popover -->
 <div #popover *ngIf="this.popoverStyle" class="popover fade bs-popover-left show" role="tooltip" [style]="this.popoverStyle">
     <div class="arrow" style="top: 82px;"></div>

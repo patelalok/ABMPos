@@ -497,26 +497,27 @@ public class ProductManager{
                 ProductVariantDao productVariantDao = new ProductVariantDao();
 
                 productVariantDao.setProductNo(j[0].toString());
+                productVariantDao.setProductId(Integer.parseInt(j[1].toString()));
 
-                if(null != j[1] && null != j[2])
+                if(null != j[2] && null != j[3])
                 {
-                    productVariantDao.setVariant1(j[1].toString());
-                    productVariantDao.setValue1(j[2].toString());
+                    productVariantDao.setVariant1(j[2].toString());
+                    productVariantDao.setValue1(j[3].toString());
                 }
-                if(null != j[3] && null != j[4])
+                if(null != j[4] && null != j[5])
                 {
-                    productVariantDao.setVariant2(j[3].toString());
-                    productVariantDao.setValue2(j[4].toString());
+                    productVariantDao.setVariant2(j[4].toString());
+                    productVariantDao.setValue2(j[5].toString());
                 }
-                if(null != j[5] && null != j[6])
+                if(null != j[6] && null != j[7])
                 {
-                    productVariantDao.setVariant3(j[5].toString());
-                    productVariantDao.setValue3(j[6].toString());
+                    productVariantDao.setVariant3(j[6].toString());
+                    productVariantDao.setValue3(j[7].toString());
                 }
 
-                productVariantDao.setTier1(Double.parseDouble(j[7].toString()));
-                productVariantDao.setTier2(Double.parseDouble(j[8].toString()));
-                productVariantDao.setTier3(Double.parseDouble(j[9].toString()));
+                productVariantDao.setTier1(Double.parseDouble(j[8].toString()));
+                productVariantDao.setTier2(Double.parseDouble(j[9].toString()));
+                productVariantDao.setTier3(Double.parseDouble(j[10].toString()));
 
                 productVariantDaoList.add(productVariantDao);
 

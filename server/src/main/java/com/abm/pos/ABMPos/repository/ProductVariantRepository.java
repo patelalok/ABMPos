@@ -19,7 +19,9 @@ public interface ProductVariantRepository extends JpaRepository<ProductVariantDa
 
     List<ProductVariantDao> findAllByProductId(Integer productId);
 
-    @Query(value = "SELECT distinct v.product_no,\n" +
+    @Query(value = "SELECT distinct " +
+            "v.product_no," +
+            "v.product_id,\n" +
             "v.variant1,\n" +
             "v.value1,\n" +
             "v.variant2,\n" +

@@ -45,6 +45,8 @@ export class SaleComponent implements OnInit, AfterViewInit {
   selectedProduct: Product;
   isProductExistsInSellList = false;
   productPriceArryByCustomer: Array<any[]>;
+  productVariantList: ProductVariant[] = [];
+  productPopupVariantList: ProductVariant[] = [];
 
   customerDto: Customer[];
   selectedCustomer: Customer;
@@ -109,6 +111,7 @@ export class SaleComponent implements OnInit, AfterViewInit {
       { name: 'Purchase Order', icon: 'fa fa-bookmark fa-x', link: '/sell/purchaseOrder' }
     ];
 
+    this.getAllProductVariant();
     this.storeSetupService.getStoreDetails().
       then((data) => {
         this.storeDetails = data;
@@ -264,10 +267,26 @@ export class SaleComponent implements OnInit, AfterViewInit {
 
   test(productForSearchBox: Product) {
 
-    if(productForSearchBox.varaint){
-      
+    if(true){
+             $('#productVariantPopup').modal('show');
+
+      console.log('inside the if true');
+      this.productVariantList.forEach((variant)=>{
+        $('#productVariantPopup').modal('show');
+        if(productForSearchBox.productId == variant.productId){
+          console.log('inside the if real condition')
+
+          this.productPopupVariantList.push(variant);
+        }
+        this.productPopupVariantList = this.productPopupVariantList.slice();
+      });
+      this.productPopupVariantList = this.productPopupVariantList.slice();
     }
+    
     console.log('coming for test on click', productForSearchBox);
+    console.log('variant List', this.productVariantList);
+
+
   }
   submitProduct(value: any) {
 
@@ -1270,6 +1289,13 @@ export class SaleComponent implements OnInit, AfterViewInit {
       // console.log(products);
     //   this.productList = products;
     // });
+  }
+
+  getAllProductVariant(){
+    this.productService.getAllProductVariant()
+    .subscribe((variant)=>{
+      this.productVariantList = variant;
+    });
   }
 
   disgardCompleteSale() {

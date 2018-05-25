@@ -85,6 +85,12 @@ export class ProductService {
     .catch(this.handleError);
   }
 
+  getAllProductVariant():Observable<ProductVariant[]>{
+    return this.http.get(this.url+'/getAllProductVariant')
+    .map(this.extractData)
+    .catch(this.handleError);
+  }
+
   getProductVariantById(productId:number): Observable<VariantInventoryDto[]>{
     return this.http.get(this.url+'/getProductVariantById?productId='+productId)
     .map(this.extractData)

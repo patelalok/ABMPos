@@ -75,7 +75,6 @@ export class CustomerComponent implements OnInit {
       this.customerDto = this.customerDto.slice();
       this.loadingServie.loading = false;
     })
-
   }
 
   showDialog() {
