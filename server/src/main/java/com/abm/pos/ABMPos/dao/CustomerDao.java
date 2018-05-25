@@ -31,6 +31,7 @@ public class CustomerDao {
     private String password;
     private String customerNote;
     private String keytag;
+    private int tier;
 
     public String getPhoneNo() {
         return phoneNo;
@@ -170,5 +171,13 @@ public class CustomerDao {
 
     public void setKeytag(String keytag) {
         this.keytag = keytag;
+    }
+
+    public int getTier() {
+        return tier;
+    }
+
+    public void setTier(int tier) {
+        this.tier = tier;
     }
 }

@@ -4,7 +4,7 @@
             <div class="row">
                 <div class="align-self-center col-lg-7" style="max-height: 500px !important;">
 
-                    <p-autoComplete id="productsearch" [(ngModel)]="this.productForSearchBox" class="full-width m-1" [suggestions]="product" placeholder="Scan or Search Product" (completeMethod)="filterProducts($event)" name="test" [minLength]="3" (keyup.enter)="submitProduct(productForSearchBox)"
+                    <p-autoComplete id="productsearch" [(ngModel)]="this.productForSearchBox" class="full-width m-1" [suggestions]="product" placeholder="Scan or Search Product" (completeMethod)="filterProducts($event)" name="test" [minLength]="3" (keyup.enter)="submitProduct(productForSearchBox)" (onSelect) = "this.test(productForSearchBox)"
                         field="description">
                         <ng-template>
                             <span style="max-width:500px !important">

@@ -230,7 +230,7 @@ public class ProductManager{
     public void addProductVariant(ProductVariantDao productVariantDao) {
 
         // This Logic to only update product tier retail price.
-        if(productVariantDao.getOperationType().equalsIgnoreCase("retailTierEdit"))
+        if(null != productVariantDao && productVariantDao.getOperationType().equalsIgnoreCase("retailTierEdit"))
         {
             productInventoryRepository.updateProductRetailPrice(productVariantDao.getTier1(),productVariantDao.getTier2(),productVariantDao.getTier3(), productVariantDao.getProductNo());
         }
@@ -453,7 +453,6 @@ public class ProductManager{
     public List<VariantInventoryDto> getProductVariantById(Integer productId) {
 
         List<ProductVariantDao> productVariantDaoList = new ArrayList<>();
-        List<ProductVariantDao> productVariantDaoListWithInventory = new ArrayList<>();
         List<VariantInventoryDto> variantInventoryDtoList = new ArrayList<>();
 
         productVariantDaoList =  productVariantRepository.findAllByProductId(productId);
@@ -483,6 +482,48 @@ public class ProductManager{
         }
 
         return variantInventoryDtoList;
+
+    }
+
+    public List<ProductVariantDao> getAllProductVariant() {
+
+        List<ProductVariantDao> productVariantDaoList = new ArrayList<>();
+
+        List<Object[]> result = productVariantRepository.getProductVariantInventoryDetails();
+
+        if (null != result) {
+            for (Object[] j : result) {
+
+                ProductVariantDao productVariantDao = new ProductVariantDao();
+
+                productVariantDao.setProductNo(j[0].toString());
+
+                if(null != j[1] && null != j[2])
+                {
+                    productVariantDao.setVariant1(j[1].toString());
+                    productVariantDao.setValue1(j[2].toString());
+                }
+                if(null != j[3] && null != j[4])
+                {
+                    productVariantDao.setVariant2(j[3].toString());
+                    productVariantDao.setValue2(j[4].toString());
+                }
+                if(null != j[5] && null != j[6])
+                {
+                    productVariantDao.setVariant3(j[5].toString());
+                    productVariantDao.setValue3(j[6].toString());
+                }
+
+                productVariantDao.setTier1(Double.parseDouble(j[7].toString()));
+                productVariantDao.setTier2(Double.parseDouble(j[8].toString()));
+                productVariantDao.setTier3(Double.parseDouble(j[9].toString()));
+
+                productVariantDaoList.add(productVariantDao);
+
+            }
+        }
+
+        return productVariantDaoList;
 
     }
 }

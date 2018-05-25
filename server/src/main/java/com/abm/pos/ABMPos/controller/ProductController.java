@@ -127,6 +127,12 @@ public class ProductController {
         return new ResponseEntity(HttpStatus.CREATED);
     }
 
+    @RequestMapping(value = "/getAllProductVariant", method = RequestMethod.GET, produces = "application/json")
+    public List<ProductVariantDao> getAllProductVariant()
+    {
+        return productManager.getAllProductVariant();
+    }
+
     @RequestMapping(value = "/getProductVariantById", method = RequestMethod.GET, produces = "application/json")
     public List<VariantInventoryDto> getProductVariantById(@RequestParam Integer productId)
     {

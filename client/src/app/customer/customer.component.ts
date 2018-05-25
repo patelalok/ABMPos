@@ -55,10 +55,10 @@ export class CustomerComponent implements OnInit {
         'street': [null],
         'zipCode': [''],
         'role': [null],
-        'gender': [''],
+        'tier': ['1'],
         'city': [''],
         'state': [''],
-        'type': [''],
+        'type': ['Business'],
         'companyName': [''],
         'customerNote':['']
       }
@@ -159,7 +159,7 @@ export class CustomerComponent implements OnInit {
     this.customerForm.get('taxId').setValue(customer.taxId);
     this.customerForm.get('dateOfBirth').setValue(customer.dateOfBirth);
     this.customerForm.get('type').setValue(customer.type);
-    this.customerForm.get('gender').setValue(customer.gender);
+    this.customerForm.get('tier').setValue(customer.tier);
     this.customerForm.get('street').setValue(customer.street);
     this.customerForm.get('city').setValue(customer.city);
     this.customerForm.get('state').setValue(customer.state);
@@ -242,6 +242,7 @@ export class Customer {
   password: any;
   createdDate: any;
   customerNote: any;
+  tier: number;
 }
 
 // export interface CustomerInterface {

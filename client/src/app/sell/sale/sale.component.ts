@@ -262,6 +262,13 @@ export class SaleComponent implements OnInit, AfterViewInit {
     // }
   }
 
+  test(productForSearchBox: Product) {
+
+    if(productForSearchBox.varaint){
+      
+    }
+    console.log('coming for test on click', productForSearchBox);
+  }
   submitProduct(value: any) {
 
     let productFound: boolean;
@@ -1222,7 +1229,9 @@ export class SaleComponent implements OnInit, AfterViewInit {
     let filtered: Product[] = [];
     for (let i = 0; i < products.length; i++) {
       let p = products[i];
-      if (p.description.toLowerCase().includes(query.toLowerCase()) || p.productNo.includes(query)) {
+      // if (p.description.toLowerCase().includes(query.toLowerCase()) || p.productNo.includes(query)) {
+        if (p.description.toLowerCase().includes(query.toLowerCase())) {
+
         filtered.push(p);
       }
     }
