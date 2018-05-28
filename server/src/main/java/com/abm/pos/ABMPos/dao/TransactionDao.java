@@ -29,6 +29,7 @@ public class TransactionDao {
     private String status;
     private double previousBalance;
     private double transactionBalance;
+    private double totalBalanceDue;
     private String username;
     private String customerFirstLastName;
     private String note;
@@ -261,5 +262,13 @@ public class TransactionDao {
 
     public void setTotalDueBalance(Double totalDueBalance) {
         this.totalDueBalance = totalDueBalance;
+    }
+
+    public double getTotalBalanceDue() {
+        return totalBalanceDue;
+    }
+
+    public void setTotalBalanceDue(double totalBalanceDue) {
+        this.totalBalanceDue = totalBalanceDue;
     }
 }

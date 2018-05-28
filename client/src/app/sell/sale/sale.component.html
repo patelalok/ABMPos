@@ -356,7 +356,7 @@
 
                 </div>
 
-                <div *ngIf="this.paymentObjectForPaymentSellTable.length > 0" class="row">
+                <div *ngIf="this.paymentDaoList.length > 0" class="row">
                     <table class="table">
                         <thead>
                             <tr>
@@ -366,9 +366,9 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr *ngFor="let payment of this.paymentObjectForPaymentSellTable">
-                                <td>{{payment.paymentType}}</td>
-                                <td>$ {{payment.paymentAmount}}</td>
+                            <tr *ngFor="let payment of this.paymentDaoList">
+                                <td>{{payment.type}}</td>
+                                <td>$ {{payment.amount}}</td>
                                 <td (click)="this.deletePaymentFromPaymentModel(payment)">
                                     <i class="fa fa-trash"></i>
                                 </td>

@@ -79,7 +79,7 @@ export class SaleComponent implements OnInit, AfterViewInit {
   // These both buttons are on payment page pop up.
   disablePaymentButtons: boolean = false;
   disablePaymentButtonsWithAmount = false;
-  disableCompleteSaleButton: boolean = false;
+  disableCompleteSaleButton: boolean = true;
   paymentDao: PaymentDao[] = [];
   disablePaymentButtonOnSale: boolean = true;
   transactionNotes: string = '';
@@ -274,7 +274,7 @@ export class SaleComponent implements OnInit, AfterViewInit {
     return this.transactionLineItemDaoList;
   }
   // #productsearch > span > input
-  testFocus() {
+  setFocusOnProductSearch() {
     // document.querySelector("#productsearch > span > input").focus();
     $('#productsearch > span > input').focus();
   }
@@ -301,7 +301,8 @@ export class SaleComponent implements OnInit, AfterViewInit {
   onVariantSelect(event){
     console.log('variant Event', event.data);
     $('#productVariantPopup').modal('hide');
-      this.addTransactionLineItem(event.data);
+    this.setFocusOnProductSearch();
+    this.addTransactionLineItem(event.data);
   }
 
   submitProduct(value: any) {
@@ -566,7 +567,7 @@ export class SaleComponent implements OnInit, AfterViewInit {
       else {
         paymentDaoObj.amount = this.dueAmountForTransaction;
       }
-      this.paymentObjectForPaymentSellTable.push({ 'paymentType': 'CASH', 'paymentAmount': paymentAmount });
+      //this.paymentObjectForPaymentSellTable.push({ 'paymentType': 'CASH', 'paymentAmount': paymentAmount });
       this.paymentDaoList.push(paymentDaoObj);
       this.validatePaymentButtons(paymentAmount);
     }
@@ -606,7 +607,7 @@ export class SaleComponent implements OnInit, AfterViewInit {
           paymentDaoObj.amount = this.dueAmountForTransaction;
         }
 
-        this.paymentObjectForPaymentSellTable.push({ 'paymentType': 'CREDIT', 'paymentAmount': paymentAmount });
+        //this.paymentObjectForPaymentSellTable.push({ 'paymentType': 'CREDIT', 'paymentAmount': paymentAmount });
         this.paymentDaoList.push(paymentDaoObj);
 
         this.validatePaymentButtons(paymentAmount);
@@ -622,7 +623,7 @@ export class SaleComponent implements OnInit, AfterViewInit {
         paymentDaoObj.amount = this.dueAmountForTransaction;
       }
 
-      this.paymentObjectForPaymentSellTable.push({ 'paymentType': 'CHECK', 'paymentAmount': paymentAmount });
+      //this.paymentObjectForPaymentSellTable.push({ 'paymentType': 'CHECK', 'paymentAmount': paymentAmount });
       this.paymentDaoList.push(paymentDaoObj);
       this.validatePaymentButtons(paymentAmount);
   }
@@ -669,14 +670,19 @@ export class SaleComponent implements OnInit, AfterViewInit {
           // so By doing this i am just reducing the store credit which is used for this transaction and i can update rest on customer account.
 
           paymentDaoObj.amount = this.dueAmountForTransaction;
+          this.paymentDaoList.push(paymentDaoObj);
 
-          this.paymentObjectForPaymentSellTable.push({ 'paymentType': 'StoreCredit', 'paymentAmount': paymentDaoObj.amount });
+          
+
+          //this.paymentObjectForPaymentSellTable.push({ 'paymentType': 'StoreCredit', 'paymentAmount': paymentDaoObj.amount });
           this.validatePaymentButtons(paymentDaoObj.amount);
         }
         // Here i am using complete store credit of the customer
         else {
           paymentDaoObj.amount = paymentAmount;
-          this.paymentObjectForPaymentSellTable.push({ 'paymentType': 'StoreCredit', 'paymentAmount': paymentDaoObj.amount });
+          this.paymentDaoList.push(paymentDaoObj);
+
+          //this.paymentObjectForPaymentSellTable.push({ 'paymentType': 'StoreCredit', 'paymentAmount': paymentDaoObj.amount });
           this.validatePaymentButtons(paymentDaoObj.amount);
         }
       }
@@ -830,9 +836,9 @@ export class SaleComponent implements OnInit, AfterViewInit {
   setDataForPaymentModel() {
 
     // these will help to clean the data if user close the popup and comeback again.
-    //this.paymentDto = new PaymentDao();
     this.paymentObjectForPaymentSellTable = [];
     this.paymentDao = [];
+    this.paymentDaoList = [];
 
     // payaccountTextBox is bind with two binding so i need to intialize here, so i can show data on payment popup load.
     this.payAmountTextBox = Math.round((this.transactionDtoList.totalAmount) * 1e2) / 1e2;
@@ -844,13 +850,19 @@ export class SaleComponent implements OnInit, AfterViewInit {
     this.disableOnAccountButtons = this.selectedCustomer == null;
 
     // This mean this customer has some store credit to use so i need to enable store credit button.
-    if (this.selectedCustomer && this.selectedCustomer.storeCredit > 0) {
+    if (this.selectedCustomer) {
+      this.disableCompleteSaleButton = false;
+      if(this.selectedCustomer.storeCredit > 0){
       this.disableStoreCreditButtons = false;
     }
     else {
       this.disableStoreCreditButtons = true;
     }
   }
+  else{
+    this.disableCompleteSaleButton = true;
+  }
+}
 
   // This method helps to take payment when customer is trying to pay for pending invoice.
   setDataForPaymentModelForPendingInvoice(transaction: TransactionDtoList) {
@@ -877,16 +889,24 @@ export class SaleComponent implements OnInit, AfterViewInit {
 
   }
 
-  deletePaymentFromPaymentModel(payment: PaymentObjectForPaymentSellTable) {
 
-    let index = this.paymentObjectForPaymentSellTable.indexOf(payment);
+  deletePaymentFromPaymentModel(payment: PaymentDao) {
+
+    let index = this.paymentDaoList.indexOf(payment);
+
+    console.log('due balance when delete', this.dueAmountForTransaction);
     if (index > -1) {
-      this.paymentObjectForPaymentSellTable.splice(index, 1);
+      this.paymentDaoList.splice(index, 1);
+
+      if(payment.amount > 0){
+        this.dueAmountForTransaction = this.dueAmountForTransaction  +payment.amount;
+      }
+
 
       // Need to handle this, because i am adding payment type when user click on add payment,
       // So now when user delete the payment type, i need to change the payment object too, and remove the or subtract the payment amount.
-      // if (payment.paymentType == 'Cash' && payment.paymentAmount > 0) {
-      //   this.paymentDto.cash = this.paymentDto.cash - payment.paymentAmount;
+      // if (payment.type == 'Cash' && payment.amount > 0) {
+        //this.paymentDto.cash = this.paymentDto.cash - payment.paymentAmount;
       // }
       // if (payment.paymentType == 'Credit' && payment.paymentAmount > 0) {
       //   this.paymentDto.credit = this.paymentDto.credit - payment.paymentAmount;
@@ -905,12 +925,12 @@ export class SaleComponent implements OnInit, AfterViewInit {
       // }
     }
 
-    if(payment.paymentType == 'OnAccount'){
-      //this.dueAmountForTransaction = this.transactionDtoList.totalAmount -this.paymentDto.onAccount;
-    }
-    else{
-    this.dueAmountForTransaction = +payment.paymentAmount + this.dueAmountForTransaction;
-    }
+    // if(payment.paymentType == 'OnAccount'){
+    //   //this.dueAmountForTransaction = this.transactionDtoList.totalAmount -this.paymentDto.onAccount;
+    // }
+    // else{
+    // this.dueAmountForTransaction = +payment.paymentAmount + this.dueAmountForTransaction;
+    // }
      // I need to check this after all delete, cause i am disabling it on onaccount blindly, please do not remove from here.
      if (this.selectedCustomer && this.selectedCustomer.storeCredit > 0) {
       this.disableStoreCreditButtons = false;
@@ -927,6 +947,7 @@ export class SaleComponent implements OnInit, AfterViewInit {
       this.disablePaymentButtonsWithAmount = false;
 
       this.disableOnAccountButtons = this.selectedCustomer == null;
+      this.disableCompleteSaleButton = this.selectedCustomer == null;
     }
   }
   // This is the method which handle completing the transaction and reset the all flag and other data.
@@ -1096,6 +1117,8 @@ export class SaleComponent implements OnInit, AfterViewInit {
 
       this.setTransactionDtoList();
       this.paymentDao = [];
+      this.paymentDaoList = [];
+
 
       // Need set it null cause its showing in next transaction also.
       this.transactionNotes = '';
@@ -1113,7 +1136,7 @@ export class SaleComponent implements OnInit, AfterViewInit {
 
     // very important cause this will give problem after doing return transaction so, after any transactoin i need to do this.
     this.saleType = 'Complete';
-    this.testFocus();
+    this.setFocusOnProductSearch();
   }
 
 
