@@ -14,13 +14,16 @@ import { Phone } from './phone/phone.component';
 export class ProductService {
   private url: string; 
   private productList: Product[];
+  private productVariantList: ProductVariant[];
   productListChange: Subject<Product[]> = new Subject<Product[]>();
+  productVariantListChange: Subject<ProductVariant[]> = new Subject<ProductVariant[]>();
 
   // private dataObs$ = new ReplaySubject(1);
 
   constructor(private http: Http, private toastr: ToastsManager) {
     this.url = environment.reportUrl; 
     this.getProductDetails();
+    this.getAllProductVariant();
    }
 
    addProduct(product: Product) {
@@ -85,7 +88,15 @@ export class ProductService {
     .catch(this.handleError);
   }
 
-  getAllProductVariant():Observable<ProductVariant[]>{
+  getAllProductVariant(){
+    this.getAllProductVariantFromBackEnd()
+    .subscribe((variant)=>{
+      this.productVariantList = variant;
+      this.productVariantListChange.next(this.productVariantList);
+      return this.productVariantList;
+    })
+  }
+  getAllProductVariantFromBackEnd(): Observable<ProductVariant[]>{
     return this.http.get(this.url+'/getAllProductVariant')
     .map(this.extractData)
     .catch(this.handleError);

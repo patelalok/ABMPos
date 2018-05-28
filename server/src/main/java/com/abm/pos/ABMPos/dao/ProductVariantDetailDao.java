@@ -7,7 +7,7 @@ import javax.persistence.*;
  */
 
 @Entity
-@Table(name = "product_variant_details")
+@Table(name = "product_variant_detail")
 public class ProductVariantDetailDao {
 
     @GeneratedValue(strategy = GenerationType.AUTO)

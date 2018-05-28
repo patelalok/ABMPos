@@ -105,18 +105,18 @@ public class ProductManager{
                 productInventoryRepository.updateProductRetailPrice(productDao.getTier1(),productDao.getTier2(),productDao.getTier3(), productDao.getProductNo());
             }
                     // This will sync the product quantity after every update.
-            assert productDao1 != null;
-            List<ProductInventoryDao> productInventoryDaoList = productInventoryRepository.findAllByProductNo(productDao1.getProductNo());
-
-                    if (null != productInventoryDaoList && productInventoryDaoList.size() > 0) {
-                        for (ProductInventoryDao productInventoryDao2 : productInventoryDaoList) {
-                            totalProduct = totalProduct + productInventoryDao2.getQuantity();
-                        }
-                        // Now i need to update quantity in product table, so setting data here which will save after this.
-                        productDao.setQuantity(totalProduct);
-                        productDao.setCost(productInventoryDaoList.get(0).getCost());
-                    }
-            productDao1 = productRepository.save(productDao);
+//            assert productDao1 != null;
+//            List<ProductInventoryDao> productInventoryDaoList = productInventoryRepository.findAllByProductNo(productDao1.getProductNo());
+//
+//                    if (null != productInventoryDaoList && productInventoryDaoList.size() > 0) {
+//                        for (ProductInventoryDao productInventoryDao2 : productInventoryDaoList) {
+//                            totalProduct = totalProduct + productInventoryDao2.getQuantity();
+//                        }
+//                        // Now i need to update quantity in product table, so setting data here which will save after this.
+//                        productDao.setQuantity(totalProduct);
+//                        productDao.setCost(productInventoryDaoList.get(0).getCost());
+//                    }
+//            productDao1 = productRepository.save(productDao);
         }
 
         return productDao1;
@@ -244,6 +244,7 @@ public class ProductManager{
 
                 ProductInventoryDao productInventoryDao = new ProductInventoryDao();
 
+                assert productVariantDao != null;
                 productInventoryDao.setProductId(productVariantDao.getProductId());
                 productInventoryDao.setProductNo(productVariantDao.getProductNo());
                 productInventoryDao.setCost(productVariantDao.getCost());
@@ -503,11 +504,13 @@ public class ProductManager{
                 {
                     productVariantDao.setVariant1(j[2].toString());
                     productVariantDao.setValue1(j[3].toString());
+
                 }
                 if(null != j[4] && null != j[5])
                 {
                     productVariantDao.setVariant2(j[4].toString());
                     productVariantDao.setValue2(j[5].toString());
+
                 }
                 if(null != j[6] && null != j[7])
                 {
@@ -518,6 +521,9 @@ public class ProductManager{
                 productVariantDao.setTier1(Double.parseDouble(j[8].toString()));
                 productVariantDao.setTier2(Double.parseDouble(j[9].toString()));
                 productVariantDao.setTier3(Double.parseDouble(j[10].toString()));
+                productVariantDao.setDescription(j[11].toString());
+
+
 
                 productVariantDaoList.add(productVariantDao);
 

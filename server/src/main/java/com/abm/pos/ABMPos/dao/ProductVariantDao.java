@@ -24,6 +24,9 @@ public class ProductVariantDao {
     private String createdTimestamp;
 
     @Transient
+    private String description;
+
+    @Transient
     private double tier1;
     @Transient
     private double tier2;
@@ -186,5 +189,13 @@ public class ProductVariantDao {
 
     public void setOperationType(String operationType) {
         this.operationType = operationType;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 }

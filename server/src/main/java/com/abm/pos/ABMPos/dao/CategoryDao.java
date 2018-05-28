@@ -16,9 +16,10 @@ public class CategoryDao {
     private int categoryId;
     private String name;
     private String description;
-    private double tier1;
-    private double tier2;
-    private double tier3;
+//    private double tier1;
+//    private double tier2;
+//    private double tier3;
+
 
     @Transient
     private int noOfProducts;
@@ -67,27 +68,4 @@ public class CategoryDao {
         this.noOfProducts = noOfProducts;
     }
 
-    public double getTier1() {
-        return tier1;
-    }
-
-    public void setTier1(double tier1) {
-        this.tier1 = tier1;
-    }
-
-    public double getTier2() {
-        return tier2;
-    }
-
-    public void setTier2(double tier2) {
-        this.tier2 = tier2;
-    }
-
-    public double getTier3() {
-        return tier3;
-    }
-
-    public void setTier3(double tier3) {
-        this.tier3 = tier3;
-    }
 }

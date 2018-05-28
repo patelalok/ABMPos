@@ -69,7 +69,7 @@ export class AddProductComponent implements OnInit {
         'minQuantity': [null, [Validators.pattern('^[0-9]+$')]],
         'tax': [true, null],
         'ecommerce': [false, null],
-        'varaint': [false, null],
+        'variant': [false, null],
         'alternetNo':[null]
       }
     );
@@ -179,7 +179,7 @@ export class AddProductComponent implements OnInit {
         ecommerce: formValues.ecommerce,
         relatedProduct: formValues.relatedProduct,
         tax: formValues.tax,
-        varaint: formValues.varaint,
+        variant: formValues.variant,
         markup: formValues.markup,
         minQuantity: formValues.minQuantity,
         quantity: formValues.quantity,
@@ -288,7 +288,7 @@ export interface ProductForm {
   quantity?: number;
   minQuantity?: number;
   tax?: boolean;
-  varaint?: boolean;
+  variant?: boolean;
   active?: boolean;
   relatedProduct?: boolean;
   returnRule?: any;
@@ -297,7 +297,6 @@ export interface ProductForm {
   vendorId?: number;
   modelId?: number;
   ecommerce?: boolean;
-  variant?: boolean;
   customLoyaltyAmount?: number;
   productInventoryDaoList?: ProductInventory[];
   color?: string;

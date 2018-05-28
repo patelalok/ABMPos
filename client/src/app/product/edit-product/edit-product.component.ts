@@ -73,7 +73,7 @@ export class EditProductComponent implements OnInit {
         let currentModel = {}; 
         this.form = this.formBuilder.group(
           {
-            // 'productNo': [this.currentProduct.productNo, [Validators.required, Validators.pattern('^[0-9]+$')]],
+            'productNo': [this.currentProduct.productNo, [Validators.required, Validators.pattern('^[0-9]+$')]],
             'description': [this.currentProduct.description, Validators.required],
             'category': [null, Validators.required],
             'brand': [null, Validators.required],
@@ -87,6 +87,7 @@ export class EditProductComponent implements OnInit {
             'tier3': [this.currentProduct.tier3, [Validators.required, Validators.pattern('^[0-9-.]+$')]],
             'quantity': [this.currentProduct.quantity,''],
             'minQuantity': [this.currentProduct.minQuantity,''],
+            'variant':[this.currentProduct.variant, ''],
             'tax': [this.currentProduct.tax, null],
             'ecommerce': [this.currentProduct.ecommerce, null],
             'alternetNo':[this.currentProduct.alternetNo, null]
@@ -259,7 +260,7 @@ export class EditProductComponent implements OnInit {
         time:null,
         totalProductPrice: 0,
         transactionComId: 0,
-        varaint: null,
+        variant: formValues.variant,
         operationType: 'Edit',
         saleQuantity:0
           }

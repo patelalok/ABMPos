@@ -9,7 +9,7 @@
 
                 <div class="col-md-6">
 
-                    <!-- <div class="row m-2">
+                    <div class="row m-2">
                         <div class="col-md-4 product-textbox">
                             <label>Product No:</label>
                         </div>
@@ -22,7 +22,7 @@
                             <div *ngIf="form.get('productNo').hasError('pattern') && form.get('productNo').touched" class="alert alert-danger">
                                 *Value Not Alloewd</div>
                         </div>
-                    </div> -->
+                    </div>
                 
                     <div class="row m-2">
                         <div class="col-md-4 product-textbox">
@@ -207,7 +207,7 @@
                             </div>
                             <div class="checkbox col-md-4">
                                 <label>
-                                        <input type="checkbox" (click) = "showDialog()">
+                                        <input type="checkbox" formControlName="variant">
                                          Is Variant
                                       </label>
                             </div>
@@ -277,7 +277,7 @@
                 <div class="col-md-12">
                     <div class = "my-md-2" style="display: flex; justify-content:space-between;">
                          <h4>Product Inventory Details</h4>
-                        <button type="button" mat-raised-button class="bg-primary text-white action-button-lg" data-target="#addVariant" data-toggle="modal">
+                        <button type="button" mat-raised-button class="bg-primary text-white action-button-lg" data-target="#addVariant" data-toggle="modal" [disabled]="!this.currentProduct.variant" >
                             <i class="fa fa-plus-square" aria-hidden="true" label="Add"></i>
                                 Add Variant
                         </button>

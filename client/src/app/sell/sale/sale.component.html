@@ -4,7 +4,7 @@
             <div class="row">
                 <div class="align-self-center col-lg-7" style="max-height: 500px !important;">
 
-                    <p-autoComplete id="productsearch" [(ngModel)]="this.productForSearchBox" class="full-width m-1" [suggestions]="product" placeholder="Scan or Search Product" (completeMethod)="filterProducts($event)" name="test" [minLength]="3" (keyup.enter)="submitProduct(productForSearchBox)" (onSelect) = "this.test(productForSearchBox)"
+                    <p-autoComplete id="productsearch" [(ngModel)]="this.productForSearchBox" class="full-width m-1" [suggestions]="product" placeholder="Scan or Search Product" (completeMethod)="filterProducts($event)" name="test" [minLength]="3" (keyup.enter)="submitProduct(productForSearchBox)" (onSelect) = "this.selectProductFromSearch(productForSearchBox)"
                         field="description">
                         <ng-template>
                             <span style="max-width:500px !important">
@@ -232,7 +232,7 @@
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                 </div>
                 <div class="modal-body">
-                    <p-dataTable [value]="this.productPopupVariantList" scrollable="true" scrollHeight="500px" [responsive]="true">
+                    <p-dataTable [value]="this.productPopupVariantList" selectionMode="single" dataKey="productNo" (onRowSelect)="onVariantSelect($event)" scrollable="true" scrollHeight="500px" [responsive]="true">
                         <p-column field="productNo" header="Product No"></p-column>
                         <p-column field="variant1" header="Variant1"></p-column>
                         <p-column field="value1" header="Value1"></p-column>

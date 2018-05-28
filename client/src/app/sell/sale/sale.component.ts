@@ -40,7 +40,7 @@ export class SaleComponent implements OnInit, AfterViewInit {
   @HostBinding('@fadeInAnimation') fadeInAnimation;
 
   product: Product[] = [];
-  productList: Product[] = []
+  productList: Product[] = [];
   productForSearchBox: any;
   selectedProduct: Product;
   isProductExistsInSellList = false;
@@ -52,6 +52,7 @@ export class SaleComponent implements OnInit, AfterViewInit {
   selectedCustomer: Customer;
   cust: any;
   filteredCustomer: any[];
+  customerTier:number = 0;
 
   transactionLineItemDaoList: TransactionLineItemDaoList[];
   transactionDtoList = new TransactionDtoList();
@@ -74,7 +75,6 @@ export class SaleComponent implements OnInit, AfterViewInit {
 // This is for printing payment details on receipt.
 
 
-
   // This help when customer has paid full amount, so now user should not able to click on any payment button.
   // These both buttons are on payment page pop up.
   disablePaymentButtons: boolean = false;
@@ -95,6 +95,8 @@ export class SaleComponent implements OnInit, AfterViewInit {
 
   _subscriptionCustomer: any;
   _subscriptionProduct: any;
+  _subscriptionProductVariant: any;
+
   parkDate: any;
 
 
@@ -117,6 +119,7 @@ export class SaleComponent implements OnInit, AfterViewInit {
         this.storeDetails = data;
         if (this.selectedCustomer != null && this.selectedCustomer.type == 'Business') {
           this.taxPercent = 0.00;
+          this.customerTier = this.selectedCustomer.tier;
         }
         else {
           this.taxPercent = this.storeDetails.tax;
@@ -155,26 +158,48 @@ export class SaleComponent implements OnInit, AfterViewInit {
   }
 
 
-  public addTransactionLineItem(productObj: Product): TransactionLineItemDaoList[] {
+  public addTransactionLineItem(productObj: any): TransactionLineItemDaoList[] {
 
-    // Price by customer logic.
-    if (null != this.selectedCustomer && this.selectedCustomer != undefined) {
-      if (this.productPriceArryByCustomer && null != this.productPriceArryByCustomer && this.productPriceArryByCustomer.length > 0) {
+    console.log('Product Object in add line item', productObj);
 
-        this.productPriceArryByCustomer.forEach((product) => {
-          // here product[1] is the product no coming from back end, i am sending only 2 values prodcut no and retail.  like this--->["23424234234", 12.99]
-          if (product[0] == productObj.productNo) {
-            productObj.retailWithDiscount = product[1];
-          }
-        })
-      }
+    // Price by customer logic., THIS LOGIC IS NOT NEEDED NOW SO COMMETING IT, PLEASE DONT REMOVE IT.
+    // if (null != this.selectedCustomer && this.selectedCustomer != undefined) {
+    //   if (this.productPriceArryByCustomer && null != this.productPriceArryByCustomer && this.productPriceArryByCustomer.length > 0) {
+
+    //     this.productPriceArryByCustomer.forEach((product) => {
+    //       // here product[1] is the product no coming from back end, i am sending only 2 values prodcut no and retail.  like this--->["23424234234", 12.99]
+    //       if (product[0] == productObj.productNo) {
+    //         productObj.retailWithDiscount = product[1];
+    //       }
+    //     })
+    //   }
+    // }
+
+
+    // FIRST NEED TO CHECK CUSTOMER IS SELECTED OR NOT.
+    // THEN NEED TO CHECK HIS TIER AND WITH TIER, I NEED TO SET RETAIL PRICE FOR THE PERTICULAR PRODUCT.
+
+    if(null!= this.selectedCustomer && this.selectedCustomer != undefined && this.selectedCustomer.tier > 0)
+    {
+        if(this.selectedCustomer.tier == 1){
+          productObj.retailWithDiscount = productObj.tier1;
+          productObj.retail = productObj.tier1;
+        }
+        else if(this.selectedCustomer.tier == 2){
+          productObj.retailWithDiscount = productObj.tier2;
+          productObj.retail = productObj.tier2;
+        }
+        else if(this.selectedCustomer.tier == 3){
+          productObj.retailWithDiscount = productObj.tier3;
+          productObj.retail = productObj.tier3;
+        }      
     }
-    // This will help to add retailWithDiscount first time when user add the first line item
-    if (productObj.retailWithDiscount <= 0) {
-      productObj.retailWithDiscount = productObj.retail;
+    else {
+      productObj.retailWithDiscount = productObj.tier3;
+      productObj.retail = productObj.tier3;
     }
     // this will help me to set default quantity by for each product.
-    if (productObj.saleQuantity <= 0) {
+    if (productObj.saleQuantity <= 0 || productObj.saleQuantity == undefined) {
       productObj.saleQuantity = 1;
     }
     // This is fisrt time when user is adding product to sell.
@@ -234,10 +259,15 @@ export class SaleComponent implements OnInit, AfterViewInit {
         this.persit.setProducts(this.transactionLineItemDaoList);
       }
     }
+
+
+    // NEVER Delete this very important logic
     $(`lineitem${productObj.productNo}`).ready(function () {
-      // $(`lineitem${productObj.productNo}`).sc
       document.getElementById(`lineitem${productObj.productNo}`).scrollIntoView();
     });
+
+
+
     // this.product = null;
     // this.productForSearchBox = null;
     // this.filterProducts(null);
@@ -249,64 +279,64 @@ export class SaleComponent implements OnInit, AfterViewInit {
     $('#productsearch > span > input').focus();
   }
 
+  selectProductFromSearch(productForSearchBox: Product) {
 
-  scanProduct($event){
-    // if(event.length > 10)
-    // {
-      console.log('event', $event);
-      // this.productList.forEach((scanProduct)=>{
-      //   if(event == scanProduct.productNo){
-      //     this.addTransactionLineItem(scanProduct);
-      //     this.product = null;
-      //   }
-      // });
+    this.productPopupVariantList = [];
 
-
-    // }
-  }
-
-  test(productForSearchBox: Product) {
-
-    if(true){
-             $('#productVariantPopup').modal('show');
-
-      console.log('inside the if true');
+    if(productForSearchBox.variant){
       this.productVariantList.forEach((variant)=>{
-        $('#productVariantPopup').modal('show');
         if(productForSearchBox.productId == variant.productId){
-          console.log('inside the if real condition')
-
           this.productPopupVariantList.push(variant);
         }
-        this.productPopupVariantList = this.productPopupVariantList.slice();
+        //this.productPopupVariantList = this.productPopupVariantList.slice();
       });
+      $('#productVariantPopup').modal('show');
       this.productPopupVariantList = this.productPopupVariantList.slice();
     }
-    
-    console.log('coming for test on click', productForSearchBox);
-    console.log('variant List', this.productVariantList);
-
-
+    else if(productForSearchBox != null) {
+      this.addTransactionLineItem(productForSearchBox);
+    }
   }
-  submitProduct(value: any) {
 
+  onVariantSelect(event){
+    console.log('variant Event', event.data);
+    $('#productVariantPopup').modal('hide');
+      this.addTransactionLineItem(event.data);
+  }
+
+  submitProduct(value: any) {
+    console.log('Inside submit product', value);
     let productFound: boolean;
-    if(value.length > 7 && (value.match(/[0-9]/i))){
-      console.log('from submit product', value);
-      this.productList.forEach((product)=>{
-        if(value == product.productNo){
-          productFound = true;
-          this.addTransactionLineItem(product);
-          this.timeOut();
-        }
-      })
+
+    if(null != value && value.length > 7 && (value.match(/[0-9]/i))){
+      console.log('This mean user has scan the barcode no', value);
+
+        // First finding product no in variant list and then in real product List
+        this.productVariantList.forEach((product)=>{
+          if(value == product.productNo){
+            productFound = true;
+            this.addTransactionLineItem(product);
+            this.timeOut();
+          }
+        });
+     
+        if(!productFound)
+        {
+        this.productList.forEach((product)=>{
+          if(value == product.productNo){
+            productFound = true;
+            this.addTransactionLineItem(product);
+            this.timeOut();
+          }
+        })
+      }
 
       if(!productFound){
         alert("Sorry Can Not Find The Product!!!");
         this.productForSearchBox = null;
       }
     }
-   
+
     if (typeof value === 'string') {
       if (value !== '' && value !== undefined && value.indexOf('.') !== 0) {
         if (value.match(/[a-z]/i)) {
@@ -321,6 +351,8 @@ export class SaleComponent implements OnInit, AfterViewInit {
       }
     }
     else if (value != null) {
+
+      if(value != undefined && !value.variant)
       this.addTransactionLineItem(value);
     }
 
@@ -457,6 +489,7 @@ export class SaleComponent implements OnInit, AfterViewInit {
     this.customerService.getCustomerDetailsByPhoneNo(this.selectedCustomer.phoneNo)
     .subscribe((customer)=>{
       this.selectedCustomer = customer;
+      this.customerTier = this.selectedCustomer.tier;
 
       if (this.selectedCustomer.type == 'Business') {
         this.taxPercent = 0.00;
@@ -1278,7 +1311,6 @@ export class SaleComponent implements OnInit, AfterViewInit {
 
   }
   getProductDetails() {
-
     this.productService.getProductDetails();
    this._subscriptionProduct =  this.productService.productListChange.subscribe((product)=>{
       this.productList = product;
@@ -1290,12 +1322,12 @@ export class SaleComponent implements OnInit, AfterViewInit {
     //   this.productList = products;
     // });
   }
-
   getAllProductVariant(){
-    this.productService.getAllProductVariant()
-    .subscribe((variant)=>{
+    this.productService.getAllProductVariant();
+    this._subscriptionProductVariant = this.productService.productVariantListChange.subscribe((variant)=>{
       this.productVariantList = variant;
-    });
+      this.productPopupVariantList = this.productPopupVariantList.slice();
+    })
   }
 
   disgardCompleteSale() {
@@ -1346,7 +1378,7 @@ export class Product {
   quantity?: number;
   minQuantity?: number;
   tax?: boolean;
-  varaint?: boolean;
+  variant?: boolean;
   active?: boolean;
   ecommerce?: boolean;
   relatedProduct?: boolean;
@@ -1387,6 +1419,40 @@ export class ProductVariant {
   value3?:string;
   createdTimestamp: any;
   operationType?: string;
+
+
+  // productVariantNo: number;
+  description?: string;
+  categoryId?: number;
+  subCategoryId?:number;
+  brandId?: number
+  vendorId?: number;
+  modelId?: number;
+  alternetNo?: string;
+
+  markup?: number;
+  minQuantity?: number;
+  tax?: boolean;
+  variant?: boolean;
+  active?: boolean;
+  ecommerce?: boolean;
+  relatedProduct?: boolean;
+  // defaultQuantity = 1;
+  saleQuantity?: number;
+  returnRule?: any;
+
+  transactionComId?: number;
+  date?: any;
+  time?: any;
+  status?: string;
+  discount?: number;
+  retailWithDiscount?: number;
+  totalProductPrice?: number;
+  taxAmountOnProduct?: number;
+  imeiNo?: any;
+  productInventoryDaoList?: ProductInventory[];
+  color?:string;
+  memory?:string;
 
 
 }

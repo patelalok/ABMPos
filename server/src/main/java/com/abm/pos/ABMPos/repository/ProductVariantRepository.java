@@ -19,20 +19,23 @@ public interface ProductVariantRepository extends JpaRepository<ProductVariantDa
 
     List<ProductVariantDao> findAllByProductId(Integer productId);
 
-    @Query(value = "SELECT distinct " +
-            "v.product_no," +
-            "v.product_id,\n" +
-            "v.variant1,\n" +
-            "v.value1,\n" +
-            "v.variant2,\n" +
-            "v.value2,\n" +
-            "v.variant3,\n" +
-            "v.value3,\n" +
-            "i.tier1,\n" +
-            "i.tier2,\n" +
-            "i.tier3\n" +
-            "from product_variant v \n" +
-            "inner join product_inventory i \n" +
-            "on i.product_no = v.product_no", nativeQuery = true)
+    @Query(value = "SELECT distinct \n" +
+            "            v.product_no, \n" +
+            "            v.product_id,\n" +
+            "            v.variant1,\n" +
+            "            v.value1,\n" +
+            "            v.variant2,\n" +
+            "            v.value2,\n" +
+            "            v.variant3,\n" +
+            "            v.value3,\n" +
+            "            i.tier1,\n" +
+            "            i.tier2,\n" +
+            "            i.tier3,\n" +
+            "            CONCAT(p.description, ' ',ifnull(v.variant1, ''), ' ',ifnull(v.value1, ''), ' ',ifnull(v.variant2,''), ' ', ifnull(v.value2, ''), ' ',ifnull(v.variant3,''), ' ', ifnull(v.value3, '')) as description\n" +
+            "            from product_variant v \n" +
+            "            inner join product_inventory i \n" +
+            "            on i.product_no = v.product_no\n" +
+            "            inner join product p\n" +
+            "            on p.product_id = v.product_id", nativeQuery = true)
     List<Object[]> getProductVariantInventoryDetails();
 }

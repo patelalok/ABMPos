@@ -1128,7 +1128,7 @@ items: MenuItem[];
 //   quantity: number;
 //   minQuantity: number;
 //   tax: boolean;
-//   varaint: boolean;
+//   variant: boolean;
 //   active: boolean;
 //   ecommerce: boolean;
 //   relatedProduct: boolean;
