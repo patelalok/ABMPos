@@ -37,7 +37,7 @@ export class PaymentComponent implements OnInit {
 
     this.paymentForm = this.formBuilder.group(
       {
-        'paymentType': ['Cash', [Validators.required]],
+        'paymentType': ['CASH', [Validators.required]],
         'referenceNo': [''],
         'paymentAmount': [0.00, [Validators.required, Validators.pattern('^[0-9-.]+$')]]
       }
@@ -155,7 +155,7 @@ export class PaymentComponent implements OnInit {
     this.sellService.addPaymentDetails(this.paymentList)
     .subscribe(data => {
       if(data){
-        this.toastr.success('Inventory Added Successfully !!', 'Success!');
+        this.toastr.success('Payment Recived Succesfully !!', 'Success!');
       }
       else {
         this.toastr.error('Can Not Process Payment !!', 'Error!');

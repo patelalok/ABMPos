@@ -17,7 +17,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ToastsManager } from 'ng2-toastr/src/toast-manager';
 import { empty } from 'rxjs/Observer';
 import { MenuItem } from 'app/shared/top-navbar/top-navbar.component';
-import { TransactionLineItemDaoList, TransactionDtoList, PaymentDao, PaymentObjectForPaymentSellTable, Product } from 'app/sell/sale/sale.component';
+import { TransactionLineItemDaoList, TransactionDtoList, PaymentDao, PaymentObjectForPaymentSellTable, Product, ProductVariant } from 'app/sell/sale/sale.component';
 import { PersistenceService } from 'app/shared/services/persistence.service';
 import { ProductService } from 'app/product/product.service';
 declare var $: JQueryStatic;
@@ -32,6 +32,7 @@ export class ReturnSaleComponent implements OnInit, AfterViewInit {
 
 
   product: Product[];
+  productVariantList: ProductVariant[] = [];
   productForSearchBox: any;
   isProductExistsInSellList = false;
   selectedProduct: Product;
@@ -57,6 +58,8 @@ export class ReturnSaleComponent implements OnInit, AfterViewInit {
   discountTexBox: number;
   paymentObjectForPaymentSellTable: PaymentObjectForPaymentSellTable[] = [];
   paymentDaoList: PaymentDao[] = [];
+  productPopupVariantList: ProductVariant[] = [];
+
   // paymentDto = new PaymentDao();
   dueAmountForTransaction: number;
 
@@ -70,6 +73,8 @@ export class ReturnSaleComponent implements OnInit, AfterViewInit {
   popupMessage: string;
 
   _subscriptionCustomer: any;
+  _subscriptionProductVariant: any;
+
 
 
   constructor(
@@ -95,12 +100,41 @@ export class ReturnSaleComponent implements OnInit, AfterViewInit {
         this.taxPercent = this.storeDetails.tax;
       });
 
+    this.getAllProductVariant();
     this.getCustomerDetails();
   }
 
   ngAfterViewInit() {
     // This will focus on the autocomplete field
     $('#productsearch > span > input').focus();
+  }
+
+  selectProductFromSearch(productForSearchBox: Product) {
+
+    this.productPopupVariantList = [];
+
+    console.log('test return',productForSearchBox );
+
+    if(productForSearchBox.variant){
+      this.productVariantList.forEach((variant)=>{
+        if(productForSearchBox.productId == variant.productId){
+          this.productPopupVariantList.push(variant);
+        }
+        //this.productPopupVariantList = this.productPopupVariantList.slice();
+      });
+      $('#productVariantPopup').modal('show');
+      this.productPopupVariantList = this.productPopupVariantList.slice();
+    }
+    else if(productForSearchBox != null) {
+      this.addTransactionLineItem(productForSearchBox);
+    }
+  }
+
+  onVariantSelect(event){
+    console.log('variant Event', event.data);
+    $('#productVariantPopup').modal('hide');
+    //this.setFocusOnProductSearch();
+    this.addTransactionLineItem(event.data);
   }
 
   submitProduct(value: any) {
@@ -162,33 +196,44 @@ export class ReturnSaleComponent implements OnInit, AfterViewInit {
 
   public addTransactionLineItem(productObj: Product): TransactionLineItemDaoList[] {
 
-    // Price by customer logic.
-    if (null != this.selectedCustomer && this.selectedCustomer != undefined) {
+    if(null!= this.selectedCustomer && this.selectedCustomer != undefined && this.selectedCustomer.tier > 0)
+    {
+        if(this.selectedCustomer.tier == 1){
+          productObj.retailWithDiscount = -productObj.tier1;
+          productObj.retail = -productObj.tier1;
+          productObj.cost = -productObj.cost;
 
-      if (this.productPriceArryByCustomer && null != this.productPriceArryByCustomer && this.productPriceArryByCustomer.length > 0) {
+        }
+        else if(this.selectedCustomer.tier == 2){
+          productObj.retailWithDiscount = -productObj.tier2;
+          productObj.retail = -productObj.tier2;
+          productObj.cost = -productObj.cost;
 
-        this.productPriceArryByCustomer.forEach((product) => {
-          // here product[1] is the product no coming from back end, i am sending only 2 values prodcut no and retail.  like this--->["23424234234", 12.99]
-          if (product[0] == productObj.productNo) {
-            productObj.retailWithDiscount = -product[1];
-            productObj.retail = -productObj.retail;
-            productObj.cost = -productObj.cost;
+        }
+        else if(this.selectedCustomer.tier == 3){
+          productObj.retailWithDiscount = -productObj.tier3;
+          productObj.retail = -productObj.tier3;
+          productObj.cost = -productObj.cost;
 
-          }
-        })
-      }
+        }      
     }
-    // This will help to add retailWithDiscount first time when user add the first line item
-    if (productObj.retailWithDiscount >= 0) {
+    else {
+      productObj.retailWithDiscount = -productObj.tier3;
+      productObj.retail = -productObj.tier3;
       productObj.cost = -productObj.cost;
-      productObj.retailWithDiscount = -productObj.retail;
-      productObj.retail = -productObj.retail;
+
     }
+    // // This will help to add retailWithDiscount first time when user add the first line item
+    // if (productObj.retailWithDiscount >= 0) {
+    //   productObj.cost = -productObj.cost;
+    //   productObj.retailWithDiscount = -productObj.retail;
+    //   productObj.retail = -productObj.retail;
+    // }
     productObj.totalProductPrice = parseFloat(productObj.retailWithDiscount.toFixed(2));
     productObj.taxAmountOnProduct = (productObj.retailWithDiscount * this.taxPercent) / 100;
 
     // this will help me to set default quantity by for each product.
-    if (productObj.saleQuantity <= 0) {
+    if (productObj.saleQuantity <= 0 || productObj.saleQuantity == undefined) {
       productObj.saleQuantity = 1;
     }
     console.log("Product Object for return sale", productObj);
@@ -348,6 +393,14 @@ export class ReturnSaleComponent implements OnInit, AfterViewInit {
   setHeaderAndMessageForDisgardPopup() {
     this.popupHeader = 'Discard Sale';
     this.popupMessage = 'Are You Sure You Want To Delete Complete Sale?';
+  }
+
+  getAllProductVariant(){
+    this.productService.getAllProductVariant();
+    this._subscriptionProductVariant = this.productService.productVariantListChange.subscribe((variant)=>{
+      this.productVariantList = variant;
+      this.productPopupVariantList = this.productPopupVariantList.slice();
+    })
   }
   //This methode will completly remove the all transaction line item and transaction details.
   disgardCompleteSale() {

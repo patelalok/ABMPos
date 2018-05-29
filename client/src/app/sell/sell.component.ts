@@ -114,6 +114,7 @@ items: MenuItem[];
     //   this.router.navigate(['/sell/sale']);
 
     this.items = [
+      { name: 'Recive Payment', link: '/sell/payment', icon: 'fa fa-usd fa-x'},
       { name: 'Return', icon: 'fa fa-reply-all fa-x ', link: '/sell/return' },
       { name: 'Close Register', icon: 'fa fa-window-close-o fa-x', link: '/sell/close-register' },
       { name: 'Close Shift', icon: 'fa fa-times fa-x', link: '/sell/close-shift' }
