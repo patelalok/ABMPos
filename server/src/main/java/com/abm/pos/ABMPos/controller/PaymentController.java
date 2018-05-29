@@ -2,6 +2,7 @@ package com.abm.pos.ABMPos.controller;
 
 import com.abm.pos.ABMPos.dao.PaymentDao;
 import com.abm.pos.ABMPos.dao.TransactionDao;
+import com.abm.pos.ABMPos.dto.PaymentHistoryDto;
 import com.abm.pos.ABMPos.manager.PaymentManager;
 import com.abm.pos.ABMPos.manager.TransactionsManager;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,4 +23,12 @@ public class PaymentController {
     {
         return paymentManager.addPayment(paymentDaoList);
     }
+
+    @RequestMapping(value = "/getPaymentHistory", method = RequestMethod.GET, produces = "application/json")
+    public List<PaymentHistoryDto> getPaymentHistory(String startDate, String endDate)
+    {
+        return paymentManager.getPaymentHistory(startDate,endDate);
+    }
+
+
 }

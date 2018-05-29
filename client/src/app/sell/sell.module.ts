@@ -20,6 +20,7 @@ import { ReturnSaleComponent } from './return-sale/return-sale.component';
 import { SaleComponent } from './sale/sale.component';
 import { CloseRegisterComponent } from './close-register/close-register.component';
 import { PaymentComponent } from './payment/payment.component';
+import { PaymentHistoryComponent } from './payment-history/payment-history.component';
 
 
 
@@ -35,7 +36,7 @@ import { PaymentComponent } from './payment/payment.component';
     DropdownModule,
     SharedModule
   ],
-  declarations: [SellComponent, ReceiptComponent, SalesHistoryComponent, ReturnSaleComponent, SaleComponent,CloseRegisterComponent, PaymentComponent],
+  declarations: [SellComponent, ReceiptComponent, SalesHistoryComponent, ReturnSaleComponent, SaleComponent,CloseRegisterComponent, PaymentComponent, PaymentHistoryComponent],
   providers: [SellService, CustomerService],
   bootstrap: [SellComponent]
 })

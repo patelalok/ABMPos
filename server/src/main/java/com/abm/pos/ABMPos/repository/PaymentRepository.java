@@ -38,4 +38,12 @@ public interface PaymentRepository extends JpaRepository<PaymentDao, Integer> {
     @Modifying
     @Query(value = "DELETE FROM transaction_payment where transaction_com_id = ?1", nativeQuery = true)
     void deletePaymentDetails(int transactionComId);
+
+    @Query(value = "SELECT p.transaction_payment_id, p.transaction_com_id, p.status,p.date, p.type, p.amount, p.note,\n" +
+            "t.total_amount, t.customer_phoneno, t.customer_first_last_name,t.transaction_balance, p.username from transaction_payment p\n" +
+            "INNER JOIN transaction t on t.transaction_com_id = p.transaction_com_id\n" +
+            "WHERE p.date BETWEEN ?1 AND ?2 " +
+            "ORDER BY p.date DESC", nativeQuery = true)
+    List<Object[]> getPaymentHistory(String startDate, String endDate);
+
 }

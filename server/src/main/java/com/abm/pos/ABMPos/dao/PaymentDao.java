@@ -20,6 +20,7 @@ public class PaymentDao {
     private double amount;
     private String type;
     private String note;
+    private String username;
 
     public int getTransactionPaymentId() {
         return transactionPaymentId;
@@ -75,5 +76,13 @@ public class PaymentDao {
 
     public void setNote(String note) {
         this.note = note;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 }

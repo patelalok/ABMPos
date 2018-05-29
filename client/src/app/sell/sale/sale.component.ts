@@ -1581,6 +1581,26 @@ export class PaymentDetails {
   paymentTime: any;
 }
 
+export class PaymentHistoryDto {
+  transactionPaymentId: number;
+  transactionComId: number;
+  status: string;
+  date: any;
+  amount: number;
+  type: string;
+  note: string;
+  customerFirstLastName: string;
+  customerPhoneno: string;
+  originalDate: any;
+  onlyDate: any;
+  time: any;
+  totalAmount: number;
+  transactionBalance: any;
+  username: any;
+
+
+}
+
 
         //     // Here need to calculate tax because, now we have to apply tax on the amount which come after discount
         //     this.transactionDtoList.tax = ((this.transactionDtoList.subtotal - this.transactionDtoList.totalDiscount)*this.taxPercent)/100;

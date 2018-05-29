@@ -11,20 +11,16 @@ import { ToastsManager } from 'ng2-toastr';
 import { LoadingService } from 'app/loading.service';
 import { TransactionLineItemDaoList, TransactionDtoList, PaymentHistoryDto } from 'app/sell/sale/sale.component';
 
-
-declare var $: JQueryStatic;
-
 @Component({
-  selector: 'app-sales-history',
-  templateUrl: './sales-history.component.html',
-  styleUrls: ['./sales-history.component.scss']
+  selector: 'app-payment-history',
+  templateUrl: './payment-history.component.html',
+  styleUrls: ['./payment-history.component.scss']
 })
-export class SalesHistoryComponent implements OnInit {
+export class PaymentHistoryComponent implements OnInit {
+
   currentDate = new Date(); 
-  transactionDetails: TransactionDtoList[] = [];
   paymentHistoryDetails: PaymentHistoryDto[] = [];
-  transactionDetailsOriginal: TransactionDtoList[] = [];
-  transactionLineItemDetails: TransactionLineItemDaoList[];
+  paymentHistoryDetailsOriginal: PaymentHistoryDto[] = [];
   salesHistoryDropdown: any = 'Today';
   dateDto = new DateDto();
   transactionDto: TransactionDtoList;
@@ -58,7 +54,7 @@ export class SalesHistoryComponent implements OnInit {
       });
 
 
-    this.getTransactionDetails(this.salesHistoryDropdown);
+    this.getPaymentHistoryDetails(this.salesHistoryDropdown);
 
     
     // this.customDate = this.fb.group({
@@ -77,19 +73,19 @@ export class SalesHistoryComponent implements OnInit {
         this.loadingServie.loading = true;
         
         let customDateValues: {toDate: Date, fromDate: Date} = change; 
-        this.sellService.getTransactionDetails(
+        this.sellService.getPaymentHistoryDetails(
           moment(customDateValues.fromDate).hour(0).format('YYYY-MM-DD HH:mm:ss'),
           moment(customDateValues.toDate).hour(23).minute(59).format('YYYY-MM-DD HH:mm:ss')
         )
-        .subscribe(transaction => {
+        .subscribe(paymentHistory => {
   
-          transaction.forEach(trans => {
+          paymentHistory.forEach(trans => {
             // This helps to manage date for park sale and other edit sale logic.
             trans.originalDate = trans.date;
             trans.time = moment(trans.originalDate).format('hh:mm A');
             trans.onlyDate = moment(trans.originalDate).format('MM-DD-YYYY');
           })
-          this.transactionDetails = transaction;
+          this.paymentHistoryDetails = paymentHistory;
           this.loadingServie.loading = false;
         });
       });
@@ -103,7 +99,7 @@ export class SalesHistoryComponent implements OnInit {
     this.filterTransactionDetails(this.searchByTransactionType, 'Transaction-Type');
   }
 
-  getTransactionDetails(inputDate: any) {
+  getPaymentHistoryDetails(inputDate: any) {
 
     this.loadingServie.loading = true;
     
@@ -149,16 +145,16 @@ export class SalesHistoryComponent implements OnInit {
     //   this.dateDto.endDate = this.customDate.get('toDate').value;
     // }
 
-    this.sellService.getTransactionDetails(this.dateDto.startDate, this.dateDto.endDate)
-      .subscribe(transaction => {
+    this.sellService.getPaymentHistoryDetails(this.dateDto.startDate, this.dateDto.endDate)
+      .subscribe(paymentHistory => {
        
-        transaction.forEach(trans => {
+        paymentHistory.forEach(trans => {
           trans.originalDate = trans.date;
             trans.time = moment(trans.originalDate).format('hh:mm A');
             trans.onlyDate = moment(trans.originalDate).format('MM-DD-YYYY');
         })
-        this.transactionDetailsOriginal = transaction;
-        this.transactionDetails = this.transactionDetailsOriginal;
+        this.paymentHistoryDetailsOriginal = paymentHistory;
+        this.paymentHistoryDetails = this.paymentHistoryDetailsOriginal;
         this.loadingServie.loading = false;
       });
   }
@@ -167,16 +163,16 @@ export class SalesHistoryComponent implements OnInit {
     // console.log('Transaction details Object', this.transactionDetails)
     if (input.length > 0)
 
-      this.transactionDetails = this.nowFilterTransaction(input, this.transactionDetailsOriginal,searchType);
+      this.paymentHistoryDetails = this.nowFilterTransaction(input, this.paymentHistoryDetailsOriginal,searchType);
     else
-      this.getTransactionDetails(this.salesHistoryDropdown);
+      this.getPaymentHistoryDetails(this.salesHistoryDropdown);
   }
 
-  nowFilterTransaction(query: any, transactionDetailsList: TransactionDtoList[], searchType: string): TransactionDtoList[] {
+  nowFilterTransaction(query: any, paymentHistoryDetails: PaymentHistoryDto[], searchType: string): PaymentHistoryDto[] {
 
-    let filtered: TransactionDtoList[] = [];
-    for (let i = 0; i < transactionDetailsList.length; i++) {
-      let trans = transactionDetailsList[i];
+    let filtered: PaymentHistoryDto[] = [];
+    for (let i = 0; i < paymentHistoryDetails.length; i++) {
+      let trans = paymentHistoryDetails[i];
 
       if(searchType == 'Customer')
       {
@@ -200,7 +196,7 @@ export class SalesHistoryComponent implements OnInit {
           filtered.push(trans);
         }
         else if(query == 'All Transaction Status') {
-          this.getTransactionDetails(this.salesHistoryDropdown);
+          this.getPaymentHistoryDetails(this.salesHistoryDropdown);
         }
       }
       
@@ -288,8 +284,3 @@ export class SalesHistoryComponent implements OnInit {
   }
 
 }
-
-
-
-
-

@@ -5,6 +5,9 @@
 
     <mat-card-content>
 
+            <mat-tab-group>
+                    <mat-tab label="Sale History">
+
         <div class="row d-flex align-items-center">
 
             <div class="col-md-2">
@@ -65,61 +68,71 @@
         </div>
 
         <div class="row p-md-3">
-            <table class="table table-hover table-bordered ">
-                <thead class="thead-light">
-                    <th scope="col">Receipt No</th>
-                    <th scope="col">Date</th>
-                    <th scope="col">Time</th>
-                    <th scope="col">Phone No</th>
-                    <th scope="col">Customer Name</th>
-                    <th scope="col">Tax</th>
-                    <th scope="col">Discount</th>
-                    <th scope="col">Subtotal</th>
-                    <th scope="col">Total Amount</th>
-                    <th scope="col">Status</th>
-                    <th scope="col">Action</th>
-                </thead>
-                <tbody>
-                    <tr *ngFor="let transaction of this.transactionDetails">
-                        <td>{{transaction.transactionComId}}</td>
-                        <td>{{transaction.onlyDate}}</td>
-                        <td>{{transaction.time}}</td>
-                        <td>{{transaction.customerPhoneno}}</td>
-                        <td>{{transaction.customerFirstLastName}}</td>
-                        <td>{{transaction.tax}}</td>
-                        <td>{{transaction.totalDiscount}}</td>
-                        <td>{{transaction.subtotal}}</td>
-                        <td>{{transaction.totalAmount}}</td>
-                        <td>
-                            <mat-chip-list>
-                                <mat-chip [ngClass]="[transaction.status == 'Complete' ? 'complete':'', transaction.status == 'Pending' ? 'pending':'', transaction.status == 'Return' ? 'return':'', transaction.status == 'Void' ? 'void':'', transaction.status == 'Park' ? 'park':'']"
-                                    selected="true">{{transaction.status}}</mat-chip>
-                            </mat-chip-list>
-                        </td>
-                        <td>
+                <table class="table table-hover table-bordered ">
+                    <thead class="thead-light">
+                        <th scope="col">Receipt No</th>
+                        <th scope="col">Date</th>
+                        <th scope="col">Time</th>
+                        <th scope="col">Phone No</th>
+                        <th scope="col">Customer Name</th>
+                        <th scope="col">Tax</th>
+                        <th scope="col">Discount</th>
+                        <th scope="col">Subtotal</th>
+                        <th scope="col">Total Amount</th>
+                        <th scope="col">Status</th>
+                        <th scope="col">Action</th>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let transaction of this.transactionDetails">
+                            <td>{{transaction.transactionComId}}</td>
+                            <td>{{transaction.onlyDate}}</td>
+                            <td>{{transaction.time}}</td>
+                            <td>{{transaction.customerPhoneno}}</td>
+                            <td>{{transaction.customerFirstLastName}}</td>
+                            <td>{{transaction.tax}}</td>
+                            <td>{{transaction.totalDiscount}}</td>
+                            <td>{{transaction.subtotal}}</td>
+                            <td>{{transaction.totalAmount}}</td>
+                            <td>
+                                <mat-chip-list>
+                                    <mat-chip [ngClass]="[transaction.status == 'Complete' ? 'complete':'', transaction.status == 'Pending' ? 'pending':'', transaction.status == 'Return' ? 'return':'', transaction.status == 'Void' ? 'void':'', transaction.status == 'Park' ? 'park':'']"
+                                        selected="true">{{transaction.status}}</mat-chip>
+                                </mat-chip-list>
+                            </td>
+                            <td>
+    
+    
+                                <button class="btn-blue action-button-table" mat-button (click)="this.printReceipt(transaction)">
+                                        <i class="fa fa-print" aria-hidden="true"></i>
+                                    </button>
+                                <button class="btn-green action-button-table" mat-button (click)='this.sendEmail(transaction)'>
+                                        <i class="fa fa-envelope" aria-hidden="true"></i>
+                                    </button>
+    
+                                <!-- // Do not remove this, this is for park sales where i can redirect user to start the transaction. -->
+                                <!-- <button *ngIf="transaction.status != 'Return' " class="btn-red action-button-table" mat-button [routerLink]="['/sell', {transactionComId: transaction.transactionComId}]"> -->
+                                <button *ngIf=" transaction.status == 'Complete' || transaction.status == 'Pending' " class="btn-red action-button-table" mat-button (click)="this.setTransactoinToVoid(transaction)" data-toggle="modal" data-target="#voidTransaction">
+                                        <i class="fa fa-ban" aria-hidden="true"></i>
+                                    </button>
+                                <button *ngIf="transaction.status == 'Park' || transaction.status == 'Online' " class="btn-red action-button-table" mat-button [routerLink]="['/sell/sale', {transactionComId: transaction.transactionComId}]">
+                                            <i class="fa fa-reply-all" aria-hidden="true"></i>
+                                    </button>
+                            </td>
+    
+                        </tr>
+                    </tbody>
+    
+                </table>
+                </div>
+                   
+                    </mat-tab>
+                    <mat-tab label="Payment History">
 
+                            <app-payment-history></app-payment-history>
+                            </mat-tab>
+        </mat-tab-group>
 
-                            <button class="btn-blue action-button-table" mat-button (click)="this.printReceipt(transaction)">
-                                    <i class="fa fa-print" aria-hidden="true"></i>
-                                </button>
-                            <button class="btn-green action-button-table" mat-button (click)='this.sendEmail(transaction)'>
-                                    <i class="fa fa-envelope" aria-hidden="true"></i>
-                                </button>
-
-                            <!-- // Do not remove this, this is for park sales where i can redirect user to start the transaction. -->
-                            <!-- <button *ngIf="transaction.status != 'Return' " class="btn-red action-button-table" mat-button [routerLink]="['/sell', {transactionComId: transaction.transactionComId}]"> -->
-                            <button *ngIf=" transaction.status == 'Complete' || transaction.status == 'Pending' " class="btn-red action-button-table" mat-button (click)="this.setTransactoinToVoid(transaction)" data-toggle="modal" data-target="#voidTransaction">
-                                    <i class="fa fa-ban" aria-hidden="true"></i>
-                                </button>
-                            <button *ngIf="transaction.status == 'Park' || transaction.status == 'Online' " class="btn-red action-button-table" mat-button [routerLink]="['/sell/sale', {transactionComId: transaction.transactionComId}]">
-                                        <i class="fa fa-reply-all" aria-hidden="true"></i>
-                                </button>
-                        </td>
-
-                    </tr>
-                </tbody>
-
-            </table>
+        
             <!-- <p-dataTable [value]="this.transactionDetails" scrollable="true" scrollHeight="500px" [responsive]="true">
                 <p-column field="transactionComId" header="Receipt No" [style]="{'width': '7%'}"></p-column>
                 <p-column field="date" header="Date" [sortable]="true" [style]="{'width': '6%'}"></p-column>
@@ -340,7 +353,7 @@
                 </ng-template> -->
             <!-- </p-dataTable> -->
 
-        </div>
+        <!-- </div> -->
     </mat-card-content>
 </mat-card>
 

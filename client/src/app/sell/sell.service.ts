@@ -9,7 +9,7 @@ import { Customer } from 'app/customer/customer.component';
 import { printBlob } from 'app/shared/services/util.service';
 import { environment } from 'environments/environment';
 import { CloseRegisterDto } from 'app/sell/close-register/close-register.component';
-import { Product, TransactionLineItemDaoList, CustomerProductPrice, TransactionDtoList, PaymentDao } from 'app/sell/sale/sale.component';
+import { Product, TransactionLineItemDaoList, CustomerProductPrice, TransactionDtoList, PaymentDao, PaymentHistoryDto } from 'app/sell/sale/sale.component';
 
 
 
@@ -29,6 +29,11 @@ private url: string;
 
   getTransactionDetails(startDate: any, endDate: any): Observable<TransactionDtoList[]> {
     return this.http.get(this.url+'/getTransactionByDate?startDate=' + startDate+'&endDate='+endDate)
+      .map(this.extractData)
+      .catch(this.handleError);
+  }
+  getPaymentHistoryDetails(startDate: any, endDate: any): Observable<PaymentHistoryDto[]> {
+    return this.http.get(this.url+'/getPaymentHistory?startDate=' + startDate+'&endDate='+endDate)
       .map(this.extractData)
       .catch(this.handleError);
   }
