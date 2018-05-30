@@ -21,6 +21,7 @@ public class PaymentDao {
     private String type;
     private String note;
     private String username;
+    private String updatedTimestamp;
 
     public int getTransactionPaymentId() {
         return transactionPaymentId;
@@ -84,5 +85,13 @@ public class PaymentDao {
 
     public void setUsername(String username) {
         this.username = username;
+    }
+
+    public String getUpdatedTimestamp() {
+        return updatedTimestamp;
+    }
+
+    public void setUpdatedTimestamp(String updatedTimestamp) {
+        this.updatedTimestamp = updatedTimestamp;
     }
 }

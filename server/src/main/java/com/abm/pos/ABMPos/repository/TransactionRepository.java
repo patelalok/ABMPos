@@ -18,6 +18,8 @@ public interface TransactionRepository extends JpaRepository<TransactionDao, Int
 
     List<TransactionDao> findAll();
 
+    TransactionDao findOneByTransactionComId(int transactionCompId);
+
     TransactionDao findFirstByCustomerPhoneno(String phoneNo);
 
     List<TransactionDao> findAllByStatusEqualsAndCustomerPhoneno(String status, String phoneNo);

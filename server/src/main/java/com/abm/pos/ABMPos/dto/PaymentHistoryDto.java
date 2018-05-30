@@ -14,6 +14,7 @@ public class PaymentHistoryDto {
     private String customerFirstLastName;
     private double transactionBalance;
     private String username;
+    private String updatedTimestamp;
 
 
     public int getTransactionPaymentId() {
@@ -110,5 +111,13 @@ public class PaymentHistoryDto {
 
     public void setUsername(String username) {
         this.username = username;
+    }
+
+    public String getUpdatedTimestamp() {
+        return updatedTimestamp;
+    }
+
+    public void setUpdatedTimestamp(String updatedTimestamp) {
+        this.updatedTimestamp = updatedTimestamp;
     }
 }

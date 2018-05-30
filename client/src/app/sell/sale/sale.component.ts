@@ -1560,6 +1560,7 @@ export class PaymentDao {
   amount: number;
   type: string;
   note: string;
+  updatedTimestamp: any;
 }
 
 export class PaymentObjectForPaymentSellTable {
@@ -1597,6 +1598,7 @@ export class PaymentHistoryDto {
   totalAmount: number;
   transactionBalance: any;
   username: any;
+  updatedTimestamp: any;
 
 
 }

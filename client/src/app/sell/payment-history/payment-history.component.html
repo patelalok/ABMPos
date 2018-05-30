@@ -1,4 +1,7 @@
 
+ <mat-card-title style="margin-top: 15px">
+        <h4>Payment History</h4>
+    </mat-card-title>
         <div class="row d-flex align-items-center">
 
                 <div class="col-md-2">
@@ -104,7 +107,7 @@
 
                     <!-- // Do not remove this, this is for park sales where i can redirect user to start the transaction. -->
                     <!-- <button *ngIf="transaction.status != 'Return' " class="btn-red action-button-table" mat-button [routerLink]="['/sell', {transactionComId: transaction.transactionComId}]"> -->
-                    <button *ngIf=" payment.status == 'Complete' || payment.status == 'Pending' " class="btn-red action-button-table" mat-button (click)="this.setTransactoinToVoid(payment)" data-toggle="modal" data-target="#voidTransaction">
+                    <button *ngIf=" payment.status == 'Complete' || payment.status == 'Pending' " class="btn-red action-button-table" mat-button (click)="this.setTransactoinToVoid(payment)" data-toggle="modal" data-target="#voidPayment">
                             <i class="fa fa-ban" aria-hidden="true"></i>
                         </button>
                     <button *ngIf="payment.status == 'Park' || payment.status == 'Online' " class="btn-red action-button-table" mat-button [routerLink]="['/sell/sale', {transactionComId: payment.transactionComId}]">
@@ -117,3 +120,24 @@
 
     </table>
     </div>
+
+    <!-- Start of Void Payment -->
+<div class="modal fade" id="voidPayment" role="dialog">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Void Sale</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <p>Are You Sure You Want To Void This Sale</p>
+                </div>
+                <div class="modal-footer">
+    
+                    <button type="button" class="btn btn-danger" data-dismiss="modal" (click)="this.voidPaymentDetials()">Yes</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End of Void Payment -->

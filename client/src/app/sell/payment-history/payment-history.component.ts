@@ -31,7 +31,7 @@ export class PaymentHistoryComponent implements OnInit {
   searchByCustomerInputBox = new FormControl();
   searchByReceiptNoInputBox = new FormControl();
   searchByTransactionType: string = 'All Transaction Status';
-  transactionToVoid: TransactionDtoList;
+  paymentDetialsToVoid: PaymentHistoryDto;
 
   document: jspdf; 
   customDate: FormGroup; 
@@ -205,54 +205,21 @@ export class PaymentHistoryComponent implements OnInit {
 
   }
 
-  setTransactoinToVoid(transaction: TransactionDtoList) {
+  setTransactoinToVoid(paymentDetails: PaymentHistoryDto) {
 
     // Since i change the logic to, show only transaction deatils on sales history, now i need to get complete transaction details,
     // And set to the transactionTovoid object.
 
     // Here I am changing the logic, to fixed network delay issue, cause with this some times, i am geting transaction detals before, i am trying ot delete the transaction
-    this.transactionToVoid = transaction;
-
+    this.paymentDetialsToVoid = paymentDetails;
+    this.paymentDetialsToVoid.updatedTimestamp = moment(Date.now()).format('YYYY-MM-DD HH:mm:ss');
   }
 
 
   // Here i am setting status to void for transaction and transaction lineitem
-  voidTransaction() {
+  voidPaymentDetials() {
 
-    // TODO need to figure out this timing issue. i can not send current time, because user may want to see when this transactoin is created.
-    //this.transactionToVoid.date = moment(Date.now()).format('YYYY-MM-DD HH:mm:ss');
-    if(this.transactionToVoid){
 
-      // First I am getting transaction detials to void
-      this.sellService.getTransactionById(this.transactionToVoid.transactionComId)
-      .subscribe((transaction: TransactionDtoList)=>{
-        this.transactionToVoid = transaction;
-        
-        // Now setting status to void.
-        this.transactionToVoid.status = 'Void';
-
-        this.transactionToVoid.transactionLineItemDaoList.forEach((lineItem) =>{
-        lineItem.status = 'Void';
-      });
-
-      this.transactionToVoid.paymentDao.forEach((payment)=> {
-        payment.status = 'Void';
-      });
-
-      // Now doing service call to update transaction status.
-      this.sellService.addTransactionDetails(this.transactionToVoid)
-      .subscribe(
-        (data) => {
-          this.toastr.success('Transaction Voided Successfully !!!', 'Success!');
-          console.log(data);
-        },
-        (error) => {
-          this.toastr.error(error, 'Error!');
-          console.log(JSON.stringify(error.json()));
-      });
-    });
-    }
-    
   }
 
   sendEmail(transaction: TransactionDtoList){

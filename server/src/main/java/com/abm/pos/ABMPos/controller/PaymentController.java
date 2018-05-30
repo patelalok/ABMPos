@@ -30,5 +30,11 @@ public class PaymentController {
         return paymentManager.getPaymentHistory(startDate,endDate);
     }
 
+    @RequestMapping(value = "/voidPayment", method = RequestMethod.POST, consumes = "application/json")
+    public PaymentHistoryDto voidPayment(PaymentHistoryDto paymentHistoryDto)
+    {
+        return paymentManager.voidPayment(paymentHistoryDto);
+    }
+
 
 }

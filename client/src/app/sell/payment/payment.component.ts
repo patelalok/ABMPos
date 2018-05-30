@@ -47,11 +47,7 @@ export class PaymentComponent implements OnInit {
         'paymentTableAmount': [0.00, [Validators.required, Validators.pattern('^[0-9-.]+$')]]
       }
     );
-
         this.getCustomerDetails();
-
-   
-
     }
     receiveAmount(){
 

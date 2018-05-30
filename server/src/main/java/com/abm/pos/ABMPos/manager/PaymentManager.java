@@ -1,8 +1,10 @@
 package com.abm.pos.ABMPos.manager;
 
+import com.abm.pos.ABMPos.dao.CustomerDao;
 import com.abm.pos.ABMPos.dao.PaymentDao;
 import com.abm.pos.ABMPos.dao.TransactionDao;
 import com.abm.pos.ABMPos.dto.PaymentHistoryDto;
+import com.abm.pos.ABMPos.repository.CustomerRepository;
 import com.abm.pos.ABMPos.repository.PaymentRepository;
 import com.abm.pos.ABMPos.repository.TransactionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +21,9 @@ public class PaymentManager {
 
     @Autowired
     private TransactionRepository transactionRepository;
+
+    @Autowired
+    private CustomerRepository customerRepository;
 
     public List<PaymentDao> addPayment(List<PaymentDao> paymentDaoList) {
 
@@ -91,5 +96,55 @@ public class PaymentManager {
         }
         return paymentHistoryDtoList;
 
+    }
+
+    public void voidPayment(PaymentHistoryDto paymentHistoryDto) {
+
+        PaymentDao paymentDao = new PaymentDao();
+
+        if(null != paymentHistoryDto && paymentHistoryDto.getTransactionPaymentId() > 0 && paymentHistoryDto.getTransactionComId() > 0)
+        {
+            if(paymentHistoryDto.getStatus().equalsIgnoreCase("Complete") && paymentHistoryDto.getAmount() > 0)
+            {
+                // In Case of store credit void I need to put the store credit back to customers account.
+                if (null != paymentHistoryDto.getCustomerPhoneno() && paymentHistoryDto.getType().equalsIgnoreCase("Store Credit"))
+                {
+                    CustomerDao customerDao = customerRepository.getOne(paymentHistoryDto.getCustomerPhoneno());
+                    if(null != customerDao)
+                    {
+                        customerDao.setStoreCredit(customerDao.getStoreCredit() + paymentHistoryDto.getAmount());
+                        customerRepository.save(customerDao);
+                    }
+                }
+                paymentDao.setStatus("Void");
+                paymentDao.setTransactionPaymentId(paymentHistoryDto.getTransactionPaymentId());
+                paymentDao.setTransactionComId(paymentHistoryDto.getTransactionComId());
+                paymentDao.setDate(paymentHistoryDto.getDate());
+                paymentDao.setType(paymentHistoryDto.getType());
+                paymentDao.setAmount(paymentHistoryDto.getAmount());
+                paymentDao.setNote(paymentHistoryDto.getNote());
+                paymentDao.setUpdatedTimestamp(paymentHistoryDto.getUpdatedTimestamp());
+                paymentDao.setUsername(paymentDao.getUsername());
+
+                paymentRepository.save(paymentDao);
+
+                // Now Need to get transaction and add the payment amount in transaction balance, also need to change the status to pending.
+                TransactionDao transactionDao = transactionRepository.findOneByTransactionComId(paymentHistoryDto.getTransactionComId());
+
+                if(null != transactionDao && transactionDao.getTotalAmount() > paymentHistoryDto.getAmount())
+                {
+
+                    transactionDao.setTransactionBalance(transactionDao.getTransactionBalance() + paymentHistoryDto.getAmount());
+                    transactionDao.setStatus("Pending");
+                    transactionDao.setTotalBalanceDue(transactionDao.getTotalDueBalance() + paymentHistoryDto.getAmount());
+
+                    transactionRepository.save(transactionDao);
+                }
+
+
+
+
+            }
+        }
     }
 }
