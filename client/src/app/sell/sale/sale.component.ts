@@ -1583,13 +1583,7 @@ export class PaymentDetails {
 }
 
 export class PaymentHistoryDto {
-  transactionPaymentId: number;
-  transactionComId: number;
-  status: string;
-  date: any;
-  amount: number;
-  type: string;
-  note: string;
+  paymentDao: PaymentDao;
   customerFirstLastName: string;
   customerPhoneno: string;
   originalDate: any;
@@ -1597,8 +1591,7 @@ export class PaymentHistoryDto {
   time: any;
   totalAmount: number;
   transactionBalance: any;
-  username: any;
-  updatedTimestamp: any;
+ 
 
 
 }

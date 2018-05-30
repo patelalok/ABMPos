@@ -10,6 +10,8 @@ import { printBlob } from 'app/shared/services/util.service';
 import { environment } from 'environments/environment';
 import { CloseRegisterDto } from 'app/sell/close-register/close-register.component';
 import { Product, TransactionLineItemDaoList, CustomerProductPrice, TransactionDtoList, PaymentDao, PaymentHistoryDto } from 'app/sell/sale/sale.component';
+import * as moment from 'moment';
+
 
 
 
@@ -17,6 +19,8 @@ import { Product, TransactionLineItemDaoList, CustomerProductPrice, TransactionD
 @Injectable()
 export class SellService {
 private url: string;
+paymentDetialsToVoid: PaymentHistoryDto;
+
   constructor(private http: Http, private persit: PersistenceService) { 
     this.url = environment.reportUrl;
   }
@@ -110,6 +114,27 @@ private url: string;
 
   voidTransaction(transactionToVoid: TransactionDtoList) {
     return this.http.post(this.url+'/voidTransaction', transactionToVoid);
+  }
+
+  setPaymentToVoid(paymentDetails: PaymentHistoryDto) {
+
+    // Since i change the logic to, show only transaction deatils on sales history, now i need to get complete transaction details,
+    // And set to the transactionTovoid object.
+
+    // Here I am changing the logic, to fixed network delay issue, cause with this some times, i am geting transaction detals before, i am trying ot delete the transaction
+    this.paymentDetialsToVoid = paymentDetails;
+    this.paymentDetialsToVoid.paymentDao.updatedTimestamp = moment(Date.now()).format('YYYY-MM-DD HH:mm:ss');
+  }
+  voidPayment()
+  {
+    this.http.post(this.url+'/voidPayment', this.paymentDetialsToVoid)
+    .subscribe(data => {
+      alert('ok');
+      console.log(data);
+    },
+    error => {
+      console.log(JSON.stringify(error.json()));
+    });
   }
 
   printReceipt(transaction: TransactionDtoList) {

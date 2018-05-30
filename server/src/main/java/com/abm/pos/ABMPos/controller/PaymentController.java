@@ -31,9 +31,9 @@ public class PaymentController {
     }
 
     @RequestMapping(value = "/voidPayment", method = RequestMethod.POST, consumes = "application/json")
-    public PaymentHistoryDto voidPayment(PaymentHistoryDto paymentHistoryDto)
+    public void voidPayment(@RequestBody PaymentHistoryDto paymentHistoryDto)
     {
-        return paymentManager.voidPayment(paymentHistoryDto);
+        paymentManager.voidPayment(paymentHistoryDto);
     }
 
 

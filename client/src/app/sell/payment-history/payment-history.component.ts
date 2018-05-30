@@ -81,7 +81,7 @@ export class PaymentHistoryComponent implements OnInit {
   
           paymentHistory.forEach(trans => {
             // This helps to manage date for park sale and other edit sale logic.
-            trans.originalDate = trans.date;
+            trans.originalDate = trans.paymentDao.date;
             trans.time = moment(trans.originalDate).format('hh:mm A');
             trans.onlyDate = moment(trans.originalDate).format('MM-DD-YYYY');
           })
@@ -149,7 +149,7 @@ export class PaymentHistoryComponent implements OnInit {
       .subscribe(paymentHistory => {
        
         paymentHistory.forEach(trans => {
-          trans.originalDate = trans.date;
+          trans.originalDate = trans.paymentDao.date;
             trans.time = moment(trans.originalDate).format('hh:mm A');
             trans.onlyDate = moment(trans.originalDate).format('MM-DD-YYYY');
         })
@@ -185,14 +185,14 @@ export class PaymentHistoryComponent implements OnInit {
       }
       if(searchType == 'Recipt-No') {
 
-        if(trans.transactionComId.toString().includes(query)) {
+        if(trans.paymentDao.transactionComId.toString().includes(query)) {
           filtered.push(trans);
         }
       }
 
       if(searchType == 'Transaction-Type') {
 
-        if(trans.status.includes(query)) {
+        if(trans.paymentDao.status.includes(query)) {
           filtered.push(trans);
         }
         else if(query == 'All Transaction Status') {
@@ -206,21 +206,19 @@ export class PaymentHistoryComponent implements OnInit {
   }
 
   setTransactoinToVoid(paymentDetails: PaymentHistoryDto) {
-
-    // Since i change the logic to, show only transaction deatils on sales history, now i need to get complete transaction details,
-    // And set to the transactionTovoid object.
-
-    // Here I am changing the logic, to fixed network delay issue, cause with this some times, i am geting transaction detals before, i am trying ot delete the transaction
-    this.paymentDetialsToVoid = paymentDetails;
-    this.paymentDetialsToVoid.updatedTimestamp = moment(Date.now()).format('YYYY-MM-DD HH:mm:ss');
+    console.log('payment history', paymentDetails)
+    this.sellService.setPaymentToVoid(paymentDetails);
   }
 
 
   // Here i am setting status to void for transaction and transaction lineitem
-  voidPaymentDetials() {
+  // voidPayment() {
 
-
-  }
+  //   this.sellService.voidPayment(this.paymentDetialsToVoid)
+  //   .subscribe((voidedPayment)=>{
+  //     alert('Voided');
+  //   })
+  // }
 
   sendEmail(transaction: TransactionDtoList){
 

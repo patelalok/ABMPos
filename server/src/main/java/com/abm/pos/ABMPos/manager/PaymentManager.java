@@ -62,18 +62,19 @@ public class PaymentManager {
         if (null != result) {
             for (Object[] j : result) {
                 PaymentHistoryDto paymentHistoryDto = new PaymentHistoryDto();
+                PaymentDao paymentDao = new PaymentDao();
 
-                paymentHistoryDto.setTransactionPaymentId((Integer) j[0]);
-                paymentHistoryDto.setTransactionComId((Integer) j[1]);
+                paymentDao.setTransactionPaymentId((Integer) j[0]);
+                paymentDao.setTransactionComId((Integer) j[1]);
 
                 if(null != j[2] && null != j[3] && null != j[4])
                 {
-                    paymentHistoryDto.setStatus(j[2].toString());
-                    paymentHistoryDto.setDate(j[3].toString());
-                    paymentHistoryDto.setType(j[4].toString());
+                    paymentDao.setStatus(j[2].toString());
+                    paymentDao.setDate(j[3].toString());
+                    paymentDao.setType(j[4].toString());
                 }
 
-                paymentHistoryDto.setAmount(Double.parseDouble(j[5].toString()));
+                paymentDao.setAmount(Double.parseDouble(j[5].toString()));
 
                 // For now commenting this cause its throwing null pointer
                 //paymentHistoryDto.setNote(j[6].toString());
@@ -84,12 +85,12 @@ public class PaymentManager {
                     paymentHistoryDto.setCustomerPhoneno(j[8].toString());
                     paymentHistoryDto.setCustomerFirstLastName(j[9].toString());
                 }
-
                 paymentHistoryDto.setTransactionBalance(Double.parseDouble(j[10].toString()));
-                if(null != j[11])
-                paymentHistoryDto.setUsername(j[11].toString());
+                if(null != j[11]) {
+                    paymentDao.setUsername(j[11].toString());
+                }
 
-
+                paymentHistoryDto.setPaymentDao(paymentDao);
 
                 paymentHistoryDtoList.add(paymentHistoryDto);
             }
@@ -98,53 +99,37 @@ public class PaymentManager {
 
     }
 
-    public void voidPayment(PaymentHistoryDto paymentHistoryDto) {
+    public PaymentDao voidPayment(PaymentHistoryDto paymentHistoryDto) {
 
         PaymentDao paymentDao = new PaymentDao();
 
-        if(null != paymentHistoryDto && paymentHistoryDto.getTransactionPaymentId() > 0 && paymentHistoryDto.getTransactionComId() > 0)
-        {
-            if(paymentHistoryDto.getStatus().equalsIgnoreCase("Complete") && paymentHistoryDto.getAmount() > 0)
-            {
+        if(null != paymentHistoryDto && null != paymentHistoryDto.getPaymentDao() && paymentHistoryDto.getPaymentDao().getTransactionPaymentId() > 0 && paymentHistoryDto.getPaymentDao().getTransactionComId() > 0) {
+            if(paymentHistoryDto.getPaymentDao().getStatus().equalsIgnoreCase("Complete") && paymentHistoryDto.getPaymentDao().getAmount() > 0) {
                 // In Case of store credit void I need to put the store credit back to customers account.
-                if (null != paymentHistoryDto.getCustomerPhoneno() && paymentHistoryDto.getType().equalsIgnoreCase("Store Credit"))
-                {
+                if (null != paymentHistoryDto.getCustomerPhoneno() && paymentHistoryDto.getPaymentDao().getType().equalsIgnoreCase("Store Credit")) {
                     CustomerDao customerDao = customerRepository.getOne(paymentHistoryDto.getCustomerPhoneno());
-                    if(null != customerDao)
-                    {
-                        customerDao.setStoreCredit(customerDao.getStoreCredit() + paymentHistoryDto.getAmount());
+                    if(null != customerDao) {
+                        customerDao.setStoreCredit(customerDao.getStoreCredit() + paymentHistoryDto.getPaymentDao().getAmount());
                         customerRepository.save(customerDao);
                     }
                 }
+                paymentDao = paymentHistoryDto.getPaymentDao();
                 paymentDao.setStatus("Void");
-                paymentDao.setTransactionPaymentId(paymentHistoryDto.getTransactionPaymentId());
-                paymentDao.setTransactionComId(paymentHistoryDto.getTransactionComId());
-                paymentDao.setDate(paymentHistoryDto.getDate());
-                paymentDao.setType(paymentHistoryDto.getType());
-                paymentDao.setAmount(paymentHistoryDto.getAmount());
-                paymentDao.setNote(paymentHistoryDto.getNote());
-                paymentDao.setUpdatedTimestamp(paymentHistoryDto.getUpdatedTimestamp());
-                paymentDao.setUsername(paymentDao.getUsername());
 
-                paymentRepository.save(paymentDao);
+                paymentDao = paymentRepository.save(paymentDao);
 
                 // Now Need to get transaction and add the payment amount in transaction balance, also need to change the status to pending.
-                TransactionDao transactionDao = transactionRepository.findOneByTransactionComId(paymentHistoryDto.getTransactionComId());
+                TransactionDao transactionDao = transactionRepository.findOneByTransactionComId(paymentHistoryDto.getPaymentDao().getTransactionComId());
 
-                if(null != transactionDao && transactionDao.getTotalAmount() > paymentHistoryDto.getAmount())
-                {
-
-                    transactionDao.setTransactionBalance(transactionDao.getTransactionBalance() + paymentHistoryDto.getAmount());
+                if(null != transactionDao && transactionDao.getTotalAmount() >= paymentHistoryDto.getPaymentDao().getAmount()) {
+                    transactionDao.setTransactionBalance(transactionDao.getTransactionBalance() + paymentHistoryDto.getPaymentDao().getAmount());
                     transactionDao.setStatus("Pending");
-                    transactionDao.setTotalBalanceDue(transactionDao.getTotalDueBalance() + paymentHistoryDto.getAmount());
+                    transactionDao.setTotalBalanceDue(transactionDao.getTotalBalanceDue() + paymentHistoryDto.getPaymentDao().getAmount());
 
                     transactionRepository.save(transactionDao);
                 }
-
-
-
-
             }
         }
+        return paymentDao;
     }
 }

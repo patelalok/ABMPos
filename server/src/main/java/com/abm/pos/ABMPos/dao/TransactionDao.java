@@ -56,6 +56,7 @@ public class TransactionDao {
 //    @Transient
 //    private List<PaymentDetails> paymentDetails;
 
+    // TODO Need to figure this out what this guys is doing. cause i already have almost same name on top.
     @Transient
     private Double totalDueBalance;
 
