@@ -20,6 +20,7 @@ public class ProductVariantDao {
     private String value2;
     private String variant3;
     private String value3;
+    private boolean active;
     private byte[] image;
     private String createdTimestamp;
 
@@ -109,6 +110,14 @@ public class ProductVariantDao {
 
     public void setValue3(String value3) {
         this.value3 = value3;
+    }
+
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
     }
 
     public double getCost() {

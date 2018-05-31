@@ -12,7 +12,10 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-md-4">
+                <p-dataTable [value]="this.variantDto"[editable]="true" scrollable="true" [responsive]="true" scrollHeight="400px" (onEditComplete)="this.updateVariantValue($event)" >
+                        <p-column field="name" header="Variant Name" [editable]="true"></p-column>
+                        </p-dataTable>
+            <!-- <div class="col-md-4">
                     <select class="form-control"  (change)="getVariantDetails($event)">
                         <option>
                             Add New Variant
@@ -21,25 +24,10 @@
                                 {{v}}
                             </option>
                         </select>
-                <!-- <table class="table table-hover table-bordered table-bordered" style="margin-top: 22px;">
-                    <thead>
-                        <tr>
-                            <th scope="col">Variant Name</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr *ngFor = "let v of this.variantDto"> 
-                            <td (click) = "this.getVariantDetails(v)">{{v}}</td>
-                        </tr>
-                    </tbody>
-                </table> -->
-            </div>
+              
+            </div> -->
 
-            <div class="col-md-8">
-                    <p-dataTable [value]="this.variantDetailsDto"[editable]="true" scrollable="true" [responsive]="true" scrollHeight="400px" (onEditComplete)="this.updateVariantValue($event)" >
-                    <p-column field="value" header="Variant Value" [editable]="true"></p-column>
-                    </p-dataTable>
-            </div>
+                 
         </div>
     </mat-card-content>
 </mat-card>

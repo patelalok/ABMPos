@@ -174,50 +174,11 @@ public class ProductManager{
                     productInventoryRepository.delete(productInventoryDaoForZeroQuantity);
                 }
             }
-
-
-            // I am returing this object back so, i can use this count to display on product table.
-            //productInventoryDao1.setQuantity(totalProduct);
-
         }
 
         return productInventoryDao1;
 
     }
-
-   // @Cacheable("products")
-    public List<ProductDao> getProductTableDetails() {
-
-            List<ProductDao> productDaoArrayList = new ArrayList<>();
-
-
-            List<ProductDao> productDaoArrayListNew = new ArrayList<>();
-
-            productDaoArrayList = productRepository.getAllActiveProduct();
-
-            //return productDaoArrayList;
-
-//            for(ProductDao p :productDaoArrayList)
-//            {
-//                int quantity = 0;
-//                for(ProductInventoryDao i : p.getProductInventoryDaoList())
-//                {
-//                    quantity = quantity + i.getQuantity();
-//                }
-//
-//                p.setQuantity(quantity);
-//
-//                productDaoArrayListNew.add(p);
-//
-//            }
-
-
-            return productDaoArrayListNew;
-
-          //  return productDaoArrayList;
-
-        }
-
     public List<ProductDao> getProductForSellPage() {
 
         return productRepository.getAllActiveProductForSellPage();
@@ -281,11 +242,6 @@ public class ProductManager{
     public List<ProductVariantDetailDao> getProductVariantDetails() {
 
         return productVariantDetailsRepository.findAll();
-    }
-
-    public List<ProductVariantDetailDao> getProductVariantDetailsByVariantName(String variantName) {
-
-        return productVariantDetailsRepository.findDistinctByName(variantName);
     }
 
     public String deleteProduct(ProductDao productDao) {
@@ -531,6 +487,11 @@ public class ProductManager{
         }
 
         return productVariantDaoList;
+
+    }
+
+    public List<ProductVariantDetailDao> getAllProductVariantDetails() {
+        return productVariantDetailsRepository.findAll();
 
     }
 }

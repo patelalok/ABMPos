@@ -14,7 +14,7 @@ import java.util.List;
 @Transactional
 public interface ProductVariantDetailRepository extends JpaRepository<ProductVariantDetailDao, Integer> {
 
-    @Query("SELECT DISTINCT v.name FROM ProductVariantDetailDao v")
+    @Query("SELECT DISTINCT v FROM ProductVariantDetailDao v")
     List<ProductVariantDetailDao> findAll();
 
 //    @Query("SELECT v FROM ProductVariantDetailDao v WHERE v.name = ?1")

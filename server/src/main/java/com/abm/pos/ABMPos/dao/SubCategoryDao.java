@@ -13,6 +13,7 @@ public class SubCategoryDao {
 
     private int categoryId;
     private String name;
+    private boolean ecommerce;
     private String description;
 
     public int getId() {
@@ -37,6 +38,14 @@ public class SubCategoryDao {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public boolean isEcommerce() {
+        return ecommerce;
+    }
+
+    public void setEcommerce(boolean ecommerce) {
+        this.ecommerce = ecommerce;
     }
 
     public String getDescription() {

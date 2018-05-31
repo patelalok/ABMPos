@@ -94,24 +94,22 @@ export class ProductComponent implements OnInit {
 export class Category implements ProductCommon {
   categoryId: number;
   name: string;
+  ecommerce:boolean;
   description: string;
-  tier1: number;
-  tier2: number;
-  tier3: number;
+
 }
 
 export class SubCategory implements ProductCommon {
   id: number;
   name: string;
   categoryId: number;
+  ecommerce:boolean;
   description: string;
-  tier1: number;
-  tier2: number;
-  tier3: number;
 }
 export interface CategoryTest {
   categoryId?;
   name?;
+  ecommerce?;
   description?;
 }
 export class Brand implements ProductCommon {
@@ -160,7 +158,7 @@ export class ModelTest {
 export class ProductVariantDetail {
   id: number;
   name: string;
-  value: string;
+  // value: string;
 }
 
 // export class BackendProductDto {

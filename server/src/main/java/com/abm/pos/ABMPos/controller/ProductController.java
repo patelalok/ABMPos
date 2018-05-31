@@ -171,10 +171,10 @@ public class ProductController {
     }
 
 
-    @RequestMapping(value = "/getProductVariantDetailsByName", method = RequestMethod.GET, produces = "application/json")
-    public List<ProductVariantDetailDao> getProductVariantDetailsByVariantName(@RequestParam String variantName)
+    @RequestMapping(value = "/getAllProductVariantDetails", method = RequestMethod.GET, produces = "application/json")
+    public List<ProductVariantDetailDao> getAllProductVariantDetails()
     {
-        return productManager.getProductVariantDetailsByVariantName(variantName);
+        return productManager.getAllProductVariantDetails();
     }
 
 

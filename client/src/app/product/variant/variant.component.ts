@@ -38,7 +38,7 @@ export class VariantComponent implements OnInit {
       let selectedVariant: ProductVariantDetail = this.variantDto[event.target.selectedIndex - 1];
 
       console.log(selectedVariant);
-      this.productService.getProductVariantDetailsByName(selectedVariant)
+      this.productService.getAllProductVariantDetails()
       .subscribe((variants)=>{
         this.variantDetailsDto = variants;
         this.variantDetailsDto = this.variantDetailsDto.slice();

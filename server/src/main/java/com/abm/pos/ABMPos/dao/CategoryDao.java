@@ -15,10 +15,8 @@ public class CategoryDao {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int categoryId;
     private String name;
+    private boolean ecommerce;
     private String description;
-//    private double tier1;
-//    private double tier2;
-//    private double tier3;
 
 
     @Transient
@@ -50,6 +48,14 @@ public class CategoryDao {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public boolean isEcommerce() {
+        return ecommerce;
+    }
+
+    public void setEcommerce(boolean ecommerce) {
+        this.ecommerce = ecommerce;
     }
 
     public String getDescription() {

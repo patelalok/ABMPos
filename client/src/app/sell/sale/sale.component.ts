@@ -1591,9 +1591,6 @@ export class PaymentHistoryDto {
   time: any;
   totalAmount: number;
   transactionBalance: any;
- 
-
-
 }
 
 

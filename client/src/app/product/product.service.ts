@@ -176,8 +176,8 @@ export class ProductService {
       .catch(this.handleError);
   }
 
-  getProductVariantDetailsByName(name: any): Observable<ProductVariantDetail[]> {
-    return this.http.get(this.url+'/getProductVariantDetailsByName?variantName=' + name)
+  getAllProductVariantDetails(): Observable<ProductVariantDetail[]> {
+    return this.http.get(this.url+'/getAllProductVariantDetails')
       .map(this.extractData)
       .catch(this.handleError);
   }

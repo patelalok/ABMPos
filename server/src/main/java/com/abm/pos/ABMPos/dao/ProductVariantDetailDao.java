@@ -13,9 +13,7 @@ public class ProductVariantDetailDao {
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Id
     private int id;
-
     private String name;
-    private String value;
 
     public int getId() {
         return id;
@@ -33,11 +31,4 @@ public class ProductVariantDetailDao {
         this.name = name;
     }
 
-    public String getValue() {
-        return value;
-    }
-
-    public void setValue(String value) {
-        this.value = value;
-    }
 }
