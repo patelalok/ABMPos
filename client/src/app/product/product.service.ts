@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Http, Response, Headers } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import { FormControl } from '@angular/forms/forms';
-import { Category, Brand, Vendor, Model, ProductVariantDetail, CategoryTest,ProductInventory, SubCategory } from 'app/product/product.component';
+import { Category, Brand, Vendor, Model, ProductVariantDetail,ProductInventory, SubCategory } from 'app/product/product.component';
 import { environment } from 'environments/environment';
 import { Observer, ReplaySubject, Subject } from 'rxjs';
 import { Product, TransactionLineItemDaoList, ProductVariant, VariantInventoryDto } from 'app/sell/sale/sale.component';
@@ -83,7 +83,7 @@ export class ProductService {
   }
 
   getProductDetailsFromBackEnd(): Observable<Product[]>{
-    return this.http.get(this.url+'/getProductTableDetails')
+    return this.http.get(this.url+'/getProductForProductTable')
     .map(this.extractData)
     .catch(this.handleError);
   }
@@ -141,7 +141,7 @@ export class ProductService {
       .catch(this.handleError);
   }
   getSubCategoryDetailsByCategoryId(categoryId:number): Observable<SubCategory[]>{
-    return this.http.get(this.url+'/getSubCategory?categoryId='+categoryId)
+    return this.http.get(this.url+'/getSubCategoryByCategoryId?categoryId='+categoryId)
   .map(this.extractData)
   .catch(this.handleError);
   }

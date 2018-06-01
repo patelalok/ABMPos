@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ProductService } from "app/product/product.service";
 
-import { Category, CategoryTest } from "app/product/product.component";
+import { Category, SubCategory } from "app/product/product.component";
 import {Message} from 'primeng/primeng';
 import { CategoryService } from 'app/product/category/category.service';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
@@ -11,17 +11,21 @@ import { ToastsManager } from 'ng2-toastr';
 @Component({
   selector: 'app-category',
   templateUrl: './category.component.html',
-  styleUrls: ['./category.component.css']
+  styleUrls: ['./category.component.scss']
 })
 export class CategoryComponent implements OnInit {
-  categoryForm: FormGroup;    
+  categoryForm: FormGroup;
+  subCategoryForm: FormGroup;    
   selectedCategoryForDelete: Category
-  categoryDto: PrimeCategory[];
+  categoryDto: Category[];
   displayDialog: boolean;
+  displaySubCategoryDialog: boolean;
+  subCategoryDto: SubCategory[] =[];
+  selectedCategoryForAddSubCategory: Category;
 
    msgs: Message[] = [];
 
-  category: CategoryTest = new PrimeCategory();
+  category = new Category();
 
   constructor(private categoryService: CategoryService, private productService: ProductService,  private formBuilder: FormBuilder, private toastr: ToastsManager) { }
 
@@ -30,7 +34,16 @@ export class CategoryComponent implements OnInit {
     this.categoryForm = this.formBuilder.group(
         {
           'name': [null,Validators.required],
-          'description': ['']
+          'description': [''],
+          'ecommerce':['']
+        }
+      );
+      this.subCategoryForm = this.formBuilder.group(
+        {
+          'name': [null,Validators.required],
+          'description': [''],
+          'categoryId':[''],
+          'ecommerce':['']
         }
       );
 
@@ -42,12 +55,23 @@ export class CategoryComponent implements OnInit {
         this.msgs.push({severity: severity, summary: summary, detail: detail});
     }
 
+    getSubCategoryByCategoryId(category : Category){
+        this.productService.getSubCategoryDetailsByCategoryId(category.categoryId)
+        .subscribe((subCategory: SubCategory[]) => {
+          this.subCategoryDto = subCategory;
+          this.subCategoryDto = this.subCategoryDto.slice();
+          console.log('sub CategoryId', this.subCategoryDto);
+        })    }
+
 
     getCategoryDetails(): void {
       this.productService.getCategoryDetails()
       .subscribe((categories: Category[]) => {
       this.categoryDto = categories;
         });
+    }
+    onCategorySelect(event){
+        this.selectedCategoryForAddSubCategory = this.categoryDto[event.target.selectedIndex];
     }
 
     addCategory() {
@@ -70,6 +94,18 @@ export class CategoryComponent implements OnInit {
         this.categoryDto = this.categoryDto.slice();
         this.displayDialog = false;    
         
+    }
+
+    addSubCategory(){
+
+        let newSubCategory: SubCategory = this.subCategoryForm.value;
+        newSubCategory.categoryId = this.selectedCategoryForAddSubCategory.categoryId;
+
+        //this.productService.addS(this.categoryForm.value)
+
+
+        console.log('subCategory To add',newSubCategory);
+
     }
 
     updateCategory(event) {
@@ -114,14 +150,18 @@ export class CategoryComponent implements OnInit {
     )
     } 
 
-    showDialogToAdd() {
+    showAddCategoryPopup() {
         this.displayDialog = true;
+    }
+    showAddSubCategoryPopup() {
+        this.subCategoryForm.get('categoryId').setValue(this.categoryDto[0].name);
+        this.displaySubCategoryDialog = true;
     }
 }
 
-class PrimeCategory implements CategoryTest {
-    constructor(public name?, public description?) {}
-}
+// class PrimeCategory {
+//     constructor(public name?, public description?, public categoryId?, public ecommerce?) {}
+// }
 
 export class Response {
     message: string;

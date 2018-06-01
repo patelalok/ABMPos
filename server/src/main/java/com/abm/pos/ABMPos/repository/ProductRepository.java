@@ -95,4 +95,22 @@ public interface ProductRepository extends JpaRepository<ProductDao, Integer> {
     List<ProductDao> findAllByModelId(String s);
 
     List<ProductDao> findAllByVendorId(String s);
+
+    @Query(value = "SELECT p.product_id, p.product_no,p.description, p.tax,i.tier1, i.tier2, i.tier3,\n" +
+            "sum(i.quantity) from product p\n" +
+            "inner join product_inventory i\n" +
+            "on p.product_id = i.product_id\n" +
+            "Where p.variant = 0 AND p.active = 1\n" +
+            "group by p.product_id, p.product_no,p.description, p.tax,i.tier1, i.tier2, i.tier3 " +
+            "order by p.description", nativeQuery = true)
+    List<Object[]> getAllActiveProductWithoutVariant();
+
+    @Query(value = "SELECT p.product_id, p.product_no,p.description, p.tax,sum(i.quantity)\n" +
+            "from product p\n" +
+            "inner join product_inventory i\n" +
+            "on p.product_id = i.product_id\n" +
+            "Where p.variant = 1 AND p.active = 1\n" +
+            "group by p.product_id, p.product_no,p.description, p.tax " +
+            "order by p.description", nativeQuery = true)
+    List<Object[]> getAllActiveProductWithVariant();
 }

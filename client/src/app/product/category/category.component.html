@@ -1,32 +1,30 @@
-<div class="">
-
-    <p-growl [(value)]="msgs"></p-growl>
-
-    <mat-card>
-        <mat-card-title>
-            <h4>
-                Category Details
-            </h4>
-        </mat-card-title>
-        <mat-card-content>
-            <div class="row d-flex align-items-center justify-content-end">
-                <div class="col-md-6"></div>
-                <div class="col-md-6 d-flex justify-content-end">
-                    <button type="button" mat-raised-button class="bg-primary text-white action-button-lg" (click)="showDialogToAdd()">
-                                <i class="fa fa-plus-square" aria-hidden="true" label="Add"></i>
-                                Add Category
-                            </button>
-                </div>
+<mat-card>
+    <mat-card-title>
+        <h4>
+            Category Details
+        </h4>
+    </mat-card-title>
+    <mat-card-content>
+        <div class="row d-flex align-items-center justify-content-end">
+            <div class="col-md-4"></div>
+            <div class="col-md-8 d-flex justify-content-end">
+                <button type="button" mat-raised-button class="bg-primary text-white action-button-lg" style="margin-right: 15px" (click)="showAddCategoryPopup()">
+                    <i class="fa fa-plus-square" aria-hidden="true" label="Add"></i>
+                    Add Category
+                </button>
+                <button type="button" mat-raised-button class="bg-primary text-white action-button-lg" (click)="showAddSubCategoryPopup()">
+                    <i class="fa fa-plus-square" aria-hidden="true" label="Add"></i>
+                    Add Sub Category
+                </button>
             </div>
-            <div class="row">
-                <div class="col-md-12 p-md-3">
-                    <!-- <p-header>Category Details</p-header> -->
-                    <p-dataTable [value]="this.categoryDto" scrollable="true" scrollHeight="500px" [responsive]="true" [editable]="true" (onEditComplete)="this.updateCategory($event)">
+        </div>
+        <div class="row">
+            <div class="col-md-12 p-md-3">
+                <!-- <p-dataTable [value]="this.categoryDto" scrollable="true" scrollHeight="500px" [responsive]="true" [editable]="true" (onEditComplete)="this.updateCategory($event)">
                         <p-column field="index" header="Index" [sortable]="true"></p-column>
                         <p-column field="name" header="Category Name" filterPlaceholder="Search For Category Name" [filter]="true" [editable]="true"></p-column>
                         <p-column field="description" header="Description" [sortable]="true" [editable]="true"></p-column>
             
-                        <!-- <p-column field="noOfProduct" header="No Of Prodcuts" [sortable]="true"></p-column> -->
                         <p-column field="action" header="Action" [style]="{'width': '5%'}">
                             <ng-template let-category="rowData" pTemplate="body" class="m-auto">
                                 <button class="btn-red action-button-table" mat-button data-toggle="modal" data-target="#deleteCategory" (click)="this.setCategoryForDelete(category)">
@@ -34,50 +32,174 @@
                                     </button>
                             </ng-template>
                         </p-column>
-                    </p-dataTable>
+                    </p-dataTable> -->
 
-                </div>
+                <p-table [value]="this.categoryDto" dataKey="name">
+                    <ng-template pTemplate="header">
+                        <tr>
+                            <th style="width: 2.25em"></th>
+                            <th>Category Name</th>
+                            <th>Category Description</th>
+                            <th>Action</th>
 
-                <form *ngIf="this.categoryForm != null" [formGroup]="this.categoryForm">
-                    <p-dialog header="Add Category" appendTo="body" [(visible)]="displayDialog" [responsive]="true" showEffect="fade" [modal]="true">
-                        <div class="ui-grid ui-grid-responsive ui-fluid" *ngIf="category">
-                            <div class="ui-grid-row">
-                                <div class="ui-grid-col-4">
-                                    <label for="name">Name:</label>
-                                </div>
-                                <div class="ui-grid-col-8">
-                                    <input class="form-control" formControlName="name" />
-                                </div>
-                            </div>
-                            <div class="ui-grid-row">
-                                <div class="ui-grid-col-4">
-                                    <label for="description">Description:</label>
-                                </div>
-                                <div class="ui-grid-col-8">
-                                    <input class="form-control" formControlName="description" />
-                                </div>
-                            </div>
-                        </div>
-                        <p-footer>
-                            <div style="text-align: center">
-                                <button type="button" class="btn btn-success" (click)="this.addCategory()" [disabled]="this.categoryForm.invalid">
-                                        <i class="fa fa-paper-plane" aria-hidden="true" ></i>
-                                Add Category
-                            </button>
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-category let-rowData let-expanded="expanded">
+                        <tr>
+                            <td>
+                                <a href="#" [pRowToggler]="rowData" (click)="this.getSubCategoryByCategoryId(category)">
+                                    <i [ngClass]="expanded ? 'fa fa-fw fa-chevron-circle-down' : 'fa fa-fw fa-chevron-circle-right'"></i>
+                                </a>
+                            </td>
+                            <td>{{category.name}}</td>
+                            <td>{{category.description}}</td>
+                            <td>
+                                <button class="btn-red action-button-table" mat-button data-toggle="modal" data-target="#deleteCategory" (click)="this.setCategoryForDelete(category)">
+                                    <i class="fa fa-trash" aria-hidden="true"></i>
+                                </button>
+                                <button class="btn-blue action-button-table" mat-button>
+                                    <i class="fa fa-pencil" aria-hidden="true"></i>
+                                </button>
+                            </td>
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="rowexpansion" let-rowData let-columns="columns">
+                        <tr>
+                            <td [attr.colspan]=4>
 
-                            </div>
-                        </p-footer>
-                    </p-dialog>
-                </form>
+                                <p-table [value]="this.subCategoryDto" dataKey="name">
+                                    <ng-template pTemplate="header">
+                                        <tr>
+                                            <th>Sub Category Name</th>
+                                            <th>Sub Category Description</th>
+                                            <th>Action</th>
+
+                                        </tr>
+                                    </ng-template>
+                                    <ng-template pTemplate="body" let-subCategory let-rowData let-expanded="expanded" class="m-auto">
+                                        <tr>
+                                            <td>{{subCategory.name}}</td>
+                                            <td>{{subCategory.description}}</td>
+                                            <td>
+                                                <button class="btn-red action-button-table" mat-button data-toggle="modal" data-target="#deleteCategory" (click)="this.setCategoryForDelete(category)">
+                                                    <i class="fa fa-trash" aria-hidden="true"></i>
+                                                </button>
+                                                <button class="btn-blue action-button-table" mat-button>
+                                                    <i class="fa fa-pencil" aria-hidden="true"></i>
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    </ng-template>
+                                </p-table>
+                            </td>
+                        </tr>
+
+
+                    </ng-template>
+                </p-table>
+
             </div>
-        </mat-card-content>
-    </mat-card>
-</div>
+        </div>
+
+        <form *ngIf="this.categoryForm != null" [formGroup]="this.categoryForm">
+            <p-dialog header="Add Category" appendTo="body" [(visible)]="displayDialog" [responsive]="true" showEffect="fade" [modal]="true">
+                <div class="ui-grid ui-grid-responsive ui-fluid" *ngIf="category">
+                    <div class="ui-grid-row">
+                        <div class="ui-grid-col-4">
+                            <label for="name">Name:</label>
+                        </div>
+                        <div class="ui-grid-col-8">
+                            <input class="form-control" formControlName="name" />
+                        </div>
+                    </div>
+                    <div class="ui-grid-row">
+                        <div class="ui-grid-col-4">
+                            <label for="description">Description:</label>
+                        </div>
+                        <div class="ui-grid-col-8">
+                            <input class="form-control" formControlName="description" />
+                        </div>
+                    </div>
+                    <div class="ui-grid-row">
+                        <div class="ui-grid-col-12">
+                            <label>
+                                <input type="checkbox" checked formControlName="ecommerce"> Is Ecomerce
+                            </label>
+                        </div>
+
+                    </div>
+                </div>
+                <p-footer>
+                    <div style="text-align: center">
+                        <button type="button" class="btn btn-success" (click)="this.addCategory()" [disabled]="this.categoryForm.invalid">
+                            <i class="fa fa-paper-plane" aria-hidden="true"></i>
+                            Add Category
+                        </button>
+
+                    </div>
+                </p-footer>
+            </p-dialog>
+        </form>
+
+
+        <form *ngIf="this.subCategoryForm != null" [formGroup]="this.subCategoryForm">
+            <p-dialog header="Add Category" appendTo="body" [(visible)]="displaySubCategoryDialog" [responsive]="true" showEffect="fade" [modal]="true">
+                <div class="ui-grid ui-grid-responsive ui-fluid" *ngIf="category">
+                    <div class="ui-grid-row">
+                        <div class="ui-grid-col-4">
+                            <label for="name">Category Name:</label>
+                        </div>
+                        <div class="ui-grid-col-8">
+                            <select class="form-control" formControlName="categoryId" (change)="onCategorySelect($event)">
+                                <option *ngFor="let category of categoryDto" [ngValue]="categoryId">
+                                    {{category.name}}
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="ui-grid-row">
+                        <div class="ui-grid-col-4">
+                            <label for="name">Name:</label>
+                        </div>
+                        <div class="ui-grid-col-8">
+                            <input class="form-control" formControlName="name" />
+                        </div>
+                    </div>
+                    <div class="ui-grid-row">
+                        <div class="ui-grid-col-4">
+                            <label for="description">Description:</label>
+                        </div>
+                        <div class="ui-grid-col-8">
+                            <input class="form-control" formControlName="description" />
+                        </div>
+                    </div>
+                    <div class="ui-grid-row">
+                        <div class="ui-grid-col-12">
+                            <label>
+                                <input type="checkbox" checked formControlName="ecommerce"> Is Ecomerce
+                            </label>
+                        </div>
+
+                    </div>
+                </div>
+                <p-footer>
+                    <div style="text-align: center">
+                        <button type="button" class="btn btn-success" (click)="this.addSubCategory()" [disabled]="this.subCategoryForm.invalid">
+                            <i class="fa fa-paper-plane" aria-hidden="true"></i>
+                            Add Sub Category
+                        </button>
+
+                    </div>
+                </p-footer>
+            </p-dialog>
+        </form>
+    </mat-card-content>
+</mat-card>
 
 
 
 
-<!-- Start of Delete Vendor Popup -->
+<!-- Start of Delete Category Popup -->
 <div class="modal fade" id="deleteCategory" role="dialog">
     <div class="modal-dialog modal-sm">
         <div class="modal-content">
@@ -97,4 +219,4 @@
     </div>
 </div>
 
-<!-- End of Delete Vendor Popup -->
+<!-- End of Delete Category Popup -->

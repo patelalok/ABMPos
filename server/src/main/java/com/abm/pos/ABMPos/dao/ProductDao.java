@@ -34,9 +34,14 @@ public class ProductDao implements Serializable {
 
     private double cost;
     private double retail;
+
+    @Transient
     private double tier1;
+    @Transient
     private double tier2;
+    @Transient
     private double tier3;
+
     private int quantity;
     private int minQuantity;
 

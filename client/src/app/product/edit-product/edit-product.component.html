@@ -562,7 +562,7 @@
     </div>
 
 </div>
- <!-- Start Of Cost price and Quantity model -->
+ <!-- End Of Cost price and Quantity model -->
 
      <!-- Start Of Retail Tier Model -->
      <div class="modal fade" id="retailTier" role="dialog" (keyup.enter)="this.hideProductModal()">
@@ -597,101 +597,3 @@
     
     </div>
      <!-- End Of Retail Tier Model -->
-
-
-
-
-
-
-
-<!--********************************* VERY IMPORTANT DO NOT DELET IT *********************************-->
-
-<!-- DO NOT DELETE THIS -->
-
-<!--START OF VARIANT POPUP-->
-
-<!-- <p-dialog header="Product Variant Details" [(visible)]="displayDialog" [modal]="true" [responsive]="true">
-
-    <div class="container">
-        <div class="row">
-            <div class="col-md-2">
-                <select class="form-control">
-                              <option *ngFor = "let variantName of productVariantDetailsDto">
-                                  {{variantName}}
-                                  </option>
-                          </select>
-            </div>
-
-            <div class="col-md-3">
-                <select class="form-control">
-                                <option *ngFor = "let variantValue of productVariantDetailsByNameDto"> 
-                                    {{variantValue.value}}
-                                    </option>
-                              </select>
-
-            </div>
-
-            <div class="col-md-2">
-                <input type="text" class="form-control" [(ngModel)]="formProduct.cost" placeholder="Cost Price">
-            </div>
-            <div class="col-md-2">
-                <input type="text" class="form-control" [(ngModel)]="formProduct.markup" placeholder="Markup %">
-
-            </div>
-            <div class="col-md-2">
-                <input type="text" class="form-control" [(ngModel)]="formProduct.retail" placeholder="Retail Price">
-            </div>
-            <div class="col-md-1">
-                <i class="fa fa-trash-o" aria-hidden="true"></i>
-            </div>
-        </div>
-
-        <div class="row">
-            <div class="col-md-2">
-                <select class="form-control">
-                              <option *ngFor = "let variantName of productVariantDetailsDto">
-                                  {{variantName}}
-                                  </option>
-                          </select>
-            </div>
-
-            <div class="col-md-3">
-                <select class="form-control">
-                                <option *ngFor = "let variantValue of productVariantDetailsByNameDto"> 
-                                    {{variantValue.value}}
-                                    </option>
-                              </select>
-
-            </div>
-
-            <div class="col-md-2">
-                <input type="text" class="form-control" [(ngModel)]="formProduct.cost" placeholder="Cost Price">
-            </div>
-            <div class="col-md-2">
-                <input type="text" class="form-control" [(ngModel)]="formProduct.markup" placeholder="Markup %">
-
-            </div>
-            <div class="col-md-2">
-                <input type="text" class="form-control" [(ngModel)]="formProduct.retail" placeholder="Retail Price">
-            </div>
-            <div class="col-md-1">
-                <i class="fa fa-trash-o" aria-hidden="true"></i>
-            </div>
-        </div>
-
-        <div class="row">
-
-            <div class="col-md-3">
-            </div>
-            <div class="col-md-3">
-                <p><button class="btn btn-primary btn-block">Add Product Variant</button></p>
-            </div>
-            <div class="col-md-3">
-                <p><button class="btn btn-primary btn-block">Update Product Variant</button></p>
-            </div>
-
-        </div>
-    </div>
-</p-dialog> -->
-
-<!--End Of variant logic-->

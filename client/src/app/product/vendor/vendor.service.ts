@@ -2,10 +2,7 @@ import {Injectable } from '@angular/core';
 import {Http, Response, Headers} from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import { FormControl } from '@angular/forms/forms';
-import { CategoryTest, VendorTest } from "app/product/product.component";
-
-
-
+import { VendorTest } from "app/product/product.component";
 
 @Injectable()
 export class VendorService {

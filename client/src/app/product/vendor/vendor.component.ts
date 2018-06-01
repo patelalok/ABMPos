@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ProductService } from 'app/product/product.service';
 
-import { Category, CategoryTest, VendorTest, Vendor } from 'app/product/product.component';
+import { Category, VendorTest, Vendor } from 'app/product/product.component';
 import { Message } from 'primeng/primeng';
 import { VendorService } from 'app/product/vendor/vendor.service';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';

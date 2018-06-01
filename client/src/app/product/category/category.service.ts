@@ -2,8 +2,8 @@ import { Injectable } from '@angular/core';
 import { Http, Response, Headers } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import { FormControl } from '@angular/forms/forms';
-import { CategoryTest } from "app/product/product.component";
 import { environment } from 'environments/environment';
+import { Category } from '../product.component';
 
 
 
@@ -16,7 +16,7 @@ export class CategoryService {
     this.url = environment.reportUrl; 
   }
 
-  addOrUpdateCategory(category: CategoryTest) {
+  addOrUpdateCategory(category: Category) {
     return this.http.post(this.url+'/addCategory', category);
   }
 

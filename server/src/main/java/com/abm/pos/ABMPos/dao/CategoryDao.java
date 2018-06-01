@@ -22,6 +22,9 @@ public class CategoryDao {
     @Transient
     private int noOfProducts;
 
+    @Transient
+    private SubCategoryDao subCategoryDao;
+
     @OneToMany
     @JoinColumn(name="categoryId")
     private Set<ProductDao> productDaoSet;

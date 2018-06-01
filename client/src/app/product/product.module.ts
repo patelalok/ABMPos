@@ -6,7 +6,6 @@ import { ProductService } from 'app/product/product.service';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { DialogModule } from 'primeng/primeng';
 import {TabMenuModule, MenuItem} from 'primeng/primeng';
-
 import { TableModule } from "primeng/table";
 import {DataTableModule} from 'primeng/primeng';
 import {MessagesModule} from 'primeng/primeng';
@@ -31,7 +30,6 @@ import { EditProductComponent } from './edit-product/edit-product.component';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import { PhoneComponent } from './phone/phone.component';
 import { VariantComponent } from './variant/variant.component';
-import { SubCategoryComponent } from './sub-category/sub-category.component';
 
 
 @NgModule({
@@ -64,7 +62,7 @@ import { SubCategoryComponent } from './sub-category/sub-category.component';
     EditProductComponent,
     PhoneComponent,
     VariantComponent,
-    SubCategoryComponent],
+  ],
   providers: [ProductService, VendorService, CategoryService, BrandService, ModelService],
   bootstrap: [ProductComponent, AddProductComponent, AddInventoryComponent]
 })

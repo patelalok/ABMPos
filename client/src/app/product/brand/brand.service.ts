@@ -2,7 +2,7 @@ import {Injectable } from '@angular/core';
 import {Http, Response, Headers} from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import { FormControl } from '@angular/forms/forms';
-import { CategoryTest, BrandTest, Brand } from "app/product/product.component";
+import { BrandTest, Brand } from "app/product/product.component";
 import { environment } from 'environments/environment';
 
 

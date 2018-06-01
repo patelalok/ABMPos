@@ -55,16 +55,20 @@
                     <p-column [style]="{'width': '10%'}" field="productId" header="Product Number" filterPlaceholder="Search For Product Name"></p-column>
                     <p-column [style]="{'width': '30%', 'text-align': 'left'}" field="description" header="Description" [sortable]="true"></p-column>
                     <!-- <p-column [style]="{'width': '10%'}" field="categoryName" header="Category" [sortable]="true"></p-column> -->
-                    <p-column [style]="{'width': '10%'}" field="cost" header="Cost" [sortable]="true">
-
+                    <p-column  [style]="{'width': '10%'}" field="cost" header="Cost" [sortable]="true">
                         <ng-template let-product="rowData" pTemplate="body">
                             <a href="JavaScript:void(0);" (click)="setProductInventoryForSelectedProduct(product.productNo)" data-toggle="modal" data-target="#productInventory"> {{product.cost | currency:'USD':'true'}}</a>
                         </ng-template>
                     </p-column>
-                    <p-column [style]="{'width': '10%'}" field="retail" header="Retail" [editable]="true">
-                        <ng-template let-product="rowData" pTemplate="body">
+                    <p-column [style]="{'width': '10%'}" field="retail" header="Retail">
+                        <!-- <ng-template let-product="rowData" pTemplate="body">
                             <a> {{product.retail | currency:'USD':'true'}}</a>
+                        </ng-template> -->
+
+                        <ng-template let-product="rowData" pTemplate="body">
+                            <a href="JavaScript:void(0);" (click) = "this.setProductRetailTierPriceForSelectedProduct(product)">{{product.tier1}} , {{product.tier2}} , {{product.tier3}}  </a>
                         </ng-template>
+
                     </p-column>
                     <p-column [style]="{'width': '8%'}" field="quantity" header="Quantity" [sortable]="true">
                         <ng-template let-product="rowData" pTemplate="body">
@@ -311,3 +315,37 @@
 
 </div>
 <!-- Start Of Cost price and Quantity model -->
+
+<!-- Start Of Retail Tier Model -->
+<div class="modal fade" id="retailTier" role="dialog" (keyup.enter)="this.hideProductModal()">
+    <div class="modal-dialog modal-lg">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Manage Retail Tier Price</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
+
+                <div class="row">
+                        <p-dataTable [value]="this.productForRetailTierPopup" [editable]="true" scrollable="true" [responsive]="true" scrollHeight="300px" (onEditComplete)="this.updateProductVariantRetailTierPrice($event)">
+                                <p-column field="tier1" header="Tier1" [editable]="true"></p-column>
+                                <p-column field="tier2" header="Tier2" [editable]="true"></p-column>
+                                <p-column field="tier3" header="Tier3"[editable]="true"></p-column>
+        
+                            </p-dataTable>
+                </div>
+            </div>
+
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+
+
+    </div>
+
+</div>
+ <!-- End Of Retail Tier Model -->

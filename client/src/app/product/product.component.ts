@@ -91,27 +91,22 @@ export class ProductComponent implements OnInit {
 
 }
 
-export class Category implements ProductCommon {
-  categoryId: number;
+export class Category {
+  categoryId?: number;
   name: string;
-  ecommerce:boolean;
-  description: string;
+  ecommerce?:boolean;
+  description?: string;
 
 }
 
-export class SubCategory implements ProductCommon {
-  id: number;
-  name: string;
-  categoryId: number;
-  ecommerce:boolean;
-  description: string;
+export class SubCategory {
+  id?: number;
+  name?: string;
+  categoryId?: number;
+  ecommerce?:boolean;
+  description?: string;
 }
-export interface CategoryTest {
-  categoryId?;
-  name?;
-  ecommerce?;
-  description?;
-}
+
 export class Brand implements ProductCommon {
   brandId: number;
   name: string;

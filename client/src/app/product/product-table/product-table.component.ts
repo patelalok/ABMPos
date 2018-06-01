@@ -13,12 +13,13 @@ import { ToastsManager } from 'ng2-toastr';
 import { error } from 'selenium-webdriver';
 import { Product, TransactionLineItemDaoList } from 'app/sell/sale/sale.component';
 import { DateService, DateDto } from '../../shared/services/date.service';
+import { Router } from '@angular/router';
 declare var $: JQueryStatic;
 
 @Component({
   selector: 'app-product-table',
   templateUrl: './product-table.component.html',
-  styleUrls: ['./product-table.component.sass']
+  styleUrls: ['./product-table.component.scss']
 })
 export class ProductTableComponent implements OnInit {
   form: FormGroup;
@@ -48,6 +49,9 @@ export class ProductTableComponent implements OnInit {
   productHistoryDropDown: any = 'Today';
   updateProductObject: Product;
   productInventoryList: ProductInventory[] = [];
+  productForRetailTierPopup: Product[] = [];
+  selectedProductForTierRetailUpdate = new  Product();
+
   dateDto = new DateDto();
   totalSaleQuantity: number = 0;
 
@@ -58,7 +62,7 @@ export class ProductTableComponent implements OnInit {
 
 
   loading: boolean = false;
-  constructor(private productService: ProductService, private loadingService: LoadingService, private toastr: ToastsManager, private dateService: DateService) { }
+  constructor(private productService: ProductService, private loadingService: LoadingService, private toastr: ToastsManager, private dateService: DateService, private router: Router) { }
 
   ngOnInit() {
 
@@ -448,6 +452,33 @@ export class ProductTableComponent implements OnInit {
     this.hideProductModal();
 
   }
+  setProductRetailTierPriceForSelectedProduct(product: Product){
+
+    this.productForRetailTierPopup = [];
+    if(!product.variant){
+      this.selectedProductForTierRetailUpdate = product;
+      this.productForRetailTierPopup.push(this.selectedProductForTierRetailUpdate);
+      this.productForRetailTierPopup = this.productForRetailTierPopup.slice();
+
+      $('#retailTier').modal('show');
+    }
+    // Because this product has variant so user has to go inside to update retail price.
+    else {
+      this.router.navigate(['/product/edit',{productNo: product.productId}]);
+    }
+  }
+
+  updateProductVariantRetailTierPrice(event){
+    this.productService.updateRetailTierPrice(event.data)
+    .subscribe((data)=>{
+      if(data){
+        this.toastr.success('Retail Tier Price Updated Successfully !!', 'Success!');
+      }
+    },
+    error => {
+      this.toastr.error('Opps Something goes wrong !!', 'Error!!');
+      console.log(JSON.stringify(error.json()));
+    });  }
 
   hideProductModal() {
     console.log('Hiding modal');
