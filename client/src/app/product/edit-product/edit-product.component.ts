@@ -7,7 +7,7 @@ import { ProductService } from 'app/product/product.service';
 import { ProductForm } from 'app/product/addProduct.component';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastsManager } from 'ng2-toastr';
-import { Product, ProductVariant, VariantInventoryDto } from 'app/sell/sale/sale.component';
+import { Product, ProductVariant, VariantInventoryDto, ProductVariantForm } from 'app/sell/sale/sale.component';
 
 
 
@@ -24,7 +24,7 @@ export class EditProductComponent implements OnInit {
   brandDto: Brand[];
   vendorDto: Vendor[];
   modelDto: Model[];
-  // productVariantDetailsDto: ProductVariantDetail[];
+  productVariantDetailsDto: ProductVariantDetail[];
   productVariantDto: ProductVariant[] = [];
   productVariantDetailsByNameDto: ProductVariantDetail[];
   displayDialog = false;
@@ -36,7 +36,7 @@ export class EditProductComponent implements OnInit {
   selectedProductInventoryForDelete: ProductInventory;
   _subscriptionProduct: any;
   productList: Product[] = [];
-  variantDto: ProductVariantDetail[] = [];
+  // variantDto: ProductVariantDetail[] = [];
   productVariantDetails: ProductVariantDetail[] = [];
   productInventoryList: ProductInventory[] = [];
   cost: number;
@@ -104,7 +104,7 @@ export class EditProductComponent implements OnInit {
             'tier2': [this.currentProduct.tier2, [Validators.required, Validators.pattern('^[0-9-.]+$')]],
             'tier3': [this.currentProduct.tier3, [Validators.required, Validators.pattern('^[0-9-.]+$')]],
 
-            'quantity': [null, [Validators.required, Validators.pattern('^[0-9]+$')]],
+            'quantity': [null, [Validators.pattern('^[0-9]+$')]],
             'variant1': [null, [Validators.required]],
             //'variant2': [null],
            // 'variant3': [null],
@@ -125,14 +125,14 @@ export class EditProductComponent implements OnInit {
 
         })
 
-        this.variantForm.valueChanges
-        .subscribe((changes) => {
-          console.log('form valurs', this.variantForm.errors);
-          console.log('form valurs', this.variantForm.valid);
+        // this.variantForm.valueChanges
+        // .subscribe((changes) => {
+        //   console.log('form valurs', this.variantForm.errors);
+        //   console.log('form valurs', this.variantForm.valid);
 
-          console.log('complete form', this.variantForm.value);
+        //   console.log('complete form', this.variantForm.value);
 
-        })
+        // })
    
         this.productService.getCategoryDetails()
         .subscribe((categories: Category[]) => {
@@ -175,9 +175,9 @@ export class EditProductComponent implements OnInit {
 
         this.productService.getProductVariantDetails()
         .subscribe((variants:ProductVariantDetail[] )=>{
-          this.variantDto = variants;
-          if(this.variantDto != null) {
-          this.variantForm.get('variant1').setValue(this.variantDto[0]);
+          this.productVariantDetailsDto = variants;
+          if(this.productVariantDetailsDto != null) {
+          this.variantForm.get('variant1').setValue(this.productVariantDetailsDto[0]);
           // this.variantForm.get('variant2').setValue(this.variantDto[0].value);
           // this.variantForm.get('variant3').setValue(this.variantDto[0].value);
           }
@@ -273,7 +273,9 @@ export class EditProductComponent implements OnInit {
 
   addProductVariant(){
 
-    let formValues: ProductVariant = this.variantForm.value;
+    let formValues: ProductVariantForm = this.variantForm.value;
+
+    console.log('formValues at all', formValues.operationType);
 
     let productVariant: ProductVariant = {
       productId: this.currentProduct.productId,
@@ -284,11 +286,11 @@ export class EditProductComponent implements OnInit {
       tier2: formValues.tier2,
       tier3: formValues.tier3,
       quantity:formValues.quantity,
-      variant1:formValues.variant1,
+      variant1:formValues.variant1.name,
       value1:formValues.value1,
-      variant2:formValues.variant2,
-      value2:formValues.value2,
-      variant3:formValues.variant3,
+      // variant2:formValues.variant2,
+      // value2:formValues.value2,
+      // variant3:formValues.variant3,
       value3:formValues.value3,
       createdTimestamp: moment(Date.now()).format('YYYY-MM-DD HH:mm:ss')
     }
@@ -296,19 +298,31 @@ export class EditProductComponent implements OnInit {
     this.productService.addProductVariant(productVariant);
 
   }
-  updateProductVariant(product: VariantInventoryDto){
+  updateProductVariant(product: ProductVariant){
+
+    this.clearVariantForm();
+    let currentvariant1={}; 
+
+    currentvariant1 = this.productVariantDetailsDto.filter((el)=> el.name==product.variant1)[0]; 
+    this.variantForm.get('variant1').setValue(currentvariant1);
+    console.log('cut var', currentvariant1);
 
     console.log('update variant', product);
-    this.variantForm.get('productNo').setValue(product.productVariantDao.productNo);
-    this.variantForm.get('variant1').setValue(product.productVariantDao.variant1);
-    this.variantForm.get('value1').setValue(product.productVariantDao.value1);
-    // this.variantForm.get('cost').setValue(product.cost);
-    // this.variantForm.get('tier1').setValue(product.tier1);
-    // this.variantForm.get('tier2').setValue(product.tier2);
-    // this.variantForm.get('tier3').setValue(product.tier3);
+    this.variantForm.get('productNo').setValue(product.productNo);
+    this.variantForm.get('value1').setValue(product.value1);
+    this.variantForm.get('cost').setValue(product.cost);
+    this.variantForm.get('tier1').setValue(product.tier1);
+    this.variantForm.get('tier2').setValue(product.tier2);
+    this.variantForm.get('tier3').setValue(product.tier3);
+    // this.variantForm.get('operationType').setValue('Edit');
+
+    // this.variantForm.get('quantity').disabled = true;
+
+    //this.productService.addProductVariant(this.variantForm.value);
+
     // this.variantForm.get('quantity').setValue(product.quantity);
 
-    console.log('update product', product);
+    console.log('update product varianr', product);
   }
 
   onVariantSelect(event){
@@ -503,6 +517,17 @@ export class EditProductComponent implements OnInit {
     this.form.get('markup').setValue(null);
     this.form.get('retail').setValue(null);
     this.form.get('quantity').setValue(null);
+  }
+
+  clearVariantForm(){
+    this.variantForm.get('productNo').setValue(null);
+    this.variantForm.get('value1').setValue(null);
+    this.variantForm.get('cost').setValue(null);
+    this.variantForm.get('tier1').setValue(null);
+    this.variantForm.get('tier2').setValue(null);
+    this.variantForm.get('tier3').setValue(null);
+    this.variantForm.get('quantity').setValue(null);    
+    
   }
   showDialog() {
     this.displayDialog = !this.displayDialog;

@@ -12,7 +12,7 @@ import { Customer } from 'app/customer/customer.component';
 import * as moment from 'moment';
 import { DomSanitizer } from '@angular/platform-browser';
 import { fadeInAnimation } from 'app/shared/animations/fade-in.animation';
-import { ProductInventory } from 'app/product/product.component';
+import { ProductInventory, ProductVariantDetail } from 'app/product/product.component';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastsManager } from 'ng2-toastr/src/toast-manager';
 import { empty } from 'rxjs/Observer';
@@ -1387,6 +1387,57 @@ export class ProductVariant {
   variant2?:string;
   value2?:string;
   variant3?:string;
+  value3?:string;
+  createdTimestamp: any;
+  operationType?: string;
+
+
+  // productVariantNo: number;
+  description?: string;
+  categoryId?: number;
+  subCategoryId?:number;
+  brandId?: number
+  vendorId?: number;
+  modelId?: number;
+  alternetNo?: string;
+
+  markup?: number;
+  minQuantity?: number;
+  tax?: boolean;
+  variant?: boolean;
+  active?: boolean;
+  ecommerce?: boolean;
+  relatedProduct?: boolean;
+  // defaultQuantity = 1;
+  saleQuantity?: number;
+  returnRule?: any;
+
+  transactionComId?: number;
+  date?: any;
+  time?: any;
+  status?: string;
+  discount?: number;
+  retailWithDiscount?: number;
+  totalProductPrice?: number;
+  taxAmountOnProduct?: number;
+  imeiNo?: any;
+  productInventoryDaoList?: ProductInventory[];
+}
+
+export interface ProductVariantForm {
+  productId: number;
+  productNo: string;
+  cost?:number;
+  retail?: number;
+  tier1?: number;
+  tier2?: number;
+  tier3?: number;
+  quantity?:number;
+  variant1:ProductVariantDetail;
+  value1:string;
+  variant2?:ProductVariantDetail;
+  value2?:string;
+  variant3?:ProductVariantDetail;
   value3?:string;
   createdTimestamp: any;
   operationType?: string;

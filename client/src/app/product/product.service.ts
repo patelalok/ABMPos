@@ -55,7 +55,6 @@ export class ProductService {
   }
 
   addProductVariant(productVariant: ProductVariant){
-    productVariant.operationType = 'blah';
     this.http.post(this.url+'/addProductVariant', productVariant)
     .subscribe(data => {
       if(data.status == 200 || data.status == 201){

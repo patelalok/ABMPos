@@ -241,7 +241,7 @@
                 <div class="col-md-12">
                     <div class = "my-md-2" style="display: flex; justify-content:space-between;">
                          <h4>Product Inventory Details</h4>
-                        <button type="button" mat-raised-button class="bg-primary text-white action-button-lg" data-target="#addVariant" data-toggle="modal" [disabled]="!this.currentProduct.variant" >
+                        <button type="button" mat-raised-button class="bg-primary text-white action-button-lg" (click) = "this.clearVariantForm()" data-target="#addVariant" data-toggle="modal" [disabled]="!this.currentProduct.variant" >
                             <i class="fa fa-plus-square" aria-hidden="true" label="Add"></i>
                                 Add Variant
                         </button>
@@ -343,7 +343,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h4 class="modal-title">Add Product Variant</h4>
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <button type="button" (click) = "this.clearVariantForm()" class="close" data-dismiss="modal">&times;</button>
                 </div>
                 <div class="modal-body">
                     <form *ngIf="this.variantForm != null" [formGroup]="this.variantForm">
@@ -377,7 +377,6 @@
                                 <ul>
                                         <li>
                                             <label>Quantity
-                                                <em>*</em>
                                             </label>
                                             <div>
                                                 <input type="number" class="form-control" formControlName = "quantity">
@@ -436,8 +435,8 @@
                                             </label>
                                 </li>
                                 <select class="form-control" formControlName = "variant1" (change) = "this.onVariantSelect($event)">
-                                    <option *ngFor="let variant of this.variantDto">
-                                        {{variant}}
+                                    <option *ngFor="let variant1 of this.productVariantDetailsDto" [ngValue] = "variant1">
+                                        {{variant1.name}}
                                     </option>
                                 </select>
                                 <input type="text" formControlName = "value1" class="form-control">
@@ -464,7 +463,7 @@
                     </form>
                 </div>
                 <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <button type="button" (click) = "this.clearVariantForm()" class="btn btn-default" data-dismiss="modal">Close</button>
                     </div>
             </div>
         </div>
