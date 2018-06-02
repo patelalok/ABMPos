@@ -347,7 +347,7 @@ public class TransactionsManager {
 
         if (null != productInventoryDao) {
 
-            List<ProductInventoryDao> productInventoryDaoList = productInventoryRepository.findAllByProductNo(productInventoryDao.getProductNo());
+            List<ProductInventoryDao> productInventoryDaoList = productInventoryRepository.findAllByProductId(productInventoryDao.getProductId());
 
             if (null != productInventoryDaoList && productInventoryDaoList.size() > 0) {
                 for (ProductInventoryDao productInventoryDao2 : productInventoryDaoList) {

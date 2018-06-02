@@ -229,42 +229,6 @@
                             </div>
                         </div>
 
-                    <!-- <div class="row m-2">
-
-
-                        <div class="col-md-12 product-textbox">
-                            <div class="checkbox">
-                                <label>
-                                        <input type="checkbox" formControlName="ecommerce">
-                                         Is Ecomerce
-                                      </label>
-                            </div>
-                        </div>
-                    </div> -->
-                    <!-- <div class="row m-2">
-
-                        <div class="col-md-12 product-textbox">
-                            <div class="checkbox">
-                                <label>
-                                        <input type="checkbox" (click) = "showDialog()">
-                                         Is Variant
-                                      </label>
-                            </div>
-                        </div>
-                    </div> -->
-
-                    <!-- <div class="col-md-12 ">
-                                <div class="radio">
-                                    <label>
-                                      <input type="radio" name="optradio">$ 0.63 Default Loyalty:
-                                  </label> (based on the default Loyalty ratio of 50:1)
-                                </div>
-                                <div class="radio">
-                                    <label><input type="radio" name="optradio">Customer Loyalty Of:</label>
-                                    <input type="text" name="optradio">
-                                </div>
-                            </div> -->
-
                 </div>
                 <!-- end of row for right side-->
             </div>
@@ -284,21 +248,23 @@
                     </div>
                    
                
-                    <p-dataTable [value]="this.productVariantInventoryDto" [editable]="true" scrollable="true" [responsive]="true" scrollHeight="300px" (onEditComplete)="this.updateProductInventory($event)">
-                        <p-column  field="productVariantDao.productNo" header="ProductNo"></p-column>
-                        <p-column field="productVariantDao.variant1" header="Variant1" [editable]="true"></p-column>
-                        <p-column field="productVariantDao.value1" header="Value1"></p-column>
+                    <p-dataTable [value]="this.productVariantDto" [editable]="true" scrollable="true" [responsive]="true" scrollHeight="300px" (onEditComplete)="this.updateProductInventory($event)">
+                        <p-column  field="productNo" header="ProductNo"></p-column>
+                        <p-column field="variant1" header="Variant1" [editable]="true"></p-column>
+                        <p-column field="value1" header="Value1"></p-column>
                         <p-column field="cost" header="Cost">
                             <ng-template let-product="rowData" pTemplate="body">
-                                <a href="JavaScript:void(0);" (click)="setProductInventoryForSelectedProduct(product.productInventoryDao[0].productNo)" data-toggle="modal" data-target="#productInventory">{{product.productInventoryDao[0].cost}}</a>
+                                <a href="JavaScript:void(0);" (click)="setProductInventoryForSelectedProduct(product, true)" data-toggle="modal" data-target="#productInventory">{{product.cost}}</a>
                             </ng-template>
                         </p-column>
                         <p-column field="retail" header="Retail">
                                 <ng-template let-product="rowData" pTemplate="body">
-                                        <a href="JavaScript:void(0);" (click) = "setProductInventoryForSelectedProduct(product.productInventoryDao[0].productNo)" data-toggle="modal" data-target="#retailTier">{{product.productInventoryDao[0].tier1}} , {{product.productInventoryDao[0].tier2}} , {{product.productInventoryDao[0].tier3}}  </a>
+                                        <a href="JavaScript:void(0);" (click) = "setProductInventoryForSelectedProduct(product, false)" data-toggle="modal" data-target="#retailTier">{{product.tier1}} , {{product.tier2}} , {{product.tier3}}  </a>
                                     </ng-template>
                         </p-column>
-                        <p-column field="totalQuantity" header="Quantity"></p-column>
+                        <p-column field="quantity" header="Quantity">
+
+                        </p-column>
                         
                         <p-column [style]="{'width': '20%'}" header="Action">
                             <ng-template let-product="rowData" pTemplate="body" class="m-auto">

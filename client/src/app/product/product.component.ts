@@ -197,8 +197,10 @@ export class ProductInventory {
   tier1?: number;
   tier2?: number;
   tier3?: number;
+  variant?:boolean;
   markup?: number;
   quantity?: number;
+  totalQuantity?:number;
   createdTimestamp?: any;
   vendorId?: number;
   date?: any;

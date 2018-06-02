@@ -24,7 +24,8 @@ export class EditProductComponent implements OnInit {
   brandDto: Brand[];
   vendorDto: Vendor[];
   modelDto: Model[];
-  productVariantDetailsDto: ProductVariantDetail[];
+  // productVariantDetailsDto: ProductVariantDetail[];
+  productVariantDto: ProductVariant[] = [];
   productVariantDetailsByNameDto: ProductVariantDetail[];
   displayDialog = false;
   productNo: any;
@@ -37,7 +38,6 @@ export class EditProductComponent implements OnInit {
   productList: Product[] = [];
   variantDto: ProductVariantDetail[] = [];
   productVariantDetails: ProductVariantDetail[] = [];
-  productVariantInventoryDto: VariantInventoryDto[] = [];
   productInventoryList: ProductInventory[] = [];
   cost: number;
   quantity: number;
@@ -326,27 +326,50 @@ export class EditProductComponent implements OnInit {
   getProductVariantById(productId:number){
 
     this.productService.getProductVariantById(productId)
-    .subscribe((product:VariantInventoryDto[])=>{
-      this.productVariantInventoryDto = product;
-      console.log('variant Inventory', this.productVariantInventoryDto);
+    .subscribe((product:ProductVariant[])=>{
+      this.productVariantDto = product;
+      console.log('variant Inventory', this.productVariantDto);
     });
   }
 
-  setProductInventoryForSelectedProduct(productNo: any){
+  setProductInventoryForSelectedProduct(productVariant: ProductVariant, isCost: boolean){
+    // console.log('product no', productVariant.productNo);
+    // console.log('inventory dto', this.productVariantInventoryDto);
 
-    for(let p of this.productVariantInventoryDto){
-      if(p.productVariantDao.productNo == productNo){
-        this.productInventoryList = p.productInventoryDao;
+    // First need to get real inventory details from the db, cause when you add inventory and if you dont do this call, it wont show you,
+    // Newly added inventory details.
+    // I NEED TO DO THIS CALL IN BOTH IF USER CLICK ON COST OR RETAIL DOES NOT MATTER.
+    this.productService.getProductInventoryByProduct(productVariant.productId, productVariant.productNo)
+    .subscribe((inventory: ProductInventory[]) => {
+      this.productInventoryList = inventory;
 
-        this.productInventoryList.forEach((inventory)=>{
-          inventory.time = moment(inventory.createdTimestamp).format('hh:mm A');
-          inventory.date = moment(inventory.createdTimestamp).format('MM-DD-YYYY');
-        });
+      this.productInventoryList.forEach((inventory) => {
+        inventory.time = moment(inventory.createdTimestamp).format('hh:mm A');
+        inventory.date = moment(inventory.createdTimestamp).format('MM-DD-YYYY');
+        inventory.productNo = productVariant.productNo;
         this.productInventoryList = this.productInventoryList.slice();
-        break;
-      }    
+
+      })
+    });
+
+  if (isCost) {
+    // this logic helps when there is no data in inventory table.
+    if (this.productInventoryList.length == 0 || this.productInventoryList == undefined || null == this.productInventoryList) {
+      let inventoryObj = new ProductInventory();
+
+      inventoryObj.productNo = productVariant.productNo;
+      inventoryObj.productId = productVariant.productId;
+      this.productInventoryList.push(inventoryObj)
     }
+
   }
+  // THIS MEANS USEER HAS CLICK ON THE RETAIL.
+  else {
+      // $('#retailTier').modal('show');
+      this.productInventoryList = this.productInventoryList.slice();
+    }
+ 
+  }  
 
   setProductRetailPriceTierForSelectedVariant(productNo: any){
 
@@ -369,12 +392,14 @@ export class EditProductComponent implements OnInit {
         let response = data.json();
         let backendResponse: ProductInventory = response;
 
-        let index = this.productInventoryList.findIndex((el) => el.productNo == productInventoryObj.productNo);
-        this.productInventoryList[index].quantity = backendResponse.quantity;
-        this.productInventoryList[index].cost = backendResponse.cost;
-    
-        this.productInventoryList = this.productInventoryList.slice();
-        this.toastr.success('Inventory Added Successfully !!', 'Success!');
+        let index = this.productVariantDto.findIndex((el) => el.productNo == productInventoryObj.productNo);
+        if(index > -1){
+          this.productVariantDto[index].quantity = backendResponse.totalQuantity;
+          this.productVariantDto[index].cost = backendResponse.cost;
+  
+          this.productVariantDto = this.productVariantDto.slice();
+          this.toastr.success('Inventory Updated Successfully !!', 'Success!');
+          }
       }
       else{
         this.toastr.error('Opps Something Goes Wrong !!', 'Error!');
@@ -394,8 +419,9 @@ export class EditProductComponent implements OnInit {
     updateProductInventory(event) {
 
       let product: Product = event.data;
-  
       let quantity: number = Number(product.quantity);
+
+      // Here i need to set this flag to manage backend logic with inventory update w
       console.log('Updating product inventory', product);
   
       console.log('event on inventoty', event.date);
@@ -412,12 +438,14 @@ export class EditProductComponent implements OnInit {
           let response = data.json();
           let backendResponse: ProductInventory = response;
   
-          let index = this.productInventoryList.findIndex((el) => el.productNo == product.productNo);
-          this.productInventoryList[index].quantity = backendResponse.quantity;
-          this.productInventoryList[index].cost = backendResponse.cost;
+          let index = this.productVariantDto.findIndex((el) => el.productNo == product.productNo);
+          if(index > -1){
+          this.productVariantDto[index].quantity = backendResponse.totalQuantity;
+          this.productVariantDto[index].cost = backendResponse.cost;
   
-          this.productInventoryList = this.productInventoryList.slice();
+          this.productVariantDto = this.productVariantDto.slice();
           this.toastr.success('Inventory Updated Successfully !!', 'Success!');
+          }
         }
       },
       error => {

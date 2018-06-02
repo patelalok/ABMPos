@@ -27,6 +27,9 @@ public class ProductInventoryDao {
     @Transient
     private int totalQuantity;
 
+    @Transient
+    private boolean variant;
+
 
     public int getId() {
         return id;
@@ -122,5 +125,13 @@ public class ProductInventoryDao {
 
     public void setTotalQuantity(int totalQuantity) {
         this.totalQuantity = totalQuantity;
+    }
+
+    public boolean isVariant() {
+        return variant;
+    }
+
+    public void setVariant(boolean variant) {
+        this.variant = variant;
     }
 }

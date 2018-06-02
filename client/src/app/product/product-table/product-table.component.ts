@@ -3,7 +3,7 @@ import { ProductService } from "app/product/product.service";
 // import { FormBuilder } from "@angular/forms/forms";
 import { FormBuilder, Validators, FormGroup, FormControl } from '@angular/forms';
 import { MenuItem, LazyLoadEvent } from 'primeng/primeng';
-import {Category, Brand, Model, Vendor, ProductCommon, ProductInventory } from "app/product/product.component";
+import { Category, Brand, Model, Vendor, ProductCommon, ProductInventory } from "app/product/product.component";
 import * as moment from 'moment';
 import { ViewChild } from '@angular/core/src/metadata/di';
 import { Element } from '@angular/compiler';
@@ -24,7 +24,7 @@ declare var $: JQueryStatic;
 export class ProductTableComponent implements OnInit {
   form: FormGroup;
   productFilterBox: any;
-  backendProductDto:Product[];
+  backendProductDto: Product[];
   productViewList: Product[] = [];
   productFullList: Product[] = [];
   rowsToShow: number = 100;
@@ -50,7 +50,7 @@ export class ProductTableComponent implements OnInit {
   updateProductObject: Product;
   productInventoryList: ProductInventory[] = [];
   productForRetailTierPopup: Product[] = [];
-  selectedProductForTierRetailUpdate = new  Product();
+  selectedProductForTierRetailUpdate = new Product();
 
   dateDto = new DateDto();
   totalSaleQuantity: number = 0;
@@ -111,16 +111,16 @@ export class ProductTableComponent implements OnInit {
   filterProducts(input: string) {
     this.loadingService.loading = true;
     if (input.length > 0)
-    this.productFullList = this.nowFilterProduct(input, this.backendProductDto)
+      this.productFullList = this.nowFilterProduct(input, this.backendProductDto)
     else {
       this.getProductDetails();
       if (this.dropdownOptionValue)
-      this.fiterProductByDropdown(this.dropdownOptionValue);
+        this.fiterProductByDropdown(this.dropdownOptionValue);
     }
-    
+
     this.loadingService.loading = false;
-    console.log('Filtering product list..', this.productFullList); 
-    
+    console.log('Filtering product list..', this.productFullList);
+
     this.loadProductsLazy({ first: 0, rows: this.rowsToShow * 2 });
   }
 
@@ -128,14 +128,14 @@ export class ProductTableComponent implements OnInit {
 
     let filtered: Product[] = [];
     // for (let i = 0; i < backendProductDto.length; i++) {
-      // let p = backendProductDto[i];
-      // if (p.description.toLowerCase().includes(input.toLowerCase()) || p.productNo.includes(input)) {
-      //   filtered.push(p);
-      // }
-      
+    // let p = backendProductDto[i];
+    // if (p.description.toLowerCase().includes(input.toLowerCase()) || p.productNo.includes(input)) {
+    //   filtered.push(p);
+    // }
+
     // ); 
-  // }
-  filtered = backendProductDto.filter((p) => p.description.toLowerCase().includes(input.toLowerCase()) || p.productNo.includes(input))
+    // }
+    filtered = backendProductDto.filter((p) => p.description.toLowerCase().includes(input.toLowerCase()) || p.productNo.includes(input))
     return filtered;
   }
   fiterProductByDropdown(obj: number) {
@@ -148,7 +148,7 @@ export class ProductTableComponent implements OnInit {
       return;
     }
     if (this.selectedProductDropdownOption === 'Brand') {
-      this.productFullList = this.backendProductDto.filter((el) => el.brandId == obj); 
+      this.productFullList = this.backendProductDto.filter((el) => el.brandId == obj);
 
     }
     else if (this.selectedProductDropdownOption === 'Category') {
@@ -233,25 +233,25 @@ export class ProductTableComponent implements OnInit {
   deleteProduct() {
 
     this.productService.deleteProduct(this.selectedProductForDelete)
-    .subscribe((data) => {
-      console.log('data', data);
-      if(data.status == 200){
-        this.toastr.success('Product Deleted Successfully !!', 'Success!');
-      }
-      else{
-        this.toastr.error('Opps Something goes wrong !!', 'Error!!');
-    }
-  },
-    error => {
-      console.log('data', error);
-      if(error.status == 409){
-        this.toastr.error('Can not delete this product, cause it has inventory in it !!', 'Error!');
-      }
-      else{
-        this.toastr.error('Opps Something goes wrong !!', 'Error!!');
-        console.log(JSON.stringify(error.json()));
-      }
-    });
+      .subscribe((data) => {
+        console.log('data', data);
+        if (data.status == 200) {
+          this.toastr.success('Product Deleted Successfully !!', 'Success!');
+        }
+        else {
+          this.toastr.error('Opps Something goes wrong !!', 'Error!!');
+        }
+      },
+        error => {
+          console.log('data', error);
+          if (error.status == 409) {
+            this.toastr.error('Can not delete this product, cause it has inventory in it !!', 'Error!');
+          }
+          else {
+            this.toastr.error('Opps Something goes wrong !!', 'Error!!');
+            console.log(JSON.stringify(error.json()));
+          }
+        });
     let index = this.backendProductDto.findIndex((el) => el.productNo == this.selectedProductForDelete.productNo);
     this.backendProductDto.splice(index, 1);
     // TODO need to fix this, why new prodcut is not loading after delete.
@@ -268,41 +268,41 @@ export class ProductTableComponent implements OnInit {
 
   getProductHistory(): void {
 
-    if(this.productHistoryDropDown == 'Today'){
+    if (this.productHistoryDropDown == 'Today') {
       this.dateDto = this.dateService.getCurrentDay();
     }
-    else if(this.productHistoryDropDown == 'Yesterday'){
+    else if (this.productHistoryDropDown == 'Yesterday') {
       this.dateDto = this.dateService.getPreviousDay();
 
     }
-    else if(this.productHistoryDropDown == 'This Week'){
+    else if (this.productHistoryDropDown == 'This Week') {
       this.dateDto = this.dateService.getLast7Day();
-      
+
     }
-    else if(this.productHistoryDropDown == 'Last Week'){
+    else if (this.productHistoryDropDown == 'Last Week') {
       this.dateDto = this.dateService.getLast7Day();
-      
+
     }
-    else if(this.productHistoryDropDown == 'This Month'){
+    else if (this.productHistoryDropDown == 'This Month') {
       this.dateDto = this.dateService.getCurrentMonth();
-      
+
     }
-    else if(this.productHistoryDropDown == 'Last Month'){
+    else if (this.productHistoryDropDown == 'Last Month') {
       this.dateDto = this.dateService.getLastMonth();
-      
+
     }
-    else if(this.productHistoryDropDown == 'Last 3 Months'){
+    else if (this.productHistoryDropDown == 'Last 3 Months') {
       this.dateDto = this.dateService.getLast3Months();
-      
-    } else if(this.productHistoryDropDown == 'Last 6 Months'){
+
+    } else if (this.productHistoryDropDown == 'Last 6 Months') {
       this.dateDto = this.dateService.getLast6Months();
-      
+
     }
-    else if(this.productHistoryDropDown == 'This Year'){
+    else if (this.productHistoryDropDown == 'This Year') {
       this.dateDto = this.dateService.getCurrentYear();
-      
+
     }
-    else if(this.productHistoryDropDown == 'Last Year'){
+    else if (this.productHistoryDropDown == 'Last Year') {
       this.dateDto = this.dateService.getLastYear();
     }
 
@@ -312,7 +312,7 @@ export class ProductTableComponent implements OnInit {
         productHistory.forEach((history => {
           history.time = moment(history.date).format('hh:mm A');
           history.date = moment(history.date).format('MM/DD/YYYY');
-          this.totalSaleQuantity = +this.totalSaleQuantity+history.saleQuantity;
+          this.totalSaleQuantity = +this.totalSaleQuantity + history.saleQuantity;
         }))
 
         this.productHistoryDto = productHistory;
@@ -325,51 +325,69 @@ export class ProductTableComponent implements OnInit {
   updateRetailPrice(event) {
     this.updateProductObject = event.data;
     this.productService.updateProductRetailPrice(this.updateProductObject)
-    .subscribe((data) => {
-    if(null != data){
-      this.toastr.success('Retail Updated Successfully !!', 'Success!');
-    }
-    else{
-      this.toastr.error('Opps Something Goes Wrong !!', 'Error!');
-    }
-  },
-  error => {
-    this.toastr.error('Opps Something goes wrong !!', 'Error!!');
-    console.log(JSON.stringify(error.json()));
-  });
+      .subscribe((data) => {
+        if (null != data) {
+          this.toastr.success('Retail Updated Successfully !!', 'Success!');
+        }
+        else {
+          this.toastr.error('Opps Something Goes Wrong !!', 'Error!');
+        }
+      },
+        error => {
+          this.toastr.error('Opps Something goes wrong !!', 'Error!!');
+          console.log(JSON.stringify(error.json()));
+        });
   }
 
   // This method helps to set the perticualr product inventory details to show on popup when user click on the cost price.
-  setProductInventoryForSelectedProduct(productNo: string) {
+  setProductInventoryForSelectedProduct(product: Product, isCost: boolean) {
 
     // First need to get real inventory details from the db, cause when you add inventory and if you dont do this call, it wont show you,
     // Newly added inventory details.
-    this.productService.getProductInventoryByProductNo(productNo)
-    .subscribe((inventory: ProductInventory[]) => {
+    // I NEED TO DO THIS CALL IN BOTH IF USER CLICK ON COST OR RETAIL DOES NOT MATTER.
+    this.productService.getProductInventoryByProduct(product.productId, product.productNo)
+      .subscribe((inventory: ProductInventory[]) => {
+        this.productInventoryList = inventory;
 
+        this.productInventoryList.forEach((inventory) => {
+          inventory.time = moment(inventory.createdTimestamp).format('hh:mm A');
+          inventory.date = moment(inventory.createdTimestamp).format('MM-DD-YYYY');
+          inventory.productNo = product.productNo;
+          this.productInventoryList = this.productInventoryList.slice();
+
+        })
+      });
+
+    if (isCost) {
       // this logic helps when there is no data in inventory table.
-      if(inventory.length == 0){
+      if (this.productInventoryList.length == 0 || this.productInventoryList == undefined || null == this.productInventoryList) {
         let inventoryObj = new ProductInventory();
-        inventoryObj.productNo = productNo;
-        inventory.push(inventoryObj)
+
+        inventoryObj.productNo = product.productNo;
+        inventoryObj.productId = product.productId;
+        this.productInventoryList.push(inventoryObj)
       }
 
-      this.productInventoryList = inventory;
-
-      this.productInventoryList.forEach((inventory) => {
-        inventory.time = moment(inventory.createdTimestamp).format('hh:mm A');
-        inventory.date = moment(inventory.createdTimestamp).format('MM-DD-YYYY');
-        inventory.productNo = productNo;
-      
-      })
-    });
+    }
+    // THIS MEANS USEER HAS CLICK ON THE RETAIL.
+    else {
+      if (!product.variant) {
+        $('#retailTier').modal('show');
+        this.productInventoryList = this.productInventoryList.slice();
+      }
+      // Because this product has variant so user has to go inside to update retail price.
+      else {
+        this.router.navigate(['/product/edit', { productNo: product.productId }]);
+      }
+    }
   }
-
-  addProductInventory(){
+  addProductInventory() {
 
     let productInventoryObj: ProductInventory = new ProductInventory();
 
     productInventoryObj.productNo = this.productInventoryList[0].productNo;
+    productInventoryObj.productId = this.productInventoryList[0].productId;
+
     productInventoryObj.cost = this.cost;
     //productInventoryObj.retail = this.productInventoryList[0].retail;
     productInventoryObj.quantity = this.quantity;
@@ -378,107 +396,102 @@ export class ProductTableComponent implements OnInit {
     //this.productInventoryList.push(productInventoryObj);
 
     this.productService.addProductInventory(productInventoryObj)
-    .subscribe((data) => {
-      if(null != data){
-        let response = data.json();
-        let backendResponse: ProductInventory = response;
+      .subscribe((data) => {
+        if (null != data) {
+          let response = data.json();
+          let backendResponse: ProductInventory = response;
 
-        let index = this.productViewList.findIndex((el) => el.productNo == productInventoryObj.productNo);
-        this.productViewList[index].quantity = backendResponse.quantity;
-        this.productFullList[index].cost = backendResponse.cost;
-    
-        this.productViewList = this.productViewList.slice();
-        this.toastr.success('Inventory Added Successfully !!', 'Success!');
-      }
-      else{
-        this.toastr.error('Opps Something Goes Wrong !!', 'Error!');
+          let index = this.productViewList.findIndex((el) => el.productId == productInventoryObj.productId);
+          console.log('index', index);
+          console.log('back res', backendResponse);
 
-      }
-    },
-    error => {
-      this.toastr.error('Opps Something goes wrong !!', 'Error!!');
-      console.log(JSON.stringify(error.json()));
-    });
+          if(index > -1)
+          {
+            this.productViewList[index].quantity = backendResponse.totalQuantity;
+            this.productFullList[index].cost = backendResponse.cost; 
+             console.log('total qty', backendResponse.totalQuantity);
+
+            this.productViewList = this.productViewList.slice();
+          }
+        
+          this.toastr.success('Inventory Added Successfully !!', 'Success!');
+        }
+        else {
+          this.toastr.error('Opps Something Goes Wrong !!', 'Error!');
+        }
+      },
+        error => {
+          this.toastr.error('Opps Something goes wrong !!', 'Error!!');
+          console.log(JSON.stringify(error.json()));
+        });
 
     this.cost = null;
     this.quantity = null;
 
-    }
+  }
 
 
   updateProductInventory(event) {
 
     let product: Product = event.data;
-
     let quantity: number = Number(product.quantity);
     console.log('Updating product inventory', product);
-
     console.log('event on inventoty', event.date);
     //let productInventory: ProductInventory[] = []; 
-    
+
     //productInventory.push(event.data);
 
     //console.log('product invetrory object', productInventory);
 
     this.productService.updateProductInventory(product)
-    .subscribe(data => {
+      .subscribe(data => {
 
-      if(data){
-        let response = data.json();
-        let backendResponse: ProductInventory = response;
+        if (data) {
+          let response = data.json();
+          let backendResponse: ProductInventory = response;
 
-        let index = this.productViewList.findIndex((el) => el.productNo == product.productNo);
-        this.productViewList[index].quantity = backendResponse.quantity;
-        this.productViewList[index].cost = backendResponse.cost;
+          let index = this.productViewList.findIndex((el) => el.productId == product.productId);
+          if(index > -1)
+          {
+            this.productViewList[index].quantity = backendResponse.totalQuantity;
+            this.productFullList[index].cost = backendResponse.cost; 
+             console.log('total qty', backendResponse.totalQuantity);
 
-        this.productViewList = this.productViewList.slice();
-        this.toastr.success('Inventory Added Successfully !!', 'Success!');
-      }
-    },
-    error => {
-      this.toastr.error('Opps Something goes wrong !!', 'Error!!');
-      console.log(JSON.stringify(error.json()));
-    });
-    // let index = this.productViewList.findIndex((el) => el.productNo == product.productNo);
-
-
-    // this.productViewList[index] = {
-    //   ...this.productViewList[index],
-    //   ...product
-    // };
-
-    // this.productViewList = this.productViewList.slice();
+            this.productViewList = this.productViewList.slice();
+          }
+          this.toastr.success('Inventory Added Successfully !!', 'Success!');
+        }
+      },
+        error => {
+          this.toastr.error('Opps Something goes wrong !!', 'Error!!');
+          console.log(JSON.stringify(error.json()));
+        });
 
     this.hideProductModal();
-
   }
-  setProductRetailTierPriceForSelectedProduct(product: Product){
-
-    this.productForRetailTierPopup = [];
-    if(!product.variant){
-      this.selectedProductForTierRetailUpdate = product;
-      this.productForRetailTierPopup.push(this.selectedProductForTierRetailUpdate);
-      this.productForRetailTierPopup = this.productForRetailTierPopup.slice();
-
-      $('#retailTier').modal('show');
-    }
-    // Because this product has variant so user has to go inside to update retail price.
-    else {
-      this.router.navigate(['/product/edit',{productNo: product.productId}]);
-    }
-  }
-
-  updateProductVariantRetailTierPrice(event){
+  updateProductVariantRetailTierPrice(event) {
     this.productService.updateRetailTierPrice(event.data)
-    .subscribe((data)=>{
-      if(data){
-        this.toastr.success('Retail Tier Price Updated Successfully !!', 'Success!');
-      }
-    },
-    error => {
-      this.toastr.error('Opps Something goes wrong !!', 'Error!!');
-      console.log(JSON.stringify(error.json()));
-    });  }
+      .subscribe((data) => {
+        if (data.statusText == 'OK') {
+
+          this.toastr.success('Retail Tier Price Updated Successfully !!', 'Success!');
+          let index = this.productViewList.findIndex((el)=> el.productId==event.data.productId);
+
+          if(index > -1)
+          {
+            this.productViewList[index].tier1 = event.data.tier1;
+            this.productViewList[index].tier2 = event.data.tier2;
+            this.productViewList[index].tier3 = event.data.tier3;
+
+            this.productViewList = this.productViewList.slice();
+          }
+        }
+      },
+        error => {
+          this.toastr.error('Opps Something goes wrong !!', 'Error!!');
+          console.log(JSON.stringify(error.json()));
+        });
+  }
 
   hideProductModal() {
     console.log('Hiding modal');

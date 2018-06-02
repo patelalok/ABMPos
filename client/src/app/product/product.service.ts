@@ -102,7 +102,7 @@ export class ProductService {
     .catch(this.handleError);
   }
 
-  getProductVariantById(productId:number): Observable<VariantInventoryDto[]>{
+  getProductVariantById(productId:number): Observable<ProductVariant[]>{
     return this.http.get(this.url+'/getProductVariantById?productId='+productId)
     .map(this.extractData)
     .catch(this.handleError);
@@ -129,8 +129,8 @@ export class ProductService {
     .catch(this.handleError);
   }
 
-  getProductInventoryByProductNo(productNo: string) : Observable<ProductInventory[]>{
-   return this.http.get(this.url+'/getProductInventory?productNo='+productNo)
+  getProductInventoryByProduct(productId: number, productNo: string) : Observable<ProductInventory[]>{
+   return this.http.get(this.url+'/getProductInventory?productId='+productId+'&productNo='+productNo)
    .map(this.extractData)
    .catch(this.handleError);
   }

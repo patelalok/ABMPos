@@ -42,9 +42,9 @@ public class ProductController {
     }
 
     @RequestMapping(value = "/getProductInventory", method = RequestMethod.GET, produces = "application/json")
-    public List<ProductInventoryDao> getProductInventory(String productNo)
+    public List<ProductInventoryDao> getProductInventory(int productId, String productNo)
     {
-        return productManager.getProductInventory(productNo);
+        return productManager.getProductInventory(productId, productNo);
     }
 
 //    @RequestMapping(value = "/getProductTableDetails", method = RequestMethod.GET, produces = "application/json")
@@ -134,7 +134,7 @@ public class ProductController {
     }
 
     @RequestMapping(value = "/getProductVariantById", method = RequestMethod.GET, produces = "application/json")
-    public List<VariantInventoryDto> getProductVariantById(@RequestParam Integer productId)
+    public List<ProductVariantDao> getProductVariantById(@RequestParam Integer productId)
     {
         return productManager.getProductVariantById(productId);
     }

@@ -14,7 +14,9 @@ public interface ProductInventoryRepository extends JpaRepository<ProductInvento
     // This query help to get oldest data from inventory table cause we need to manage inventory by FIFO.
     ProductInventoryDao findFirstByProductNoOrderByCreatedTimestampAsc(String productNo);
 
-    List<ProductInventoryDao> findAllByProductNo(String productNo);
+    List<ProductInventoryDao> findAllByProductId(int productId);
+    List<ProductInventoryDao> findAllByProductIdAndProductNo(int productId, String productNo);
+
 
     @Query("SELECT i FROM ProductInventoryDao i WHERE i.createdTimestamp = '2017-10-08 12:49:42' ")
     ProductInventoryDao test();
@@ -23,6 +25,6 @@ public interface ProductInventoryRepository extends JpaRepository<ProductInvento
     int getCountOfRowByProductNo(String productNo);
 
     @Modifying
-    @Query("UPDATE ProductInventoryDao SET tier1 = ?1, tier2 = ?2, tier3 = ?3 WHERE productNo = ?4")
-    void updateProductRetailPrice(double tier1,double tier2,double tier3, String productNo);
+    @Query("UPDATE ProductInventoryDao SET tier1 = ?1, tier2 = ?2, tier3 = ?3 WHERE productId = ?4")
+    void updateProductRetailPrice(double tier1,double tier2,double tier3, int productId);
 }

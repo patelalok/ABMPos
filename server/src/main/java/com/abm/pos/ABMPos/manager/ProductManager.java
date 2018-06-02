@@ -132,52 +132,34 @@ public class ProductManager{
     }
     public ProductInventoryDao addProductInventory(ProductInventoryDao productInventoryDao) {
 
-        ProductInventoryDao productInventoryDao1 = productInventoryRepository.save(productInventoryDao);
-        List<ProductInventoryDao> productInventoryDaoList1 = new ArrayList<>();
-        List<ProductInventoryDao> productInventoryDaoListForZeroQuantity = new ArrayList<>();
+        ProductInventoryDao productInventoryDao1 = new ProductInventoryDao();
 
+        if (null != productInventoryDao && productInventoryDao.getQuantity() >= 0) {
 
-        // I need to do this because, if there is any product with NEGATIVE Quantity, I need to delete that inventory, cause if i dont delete, that will messed up current stock, cause negative minus the positive inventory make complete count wrong.
-        if(null != productInventoryDao1)
-        {
-            productInventoryDaoList1 = productInventoryRepository.findAllByProductNo(productInventoryDao1.getProductNo());
+            productInventoryDao1 = productInventoryRepository.save(productInventoryDao);
+            List<ProductInventoryDao> productInventoryDaoList1 = new ArrayList<>();
 
-            int totalProduct = 0;
+            // I need to do this because, if there is any product with NEGATIVE or Zero Quantity, I need to delete that inventory,
+            if (null != productInventoryDao1) {
+                productInventoryDaoList1 = productInventoryRepository.findAllByProductIdAndProductNo(productInventoryDao1.getProductId(), productInventoryDao1.getProductNo());
 
-            for(ProductInventoryDao productInventoryDao2:productInventoryDaoList1)
-            {
-                // this will delete inventory details with negative quantity.
-                // Very Important. productInventoryDaoList1.size() > 0 condition.
-                if(productInventoryDaoList1.size() > 0 && productInventoryDao1.getQuantity() < 0)
-                {
-                    productInventoryRepository.delete(productInventoryDao1);
+                int totalQuantity = 0;
+
+                for (ProductInventoryDao productInventoryToDelete : productInventoryDaoList1) {
+                    // this will delete inventory details with negative quantity.
+                    // Very Important. productInventoryDaoList1.size() > 1 condition.
+                    if (productInventoryDaoList1.size() > 1 && productInventoryToDelete.getQuantity() <= 0) {
+                        productInventoryRepository.delete(productInventoryToDelete);
+                    }
+                    else {
+
+                        totalQuantity = totalQuantity + productInventoryToDelete.getQuantity();
+                    }
                 }
-                else {
-                    // Now I need to update product table here, I need to do this, JUST SHOW CORRECT STOCK ON THE PRODUCT PAGE, CAUSE I CAN NOT CALCULATE FROM THE INVENTORY,
-                    // SO I NEED MAKE SURE WHEN EVER INVENTORY CHANGES I NEED TO CHANGE THE QUANTITY IN PRODUCT TABLE.
-
-                    totalProduct = totalProduct + productInventoryDao1.getQuantity();
-                }
-
-            }
-            // Now i need to update quantity in product table
-            productRepository.updateQuantityAfterInventoryUpdate(totalProduct,productInventoryDao1.getCost(),productInventoryDao1.getProductNo());
-
-            // Now I need to get the inventory again to delete the inventory with 0, I need to do here because i am deleting with <0 above;
-            productInventoryDaoListForZeroQuantity = productInventoryRepository.findAllByProductNo(productInventoryDao1.getProductNo());
-            for(ProductInventoryDao productInventoryDaoForZeroQuantity:productInventoryDaoListForZeroQuantity)
-            {
-                // this will delete inventory details with negative quantity.
-                // Very Important. productInventoryDaoList1.size() > 0 condition, this will work becuase customer has just added or updated inventory.So we have one positive value.
-                if(productInventoryDaoListForZeroQuantity.size() > 0 && productInventoryDaoForZeroQuantity.getQuantity() <= 0)
-                {
-                    productInventoryRepository.delete(productInventoryDaoForZeroQuantity);
-                }
+                productInventoryDao1.setTotalQuantity(totalQuantity);
             }
         }
-
         return productInventoryDao1;
-
     }
     public List<ProductDao> getProductForSellPage() {
 
@@ -193,7 +175,7 @@ public class ProductManager{
         // This Logic to only update product tier retail price.
         if(null != productVariantDao && productVariantDao.getOperationType().equalsIgnoreCase("retailTierEdit"))
         {
-            productInventoryRepository.updateProductRetailPrice(productVariantDao.getTier1(),productVariantDao.getTier2(),productVariantDao.getTier3(), productVariantDao.getProductNo());
+            productInventoryRepository.updateProductRetailPrice(productVariantDao.getTier1(),productVariantDao.getTier2(),productVariantDao.getTier3(), productVariantDao.getProductId());
         }
         else {
 
@@ -253,7 +235,7 @@ public class ProductManager{
         // If no then we can in active the product and delete the entry in product inventory table.
 
         List<ProductInventoryDao> productInventoryDaoList = new ArrayList<>();
-        productInventoryDaoList = productInventoryRepository.findAllByProductNo(productDao.getProductNo());
+        productInventoryDaoList = productInventoryRepository.findAllByProductId(productDao.getProductId());
 
         for(ProductInventoryDao productInventoryDao: productInventoryDaoList)
         {
@@ -439,9 +421,15 @@ public class ProductManager{
 
     }
 
-    public List<ProductInventoryDao> getProductInventory(String productNo) {
+    public List<ProductInventoryDao> getProductInventory(int productId, String productNo) {
 
-        return productInventoryRepository.findAllByProductNo(productNo);
+        if(null != productNo && productNo.length() > 2)
+        {
+            return productInventoryRepository.findAllByProductIdAndProductNo(productId, productNo);
+        }
+        else {
+            return productInventoryRepository.findAllByProductId(productId);
+        }
     }
 
     public List<CustomerProductPrice> getProductPriceByCustomer(String phoneNo) {
@@ -449,22 +437,17 @@ public class ProductManager{
         return customerProductPriceRepository.findAllByPhoneNo(phoneNo);
     }
 
-    public List<VariantInventoryDto> getProductVariantById(Integer productId) {
+    public List<ProductVariantDao> getProductVariantById(Integer productId) {
 
         List<ProductVariantDao> productVariantDaoList = new ArrayList<>();
-        List<VariantInventoryDto> variantInventoryDtoList = new ArrayList<>();
+        List<ProductVariantDao> newProductVariantDaoList = new ArrayList<>();
 
         productVariantDaoList =  productVariantRepository.findAllByProductId(productId);
 
-
-        if(null != productVariantDaoList)
-        {
-            for(ProductVariantDao productVariantDao: productVariantDaoList)
-            {
-                VariantInventoryDto variantInventoryDto = new VariantInventoryDto();
-
+            for(ProductVariantDao productVariantDao: productVariantDaoList) {
                 int totalQuantity = 0;
-                List<ProductInventoryDao> productInventoryDao =  productInventoryRepository.findAllByProductNo(productVariantDao.getProductNo());
+
+                List<ProductInventoryDao> productInventoryDao =  productInventoryRepository.findAllByProductIdAndProductNo(productVariantDao.getProductId(), productVariantDao.getProductNo());
                 for(ProductInventoryDao p : productInventoryDao){
 
                    if(p.getQuantity() > 0){
@@ -472,15 +455,20 @@ public class ProductManager{
                    }
                }
 
-                variantInventoryDto.setProductVariantDao(productVariantDao);
-                variantInventoryDto.setProductInventoryDao(productInventoryDao);
-                variantInventoryDto.setTotalQuantity(totalQuantity);
+               if(productInventoryDao.size() > 0)
+               {
+                   productVariantDao.setQuantity(totalQuantity);
+                   productVariantDao.setCost(productInventoryDao.get(0).getCost());
+                   productVariantDao.setTier1(productInventoryDao.get(0).getTier1());
+                   productVariantDao.setTier2(productInventoryDao.get(0).getTier2());
+                   productVariantDao.setTier3(productInventoryDao.get(0).getTier3());
 
-                variantInventoryDtoList.add(variantInventoryDto);
+                   newProductVariantDaoList.add(productVariantDao);
+
+               }
             }
-        }
 
-        return variantInventoryDtoList;
+        return newProductVariantDaoList;
 
     }
 
