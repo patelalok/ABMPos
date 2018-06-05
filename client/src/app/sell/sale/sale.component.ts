@@ -676,11 +676,6 @@ export class SaleComponent implements OnInit, AfterViewInit {
       }
     }
 
-
-
-
-
-
       // if (null != this.paymentDto && this.paymentDto.credit > 0) {
       //   this.paymentDto.credit = +this.paymentDto.credit + paymentAmount;
       // }
@@ -802,10 +797,8 @@ export class SaleComponent implements OnInit, AfterViewInit {
     // This means cutomer has paid full amount.
     if (this.dueAmountForTransaction - paymentAmount <= 0) {
       this.dueAmountForTransaction = Math.round((this.dueAmountForTransaction - paymentAmount) * 1e2) / 1e2;
-      // this.disablePaymentButtons = true;
+      this.disablePaymentButtons = true;
       this.disablePaymentButtonsWithAmount = true
-
-      // This mean customer has provide sufficient balance.
       this.disableCompleteSaleButton = false;
 
       // This logic helps to show the data in paid amount tax box when user exact amount or more.
@@ -834,7 +827,6 @@ export class SaleComponent implements OnInit, AfterViewInit {
 
     this.disablePaymentButtons = false;
     this.disablePaymentButtonsWithAmount = false;
-    //this.disableCompleteSaleButton = true;
     this.disableOnAccountButtons = this.selectedCustomer == null;
 
     // This mean this customer has some store credit to use so i need to enable store credit button.
@@ -862,7 +854,6 @@ export class SaleComponent implements OnInit, AfterViewInit {
     //this.setTransactionDtoList();
     this.disablePaymentButtons = false;
     this.disablePaymentButtonsWithAmount = false;
-    //this.disableCompleteSaleButton = true;
 
     this.disableOnAccountButtons = this.selectedCustomer == null;
       // This mean this customer has some store credit to use so i need to enable store credit button.
@@ -930,7 +921,6 @@ export class SaleComponent implements OnInit, AfterViewInit {
 
     this.payAmountTextBox = Math.round(this.dueAmountForTransaction * 1e2) / 1e2;
     if (this.dueAmountForTransaction > 0) {
-      //this.disableCompleteSaleButton = true;
       this.disablePaymentButtons = false;
       this.disablePaymentButtonsWithAmount = false;
 

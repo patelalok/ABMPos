@@ -183,8 +183,8 @@ export class ProductService {
       .catch(this.handleError);
   }
 
-  getProductHistory(productNo: string, startDate: string, endDate: string): Observable<TransactionLineItemDaoList[]> {
-    return this.http.get(this.url+'/getProductHistory?productNo='+productNo+'&startDate='+startDate+'&endDate='+endDate)
+  getProductHistory(productNo: string,productId: number, startDate: string, endDate: string): Observable<TransactionLineItemDaoList[]> {
+    return this.http.get(this.url+'/getProductHistory?productNo='+productNo+'&productId='+productId+'&startDate='+startDate+'&endDate='+endDate)
       .map(this.extractData)
       .catch(this.handleError);
   }
@@ -234,6 +234,9 @@ export class ProductService {
 
   deleteProduct(deletedProduct: Product) {
     return this.http.put(this.url+'/deleteProduct', deletedProduct);
+  }
+  deleteVariant(deletedVariant: ProductVariant){
+    return this.http.put(this.url+'/deleteProductVariant', deletedVariant);
   }
 
   deleteProductInventory(deletedInvetory: ProductInventory) {

@@ -253,7 +253,7 @@ public class ProductManager{
             }
             catch (Exception e){
                 // This will only INACTIVE THE PRODUCT
-                productRepository.deleteProduct(productDao.getProductNo());
+                productRepository.deleteProduct(productDao.getProductId());
             }
 
             return "Success";
@@ -265,14 +265,41 @@ public class ProductManager{
 
     }
 
-    public void deleteProductVariant(ProductVariantDao productVariantDao) {
+    public String  deleteProductVariant(ProductVariantDao productVariantDao) {
+        boolean isDeletableVariant = true;
 
-        productVariantRepository.delete(productVariantDao);
+        List<ProductInventoryDao> productInventoryDaoList = new ArrayList<>();
+        productInventoryDaoList = productInventoryRepository.findAllByProductIdAndProductNo(productVariantDao.getProductId(), productVariantDao.getProductNo());
+
+        for(ProductInventoryDao productInventoryDao: productInventoryDaoList)
+        {
+            if(productInventoryDao.getQuantity() > 0)
+            {
+                isDeletableVariant = false;
+                break;
+            }
+        }
+        if(isDeletableVariant)
+        {
+            try{
+                // First I need check this product variant is sold in past or not, if not then only delete this variant
+                productVariantRepository.delete(productVariantDao);
+            }
+            catch (Exception e){
+                // This will only INACTIVE THE PRODUCT
+                productVariantRepository.deleteProductVariant(productVariantDao.getProductNo());
+            }
+            return "Success";
+        }
+        else
+        {
+            return "Can not Delete this product, cause it has data in Product Inventory Table.";
+        }
     }
 
     public void deleteProductVariantDetails(ProductVariantDetailDao productVariantDetailDao) {
 
-        //productVariantDetailsRepository.delete(productVariantDetailDao);
+        productVariantDetailsRepository.delete(productVariantDetailDao);
     }
 
 
@@ -442,7 +469,7 @@ public class ProductManager{
         List<ProductVariantDao> productVariantDaoList = new ArrayList<>();
         List<ProductVariantDao> newProductVariantDaoList = new ArrayList<>();
 
-        productVariantDaoList =  productVariantRepository.findAllByProductId(productId);
+        productVariantDaoList =  productVariantRepository.findAllByProductIdAndActive(productId, true);
 
             for(ProductVariantDao productVariantDao: productVariantDaoList) {
                 int totalQuantity = 0;

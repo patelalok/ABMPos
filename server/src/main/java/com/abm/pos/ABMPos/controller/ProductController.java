@@ -109,9 +109,9 @@ public class ProductController {
 
     // Here i need to call lineitem table to get the history thats why from product i am calling lineItem manager class.
     @RequestMapping(value = "/getProductHistory", method = RequestMethod.GET, produces = "application/json")
-    public List<TransactionLineItemDao> getProductHistory(String productNo,String startDate, String endDate)
+    public List<TransactionLineItemDao> getProductHistory(String productNo,int productId,String startDate, String endDate)
     {
-        return transactionLineItemManager.getProductHistory(productNo, startDate, endDate);
+        return transactionLineItemManager.getProductHistory(productNo,productId,startDate, endDate);
     }
 
 
@@ -144,11 +144,15 @@ public class ProductController {
         return productManager.getProductVariant();
     }
 
-    @RequestMapping(value = "/deleteProductVariant", method = RequestMethod.DELETE, consumes = "application/json")
-    public ResponseEntity deleteProductVariant(@RequestBody ProductVariantDao productVariantDao)
+    @RequestMapping(value = "/deleteProductVariant", method = RequestMethod.PUT, consumes = "application/json")
+    public ResponseEntity<String> deleteProductVariant(@RequestBody ProductVariantDao productVariantDao)
     {
-        productManager.deleteProductVariant(productVariantDao);
-        return new ResponseEntity(HttpStatus.OK);
+        String status =  productManager.deleteProductVariant(productVariantDao);
+
+        if(status.equalsIgnoreCase("Success"))
+            return new ResponseEntity<>(status, HttpStatus.OK);
+        else
+            return new ResponseEntity<>(status, HttpStatus.CONFLICT);
     }
 
     //    ************************END OF PRODUCT VARIANT*************************

@@ -36,8 +36,8 @@ public class TransactionLineItemManager {
         return null;
     }
 
-    public List<TransactionLineItemDao> getProductHistory(String productNo, String startDate, String endDate) {
-        return transactionLineItemRepository.getProductHistory(productNo, startDate, endDate);
+    public List<TransactionLineItemDao> getProductHistory(String productNo, int productId,String startDate, String endDate) {
+        return transactionLineItemRepository.getProductHistory(productNo, productId,startDate, endDate);
 
     }
 }

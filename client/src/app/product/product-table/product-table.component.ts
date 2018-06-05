@@ -307,7 +307,7 @@ export class ProductTableComponent implements OnInit {
     }
 
     this.totalSaleQuantity = 0;
-    this.productService.getProductHistory(this.selectedProductForHistory.productNo, this.dateDto.startDate, this.dateDto.endDate)
+    this.productService.getProductHistory(this.selectedProductForHistory.productNo, this.selectedProductForHistory.productId,this.dateDto.startDate, this.dateDto.endDate)
       .subscribe((productHistory: TransactionLineItemDaoList[]) => {
         productHistory.forEach((history => {
           history.time = moment(history.date).format('hh:mm A');
@@ -367,6 +367,14 @@ export class ProductTableComponent implements OnInit {
         inventoryObj.productId = product.productId;
         this.productInventoryList.push(inventoryObj)
       }
+      if (!product.variant) {
+        $('#productInventory').modal('show');
+        this.productInventoryList = this.productInventoryList.slice();
+      }
+      else {
+        this.router.navigate(['/product/edit', { productNo: product.productId }]);
+      }
+
 
     }
     // THIS MEANS USEER HAS CLICK ON THE RETAIL.
@@ -405,15 +413,14 @@ export class ProductTableComponent implements OnInit {
           console.log('index', index);
           console.log('back res', backendResponse);
 
-          if(index > -1)
-          {
+          if (index > -1) {
             this.productViewList[index].quantity = backendResponse.totalQuantity;
-            this.productFullList[index].cost = backendResponse.cost; 
-             console.log('total qty', backendResponse.totalQuantity);
+            this.productFullList[index].cost = backendResponse.cost;
+            console.log('total qty', backendResponse.totalQuantity);
 
             this.productViewList = this.productViewList.slice();
           }
-        
+
           this.toastr.success('Inventory Added Successfully !!', 'Success!');
         }
         else {
@@ -451,11 +458,10 @@ export class ProductTableComponent implements OnInit {
           let backendResponse: ProductInventory = response;
 
           let index = this.productViewList.findIndex((el) => el.productId == product.productId);
-          if(index > -1)
-          {
+          if (index > -1) {
             this.productViewList[index].quantity = backendResponse.totalQuantity;
-            this.productFullList[index].cost = backendResponse.cost; 
-             console.log('total qty', backendResponse.totalQuantity);
+            this.productFullList[index].cost = backendResponse.cost;
+            console.log('total qty', backendResponse.totalQuantity);
 
             this.productViewList = this.productViewList.slice();
           }
@@ -475,10 +481,9 @@ export class ProductTableComponent implements OnInit {
         if (data.statusText == 'OK') {
 
           this.toastr.success('Retail Tier Price Updated Successfully !!', 'Success!');
-          let index = this.productViewList.findIndex((el)=> el.productId==event.data.productId);
+          let index = this.productViewList.findIndex((el) => el.productId == event.data.productId);
 
-          if(index > -1)
-          {
+          if (index > -1) {
             this.productViewList[index].tier1 = event.data.tier1;
             this.productViewList[index].tier2 = event.data.tier2;
             this.productViewList[index].tier3 = event.data.tier3;

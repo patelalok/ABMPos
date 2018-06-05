@@ -467,8 +467,10 @@ public class TransactionsManager {
                 transactionDao.setStatus(String.valueOf(j[8]));
                 transactionDao.setPreviousBalance(Double.parseDouble(j[9].toString()));
                 transactionDao.setTransactionBalance(Double.parseDouble(j[10].toString()));
-                transactionDao.setUsername(String.valueOf(j[11]));
-                transactionDao.setCustomerFirstLastName(String.valueOf(j[12]));
+                transactionDao.setTotalBalanceDue(Double.parseDouble(j[11].toString()));
+                transactionDao.setUsername(String.valueOf(j[12]));
+                transactionDao.setCustomerFirstLastName(String.valueOf(j[13]));
+
 
                 transactionDaoList.add(transactionDao);
             }

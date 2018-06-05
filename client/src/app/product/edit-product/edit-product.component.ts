@@ -1,13 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators, FormGroup, FormControl } from '@angular/forms';
 
-import {Category, Brand, Vendor, Model, ProductVariantDetail, ProductInventory } from 'app/product/product.component';
+import {Category, Brand, Vendor, Model, ProductVariantDetail, ProductInventory, SubCategory } from 'app/product/product.component';
 import * as moment from 'moment';
 import { ProductService } from 'app/product/product.service';
 import { ProductForm } from 'app/product/addProduct.component';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastsManager } from 'ng2-toastr';
-import { Product, ProductVariant, VariantInventoryDto, ProductVariantForm } from 'app/sell/sale/sale.component';
+import { Product, ProductVariant, VariantInventoryDto, ProductVariantForm, TransactionLineItemDaoList } from 'app/sell/sale/sale.component';
+import { DateDto, DateService } from '../../shared/services/date.service';
 
 
 
@@ -21,6 +22,7 @@ export class EditProductComponent implements OnInit {
   variantForm: FormGroup;
   backendProductDto: Product[];
   categoryDto: Category[];
+  subCategoryDto:SubCategory[] = [];
   brandDto: Brand[];
   vendorDto: Vendor[];
   modelDto: Model[];
@@ -28,8 +30,17 @@ export class EditProductComponent implements OnInit {
   productVariantDto: ProductVariant[] = [];
   variantOperation: string = 'Add';
   productVariantDetailsByNameDto: ProductVariantDetail[];
+  selectedVariantForDetete: ProductVariant;
   displayDialog = false;
   productNo: any;
+
+  selectedProductForHistory: Product;
+  productHistoryDropDown: any = 'Today';
+  dateDto = new DateDto();
+  totalSaleQuantity: number = 0;
+  productHistoryDto: TransactionLineItemDaoList[] = [];
+
+
   generatedProductNo: string;
   products: Product[];
   formProduct = new Product();
@@ -46,7 +57,7 @@ export class EditProductComponent implements OnInit {
  
 
   currentProduct: Product; 
-  constructor(private productService: ProductService, private formBuilder: FormBuilder, private route: ActivatedRoute, private router: Router, private toastr: ToastsManager) {
+  constructor(private productService: ProductService, private formBuilder: FormBuilder, private route: ActivatedRoute, private router: Router, private toastr: ToastsManager, private dateService: DateService) {
     this.getProductDetails();
 
   }
@@ -77,6 +88,7 @@ export class EditProductComponent implements OnInit {
             'productNo': [this.currentProduct.productNo, [Validators.required, Validators.pattern('^[0-9]+$')]],
             'description': [this.currentProduct.description, Validators.required],
             'category': [null, Validators.required],
+            'subCategory': [null],
             'brand': [null, Validators.required],
             'vendor': [null, Validators.required],
             'model': [null],
@@ -144,6 +156,16 @@ export class EditProductComponent implements OnInit {
           // console.log(currentCategory);
           // console.log(this.form.value);
         });
+
+        if(this.categoryDto)
+        {
+        this.productService.getSubCategoryDetailsByCategoryId(this.categoryDto[0].categoryId)
+        .subscribe((subCategory: SubCategory[]) => {
+          this.subCategoryDto = subCategory;
+          this.form.get('subCategory').setValue(this.subCategoryDto[0]);
+          // console.log('CategoryList' + this.categoryDto);
+        });
+      }
 
       this.productService.getBrandDetails()
         .subscribe((brands: Brand[]) => {
@@ -232,6 +254,7 @@ export class EditProductComponent implements OnInit {
         productId: this.currentProduct.productId,
         productNo: formValues.productNo,
         categoryId: formValues.category.categoryId,
+        subCategoryId: formValues.subCategory.id,
         brandId: formValues.brand.brandId,
         vendorId: formValues.vendor.vendorId,
         modelId: formValues.model.modelId,
@@ -293,7 +316,8 @@ export class EditProductComponent implements OnInit {
         // variant3:formValues.variant3,
         value3:formValues.value3,
         createdTimestamp: moment(Date.now()).format('YYYY-MM-DD HH:mm:ss'),
-        operationType: this.variantOperation
+        operationType: this.variantOperation,
+        active: true
       }
       this.productService.addProductVariant(productVariant)
       .subscribe((variant:ProductVariant)=>{
@@ -351,10 +375,37 @@ export class EditProductComponent implements OnInit {
     console.log('update product varianr', product);
   }
 
+  setVariantForDelete(productVariant: ProductVariant){
+    this.selectedVariantForDetete = productVariant;
+  }
+
+  deleteVariant(){
+
+    this.productService.deleteVariant(this.selectedVariantForDetete)
+    .subscribe((variant)=>{
+
+      if(variant && variant.status === 200){
+        this.toastr.success('Product Variant Deleted Successfully !!', 'Success!');
+        let index = this.productVariantDto.findIndex((el) => el.productNo == this.selectedVariantForDetete.productNo);
+        this.productVariantDto.splice(index, 1);
+        this.productVariantDto = this.productVariantDto.slice();
+      }
+    },
+    error => {
+      console.log('data', error);
+      if (error.status == 409) {
+        this.toastr.warning('Can not delete this product, cause it has inventory in it !!', 'Warning!');
+      }
+      else {
+        this.toastr.error('Opps Something goes wrong !!', 'Error!!');
+        console.log(JSON.stringify(error.json()));
+      }
+    });
+  }
+
   onVariantSelect(event){
     // console.log(event.target.selectedIndex);
-    // let selectedVariant: ProductVariantDetail = this.variantDto[event.target.selectedIndex];
-
+    // let selectedVariant: ProductVariantDetail = this.variantDto[event.target.selectedIndex]
     // this.productService.getProductVariantDetailsByName(selectedVariant)
     // .subscribe((variantDetails: ProductVariantDetail[]) => {
     //   this.productVariantDetails = variantDetails;
@@ -531,6 +582,8 @@ export class EditProductComponent implements OnInit {
 
     this.selectedProductInventoryForDelete = inventory;
   }
+
+
   deleteProductInventory() {
 
     this.productService.deleteProductInventory(this.selectedProductInventoryForDelete);
@@ -569,6 +622,94 @@ export class EditProductComponent implements OnInit {
    //   this.productList = products;
    // });
  }
+
+ getAutoGeneratedProductNo(event): any {
+
+  if(event.clientX > 0){
+  this.productService.getAutoGeneratedBarcode()
+    .subscribe((a: string) => {
+      this.variantForm.get('productNo').setValue(a);
+    });
+  }
+    console.log(event);
+}
+onCategorySelect(event){
+
+  console.log(event.target.selectedIndex);
+  
+  let selectedCategory: Category = this.categoryDto[event.target.selectedIndex];
+  
+      this.productService.getSubCategoryDetailsByCategoryId(selectedCategory.categoryId)
+      .subscribe((subCategory: SubCategory[]) => {
+        this.subCategoryDto = subCategory;
+        this.subCategoryDto = this.subCategoryDto.slice();
+        this.form.get('subCategory').setValue(this.subCategoryDto[0]);
+        console.log('sub CategoryId', this.subCategoryDto);
+      })
+    }
+
+    setProductForHistory(product: Product) {
+      this.selectedProductForHistory = product;
+  
+      // I need to do this becuase after, after setting product, its opens the model and if i dont call this method user wont see anything on popup.
+      this.getProductHistory();
+    }
+
+    getProductHistory(): void {
+
+      if (this.productHistoryDropDown == 'Today') {
+        this.dateDto = this.dateService.getCurrentDay();
+      }
+      else if (this.productHistoryDropDown == 'Yesterday') {
+        this.dateDto = this.dateService.getPreviousDay();
+  
+      }
+      else if (this.productHistoryDropDown == 'This Week') {
+        this.dateDto = this.dateService.getLast7Day();
+  
+      }
+      else if (this.productHistoryDropDown == 'Last Week') {
+        this.dateDto = this.dateService.getLast7Day();
+  
+      }
+      else if (this.productHistoryDropDown == 'This Month') {
+        this.dateDto = this.dateService.getCurrentMonth();
+  
+      }
+      else if (this.productHistoryDropDown == 'Last Month') {
+        this.dateDto = this.dateService.getLastMonth();
+  
+      }
+      else if (this.productHistoryDropDown == 'Last 3 Months') {
+        this.dateDto = this.dateService.getLast3Months();
+  
+      } else if (this.productHistoryDropDown == 'Last 6 Months') {
+        this.dateDto = this.dateService.getLast6Months();
+  
+      }
+      else if (this.productHistoryDropDown == 'This Year') {
+        this.dateDto = this.dateService.getCurrentYear();
+  
+      }
+      else if (this.productHistoryDropDown == 'Last Year') {
+        this.dateDto = this.dateService.getLastYear();
+      }
+  
+      this.totalSaleQuantity = 0;
+      this.productService.getProductHistory(this.selectedProductForHistory.productNo, this.selectedProductForHistory.productId,this.dateDto.startDate, this.dateDto.endDate)
+        .subscribe((productHistory: TransactionLineItemDaoList[]) => {
+          productHistory.forEach((history => {
+            history.time = moment(history.date).format('hh:mm A');
+            history.date = moment(history.date).format('MM/DD/YYYY');
+            this.totalSaleQuantity = +this.totalSaleQuantity + history.saleQuantity;
+          }))
+  
+          this.productHistoryDto = productHistory;
+  
+        });
+      console.log("Product data from UI for History", this.selectedProductForHistory);
+      console.log(this.productHistoryDto)
+    }
 
   ngOnDestroy() {
     //prevent memory leak when component destroyed

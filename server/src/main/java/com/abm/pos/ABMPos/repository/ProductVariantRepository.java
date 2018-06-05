@@ -3,6 +3,7 @@ package com.abm.pos.ABMPos.repository;
 import com.abm.pos.ABMPos.dao.ProductVariantDao;
 import com.abm.pos.ABMPos.dao.ProductVariantDetailDao;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 
 import javax.transaction.Transactional;
@@ -17,7 +18,7 @@ public interface ProductVariantRepository extends JpaRepository<ProductVariantDa
 
     List<ProductVariantDao> findAll();
 
-    List<ProductVariantDao> findAllByProductId(Integer productId);
+    List<ProductVariantDao> findAllByProductIdAndActive(Integer productId, Boolean active);
 
     @Query(value = "SELECT distinct \n" +
             "            v.product_no, \n" +
@@ -38,4 +39,8 @@ public interface ProductVariantRepository extends JpaRepository<ProductVariantDa
             "            inner join product p\n" +
             "            on p.product_id = v.product_id", nativeQuery = true)
     List<Object[]> getProductVariantInventoryDetails();
+
+    @Modifying
+    @Query("UPDATE ProductVariantDao SET active = false WHERE productNo = ?1")
+    void deleteProductVariant(String productNo);
 }
