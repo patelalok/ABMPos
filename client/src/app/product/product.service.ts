@@ -54,14 +54,10 @@ export class ProductService {
   });
   }
 
-  addProductVariant(productVariant: ProductVariant){
-    this.http.post(this.url+'/addProductVariant', productVariant)
-    .subscribe(data => {
-      if(data.status == 200 || data.status == 201){
-        this.toastr.success('Product Variant Added Successfully!!', 'Success!');
-      }
-      });
-
+  addProductVariant(productVariant: ProductVariant) : Observable<ProductVariant>{
+    return this.http.post(this.url+'/addProductVariant', productVariant)
+    .map(this.extractData)
+    .catch(this.handleError);
   }
 
   getProductDetails()  {

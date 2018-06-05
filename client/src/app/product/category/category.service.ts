@@ -3,10 +3,7 @@ import { Http, Response, Headers } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import { FormControl } from '@angular/forms/forms';
 import { environment } from 'environments/environment';
-import { Category } from '../product.component';
-
-
-
+import { Category, SubCategory } from '../product.component';
 
 @Injectable()
 export class CategoryService {
@@ -18,6 +15,10 @@ export class CategoryService {
 
   addOrUpdateCategory(category: Category) {
     return this.http.post(this.url+'/addCategory', category);
+  }
+
+  addOrUpdateSubCategory(subCategoryDao: SubCategory) {
+    return this.http.post(this.url+'/addSubCategory', subCategoryDao);
   }
 
   deleteCategory(categoryId: number): Observable<Response> {

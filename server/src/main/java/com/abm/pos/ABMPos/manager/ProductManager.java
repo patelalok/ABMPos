@@ -170,18 +170,16 @@ public class ProductManager{
         return productRepository.findOneByProductId(productId);
     }
 
-    public void addProductVariant(ProductVariantDao productVariantDao) {
+    public ProductVariantDao addProductVariant(ProductVariantDao productVariantDao) {
 
         // This Logic to only update product tier retail price.
-        if(null != productVariantDao && productVariantDao.getOperationType().equalsIgnoreCase("retailTierEdit"))
+        if(null != productVariantDao && null != productVariantDao.getOperationType() && productVariantDao.getOperationType().equalsIgnoreCase("retailTierEdit"))
         {
             productInventoryRepository.updateProductRetailPrice(productVariantDao.getTier1(),productVariantDao.getTier2(),productVariantDao.getTier3(), productVariantDao.getProductId());
         }
         else {
 
             ProductVariantDao p = productVariantRepository.save(productVariantDao);
-
-
             // Here I need to add inventory details as soon as product variant added.
             if (null != p) {
 
@@ -209,6 +207,8 @@ public class ProductManager{
 
             }
         }
+
+        return productVariantDao;
 
     }
 

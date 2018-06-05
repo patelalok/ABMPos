@@ -121,10 +121,9 @@ public class ProductController {
 
 
     @RequestMapping(value = "/addProductVariant", method = RequestMethod.POST, consumes = "application/json")
-    public ResponseEntity addProductVariant(@RequestBody ProductVariantDao productVariantDao)
+    public ProductVariantDao addProductVariant(@RequestBody ProductVariantDao productVariantDao)
     {
-        productManager.addProductVariant(productVariantDao);
-        return new ResponseEntity(HttpStatus.CREATED);
+        return productManager.addProductVariant(productVariantDao);
     }
 
     @RequestMapping(value = "/getAllProductVariant", method = RequestMethod.GET, produces = "application/json")

@@ -101,10 +101,21 @@ export class CategoryComponent implements OnInit {
         let newSubCategory: SubCategory = this.subCategoryForm.value;
         newSubCategory.categoryId = this.selectedCategoryForAddSubCategory.categoryId;
 
-        //this.productService.addS(this.categoryForm.value)
+        this.categoryService.addOrUpdateSubCategory(newSubCategory)
+        .subscribe((subCategory)=>{
+            if(subCategory.statusText == "OK"){
+                this.toastr.success('Sub Category Added Successfully!!', 'Success!!');
+                this.subCategoryDto.push(newSubCategory);
+                this.subCategoryDto = this.subCategoryDto.slice();
+                this.displaySubCategoryDialog = false;    
 
-
-        console.log('subCategory To add',newSubCategory);
+            }
+        },
+        error => {
+            this.toastr.error('Something Goes Wrong!!', 'Error!!')
+    });
+        
+    console.log('subCategory To add',newSubCategory);
 
     }
 
