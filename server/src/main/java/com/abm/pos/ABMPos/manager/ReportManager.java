@@ -18,6 +18,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 
+import javax.activation.DataHandler;
+import javax.activation.DataSource;
+import javax.mail.Message;
+import javax.mail.PasswordAuthentication;
+import javax.mail.Session;
+import javax.mail.Transport;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeBodyPart;
+import javax.mail.internet.MimeMessage;
+import javax.mail.internet.MimeMultipart;
+import javax.mail.util.ByteArrayDataSource;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.text.DateFormat;
@@ -27,6 +38,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Properties;
 
 
 @Component
@@ -1083,7 +1095,7 @@ public class ReportManager {
 
     public List<CustomerStatementDto> getCustomerStatement(String startDate, String endDate, String phoneNo) {
 
-        List<Object[]> result = transactionRepository.getCustomerStatement();
+        List<Object[]> result = transactionRepository.getCustomerStatement(startDate,endDate,phoneNo);
         List<CustomerStatementDto> customerStatementDtoList = new ArrayList<>();
 
         if(null != result)
@@ -1092,13 +1104,17 @@ public class ReportManager {
             {
                 CustomerStatementDto customerStatementDto = new CustomerStatementDto();
 
-                customerStatementDto.setTransactionComId(Integer.parseInt(j[0].toString()));
-                customerStatementDto.setTransactionDate(j[1].toString());
+                // This mean this transaction has payment as well as transaction, so i need to add two entries for this transaction
                 if(null != j[2]){
-                    customerStatementDto.setPaymentDate(j[2].toString());
+                    setPaymentDetailsToStatement(j,customerStatementDtoList);
                 }
+
+                //customerStatementDto.setTransactionComId(Integer.parseInt(j[0].toString()));
+                customerStatementDto.setDate(j[1].toString());
+                customerStatementDto.setDescription("Invoice"+ "(# "+ j[0].toString() +")");
                 customerStatementDto.setTransactionAmount(Double.parseDouble(j[3].toString()));
-                customerStatementDto.setTransactionBalance(Double.parseDouble(j[4].toString()));
+//                customerStatementDto.setTransactionBalance(Double.parseDouble(j[4].toString()));
+                customerStatementDto.setTotalDueAmount(Double.parseDouble(j[7].toString()));
 
                 customerStatementDtoList.add(customerStatementDto);
             }
@@ -1106,6 +1122,21 @@ public class ReportManager {
 
 
         return customerStatementDtoList;
+    }
+
+    private void setPaymentDetailsToStatement(Object[] j, List<CustomerStatementDto> customerStatementDtoList) {
+
+        CustomerStatementDto customerStatementDto = new CustomerStatementDto();
+
+        // This is payment date in query
+        customerStatementDto.setDate(j[2].toString());
+        customerStatementDto.setDescription("Payment"+ "("+ j[5].toString() +")");
+        customerStatementDto.setTransactionAmount(Double.parseDouble(j[4].toString()));
+        customerStatementDto.setTotalDueAmount(Double.parseDouble(j[7].toString()));
+
+        customerStatementDtoList.add(customerStatementDto);
+
+
     }
 
     public byte[] printCustomerStatement(String startDate, String endDate, String phoneNo) throws DocumentException, IOException {
@@ -1143,7 +1174,7 @@ public class ReportManager {
         customerTable.setWidthPercentage(100);
         statementTable.setWidthPercentage(100);
 
-        String[] header = new String[]{"DATE", "TIME", "RECEIPT NO", "AMOUNT", "BALANCE"};
+        String[] header = new String[]{"DATE", "TIME", "DESCRIPTION", "AMOUNT", "BALANCE"};
 
         PdfPCell logo = new PdfPCell();
         PdfPCell storeDetails = new PdfPCell();
@@ -1154,14 +1185,25 @@ public class ReportManager {
         if(null != storeSetupDao)
         {
             if(null != storeSetupDao.getLogo()){
-                Image companyLogo = Image.getInstance(storeSetupDao.getLogo());
-                companyLogo.setWidthPercentage(50);
-                logo.addElement(companyLogo);
-                logo.setPadding(0);
-                logo.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
-                logo.setBorder(PdfPCell.NO_BORDER);
 
-                storeTable.addCell(logo);
+                try{
+                    Image companyLogo = Image.getInstance(storeSetupDao.getLogo());
+                    if(null != companyLogo){
+
+                        companyLogo.setWidthPercentage(50);
+                        logo.addElement(companyLogo);
+                        logo.setPadding(0);
+                        logo.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
+                        logo.setBorder(PdfPCell.NO_BORDER);
+
+                        storeTable.addCell(logo);
+                }
+
+                }
+                catch (Exception e){
+                    System.out.println("Not able to find image in db === >"+e);
+                }
+
 
             }
 
@@ -1216,8 +1258,8 @@ public class ReportManager {
 
         if(null !=customerStatementDtoList) {
             statementTable.setHeaderRows(1);
-            statementTable.setWidths(new float[]{2, 2, 4, 2, 2});
-            statementTable.setSpacingBefore(1);
+            statementTable.setWidths(new float[]{2f, 2f, 4f, 2f, 2f});
+            statementTable.setSpacingBefore(15);
             statementTable.setSplitLate(false);
 
 
@@ -1225,7 +1267,7 @@ public class ReportManager {
 
             for (CustomerStatementDto customerStatementDto : customerStatementDtoList) {
 
-                DateTimeDto dateTimeDto = getDateAndTime(customerStatementDto.getTransactionDate());
+                DateTimeDto dateTimeDto = getDateAndTime(customerStatementDto.getDate());
 
                 PdfPCell cell1 = new PdfPCell();
                 PdfPCell cell2 = new PdfPCell();
@@ -1234,17 +1276,20 @@ public class ReportManager {
                 PdfPCell cell5 = new PdfPCell();
 
                 // This helps set content in middle or center
-                cell1.setFixedHeight(30);
-                cell2.setFixedHeight(30);
-                cell3.setFixedHeight(30);
-                cell4.setFixedHeight(30);
-                cell5.setFixedHeight(30);
+//                cell1.setFixedHeight(30);
+//                cell2.setFixedHeight(30);
+//                cell3.setFixedHeight(30);
+//                cell4.setFixedHeight(30);
+//                cell5.setFixedHeight(30);
 
-                cell1.setCellEvent(new PositionEvent(new Phrase(1, dateTimeDto.getDate(), FontFactory.getFont(FontFactory.HELVETICA, 8, Font.NORMAL)), 0.5f, 0.5f, Element.ALIGN_CENTER));
-                cell2.setCellEvent(new PositionEvent(new Phrase(1, dateTimeDto.getTime(), FontFactory.getFont(FontFactory.HELVETICA, 8, Font.NORMAL)), 0.5f, 0.5f, Element.ALIGN_CENTER));
-                cell3.setCellEvent(new PositionEvent(new Phrase(1, String.valueOf(customerStatementDto.getTransactionComId()), FontFactory.getFont(FontFactory.HELVETICA, 8, Font.NORMAL)), 0.5f, 0.5f, Element.ALIGN_CENTER));
-                cell4.setCellEvent(new PositionEvent(new Phrase(1, String.valueOf(customerStatementDto.getTransactionAmount()), FontFactory.getFont(FontFactory.HELVETICA, 8, Font.NORMAL)), 0.5f, 0.5f, Element.ALIGN_CENTER));
-                cell5.setCellEvent(new PositionEvent(new Phrase(1, "$ " + String.valueOf(customerStatementDto.getTransactionBalance()), FontFactory.getFont(FontFactory.HELVETICA, 8, Font.NORMAL)), 0.5f, 0.5f, Element.ALIGN_CENTER));
+//                cell1.setCellEvent(new PositionEvent(new Phrase(0f, dateTimeDto.getDate(), FontFactory.getFont(FontFactory.HELVETICA, 8, Font.NORMAL)), 0.5f, 0.5f, Element.ALIGN_CENTER));
+
+                // I dont understand but, i have to use add element here, to reduce the space in between two lines
+                cell1.addElement(new Phrase(dateTimeDto.getDate(), FontFactory.getFont(FontFactory.HELVETICA, 8, Font.NORMAL)));
+                cell2.setCellEvent(new PositionEvent(new Phrase(0f, dateTimeDto.getTime(), FontFactory.getFont(FontFactory.HELVETICA, 8, Font.NORMAL)), 0.5f, 0.5f, Element.ALIGN_CENTER));
+                cell3.setCellEvent(new PositionEvent(new Phrase(0f, String.valueOf(customerStatementDto.getDescription()), FontFactory.getFont(FontFactory.HELVETICA, 8, Font.NORMAL)), 0.5f, 0.5f, Element.ALIGN_CENTER));
+                cell4.setCellEvent(new PositionEvent(new Phrase(0f, String.valueOf(customerStatementDto.getTransactionAmount()), FontFactory.getFont(FontFactory.HELVETICA, 8, Font.NORMAL)), 0.5f, 0.5f, Element.ALIGN_CENTER));
+                cell5.setCellEvent(new PositionEvent(new Phrase(0f, "$ " + String.valueOf(customerStatementDto.getTotalDueAmount()), FontFactory.getFont(FontFactory.HELVETICA, 8, Font.NORMAL)), 0.5f, 0.5f, Element.ALIGN_CENTER));
 
                 cell1.setBorderColor(BaseColor.LIGHT_GRAY);
                 cell2.setBorderColor(BaseColor.LIGHT_GRAY);
@@ -1275,14 +1320,26 @@ public class ReportManager {
     }
 
     private void printTableHeader(PdfPTable statementTable, String[] header) {
+
         for (String tableHeader : header) {
             PdfPCell headerCell = new PdfPCell();
-            Paragraph paragraph3 = new Paragraph(tableHeader, FontFactory.getFont(FontFactory.HELVETICA, 11, Font.BOLD));
+            Paragraph paragraph3 = new Paragraph(tableHeader, FontFactory.getFont(FontFactory.HELVETICA, 10, Font.BOLD));
             paragraph3.setAlignment(Element.ALIGN_CENTER);
             headerCell.addElement(paragraph3);
             headerCell.setBorderColor(BaseColor.LIGHT_GRAY);
-            headerCell.setPadding(5);
+            headerCell.setPadding(4);
             statementTable.addCell(headerCell);
+
+
+
+
+//            headerCell.addElement(new Phrase(tableHeader, FontFactory.getFont(FontFactory.HELVETICA, 10, Font.BOLD)));
+//            headerCell.setHorizontalAlignment(Element.ALIGN_CENTER);
+//            headerCell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+//            headerCell.setBorderColor(BaseColor.LIGHT_GRAY);
+//            headerCell.setPadding(4);
+//            statementTable.addCell(headerCell);
+
         }
     }
 
@@ -1290,5 +1347,115 @@ public class ReportManager {
         return transactionRepository.findAllByCustomerPhonenoAndStatusAndDateBetweenOrderByDateAsc(phoneNo, "Pending",startDate,endDate);
 
     }
-}
+
+    public boolean emailCustomerStatement(String startDate, String endDate, String phoneNo) {
+
+            //TransactionDao transactionDao = getTransactionById(receiptId);
+            boolean response = false;
+            if (null != phoneNo && phoneNo.length() > 1) {
+                //First get customer details to send an email.
+                CustomerDao customerDao;
+                customerDao = customerRepository.findByPhoneNo(phoneNo);
+                StoreSetupDao storeSetupDao = storeSetupRepository.findOne(1);
+
+                if (null != customerDao && null != customerDao.getEmail() && null != storeSetupDao && null != storeSetupDao.getEmail() && null != storeSetupDao.getEmailPassword()) {
+
+                    String from = storeSetupDao.getEmail();
+                    String to = customerDao.getEmail();
+
+                    String newline = System.getProperty("line.separator");
+                    String content = "Dear " + customerDao.getName() + newline
+                            + newline
+                            + newline
+                            + "Please find attachment for your payment statement details."
+                            + newline
+                            + newline
+                            + newline
+                            + newline
+                            + "Thank You" + newline
+                            + storeSetupDao.getName();
+
+
+                    String subject = storeSetupDao.getName() + " PAYMENT STATEMENT";
+                    final String password = storeSetupDao.getEmailPassword();
+
+                    Properties props = new Properties();
+                    props.setProperty("mail.transport.protocol", "smtp");
+                    props.setProperty("mail.host", "smtp.gmail.com");
+                    props.put("mail.smtp.auth", "true");
+                    props.put("mail.smtp.port", "465");
+                    props.put("mail.debug", "true");
+                    props.put("mail.smtp.socketFactory.port", "465");
+                    props.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
+                    props.put("mail.smtp.socketFactory.fallback", "false");
+                    Session session = Session.getDefaultInstance(props,
+                            new javax.mail.Authenticator() {
+                                protected PasswordAuthentication getPasswordAuthentication() {
+                                    return new PasswordAuthentication(from, password);
+                                }
+                            });
+                    ByteArrayOutputStream outputStream = null;
+
+                    try {
+                        //construct the text body part
+                        MimeBodyPart textBodyPart = new MimeBodyPart();
+                        textBodyPart.setText(content);
+
+                        //now write the PDF content to the output stream
+                        outputStream = new ByteArrayOutputStream();
+                        byte[] bytes = printCustomerStatement(startDate,endDate,phoneNo);
+
+                        //construct the pdf body part
+                        DataSource dataSource = new ByteArrayDataSource(bytes, "application/pdf");
+                        MimeBodyPart pdfBodyPart = new MimeBodyPart();
+                        pdfBodyPart.setDataHandler(new DataHandler(dataSource));
+                        pdfBodyPart.setFileName("PaymentStatement.pdf");
+
+                        //construct the mime multi part
+                        MimeMultipart mimeMultipart = new MimeMultipart();
+                        mimeMultipart.addBodyPart(textBodyPart);
+                        mimeMultipart.addBodyPart(pdfBodyPart);
+
+                        Transport transport = session.getTransport();
+                        InternetAddress addressFrom = new InternetAddress(from);
+
+                        MimeMessage message = new MimeMessage(session);
+
+                        message.setSender(addressFrom);
+                        message.setSubject(subject);
+                        message.setContent(mimeMultipart);
+                        message.addRecipient(Message.RecipientType.TO, new InternetAddress(to));
+
+                        transport.connect();
+                        Transport.send(message);
+                        transport.close();
+                        response = true;
+
+                        System.out.println("sent from " + to +
+                                ", to " + to +
+                                "; server = " + from + ", port = " + from);
+                    } catch (Exception ex) {
+                        ex.printStackTrace();
+                        response = false;
+                    } finally {
+                        //clean off
+                        if (null != outputStream) {
+                            try {
+                                outputStream.close();
+                                outputStream = null;
+                            } catch (Exception ex) {
+                                response = false;
+                            }
+                        }
+                    }
+
+                }
+
+            }
+
+            return response;
+
+        }
+
+    }
 

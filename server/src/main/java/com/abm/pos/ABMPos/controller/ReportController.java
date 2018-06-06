@@ -14,10 +14,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 import java.util.List;
@@ -151,6 +148,11 @@ public class ReportController {
         headers.setCacheControl("must-revalidate, post-check=0, pre-check=0");
         ResponseEntity<byte[]> response = new ResponseEntity<byte[]>(pdfDataBytes, headers, HttpStatus.OK);
         return response;
+    }
+
+    @RequestMapping(value = "/emailCustomerStatement", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public boolean sendEmail(String startDate, String endDate, String phoneNo) throws DocumentException {
+        return reportManager.emailCustomerStatement(startDate,endDate,phoneNo);
     }
 
 

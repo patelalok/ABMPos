@@ -74,10 +74,13 @@
                     </mat-card>
                     <mat-card class="customer-mat-card" style="background: #43a047;">
                         <mat-card-title>
-                            Print
+                                <div class="btn-group" role="group" aria-label="Basic example">
+                                        <button type="button" class="btn btn-secondary" (click)="printCustomerPaymentStatement()">Print</button>
+                                        <button type="button" class="btn btn-secondary" (click)="emailCustomerStatement()">Email</button>
+                                    </div>
                         </mat-card-title>
                         <mat-card-content>
-                            Statement
+                            Payment Statement
                         </mat-card-content>
                     </mat-card>
                 </div>

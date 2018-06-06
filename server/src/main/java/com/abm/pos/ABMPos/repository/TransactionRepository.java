@@ -246,11 +246,20 @@ public interface TransactionRepository extends JpaRepository<TransactionDao, Int
 
     List<TransactionDao> findAllByCustomerPhonenoAndStatusAndDateBetweenOrderByDateAsc(String phoneNo, String status, String startDate, String endDate);
 
-    @Query(value = "SELECT t.transaction_com_id as a, t.date as b, p.date as c, t.total_amount as d, t.transaction_balance as e FROM transaction t\n" +
-            "LEFT JOIN transaction_payment p \n" +
+    @Query(value = "SELECT t.transaction_com_id , \n" +
+            "t.date as tranDate, \n" +
+            "p.date as payDate,\n" +
+            "t.total_amount,\n" +
+            "p.amount, \n" +
+            "p.type,\n" +
+            "t.transaction_balance,\n" +
+            "t.total_balance_due\n" +
+            "FROM transaction t\n" +
+            "LEFT JOIN transaction_payment p\n" +
             "ON p.transaction_com_id = t.transaction_com_id\n" +
-            "WHERE t.date BETWEEN '2018-01-15 09:28:06' AND '2018-12-15 09:28:06' AND t.customer_phoneno = 7707030801;", nativeQuery = true)
-    List<Object[]> getCustomerStatement();
+            "WHERE t.date BETWEEN ?1 AND ?2 AND t.customer_phoneno = ?3 " +
+            "ORDER BY t.date", nativeQuery = true)
+    List<Object[]> getCustomerStatement(String startDate, String endDate, String phoneNo);
 //
 //    @Query("")
 //    List<Object[]> getPaymentSummaryReport(String startDate, String endDate);

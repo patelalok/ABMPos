@@ -5,6 +5,7 @@ import { TransactionDtoList } from '../../sell/sale/sale.component';
 import * as moment from 'moment';
 import { DateDto, DateService } from 'app/shared/services/date.service';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { ToastsManager } from 'ng2-toastr';
 
 
 @Component({
@@ -27,7 +28,7 @@ export class CustomerPaymentHistoryComponent implements OnInit {
 
 
   customerTransactionDetails: TransactionDtoList[] = [];
-  constructor(private customerService: CustomerService,private dateServie: DateService, private formBuilder: FormBuilder) {
+  constructor(private customerService: CustomerService,private dateServie: DateService, private formBuilder: FormBuilder,private toastr: ToastsManager) {
     this.getCustomerDetails();
 
    }
@@ -150,6 +151,29 @@ export class CustomerPaymentHistoryComponent implements OnInit {
   }
 
   onRowSelect(event){
+  }
+
+  printCustomerPaymentStatement(){
+
+    this.customerService.printPaymentStatement(this.dateDto.startDate, this.dateDto.endDate, this.selectedCustomer.phoneNo)
+  }
+  emailCustomerStatement(){
+    this.customerService.emailCustomerStatement(this.dateDto.startDate, this.dateDto.endDate, this.selectedCustomer.phoneNo)
+    .subscribe((data) =>
+    {
+      //this.loadingServie.loading = true;
+      if(data.text())
+      {
+        //this.loadingServie.loading = false;
+        this.toastr.success('Email Send Sucessfully !!', 'Success!');
+      }
+      console.log('send email response', data.text());
+    },
+    (error) => {
+     // this.loadingServie.loading = false;
+      this.toastr.error('Something goes wrong, not able to send an email now !!', 'Error!');
+      console.log(JSON.stringify(error.json()));
+  });
   }
   ngOnDestroy() {
     //prevent memory leak when component destroyed

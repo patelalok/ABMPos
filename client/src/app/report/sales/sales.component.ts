@@ -222,13 +222,14 @@ export class SalesSummaryDto {
   // debit: number;
   // check: number;
   // storeCredit:number;
+  totalAmount: number;
   tax: number;
-  subtotal: number;
   discount: number;
+  subtotal: number;
+  quantity:number;
   profit: number;
   returns: number;
-  dueBalance: number;
-  totalAmount: number;
+  transactionBalance: number;
 }
 
 export class PaymentSummaryDto {

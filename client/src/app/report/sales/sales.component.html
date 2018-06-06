@@ -110,7 +110,7 @@
         <div class="row d-flex align-items-center">
 
             <!-- Showing this table for sales by reports -->
-            <div *ngIf="this.salesDropdown != 'Sales Summary'" class="col-md-12 p-md-3">
+            <div *ngIf="this.salesDropdown != 'Sales Summary' && this.salesDropdown != 'Payment Summary' " class="col-md-12 p-md-3">
                 <p-dataTable [value]="this.salesDto" scrollable="true" [responsive]="true" scrollHeight="500px">
                     <p-column field="name" header="Name" [style]="{'height': '46px', 'width': '25%', 'text-align': 'left'}"></p-column>
                     <p-column field="cost" header="Cost" [sortable]="true">
@@ -141,8 +141,8 @@
             </div>
 
 
-            <!-- Showing this table for sales summary Reports -->
-            <div *ngIf="this.salesDropdown == 'Sales Summary'" class="col-md-12 p-md-3">
+            <!-- Showing this table for payment summary Reports -->
+            <div *ngIf="this.salesDropdown == 'Payment Summary'" class="col-md-12 p-md-3">
                 <p-dataTable [value]="this.paymentSummaryDto" scrollable="true" [responsive]="true" scrollHeight="500px">
                     <p-column field="name" header="Name"></p-column>
                     <p-column field="cash" header="Cash" [sortable]="true">
@@ -165,40 +165,52 @@
                             {{summary.storeCredit | currency:'USD':'true'}}
                         </ng-template>
                     </p-column>
-                    <!-- <p-column field="tax" header="Tax" [sortable]="true">
-                        <ng-template let-summary="rowData" pTemplate="body">
-                            {{summary.tax | currency:'USD':'true'}}
-                        </ng-template>
-                    </p-column>
-                    <p-column field="discount" header="Discount" [sortable]="true">
-                        <ng-template let-summary="rowData" pTemplate="body">
-                            {{summary.discount | currency:'USD':'true'}}
-                        </ng-template>
-                    </p-column> -->
-
-                    <!-- TO DO NEED TO FIGURE THIS OUT. -->
-                    <!-- <p-column field="returns" header="Return" [sortable]="true">
-                        <ng-template let-summary="rowData" pTemplate="body">
-                            {{summary.returns | currency:'USD':'true'}}
-                        </ng-template>
-                    </p-column> -->
-                    <!-- <p-column field="dueBalance" header="Due Balance">
-                        <ng-template let-summary="rowData" pTemplate="body">
-                            {{summary.dueBalance | currency:'USD':'true'}}
-                        </ng-template>
-                    </p-column> -->
-                    <!-- <p-column field="profit" header="Profit" [sortable]="true">
-                        <ng-template let-summary="rowData" pTemplate="body">
-                            {{summary.profit | currency:'USD':'true'}}
-                        </ng-template>
-                    </p-column> -->
-                    <!-- <p-column field="totalAmount" header="Total" [sortable]="true">
-                        <ng-template let-summary="rowData" pTemplate="body">
-                            {{summary.totalAmount | currency:'USD':'true'}}
-                        </ng-template>
-                    </p-column> -->
                 </p-dataTable>
             </div>
+
+             <!-- Showing this table for sales summary Reports -->
+             <div *ngIf="this.salesDropdown == 'Sales Summary'" class="col-md-12 p-md-3">
+                    <p-dataTable [value]="this.salesSummaryDto" scrollable="true" [responsive]="true" scrollHeight="500px">
+                        <p-column field="name" header="Name"></p-column>
+                        <p-column field="totalAmount" header="Total Amount" [sortable]="true">
+                            <ng-template let-summary="rowData" pTemplate="body">
+                                {{summary.totalAmount | currency:'USD':'true'}}
+                            </ng-template>
+                        </p-column>
+                        <p-column field="tax" header="Tax" [sortable]="true">
+                                <ng-template let-summary="rowData" pTemplate="body">
+                                    {{summary.tax | currency:'USD':'true'}}
+                                </ng-template>
+                            </p-column>
+                        <p-column field="discount" header="Discount" [sortable]="true">
+                            <ng-template let-summary="rowData" pTemplate="body">
+                                {{summary.discount | currency:'USD':'true'}}
+                            </ng-template>
+                        </p-column>
+                        <p-column field="quantity" header="No Product Sold" [sortable]="true">
+                                <ng-template let-summary="rowData" pTemplate="body">
+                                    {{summary.quantity}}
+                                </ng-template>
+                            </p-column>
+    
+                        <!-- TO DO NEED TO FIGURE THIS OUT. -->
+                        <!-- <p-column field="returns" header="Return" [sortable]="true">
+                            <ng-template let-summary="rowData" pTemplate="body">
+                                {{summary.returns | currency:'USD':'true'}}
+                            </ng-template>
+                        </p-column> -->
+                         <p-column field="transactionBalance" header="DueBalance">
+                            <ng-template let-summary="rowData" pTemplate="body">
+                                {{summary.transactionBalance | currency:'USD':'true'}}
+                            </ng-template>
+                        </p-column>
+                        <p-column field="profit" header="Profit" [sortable]="true">
+                            <ng-template let-summary="rowData" pTemplate="body">
+                                {{summary.profit | currency:'USD':'true'}}
+                            </ng-template>
+                        </p-column>
+                    </p-dataTable>
+                </div>
 
 
         </div>

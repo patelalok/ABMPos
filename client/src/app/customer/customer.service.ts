@@ -1,5 +1,5 @@
 import {Injectable } from '@angular/core';
-import {Http, Response, Headers} from '@angular/http';
+import {Http, Response, Headers, ResponseContentType} from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import { FormControl } from '@angular/forms/forms';
 import { Category, Brand, Vendor, Model, ProductVariantDetail } from 'app/product/product.component';
@@ -9,6 +9,7 @@ import { Product, TransactionDtoList } from 'app/sell/sale/sale.component';
 import { Subject } from 'rxjs';
 import { ToastsManager } from 'ng2-toastr';
 import { CustomerFinancialDto } from './customer-payment-history/customer-payment-history.component';
+import { printBlob } from 'app/shared/services/util.service';
 
 
 @Injectable()
@@ -69,6 +70,17 @@ getCustomerDetails(): Customer[]
       return this.http.get(this.url+'/getCustomerFinancialDetails?startDate='+startDate+'&endDate='+endDate+'&phoneNo='+phoneNo)
       .map(this.extractData)
       .catch(this.handleError);
+    }
+
+    printPaymentStatement(startDate:string, endDate:string, phoneNo:string){
+      this.http.get(this.url+'/printCustomerStatement?startDate='+startDate+'&endDate='+endDate+'&phoneNo='+phoneNo , {responseType: ResponseContentType.Blob})
+      .subscribe((data: any) => {
+        printBlob(data._body)
+      })
+    }
+
+    emailCustomerStatement(startDate:string, endDate:string, phoneNo:string) {
+      return this.http.get(this.url+'/emailCustomerStatement?startDate='+startDate+'&endDate='+endDate+'&phoneNo='+phoneNo);
     }
 
     addOrUpdateCustomer(customer: Customer, add: boolean)
