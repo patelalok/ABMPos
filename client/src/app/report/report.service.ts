@@ -2,7 +2,7 @@ import {Injectable } from '@angular/core';
 import {Http, Response, Headers} from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import { InventoryDto } from 'app/report/inventory/inventory.component';
-import { SalesDto, SalesSummaryDto } from 'app/report/sales/sales.component';
+import { SalesDto, SalesSummaryDto, PaymentSummaryDto } from 'app/report/sales/sales.component';
 import { environment } from 'environments/environment';
 import { ResponseContentType } from '@angular/http';
 import { Product, TransactionDtoList } from 'app/sell/sale/sale.component';
@@ -29,6 +29,11 @@ export class ReportService {
       }
       getSalesSummaryReport(salesSummaryReportBy: string, startDate: string, endDate: string): Observable<SalesSummaryDto[]> {
         return this.http.get(this.url+'/getReportBySalesSummary?salesSummaryReportBy=' + salesSummaryReportBy+'&startDate='+startDate+'&endDate='+endDate)
+        .map(this.extractData)
+        .catch(this.handleError);
+      }
+      getPaymentSummaryReport(paymentSummaryReportBy: string, startDate: string, endDate: string): Observable<PaymentSummaryDto[]> {
+        return this.http.get(this.url+'/getReportByPaymentSummary?paymentSummaryReportBy=' + paymentSummaryReportBy+'&startDate='+startDate+'&endDate='+endDate)
         .map(this.extractData)
         .catch(this.handleError);
       }

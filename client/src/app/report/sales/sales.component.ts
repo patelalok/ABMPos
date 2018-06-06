@@ -17,6 +17,7 @@ export class SalesComponent implements OnInit {
 
   salesDto: SalesDto[] = [];
   salesSummaryDto: SalesSummaryDto[] = [];
+  paymentSummaryDto: PaymentSummaryDto[] = [];
   salesDropdown: string = 'Payment Summary';
   salesSummaryDropdown: string = 'Sales By Year';
   salesSummaryMonthDropdown: string = 'January';
@@ -91,7 +92,6 @@ export class SalesComponent implements OnInit {
     }
     else if (this.salesDropdown == 'Payment Summary'){
 
-
       if (this.salesSummaryDropdown === 'Sales By Year') {
 
         if (this.salesByYearDropdown === 'This Year') {
@@ -115,11 +115,10 @@ export class SalesComponent implements OnInit {
         
       }
 
-      this.reportService.getSalesSummaryReport(this.salesSummaryDropdown, this.dateDto.startDate, this.dateDto.endDate)
-        .subscribe((summary: SalesSummaryDto[]) => {
-          this.salesSummaryDto = summary;
-          this.getPieChartDetailsForSalesSummary();
-
+      this.reportService.getPaymentSummaryReport(this.salesSummaryDropdown, this.dateDto.startDate, this.dateDto.endDate)
+        .subscribe((summary: PaymentSummaryDto[]) => {
+          this.paymentSummaryDto = summary;
+          // this.getPieChartDetailsForSalesSummary();
         });
 
     }

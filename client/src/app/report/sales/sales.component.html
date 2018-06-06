@@ -143,7 +143,7 @@
 
             <!-- Showing this table for sales summary Reports -->
             <div *ngIf="this.salesDropdown == 'Sales Summary'" class="col-md-12 p-md-3">
-                <p-dataTable [value]="this.salesSummaryDto" scrollable="true" [responsive]="true" scrollHeight="500px">
+                <p-dataTable [value]="this.paymentSummaryDto" scrollable="true" [responsive]="true" scrollHeight="500px">
                     <p-column field="name" header="Name"></p-column>
                     <p-column field="cash" header="Cash" [sortable]="true">
                         <ng-template let-summary="rowData" pTemplate="body">
@@ -155,12 +155,6 @@
                             {{summary.credit | currency:'USD':'true'}}
                         </ng-template>
                     </p-column>
-                    <!-- <p-column field="debit" header="Debit" [sortable]="true">
-                        <ng-template let-summary="rowData" pTemplate="body">
-                            {{summary.debit | currency:'USD':'true'}}
-                        </ng-template>
-                    </p-column> -->
-
                     <p-column field="check" header="Check" [sortable]="true">
                         <ng-template let-summary="rowData" pTemplate="body">
                             {{summary.check | currency:'USD':'true'}}

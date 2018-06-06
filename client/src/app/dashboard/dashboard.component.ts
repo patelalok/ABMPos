@@ -101,11 +101,10 @@ colorScheme = {
     this.numberCardChartData = null;
     this.numberCardChartData = []; 
     this.numberCardChartData.push(
-      {
-      name: 'Cash',value: this.salesSummaryDto.cash} ,
-      {name: 'Credit',value: this.salesSummaryDto.credit},
-      {name: 'Debit',value: this.salesSummaryDto.debit},
-      {name: 'Check',value: this.salesSummaryDto.check},
+      // {name: 'Cash',value: this.salesSummaryDto.cash} ,
+      // {name: 'Credit',value: this.salesSummaryDto.credit},
+      // {name: 'Debit',value: this.salesSummaryDto.debit},
+      // {name: 'Check',value: this.salesSummaryDto.check},
       {name: 'Tax',value: this.salesSummaryDto.tax},
       {name: 'Discount',value: this.salesSummaryDto.discount},
       {name: 'Return',value: this.salesSummaryDto.returns},

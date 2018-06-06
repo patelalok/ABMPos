@@ -153,19 +153,19 @@ public class ReportManager {
 
     public List<PaymentSummaryDto> getReportByPaymentSummary(String paymentReportBy, String startDate, String endDate) {
 
-        if (paymentReportBy.equalsIgnoreCase("Sales By Year")) {
+        if (null != paymentReportBy && paymentReportBy.equalsIgnoreCase("Sales By Year")) {
             List<Object[]> result = transactionRepository.getYearlyPaymentReport(startDate, endDate);
             return setDataForCommonPaymentReport(result);
-        } else if (paymentReportBy.equalsIgnoreCase("Sales By Month")) {
+        } else if (null != paymentReportBy && paymentReportBy.equalsIgnoreCase("Sales By Month")) {
             List<Object[]> result = transactionRepository.getMonthlyPaymentReport(startDate, endDate);
             return setDataForCommonPaymentReport(result);
-        } else if (paymentReportBy.equalsIgnoreCase("Sales By Week")) {
+        } else if (null != paymentReportBy && paymentReportBy.equalsIgnoreCase("Sales By Week")) {
             List<Object[]> result = transactionRepository.getWeeklyPaymentReport(startDate, endDate);
             return setDataForCommonPaymentReport(result);
-        } else if (paymentReportBy.equalsIgnoreCase("Sales By Day")) {
+        } else if (null != paymentReportBy && paymentReportBy.equalsIgnoreCase("Sales By Day")) {
             List<Object[]> result = transactionRepository.getMonthlyPaymentReport(startDate, endDate);
             return setDataForCommonPaymentReport(result);
-        } else if (paymentReportBy.equalsIgnoreCase("Sales By Hour")) {
+        } else if (null != paymentReportBy && paymentReportBy.equalsIgnoreCase("Sales By Hour")) {
             List<Object[]> result = transactionRepository.getHourlyPaymentReport(startDate, endDate);
             return setDataForCommonPaymentReport(result);
         }
@@ -174,19 +174,19 @@ public class ReportManager {
 
     public List<SalesSummaryDto> getReportBySalesSummary(String salesReportBy, String startDate, String endDate) {
 
-        if (salesReportBy.equalsIgnoreCase("Sales By Year")) {
+        if (null != salesReportBy &&  salesReportBy.equalsIgnoreCase("Sales By Year")) {
             List<Object[]> result = transactionRepository.getYearlySalesReport(startDate, endDate);
             return setDataForCommonSalesReport(result);
-        } else if (salesReportBy.equalsIgnoreCase("Sales By Month")) {
+        } else if (null != salesReportBy && salesReportBy.equalsIgnoreCase("Sales By Month")) {
             List<Object[]> result = transactionRepository.getMonthlySalesReport(startDate, endDate);
             return setDataForCommonSalesReport(result);
-        } else if (salesReportBy.equalsIgnoreCase("Sales By Week")) {
+        } else if (null != salesReportBy && salesReportBy.equalsIgnoreCase("Sales By Week")) {
             List<Object[]> result = transactionRepository.getWeeklySalesReport(startDate, endDate);
             return setDataForCommonSalesReport(result);
-        } else if (salesReportBy.equalsIgnoreCase("Sales By Day")) {
+        } else if (null != salesReportBy && salesReportBy.equalsIgnoreCase("Sales By Day")) {
             List<Object[]> result = transactionRepository.getMonthlySalesReport(startDate, endDate);
             return setDataForCommonSalesReport(result);
-        } else if (salesReportBy.equalsIgnoreCase("Sales By Hour")) {
+        } else if (null != salesReportBy && salesReportBy.equalsIgnoreCase("Sales By Hour")) {
             List<Object[]> result = transactionRepository.getHourlySalesReport(startDate, endDate);
             return setDataForCommonSalesReport(result);
         }
@@ -287,6 +287,7 @@ public class ReportManager {
 
             SalesSummaryDto salesSummaryDto = new SalesSummaryDto();
 
+            salesSummaryDto.setName("Total");
             salesSummaryDto.setTotalAmount(totalAmount);
             salesSummaryDto.setTax(totalTax);
             salesSummaryDto.setDiscount(totalDiscount);
