@@ -17,7 +17,7 @@ export class SalesComponent implements OnInit {
 
   salesDto: SalesDto[] = [];
   salesSummaryDto: SalesSummaryDto[] = [];
-  salesDropdown: string = 'Sales Summary';
+  salesDropdown: string = 'Payment Summary';
   salesSummaryDropdown: string = 'Sales By Year';
   salesSummaryMonthDropdown: string = 'January';
   salesDateDropdown: string = 'Today';
@@ -88,6 +88,40 @@ export class SalesComponent implements OnInit {
           this.getPieChartDetailsForSalesSummary();
 
         });
+    }
+    else if (this.salesDropdown == 'Payment Summary'){
+
+
+      if (this.salesSummaryDropdown === 'Sales By Year') {
+
+        if (this.salesByYearDropdown === 'This Year') {
+          this.dateDto = this.dateService.getCurrentYear();
+        }
+        else if (this.salesByYearDropdown === 'Last Year') {
+          this.dateDto = this.dateService.getLastYear();
+        }
+        // TODO NEED TO MANAGE LAST 5 and 10 YEARS
+      }
+      else if (this.salesSummaryDropdown === 'Sales By Month') {
+        this.dateDto = this.dateService.getMonthDate(this.salesSummaryMonthDropdown);
+      }
+      else if (this.salesSummaryDropdown === 'Sales By Week') {
+
+      }
+      else if (this.salesSummaryDropdown === 'Sales By Day') {
+        this.dateDto = this.dateService.getCurrentDay();
+      }
+      else if(this.salesSummaryDropdown === 'Sales By Hour') {
+        
+      }
+
+      this.reportService.getSalesSummaryReport(this.salesSummaryDropdown, this.dateDto.startDate, this.dateDto.endDate)
+        .subscribe((summary: SalesSummaryDto[]) => {
+          this.salesSummaryDto = summary;
+          this.getPieChartDetailsForSalesSummary();
+
+        });
+
     }
     else {
 
@@ -184,11 +218,11 @@ export class SalesDto {
 
 export class SalesSummaryDto {
   name: string;
-  cash: number;
-  credit: number;
-  debit: number;
-  check: number;
-  storeCredit:number;
+  // cash: number;
+  // credit: number;
+  // debit: number;
+  // check: number;
+  // storeCredit:number;
   tax: number;
   subtotal: number;
   discount: number;
@@ -196,6 +230,17 @@ export class SalesSummaryDto {
   returns: number;
   dueBalance: number;
   totalAmount: number;
+}
+
+export class PaymentSummaryDto {
+
+  name: string;
+  cash: number;
+  credit: number;
+  debit: number;
+  check: number;
+  storeCredit:number;
+
 }
 
 

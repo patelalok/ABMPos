@@ -75,53 +75,156 @@ public interface TransactionRepository extends JpaRepository<TransactionDao, Int
 
     @Query(value = "select temp.NameOfMonth, max(cash) cash, max(credit) credit, max(check_amount) check_amount, max(store_credit) store_credit from \n" +
             "(select monthname(date) AS NameOfMonth,  \n" +
-            "if(type = 'CASH', sum(amount),0) as cash, \n" +
-            "if(type = 'CREDIT', sum(amount),0) as credit,\n" +
-            "if(type = 'CHECK', sum(amount),0) as check_amount,\n" +
-            "if(type = 'STORE CREDIT', sum(amount),0) as store_credit \n" +
+            "if(type = 'Cash', sum(amount),0) as cash, \n" +
+            "if(type = 'Credit', sum(amount),0) as credit,\n" +
+            "if(type = 'Check', sum(amount),0) as check_amount,\n" +
+            "if(type = 'StoreCredit', sum(amount),0) as store_credit \n" +
             "from transaction_payment \n" +
             "where date between ?1 and ?2\n" +
             "group by NameOfMonth,type) temp \n" +
             "group by temp.NameOfMonth\n" +
             "ORDER BY field(NameOfMonth,'January','February','March','April','May','June','July','August','September','October','November','December')", nativeQuery = true)
-    List<Object[]> getYearlySalesReport(String startDate, String endDate);
+    List<Object[]> getYearlyPaymentReport(String startDate, String endDate);
     
     @Query(value = "select temp.dates, max(cash) cash, max(credit) credit, max(check_amount) check_amount, max(store_credit) store_credit from \n" +
             "(select date(date) AS dates,  \n" +
-            "if(type = 'CASH', sum(amount),0) as cash, \n" +
-            "if(type = 'CREDIT', sum(amount),0) as credit,\n" +
-            "if(type = 'CHECK', sum(amount),0) as check_amount,\n" +
-            "if(type = 'STORE CREDIT', sum(amount),0) as store_credit \n" +
+            "if(type = 'Cash', sum(amount),0) as cash, \n" +
+            "if(type = 'Credit', sum(amount),0) as credit,\n" +
+            "if(type = 'Check', sum(amount),0) as check_amount,\n" +
+            "if(type = 'StoreCredit', sum(amount),0) as store_credit \n" +
             "from transaction_payment \n" +
             "where date between ?1 and ?2 \n" +
             "group by dates,type) temp \n" +
             "group by temp.dates",nativeQuery = true)
-    List<Object []> getMonthlySalesReport(String startDate, String endDate);
+    List<Object []> getMonthlyPaymentReport(String startDate, String endDate);
 
-    @Query(value = "select temp.dates, max(cash) cash, max(credit) credit, max(check_amount) check_amount, max(store_credit) store_credit from \n" +
-            "(select date(date) AS dates,  \n" +
-            "if(type = 'CASH', sum(amount),0) as cash, \n" +
-            "if(type = 'CREDIT', sum(amount),0) as credit,\n" +
-            "if(type = 'CHECK', sum(amount),0) as check_amount,\n" +
-            "if(type = 'STORE CREDIT', sum(amount),0) as store_credit \n" +
-            "from transaction_payment \n" +
-            "where date between ?1 and ?2 \n" +
-            "group by dates,type) temp \n" +
-            "group by temp.dates",nativeQuery = true)
-    List<Object []> getWeeklySalesReport(String startDate, String endDate);
+    @Query(value = "select Week(temp.dates), min(temp.dates) startWeek, max(temp.dates) endWeek,\n" +
+            "max(cash) cash, \n" +
+            "max(credit) credit, \n" +
+            "max(check_amount) check_amount, \n" +
+            "max(store_credit) store_credit \n" +
+            "from (select date(date) AS dates,\n" +
+            "if(type = 'Cash', sum(amount),0) as cash, \n" +
+            "if(type = 'Credit', sum(amount),0) as credit,\n" +
+            "if(type = 'Check', sum(amount),0) as check_amount,\n" +
+            "if(type = 'StoreCredit', sum(amount),0) as store_credit\n" +
+            "from transaction_payment\n" +
+            "where date BETWEEN ?1 AND ?2\n" +
+            "group by dates,type) temp\n" +
+            "group by Week(temp.dates)",nativeQuery = true)
+    List<Object []> getWeeklyPaymentReport(String startDate, String endDate);
 
 
     @Query(value = "select temp.hours, max(cash) cash, max(credit) credit, max(check_amount) check_amount, max(store_credit) store_credit from \n" +
             "(select HOUR(date) AS hours,  \n" +
-            "if(type = 'CASH', sum(amount),0) as cash, \n" +
-            "if(type = 'CREDIT', sum(amount),0) as credit,\n" +
-            "if(type = 'CHECK', sum(amount),0) as check_amount,\n" +
-            "if(type = 'STORE CREDIT', sum(amount),0) as store_credit \n" +
+            "if(type = 'Cash', sum(amount),0) as cash, \n" +
+            "if(type = 'Credit', sum(amount),0) as credit,\n" +
+            "if(type = 'Check', sum(amount),0) as check_amount,\n" +
+            "if(type = 'StoreCredit', sum(amount),0) as store_credit \n" +
             "from transaction_payment \n" +
             "where date between ?1 and ?2 \n" +
             "group by hours,type) temp \n" +
             "group by temp.hours", nativeQuery = true)
+    List<Object[]> getHourlyPaymentReport(String startDate, String endDate);
+
+
+    @Query(value = "SELECT monthname(t.date) as nameOfMonth,\n" +
+            "SUM(t.total_amount) totalAmount,             \n" +
+            "SUM(t.tax) tax,             \n" +
+            "SUM(t.total_discount) totalDiscount,             \n" +
+            "SUM(t.subtotal) subTotal,             \n" +
+            "SUM(t.quantity) quantity,             \n" +
+            "SUM(t.transaction_balance) transactionBalance,             \n" +
+            "SUM(t.total_balance_due) totalBalanceDue,             \n" +
+            "SUM(t.shipping) shipping,             \n" +
+            "SUM(temp.profit) profit             \n" +
+            "FROM transaction t             \n" +
+            "INNER JOIN    \n" +
+            "(SELECT t.transaction_com_id,\n" +
+            "SUM((l.retail_with_discount * l.sale_quantity) - (l.cost * l.sale_quantity)) profit             \n" +
+            "FROM transaction_line_item l             \n" +
+            "INNER JOIN transaction t ON t.transaction_com_id = l.transaction_com_id             \n" +
+            "WHERE l.date BETWEEN ?1 AND ?2            \n" +
+            "AND (l.status = 'Complete' OR l.status = 'Return' OR l.status = 'Pending') \n" +
+            "GROUP BY t.transaction_com_id)             \n" +
+            "AS temp  ON temp.transaction_com_id = t.transaction_com_id             \n" +
+            "WHERE date BETWEEN ?1 AND ?2              \n" +
+            "GROUP BY nameOfMonth\n" +
+            "ORDER BY field(nameOfMonth,'January','February','March','April','May','June','July','August','September','October','November','December')", nativeQuery = true)
+    List<Object[]> getYearlySalesReport(String startDate, String endDate);
+
+    @Query(value = "SELECT date(t.date) as dates,\n" +
+            "SUM(t.total_amount) totalAmount,             \n" +
+            "SUM(t.tax) tax,             \n" +
+            "SUM(t.total_discount) totalDiscount,             \n" +
+            "SUM(t.subtotal) subTotal,             \n" +
+            "SUM(t.quantity) quantity,             \n" +
+            "SUM(t.transaction_balance) transactionBalance,             \n" +
+            "SUM(t.total_balance_due) totalBalanceDue,             \n" +
+            "SUM(t.shipping) shipping,             \n" +
+            "SUM(temp.profit) profit             \n" +
+            "FROM transaction t             \n" +
+            "INNER JOIN    \n" +
+            "(SELECT t.transaction_com_id,\n" +
+            "SUM((l.retail_with_discount * l.sale_quantity) - (l.cost * l.sale_quantity)) profit             \n" +
+            "FROM transaction_line_item l             \n" +
+            "INNER JOIN transaction t ON t.transaction_com_id = l.transaction_com_id             \n" +
+            "WHERE l.date BETWEEN ?1  AND ?2            \n" +
+            "AND (l.status = 'Complete' OR l.status = 'Return' OR l.status = 'Pending') \n" +
+            "GROUP BY t.transaction_com_id)             \n" +
+            "AS temp  ON temp.transaction_com_id = t.transaction_com_id             \n" +
+            "WHERE date BETWEEN ?1  AND ?2            \n" +
+            "GROUP BY dates", nativeQuery = true)
+    List<Object[]> getMonthlySalesReport(String startDate, String endDate);
+
+    @Query(value = "SELECT week(t.date),min(t.date) as startWeek, max(t.date) endWeek,\n" +
+            "SUM(t.total_amount) totalAmount,             \n" +
+            "SUM(t.tax) tax,             \n" +
+            "SUM(t.total_discount) totalDiscount,             \n" +
+            "SUM(t.subtotal) subTotal,             \n" +
+            "SUM(t.quantity) quantity,             \n" +
+            "SUM(t.transaction_balance) transactionBalance,             \n" +
+            "SUM(t.total_balance_due) totalBalanceDue,             \n" +
+            "SUM(t.shipping) shipping,             \n" +
+            "SUM(temp.profit) profit             \n" +
+            "FROM transaction t             \n" +
+            "INNER JOIN    \n" +
+            "(SELECT t.transaction_com_id,\n" +
+            "SUM((l.retail_with_discount * l.sale_quantity) - (l.cost * l.sale_quantity)) profit             \n" +
+            "FROM transaction_line_item l             \n" +
+            "INNER JOIN transaction t ON t.transaction_com_id = l.transaction_com_id             \n" +
+            "WHERE l.date BETWEEN ?1 AND ?2             \n" +
+            "AND (l.status = 'Complete' OR l.status = 'Return' OR l.status = 'Pending') \n" +
+            "GROUP BY t.transaction_com_id)             \n" +
+            "AS temp  ON temp.transaction_com_id = t.transaction_com_id             \n" +
+            "WHERE date BETWEEN ?1 AND ?2              \n" +
+            "GROUP BY week(t.date)", nativeQuery = true)
+    List<Object[]> getWeeklySalesReport(String startDate, String endDate);
+
+    @Query(value = "SELECT HOUR(t.date) AS hours,\n" +
+            "SUM(t.total_amount) totalAmount,             \n" +
+            "SUM(t.tax) tax,             \n" +
+            "SUM(t.total_discount) totalDiscount,             \n" +
+            "SUM(t.subtotal) subTotal,             \n" +
+            "SUM(t.quantity) quantity,             \n" +
+            "SUM(t.transaction_balance) transactionBalance,             \n" +
+            "SUM(t.total_balance_due) totalBalanceDue,             \n" +
+            "SUM(t.shipping) shipping,             \n" +
+            "SUM(temp.profit) profit             \n" +
+            "FROM transaction t             \n" +
+            "INNER JOIN    \n" +
+            "(SELECT t.transaction_com_id,\n" +
+            "SUM((l.retail_with_discount * l.sale_quantity) - (l.cost * l.sale_quantity)) profit             \n" +
+            "FROM transaction_line_item l             \n" +
+            "INNER JOIN transaction t ON t.transaction_com_id = l.transaction_com_id             \n" +
+            "WHERE l.date BETWEEN ?1 AND ?2             \n" +
+            "AND (l.status = 'Complete' OR l.status = 'Return' OR l.status = 'Pending') \n" +
+            "GROUP BY t.transaction_com_id)             \n" +
+            "AS temp  ON temp.transaction_com_id = t.transaction_com_id             \n" +
+            "WHERE date BETWEEN ?1 AND ?2            \n" +
+            "GROUP BY hours", nativeQuery = true)
     List<Object[]> getHourlySalesReport(String startDate, String endDate);
+
 
     @Query("SELECT SUM(transactionBalance) from TransactionDao WHERE status = 'Pending' AND date BETWEEN ?1 AND ?2 ")
     List<Double> getTransactionDueAmount(String startDate, String endDate);

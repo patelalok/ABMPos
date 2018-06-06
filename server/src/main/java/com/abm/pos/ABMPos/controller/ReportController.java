@@ -6,6 +6,7 @@ import com.abm.pos.ABMPos.dao.ReportDao.SalesSummaryDto;
 import com.abm.pos.ABMPos.dao.TransactionDao;
 import com.abm.pos.ABMPos.dto.CustomerStatementDto;
 import com.abm.pos.ABMPos.dto.OpenInvoiceResponse;
+import com.abm.pos.ABMPos.dto.PaymentSummaryDto;
 import com.abm.pos.ABMPos.manager.ReportManager;
 import com.itextpdf.text.DocumentException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -55,9 +56,9 @@ public class ReportController {
     }
 
     @RequestMapping(value = "/getReportByPaymentSummary", method = RequestMethod.GET, produces = "application/json")
-    public List<SalesSummaryDto> getReportByPaymentSummary(String salesSummaryReportBy, String startDate, String endDate)
+    public List<PaymentSummaryDto> getReportByPaymentSummary(String paymentSummaryReportBy, String startDate, String endDate)
     {
-        return reportManager.getReportByPaymentSummary(salesSummaryReportBy, startDate, endDate);
+        return reportManager.getReportByPaymentSummary(paymentSummaryReportBy, startDate, endDate);
     }
 
     @RequestMapping(value = "/getReportBySalesSummary", method = RequestMethod.GET, produces = "application/json")
