@@ -31,9 +31,9 @@ declare var $: JQueryStatic;
   styleUrls: ['./sale.component.scss'],
   animations: [fadeInAnimation],
   providers: [
-    { provide: 'Window',  useValue: window }
+    { provide: 'Window', useValue: window }
   ]
-  
+
   // host: { '[@fadeInAnimation]': '' }
 })
 export class SaleComponent implements OnInit, AfterViewInit {
@@ -52,7 +52,7 @@ export class SaleComponent implements OnInit, AfterViewInit {
   selectedCustomer: Customer;
   cust: any;
   filteredCustomer: any[];
-  customerTier:number = 0;
+  customerTier: number = 0;
 
   transactionLineItemDaoList: TransactionLineItemDaoList[];
   transactionDtoList = new TransactionDtoList();
@@ -72,7 +72,7 @@ export class SaleComponent implements OnInit, AfterViewInit {
   taxPercent: number = 0.00;
   shippingAmount: number = 0.00;
 
-// This is for printing payment details on receipt.
+  // This is for printing payment details on receipt.
 
 
   // This help when customer has paid full amount, so now user should not able to click on any payment button.
@@ -101,11 +101,11 @@ export class SaleComponent implements OnInit, AfterViewInit {
 
 
   constructor(
-    private sellService: SellService,  @Inject('Window') private window: Window, private persit: PersistenceService, private productService: ProductService, private storeSetupService: StoreSetupService, private customerService: CustomerService, private sanitizer: DomSanitizer, private route: ActivatedRoute, private router: Router, private toastr: ToastsManager, private loadingService: LoadingService, private utilService: UtilService) { 
-      this.getCustomerDetails();
-      this.getProductDetails();
+    private sellService: SellService, @Inject('Window') private window: Window, private persit: PersistenceService, private productService: ProductService, private storeSetupService: StoreSetupService, private customerService: CustomerService, private sanitizer: DomSanitizer, private route: ActivatedRoute, private router: Router, private toastr: ToastsManager, private loadingService: LoadingService, private utilService: UtilService) {
+    this.getCustomerDetails();
+    this.getProductDetails();
 
-    }
+  }
   ngOnInit() {
 
     this.items = [
@@ -144,7 +144,7 @@ export class SaleComponent implements OnInit, AfterViewInit {
       this.handleParkedTransactionFromSalesHistory(transactionComId);
     }
 
-   this.setTransactionDtoList();
+    this.setTransactionDtoList();
   }
 
   ngAfterViewInit() {
@@ -179,20 +179,19 @@ export class SaleComponent implements OnInit, AfterViewInit {
     // FIRST NEED TO CHECK CUSTOMER IS SELECTED OR NOT.
     // THEN NEED TO CHECK HIS TIER AND WITH TIER, I NEED TO SET RETAIL PRICE FOR THE PERTICULAR PRODUCT.
 
-    if(null!= this.selectedCustomer && this.selectedCustomer != undefined && this.selectedCustomer.tier > 0)
-    {
-        if(this.selectedCustomer.tier == 1){
-          productObj.retailWithDiscount = productObj.tier1;
-          productObj.retail = productObj.tier1;
-        }
-        else if(this.selectedCustomer.tier == 2){
-          productObj.retailWithDiscount = productObj.tier2;
-          productObj.retail = productObj.tier2;
-        }
-        else if(this.selectedCustomer.tier == 3){
-          productObj.retailWithDiscount = productObj.tier3;
-          productObj.retail = productObj.tier3;
-        }      
+    if (null != this.selectedCustomer && this.selectedCustomer != undefined && this.selectedCustomer.tier > 0) {
+      if (this.selectedCustomer.tier == 1) {
+        productObj.retailWithDiscount = productObj.tier1;
+        productObj.retail = productObj.tier1;
+      }
+      else if (this.selectedCustomer.tier == 2) {
+        productObj.retailWithDiscount = productObj.tier2;
+        productObj.retail = productObj.tier2;
+      }
+      else if (this.selectedCustomer.tier == 3) {
+        productObj.retailWithDiscount = productObj.tier3;
+        productObj.retail = productObj.tier3;
+      }
     }
     else {
       productObj.retailWithDiscount = productObj.tier3;
@@ -283,9 +282,9 @@ export class SaleComponent implements OnInit, AfterViewInit {
 
     this.productPopupVariantList = [];
 
-    if(productForSearchBox.variant){
-      this.productVariantList.forEach((variant)=>{
-        if(productForSearchBox.productId == variant.productId){
+    if (productForSearchBox.variant) {
+      this.productVariantList.forEach((variant) => {
+        if (productForSearchBox.productId == variant.productId) {
           this.productPopupVariantList.push(variant);
         }
         //this.productPopupVariantList = this.productPopupVariantList.slice();
@@ -293,12 +292,12 @@ export class SaleComponent implements OnInit, AfterViewInit {
       $('#productVariantPopup').modal('show');
       this.productPopupVariantList = this.productPopupVariantList.slice();
     }
-    else if(productForSearchBox != null) {
+    else if (productForSearchBox != null) {
       this.addTransactionLineItem(productForSearchBox);
     }
   }
 
-  onVariantSelect(event){
+  onVariantSelect(event) {
     console.log('variant Event', event.data);
     $('#productVariantPopup').modal('hide');
     this.setFocusOnProductSearch();
@@ -309,22 +308,21 @@ export class SaleComponent implements OnInit, AfterViewInit {
     console.log('Inside submit product', value);
     let productFound: boolean;
 
-    if(null != value && value.length > 7 && (value.match(/[0-9]/i))){
+    if (null != value && value.length > 7 && (value.match(/[0-9]/i))) {
       console.log('This mean user has scan the barcode no', value);
 
-        // First finding product no in variant list and then in real product List
-        this.productVariantList.forEach((product)=>{
-          if(value == product.productNo){
-            productFound = true;
-            this.addTransactionLineItem(product);
-            this.timeOut();
-          }
-        });
-     
-        if(!productFound)
-        {
-        this.productList.forEach((product)=>{
-          if(value == product.productNo){
+      // First finding product no in variant list and then in real product List
+      this.productVariantList.forEach((product) => {
+        if (value == product.productNo) {
+          productFound = true;
+          this.addTransactionLineItem(product);
+          this.timeOut();
+        }
+      });
+
+      if (!productFound) {
+        this.productList.forEach((product) => {
+          if (value == product.productNo) {
             productFound = true;
             this.addTransactionLineItem(product);
             this.timeOut();
@@ -332,7 +330,7 @@ export class SaleComponent implements OnInit, AfterViewInit {
         })
       }
 
-      if(!productFound){
+      if (!productFound) {
         alert("Sorry Can Not Find The Product!!!");
         this.productForSearchBox = null;
       }
@@ -353,8 +351,8 @@ export class SaleComponent implements OnInit, AfterViewInit {
     }
     else if (value != null) {
 
-      if(value != undefined && !value.variant)
-      this.addTransactionLineItem(value);
+      if (value != undefined && !value.variant)
+        this.addTransactionLineItem(value);
     }
 
     // setTimeout(() => {
@@ -363,12 +361,12 @@ export class SaleComponent implements OnInit, AfterViewInit {
     // }, 1000)
   }
 
-  timeOut(){
-  setTimeout(() => {
-    this.product = null;
-    this.productForSearchBox = null; 
-  }, 500)
-}
+  timeOut() {
+    setTimeout(() => {
+      this.product = null;
+      this.productForSearchBox = null;
+    }, 500)
+  }
 
   setProductForDelete(product: Product) {
     this.selectedProduct = product;
@@ -455,8 +453,8 @@ export class SaleComponent implements OnInit, AfterViewInit {
     this.transactionDtoList.totalAmount = 0.00;
 
     this.transactionLineItemDaoList.forEach((lineItem) => {
-      totalQuantity = +lineItem.saleQuantity +totalQuantity;
-      totalPrice = +lineItem.totalProductPrice +totalPrice;
+      totalQuantity = +lineItem.saleQuantity + totalQuantity;
+      totalPrice = +lineItem.totalProductPrice + totalPrice;
     })
 
     this.transactionDtoList.quantity = parseFloat(totalQuantity.toFixed(2));
@@ -464,12 +462,12 @@ export class SaleComponent implements OnInit, AfterViewInit {
     let totalAfterDiscount: number = this.transactionDtoList.subtotal - this.totalTransactionDiscount;
     this.transactionDtoList.tax = ((totalAfterDiscount * this.taxPercent / 100));
     this.transactionDtoList.totalAmount = +totalAfterDiscount + this.transactionDtoList.tax;
-        // logic helps to fix the problem when user first put transactin on on account with shippiing price..and then try to pay, its not adding shipping amount in the transactionTotal amout
+    // logic helps to fix the problem when user first put transactin on on account with shippiing price..and then try to pay, its not adding shipping amount in the transactionTotal amout
     // So this logic wil fix that problem. // This condition is true only when user is taking regular transaction, if not then i need to add shiping details in the transacttion total.
-    if(this.transactionDtoList.shipping == NaN || this.transactionDtoList.shipping <=0 || this.transactionDtoList.shipping == undefined || this.shippingAmount > 0){
+    if (this.transactionDtoList.shipping == NaN || this.transactionDtoList.shipping <= 0 || this.transactionDtoList.shipping == undefined || this.shippingAmount > 0) {
       this.transactionDtoList.shipping = this.shippingAmount;
     }
-  
+
     this.transactionDtoList.totalAmount = +this.transactionDtoList.totalAmount + this.transactionDtoList.shipping;
 
     console.log('total amount', this.transactionDtoList.totalAmount);
@@ -488,44 +486,44 @@ export class SaleComponent implements OnInit, AfterViewInit {
   submitCustomer() {
 
     this.customerService.getCustomerDetailsByPhoneNo(this.selectedCustomer.phoneNo)
-    .subscribe((customer)=>{
-      this.selectedCustomer = customer;
-      this.customerTier = this.selectedCustomer.tier;
+      .subscribe((customer) => {
+        this.selectedCustomer = customer;
+        this.customerTier = this.selectedCustomer.tier;
 
-      if (this.selectedCustomer.type == 'Business') {
-        this.taxPercent = 0.00;
-      }
-      let totalPreviousBalance = 0;
-      this.sellService.getPendingInvoiceByCustomer(this.selectedCustomer.phoneNo)
-      .subscribe(transaction => {
-        transaction.forEach(trans => {
-  
-          // This is very important line if i wont set here, i can not handle date change logic for transaction.
-          trans.originalDate = trans.date;
-          trans.time = moment(trans.date).format('hh:mm A');
-          trans.date = moment(trans.date).format('MM-DD-YYYY');
-  
-          // Calculating totalPendingInvoice here, so i dont need to maintain in backend and in customer table.
-          totalPreviousBalance = +totalPreviousBalance +trans.transactionBalance;
-          console.log('total Previous balance', totalPreviousBalance);
-        })
-        this.pendingInvoiceTransactionList = transaction;
-        this.selectedCustomer.balance = totalPreviousBalance;
-      });
-  
-      this.persit.setCustomerDetailsForSale(this.selectedCustomer);
-  
-      this.sellService.getProductPriceByCustomer(this.selectedCustomer.phoneNo)
-        .subscribe((productPrice) => {
-          this.productPriceArryByCustomer = productPrice;
-          this.persit.setCustomerProductPriceForSale(this.productPriceArryByCustomer);
-        });
-  
+        if (this.selectedCustomer.type == 'Business') {
+          this.taxPercent = 0.00;
+        }
+        let totalPreviousBalance = 0;
+        this.sellService.getPendingInvoiceByCustomer(this.selectedCustomer.phoneNo)
+          .subscribe(transaction => {
+            transaction.forEach(trans => {
+
+              // This is very important line if i wont set here, i can not handle date change logic for transaction.
+              trans.originalDate = trans.date;
+              trans.time = moment(trans.date).format('hh:mm A');
+              trans.date = moment(trans.date).format('MM-DD-YYYY');
+
+              // Calculating totalPendingInvoice here, so i dont need to maintain in backend and in customer table.
+              totalPreviousBalance = +totalPreviousBalance + trans.transactionBalance;
+              console.log('total Previous balance', totalPreviousBalance);
+            })
+            this.pendingInvoiceTransactionList = transaction;
+            this.selectedCustomer.balance = totalPreviousBalance;
+          });
+
+        this.persit.setCustomerDetailsForSale(this.selectedCustomer);
+
+        this.sellService.getProductPriceByCustomer(this.selectedCustomer.phoneNo)
+          .subscribe((productPrice) => {
+            this.productPriceArryByCustomer = productPrice;
+            this.persit.setCustomerProductPriceForSale(this.productPriceArryByCustomer);
+          });
+
         this.setTransactionDtoList();
-    })
- 
+      })
 
-  
+
+
   }
 
   removeCustomerOnSale() {
@@ -549,7 +547,7 @@ export class SaleComponent implements OnInit, AfterViewInit {
 
       paymentDaoObj.type = 'CASH';
       // This mean customer has paid less or equal amount.
-      if(paymentAmount <= this.dueAmountForTransaction){
+      if (paymentAmount <= this.dueAmountForTransaction) {
         paymentDaoObj.amount = paymentAmount;
       }
       else {
@@ -562,49 +560,49 @@ export class SaleComponent implements OnInit, AfterViewInit {
 
 
 
-      // This is very rare scenario and it happens only if user is stupid but still i need to handle this,
-      // Cause user can pay in cash two time by click on cash button by seletecting different buttons.
+    // This is very rare scenario and it happens only if user is stupid but still i need to handle this,
+    // Cause user can pay in cash two time by click on cash button by seletecting different buttons.
 
 
 
-      // if (null != this.paymentDto && this.paymentDto.cash > 0) {
-      //   this.paymentDto.cash = +this.paymentDto.cash + paymentAmount;
-      // }
+    // if (null != this.paymentDto && this.paymentDto.cash > 0) {
+    //   this.paymentDto.cash = +this.paymentDto.cash + paymentAmount;
+    // }
 
 
-      // else {
-        // I need to do this, cause right now if total is $20 and user click on $100 its storing as $100 in payment table which is wrong and will messed up whole reporting so need to manage here.
-        // if (paymentAmount > this.dueAmountForTransaction) {
-        //   this.paymentDto.cash = this.dueAmountForTransaction;
-        // }
-        // else {
-        //   this.paymentDto.cash = paymentAmount;
-        // }
-     // }
-      // this.paymentObjectForPaymentSellTable.push({ 'paymentType': 'Cash', 'paymentAmount': paymentAmount });
+    // else {
+    // I need to do this, cause right now if total is $20 and user click on $100 its storing as $100 in payment table which is wrong and will messed up whole reporting so need to manage here.
+    // if (paymentAmount > this.dueAmountForTransaction) {
+    //   this.paymentDto.cash = this.dueAmountForTransaction;
+    // }
+    // else {
+    //   this.paymentDto.cash = paymentAmount;
+    // }
+    // }
+    // this.paymentObjectForPaymentSellTable.push({ 'paymentType': 'Cash', 'paymentAmount': paymentAmount });
 
-      // this.validatePaymentButtons(paymentAmount);
+    // this.validatePaymentButtons(paymentAmount);
     else if (paymentType == 'CREDIT') {
 
-        paymentDaoObj.type = 'CREDIT';
-        // This mean customer has paid less or equal amount.
-        if(paymentAmount <= this.dueAmountForTransaction){
-          paymentDaoObj.amount = paymentAmount;
-        }
-        else {
-          paymentDaoObj.amount = this.dueAmountForTransaction;
-        }
+      paymentDaoObj.type = 'CREDIT';
+      // This mean customer has paid less or equal amount.
+      if (paymentAmount <= this.dueAmountForTransaction) {
+        paymentDaoObj.amount = paymentAmount;
+      }
+      else {
+        paymentDaoObj.amount = this.dueAmountForTransaction;
+      }
 
-        //this.paymentObjectForPaymentSellTable.push({ 'paymentType': 'CREDIT', 'paymentAmount': paymentAmount });
-        this.paymentDaoList.push(paymentDaoObj);
+      //this.paymentObjectForPaymentSellTable.push({ 'paymentType': 'CREDIT', 'paymentAmount': paymentAmount });
+      this.paymentDaoList.push(paymentDaoObj);
 
-        this.validatePaymentButtons(paymentAmount);
+      this.validatePaymentButtons(paymentAmount);
     }
     else if (paymentType == 'CHECK') {
 
       paymentDaoObj.type = 'CHECK';
       // This mean customer has paid less or equal amount.
-      if(paymentAmount <= this.dueAmountForTransaction){
+      if (paymentAmount <= this.dueAmountForTransaction) {
         paymentDaoObj.amount = paymentAmount;
       }
       else {
@@ -614,181 +612,181 @@ export class SaleComponent implements OnInit, AfterViewInit {
       //this.paymentObjectForPaymentSellTable.push({ 'paymentType': 'CHECK', 'paymentAmount': paymentAmount });
       this.paymentDaoList.push(paymentDaoObj);
       this.validatePaymentButtons(paymentAmount);
-  }
-//   else if (paymentType == 'DEBIT') {
+    }
+    //   else if (paymentType == 'DEBIT') {
 
-//     paymentDaoObj.type = 'DEBIT';
-//     // This mean customer has paid less or equal amount.
-//     if(paymentAmount <= this.dueAmountForTransaction){
-//       paymentDaoObj.amount = paymentAmount;
-//     }
-//     else {
-//       paymentDaoObj.amount = this.dueAmountForTransaction;
-//     }
+    //     paymentDaoObj.type = 'DEBIT';
+    //     // This mean customer has paid less or equal amount.
+    //     if(paymentAmount <= this.dueAmountForTransaction){
+    //       paymentDaoObj.amount = paymentAmount;
+    //     }
+    //     else {
+    //       paymentDaoObj.amount = this.dueAmountForTransaction;
+    //     }
 
-//     this.paymentObjectForPaymentSellTable.push({ 'paymentType': 'DEBIT', 'paymentAmount': paymentAmount });
-//     this.validatePaymentButtons(paymentAmount);
-// }
-//   else if (paymentType == 'STORE CREDIT') {
+    //     this.paymentObjectForPaymentSellTable.push({ 'paymentType': 'DEBIT', 'paymentAmount': paymentAmount });
+    //     this.validatePaymentButtons(paymentAmount);
+    // }
+    //   else if (paymentType == 'STORE CREDIT') {
 
-//     paymentDaoObj.type = 'STORE CREDIT';
-//     // This mean customer has paid less or equal amount.
-//     if(paymentAmount <= this.dueAmountForTransaction){
-//       paymentDaoObj.amount = paymentAmount;
-//     }
-//     else {
-//       paymentDaoObj.amount = this.dueAmountForTransaction;
-//     }
+    //     paymentDaoObj.type = 'STORE CREDIT';
+    //     // This mean customer has paid less or equal amount.
+    //     if(paymentAmount <= this.dueAmountForTransaction){
+    //       paymentDaoObj.amount = paymentAmount;
+    //     }
+    //     else {
+    //       paymentDaoObj.amount = this.dueAmountForTransaction;
+    //     }
 
-//     this.paymentObjectForPaymentSellTable.push({ 'paymentType': 'STORE CREDIT', 'paymentAmount': paymentAmount });
-//     this.paymentDaoList.push(paymentDaoObj);
-//     this.validatePaymentButtons(paymentAmount);
-// }
+    //     this.paymentObjectForPaymentSellTable.push({ 'paymentType': 'STORE CREDIT', 'paymentAmount': paymentAmount });
+    //     this.paymentDaoList.push(paymentDaoObj);
+    //     this.validatePaymentButtons(paymentAmount);
+    // }
 
     else if (paymentType == 'STORE CREDIT') {
 
       paymentDaoObj.type = 'STORE CREDIT';
 
-        // Now I have to handle two scenario
+      // Now I have to handle two scenario
       // Case 1. Store credit can greater then equal to payment amount
       // Case 2. Store credit can less then equal to payment amount
 
       // Case 1: where payment amount is customers store credit because that what i am sending from ui
-        if (paymentAmount > this.dueAmountForTransaction) {
-          // so By doing this i am just reducing the store credit which is used for this transaction and i can update rest on customer account.
+      if (paymentAmount > this.dueAmountForTransaction) {
+        // so By doing this i am just reducing the store credit which is used for this transaction and i can update rest on customer account.
 
-          paymentDaoObj.amount = this.dueAmountForTransaction;
-          this.paymentDaoList.push(paymentDaoObj);
+        paymentDaoObj.amount = this.dueAmountForTransaction;
+        this.paymentDaoList.push(paymentDaoObj);
 
-          
 
-          //this.paymentObjectForPaymentSellTable.push({ 'paymentType': 'StoreCredit', 'paymentAmount': paymentDaoObj.amount });
-          this.validatePaymentButtons(paymentDaoObj.amount);
-        }
-        // Here i am using complete store credit of the customer
-        else {
-          paymentDaoObj.amount = paymentAmount;
-          this.paymentDaoList.push(paymentDaoObj);
 
-          //this.paymentObjectForPaymentSellTable.push({ 'paymentType': 'StoreCredit', 'paymentAmount': paymentDaoObj.amount });
-          this.validatePaymentButtons(paymentDaoObj.amount);
-        }
+        //this.paymentObjectForPaymentSellTable.push({ 'paymentType': 'StoreCredit', 'paymentAmount': paymentDaoObj.amount });
+        this.validatePaymentButtons(paymentDaoObj.amount);
+      }
+      // Here i am using complete store credit of the customer
+      else {
+        paymentDaoObj.amount = paymentAmount;
+        this.paymentDaoList.push(paymentDaoObj);
+
+        //this.paymentObjectForPaymentSellTable.push({ 'paymentType': 'StoreCredit', 'paymentAmount': paymentDaoObj.amount });
+        this.validatePaymentButtons(paymentDaoObj.amount);
       }
     }
+  }
 
-      // if (null != this.paymentDto && this.paymentDto.credit > 0) {
-      //   this.paymentDto.credit = +this.paymentDto.credit + paymentAmount;
-      // }
-      // else {
-      //   // I need to do this, cause right now if total is $20 and user click on $100 its storing as $100 in payment table which is wrong and will messed up whole reporting so need to manage here.
-      //   if (paymentAmount > this.dueAmountForTransaction) {
-      //     this.paymentDto.credit = this.dueAmountForTransaction;
-      //   }
-      //   else {
-      //     this.paymentDto.credit = paymentAmount;
-      //   }
-      // }
-      // this.paymentObjectForPaymentSellTable.push({ 'paymentType': 'Credit', 'paymentAmount': paymentAmount })
-      // this.validatePaymentButtons(paymentAmount);
-    
-    // else if (paymentType == 'Debit') {
-    //   if (null != this.paymentDto && this.paymentDto.debit > 0) {
-    //     this.paymentDto.debit = +this.paymentDto.debit + paymentAmount;
-    //   }
-    //   else {
-    //     // I need to do this, cause right now if total is $20 and user click on $100 its storing as $100 in payment table which is wrong and will messed up whole reporting so need to manage here.
-    //     if (paymentAmount > this.dueAmountForTransaction) {
-    //       this.paymentDto.debit = this.dueAmountForTransaction;
-    //     }
-    //     else {
-    //       this.paymentDto.debit = paymentAmount;
-    //     }
-    //   }
-    //   this.paymentObjectForPaymentSellTable.push({ 'paymentType': 'Debit', 'paymentAmount': paymentAmount })
+  // if (null != this.paymentDto && this.paymentDto.credit > 0) {
+  //   this.paymentDto.credit = +this.paymentDto.credit + paymentAmount;
+  // }
+  // else {
+  //   // I need to do this, cause right now if total is $20 and user click on $100 its storing as $100 in payment table which is wrong and will messed up whole reporting so need to manage here.
+  //   if (paymentAmount > this.dueAmountForTransaction) {
+  //     this.paymentDto.credit = this.dueAmountForTransaction;
+  //   }
+  //   else {
+  //     this.paymentDto.credit = paymentAmount;
+  //   }
+  // }
+  // this.paymentObjectForPaymentSellTable.push({ 'paymentType': 'Credit', 'paymentAmount': paymentAmount })
+  // this.validatePaymentButtons(paymentAmount);
 
-    //   this.validatePaymentButtons(paymentAmount);
+  // else if (paymentType == 'Debit') {
+  //   if (null != this.paymentDto && this.paymentDto.debit > 0) {
+  //     this.paymentDto.debit = +this.paymentDto.debit + paymentAmount;
+  //   }
+  //   else {
+  //     // I need to do this, cause right now if total is $20 and user click on $100 its storing as $100 in payment table which is wrong and will messed up whole reporting so need to manage here.
+  //     if (paymentAmount > this.dueAmountForTransaction) {
+  //       this.paymentDto.debit = this.dueAmountForTransaction;
+  //     }
+  //     else {
+  //       this.paymentDto.debit = paymentAmount;
+  //     }
+  //   }
+  //   this.paymentObjectForPaymentSellTable.push({ 'paymentType': 'Debit', 'paymentAmount': paymentAmount })
 
-    // }
-    // else if (paymentType == 'Check') {
-    //   if (null != this.paymentDto && this.paymentDto.checkAmount > 0) {
-    //     this.paymentDto.checkAmount = +this.paymentDto.checkAmount + paymentAmount;
-    //   }
-    //   else {
-    //     // I need to do this, cause right now if total is $20 and user click on $100 its storing as $100 in payment table which is wrong and will messed up whole reporting so need to manage here.
-    //     if (paymentAmount > this.dueAmountForTransaction) {
-    //       this.paymentDto.checkAmount = this.dueAmountForTransaction;
-    //     }
-    //     else {
-    //       this.paymentDto.checkAmount = paymentAmount;
-    //     }
-    //   }
-    //   this.paymentObjectForPaymentSellTable.push({ 'paymentType': 'Check', 'paymentAmount': paymentAmount })
+  //   this.validatePaymentButtons(paymentAmount);
 
-    //   this.validatePaymentButtons(paymentAmount);
-    // }
-    // else if (paymentType == 'StoreCredit') {
+  // }
+  // else if (paymentType == 'Check') {
+  //   if (null != this.paymentDto && this.paymentDto.checkAmount > 0) {
+  //     this.paymentDto.checkAmount = +this.paymentDto.checkAmount + paymentAmount;
+  //   }
+  //   else {
+  //     // I need to do this, cause right now if total is $20 and user click on $100 its storing as $100 in payment table which is wrong and will messed up whole reporting so need to manage here.
+  //     if (paymentAmount > this.dueAmountForTransaction) {
+  //       this.paymentDto.checkAmount = this.dueAmountForTransaction;
+  //     }
+  //     else {
+  //       this.paymentDto.checkAmount = paymentAmount;
+  //     }
+  //   }
+  //   this.paymentObjectForPaymentSellTable.push({ 'paymentType': 'Check', 'paymentAmount': paymentAmount })
 
-    //   // First need to check store credit already there added in payment dao or not, 
-    //   if (null != this.paymentDto && this.paymentDto.storeCredit > 0) {
-    //     if (paymentAmount > this.dueAmountForTransaction) {
-    //       // so By doing this i am just reducing the store credit which is used for this transaction and i can update rest on customer account.
+  //   this.validatePaymentButtons(paymentAmount);
+  // }
+  // else if (paymentType == 'StoreCredit') {
 
-    //       this.paymentDto.storeCredit = +this.paymentDto.storeCredit + this.dueAmountForTransaction;
+  //   // First need to check store credit already there added in payment dao or not, 
+  //   if (null != this.paymentDto && this.paymentDto.storeCredit > 0) {
+  //     if (paymentAmount > this.dueAmountForTransaction) {
+  //       // so By doing this i am just reducing the store credit which is used for this transaction and i can update rest on customer account.
 
-    //       this.paymentObjectForPaymentSellTable.push({ 'paymentType': 'StoreCredit', 'paymentAmount': this.paymentDto.storeCredit });
+  //       this.paymentDto.storeCredit = +this.paymentDto.storeCredit + this.dueAmountForTransaction;
 
-    //       this.validatePaymentButtons(this.paymentDto.storeCredit);
-    //     }
-    //     // Here i am using complete store credit of the customer
-    //     else {
+  //       this.paymentObjectForPaymentSellTable.push({ 'paymentType': 'StoreCredit', 'paymentAmount': this.paymentDto.storeCredit });
 
-    //       this.paymentDto.storeCredit = paymentAmount;
-    //       this.paymentObjectForPaymentSellTable.push({ 'paymentType': 'StoreCredit', 'paymentAmount': this.paymentDto.storeCredit });
-    //       this.validatePaymentButtons(this.paymentDto.storeCredit);
-    //     }
-    //   }
-    //   else {
-    //     if (paymentAmount > this.dueAmountForTransaction) {
-    //       // so By doing this i am just reducing the store credit which is used for this transaction and i can update rest on customer account.
+  //       this.validatePaymentButtons(this.paymentDto.storeCredit);
+  //     }
+  //     // Here i am using complete store credit of the customer
+  //     else {
 
-    //       this.paymentDto.storeCredit = this.dueAmountForTransaction;
+  //       this.paymentDto.storeCredit = paymentAmount;
+  //       this.paymentObjectForPaymentSellTable.push({ 'paymentType': 'StoreCredit', 'paymentAmount': this.paymentDto.storeCredit });
+  //       this.validatePaymentButtons(this.paymentDto.storeCredit);
+  //     }
+  //   }
+  //   else {
+  //     if (paymentAmount > this.dueAmountForTransaction) {
+  //       // so By doing this i am just reducing the store credit which is used for this transaction and i can update rest on customer account.
 
-    //       this.paymentObjectForPaymentSellTable.push({ 'paymentType': 'StoreCredit', 'paymentAmount': this.paymentDto.storeCredit });
+  //       this.paymentDto.storeCredit = this.dueAmountForTransaction;
 
-    //       this.validatePaymentButtons(this.paymentDto.storeCredit);
-    //     }
-    //     // Here i am using complete store credit of the customer
-    //     else {
-    //       this.paymentDto.storeCredit = paymentAmount;
-    //       this.paymentObjectForPaymentSellTable.push({ 'paymentType': 'StoreCredit', 'paymentAmount': this.paymentDto.storeCredit });
-    //       this.validatePaymentButtons(this.paymentDto.storeCredit);
-    //     }
-    //   }
+  //       this.paymentObjectForPaymentSellTable.push({ 'paymentType': 'StoreCredit', 'paymentAmount': this.paymentDto.storeCredit });
 
-    //   // Now I have to handle two scenario
-    //   // Case 1. Store credit can greater then equal to payment amount
-    //   // Case 2. Store credit can less then equal to payment amount
+  //       this.validatePaymentButtons(this.paymentDto.storeCredit);
+  //     }
+  //     // Here i am using complete store credit of the customer
+  //     else {
+  //       this.paymentDto.storeCredit = paymentAmount;
+  //       this.paymentObjectForPaymentSellTable.push({ 'paymentType': 'StoreCredit', 'paymentAmount': this.paymentDto.storeCredit });
+  //       this.validatePaymentButtons(this.paymentDto.storeCredit);
+  //     }
+  //   }
 
-    //   // Case 1: where payment amount is customers store credit because that what i am sending from ui
-    // }
+  //   // Now I have to handle two scenario
+  //   // Case 1. Store credit can greater then equal to payment amount
+  //   // Case 2. Store credit can less then equal to payment amount
+
+  //   // Case 1: where payment amount is customers store credit because that what i am sending from ui
+  // }
 
 
-    // else if (paymentType == 'OnAccount') {
-    //   this.paymentDto.onAccount = paymentAmount;
-    //   this.paymentObjectForPaymentSellTable.push({ 'paymentType': 'OnAccount', 'paymentAmount': paymentAmount });
-    //   // this.validatePaymentButtons(this.paymentDto.onAccount);
-    //   this.disablePaymentButtons = true;
-    //   this.disablePaymentButtonsWithAmount = true;
-    //   // This mean customer has provide sufficient balance.
-    //   this.disableCompleteSaleButton = false;
-    //   this.disableOnAccountButtons = true;
+  // else if (paymentType == 'OnAccount') {
+  //   this.paymentDto.onAccount = paymentAmount;
+  //   this.paymentObjectForPaymentSellTable.push({ 'paymentType': 'OnAccount', 'paymentAmount': paymentAmount });
+  //   // this.validatePaymentButtons(this.paymentDto.onAccount);
+  //   this.disablePaymentButtons = true;
+  //   this.disablePaymentButtonsWithAmount = true;
+  //   // This mean customer has provide sufficient balance.
+  //   this.disableCompleteSaleButton = false;
+  //   this.disableOnAccountButtons = true;
 
-    //   // Here i am blinding disabling store credit cause, it may create so me issue and i will check on delete payment method, wheather customer has store credit or not.
-    //   this.disableStoreCreditButtons = true;
-    // }
-    // else if (paymentType == 'Loyalty') {
-    //   this.paymentDto.loyalty = paymentAmount;
-    // }
+  //   // Here i am blinding disabling store credit cause, it may create so me issue and i will check on delete payment method, wheather customer has store credit or not.
+  //   this.disableStoreCreditButtons = true;
+  // }
+  // else if (paymentType == 'Loyalty') {
+  //   this.paymentDto.loyalty = paymentAmount;
+  // }
 
 
   validatePaymentButtons(paymentAmount: number) {
@@ -832,17 +830,17 @@ export class SaleComponent implements OnInit, AfterViewInit {
     // This mean this customer has some store credit to use so i need to enable store credit button.
     if (this.selectedCustomer) {
       this.disableCompleteSaleButton = false;
-      if(this.selectedCustomer.storeCredit > 0){
-      this.disableStoreCreditButtons = false;
+      if (this.selectedCustomer.storeCredit > 0) {
+        this.disableStoreCreditButtons = false;
+      }
+      else {
+        this.disableStoreCreditButtons = true;
+      }
     }
     else {
-      this.disableStoreCreditButtons = true;
+      this.disableCompleteSaleButton = true;
     }
   }
-  else{
-    this.disableCompleteSaleButton = true;
-  }
-}
 
   // This method helps to take payment when customer is trying to pay for pending invoice.
   setDataForPaymentModelForPendingInvoice(transaction: TransactionDtoList) {
@@ -856,13 +854,13 @@ export class SaleComponent implements OnInit, AfterViewInit {
     this.disablePaymentButtonsWithAmount = false;
 
     this.disableOnAccountButtons = this.selectedCustomer == null;
-      // This mean this customer has some store credit to use so i need to enable store credit button.
-      if (this.selectedCustomer && this.selectedCustomer.storeCredit > 0) {
-        this.disableStoreCreditButtons = false;
-      }
-      else {
-        this.disableStoreCreditButtons = true;
-      }
+    // This mean this customer has some store credit to use so i need to enable store credit button.
+    if (this.selectedCustomer && this.selectedCustomer.storeCredit > 0) {
+      this.disableStoreCreditButtons = false;
+    }
+    else {
+      this.disableStoreCreditButtons = true;
+    }
     this.payAmountTextBox = this.transactionDtoList.transactionBalance;
     this.dueAmountForTransaction = this.transactionDtoList.transactionBalance;
 
@@ -877,15 +875,15 @@ export class SaleComponent implements OnInit, AfterViewInit {
     if (index > -1) {
       this.paymentDaoList.splice(index, 1);
 
-      if(payment.amount > 0){
-        this.dueAmountForTransaction = this.dueAmountForTransaction  +payment.amount;
+      if (payment.amount > 0) {
+        this.dueAmountForTransaction = this.dueAmountForTransaction + payment.amount;
       }
 
 
       // Need to handle this, because i am adding payment type when user click on add payment,
       // So now when user delete the payment type, i need to change the payment object too, and remove the or subtract the payment amount.
       // if (payment.type == 'Cash' && payment.amount > 0) {
-        //this.paymentDto.cash = this.paymentDto.cash - payment.paymentAmount;
+      //this.paymentDto.cash = this.paymentDto.cash - payment.paymentAmount;
       // }
       // if (payment.paymentType == 'Credit' && payment.paymentAmount > 0) {
       //   this.paymentDto.credit = this.paymentDto.credit - payment.paymentAmount;
@@ -910,8 +908,8 @@ export class SaleComponent implements OnInit, AfterViewInit {
     // else{
     // this.dueAmountForTransaction = +payment.paymentAmount + this.dueAmountForTransaction;
     // }
-     // I need to check this after all delete, cause i am disabling it on onaccount blindly, please do not remove from here.
-     if (this.selectedCustomer && this.selectedCustomer.storeCredit > 0) {
+    // I need to check this after all delete, cause i am disabling it on onaccount blindly, please do not remove from here.
+    if (this.selectedCustomer && this.selectedCustomer.storeCredit > 0) {
       this.disableStoreCreditButtons = false;
     }
     else {
@@ -935,7 +933,7 @@ export class SaleComponent implements OnInit, AfterViewInit {
     // this.loadingService.loading = true;
     this.disableCompleteSaleButton = true;
 
-    
+
     let totalLineItemDiscount: number = 0.00
     console.log('sales type', this.saleType);
     // setting customer details
@@ -954,7 +952,7 @@ export class SaleComponent implements OnInit, AfterViewInit {
     // Here I need to fix the problem when customer is just paying the balacne of transaction.
     // So if the transaction has transaction Id then dont send the date just finish the transaction with old date.
     // This means this new transaction
-    if(this.transactionDtoList.transactionComId == undefined){
+    if (this.transactionDtoList.transactionComId == undefined) {
       // seeting current date and time using momemt.
       this.transactionDtoList.date = moment(Date.now()).format('YYYY-MM-DD HH:mm:ss');
     }
@@ -963,11 +961,6 @@ export class SaleComponent implements OnInit, AfterViewInit {
       this.transactionDtoList.date = this.transactionDtoList.originalDate;
       console.log('old transaction', this.transactionDtoList.originalDate);
     }
-
-    // Setting payment dto into transaction dto, because can not send both as @request body from angular..
-    // Always need to pass, latest date so i can handle different payment date for same transaction.
-    //this.paymentDto.date = moment(Date.now()).format('YYYY-MM-DD HH:mm:ss');
-    //this.paymentDao.push(this.paymentDto);
     this.transactionDtoList.paymentDao = this.paymentDaoList;
 
     // this.transactionNotes is bind with the ng model on ui.
@@ -977,32 +970,31 @@ export class SaleComponent implements OnInit, AfterViewInit {
     this.transactionDtoList.username = 'alok@alok.com';
     this.transactionDtoList.transactionLineItemDaoList = this.transactionLineItemDaoList;
 
-        // THIS means customer has over paid, this happens mostly in cash of when customer pay by cash.
+    // THIS means customer has over paid, this happens mostly in cash of when customer pay by cash.
     // So i am setting it as chnage amount.
     if (this.dueAmountForTransaction <= 0) {
       //this.paymentDto.changeForCash = Math.abs(this.dueAmountForTransaction);
 
       // This means customer has paid, complete invoice, it was not here before but now i need to do it after adding logic for pending invoice.
-      this.transactionDtoList.transactionBalance = 0.00
+      this.transactionDtoList.transactionBalance = 0.00;
     }
     // This mean customer has add money on Account or paid perfect price but in both case i need to set transaction balance cause thats how i am handling balance logic in backend.
     else {
       this.transactionDtoList.transactionBalance = this.dueAmountForTransaction;
-
       // This means customer has put this invoice ON ACCOUNT, OR THIS IS PARK SALE, I need to check that logic here.
 
-      if(this.saleType == 'Park'){
+      if (this.saleType == 'Park') {
         console.log('come for park now, so wont process as pending');
       }
       else {
         this.transactionDtoList.status = 'Pending';
         this.saleType = 'Pending';
       }
-    
+
     }
 
-     // Setting TransactionLineItemDetails, I need to here, cause this will give me final transaction status.
-     for (let lineItem of this.transactionLineItemDaoList) {
+    // Setting TransactionLineItemDetails, I need to here, cause this will give me final transaction status.
+    for (let lineItem of this.transactionLineItemDaoList) {
       lineItem.status = this.saleType;
       lineItem.date = this.transactionDtoList.date;
 
@@ -1012,8 +1004,8 @@ export class SaleComponent implements OnInit, AfterViewInit {
         totalLineItemDiscount = + ((lineItem.retail - lineItem.retailWithDiscount) * lineItem.saleQuantity) + totalLineItemDiscount;
       }
     }
-    
-    this.transactionDtoList.totalDiscount = +this.totalTransactionDiscount +totalLineItemDiscount;
+
+    this.transactionDtoList.totalDiscount = +this.totalTransactionDiscount + totalLineItemDiscount;
     // I am doing this to show subtotal without line item discount, so in invoice customer wont get confuse.
     this.transactionDtoList.subtotal = this.transactionDtoList.subtotal + this.transactionDtoList.totalDiscount;
 
@@ -1022,9 +1014,17 @@ export class SaleComponent implements OnInit, AfterViewInit {
       payment.date = this.transactionDtoList.date;
     }
 
+    // This is very important logic to maintain, total due balance in backend.
+    if (null != this.selectedCustomer && this.selectedCustomer != undefined && this.transactionDtoList.status == 'Pending') {
+      this.transactionDtoList.totalBalanceDue =+this.selectedCustomer.balance +this.dueAmountForTransaction;
+    }
+    else {
+      this.transactionDtoList.totalBalanceDue = this.selectedCustomer.balance;
+    }
+
     // NOW MAKING SERVICE CALL TO ADD TRANSACTION AND LINE ITEM DETAILS AND WILL ADD LINE ITEM DETAILS ONLY IF ADD TRANASACTION CALL IS SUCCESS !!!
     this.sellService.addTransactionDetails(this.transactionDtoList)
-    
+
       .subscribe(
         data => {
 
@@ -1130,85 +1130,82 @@ export class SaleComponent implements OnInit, AfterViewInit {
         this.transactionDtoList.parkSale = transaction.parkSale;
         phoneNo = transaction.customerPhoneno;
         console.log('phono', phoneNo);
-        if(phoneNo)
-        {
+        if (phoneNo) {
           this.setCustomerDetailsForParkSale(phoneNo);
         }
-        
+
         this.persit.setProducts(transaction.transactionLineItemDaoList);
         this.transactionLineItemDaoList = this.persit.getProducts() || [];
-        this.setTransactionDtoList();  
+        this.setTransactionDtoList();
       });
   }
 
-  setCustomerDetailsForParkSale(phone: string){
+  setCustomerDetailsForParkSale(phone: string) {
     console.log('insoide test')
     this.customerService.getCustomerDetailsByPhoneNo(phone)
-    .subscribe((customer) => {
-      this.selectedCustomer = customer;
-      console.log('customer details after call', this.selectedCustomer);
-      if (customer && customer.type == 'Business') {
-        console.log('Inside the if for busssiness', this.selectedCustomer);
-        this.taxPercent = 0.00;
-      }
-      this.persit.setCustomerDetailsForSale(this.selectedCustomer);
-      console.log('before set transaction', this.selectedCustomer);
-      this.setTransactionDtoList();
-    });
+      .subscribe((customer) => {
+        this.selectedCustomer = customer;
+        console.log('customer details after call', this.selectedCustomer);
+        if (customer && customer.type == 'Business') {
+          console.log('Inside the if for busssiness', this.selectedCustomer);
+          this.taxPercent = 0.00;
+        }
+        this.persit.setCustomerDetailsForSale(this.selectedCustomer);
+        console.log('before set transaction', this.selectedCustomer);
+        this.setTransactionDtoList();
+      });
 
     console.log('byy test')
 
   }
 
   // This is from customer invoice popup model, Do not delete this.
-  printReceipt(transaction: TransactionDtoList){
-    
+  printReceipt(transaction: TransactionDtoList) {
+
     this.sellService.printReceipt(transaction);
   }
 
-    // This is from customer invoice popup model, Do not delete this.
-  sendEmail(transaction: TransactionDtoList){
+  // This is from customer invoice popup model, Do not delete this.
+  sendEmail(transaction: TransactionDtoList) {
 
-    if(null != transaction && null != transaction.customerPhoneno && transaction.customerPhoneno.length > 0) {
+    if (null != transaction && null != transaction.customerPhoneno && transaction.customerPhoneno.length > 0) {
 
       // Todo need to add sppiner for this so user can wait that email is sending, cuase its taking littel bit more time to send an email.
       this.sellService.sendEmail(transaction.transactionComId)
-      .subscribe((data) =>
-    {
-      //this.loadingServie.loading = true;
-      if(data.text())
-      {
-        //this.loadingServie.loading = false;
-        this.toastr.success('Email Send Sucessfully !!', 'Success!');
-      }
-      console.log('send email response', data.text());
-    },
-    (error) => {
-     // this.loadingServie.loading = false;
-      this.toastr.error('Something goes wrong, not able to send an email now !!', 'Error!');
-      console.log(JSON.stringify(error.json()));
-  });
+        .subscribe((data) => {
+          //this.loadingServie.loading = true;
+          if (data.text()) {
+            //this.loadingServie.loading = false;
+            this.toastr.success('Email Send Sucessfully !!', 'Success!');
+          }
+          console.log('send email response', data.text());
+        },
+          (error) => {
+            // this.loadingServie.loading = false;
+            this.toastr.error('Something goes wrong, not able to send an email now !!', 'Error!');
+            console.log(JSON.stringify(error.json()));
+          });
     }
 
-    else{
+    else {
       this.toastr.error('Can not find email address for transaction !!', 'Error!');
     }
   }
 
   printReciept() {
     this.sellService.printReceipt(this.printTransactionDto);
-         this.clearAllDateAfterTransactionComplete();
-       $('#paymentModel').modal('toggle');
-      }
+    this.clearAllDateAfterTransactionComplete();
+    $('#paymentModel').modal('toggle');
+  }
 
   public getCustomerDetails() {
 
     this.customerService.getCustomerDetails();
     this._subscriptionCustomer = this.customerService.customerListChange
-    .subscribe((cust)=>{
-      this.customerDto = cust;
-      this.customerDto = this.customerDto.slice();
-    });
+      .subscribe((cust) => {
+        this.customerDto = cust;
+        this.customerDto = this.customerDto.slice();
+      });
   }
 
 
@@ -1237,9 +1234,9 @@ export class SaleComponent implements OnInit, AfterViewInit {
     //   return;
     // }
     //   .subscribe((products) => {
-        // console.log(products);
-        this.product = this.filterProduct(query, this.productList);
-      // });
+    // console.log(products);
+    this.product = this.filterProduct(query, this.productList);
+    // });
   }
 
   filterProduct(query, products: Product[]): Product[] {
@@ -1247,7 +1244,7 @@ export class SaleComponent implements OnInit, AfterViewInit {
     for (let i = 0; i < products.length; i++) {
       let p = products[i];
       // if (p.description.toLowerCase().includes(query.toLowerCase()) || p.productNo.includes(query)) {
-        if (p.description.toLowerCase().includes(query.toLowerCase())) {
+      if (p.description.toLowerCase().includes(query.toLowerCase())) {
 
         filtered.push(p);
       }
@@ -1259,9 +1256,9 @@ export class SaleComponent implements OnInit, AfterViewInit {
     let query = event.query;
     // this.customerService.getCustomerDetailsFromBackEnd()
     //   .subscribe((customers) => {
-        // console.log(products);
-        this.filteredCustomer = this.filterCustomer(query,this.customerDto);
-      // });
+    // console.log(products);
+    this.filteredCustomer = this.filterCustomer(query, this.customerDto);
+    // });
   }
 
   filterCustomer(query, customers: Customer[]): Customer[] {
@@ -1277,14 +1274,14 @@ export class SaleComponent implements OnInit, AfterViewInit {
   }
   getProductDetails() {
     this.productService.getProductDetails();
-   this._subscriptionProduct =  this.productService.productListChange.subscribe((product)=>{
+    this._subscriptionProduct = this.productService.productListChange.subscribe((product) => {
       this.productList = product;
       this.productList = this.productList.slice();
     })
   }
-  getAllProductVariant(){
+  getAllProductVariant() {
     this.productService.getAllProductVariant();
-    this._subscriptionProductVariant = this.productService.productVariantListChange.subscribe((variant)=>{
+    this._subscriptionProductVariant = this.productService.productVariantListChange.subscribe((variant) => {
       this.productVariantList = variant;
       this.productPopupVariantList = this.productPopupVariantList.slice();
     })
@@ -1312,10 +1309,10 @@ export class SaleComponent implements OnInit, AfterViewInit {
 
   ngOnDestroy() {
     //prevent memory leak when component destroyed
-     this._subscriptionCustomer.unsubscribe();
-     this._subscriptionProduct.unsubscribe();
-     this._subscriptionProductVariant.unsubscribe();
-   }
+    this._subscriptionCustomer.unsubscribe();
+    this._subscriptionProduct.unsubscribe();
+    this._subscriptionProductVariant.unsubscribe();
+  }
 }
 
 
@@ -1325,7 +1322,7 @@ export class Product {
   // productVariantNo: number;
   description: string;
   categoryId: number;
-  subCategoryId?:number;
+  subCategoryId?: number;
   brandId?: number
   vendorId?: number;
   modelId?: number;
@@ -1359,25 +1356,25 @@ export class Product {
   imeiNo?: any;
   productInventoryDaoList?: ProductInventory[];
   operationType?: string;
-  color?:string;
-  memory?:string;
+  color?: string;
+  memory?: string;
 }
 
 export class ProductVariant {
   productId: number;
   productNo: string;
-  cost?:number;
+  cost?: number;
   retail?: number;
   tier1?: number;
   tier2?: number;
   tier3?: number;
-  quantity?:number;
-  variant1:string;
-  value1:string;
-  variant2?:string;
-  value2?:string;
-  variant3?:string;
-  value3?:string;
+  quantity?: number;
+  variant1: string;
+  value1: string;
+  variant2?: string;
+  value2?: string;
+  variant3?: string;
+  value3?: string;
   createdTimestamp: any;
   operationType?: string;
 
@@ -1385,7 +1382,7 @@ export class ProductVariant {
   // productVariantNo: number;
   description?: string;
   categoryId?: number;
-  subCategoryId?:number;
+  subCategoryId?: number;
   brandId?: number
   vendorId?: number;
   modelId?: number;
@@ -1417,18 +1414,18 @@ export class ProductVariant {
 export interface ProductVariantForm {
   productId: number;
   productNo: string;
-  cost?:number;
+  cost?: number;
   retail?: number;
   tier1?: number;
   tier2?: number;
   tier3?: number;
-  quantity?:number;
-  variant1:ProductVariantDetail;
-  value1:string;
-  variant2?:ProductVariantDetail;
-  value2?:string;
-  variant3?:ProductVariantDetail;
-  value3?:string;
+  quantity?: number;
+  variant1: ProductVariantDetail;
+  value1: string;
+  variant2?: ProductVariantDetail;
+  value2?: string;
+  variant3?: ProductVariantDetail;
+  value3?: string;
   createdTimestamp: any;
   operationType?: string;
 
@@ -1436,7 +1433,7 @@ export interface ProductVariantForm {
   // productVariantNo: number;
   description?: string;
   categoryId?: number;
-  subCategoryId?:number;
+  subCategoryId?: number;
   brandId?: number
   vendorId?: number;
   modelId?: number;
@@ -1463,8 +1460,8 @@ export interface ProductVariantForm {
   taxAmountOnProduct?: number;
   imeiNo?: any;
   productInventoryDaoList?: ProductInventory[];
-  color?:string;
-  memory?:string;
+  color?: string;
+  memory?: string;
 
 
 }
@@ -1476,7 +1473,7 @@ export class VariantInventoryDto {
 }
 export class TransactionLineItemDaoList {
 
-  productId?:number;
+  productId?: number;
   productNo: string;
   // productVariantNo: number;
   cost?: number;
@@ -1527,6 +1524,7 @@ export class TransactionDtoList {
   status: any;
   previousBalance: any;
   transactionBalance: any;
+  totalBalanceDue: number;
   lineItemDiscount: any;
   username: any;
   customerFirstLastName: string;

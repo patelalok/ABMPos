@@ -111,11 +111,11 @@ export class PaymentHistoryComponent implements OnInit {
 
     }
     else if(inputDate == 'This Week'){
-      this.dateDto = this.dateService.getLast7Day();
+      this.dateDto = this.dateService.getCurrentWeek();
       
     }
     else if(inputDate == 'Last Week'){
-      this.dateDto = this.dateService.getLast7Day();
+      this.dateDto = this.dateService.getLastWeek();
       
     }
     else if(inputDate == 'This Month'){

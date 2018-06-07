@@ -21,13 +21,15 @@ export class SalesComponent implements OnInit {
   salesDropdown: string = 'Payment Summary';
   salesSummaryDropdown: string = 'Sales By Year';
   salesSummaryMonthDropdown: string = 'January';
+  salesSummaryWeekDropdown: string = 'This Week';
+  salesSummaryHourDropdown: string = 'Today';
   salesDateDropdown: string = 'Today';
   salesByYearDropdown: string = 'This Year';
   dateTest: string;
   dateDto = new DateDto();
-  pieChartData:  ChartDto[];
-  customDate: FormGroup; 
-  currentDate = new Date(); 
+  pieChartData: ChartDto[];
+  customDate: FormGroup;
+  currentDate = new Date();
 
 
 
@@ -35,173 +37,186 @@ export class SalesComponent implements OnInit {
     domain: ['#337ab7', '#28a745', '#ff6666', '#fd7e14', '#495057', '#A059B5', '#56BAD6']
   };
 
-  constructor(private reportService: ReportService, private dateService: DateService,private fb: FormBuilder) { }
+  constructor(private reportService: ReportService, private dateService: DateService, private fb: FormBuilder) { }
 
   ngOnInit() {
 
     this.getReportDetails();
 
     this.customDate = this.fb.group({
-      'fromDate' : new Date(),
+      'fromDate': new Date(),
       'toDate': new Date()
     });
 
     this.customDate.valueChanges
-    .subscribe((change) => {
-      console.log('Custom Date', change);
-      //this.loadingServie.loading = true;
-      let customDateValues: {toDate: Date, fromDate: Date} = change;
-      this.getSalesDetailsFromCustomDate(moment(customDateValues.fromDate).hour(0).format('YYYY-MM-DD HH:mm:ss'),moment(customDateValues.toDate).hour(23).minute(59).format('YYYY-MM-DD HH:mm:ss'));
-    });
+      .subscribe((change) => {
+        console.log('Custom Date', change);
+        //this.loadingServie.loading = true;
+        let customDateValues: { toDate: Date, fromDate: Date } = change;
+        this.getSalesDetailsFromCustomDate(moment(customDateValues.fromDate).hour(0).format('YYYY-MM-DD HH:mm:ss'), moment(customDateValues.toDate).hour(23).minute(59).format('YYYY-MM-DD HH:mm:ss'));
+      });
 
   }
-  
+
   getReportDetails() {
 
-    if (this.salesDropdown === 'Sales Summary') {
-
-      if (this.salesSummaryDropdown === 'Sales By Year') {
-
-        if (this.salesByYearDropdown === 'This Year') {
-          this.dateDto = this.dateService.getCurrentYear();
-        }
-        else if (this.salesByYearDropdown === 'Last Year') {
-          this.dateDto = this.dateService.getLastYear();
-        }
-        // TODO NEED TO MANAGE LAST 5 and 10 YEARS
-      }
-      else if (this.salesSummaryDropdown === 'Sales By Month') {
-        this.dateDto = this.dateService.getMonthDate(this.salesSummaryMonthDropdown);
-      }
-      else if (this.salesSummaryDropdown === 'Sales By Week') {
-
-      }
-      else if (this.salesSummaryDropdown === 'Sales By Day') {
-        this.dateDto = this.dateService.getCurrentDay();
-      }
-      else if(this.salesSummaryDropdown === 'Sales By Hour') {
-        
-      }
-
-      this.reportService.getSalesSummaryReport(this.salesSummaryDropdown, this.dateDto.startDate, this.dateDto.endDate)
-        .subscribe((summary: SalesSummaryDto[]) => {
-          this.salesSummaryDto = summary;
-          this.getPieChartDetailsForSalesSummary();
-
-        });
+    if (this.salesDropdown == 'Payment Summary') {
+      this.getPaymentSummaryDetails();
     }
-    else if (this.salesDropdown == 'Payment Summary'){
-
-      if (this.salesSummaryDropdown === 'Sales By Year') {
-
-        if (this.salesByYearDropdown === 'This Year') {
-          this.dateDto = this.dateService.getCurrentYear();
-        }
-        else if (this.salesByYearDropdown === 'Last Year') {
-          this.dateDto = this.dateService.getLastYear();
-        }
-        // TODO NEED TO MANAGE LAST 5 and 10 YEARS
-      }
-      else if (this.salesSummaryDropdown === 'Sales By Month') {
-        this.dateDto = this.dateService.getMonthDate(this.salesSummaryMonthDropdown);
-      }
-      else if (this.salesSummaryDropdown === 'Sales By Week') {
-
-      }
-      else if (this.salesSummaryDropdown === 'Sales By Day') {
-        this.dateDto = this.dateService.getCurrentDay();
-      }
-      else if(this.salesSummaryDropdown === 'Sales By Hour') {
-        
-      }
-
-      this.reportService.getPaymentSummaryReport(this.salesSummaryDropdown, this.dateDto.startDate, this.dateDto.endDate)
-        .subscribe((summary: PaymentSummaryDto[]) => {
-          this.paymentSummaryDto = summary;
-          // this.getPieChartDetailsForSalesSummary();
-        });
-
+    else if (this.salesDropdown == 'Sales Summary') {
+      this.getSalesSummaryDetails();
     }
-    else {
-
-      if(this.salesDropdown === 'Sales By Category') {
-        this.dateDto = this.dateService.getDateByInput(this.salesDateDropdown)
-      }
-      else if(this.salesDropdown === 'Sales By Vendor') {
-        this.dateDto = this.dateService.getDateByInput(this.salesDateDropdown)
-      }
-      else if(this.salesDropdown === 'Sales By Brand') {
-        this.dateDto = this.dateService.getDateByInput(this.salesDateDropdown)
-      }
-      else if(this.salesDropdown === 'Sales By Model') {
-        this.dateDto = this.dateService.getDateByInput(this.salesDateDropdown)
-      }
-      else if(this.salesDropdown === 'Sales By Product') {
-        this.dateDto = this.dateService.getDateByInput(this.salesDateDropdown)
-      }
-      else if(this.salesDropdown === 'Sales By Employee') {
-        this.dateDto = this.dateService.getDateByInput(this.salesDateDropdown)
-      }
-      else if(this.salesDropdown === 'Sales By Customer') {
-        this.dateDto = this.dateService.getDateByInput(this.salesDateDropdown)
-      }
-  
-      this.reportService.getSalesDetails(this.salesDropdown, this.dateDto.startDate, this.dateDto.endDate)
-        .subscribe((sales: SalesDto[]) => {
-          this.salesDto = sales;
-          this.getPieChartDetailsForSales();
-        });
-      }
+    else if (this.salesDropdown == 'Sales By Category') {
+      this.dateDto = this.dateService.getDateByInput(this.salesDateDropdown)
+    }
+    else if (this.salesDropdown == 'Sales By Vendor') {
+      this.dateDto = this.dateService.getDateByInput(this.salesDateDropdown)
+    }
+    else if (this.salesDropdown == 'Sales By Brand') {
+      this.dateDto = this.dateService.getDateByInput(this.salesDateDropdown)
+    }
+    else if (this.salesDropdown == 'Sales By Model') {
+      this.dateDto = this.dateService.getDateByInput(this.salesDateDropdown)
+    }
+    else if (this.salesDropdown == 'Sales By Product') {
+      this.dateDto = this.dateService.getDateByInput(this.salesDateDropdown)
+    }
+    else if (this.salesDropdown == 'Sales By Employee') {
+      this.dateDto = this.dateService.getDateByInput(this.salesDateDropdown)
+    }
+    else if (this.salesDropdown == 'Sales By Customer') {
+      this.dateDto = this.dateService.getDateByInput(this.salesDateDropdown)
     }
 
-    getSalesDetailsFromCustomDate(startDate:string, endDate:string){
-
-      this.reportService.getSalesDetails(this.salesDropdown,startDate,endDate)
+    this.reportService.getSalesDetails(this.salesDropdown, this.dateDto.startDate, this.dateDto.endDate)
       .subscribe((sales: SalesDto[]) => {
         this.salesDto = sales;
-        this.getPieChartDetailsForSales();
+        // this.getPieChartDetailsForSales();
       });
+  }
+
+  // This will show Sales summary detials
+  getSalesSummaryDetails() {
+    if (this.salesSummaryDropdown === 'Sales By Year') {
+
+      if (this.salesByYearDropdown === 'This Year') {
+        this.dateDto = this.dateService.getCurrentYear();
+      }
+      else if (this.salesByYearDropdown === 'Last Year') {
+        this.dateDto = this.dateService.getLastYear();
+      }
+      // TODO NEED TO MANAGE LAST 5 and 10 YEARS
+    }
+    else if (this.salesSummaryDropdown === 'Sales By Month') {
+      this.dateDto = this.dateService.getMonthDate(this.salesSummaryMonthDropdown);
+    }
+    else if (this.salesSummaryDropdown === 'Sales By Week') {
+
+    }
+    else if (this.salesSummaryDropdown === 'Sales By Day') {
+      this.dateDto = this.dateService.getCurrentDay();
+    }
+    else if (this.salesSummaryDropdown === 'Sales By Hour') {
+
     }
 
-    getPieChartDetailsForSalesSummary() {
-    console.log('Sales Summary', this.salesSummaryDto);
-    this.pieChartData = null;
-    this.pieChartData = []; 
-    this.salesSummaryDto.forEach((salesSummary) => {
-      this.pieChartData.push({
-        name: salesSummary.name,
-        value: salesSummary.profit
+    this.reportService.getSalesSummaryReport(this.salesSummaryDropdown, this.dateDto.startDate, this.dateDto.endDate)
+      .subscribe((summary: SalesSummaryDto[]) => {
+        this.salesSummaryDto = summary;
+        // this.getPieChartDetailsForSalesSummary();
+
       });
-    });
   }
 
-  getPieChartDetailsForSales() {
-    console.log('Sales Summary', this.salesDto);
-    this.pieChartData = null;
-    this.pieChartData = []; 
-    this.salesDto.forEach((sales) => {
-      this.pieChartData.push({
-        name: sales.name,
-        value: sales.profit
+  // This will show Payment summary detials on page
+  getPaymentSummaryDetails() {
+
+    if (this.salesSummaryDropdown == 'Sales By Year') {
+
+      if (this.salesByYearDropdown == 'This Year') {
+        this.dateDto = this.dateService.getCurrentYear();
+      }
+      else if (this.salesByYearDropdown === 'Last Year') {
+        this.dateDto = this.dateService.getLastYear();
+      }
+      // TODO NEED TO MANAGE LAST 5 and 10 YEARS
+    }
+    else if (this.salesSummaryDropdown == 'Sales By Month') {
+      this.dateDto = this.dateService.getMonthDate(this.salesSummaryMonthDropdown);
+    }
+    else if (this.salesSummaryDropdown == 'Sales By Week') {
+
+      if (this.salesSummaryWeekDropdown == 'This Week') {
+        
+      }
+      else if (this.salesSummaryWeekDropdown == 'Last Week') {
+
+      }
+      else if (this.salesSummaryWeekDropdown == 'Custom') {
+
+      }
+    }
+    else if (this.salesSummaryDropdown === 'Sales By Day') {
+      this.dateDto = this.dateService.getCurrentDay();
+    }
+    else if (this.salesSummaryDropdown === 'Sales By Hour') {
+      this.dateDto = this.dateService.getDateByInput(this.salesSummaryHourDropdown)
+    }
+    this.reportService.getPaymentSummaryReport(this.salesSummaryDropdown, this.dateDto.startDate, this.dateDto.endDate)
+      .subscribe((summary: PaymentSummaryDto[]) => {
+        this.paymentSummaryDto = summary;
+        // this.getPieChartDetailsForSalesSummary();
       });
-    });
   }
 
-  printSalesReportBy() {    
+  getSalesDetailsFromCustomDate(startDate: string, endDate: string) {
+
+    this.reportService.getSalesDetails(this.salesDropdown, startDate, endDate)
+      .subscribe((sales: SalesDto[]) => {
+        this.salesDto = sales;
+        //this.getPieChartDetailsForSales();
+      });
+  }
+
+  // getPieChartDetailsForSalesSummary() {
+  //   console.log('Sales Summary', this.salesSummaryDto);
+  //   this.pieChartData = null;
+  //   this.pieChartData = [];
+  //   this.salesSummaryDto.forEach((salesSummary) => {
+  //     this.pieChartData.push({
+  //       name: salesSummary.name,
+  //       value: salesSummary.profit
+  //     });
+  //   });
+  // }
+
+  // getPieChartDetailsForSales() {
+  //   console.log('Sales Summary', this.salesDto);
+  //   this.pieChartData = null;
+  //   this.pieChartData = [];
+  //   this.salesDto.forEach((sales) => {
+  //     this.pieChartData.push({
+  //       name: sales.name,
+  //       value: sales.profit
+  //     });
+  //   });
+  // }
+
+  printSalesReportBy() {
     this.reportService.printSalesReportPDF(this.salesDropdown, this.dateDto.startDate, this.dateDto.endDate)
       .subscribe((data) => {
         printBlob(data._body);
-        
+
       });
 
 
   }
 
-    // For D3 chart
-    onSelect(event) {
-      console.log(event);
-    }
+  // For D3 chart
+  onSelect(event) {
+    console.log(event);
   }
+}
 
 export class SalesDto {
   name: string;
@@ -226,7 +241,7 @@ export class SalesSummaryDto {
   tax: number;
   discount: number;
   subtotal: number;
-  quantity:number;
+  quantity: number;
   profit: number;
   returns: number;
   transactionBalance: number;
@@ -239,7 +254,7 @@ export class PaymentSummaryDto {
   credit: number;
   debit: number;
   check: number;
-  storeCredit:number;
+  storeCredit: number;
 
 }
 

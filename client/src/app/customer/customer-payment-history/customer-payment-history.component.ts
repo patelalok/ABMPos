@@ -86,7 +86,7 @@ export class CustomerPaymentHistoryComponent implements OnInit {
       this.getCustomerTransactionDetails();
     }
     else if(customerDetailsBy == 'Week'){
-      this.dateDto = this.dateServie.getLast7Day();
+      this.dateDto = this.dateServie.getCurrentWeek();
       this.getCustomerTransactionDetails();
 
     }

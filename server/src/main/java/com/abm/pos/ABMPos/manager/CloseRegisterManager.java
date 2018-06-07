@@ -4,6 +4,7 @@ import com.abm.pos.ABMPos.dao.CloseRegisterDao;
 import com.abm.pos.ABMPos.dao.PaymentDao;
 import com.abm.pos.ABMPos.dao.StoreSetupDao;
 import com.abm.pos.ABMPos.dao.TransactionDao;
+import com.abm.pos.ABMPos.dto.PaymentSummaryDto;
 import com.abm.pos.ABMPos.repository.CloseRegisterRepository;
 import com.abm.pos.ABMPos.repository.PaymentRepository;
 import com.abm.pos.ABMPos.repository.StoreSetupRepository;
@@ -54,6 +55,9 @@ public class CloseRegisterManager {
     @Autowired
     private StoreSetupRepository storeSetupRepository;
 
+    @Autowired
+    private ReportManager reportManager;
+
     public void addCloseRegisterDetails(CloseRegisterDao closeRegisterDao) {
 
         // Blindly deleting close register details for the current day then adding value by user,
@@ -78,17 +82,14 @@ public class CloseRegisterManager {
         CloseRegisterDao closeRegisterDao = new CloseRegisterDao();
 
             // Getting the sum of all payment methods from payment table.
-            PaymentDao paymentDao = getSumOfAllPayments(startDate, endDate);
+            PaymentSummaryDto paymentSummaryDto = getSumOfAllPayments(startDate, endDate);
 
-            if(null != paymentDao)
+            if(null != paymentSummaryDto)
             {
-                //closeRegisterDao.setReportCash(paymentDao.getCash());
-               // closeRegisterDao.setReportCredit(paymentDao.getCredit());
-                //closeRegisterDao.setReportDebit(paymentDao.getDebit());
-               // closeRegisterDao.setReportCheck(paymentDao.getCheckAmount());
-//                closeRegisterDao.setOnAccount(paymentDao.getOnAccount());
-                //closeRegisterDao.setStoreCredit(paymentDao.getStoreCredit());
-               // closeRegisterDao.setLoyalty(paymentDao.getLoyalty());
+                closeRegisterDao.setReportCash(paymentSummaryDto.getCash());
+                closeRegisterDao.setReportCredit(paymentSummaryDto.getCredit());
+                closeRegisterDao.setReportCheck(paymentSummaryDto.getCheck());
+                closeRegisterDao.setStoreCredit(paymentSummaryDto.getStoreCredit());
             }
 
             // Now need get transaction details from transaction table.
@@ -195,33 +196,13 @@ public class CloseRegisterManager {
         return transactionDao;
     }
 
-    private PaymentDao getSumOfAllPayments(String startDate, String endDate) {
+    private PaymentSummaryDto getSumOfAllPayments(String startDate, String endDate) {
 
-        PaymentDao paymentDao = new PaymentDao();
-//        List<Object[]> result =  paymentRepository.sumOfAllPayments(startDate, endDate);
-//
-//        if(result != null) {
-//
-//            for (Object [] j : result) {
-//
-//                if(j[0] != null) {
-//
-//                    for (int i = 0; i <= result.size(); i++) {
-//
-//                      //  paymentDao.setCash(Double.parseDouble(j[0].toString()));
-//                        //paymentDao.setCredit(Double.parseDouble(j[1].toString()));
-//                        //paymentDao.setDebit(Double.parseDouble(j[2].toString()));
-//                        //paymentDao.setCheckAmount(Double.parseDouble(j[3].toString()));
-//                        //paymentDao.setStoreCredit(Double.parseDouble(j[4].toString()));
-////                        paymentDao.setOnAccount(Double.parseDouble(j[5].toString()));
-//                        //paymentDao.setLoyalty(Double.parseDouble(j[5].toString()));
-//
-//                    }
-//                }
-//            }
-//        }
+        PaymentSummaryDto paymentSummaryDto = new PaymentSummaryDto();
 
-        return paymentDao;
+        paymentSummaryDto = reportManager.getDashboardReportByPaymentSummary("Sales By Year", startDate,endDate);
+
+        return paymentSummaryDto;
     }
 
 

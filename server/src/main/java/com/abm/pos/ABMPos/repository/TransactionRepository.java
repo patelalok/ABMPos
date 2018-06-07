@@ -127,7 +127,6 @@ public interface TransactionRepository extends JpaRepository<TransactionDao, Int
             "group by temp.hours", nativeQuery = true)
     List<Object[]> getHourlyPaymentReport(String startDate, String endDate);
 
-
     @Query(value = "SELECT monthname(t.date) as nameOfMonth,\n" +
             "SUM(t.total_amount) totalAmount,             \n" +
             "SUM(t.tax) tax,             \n" +
@@ -137,7 +136,8 @@ public interface TransactionRepository extends JpaRepository<TransactionDao, Int
             "SUM(t.transaction_balance) transactionBalance,             \n" +
             "SUM(t.total_balance_due) totalBalanceDue,             \n" +
             "SUM(t.shipping) shipping,             \n" +
-            "SUM(temp.profit) profit             \n" +
+            "SUM(temp.profit) profit,             \n" +
+            "(SELECT SUM(total_amount) from transaction WHERE status = 'Return' AND (date BETWEEN ?1 AND ?2 )) As totalReturn\n" +
             "FROM transaction t             \n" +
             "INNER JOIN    \n" +
             "(SELECT t.transaction_com_id,\n" +
@@ -148,7 +148,8 @@ public interface TransactionRepository extends JpaRepository<TransactionDao, Int
             "AND (l.status = 'Complete' OR l.status = 'Return' OR l.status = 'Pending') \n" +
             "GROUP BY t.transaction_com_id)             \n" +
             "AS temp  ON temp.transaction_com_id = t.transaction_com_id             \n" +
-            "WHERE date BETWEEN ?1 AND ?2              \n" +
+            "WHERE date BETWEEN ?1 AND ?2 " +
+            "AND (t.status = 'Complete' OR t.status = 'Return' OR t.status = 'Pending')              \n" +
             "GROUP BY nameOfMonth\n" +
             "ORDER BY field(nameOfMonth,'January','February','March','April','May','June','July','August','September','October','November','December')", nativeQuery = true)
     List<Object[]> getYearlySalesReport(String startDate, String endDate);
@@ -161,19 +162,21 @@ public interface TransactionRepository extends JpaRepository<TransactionDao, Int
             "SUM(t.quantity) quantity,             \n" +
             "SUM(t.transaction_balance) transactionBalance,             \n" +
             "SUM(t.total_balance_due) totalBalanceDue,             \n" +
-            "SUM(t.shipping) shipping,             \n" +
-            "SUM(temp.profit) profit             \n" +
+            "SUM(t.shipping) shipping,\n" +
+            "SUM(temp.profit) profit,\n" +
+            "(SELECT SUM(total_amount) from transaction WHERE status = 'Return' AND (date BETWEEN ?1 AND ?2 )) As totalReturn\n" +
             "FROM transaction t             \n" +
             "INNER JOIN    \n" +
             "(SELECT t.transaction_com_id,\n" +
             "SUM((l.retail_with_discount * l.sale_quantity) - (l.cost * l.sale_quantity)) profit             \n" +
             "FROM transaction_line_item l             \n" +
             "INNER JOIN transaction t ON t.transaction_com_id = l.transaction_com_id             \n" +
-            "WHERE l.date BETWEEN ?1  AND ?2            \n" +
+            "WHERE l.date BETWEEN ?1 AND ?2           \n" +
             "AND (l.status = 'Complete' OR l.status = 'Return' OR l.status = 'Pending') \n" +
             "GROUP BY t.transaction_com_id)             \n" +
             "AS temp  ON temp.transaction_com_id = t.transaction_com_id             \n" +
-            "WHERE date BETWEEN ?1  AND ?2            \n" +
+            "WHERE date BETWEEN ?1 AND ?2\n" +
+            "AND (t.status = 'Complete' OR t.status = 'Return' OR t.status = 'Pending')              \n" +
             "GROUP BY dates", nativeQuery = true)
     List<Object[]> getMonthlySalesReport(String startDate, String endDate);
 
@@ -186,7 +189,8 @@ public interface TransactionRepository extends JpaRepository<TransactionDao, Int
             "SUM(t.transaction_balance) transactionBalance,             \n" +
             "SUM(t.total_balance_due) totalBalanceDue,             \n" +
             "SUM(t.shipping) shipping,             \n" +
-            "SUM(temp.profit) profit             \n" +
+            "SUM(temp.profit) profit,             \n" +
+            "(SELECT SUM(total_amount) from transaction WHERE status = 'Return' AND (date BETWEEN ?1 AND ?2 )) As totalReturn\n" +
             "FROM transaction t             \n" +
             "INNER JOIN    \n" +
             "(SELECT t.transaction_com_id,\n" +
@@ -198,6 +202,7 @@ public interface TransactionRepository extends JpaRepository<TransactionDao, Int
             "GROUP BY t.transaction_com_id)             \n" +
             "AS temp  ON temp.transaction_com_id = t.transaction_com_id             \n" +
             "WHERE date BETWEEN ?1 AND ?2              \n" +
+            "AND (t.status = 'Complete' OR t.status = 'Return' OR t.status = 'Pending')              \n" +
             "GROUP BY week(t.date)", nativeQuery = true)
     List<Object[]> getWeeklySalesReport(String startDate, String endDate);
 
@@ -210,7 +215,8 @@ public interface TransactionRepository extends JpaRepository<TransactionDao, Int
             "SUM(t.transaction_balance) transactionBalance,             \n" +
             "SUM(t.total_balance_due) totalBalanceDue,             \n" +
             "SUM(t.shipping) shipping,             \n" +
-            "SUM(temp.profit) profit             \n" +
+            "SUM(temp.profit) profit,             \n" +
+            "(SELECT SUM(total_amount) from transaction WHERE status = 'Return' AND (date BETWEEN ?1 AND ?2 )) As totalReturn\n" +
             "FROM transaction t             \n" +
             "INNER JOIN    \n" +
             "(SELECT t.transaction_com_id,\n" +
@@ -222,6 +228,7 @@ public interface TransactionRepository extends JpaRepository<TransactionDao, Int
             "GROUP BY t.transaction_com_id)             \n" +
             "AS temp  ON temp.transaction_com_id = t.transaction_com_id             \n" +
             "WHERE date BETWEEN ?1 AND ?2            \n" +
+            "AND (t.status = 'Complete' OR t.status = 'Return' OR t.status = 'Pending')              \n" +
             "GROUP BY hours", nativeQuery = true)
     List<Object[]> getHourlySalesReport(String startDate, String endDate);
 

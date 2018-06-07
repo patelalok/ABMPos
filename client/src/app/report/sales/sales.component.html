@@ -61,6 +61,31 @@
 
             </div>
 
+            <div *ngIf="this.salesSummaryDropdown == 'Sales By Week'" class="col-md-2">
+                <select class="form-control" [(ngModel)]="this.salesSummaryWeekDropdown" (change)="this.getReportDetails()">
+                              <option>This Week</option>
+                              <option>Last Week</option>
+                              <option>Custom</option>
+                </select>
+
+            </div>
+            <div *ngIf="this.salesSummaryDropdown == 'Sales By Hour'" class="col-md-2">
+                <select class="form-control" [(ngModel)]="this.salesSummaryHourDropdown" (change)="this.getReportDetails()">
+                    <option>Today</option>
+                    <option>Yesterday</option>
+                    <option>This Week</option>
+                    <option>Last Week</option>
+                    <option>This Month</option>
+                    <option>Last Month</option>
+                    <option>Last 3 Months</option>
+                    <option>Last 6 Months</option>
+                    <option>This Year</option>
+                    <option>Last Year</option>
+                    <option>Custom</option>
+                </select>
+
+            </div>
+
             <div *ngIf="this.salesDropdown != 'Sales Summary' &&  this.salesDropdown != 'Payment Summary' " class="col-md-2">
                 <select class="form-control" [(ngModel)]="this.salesDateDropdown" (change)="this.getReportDetails()">
                   <option>Today</option>
@@ -194,11 +219,11 @@
                             </p-column>
     
                         <!-- TO DO NEED TO FIGURE THIS OUT. -->
-                        <!-- <p-column field="returns" header="Return" [sortable]="true">
+                        <p-column field="returns" header="Return" [sortable]="true">
                             <ng-template let-summary="rowData" pTemplate="body">
                                 {{summary.returns | currency:'USD':'true'}}
                             </ng-template>
-                        </p-column> -->
+                        </p-column>
                          <p-column field="transactionBalance" header="DueBalance">
                             <ng-template let-summary="rowData" pTemplate="body">
                                 {{summary.transactionBalance | currency:'USD':'true'}}

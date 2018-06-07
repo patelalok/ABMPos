@@ -37,7 +37,7 @@ export class PaymentComponent implements OnInit {
 
     this.paymentForm = this.formBuilder.group(
       {
-        'paymentType': ['CASH', [Validators.required]],
+        'paymentType': ['Cash', [Validators.required]],
         'referenceNo': [''],
         'paymentAmount': [0.00, [Validators.required, Validators.pattern('^[0-9-.]+$')]]
       }
@@ -50,7 +50,7 @@ export class PaymentComponent implements OnInit {
         this.getCustomerDetails();
     }
     receiveAmount(){
-
+      
       this.resetPaymentAmount();
 
       this.paymentTextBox = this.paymentForm.get('paymentAmount').value;
@@ -152,6 +152,7 @@ export class PaymentComponent implements OnInit {
     .subscribe(data => {
       if(data){
         this.toastr.success('Payment Recived Succesfully !!', 'Success!');
+        this.clearPage();
       }
       else {
         this.toastr.error('Can Not Process Payment !!', 'Error!');
@@ -165,6 +166,7 @@ export class PaymentComponent implements OnInit {
   }
   }
 
+  
   public getCustomerDetails() {
 
     this.customerService.getCustomerDetails();
@@ -225,6 +227,17 @@ export class PaymentComponent implements OnInit {
     }
     return filtered;
 
+  }
+
+  // On Successfull payment submition.
+  clearPage(){
+    this.selectedCustomer = null;
+    this.paymentTextBox = 0;
+    this.totalBalance = 0;
+    this.openInvoiceList = [];
+    this.paymentForm.reset();
+    this.paymentForm.get('paymentType').setValue('Cash');
+    this.invoiceTableForm.reset();
   }
 
   ngOnDestroy() {

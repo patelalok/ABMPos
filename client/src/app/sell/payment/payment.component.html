@@ -47,12 +47,12 @@
                     </div>
                     <div>
                         <select class="form-control" formControlName="paymentType" (change)="receiveAmount()">
-                        <option selected>CASH</option>
-                        <option>CREDIT</option>
-                        <option>CHECK</option>
+                        <option selected>Cash</option>
+                        <option>Credit</option>
+                        <option>Check</option>
                         <!-- <option>Debit</option> -->
-                        <option>STORE CREDIT</option>
-                        <option>OTHER</option>
+                        <!-- <option>Store Credit</option> -->
+                        <!-- <option>Other</option> -->
                     </select>
                     </div>
 
@@ -108,7 +108,7 @@
                         <td>{{opneInvoice.totalAmount | currency:'USD':'true'}}</td>
                         <td>{{opneInvoice.transactionBalance | currency:'USD':'true'}}</td>
                         <td>
-                            <input type="text" class="form-control" [(ngModel)]="opneInvoice.paymentTableAmount">
+                            <input type="text" class="form-control" [(ngModel)]="opneInvoice.paymentTableAmount" disabled>
                         </td>
                     </tr>
                 </tbody>
@@ -120,7 +120,7 @@
             </div>
 
             <div class="col-md-2">
-                <button mat-raised-button class="btn btn-green" style="width: 100%" (click)="this.submitPayment()">
+                <button mat-raised-button class="btn btn-green" style="width: 100%" (click)="this.submitPayment()" [disabled] = "this.paymentForm.get('paymentAmount').value <= 0 || this.selectedCustomer == null">
                         Save Payment
                     </button>
             </div>

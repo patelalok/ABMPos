@@ -187,25 +187,26 @@ public class TransactionsManager {
             // Here I am handling the logic for the customer price lock where customers price will be saved after every transactions. No matter how is the retail price.
             // Here is the problem though, on return i need to manage this logic on ui, otherwise customer get profited when he does the return.
 
-            if (null != transactionDao.getCustomerPhoneno() && transactionDao.getCustomerPhoneno().length() > 9 && null != transactionDao.getTransactionLineItemDaoList()) {
-                for (TransactionLineItemDao lineItem : transactionDao.getTransactionLineItemDaoList()) {
-
-                    CustomerProductPrice customerProductPrice = new CustomerProductPrice();
-                    CustomerProductPricePK customerProductPricePK = new CustomerProductPricePK();
-
-                    customerProductPricePK.setPhoneNo(transactionDao.getCustomerPhoneno());
-                    customerProductPricePK.setProductNo(lineItem.getProductNo());
-
-                    // Need to do retail with discount, because that is discounted price for customer
-                    customerProductPrice.setRetail(lineItem.getRetailWithDiscount());
-                    customerProductPrice.setCost(lineItem.getCost());
-                    customerProductPrice.setLastUpdatedTimestamp(transactionDao.getDate());
-
-                    customerProductPrice.setCustomerProductPricePK(customerProductPricePK);
-
-                    customerProductPriceRepository.save(customerProductPrice);
-                }
-            }
+            //Do
+//            if (null != transactionDao.getCustomerPhoneno() && transactionDao.getCustomerPhoneno().length() > 9 && null != transactionDao.getTransactionLineItemDaoList()) {
+//                for (TransactionLineItemDao lineItem : transactionDao.getTransactionLineItemDaoList()) {
+//
+//                    CustomerProductPrice customerProductPrice = new CustomerProductPrice();
+//                    CustomerProductPricePK customerProductPricePK = new CustomerProductPricePK();
+//
+//                    customerProductPricePK.setPhoneNo(transactionDao.getCustomerPhoneno());
+//                    customerProductPricePK.setProductNo(lineItem.getProductNo());
+//
+//                    // Need to do retail with discount, because that is discounted price for customer
+//                    customerProductPrice.setRetail(lineItem.getRetailWithDiscount());
+//                    customerProductPrice.setCost(lineItem.getCost());
+//                    customerProductPrice.setLastUpdatedTimestamp(transactionDao.getDate());
+//
+//                    customerProductPrice.setCustomerProductPricePK(customerProductPricePK);
+//
+//                    customerProductPriceRepository.save(customerProductPrice);
+//                }
+//            }
         } else if (transactionDao.getStatus().equalsIgnoreCase("Return") || transactionDao.getStatus().equalsIgnoreCase("Void")) {
 
             // this logic help to, manage regular return and RMI return, cause in RMI return we do not need to insert inventory again.
@@ -353,8 +354,8 @@ public class TransactionsManager {
                 for (ProductInventoryDao productInventoryDao2 : productInventoryDaoList) {
                     totalProduct = totalProduct + productInventoryDao2.getQuantity();
                 }
-                // Now i need to update quantity in product table
-                productRepository.updateQuantityAfterInventoryUpdate(totalProduct, productInventoryDaoList.get(0).getCost(), productInventoryDaoList.get(0).getProductNo());
+                // No need for this now, Now i need to update quantity in product table
+                //productRepository.updateQuantityAfterInventoryUpdate(totalProduct, productInventoryDaoList.get(0).getCost(), productInventoryDaoList.get(0).getProductNo());
             }
         }
     }
@@ -745,12 +746,18 @@ public class TransactionsManager {
             if (null != transactionDao.getStoreSetupDao()) {
                 // Image companyLogo = Image.getInstance("C:\\Users\\MK THE PHONE STORE\\Desktop\\MK LOGO.png");
 
+                try {
+
                 if (null != transactionDao.getStoreSetupDao().getLogo()) {
                     Image companyLogo = Image.getInstance(transactionDao.getStoreSetupDao().getLogo());
                     logo.addElement(companyLogo);
                     logo.setPadding(0);
                     logo.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
                     logo.setBorder(PdfPCell.NO_BORDER);
+                }
+                }
+                catch (Exception e){
+                    System.out.println("Exception ===> Can not find logo for receipt"+e);
                 }
 
             }
@@ -1004,16 +1011,18 @@ public class TransactionsManager {
 
             if (null != transactionDao.getCustomerPhoneno()) {
                 List<Double> totalDueBalance;
-                totalDueBalance = transactionRepository.getTransactionDueAmountByCustomer(transactionDao.getCustomerPhoneno());
 
-                if (null != totalDueBalance && null != totalDueBalance.get(0) && totalDueBalance.get(0) > 0) {
+                // this will give live due amount but this is not what we want so i am commenting this.
+                //totalDueBalance = transactionRepository.getTransactionDueAmountByCustomer(transactionDao.getCustomerPhoneno());
+
+                if ( transactionDao.getTotalBalanceDue() > 0) {
                     Paragraph totalBalanceDueText = new Paragraph("TOTAL BALANCE DUE", FontFactory.getFont(FontFactory.HELVETICA, 14, Font.BOLD));
                     totalBalanceDueText.setAlignment(PdfPCell.ALIGN_LEFT);
 
                     totalBalanceDue.addElement(totalBalanceDueText);
                     totalBalanceDue.setBorder(PdfPCell.NO_BORDER);
 
-                    Paragraph totalBalanceDueAmount1 = new Paragraph("$ " + totalDueBalance.get(0), FontFactory.getFont(FontFactory.HELVETICA, 14, Font.BOLD));
+                    Paragraph totalBalanceDueAmount1 = new Paragraph("$ " + transactionDao.getTotalBalanceDue(), FontFactory.getFont(FontFactory.HELVETICA, 14, Font.BOLD));
                     totalBalanceDueAmount1.setAlignment(PdfPCell.ALIGN_RIGHT);
 
                     totalBalanceDueAmount.addElement(totalBalanceDueAmount1);

@@ -276,11 +276,11 @@ export class ProductTableComponent implements OnInit {
 
     }
     else if (this.productHistoryDropDown == 'This Week') {
-      this.dateDto = this.dateService.getLast7Day();
+      this.dateDto = this.dateService.getCurrentWeek();
 
     }
     else if (this.productHistoryDropDown == 'Last Week') {
-      this.dateDto = this.dateService.getLast7Day();
+      this.dateDto = this.dateService.getLastWeek();
 
     }
     else if (this.productHistoryDropDown == 'This Month') {

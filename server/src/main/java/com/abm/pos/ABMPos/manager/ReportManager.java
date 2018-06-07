@@ -251,6 +251,7 @@ public class ReportManager {
         List<SalesSummaryDto> salesSummaryDtoList = new ArrayList<>();
 
         double totalAmount = 0;
+        double totalReturn = 0;
         double totalTax = 0;
         double totalDiscount = 0;
         double totalSubtotal = 0;
@@ -276,6 +277,7 @@ public class ReportManager {
                     salesSummaryDto.setTotalDueAmount(Double.parseDouble(j[9].toString()));
                     salesSummaryDto.setShipping(Double.parseDouble(j[10].toString()));
                     salesSummaryDto.setProfit(Double.parseDouble(j[11].toString()));
+                    salesSummaryDto.setReturns(Double.parseDouble(j[12].toString()));
 
                 } else {
 
@@ -289,6 +291,8 @@ public class ReportManager {
                     salesSummaryDto.setTotalDueAmount(Double.parseDouble(j[7].toString()));
                     salesSummaryDto.setShipping(Double.parseDouble(j[8].toString()));
                     salesSummaryDto.setProfit(Double.parseDouble(j[9].toString()));
+                    salesSummaryDto.setReturns(Double.parseDouble(j[10].toString()));
+
                 }
 
 
@@ -306,6 +310,7 @@ public class ReportManager {
                 totalDueBalance = +totalDueBalance + sales.getTotalDueAmount();
                 totalShipping = +totalShipping + sales.getShipping();
                 totalProfit = +totalProfit + sales.getProfit();
+                totalReturn = +totalReturn + sales.getReturns();
             }
 
             SalesSummaryDto salesSummaryDto = new SalesSummaryDto();
@@ -320,6 +325,7 @@ public class ReportManager {
             salesSummaryDto.setTotalDueAmount(totalDueBalance);
             salesSummaryDto.setShipping(totalShipping);
             salesSummaryDto.setProfit(totalProfit);
+            salesSummaryDto.setReturns(totalReturn);
 
             salesSummaryDtoList.add(salesSummaryDto);
         }
@@ -866,6 +872,7 @@ public class ReportManager {
                 salesSummaryDto.setReturns(salesSummaryDtoLocal.getReturns());
                 salesSummaryDto.setProfit(salesSummaryDtoLocal.getProfit());
                 salesSummaryDto.setSubtotal(salesSummaryDtoLocal.getSubtotal());
+                salesSummaryDto.setReturns(salesSummaryDtoLocal.getReturns());
             }
 
             salesSummaryDtoFinal.setTax(salesSummaryDto.getTax());
@@ -873,6 +880,7 @@ public class ReportManager {
             salesSummaryDtoFinal.setReturns(salesSummaryDto.getReturns());
             salesSummaryDtoFinal.setProfit(salesSummaryDto.getProfit());
             salesSummaryDtoFinal.setSubtotal(salesSummaryDto.getSubtotal());
+            salesSummaryDtoFinal.setReturns(salesSummaryDto.getReturns());
         }
         return salesSummaryDtoFinal;
     }
