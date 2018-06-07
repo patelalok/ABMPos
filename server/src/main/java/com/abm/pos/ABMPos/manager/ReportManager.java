@@ -44,31 +44,19 @@ import java.util.Properties;
 @Component
 public class ReportManager {
 
+    private final Utility utility;
+    private final ProductInventoryRepository productInventoryRepository;
+    private final ProductRepository productRepository;
+    private final CategoryRepository categoryRepository;
+    private final BrandRepository brandRepository;
+    private final VendorRepository vendorRepository;
+    private final ModelRepository modelRepository;
+    private final TransactionRepository transactionRepository;
+    private final CustomerRepository customerRepository;
+    private final EmployeeRepository employeeRepository;
+    private final StoreSetupRepository storeSetupRepository;
     @Autowired
     private TransactionsManager transactionsManager;
-
-    private final Utility utility;
-
-    private final ProductInventoryRepository productInventoryRepository;
-
-    private final ProductRepository productRepository;
-
-    private final CategoryRepository categoryRepository;
-
-    private final BrandRepository brandRepository;
-
-    private final VendorRepository vendorRepository;
-
-    private final ModelRepository modelRepository;
-
-    private final TransactionRepository transactionRepository;
-
-    private final CustomerRepository customerRepository;
-
-    private final EmployeeRepository employeeRepository;
-
-    private final StoreSetupRepository storeSetupRepository;
-
     @Autowired
     private CustomerManager customerManager;
 
@@ -167,45 +155,45 @@ public class ReportManager {
 
         if (null != paymentReportBy && paymentReportBy.equalsIgnoreCase("Sales By Year")) {
             List<Object[]> result = transactionRepository.getYearlyPaymentReport(startDate, endDate);
-            return setDataForCommonPaymentReport(result);
+            return setDataForCommonPaymentReport(result, false);
         } else if (null != paymentReportBy && paymentReportBy.equalsIgnoreCase("Sales By Month")) {
             List<Object[]> result = transactionRepository.getMonthlyPaymentReport(startDate, endDate);
-            return setDataForCommonPaymentReport(result);
+            return setDataForCommonPaymentReport(result, false);
         } else if (null != paymentReportBy && paymentReportBy.equalsIgnoreCase("Sales By Week")) {
             List<Object[]> result = transactionRepository.getWeeklyPaymentReport(startDate, endDate);
-            return setDataForCommonPaymentReport(result);
+            return setDataForCommonPaymentReport(result, true);
         } else if (null != paymentReportBy && paymentReportBy.equalsIgnoreCase("Sales By Day")) {
             List<Object[]> result = transactionRepository.getMonthlyPaymentReport(startDate, endDate);
-            return setDataForCommonPaymentReport(result);
+            return setDataForCommonPaymentReport(result, false);
         } else if (null != paymentReportBy && paymentReportBy.equalsIgnoreCase("Sales By Hour")) {
             List<Object[]> result = transactionRepository.getHourlyPaymentReport(startDate, endDate);
-            return setDataForCommonPaymentReport(result);
+            return setDataForCommonPaymentReport(result, false);
         }
         return null;
     }
 
     public List<SalesSummaryDto> getReportBySalesSummary(String salesReportBy, String startDate, String endDate) {
 
-        if (null != salesReportBy &&  salesReportBy.equalsIgnoreCase("Sales By Year")) {
+        if (null != salesReportBy && salesReportBy.equalsIgnoreCase("Sales By Year")) {
             List<Object[]> result = transactionRepository.getYearlySalesReport(startDate, endDate);
-            return setDataForCommonSalesReport(result);
+            return setDataForCommonSalesReport(result, false);
         } else if (null != salesReportBy && salesReportBy.equalsIgnoreCase("Sales By Month")) {
             List<Object[]> result = transactionRepository.getMonthlySalesReport(startDate, endDate);
-            return setDataForCommonSalesReport(result);
+            return setDataForCommonSalesReport(result, false);
         } else if (null != salesReportBy && salesReportBy.equalsIgnoreCase("Sales By Week")) {
             List<Object[]> result = transactionRepository.getWeeklySalesReport(startDate, endDate);
-            return setDataForCommonSalesReport(result);
+            return setDataForCommonSalesReport(result, true);
         } else if (null != salesReportBy && salesReportBy.equalsIgnoreCase("Sales By Day")) {
             List<Object[]> result = transactionRepository.getMonthlySalesReport(startDate, endDate);
-            return setDataForCommonSalesReport(result);
+            return setDataForCommonSalesReport(result, false);
         } else if (null != salesReportBy && salesReportBy.equalsIgnoreCase("Sales By Hour")) {
             List<Object[]> result = transactionRepository.getHourlySalesReport(startDate, endDate);
-            return setDataForCommonSalesReport(result);
+            return setDataForCommonSalesReport(result, false);
         }
         return null;
     }
 
-    private List<PaymentSummaryDto> setDataForCommonPaymentReport(List<Object[]> result) {
+    private List<PaymentSummaryDto> setDataForCommonPaymentReport(List<Object[]> result, boolean isWeekly) {
 
         List<PaymentSummaryDto> paymentSummaryDtoList = new ArrayList<>();
 
@@ -218,12 +206,19 @@ public class ReportManager {
             for (Object[] j : result) {
                 PaymentSummaryDto paymentSummaryDto = new PaymentSummaryDto();
 
-                paymentSummaryDto.setName(j[0].toString());
-                paymentSummaryDto.setCash(Double.parseDouble(j[1].toString()));
-                paymentSummaryDto.setCredit(Double.parseDouble(j[2].toString()));
-                paymentSummaryDto.setCheck(Double.parseDouble(j[3].toString()));
-                paymentSummaryDto.setStoreCredit(Double.parseDouble(j[4].toString()));
-
+                if (isWeekly) {
+                    paymentSummaryDto.setName("(" + j[1].toString() + ")" + " to " + "(" + j[2].toString() + ")");
+                    paymentSummaryDto.setCash(Double.parseDouble(j[3].toString()));
+                    paymentSummaryDto.setCredit(Double.parseDouble(j[4].toString()));
+                    paymentSummaryDto.setCheck(Double.parseDouble(j[5].toString()));
+                    paymentSummaryDto.setStoreCredit(Double.parseDouble(j[6].toString()));
+                } else {
+                    paymentSummaryDto.setName(j[0].toString());
+                    paymentSummaryDto.setCash(Double.parseDouble(j[1].toString()));
+                    paymentSummaryDto.setCredit(Double.parseDouble(j[2].toString()));
+                    paymentSummaryDto.setCheck(Double.parseDouble(j[3].toString()));
+                    paymentSummaryDto.setStoreCredit(Double.parseDouble(j[4].toString()));
+                }
                 paymentSummaryDtoList.add(paymentSummaryDto);
             }
 
@@ -251,7 +246,7 @@ public class ReportManager {
 
     }
 
-    private List<SalesSummaryDto> setDataForCommonSalesReport(List<Object[]> result) {
+    private List<SalesSummaryDto> setDataForCommonSalesReport(List<Object[]> result, boolean isWeekly) {
 
         List<SalesSummaryDto> salesSummaryDtoList = new ArrayList<>();
 
@@ -270,16 +265,32 @@ public class ReportManager {
             for (Object[] j : result) {
                 SalesSummaryDto salesSummaryDto = new SalesSummaryDto();
 
-                salesSummaryDto.setName(j[0].toString());
-                salesSummaryDto.setTotalAmount(Double.parseDouble(j[1].toString()));
-                salesSummaryDto.setTax(Double.parseDouble(j[2].toString()));
-                salesSummaryDto.setDiscount(Double.parseDouble(j[3].toString()));
-                salesSummaryDto.setSubtotal(Double.parseDouble(j[4].toString()));
-                salesSummaryDto.setQuantity(Integer.parseInt(j[5].toString()));
-                salesSummaryDto.setTransactionBalance(Double.parseDouble(j[6].toString()));
-                salesSummaryDto.setTotalDueAmount(Double.parseDouble(j[7].toString()));
-                salesSummaryDto.setShipping(Double.parseDouble(j[8].toString()));
-                salesSummaryDto.setProfit(Double.parseDouble(j[9].toString()));
+                if (isWeekly) {
+                    salesSummaryDto.setName("(" + j[1].toString() + ")" + " to " + "(" + j[2].toString() + ")");
+                    salesSummaryDto.setTotalAmount(Double.parseDouble(j[3].toString()));
+                    salesSummaryDto.setTax(Double.parseDouble(j[4].toString()));
+                    salesSummaryDto.setDiscount(Double.parseDouble(j[5].toString()));
+                    salesSummaryDto.setSubtotal(Double.parseDouble(j[6].toString()));
+                    salesSummaryDto.setQuantity(Integer.parseInt(j[7].toString()));
+                    salesSummaryDto.setTransactionBalance(Double.parseDouble(j[8].toString()));
+                    salesSummaryDto.setTotalDueAmount(Double.parseDouble(j[9].toString()));
+                    salesSummaryDto.setShipping(Double.parseDouble(j[10].toString()));
+                    salesSummaryDto.setProfit(Double.parseDouble(j[11].toString()));
+
+                } else {
+
+                    salesSummaryDto.setName(j[0].toString());
+                    salesSummaryDto.setTotalAmount(Double.parseDouble(j[1].toString()));
+                    salesSummaryDto.setTax(Double.parseDouble(j[2].toString()));
+                    salesSummaryDto.setDiscount(Double.parseDouble(j[3].toString()));
+                    salesSummaryDto.setSubtotal(Double.parseDouble(j[4].toString()));
+                    salesSummaryDto.setQuantity(Integer.parseInt(j[5].toString()));
+                    salesSummaryDto.setTransactionBalance(Double.parseDouble(j[6].toString()));
+                    salesSummaryDto.setTotalDueAmount(Double.parseDouble(j[7].toString()));
+                    salesSummaryDto.setShipping(Double.parseDouble(j[8].toString()));
+                    salesSummaryDto.setProfit(Double.parseDouble(j[9].toString()));
+                }
+
 
                 salesSummaryDtoList.add(salesSummaryDto);
             }
@@ -293,9 +304,9 @@ public class ReportManager {
                 totalQuantity = +totalQuantity + sales.getQuantity();
                 totalTransactionBalance = +totalTransactionBalance + sales.getTransactionBalance();
                 totalDueBalance = +totalDueBalance + sales.getTotalDueAmount();
-                totalShipping = +totalShipping +sales.getShipping();
+                totalShipping = +totalShipping + sales.getShipping();
                 totalProfit = +totalProfit + sales.getProfit();
-                }
+            }
 
             SalesSummaryDto salesSummaryDto = new SalesSummaryDto();
 
@@ -849,21 +860,14 @@ public class ReportManager {
 
         if (null != salesSummaryDtoList) {
             for (SalesSummaryDto salesSummaryDtoLocal : salesSummaryDtoList) {
-//                salesSummaryDto.setCash(salesSummaryDtoLocal.getCash());
-//                salesSummaryDto.setCredit(salesSummaryDtoLocal.getCredit());
-//                salesSummaryDto.setDebit(salesSummaryDtoLocal.getDebit());
-//                salesSummaryDto.setCheck(salesSummaryDtoLocal.getCheck());
-//                salesSummaryDto.setTax(salesSummaryDtoLocal.getTax());
-//                salesSummaryDto.setDiscount(salesSummaryDtoLocal.getDiscount());
-//                salesSummaryDto.setReturns(salesSummaryDtoLocal.getReturns());
-//                salesSummaryDto.setProfit(salesSummaryDtoLocal.getProfit());
-//                salesSummaryDto.setSubtotal(salesSummaryDtoLocal.getSubtotal());
+
+                salesSummaryDto.setTax(salesSummaryDtoLocal.getTax());
+                salesSummaryDto.setDiscount(salesSummaryDtoLocal.getDiscount());
+                salesSummaryDto.setReturns(salesSummaryDtoLocal.getReturns());
+                salesSummaryDto.setProfit(salesSummaryDtoLocal.getProfit());
+                salesSummaryDto.setSubtotal(salesSummaryDtoLocal.getSubtotal());
             }
 
-//            salesSummaryDtoFinal.setCash(salesSummaryDto.getCash());
-//            salesSummaryDtoFinal.setCredit(salesSummaryDto.getCredit());
-//            salesSummaryDtoFinal.setDebit(salesSummaryDto.getDebit());
-//            salesSummaryDtoFinal.setCheck(salesSummaryDto.getCheck());
             salesSummaryDtoFinal.setTax(salesSummaryDto.getTax());
             salesSummaryDtoFinal.setDiscount(salesSummaryDto.getDiscount());
             salesSummaryDtoFinal.setReturns(salesSummaryDto.getReturns());
@@ -871,6 +875,35 @@ public class ReportManager {
             salesSummaryDtoFinal.setSubtotal(salesSummaryDto.getSubtotal());
         }
         return salesSummaryDtoFinal;
+    }
+
+    public PaymentSummaryDto getDashboardReportByPaymentSummary(String paymentSummaryReportBy, String startDate, String endDate) {
+
+        List<PaymentSummaryDto> paymentSummaryDtoList = new ArrayList<>();
+        PaymentSummaryDto paymentSummaryDto = new PaymentSummaryDto();
+        PaymentSummaryDto paymentSummaryDtoFinal = new PaymentSummaryDto();
+
+        paymentSummaryDtoList = getReportByPaymentSummary(paymentSummaryReportBy, startDate, endDate);
+
+        if(null !=paymentSummaryDtoList){
+            for(PaymentSummaryDto paymentSummaryDtoLocal : paymentSummaryDtoList){
+
+                paymentSummaryDto.setCash(paymentSummaryDtoLocal.getCash());
+                paymentSummaryDto.setCredit(paymentSummaryDtoLocal.getCredit());
+                paymentSummaryDto.setCheck(paymentSummaryDtoLocal.getCheck());
+                paymentSummaryDto.setStoreCredit(paymentSummaryDtoLocal.getStoreCredit());
+
+            }
+            paymentSummaryDtoFinal.setCash(paymentSummaryDto.getCash());
+            paymentSummaryDtoFinal.setCredit(paymentSummaryDto.getCredit());
+            paymentSummaryDtoFinal.setCheck(paymentSummaryDto.getCheck());
+            paymentSummaryDtoFinal.setStoreCredit(paymentSummaryDto.getStoreCredit());
+
+        }
+
+
+        return paymentSummaryDtoFinal;
+
     }
 
     public List<OpenInvoiceResponse> getOpenInvoice(String startDate, String endDate) {
@@ -1095,23 +1128,21 @@ public class ReportManager {
 
     public List<CustomerStatementDto> getCustomerStatement(String startDate, String endDate, String phoneNo) {
 
-        List<Object[]> result = transactionRepository.getCustomerStatement(startDate,endDate,phoneNo);
+        List<Object[]> result = transactionRepository.getCustomerStatement(startDate, endDate, phoneNo);
         List<CustomerStatementDto> customerStatementDtoList = new ArrayList<>();
 
-        if(null != result)
-        {
-            for(Object[] j: result)
-            {
+        if (null != result) {
+            for (Object[] j : result) {
                 CustomerStatementDto customerStatementDto = new CustomerStatementDto();
 
                 // This mean this transaction has payment as well as transaction, so i need to add two entries for this transaction
-                if(null != j[2]){
-                    setPaymentDetailsToStatement(j,customerStatementDtoList);
+                if (null != j[2]) {
+                    setPaymentDetailsToStatement(j, customerStatementDtoList);
                 }
 
                 //customerStatementDto.setTransactionComId(Integer.parseInt(j[0].toString()));
                 customerStatementDto.setDate(j[1].toString());
-                customerStatementDto.setDescription("Invoice"+ "(# "+ j[0].toString() +")");
+                customerStatementDto.setDescription("Invoice" + "(# " + j[0].toString() + ")");
                 customerStatementDto.setTransactionAmount(Double.parseDouble(j[3].toString()));
 //                customerStatementDto.setTransactionBalance(Double.parseDouble(j[4].toString()));
                 customerStatementDto.setTotalDueAmount(Double.parseDouble(j[7].toString()));
@@ -1130,7 +1161,7 @@ public class ReportManager {
 
         // This is payment date in query
         customerStatementDto.setDate(j[2].toString());
-        customerStatementDto.setDescription("Payment"+ "("+ j[5].toString() +")");
+        customerStatementDto.setDescription("Payment" + "(" + j[5].toString() + ")");
         customerStatementDto.setTransactionAmount(Double.parseDouble(j[4].toString()));
         customerStatementDto.setTotalDueAmount(Double.parseDouble(j[7].toString()));
 
@@ -1154,7 +1185,7 @@ public class ReportManager {
 
         if (null != customerStatementDtoList) {
 
-            printCustomerStatementDetails(doc, startDate, endDate, phoneNo,customerStatementDtoList);
+            printCustomerStatementDetails(doc, startDate, endDate, phoneNo, customerStatementDtoList);
 
             //printOpenInvoiceDetails(doc, openInvoiceResponseList);
         }
@@ -1182,13 +1213,12 @@ public class ReportManager {
 
         StoreSetupDao storeSetupDao = storeSetupRepository.getOne(1);
 
-        if(null != storeSetupDao)
-        {
-            if(null != storeSetupDao.getLogo()){
+        if (null != storeSetupDao) {
+            if (null != storeSetupDao.getLogo()) {
 
-                try{
+                try {
                     Image companyLogo = Image.getInstance(storeSetupDao.getLogo());
-                    if(null != companyLogo){
+                    if (null != companyLogo) {
 
                         companyLogo.setWidthPercentage(50);
                         logo.addElement(companyLogo);
@@ -1197,11 +1227,10 @@ public class ReportManager {
                         logo.setBorder(PdfPCell.NO_BORDER);
 
                         storeTable.addCell(logo);
-                }
+                    }
 
-                }
-                catch (Exception e){
-                    System.out.println("Not able to find image in db === >"+e);
+                } catch (Exception e) {
+                    System.out.println("Not able to find image in db === >" + e);
                 }
 
 
@@ -1256,7 +1285,7 @@ public class ReportManager {
 
         }
 
-        if(null !=customerStatementDtoList) {
+        if (null != customerStatementDtoList) {
             statementTable.setHeaderRows(1);
             statementTable.setWidths(new float[]{2f, 2f, 4f, 2f, 2f});
             statementTable.setSpacingBefore(15);
@@ -1331,8 +1360,6 @@ public class ReportManager {
             statementTable.addCell(headerCell);
 
 
-
-
 //            headerCell.addElement(new Phrase(tableHeader, FontFactory.getFont(FontFactory.HELVETICA, 10, Font.BOLD)));
 //            headerCell.setHorizontalAlignment(Element.ALIGN_CENTER);
 //            headerCell.setVerticalAlignment(Element.ALIGN_MIDDLE);
@@ -1344,118 +1371,118 @@ public class ReportManager {
     }
 
     public List<TransactionDao> getAllPendingInvoiceByCustomer(String startDate, String endDate, String phoneNo) {
-        return transactionRepository.findAllByCustomerPhonenoAndStatusAndDateBetweenOrderByDateAsc(phoneNo, "Pending",startDate,endDate);
+        return transactionRepository.findAllByCustomerPhonenoAndStatusAndDateBetweenOrderByDateAsc(phoneNo, "Pending", startDate, endDate);
 
     }
 
     public boolean emailCustomerStatement(String startDate, String endDate, String phoneNo) {
 
-            //TransactionDao transactionDao = getTransactionById(receiptId);
-            boolean response = false;
-            if (null != phoneNo && phoneNo.length() > 1) {
-                //First get customer details to send an email.
-                CustomerDao customerDao;
-                customerDao = customerRepository.findByPhoneNo(phoneNo);
-                StoreSetupDao storeSetupDao = storeSetupRepository.findOne(1);
+        //TransactionDao transactionDao = getTransactionById(receiptId);
+        boolean response = false;
+        if (null != phoneNo && phoneNo.length() > 1) {
+            //First get customer details to send an email.
+            CustomerDao customerDao;
+            customerDao = customerRepository.findByPhoneNo(phoneNo);
+            StoreSetupDao storeSetupDao = storeSetupRepository.findOne(1);
 
-                if (null != customerDao && null != customerDao.getEmail() && null != storeSetupDao && null != storeSetupDao.getEmail() && null != storeSetupDao.getEmailPassword()) {
+            if (null != customerDao && null != customerDao.getEmail() && null != storeSetupDao && null != storeSetupDao.getEmail() && null != storeSetupDao.getEmailPassword()) {
 
-                    String from = storeSetupDao.getEmail();
-                    String to = customerDao.getEmail();
+                String from = storeSetupDao.getEmail();
+                String to = customerDao.getEmail();
 
-                    String newline = System.getProperty("line.separator");
-                    String content = "Dear " + customerDao.getName() + newline
-                            + newline
-                            + newline
-                            + "Please find attachment for your payment statement details."
-                            + newline
-                            + newline
-                            + newline
-                            + newline
-                            + "Thank You" + newline
-                            + storeSetupDao.getName();
+                String newline = System.getProperty("line.separator");
+                String content = "Dear " + customerDao.getName() + newline
+                        + newline
+                        + newline
+                        + "Please find attachment for your payment statement details."
+                        + newline
+                        + newline
+                        + newline
+                        + newline
+                        + "Thank You" + newline
+                        + storeSetupDao.getName();
 
 
-                    String subject = storeSetupDao.getName() + " PAYMENT STATEMENT";
-                    final String password = storeSetupDao.getEmailPassword();
+                String subject = storeSetupDao.getName() + " PAYMENT STATEMENT";
+                final String password = storeSetupDao.getEmailPassword();
 
-                    Properties props = new Properties();
-                    props.setProperty("mail.transport.protocol", "smtp");
-                    props.setProperty("mail.host", "smtp.gmail.com");
-                    props.put("mail.smtp.auth", "true");
-                    props.put("mail.smtp.port", "465");
-                    props.put("mail.debug", "true");
-                    props.put("mail.smtp.socketFactory.port", "465");
-                    props.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
-                    props.put("mail.smtp.socketFactory.fallback", "false");
-                    Session session = Session.getDefaultInstance(props,
-                            new javax.mail.Authenticator() {
-                                protected PasswordAuthentication getPasswordAuthentication() {
-                                    return new PasswordAuthentication(from, password);
-                                }
-                            });
-                    ByteArrayOutputStream outputStream = null;
-
-                    try {
-                        //construct the text body part
-                        MimeBodyPart textBodyPart = new MimeBodyPart();
-                        textBodyPart.setText(content);
-
-                        //now write the PDF content to the output stream
-                        outputStream = new ByteArrayOutputStream();
-                        byte[] bytes = printCustomerStatement(startDate,endDate,phoneNo);
-
-                        //construct the pdf body part
-                        DataSource dataSource = new ByteArrayDataSource(bytes, "application/pdf");
-                        MimeBodyPart pdfBodyPart = new MimeBodyPart();
-                        pdfBodyPart.setDataHandler(new DataHandler(dataSource));
-                        pdfBodyPart.setFileName("PaymentStatement.pdf");
-
-                        //construct the mime multi part
-                        MimeMultipart mimeMultipart = new MimeMultipart();
-                        mimeMultipart.addBodyPart(textBodyPart);
-                        mimeMultipart.addBodyPart(pdfBodyPart);
-
-                        Transport transport = session.getTransport();
-                        InternetAddress addressFrom = new InternetAddress(from);
-
-                        MimeMessage message = new MimeMessage(session);
-
-                        message.setSender(addressFrom);
-                        message.setSubject(subject);
-                        message.setContent(mimeMultipart);
-                        message.addRecipient(Message.RecipientType.TO, new InternetAddress(to));
-
-                        transport.connect();
-                        Transport.send(message);
-                        transport.close();
-                        response = true;
-
-                        System.out.println("sent from " + to +
-                                ", to " + to +
-                                "; server = " + from + ", port = " + from);
-                    } catch (Exception ex) {
-                        ex.printStackTrace();
-                        response = false;
-                    } finally {
-                        //clean off
-                        if (null != outputStream) {
-                            try {
-                                outputStream.close();
-                                outputStream = null;
-                            } catch (Exception ex) {
-                                response = false;
+                Properties props = new Properties();
+                props.setProperty("mail.transport.protocol", "smtp");
+                props.setProperty("mail.host", "smtp.gmail.com");
+                props.put("mail.smtp.auth", "true");
+                props.put("mail.smtp.port", "465");
+                props.put("mail.debug", "true");
+                props.put("mail.smtp.socketFactory.port", "465");
+                props.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
+                props.put("mail.smtp.socketFactory.fallback", "false");
+                Session session = Session.getDefaultInstance(props,
+                        new javax.mail.Authenticator() {
+                            protected PasswordAuthentication getPasswordAuthentication() {
+                                return new PasswordAuthentication(from, password);
                             }
+                        });
+                ByteArrayOutputStream outputStream = null;
+
+                try {
+                    //construct the text body part
+                    MimeBodyPart textBodyPart = new MimeBodyPart();
+                    textBodyPart.setText(content);
+
+                    //now write the PDF content to the output stream
+                    outputStream = new ByteArrayOutputStream();
+                    byte[] bytes = printCustomerStatement(startDate, endDate, phoneNo);
+
+                    //construct the pdf body part
+                    DataSource dataSource = new ByteArrayDataSource(bytes, "application/pdf");
+                    MimeBodyPart pdfBodyPart = new MimeBodyPart();
+                    pdfBodyPart.setDataHandler(new DataHandler(dataSource));
+                    pdfBodyPart.setFileName("PaymentStatement.pdf");
+
+                    //construct the mime multi part
+                    MimeMultipart mimeMultipart = new MimeMultipart();
+                    mimeMultipart.addBodyPart(textBodyPart);
+                    mimeMultipart.addBodyPart(pdfBodyPart);
+
+                    Transport transport = session.getTransport();
+                    InternetAddress addressFrom = new InternetAddress(from);
+
+                    MimeMessage message = new MimeMessage(session);
+
+                    message.setSender(addressFrom);
+                    message.setSubject(subject);
+                    message.setContent(mimeMultipart);
+                    message.addRecipient(Message.RecipientType.TO, new InternetAddress(to));
+
+                    transport.connect();
+                    Transport.send(message);
+                    transport.close();
+                    response = true;
+
+                    System.out.println("sent from " + to +
+                            ", to " + to +
+                            "; server = " + from + ", port = " + from);
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                    response = false;
+                } finally {
+                    //clean off
+                    if (null != outputStream) {
+                        try {
+                            outputStream.close();
+                            outputStream = null;
+                        } catch (Exception ex) {
+                            response = false;
                         }
                     }
-
                 }
 
             }
 
-            return response;
-
         }
 
+        return response;
+
     }
+
+}
 

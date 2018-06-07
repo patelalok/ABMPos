@@ -42,6 +42,11 @@ export class ReportService {
         .map(this.extractData)
         .catch(this.handleError);
       }
+      getDashboardPaymentSummaryReport(paymentSummaryReportBy: string, startDate: string, endDate: string): Observable<PaymentSummaryDto> {
+        return this.http.get(this.url+'/getDashboardReportByPaymentSummary?paymentSummaryReportBy=' + paymentSummaryReportBy+'&startDate='+startDate+'&endDate='+endDate)
+        .map(this.extractData)
+        .catch(this.handleError);
+      }
       getTop50SellingProductList(productReportType:string, startDate:string, endDate:string): Observable<Product[]> {
         return this.http.get(this.url+'/getTop50SellingItem?productReportType=' + productReportType+'&startDate='+startDate+'&endDate='+endDate)
         .map(this.extractData)

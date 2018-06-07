@@ -32,17 +32,19 @@ public class ProductDao implements Serializable {
     private String modelId;
     private String alternetNo;
 
+    @Transient
     private double cost;
+    @Transient
     private double retail;
-
     @Transient
     private double tier1;
     @Transient
     private double tier2;
     @Transient
     private double tier3;
-
+    @Transient
     private int quantity;
+    @Transient
     private int minQuantity;
 
     //this is just to send as 1 when we sell the product default

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ReportService } from 'app/report/report.service';
-import { SalesDto, SalesSummaryDto } from 'app/report/sales/sales.component';
+import { SalesDto, SalesSummaryDto, PaymentSummaryDto } from 'app/report/sales/sales.component';
 import { ChartDto } from 'app/report/inventory/inventory.component';
 import { MatTableDataSource } from '@angular/material';
 import { Product } from 'app/sell/sale/sale.component';
@@ -13,7 +13,8 @@ import { DateService, DateDto } from '../shared/services/date.service';
 })
 export class DashboardComponent implements OnInit {
 
-  salesSummaryDto = new SalesSummaryDto()
+  salesSummaryDto = new SalesSummaryDto();
+  paymentSummaryDto = new PaymentSummaryDto();
   numberCardChartData:  ChartDto[] =[];
   categoryPieChartData: ChartDto[]=[];
   salesDto: SalesDto[] = [];
@@ -47,13 +48,20 @@ colorScheme = {
   }
 
   getSaleSummaryDetails(startDate: string, endDate:string){
-
     this.reportService.getDashboardSalesSummaryReport('Sales By Year', startDate, endDate)
         .subscribe((sales: SalesSummaryDto) => {
           this.salesSummaryDto = sales;
           this.getNumberCardDetailsForSales();
         });
   }
+  getPaymentSummaryDetails(startDate: string, endDate:string){
+    this.reportService.getDashboardPaymentSummaryReport('Sales By Year', startDate, endDate)
+    .subscribe((payment: PaymentSummaryDto) => {
+      this.paymentSummaryDto = payment;
+      this.getNumberCardDetailsForSales();
+    });
+  }
+  
 
   getSalesByCategoryDetails(startDate: string, endDate:string){
     this.reportService.getSalesDetails('Sales By Category', startDate, endDate)
@@ -92,6 +100,7 @@ colorScheme = {
 
     this.getTop50SellingProductList(this.dateDto.startDate, this.dateDto.endDate);
     this.getSaleSummaryDetails(this.dateDto.startDate, this.dateDto.endDate);
+    this.getPaymentSummaryDetails(this.dateDto.startDate, this.dateDto.endDate)
     this.getSalesByCategoryDetails(this.dateDto.startDate, this.dateDto.endDate);
   }
 
@@ -101,10 +110,10 @@ colorScheme = {
     this.numberCardChartData = null;
     this.numberCardChartData = []; 
     this.numberCardChartData.push(
-      // {name: 'Cash',value: this.salesSummaryDto.cash} ,
-      // {name: 'Credit',value: this.salesSummaryDto.credit},
-      // {name: 'Debit',value: this.salesSummaryDto.debit},
-      // {name: 'Check',value: this.salesSummaryDto.check},
+      {name: 'Cash',value: this.paymentSummaryDto.cash} ,
+      {name: 'Credit',value: this.paymentSummaryDto.credit},
+      {name: 'Check',value: this.paymentSummaryDto.check},
+      {name: 'Store Credit',value: this.paymentSummaryDto.storeCredit},
       {name: 'Tax',value: this.salesSummaryDto.tax},
       {name: 'Discount',value: this.salesSummaryDto.discount},
       {name: 'Return',value: this.salesSummaryDto.returns},

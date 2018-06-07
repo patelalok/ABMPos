@@ -22,7 +22,7 @@
                 </select>
             </div>
 
-            <div *ngIf="this.salesDropdown == 'Sales Summary'" class="col-md-2">
+            <div *ngIf="this.salesDropdown == 'Sales Summary' || this.salesDropdown == 'Payment Summary' " class="col-md-2">
                 <select class="form-control" [(ngModel)]="this.salesSummaryDropdown" (change)="this.getReportDetails()">
                           <option>Sales By Year</option>
                           <option>Sales By Month</option>
@@ -33,7 +33,7 @@
 
             </div>
 
-            <div *ngIf="this.salesDropdown == 'Sales Summary' && this.salesSummaryDropdown == 'Sales By Year'" class="col-md-2">
+            <div *ngIf="(this.salesDropdown == 'Sales Summary' || this.salesDropdown == 'Payment Summary') && this.salesSummaryDropdown == 'Sales By Year'" class="col-md-2">
                 <select class="form-control" [(ngModel)]="this.salesByYearDropdown" (change)="this.getReportDetails()">
                               <option>This Year</option>
                               <option>Last Year</option>
@@ -61,7 +61,7 @@
 
             </div>
 
-            <div *ngIf="this.salesDropdown != 'Sales Summary' " class="col-md-2">
+            <div *ngIf="this.salesDropdown != 'Sales Summary' &&  this.salesDropdown != 'Payment Summary' " class="col-md-2">
                 <select class="form-control" [(ngModel)]="this.salesDateDropdown" (change)="this.getReportDetails()">
                   <option>Today</option>
                   <option>Yesterday</option>
