@@ -667,193 +667,246 @@ public class ReportManager {
 
     }
 
-    public byte[] printReportBySalesSummary(String salesSummaryReportBy, String startDate, String endDate) throws DocumentException {
+    public byte[] printReportBySalesSummary(String salesSummaryReportBy, String salesSummaryReportType, String startDate, String endDate) throws DocumentException {
 
         Document doc = new Document(PageSize.A4);
         initializeFonts();
-
-
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-
         PdfWriter writer = PdfWriter.getInstance(doc, byteArrayOutputStream);
-
-        List<SalesDto> salesDtoList = new ArrayList<>();
-
-        salesDtoList = getReportBySales(salesSummaryReportBy, startDate, endDate);
-
         doc.open();
-
         PdfContentByte cb = writer.getDirectContent();
 
-        boolean beginPage = true;
-        int y = 0;
 
-        if (null != salesDtoList) {
-            for (int i = 0; i < salesDtoList.size(); i++) {
-                if (beginPage) {
-                    beginPage = false;
-                    generateLayout(doc, cb, salesSummaryReportBy);
-                    generateHeader(doc, cb, startDate, endDate);
-                    y = 570;
-                }
-                generateDetail(doc, cb, i, y, salesDtoList);
-                y = y - 40;
-                if (y < 60) {
-                    printPageNumber(cb);
-                    doc.newPage();
-                    beginPage = true;
-                }
+        if (null != salesSummaryReportBy && salesSummaryReportBy.equalsIgnoreCase("Payment Summary")) {
+            List<PaymentSummaryDto> paymentSummaryDtoList = getReportByPaymentSummary(salesSummaryReportType, startDate, endDate);
+
+            if (null != paymentSummaryDtoList) {
+                printStoreDetails(doc, startDate, endDate, "Payment Summary Report");
+                printPaymentSummaryReport(doc, paymentSummaryDtoList);
             }
+        } else if (null != salesSummaryReportBy && salesSummaryReportBy.equalsIgnoreCase("Sales Summary")) {
+            List<SalesSummaryDto> salesSummaryDtoList = getReportBySalesSummary(salesSummaryReportType, startDate, endDate);
+            if (null != salesSummaryDtoList) {
+                printStoreDetails(doc, startDate, endDate, "Sales Summary Report");
+                printSalesSummaryReport(doc, salesSummaryDtoList);
+            }
+        } else {
+
+            List<SalesDto> salesDtoList = getReportBySales(salesSummaryReportBy, startDate, endDate);
+            if (null != salesDtoList) {
+                printStoreDetails(doc, startDate, endDate, salesSummaryReportBy+" Report");
+
+                printSalesSummaryReportByOtherType(doc, salesDtoList);
+            }
+
         }
-
-        printPageNumber(cb);
-
         doc.close();
 
-        byte[] pdfDataBytes = byteArrayOutputStream.toByteArray();
+        return byteArrayOutputStream.toByteArray();
 
 
-        return pdfDataBytes;
+//
+//        doc.open();
+//
+//        PdfContentByte cb = writer.getDirectContent();
+//
+//        boolean beginPage = true;
+//        int y = 0;
+
+//        if (null != salesDtoList) {
+//            for (int i = 0; i < salesDtoList.size(); i++) {
+//                if (beginPage) {
+//                    beginPage = false;
+//                    generateLayout(doc, cb, salesSummaryReportBy);
+//                    generateHeader(doc, cb, startDate, endDate);
+//                    y = 570;
+//                }
+//                generateDetail(doc, cb, i, y, salesDtoList);
+//                y = y - 40;
+//                if (y < 60) {
+//                    printPageNumber(cb);
+//                    doc.newPage();
+//                    beginPage = true;
+//                }
+//            }
+//        }
+//
+//        printPageNumber(cb);
+//
+//        doc.close();
+//
+//        byte[] pdfDataBytes = byteArrayOutputStream.toByteArray();
+//
+//
+//        return pdfDataBytes;
 
 
     }
 
-    private void generateLayout(Document doc, PdfContentByte cb, String reportName) {
+    // This will print report by CATEGORY, BRAND AND ALL.
+    private void printSalesSummaryReportByOtherType(Document doc, List<SalesDto> salesDtoList) throws DocumentException {
 
-        try {
+        PdfPTable mainTable = new PdfPTable(4);
+        String[] mainTableHeader = new String[]{"NAME", "TOTAL AMOUNT","QUANTITY","DISCOUNT"};
+        mainTable.setWidthPercentage(100);
 
-            cb.setLineWidth(1f);
+        // This will print table header only
+        mainTable.setHeaderRows(1);
+        mainTable.setWidths(new float[]{4,3,2,2});
+        mainTable.setSpacingBefore(3);
+        mainTable.setSplitLate(false);
 
+        printTableHeader(mainTable, mainTableHeader);
 
-            // Invoice Detail box layout
-            cb.rectangle(20, 50, 550, 580);
-            cb.moveTo(20, 590);
-            cb.lineTo(570, 590);
-//            cb.moveTo(50, 50);
-//            cb.lineTo(50, 650);
-//            cb.moveTo(150, 50);
-//            cb.lineTo(150, 650);
-//            cb.moveTo(430, 50);
-//            cb.lineTo(430, 650);
-//            cb.moveTo(500, 50);
-//            cb.lineTo(500, 650);
-            cb.stroke();
+        for (SalesDto salesDto : salesDtoList) {
 
-            // Invoice Detail box Text Headings
+            PdfPCell cell1 = new PdfPCell();
+            PdfPCell cell2 = new PdfPCell();
+            PdfPCell cell3 = new PdfPCell();
+            PdfPCell cell4 = new PdfPCell();
 
-            //Checking which kind of report is this.
-            if (reportName.equalsIgnoreCase("Sales By Category")) {
-                createHeadingsForCommonReports(cb, 23, 605, "Category Name");
-                createHeadingsForCommonReportsName(cb, 200, 730, "Sales By Category Report");
-            } else if (reportName.equalsIgnoreCase("Sales By Vendor")) {
-                createHeadingsForCommonReports(cb, 23, 605, "Vendor Name");
-                createHeadingsForCommonReportsName(cb, 200, 730, "Sales By Vendor Report");
-            } else if (reportName.equalsIgnoreCase("Sales By Brand")) {
-                createHeadingsForCommonReports(cb, 23, 605, "Brand Name");
-                createHeadingsForCommonReportsName(cb, 200, 730, "Sales By Brand Report");
-            } else if (reportName.equalsIgnoreCase("Sales By Product")) {
-                createHeadingsForCommonReports(cb, 23, 605, "Product Name");
-                createHeadingsForCommonReportsName(cb, 200, 730, "Sales By Product Report");
-            } else if (reportName.equalsIgnoreCase("Sales By Employee")) {
-                createHeadingsForCommonReports(cb, 23, 605, "Employee Name");
-                createHeadingsForCommonReportsName(cb, 200, 730, "Sales By Employee Report");
-            } else if (reportName.equalsIgnoreCase("Sales By Customer")) {
-                createHeadingsForCommonReports(cb, 23, 605, "Customer Name");
-                createHeadingsForCommonReportsName(cb, 200, 730, "Sales By Customer Report");
-            } else if (reportName.equalsIgnoreCase("Sales By Top 50 Product")) {
-                createHeadingsForCommonReports(cb, 23, 605, "Product Name");
-                createHeadingsForCommonReportsName(cb, 180, 730, "Top 50 Products Sale Report");
-            }
+            cell1.addElement(new Phrase(salesDto.getName(), FontFactory.getFont(FontFactory.HELVETICA, 12, Font.NORMAL)));
+            cell2.setCellEvent(new PositionEvent(new Phrase(1, "$ " + String.valueOf(salesDto.getRetail()), FontFactory.getFont(FontFactory.HELVETICA, 12, Font.NORMAL)), 0.5f, 0.5f, Element.ALIGN_CENTER));
+            cell3.setCellEvent(new PositionEvent(new Phrase(1,  String.valueOf(salesDto.getQuantity()), FontFactory.getFont(FontFactory.HELVETICA, 12, Font.NORMAL)), 0.5f, 0.5f, Element.ALIGN_CENTER));
+            cell4.setCellEvent(new PositionEvent(new Phrase(1, "$ " + String.valueOf(salesDto.getDiscount()), FontFactory.getFont(FontFactory.HELVETICA, 12, Font.NORMAL)), 0.5f, 0.5f, Element.ALIGN_CENTER));
 
-            createHeadingsForCommonReports(cb, 205, 605, "Quantity");
-            createHeadingsForCommonReports(cb, 284, 605, "Discount");
-            createHeadingsForCommonReports(cb, 369, 605, "Total Sales");
-            createHeadingsForCommonReports(cb, 462, 605, "Tax");
-            createHeadingsForCommonReports(cb, 519, 605, "Profit");
+            cell1.setBorderColor(BaseColor.LIGHT_GRAY);
+            cell2.setBorderColor(BaseColor.LIGHT_GRAY);
+            cell3.setBorderColor(BaseColor.LIGHT_GRAY);
+            cell4.setBorderColor(BaseColor.LIGHT_GRAY);
 
+            cell1.setBorder(Rectangle.NO_BORDER);
+            cell2.setBorder(Rectangle.NO_BORDER);
+            cell3.setBorder(Rectangle.NO_BORDER);
+            cell4.setBorder(Rectangle.NO_BORDER);
 
-        } catch (Exception ex) {
-            ex.printStackTrace();
+            mainTable.addCell(cell1);
+            mainTable.addCell(cell2);
+            mainTable.addCell(cell3);
+            mainTable.addCell(cell4);
+        }
+        doc.add(mainTable);
+    }
+
+    private void printSalesSummaryReport(Document doc, List<SalesSummaryDto> salesSummaryDtoList) throws DocumentException {
+
+        PdfPTable mainTable = new PdfPTable(6);
+        String[] mainTableHeader = new String[]{"NAME", "TOTAL", "TAX", "DISCOUNT", "RETURN", "DUE BAL"};
+        mainTable.setWidthPercentage(100);
+
+        // This will print table header only
+        mainTable.setHeaderRows(1);
+        mainTable.setWidths(new float[]{3,2,2,2,2,2});
+        mainTable.setSpacingBefore(3);
+        mainTable.setSplitLate(false);
+
+        printTableHeader(mainTable, mainTableHeader);
+
+        for (SalesSummaryDto salesSummaryDto : salesSummaryDtoList) {
+
+            PdfPCell cell1 = new PdfPCell();
+            PdfPCell cell2 = new PdfPCell();
+            PdfPCell cell3 = new PdfPCell();
+            PdfPCell cell4 = new PdfPCell();
+//            PdfPCell cell5 = new PdfPCell();
+            PdfPCell cell6 = new PdfPCell();
+            PdfPCell cell7 = new PdfPCell();
+//            PdfPCell cell8 = new PdfPCell();
+
+            cell1.addElement(new Phrase(salesSummaryDto.getName(), FontFactory.getFont(FontFactory.HELVETICA, 12, Font.NORMAL)));
+            //cell1.setCellEvent(new PositionEvent(new Phrase(1, salesSummaryDto.getName(), FontFactory.getFont(FontFactory.HELVETICA, 8, Font.NORMAL)), 0.5f, 0.5f, Element.ALIGN_CENTER));
+            cell2.setCellEvent(new PositionEvent(new Phrase(1, String.valueOf(salesSummaryDto.getTotalAmount()), FontFactory.getFont(FontFactory.HELVETICA, 12, Font.NORMAL)), 0.5f, 0.5f, Element.ALIGN_CENTER));
+            cell3.setCellEvent(new PositionEvent(new Phrase(1, String.valueOf(salesSummaryDto.getTax()), FontFactory.getFont(FontFactory.HELVETICA, 12, Font.NORMAL)), 0.5f, 0.5f, Element.ALIGN_CENTER));
+            cell4.setCellEvent(new PositionEvent(new Phrase(1, String.valueOf(salesSummaryDto.getDiscount()), FontFactory.getFont(FontFactory.HELVETICA, 12, Font.NORMAL)), 0.5f, 0.5f, Element.ALIGN_CENTER));
+//            cell5.setCellEvent(new PositionEvent(new Phrase(1, String.valueOf(salesSummaryDto.getQuantity()), FontFactory.getFont(FontFactory.HELVETICA, 12, Font.NORMAL)), 0.5f, 0.5f, Element.ALIGN_CENTER));
+            cell6.setCellEvent(new PositionEvent(new Phrase(1, String.valueOf(salesSummaryDto.getReturns()), FontFactory.getFont(FontFactory.HELVETICA, 12, Font.NORMAL)), 0.5f, 0.5f, Element.ALIGN_CENTER));
+            cell7.setCellEvent(new PositionEvent(new Phrase(1, String.valueOf(salesSummaryDto.getTotalDueAmount()), FontFactory.getFont(FontFactory.HELVETICA, 12, Font.NORMAL)), 0.5f, 0.5f, Element.ALIGN_CENTER));
+//            cell8.setCellEvent(new PositionEvent(new Phrase(1, String.valueOf(salesSummaryDto.getProfit()), FontFactory.getFont(FontFactory.HELVETICA, 12, Font.NORMAL)), 0.5f, 0.5f, Element.ALIGN_CENTER));
+
+            cell1.setBorderColor(BaseColor.LIGHT_GRAY);
+            cell2.setBorderColor(BaseColor.LIGHT_GRAY);
+            cell3.setBorderColor(BaseColor.LIGHT_GRAY);
+            cell4.setBorderColor(BaseColor.LIGHT_GRAY);
+//            cell5.setBorderColor(BaseColor.LIGHT_GRAY);
+            cell6.setBorderColor(BaseColor.LIGHT_GRAY);
+            cell7.setBorderColor(BaseColor.LIGHT_GRAY);
+//            cell8.setBorderColor(BaseColor.LIGHT_GRAY);
+
+            cell1.setBorder(Rectangle.NO_BORDER);
+            cell2.setBorder(Rectangle.NO_BORDER);
+            cell3.setBorder(Rectangle.NO_BORDER);
+            cell4.setBorder(Rectangle.NO_BORDER);
+//            cell5.setBorder(Rectangle.NO_BORDER);
+            cell6.setBorder(Rectangle.NO_BORDER);
+            cell7.setBorder(Rectangle.NO_BORDER);
+//            cell8.setBorder(Rectangle.NO_BORDER);
+
+            mainTable.addCell(cell1);
+            mainTable.addCell(cell2);
+            mainTable.addCell(cell3);
+            mainTable.addCell(cell4);
+//            mainTable.addCell(cell5);
+            mainTable.addCell(cell6);
+            mainTable.addCell(cell7);
+//            mainTable.addCell(cell8);
+
         }
 
+        doc.add(mainTable);
+
     }
 
-    private void generateHeader(Document doc, PdfContentByte cb, String startDate, String endDate) {
+    private void printPaymentSummaryReport(Document doc, List<PaymentSummaryDto> paymentSummaryDtoList) throws DocumentException {
 
-        try {
+        PdfPTable mainTable = new PdfPTable(5);
+        String[] mainTableHeader = new String[]{"NAME", "CASH", "CHECK", "CREDIT", "STORE CREDIT"};
+        mainTable.setWidthPercentage(100);
 
-            DateFormat f = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-            Date sd = null;
-            Date ed = null;
+        // This will print table header only
+        mainTable.setHeaderRows(1);
+        mainTable.setWidths(new float[]{4, 2, 2, 2, 2});
+        mainTable.setSpacingBefore(1);
+        mainTable.setSpacingAfter(3);
 
-            try {
-                sd = f.parse(startDate);
-                ed = f.parse(endDate);
+        mainTable.setSplitLate(false);
 
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
-            DateFormat date = new SimpleDateFormat("MM/dd/yyyy");//NEED TO CHECK THIS
-
-            String a = date.format(sd);
-            String b = date.format(ed);
-
-            if (a.equals(b)) {
-                createHeadingsForCompanyName(cb, 20, 660, "Date:" + date.format(sd));
-            } else {
-                createHeadingsForCompanyName(cb, 20, 660, "Date:" + a + " " + "To" + " " + b);
-            }
+        printTableHeader(mainTable, mainTableHeader);
 
 
-//            Image companyLogo = Image.getInstance("Excel.png");
-//            companyLogo.setAbsolutePosition(235,760);
-//            companyLogo.scalePercent(15);
-//            doc.add(companyLogo);
+        for (PaymentSummaryDto paymentSummaryDto : paymentSummaryDtoList) {
 
-            StoreSetupDao storeSetupDao = storeSetupRepository.findOne(1);
-            if (null != storeSetupDao) {
-                createHeadingsForCompanyName(cb, 265, 770, storeSetupDao.getName());
-            }
+            PdfPCell cell1 = new PdfPCell();
+            PdfPCell cell2 = new PdfPCell();
+            PdfPCell cell3 = new PdfPCell();
+            PdfPCell cell4 = new PdfPCell();
+            PdfPCell cell5 = new PdfPCell();
 
-            // createHeadingsForCompanyName(cb, 265, 770, "Excell Wireless");
+            cell1.addElement(new Phrase(paymentSummaryDto.getName(), FontFactory.getFont(FontFactory.HELVETICA, 12, Font.NORMAL)));
+            //cell1.setCellEvent(new PositionEvent(new Phrase(1, paymentSummaryDto.getName(), FontFactory.getFont(FontFactory.HELVETICA, 8, Font.NORMAL)), 0.5f, 0.5f, Element.ALIGN_CENTER));
+            cell2.setCellEvent(new PositionEvent(new Phrase(1, "$ " + String.valueOf(paymentSummaryDto.getCash()), FontFactory.getFont(FontFactory.HELVETICA, 12, Font.NORMAL)), 0.5f, 0.5f, Element.ALIGN_CENTER));
+            cell3.setCellEvent(new PositionEvent(new Phrase(1, "$ " + String.valueOf(paymentSummaryDto.getCredit()), FontFactory.getFont(FontFactory.HELVETICA, 12, Font.NORMAL)), 0.5f, 0.5f, Element.ALIGN_CENTER));
+            cell4.setCellEvent(new PositionEvent(new Phrase(1, "$ " + String.valueOf(paymentSummaryDto.getCheck()), FontFactory.getFont(FontFactory.HELVETICA, 12, Font.NORMAL)), 0.5f, 0.5f, Element.ALIGN_CENTER));
+            cell5.setCellEvent(new PositionEvent(new Phrase(1, "$ " +  String.valueOf(paymentSummaryDto.getStoreCredit()), FontFactory.getFont(FontFactory.HELVETICA, 12, Font.NORMAL)), 0.5f, 0.5f, Element.ALIGN_CENTER));
 
+            cell1.setBorderColor(BaseColor.LIGHT_GRAY);
+            cell2.setBorderColor(BaseColor.LIGHT_GRAY);
+            cell3.setBorderColor(BaseColor.LIGHT_GRAY);
+            cell4.setBorderColor(BaseColor.LIGHT_GRAY);
+            cell5.setBorderColor(BaseColor.LIGHT_GRAY);
 
-            //createHeadings(cb, 240, 730, "Sales By Category Report");
+            cell1.setBorder(Rectangle.NO_BORDER);
+            cell2.setBorder(Rectangle.NO_BORDER);
+            cell3.setBorder(Rectangle.NO_BORDER);
+            cell4.setBorder(Rectangle.NO_BORDER);
+            cell5.setBorder(Rectangle.NO_BORDER);
 
-
-        } catch (Exception ex) {
-            ex.printStackTrace();
+            mainTable.addCell(cell1);
+            mainTable.addCell(cell2);
+            mainTable.addCell(cell3);
+            mainTable.addCell(cell4);
+            mainTable.addCell(cell5);
         }
-
-    }
-
-    private void generateDetail(Document doc, PdfContentByte cb, int index, int y, List<SalesDto> salesDtoList) {
-        DecimalFormat df = new DecimalFormat("0.00");
-
-        try {
-
-            if (null != salesDtoList && salesDtoList.size() >= 1) {
-
-                createForCommonReportsContent(cb, 23, y, salesDtoList.get(index).getName(), 0);
-                createForCommonReportsContent(cb, 205, y, df.format(salesDtoList.get(index).getQuantity()), 0);
-                createForCommonReportsContent(cb, 284, y, "$" + df.format(salesDtoList.get(index).getDiscount()), 0);
-
-                createForCommonReportsContent(cb, 369, y, "$" + df.format(salesDtoList.get(index).getRetail()), 0);
-                createForCommonReportsContent(cb, 462, y, "$" + df.format(salesDtoList.get(index).getTax()), 0);
-                createForCommonReportsContent(cb, 519, y, "$" + df.format(salesDtoList.get(index).getProfit()), 0);
-            }
-
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
-
-    }
-
-    private void createForCommonReportsContent(PdfContentByte cb, float x, float y, String text, int align) {
-        cb.beginText();
-        cb.setFontAndSize(bf, 12);
-        cb.showTextAligned(align, text.trim(), x, y, 0);
-        cb.endText();
+        doc.add(mainTable);
     }
 
     public SalesSummaryDto getDashboardReportBySalesSummary(String salesSummaryReportBy, String startDate, String endDate) {
@@ -893,8 +946,8 @@ public class ReportManager {
 
         paymentSummaryDtoList = getReportByPaymentSummary(paymentSummaryReportBy, startDate, endDate);
 
-        if(null !=paymentSummaryDtoList){
-            for(PaymentSummaryDto paymentSummaryDtoLocal : paymentSummaryDtoList){
+        if (null != paymentSummaryDtoList) {
+            for (PaymentSummaryDto paymentSummaryDtoLocal : paymentSummaryDtoList) {
 
                 paymentSummaryDto.setCash(paymentSummaryDtoLocal.getCash());
                 paymentSummaryDto.setCredit(paymentSummaryDtoLocal.getCredit());
@@ -980,31 +1033,8 @@ public class ReportManager {
 
     private void printStoreDetailsTest(Document doc, String startDate, String endDate, List<OpenInvoiceResponse> openInvoiceResponseList) throws DocumentException {
 
-        StoreSetupDao storeSetupDao = storeSetupRepository.findOne(1);
+        printStoreDetails(doc, startDate, endDate, "Open Invoice Report");
 
-        if (storeSetupDao != null) {
-
-            Paragraph storeName = new Paragraph(storeSetupDao.getName(), FontFactory.getFont(FontFactory.HELVETICA, 18, Font.BOLD));
-            storeName.setAlignment(PdfPCell.ALIGN_CENTER);
-
-            Paragraph reportType = new Paragraph("Open Invoice Report", FontFactory.getFont(FontFactory.HELVETICA, 13, Font.BOLD));
-            reportType.setAlignment(PdfPCell.ALIGN_CENTER);
-            reportType.setSpacingBefore(10);
-
-            doc.add(storeName);
-            doc.add(reportType);
-
-            DateTimeDto dateTimeDto;
-            dateTimeDto = getDateAndTime(startDate);
-
-            DateTimeDto dateTimeDto1;
-            dateTimeDto1 = getDateAndTime(endDate);
-
-            Paragraph fromDate = new Paragraph("FROM    " + dateTimeDto.getDate() + "   TO    " + dateTimeDto1.getDate(), FontFactory.getFont(FontFactory.HELVETICA, 10, Font.BOLD));
-            fromDate.setAlignment(PdfPCell.ALIGN_CENTER);
-            fromDate.setSpacingBefore(9);
-            doc.add(fromDate);
-        }
         PdfPTable mainTable = new PdfPTable(5);
         String[] mainTableHeader = new String[]{"DATE", "TIME", "RECEIPT NO", "BALANCE", "FULL NAME"};
         mainTable.setWidthPercentage(100);
@@ -1106,6 +1136,36 @@ public class ReportManager {
         objectName1.setLineWidth(15);
 
         doc.add(objectName);
+    }
+
+    private void printStoreDetails(Document doc, String startDate, String endDate, String reportTitle) throws DocumentException {
+        StoreSetupDao storeSetupDao = storeSetupRepository.findOne(1);
+
+        if (storeSetupDao != null) {
+
+            Paragraph storeName = new Paragraph(storeSetupDao.getName(), FontFactory.getFont(FontFactory.HELVETICA, 18, Font.BOLD));
+            storeName.setAlignment(PdfPCell.ALIGN_CENTER);
+
+            Paragraph reportType = new Paragraph(reportTitle, FontFactory.getFont(FontFactory.HELVETICA, 13, Font.BOLD));
+            reportType.setAlignment(PdfPCell.ALIGN_CENTER);
+            reportType.setSpacingBefore(10);
+
+            doc.add(storeName);
+            doc.add(reportType);
+
+            DateTimeDto dateTimeDto;
+            dateTimeDto = getDateAndTime(startDate);
+
+            DateTimeDto dateTimeDto1;
+            dateTimeDto1 = getDateAndTime(endDate);
+
+            Paragraph fromDate = new Paragraph("FROM    " + dateTimeDto.getDate() + "   TO    " + dateTimeDto1.getDate(), FontFactory.getFont(FontFactory.HELVETICA, 10, Font.BOLD));
+            fromDate.setAlignment(PdfPCell.ALIGN_CENTER);
+            fromDate.setSpacingBefore(9);
+
+            fromDate.setSpacingAfter(20);
+            doc.add(fromDate);
+        }
     }
 
     private DateTimeDto getDateAndTime(String date) {

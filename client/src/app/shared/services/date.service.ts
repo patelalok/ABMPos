@@ -21,6 +21,12 @@ export class DateService {
         else if (inputName === 'Last Week') {
             return this.getLastWeek();
         }
+        else if (inputName === 'Last 2 Weeks') {
+            return this.getLast2Weeks();
+        }
+        else if (inputName === 'Last 4 Weeks') {
+            return this.getLast4Weeks();
+        }
         else if (inputName === 'This Month') {
             return this.getCurrentMonth();
         }
@@ -38,6 +44,12 @@ export class DateService {
         }
         else if (inputName === 'Last Year') {
             return this.getLastYear();
+        }
+        else if (inputName === 'Last 5 Years') {
+            return this.getLast5Years();
+        }
+        else if (inputName === 'Last 10 Years') {
+            return this.getLast10Years();
         }
 
     }
@@ -59,6 +71,16 @@ export class DateService {
     }
     getLastWeek() {
         this.dateDto.startDate = moment(Date.now()).subtract(1, 'weeks').startOf('isoWeek').format('YYYY-MM-DD HH:mm:ss');
+        this.dateDto.endDate = moment(Date.now()).subtract(1, 'weeks').endOf('isoWeek').format('YYYY-MM-DD HH:mm:ss');
+        return this.dateDto;
+    }
+    getLast2Weeks() {
+        this.dateDto.startDate = moment(Date.now()).subtract(2, 'weeks').startOf('isoWeek').format('YYYY-MM-DD HH:mm:ss');
+        this.dateDto.endDate = moment(Date.now()).subtract(1, 'weeks').endOf('isoWeek').format('YYYY-MM-DD HH:mm:ss');
+        return this.dateDto;
+    }
+    getLast4Weeks() {
+        this.dateDto.startDate = moment(Date.now()).subtract(4, 'weeks').startOf('isoWeek').format('YYYY-MM-DD HH:mm:ss');
         this.dateDto.endDate = moment(Date.now()).subtract(1, 'weeks').endOf('isoWeek').format('YYYY-MM-DD HH:mm:ss');
         return this.dateDto;
     }
@@ -89,6 +111,16 @@ export class DateService {
     }
     getLastYear() {
         this.dateDto.startDate = moment(Date.now()).subtract(1, 'year').startOf('year').format('YYYY-MM-DD HH:mm:ss');
+        this.dateDto.endDate = moment(Date.now()).subtract(1, 'year').endOf('year').format('YYYY-MM-DD HH:mm:ss');
+        return this.dateDto;
+    }
+    getLast5Years() {
+        this.dateDto.startDate = moment(Date.now()).subtract(5, 'year').startOf('year').format('YYYY-MM-DD HH:mm:ss');
+        this.dateDto.endDate = moment(Date.now()).subtract(1, 'year').endOf('year').format('YYYY-MM-DD HH:mm:ss');
+        return this.dateDto;
+    }
+    getLast10Years() {
+        this.dateDto.startDate = moment(Date.now()).subtract(10, 'year').startOf('year').format('YYYY-MM-DD HH:mm:ss');
         this.dateDto.endDate = moment(Date.now()).subtract(1, 'year').endOf('year').format('YYYY-MM-DD HH:mm:ss');
         return this.dateDto;
     }

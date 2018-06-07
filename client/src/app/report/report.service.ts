@@ -73,8 +73,8 @@ export class ReportService {
         // .map(this.extractData)
         .catch(this.handleError);
       }
-      printSalesReportPDF(salesReportBy: string, startDate: string, endDate: string): Observable<any> {
-        let url = this.url + '/printReportBySalesSummary?salesSummaryReportBy='+salesReportBy+'&startDate='+ startDate+'&endDate='+endDate;
+      printSalesReportPDF(salesReportBy: string, salesReportType: string,startDate: string, endDate: string): Observable<any> {
+        let url = this.url + '/printReportBySalesSummary?salesSummaryReportBy='+salesReportBy+'&salesSummaryReportType='+salesReportType+'&startDate='+ startDate+'&endDate='+endDate;
         return this.http.get(
           url, 
           {responseType: ResponseContentType.Blob }
@@ -94,13 +94,16 @@ export class ReportService {
       }
 
       private extractData(res: Response): InventoryDto[] {
-        let body = res.json();
-        // console.log(body);
+
+           let body = res.json();
+        console.log('body',body);
         return body || {};
       }
     
         private handleError(error: Response | any) {
         // In a real world app, you might use a remote logging infrastructure
+
+        console.log('this is hte eeoor', error);
         let errMsg: string;
         if (error instanceof Response) {
           const body = error.json() || '';

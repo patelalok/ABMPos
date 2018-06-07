@@ -43,7 +43,7 @@
 
             </div>
 
-            <div *ngIf="this.salesSummaryDropdown == 'Sales By Month'" class="col-md-2">
+            <div *ngIf="(this.salesDropdown == 'Sales Summary' || this.salesDropdown == 'Payment Summary') &&   this.salesSummaryDropdown == 'Sales By Month'" class="col-md-2">
                 <select class="form-control" [(ngModel)]="this.salesSummaryMonthDropdown" (change)="this.getReportDetails()">
                               <option>January</option>
                               <option>February</option>
@@ -61,15 +61,16 @@
 
             </div>
 
-            <div *ngIf="this.salesSummaryDropdown == 'Sales By Week'" class="col-md-2">
+            <div *ngIf="(this.salesDropdown == 'Sales Summary' || this.salesDropdown == 'Payment Summary') && this.salesSummaryDropdown == 'Sales By Week'" class="col-md-2">
                 <select class="form-control" [(ngModel)]="this.salesSummaryWeekDropdown" (change)="this.getReportDetails()">
                               <option>This Week</option>
                               <option>Last Week</option>
-                              <option>Custom</option>
+                              <option>Last 2 Weeks</option>
+                              <option>Last 4 Weeks</option>
                 </select>
 
             </div>
-            <div *ngIf="this.salesSummaryDropdown == 'Sales By Hour'" class="col-md-2">
+            <div *ngIf="(this.salesDropdown == 'Sales Summary' || this.salesDropdown == 'Payment Summary') && this.salesSummaryDropdown == 'Sales By Hour'" class="col-md-2">
                 <select class="form-control" [(ngModel)]="this.salesSummaryHourDropdown" (change)="this.getReportDetails()">
                     <option>Today</option>
                     <option>Yesterday</option>

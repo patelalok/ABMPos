@@ -65,9 +65,9 @@ public class ReportController {
     }
 
     @RequestMapping(value = "/printReportBySalesSummary", method = RequestMethod.GET, produces = "application/json")
-    public ResponseEntity<byte[]>  printReportBySalesSummary(String salesSummaryReportBy, String startDate, String endDate) throws DocumentException {
+    public ResponseEntity<byte[]>  printReportBySalesSummary(String salesSummaryReportBy,String salesSummaryReportType, String startDate, String endDate) throws DocumentException {
 
-        byte [] pdfDataBytes =  reportManager.printReportBySalesSummary(salesSummaryReportBy, startDate, endDate);
+        byte [] pdfDataBytes =  reportManager.printReportBySalesSummary(salesSummaryReportBy,salesSummaryReportType, startDate, endDate);
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.parseMediaType("application/pdf"));
         headers.add("Access-Control-Allow-Origin", "*");
