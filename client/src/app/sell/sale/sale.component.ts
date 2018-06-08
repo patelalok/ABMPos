@@ -928,13 +928,9 @@ export class SaleComponent implements OnInit, AfterViewInit {
   }
   // This is the method which handle completing the transaction and reset the all flag and other data.
   completeSale() {
-
-    //
-    // this.loadingService.loading = true;
     this.disableCompleteSaleButton = true;
+    let totalLineItemDiscount: number = 0.00;
 
-
-    let totalLineItemDiscount: number = 0.00
     console.log('sales type', this.saleType);
     // setting customer details
     if (null != this.selectedCustomer && this.selectedCustomer != undefined) {
@@ -942,12 +938,7 @@ export class SaleComponent implements OnInit, AfterViewInit {
       this.transactionDtoList.customerFirstLastName = this.selectedCustomer.name;
       this.transactionDtoList.previousBalance = this.selectedCustomer.balance;
     }
-
-    this.loadingService.loading = true;
-
     this.transactionDtoList.status = this.saleType;
-
-
 
     // Here I need to fix the problem when customer is just paying the balacne of transaction.
     // So if the transaction has transaction Id then dont send the date just finish the transaction with old date.
@@ -1005,9 +996,22 @@ export class SaleComponent implements OnInit, AfterViewInit {
       }
     }
 
-    this.transactionDtoList.totalDiscount = +this.totalTransactionDiscount + totalLineItemDiscount;
+    console.log('total line item dis', totalLineItemDiscount);
+    console.log('total transactiondis', this.totalTransactionDiscount);
+
+
+
+    this.transactionDtoList.totalDiscount = +this.totalTransactionDiscount +totalLineItemDiscount;
+    console.log('total transactiondis wich goes to db', this.transactionDtoList.totalDiscount);
+
+
+    console.log('subtotal before', this.transactionDtoList.subtotal);
+
     // I am doing this to show subtotal without line item discount, so in invoice customer wont get confuse.
-    this.transactionDtoList.subtotal = this.transactionDtoList.subtotal + this.transactionDtoList.totalDiscount;
+    this.transactionDtoList.subtotal = this.transactionDtoList.subtotal + totalLineItemDiscount;
+
+    console.log('subtotal after', this.transactionDtoList.subtotal);
+
 
     for (let payment of this.paymentDaoList) {
       payment.status = this.saleType;
