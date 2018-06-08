@@ -6,6 +6,8 @@ import * as moment from 'moment';
 import { SellService } from '../sell/sell.service';
 import { TransactionDtoList } from '../sell/sale/sale.component';
 import { LoadingService } from 'app/loading.service';
+import { DateDto, DateService } from '../shared/services/date.service';
+import { ToastsManager } from 'ng2-toastr';
 
 
 @Component({
@@ -15,77 +17,290 @@ import { LoadingService } from 'app/loading.service';
 })
 export class CustomerComponent implements OnInit {
 
-  customerForm: FormGroup;
   customerDto: Customer[];
+  transactionList: TransactionDtoList[]= [];
+  selectedCustomer: Customer;
   _subscription: any;
+  cols: any[];
+  rowSelected:number = -1;
+  customerFinancialDto = new CustomerFinancialDto();
+  dateDto =  new DateDto();
+  customerDetailsBy: string = 'Year';
+  customerForm: FormGroup;
 
-
-  // Its redudanct Need to fix when you work in delete part..TODO
-  selectedCustomerForDelete: Customer;
-  selectedCustomerForStoreCredit: Customer;
   displayDialog = false;
   newCustomer: boolean;
   customer: Customer = new Customer();
-  msgs: Message[] = [];
   showDeleteButton = true;
-  storeCreditAmount: number;
-  storeCreditReason: string;
-  storeCreditDto: StoreCreditDto[] = [];
-  addStoreCreditObject = new StoreCreditDto();
-  transactionDetails: TransactionDtoList[] = [];
   isAdd: boolean;
 
 
-  constructor(private customerService: CustomerService, private sellService: SellService ,private formBuilder: FormBuilder, private loadingServie: LoadingService) { 
+  
+
+
+  customerTransactionDetails: TransactionDtoList[] = [];
+  constructor(private customerService: CustomerService,private dateServie: DateService, private formBuilder: FormBuilder,private toastr: ToastsManager) {
     this.getCustomerDetails();
-  }
+
+   }
 
   ngOnInit() {
-
     this.getCustomerDetails();
-    this.customerForm = this.formBuilder.group(
-      {
-        'name': [null, Validators.required],
-        'phoneNo': ['', [Validators.required, Validators.pattern('^[0-9]+$')]], //TODO - Need to fix this for phono no.
-        // 'phoneNo': [''],
-        'username': [null],
-        'email': [null], // TODO - Need to fox this too .com is not validating
-        'dateOfBirth': [null],
-        'taxId': [''],
-        'street': [null],
-        'zipCode': [''],
-        'role': [null],
-        'tier': ['1'],
-        'city': [''],
-        'state': [''],
-        'type': ['Business'],
-        'companyName': [''],
-        'customerNote':['']
-      }
-    );
+    this.getCustomerDetailBy(this.customerDetailsBy);
+
+    this.cols = [
+      { field: 'transactionComId', header: 'Receipt No' },
+      { field: 'onlyDate', header: 'Date' },
+      { field: 'time', header: 'Time' },
+      { field: 'totalAmount', header: 'Total Amount' }
+  ];
+
+  this.customerForm = this.formBuilder.group(
+    {
+      'name': [null, Validators.required],
+      'phoneNo': ['', [Validators.required, Validators.pattern('^[0-9]+$')]], //TODO - Need to fix this for phono no.
+      'companyName': [''],
+      'username': [null],
+      'email': [null], // TODO - Need to fox this too .com is not validating
+      'taxId': [''],
+      'tier':[3,''],
+      'type': ['Business',''],
+      'street': [null],
+      'zipCode': [''],
+      'role': [null],
+      // 'gender': [''],
+      'city': [''],
+      'state': [''],
+      'customerNote':['']
+    }
+  );
+  }
+
+  setCustomerDetailsForUpdate(){
+
+    this.isAdd = false;
+    this.customerForm.get('name').setValue(this.selectedCustomer.name);
+    this.customerForm.get('phoneNo').setValue(this.selectedCustomer.phoneNo);
+    this.customerForm.get('companyName').setValue(this.selectedCustomer.companyName);
+    this.customerForm.get('email').setValue(this.selectedCustomer.email);
+    this.customerForm.get('taxId').setValue(this.selectedCustomer.taxId);
+    this.customerForm.get('tier').setValue(this.selectedCustomer.tier);
+    this.customerForm.get('type').setValue(this.selectedCustomer.type);
+    this.customerForm.get('street').setValue(this.selectedCustomer.street);
+    this.customerForm.get('city').setValue(this.selectedCustomer.city);
+    this.customerForm.get('state').setValue(this.selectedCustomer.state);
+    this.customerForm.get('zipCode').setValue(this.selectedCustomer.zipCode);
+    this.customerForm.get('customerNote').setValue(this.selectedCustomer.customerNote);
   }
 
   getCustomerDetails() {
-    
-    this.loadingServie.loading = true;
+   // this.loadingServie.loading = true;
     this.customerService.getCustomerDetails();
     this._subscription = this.customerService.customerListChange
     .subscribe((cust)=>{
       this.customerDto = cust;
       this.customerDto = this.customerDto.slice();
-      this.loadingServie.loading = false;
+      this.selectedCustomer = this.customerDto[0];
+      //this.loadingServie.loading = false;
     })
   }
 
-  showDialog() {
-    this.displayDialog = !this.displayDialog;
+  getCustomerDetailBy(customerDetailsBy: string){
+
+    this.customerDetailsBy = customerDetailsBy;
+
+    if(customerDetailsBy == 'Today'){
+      this.dateDto = this.dateServie.getCurrentDay();
+      this.getCustomerTransactionDetails();
+    }
+    else if(customerDetailsBy == 'Week'){
+      this.dateDto = this.dateServie.getCurrentWeek();
+      this.getCustomerTransactionDetails();
+
+    }
+    else if(customerDetailsBy == 'Month'){
+      this.dateDto = this.dateServie.getCurrentMonth();
+      this.getCustomerTransactionDetails();
+
+    }
+    else if(customerDetailsBy == 'Year'){
+      this.dateDto = this.dateServie.getCurrentYear();
+      this.getCustomerTransactionDetails();
+    }
   }
 
-  resrtForm() {
+  getCustomerTransactionDetails() {
+    if(this.selectedCustomer)
+    {
+    this.customerService.getCustomerTransactionDetails(this.dateDto.startDate, this.dateDto.endDate, this.selectedCustomer.phoneNo)
+    .subscribe((transaction)=>{
+
+      transaction.forEach(trans => {
+        // This helps to manage date for park sale and other edit sale logic.
+        trans.originalDate = trans.date;
+        trans.time = moment(trans.originalDate).format('hh:mm A');
+        trans.onlyDate = moment(trans.originalDate).format('MM-DD-YYYY');
+      })
+
+      this.transactionList = transaction;
+      this.transactionList = this.transactionList.slice();
+     
+    })
+
+ 
+    this.customerService.getCustomerFinancialDetails(this.dateDto.startDate, this.dateDto.endDate,this.selectedCustomer.phoneNo)
+    .subscribe((financialDetails)=>{
+      this.customerFinancialDto = financialDetails;
+    });
+  }
+}
+
+  public openCloseRow(idReserva: number): void {
+
+    if (this.rowSelected === -1) {
+      this.rowSelected = idReserva
+    }
+    else {
+      if (this.rowSelected == idReserva) {
+        this.rowSelected = -1
+      }
+      else {
+        this.rowSelected = idReserva
+      }
+    }
+  }
+
+  onRowSelectFromCustomer(event){
+
+    this.selectedCustomer = event.data;
+    this.getCustomerDetailBy(this.customerDetailsBy);
+
+    this.setCustomerDetailsForUpdate();
+    //this.getCustomerTransactionDetails();
+    console.log('event', event.data);
+  }
+
+
+  onRowSelect(event){
+  }
+
+  printCustomerPaymentStatement(){
+
+    this.customerService.printPaymentStatement(this.dateDto.startDate, this.dateDto.endDate, this.selectedCustomer.phoneNo)
+  }
+  emailCustomerStatement(){
+    this.customerService.emailCustomerStatement(this.dateDto.startDate, this.dateDto.endDate, this.selectedCustomer.phoneNo)
+    .subscribe((data) =>
+    {
+      //this.loadingServie.loading = true;
+      if(data.text())
+      {
+        //this.loadingServie.loading = false;
+        this.toastr.success('Email Send Sucessfully !!', 'Success!');
+      }
+      console.log('send email response', data.text());
+    },
+    (error) => {
+     // this.loadingServie.loading = false;
+      this.toastr.error('Something goes wrong, not able to send an email now !!', 'Error!');
+      console.log(JSON.stringify(error.json()));
+  });
+  }
+
+
+  addCustomer() {
+    this.customerService.addOrUpdateCustomer(this.customerForm.value, this.isAdd);
     this.customerForm.reset();
   }
 
-  addCustomer() {
+  clearCustomerForm() {
+
+
+    this.customerForm.reset();
+    this.customerForm.get('tier').setValue(3);
+    this.customerForm.get('type').setValue('Business');
+
+    this.isAdd = true;
+    this.newCustomer = true;
+    this.customer = new Customer();
+  }
+  ngOnDestroy() {
+    //prevent memory leak when component destroyed
+     this._subscription.unsubscribe(); 
+   }
+  }
+
+  // customerForm: FormGroup;
+  // customerDto: Customer[];
+  // _subscription: any;
+
+
+  // // Its redudanct Need to fix when you work in delete part..TODO
+  // selectedCustomerForDelete: Customer;
+  // selectedCustomerForStoreCredit: Customer;
+  // displayDialog = false;
+  // newCustomer: boolean;
+  // customer: Customer = new Customer();
+  // msgs: Message[] = [];
+  // showDeleteButton = true;
+  // storeCreditAmount: number;
+  // storeCreditReason: string;
+  // storeCreditDto: StoreCreditDto[] = [];
+  // addStoreCreditObject = new StoreCreditDto();
+  // transactionDetails: TransactionDtoList[] = [];
+  // isAdd: boolean;
+
+
+  // constructor(private customerService: CustomerService, private sellService: SellService ,private formBuilder: FormBuilder, private loadingServie: LoadingService) { 
+  //   this.getCustomerDetails();
+  // }
+
+  // ngOnInit() {
+
+  //   this.getCustomerDetails();
+  //   this.customerForm = this.formBuilder.group(
+  //     {
+  //       'name': [null, Validators.required],
+  //       'phoneNo': ['', [Validators.required, Validators.pattern('^[0-9]+$')]], //TODO - Need to fix this for phono no.
+  //       // 'phoneNo': [''],
+  //       'username': [null],
+  //       'email': [null], // TODO - Need to fox this too .com is not validating
+  //       'dateOfBirth': [null],
+  //       'taxId': [''],
+  //       'street': [null],
+  //       'zipCode': [''],
+  //       'role': [null],
+  //       'tier': ['1'],
+  //       'city': [''],
+  //       'state': [''],
+  //       'type': ['Business'],
+  //       'companyName': [''],
+  //       'customerNote':['']
+  //     }
+  //   );
+  // }
+
+  // getCustomerDetails() {
+    
+  //   this.loadingServie.loading = true;
+  //   this.customerService.getCustomerDetails();
+  //   this._subscription = this.customerService.customerListChange
+  //   .subscribe((cust)=>{
+  //     this.customerDto = cust;
+  //     this.customerDto = this.customerDto.slice();
+  //     this.loadingServie.loading = false;
+  //   })
+  // }
+
+  // showDialog() {
+  //   this.displayDialog = !this.displayDialog;
+  // }
+
+  // resrtForm() {
+  //   this.customerForm.reset();
+  // }
+
+  // addCustomer() {
     // let customerExists = false;
     // let BreakException = {};
 
@@ -119,102 +334,95 @@ export class CustomerComponent implements OnInit {
    
   // );
   // if(!customerExists){
-    this.customerService.addOrUpdateCustomer(this.customerForm.value, this.isAdd);
-    this.customerForm.reset();
-    this.displayDialog = false;
+    // this.customerService.addOrUpdateCustomer(this.customerForm.value, this.isAdd);
+    // this.customerForm.reset();
+    // this.displayDialog = false;
     // throw BreakException;
 
   // }
-  }
+  // }
 
-  setCustomerForDelete(cust: Customer) {
-    this.selectedCustomerForDelete = cust;
-  }
+  // setCustomerForDelete(cust: Customer) {
+  //   this.selectedCustomerForDelete = cust;
+  // }
 
-  deleteCustomer() {
-    this.customerService.deleteCustomer(this.selectedCustomerForDelete);
-    this.getCustomerDetails();
+  // deleteCustomer() {
+  //   this.customerService.deleteCustomer(this.selectedCustomerForDelete);
+  //   this.getCustomerDetails();
 
-    this.displayDialog = false;
-  }
-  showDialogToAdd() {
-    this.isAdd = true;
-    this.newCustomer = true;
-    this.customer = new Customer();
-    this.showDeleteButton = false;
-    this.displayDialog = true;
-
-  }
-
-  updateCusotmer(customer: Customer) {
-
-    this.isAdd = false;
-    this.displayDialog = true;
-    //Seeting the value into form for UPDATE TODO WRITE SEPARETE METHOD FOR THIS.
-    this.customerForm.get('name').setValue(customer.name);
-    this.customerForm.get('phoneNo').setValue(customer.phoneNo);
-    this.customerForm.get('companyName').setValue(customer.companyName);
-    this.customerForm.get('email').setValue(customer.email);
-    this.customerForm.get('taxId').setValue(customer.taxId);
-    this.customerForm.get('dateOfBirth').setValue(customer.dateOfBirth);
-    this.customerForm.get('type').setValue(customer.type);
-    this.customerForm.get('tier').setValue(customer.tier);
-    this.customerForm.get('street').setValue(customer.street);
-    this.customerForm.get('city').setValue(customer.city);
-    this.customerForm.get('state').setValue(customer.state);
-    this.customerForm.get('zipCode').setValue(customer.zipCode);
-    this.customerForm.get('customerNote').setValue(customer.customerNote);
-
-  }
-  showSuccess(severity: string, summary: string, detail: string) {
-    this.msgs = [];
-    this.msgs.push({ severity: severity, summary: summary, detail: detail });
-  }
+  //   this.displayDialog = false;
+  // }
 
 
-  selectCustomerForStoreCredit(customer: Customer) {
+  // updateCusotmer(customer: Customer) {
 
-    this.selectedCustomerForStoreCredit = customer;
+  //   this.isAdd = false;
+  //   this.displayDialog = true;
+  //   //Seeting the value into form for UPDATE TODO WRITE SEPARETE METHOD FOR THIS.
+  //   this.customerForm.get('name').setValue(customer.name);
+  //   this.customerForm.get('phoneNo').setValue(customer.phoneNo);
+  //   this.customerForm.get('companyName').setValue(customer.companyName);
+  //   this.customerForm.get('email').setValue(customer.email);
+  //   this.customerForm.get('taxId').setValue(customer.taxId);
+  //   this.customerForm.get('dateOfBirth').setValue(customer.dateOfBirth);
+  //   this.customerForm.get('type').setValue(customer.type);
+  //   this.customerForm.get('tier').setValue(customer.tier);
+  //   this.customerForm.get('street').setValue(customer.street);
+  //   this.customerForm.get('city').setValue(customer.city);
+  //   this.customerForm.get('state').setValue(customer.state);
+  //   this.customerForm.get('zipCode').setValue(customer.zipCode);
+  //   this.customerForm.get('customerNote').setValue(customer.customerNote);
 
-    this.customerService.getCustomerStoreCreditHistory(customer.phoneNo)
-      .subscribe((history: StoreCreditDto[]) => {
+  // }
+  // showSuccess(severity: string, summary: string, detail: string) {
+  //   this.msgs = [];
+  //   this.msgs.push({ severity: severity, summary: summary, detail: detail });
+  // }
 
-        history.forEach(trans => {
-          trans.time = moment(trans.date).format('hh:mm A');
-          trans.date = moment(trans.date).format('MM/DD/YYYY');
-        })
-        this.storeCreditDto = history;
-      })
-  }
-  addStoreCredit() {
 
-    this.addStoreCreditObject.amount = this.storeCreditAmount;
-    this.addStoreCreditObject.reason = this.storeCreditReason;
-    this.addStoreCreditObject.createdTimestamp = moment(Date.now()).format('YYYY-MM-DD HH:mm:ss');
-    this.addStoreCreditObject.customerPhoneno = this.selectedCustomerForStoreCredit.phoneNo;
-    // TODO - need to fix this when work on user module.
-    this.addStoreCreditObject.employeeName = 'alok@alok.com';
+  // selectCustomerForStoreCredit(customer: Customer) {
 
-    this.customerService.addStoreCredit(this.addStoreCreditObject);
-  }
+  //   this.selectedCustomerForStoreCredit = customer;
 
-  openPendingInvoice(customer: Customer){
-    this.sellService.getPendingInvoiceByCustomer(customer.phoneNo)
-    .subscribe(transaction => {
-      transaction.forEach(trans => {
-        trans.time = moment(trans.date).format('hh:mm A');
-        trans.date = moment(trans.date).format('MM-DD-YYYY');
-      })
-      this.transactionDetails = transaction;
-    });
-  }
+  //   this.customerService.getCustomerStoreCreditHistory(customer.phoneNo)
+  //     .subscribe((history: StoreCreditDto[]) => {
 
-  ngOnDestroy() {
-    //prevent memory leak when component destroyed
-     this._subscription.unsubscribe(); 
-   }
+  //       history.forEach(trans => {
+  //         trans.time = moment(trans.date).format('hh:mm A');
+  //         trans.date = moment(trans.date).format('MM/DD/YYYY');
+  //       })
+  //       this.storeCreditDto = history;
+  //     })
+  // }
+  // addStoreCredit() {
 
-}
+  //   this.addStoreCreditObject.amount = this.storeCreditAmount;
+  //   this.addStoreCreditObject.reason = this.storeCreditReason;
+  //   this.addStoreCreditObject.createdTimestamp = moment(Date.now()).format('YYYY-MM-DD HH:mm:ss');
+  //   this.addStoreCreditObject.customerPhoneno = this.selectedCustomerForStoreCredit.phoneNo;
+  //   // TODO - need to fix this when work on user module.
+  //   this.addStoreCreditObject.employeeName = 'alok@alok.com';
+
+  //   this.customerService.addStoreCredit(this.addStoreCreditObject);
+  // }
+
+  // openPendingInvoice(customer: Customer){
+  //   this.sellService.getPendingInvoiceByCustomer(customer.phoneNo)
+  //   .subscribe(transaction => {
+  //     transaction.forEach(trans => {
+  //       trans.time = moment(trans.date).format('hh:mm A');
+  //       trans.date = moment(trans.date).format('MM-DD-YYYY');
+  //     })
+  //     this.transactionDetails = transaction;
+  //   });
+  // }
+
+  // ngOnDestroy() {
+  //   //prevent memory leak when component destroyed
+  //    this._subscription.unsubscribe(); 
+  //  }
+
+
 
 // export class PrimeCustomer implements CustomerInterface {
 
@@ -275,5 +483,14 @@ export class StoreCreditDto {
   employeeName: string;
   date: any;
   time: any;
+
+}
+
+export class CustomerFinancialDto {
+  dueBalance: number;
+  storeCredit: number;
+  totalSpending: number;
+  totalReturn: number;
+  pendingInvoiceCount: number;
 
 }

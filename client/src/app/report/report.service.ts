@@ -22,7 +22,6 @@ export class ReportService {
       }
 
       getSalesDetails(salesReportBy: string, startDate: string, endDate: string): Observable<SalesDto[]> {
-
         return this.http.get(this.url+'/getReportBySales?salesReportBy=' + salesReportBy+'&startDate='+startDate+'&endDate='+endDate)
         .map(this.extractData)
         .catch(this.handleError);

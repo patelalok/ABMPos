@@ -1253,6 +1253,9 @@ export class SaleComponent implements OnInit, AfterViewInit {
     let filtered: Customer[] = [];
     for (let i = 0; i < customers.length; i++) {
       let cust = customers[i];
+
+      // This if condition will fix the problem of searching when company name is null.
+      if(cust != undefined && cust.companyName != null && cust.companyName != undefined)
       if (cust.name.toLowerCase().includes(query.toLowerCase()) || cust.companyName.toLowerCase().includes(query.toLowerCase()) || cust.phoneNo.includes(query)) {
         filtered.push(cust);
       }
