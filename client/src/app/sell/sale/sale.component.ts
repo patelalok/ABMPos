@@ -1004,12 +1004,15 @@ export class SaleComponent implements OnInit, AfterViewInit {
       payment.date = this.transactionDtoList.date;
     }
     // This is very important logic to maintain, total due balance in backend.
-    if (null != this.selectedCustomer && this.selectedCustomer != undefined && this.transactionDtoList.status == 'Pending') {
-      this.transactionDtoList.totalBalanceDue =+this.selectedCustomer.balance +this.dueAmountForTransaction;
+    if (this.selectedCustomer && this.selectedCustomer != undefined) {
+      if(this.transactionDtoList.status == 'Pending'){
+        this.transactionDtoList.totalBalanceDue =+this.selectedCustomer.balance +this.dueAmountForTransaction;
+      }
+      else {
+        this.transactionDtoList.totalBalanceDue = this.selectedCustomer.balance;
+      }
     }
-    else {
-      this.transactionDtoList.totalBalanceDue = this.selectedCustomer.balance;
-    }
+ 
     // NOW MAKING SERVICE CALL TO ADD TRANSACTION AND LINE ITEM DETAILS AND WILL ADD LINE ITEM DETAILS ONLY IF ADD TRANASACTION CALL IS SUCCESS !!!
     this.sellService.addTransactionDetails(this.transactionDtoList)
 
@@ -1513,8 +1516,8 @@ export class TransactionDtoList {
   transactionComId: number;
   customerPhoneno: string;
   status: any;
-  previousBalance: any;
-  transactionBalance: any;
+  previousBalance: number;
+  transactionBalance: number;
   totalBalanceDue: number;
   lineItemDiscount: any;
   username: any;
@@ -1561,6 +1564,8 @@ export class PaymentDetails {
 }
 
 export class PaymentHistoryDto {
+  
+  transactionComId: number;
   paymentDao: PaymentDao;
   customerFirstLastName: string;
   customerPhoneno: string;

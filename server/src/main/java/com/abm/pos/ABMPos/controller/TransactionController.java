@@ -53,6 +53,25 @@ public class TransactionController {
 
     }
 
+//    @RequestMapping(value = "/printPaymentReceipt", method = RequestMethod.POST, produces = "application/json")
+//    public ResponseEntity<byte[]> printPaymentReceipt(@RequestBody PaymentDao[] paymentDao) throws DocumentException, IOException {
+//
+//        byte [] pdfDataBytes = transactionManager.printPaymentReceipt(paymentDao);
+//        HttpHeaders headers = new HttpHeaders();
+//        headers.setContentType(MediaType.parseMediaType("application/pdf"));
+//        headers.add("Access-Control-Allow-Origin", "*");
+//        headers.add("Access-Control-Allow-Methods", "GET, POST, PUT");
+//        headers.add("Access-Control-Allow-Headers", "Content-Type");
+//        headers.add("Cache-Control", "no-cache, no-store, must-revalidate");
+//        headers.add("Pragma", "no-cache");
+//        headers.add("Expires", "0");
+//
+//        headers.setCacheControl("must-revalidate, post-check=0, pre-check=0");
+//        ResponseEntity<byte[]> response = new ResponseEntity<byte[]>(pdfDataBytes, headers, HttpStatus.OK);
+//        return response;
+//
+//    }
+
 
 //    @RequestMapping(value = "/getTransaction", method = RequestMethod.GET, produces = "application/json")
 //    public List<TransactionDao> getTransaction()

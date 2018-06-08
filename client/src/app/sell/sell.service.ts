@@ -107,9 +107,10 @@ paymentDetialsToVoid: PaymentHistoryDto;
   }
 
   addPaymentDetails(paymentDaoList: PaymentDao[]){
-    return this.http.post(this.url+'/addPayment',paymentDaoList)
-    .map(this.extractData)
-    .catch(this.handleError);
+    this.http.post(this.url+'/addPayment',paymentDaoList,{responseType: ResponseContentType.Blob})
+    .subscribe((data: any) => {
+      printBlob(data._body)
+    })
   }
 
   voidTransaction(transactionToVoid: TransactionDtoList) {

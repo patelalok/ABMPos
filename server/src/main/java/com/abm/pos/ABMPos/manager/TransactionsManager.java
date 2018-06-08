@@ -1056,7 +1056,14 @@ public class TransactionsManager {
         }
     }
 
-    public class FooterTable extends PdfPageEventHelper {
+    public byte[] printPaymentReceipt(PaymentDao[] paymentDao) {
+
+
+
+        return null;
+    }
+
+    public static class FooterTable extends PdfPageEventHelper {
         protected PdfPTable footer;
 
         public FooterTable(PdfPTable footer) {

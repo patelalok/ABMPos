@@ -148,21 +148,22 @@ export class PaymentComponent implements OnInit {
     else
     {
     console.log('Final Payment List', this.paymentList);
-    this.sellService.addPaymentDetails(this.paymentList)
-    .subscribe(data => {
-      if(data){
-        this.toastr.success('Payment Recived Succesfully !!', 'Success!');
-        this.clearPage();
-      }
-      else {
-        this.toastr.error('Can Not Process Payment !!', 'Error!');
-      }
-      console.log(data);
-    },
-    error => {
-      this.toastr.error('Can Not Process Payment !!', 'Error!');
-      console.log(JSON.stringify(error.json()));
-    });
+    this.sellService.addPaymentDetails(this.paymentList);
+         this.clearPage();
+    // .subscribe(data => {
+    //   if(data){
+    //     this.toastr.success('Payment Recived Succesfully !!', 'Success!');
+    //     this.clearPage();
+    //   }
+    //   else {
+    //     this.toastr.error('Can Not Process Payment !!', 'Error!');
+    //   }
+    //   console.log(data);
+    // },
+    // error => {
+    //   this.toastr.error('Can Not Process Payment !!', 'Error!');
+    //   console.log(JSON.stringify(error.json()));
+    // });
   }
   }
 
@@ -221,6 +222,7 @@ export class PaymentComponent implements OnInit {
     let filtered: Customer[] = [];
     for (let i = 0; i < customers.length; i++) {
       let cust = customers[i];
+      if(cust != undefined && cust.companyName != null && cust.companyName != undefined)
       if (cust.name.toLowerCase().includes(query.toLowerCase()) || cust.companyName.toLowerCase().includes(query.toLowerCase()) || cust.phoneNo.includes(query)) {
         filtered.push(cust);
       }

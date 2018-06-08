@@ -84,6 +84,7 @@ export class PaymentHistoryComponent implements OnInit {
             trans.originalDate = trans.paymentDao.date;
             trans.time = moment(trans.originalDate).format('hh:mm A');
             trans.onlyDate = moment(trans.originalDate).format('MM-DD-YYYY');
+            trans.transactionComId = trans.paymentDao.transactionComId;
           })
           this.paymentHistoryDetails = paymentHistory;
           this.loadingServie.loading = false;
@@ -92,6 +93,7 @@ export class PaymentHistoryComponent implements OnInit {
   }
 
   printReceipt(transaction: TransactionDtoList){
+    console.log('priny pay', transaction);
     this.sellService.printReceipt(transaction);  
 }
 
@@ -152,6 +154,7 @@ export class PaymentHistoryComponent implements OnInit {
           trans.originalDate = trans.paymentDao.date;
             trans.time = moment(trans.originalDate).format('hh:mm A');
             trans.onlyDate = moment(trans.originalDate).format('MM-DD-YYYY');
+            trans.transactionComId = trans.paymentDao.transactionComId;
         })
         this.paymentHistoryDetailsOriginal = paymentHistory;
         this.paymentHistoryDetails = this.paymentHistoryDetailsOriginal;
