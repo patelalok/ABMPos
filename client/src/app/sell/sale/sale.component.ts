@@ -543,9 +543,9 @@ export class SaleComponent implements OnInit, AfterViewInit {
 
     let paymentDaoObj = new PaymentDao();
 
-    if (paymentType == 'CASH') {
+    if (paymentType == 'Cash') {
 
-      paymentDaoObj.type = 'CASH';
+      paymentDaoObj.type = 'Cash';
       // This mean customer has paid less or equal amount.
       if (paymentAmount <= this.dueAmountForTransaction) {
         paymentDaoObj.amount = paymentAmount;
@@ -582,9 +582,9 @@ export class SaleComponent implements OnInit, AfterViewInit {
     // this.paymentObjectForPaymentSellTable.push({ 'paymentType': 'Cash', 'paymentAmount': paymentAmount });
 
     // this.validatePaymentButtons(paymentAmount);
-    else if (paymentType == 'CREDIT') {
+    else if (paymentType == 'Credit') {
 
-      paymentDaoObj.type = 'CREDIT';
+      paymentDaoObj.type = 'Credit';
       // This mean customer has paid less or equal amount.
       if (paymentAmount <= this.dueAmountForTransaction) {
         paymentDaoObj.amount = paymentAmount;
@@ -598,9 +598,9 @@ export class SaleComponent implements OnInit, AfterViewInit {
 
       this.validatePaymentButtons(paymentAmount);
     }
-    else if (paymentType == 'CHECK') {
+    else if (paymentType == 'Check') {
 
-      paymentDaoObj.type = 'CHECK';
+      paymentDaoObj.type = 'Check';
       // This mean customer has paid less or equal amount.
       if (paymentAmount <= this.dueAmountForTransaction) {
         paymentDaoObj.amount = paymentAmount;
@@ -643,9 +643,9 @@ export class SaleComponent implements OnInit, AfterViewInit {
     //     this.validatePaymentButtons(paymentAmount);
     // }
 
-    else if (paymentType == 'STORE CREDIT') {
+    else if (paymentType == 'Store Credit') {
 
-      paymentDaoObj.type = 'STORE CREDIT';
+      paymentDaoObj.type = 'Store Credit';
 
       // Now I have to handle two scenario
       // Case 1. Store credit can greater then equal to payment amount

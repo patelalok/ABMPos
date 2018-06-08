@@ -111,7 +111,6 @@
                 <br/>
                 <div *ngIf="this.selectedCustomer">
                     <table class="table table-bordered customer">
-
                         <tbody>
                             <tr>
                                 <td>
@@ -142,18 +141,8 @@
                                 </td>
                             </tr>
                             <tr>
-                                <td>
-                                    <dl class="row">
-                                        <dt class="">Spending:</dt>
-                                        <dd class=""></dd>
-                                    </dl>
-                                </td>
-                                <td>
-                                    <dl class="row">
-                                        <dt class="">Loyalty:</dt>
-                                        <dd class=""></dd>
-                                    </dl>
-
+                                <td colspan="2">
+                                    <input type="text>" class="form-control" placeholder="Customer Notes" [(ngModel)] = "this.selectedCustomer.customerNote">
                                 </td>
                             </tr>
                         </tbody>
@@ -380,18 +369,18 @@
 
                 <div class="row" style="margin-top: 30px">
                     <div class="col-lg-3">
-                        <button mat-raised-button class="primary-button" (click)="this.setPaymentDto('CASH',this.payAmountTextBox)" [disabled]="this.disablePaymentButtons">CASH</button>
+                        <button mat-raised-button class="primary-button" (click)="this.setPaymentDto('Cash',this.payAmountTextBox)" [disabled]="this.disablePaymentButtons">CASH</button>
                     </div>
 
                     <div class="col-lg-3">
-                        <button mat-raised-button class="primary-button" (click)="this.setPaymentDto('CREDIT',this.payAmountTextBox)" [disabled]="this.disablePaymentButtons">CREDIT / DEBIT</button>
+                        <button mat-raised-button class="primary-button" (click)="this.setPaymentDto('Credit',this.payAmountTextBox)" [disabled]="this.disablePaymentButtons">CREDIT</button>
                     </div>
 
                     <div class="col-lg-3">
-                        <button mat-raised-button class="primary-button" (click)="this.setPaymentDto('CHECK',this.payAmountTextBox)" [disabled]="this.disablePaymentButtons">CHECK</button>
+                        <button mat-raised-button class="primary-button" (click)="this.setPaymentDto('Check',this.payAmountTextBox)" [disabled]="this.disablePaymentButtons">CHECK</button>
                     </div>
                     <div class="col-lg-3">
-                        <button mat-raised-button class="secondary-button" [disabled]="this.disableStoreCreditButtons" (click)="this.setPaymentDto('STORE CREDIT', this.selectedCustomer.storeCredit)">STORE CREDIT</button>
+                        <button mat-raised-button class="secondary-button" [disabled]="this.disableStoreCreditButtons" (click)="this.setPaymentDto('Store Credit', this.selectedCustomer.storeCredit)">STORE CREDIT</button>
 
                         <!-- <button mat-raised-button class="primary-button" (click)="this.setPaymentDto('DEBIT',this.payAmountTextBox)" [disabled]="true">Debit</button> -->
                     </div>
@@ -399,27 +388,27 @@
                 <div class="row" style="margin-top: 30px">
 
                     <div class="col-md-2">
-                        <button mat-raised-button class="primary-button" (click)="this.setPaymentDto('CASH', 1)" [disabled]="this.disablePaymentButtonsWithAmount">$1</button>
+                        <button mat-raised-button class="primary-button" (click)="this.setPaymentDto('Cash', 10)" [disabled]="this.disablePaymentButtonsWithAmount">$10</button>
                     </div>
 
                     <div class="col-md-2">
-                        <button mat-raised-button class="primary-button" (click)="this.setPaymentDto('CASH', 5)" [disabled]="this.disablePaymentButtonsWithAmount">$5</button>
+                        <button mat-raised-button class="primary-button" (click)="this.setPaymentDto('Cash', 20)" [disabled]="this.disablePaymentButtonsWithAmount">$20</button>
                     </div>
 
                     <div class="col-md-2">
-                        <button mat-raised-button class="primary-button" (click)="this.setPaymentDto('CASH', 10)" [disabled]="this.disablePaymentButtonsWithAmount">$10</button>
+                        <button mat-raised-button class="primary-button" (click)="this.setPaymentDto('Cash', 50)" [disabled]="this.disablePaymentButtonsWithAmount">$50</button>
                     </div>
 
                     <div class="col-md-2">
-                        <button mat-raised-button class="primary-button" (click)="this.setPaymentDto('CASH', 20)" [disabled]="this.disablePaymentButtonsWithAmount">$20</button>
+                        <button mat-raised-button class="primary-button" (click)="this.setPaymentDto('Cash', 100)" [disabled]="this.disablePaymentButtonsWithAmount">$100</button>
                     </div>
 
                     <div class="col-md-2">
-                        <button mat-raised-button class="primary-button" (click)="this.setPaymentDto('CASH', 50)" [disabled]="this.disablePaymentButtonsWithAmount">$50</button>
+                        <button mat-raised-button class="primary-button" (click)="this.setPaymentDto('Cash', 500)" [disabled]="this.disablePaymentButtonsWithAmount">$500</button>
                     </div>
 
                     <div class="col-md-2">
-                        <button mat-raised-button class="primary-button" (click)="this.setPaymentDto('CASH', 100)" [disabled]="this.disablePaymentButtonsWithAmount">$100</button>
+                        <button mat-raised-button class="primary-button" (click)="this.setPaymentDto('Cash', 1000)" [disabled]="this.disablePaymentButtonsWithAmount">$1000</button>
                     </div>
                 </div>
                 <div class="row" style="margin-top: 30px">
