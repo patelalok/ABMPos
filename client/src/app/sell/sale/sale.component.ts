@@ -995,29 +995,14 @@ export class SaleComponent implements OnInit, AfterViewInit {
         totalLineItemDiscount = + ((lineItem.retail - lineItem.retailWithDiscount) * lineItem.saleQuantity) + totalLineItemDiscount;
       }
     }
-
-    console.log('total line item dis', totalLineItemDiscount);
-    console.log('total transactiondis', this.totalTransactionDiscount);
-
-
-
     this.transactionDtoList.totalDiscount = +this.totalTransactionDiscount +totalLineItemDiscount;
-    console.log('total transactiondis wich goes to db', this.transactionDtoList.totalDiscount);
-
-
-    console.log('subtotal before', this.transactionDtoList.subtotal);
-
     // I am doing this to show subtotal without line item discount, so in invoice customer wont get confuse.
     this.transactionDtoList.subtotal = this.transactionDtoList.subtotal + totalLineItemDiscount;
-
-    console.log('subtotal after', this.transactionDtoList.subtotal);
-
 
     for (let payment of this.paymentDaoList) {
       payment.status = this.saleType;
       payment.date = this.transactionDtoList.date;
     }
-
     // This is very important logic to maintain, total due balance in backend.
     if (null != this.selectedCustomer && this.selectedCustomer != undefined && this.transactionDtoList.status == 'Pending') {
       this.transactionDtoList.totalBalanceDue =+this.selectedCustomer.balance +this.dueAmountForTransaction;
@@ -1025,7 +1010,6 @@ export class SaleComponent implements OnInit, AfterViewInit {
     else {
       this.transactionDtoList.totalBalanceDue = this.selectedCustomer.balance;
     }
-
     // NOW MAKING SERVICE CALL TO ADD TRANSACTION AND LINE ITEM DETAILS AND WILL ADD LINE ITEM DETAILS ONLY IF ADD TRANASACTION CALL IS SUCCESS !!!
     this.sellService.addTransactionDetails(this.transactionDtoList)
 

@@ -57,7 +57,7 @@
                                 <button class="btn-red action-button-table" mat-button data-toggle="modal" data-target="#deleteCategory" (click)="this.setCategoryForDelete(category)">
                                     <i class="fa fa-trash" aria-hidden="true"></i>
                                 </button>
-                                <button class="btn-blue action-button-table" mat-button>
+                                <button class="btn-blue action-button-table" mat-button (click)= "setCategoryForUpdate(category)">
                                     <i class="fa fa-pencil" aria-hidden="true"></i>
                                 </button>
                             </td>
@@ -84,7 +84,7 @@
                                                 <button class="btn-red action-button-table" mat-button data-toggle="modal" data-target="#deleteCategory" (click)="this.setCategoryForDelete(category)">
                                                     <i class="fa fa-trash" aria-hidden="true"></i>
                                                 </button>
-                                                <button class="btn-blue action-button-table" mat-button>
+                                                <button class="btn-blue action-button-table" mat-button (click)= "setSubCategoryForUpdate()">
                                                     <i class="fa fa-pencil" aria-hidden="true"></i>
                                                 </button>
                                             </td>

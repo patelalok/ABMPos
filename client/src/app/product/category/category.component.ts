@@ -16,7 +16,8 @@ import { ToastsManager } from 'ng2-toastr';
 export class CategoryComponent implements OnInit {
   categoryForm: FormGroup;
   subCategoryForm: FormGroup;    
-  selectedCategoryForDelete: Category
+  selectedCategoryForDelete: Category;
+  selectedCategoryForUpdate: Category;
   categoryDto: Category[];
   displayDialog: boolean;
   displaySubCategoryDialog: boolean;
@@ -35,7 +36,8 @@ export class CategoryComponent implements OnInit {
         {
           'name': [null,Validators.required],
           'description': [''],
-          'ecommerce':['']
+          'ecommerce':[''],
+          'categoryId':['']
         }
       );
       this.subCategoryForm = this.formBuilder.group(
@@ -82,16 +84,24 @@ export class CategoryComponent implements OnInit {
 
             if(data){
                 this.toastr.success('Category Added Successfully!!', 'Success!!');
-                this.categoryForm.get('name').setValue('');
-                this.categoryForm.get('description').setValue('');
+                // this is update
+                if(newCategory.categoryId > 0){
+                    let index = this.categoryDto.findIndex((el) => el.categoryId == newCategory.categoryId);
+                    this.categoryDto[index] = newCategory;                }
+                else {
+                    this.categoryDto.push(newCategory);
+                }
+                this.categoryDto = this.categoryDto.slice();
+              
             }
             console.log(data);
           },
             error => {
                 this.toastr.error('Something Goes Wrong!!', 'Error!!')
         });
-        this.categoryDto.push(newCategory);
-        this.categoryDto = this.categoryDto.slice();
+        this.categoryForm.get('name').setValue('');
+        this.categoryForm.get('description').setValue('');
+        this.categoryForm.get('ecommerce').setValue('');
         this.displayDialog = false;    
         
     }
@@ -133,6 +143,17 @@ export class CategoryComponent implements OnInit {
         });
     }
 
+    setCategoryForUpdate(category:Category){
+        this.categoryForm.get('name').setValue(category.name);
+        this.categoryForm.get('description').setValue(category.description);
+        this.categoryForm.get('categoryId').setValue(category.categoryId);
+        this.categoryForm.get('ecommerce').setValue(category.ecommerce);
+
+        this.selectedCategoryForUpdate = category;
+
+        this.displayDialog = true;
+        console.log('update category', this.selectedCategoryForUpdate);
+    }
 
     setCategoryForDelete(cate: Category) {
 
@@ -162,6 +183,7 @@ export class CategoryComponent implements OnInit {
     } 
 
     showAddCategoryPopup() {
+        this.categoryForm.reset();
         this.displayDialog = true;
     }
     showAddSubCategoryPopup() {
