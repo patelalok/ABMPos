@@ -27,7 +27,11 @@ public class SubCategoryManager {
     }
 
     public List<SubCategoryDao> getSubCategoryByCategoryId(int categoryId) {
-        return subCategoryRepository.findAllByCategoryId(categoryId);
+
+        if(categoryId > 0){
+            return subCategoryRepository.findAllByCategoryId(categoryId);
+        }
+        else return subCategoryRepository.findAll();
     }
 
     public String deleteSubCategory(int subCategoryId) {

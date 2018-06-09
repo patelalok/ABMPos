@@ -58,13 +58,13 @@ export class AddProductComponent implements OnInit {
         'productNo': [null, [Validators.required, Validators.pattern('^[0-9]+$')]],
         'description': ['', Validators.required],
         'category': [null, Validators.required],
-        'subCategory':[null],
+        'subCategory':['Please Select SubCategory',null],
         'brand': [null, Validators.required],
         'vendor': [null],
-        'model': [null],
+        'model': ['Please Select Model',null],
         'cost': [null, [Validators.required, Validators.pattern('^[0-9-.]+$')]],
-        'markup': [null, Validators.pattern('^[0-9-.]+$')],
-        'retail': [null, [Validators.required, Validators.pattern('^[0-9-.]+$')]],
+        // 'markup': [null, Validators.pattern('^[0-9-.]+$')],
+        // 'retail': [null, [Validators.required, Validators.pattern('^[0-9-.]+$')]],
         'tier1': [null, [Validators.required, Validators.pattern('^[0-9-.]+$')]],
         'tier2': [null, [Validators.required, Validators.pattern('^[0-9-.]+$')]],
         'tier3': [null, [Validators.required, Validators.pattern('^[0-9-.]+$')]],
@@ -81,39 +81,36 @@ export class AddProductComponent implements OnInit {
       .subscribe((categories: Category[]) => {
         this.categoryDto = categories;
         this.form.get('category').setValue(this.categoryDto[0]);
-        console.log('CategoryList' + this.categoryDto);
+        //console.log('CategoryList' + this.categoryDto);
       });
 
-      if(this.categoryDto)
-      {
-      this.productService.getSubCategoryDetailsByCategoryId(this.categoryDto[0].categoryId)
+
+      this.productService.getSubCategoryDetailsByCategoryId(0)
       .subscribe((subCategory: SubCategory[]) => {
         this.subCategoryDto = subCategory;
-        this.form.get('subCategory').setValue(this.subCategoryDto[0]);
-        // console.log('CategoryList' + this.categoryDto);
+        //this.form.get('subCategory').setValue(this.subCategoryDto[0]);
       });
-    }
+    
 
     this.productService.getBrandDetails()
       .subscribe((brands: Brand[]) => {
         this.brandDto = brands;
         this.form.get('brand').setValue(this.brandDto[0]);
-        console.log('BrandList' + this.brandDto);
+        //console.log('BrandList' + this.brandDto);
       });
 
     this.productService.getVendorDetails()
       .subscribe((vendors: Vendor[]) => {
         this.vendorDto = vendors;
         this.form.get('vendor').setValue(this.vendorDto[0]);
-        console.log('VendorList' + this.vendorDto);
+        //console.log('VendorList' + this.vendorDto);
       });
 
     this.productService.getModelDetails()
       .subscribe((models: Model[]) => {
         this.modelDto = models;
-       this.form.get('model').setValue(this.modelDto[0]);
-
-        console.log('ModelList' + this.modelDto);
+      // this.form.get('model').setValue(this.modelDto[0]);
+        //console.log('ModelList' + this.modelDto);
       });
 
       this.getProductDetails();
@@ -170,12 +167,16 @@ export class AddProductComponent implements OnInit {
       let product: Product = {
         productNo: formValues.productNo,
         categoryId: formValues.category.categoryId,
+        subCategoryId: formValues.subCategory.id,
         brandId: formValues.brand.brandId,
         vendorId: formValues.vendor.vendorId,
         modelId: formValues.model.modelId,
         alternetNo: formValues.alternetNo,
         cost: formValues.cost,
-        retail: formValues.retail,
+        //retail: formValues.retail,
+        tier1: formValues.tier1,
+        tier2: formValues.tier2,
+        tier3: formValues.tier3,
         description: formValues.description.toUpperCase(),
         imeiNo: null,
         active: true,
@@ -211,12 +212,14 @@ export class AddProductComponent implements OnInit {
     // this.form.get('cost').setValue(null);
     // this.form.get('markup').setValue(null);
     // this.form.get('retail').setValue(null);
-    // this.form.get('quantity').setValue(null);
+    this.form.get('model').setValue('Please Select Model');
+    this.form.get('subCategory').setValue('Please Select SubCategory');
+
     this.form.reset(<ProductForm>{
       category: this.categoryDto[0],
       brand: this.brandDto[0],
       vendor: this.vendorDto[0],
-      model: this.modelDto[0]
+      // model: this.modelDto[0]
     }); 
   }
 

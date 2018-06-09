@@ -79,7 +79,8 @@ export class EditProductComponent implements OnInit {
         //   this.currentProduct.quantity = +this.currentProduct.quantity + inventory.quantity;
         // }));
 
-        let currentCategory={}; 
+        let currentCategory={};
+        let currentSubCategory={}; 
         let currentBrand ={};
         let currentVendor ={}; 
         let currentModel = {}; 
@@ -157,15 +158,19 @@ export class EditProductComponent implements OnInit {
           // console.log(this.form.value);
         });
 
-        if(this.categoryDto)
-        {
-        this.productService.getSubCategoryDetailsByCategoryId(this.categoryDto[0].categoryId)
+
+        // Here I am sending 0, cause i need all subcatgories
+        this.productService.getSubCategoryDetailsByCategoryId(0)
         .subscribe((subCategory: SubCategory[]) => {
           this.subCategoryDto = subCategory;
-          this.form.get('subCategory').setValue(this.subCategoryDto[0]);
-          // console.log('CategoryList' + this.categoryDto);
+
+          currentSubCategory = this.subCategoryDto.filter((el)=> el.id==this.currentProduct.subCategoryId)[0];
+              //This will help me fix the problem when model is undefined or not added befor.
+              if(currentSubCategory == undefined){
+                currentSubCategory = new SubCategory();
+              }
+              this.form.get('subCategory').setValue(currentSubCategory);
         });
-      }
 
       this.productService.getBrandDetails()
         .subscribe((brands: Brand[]) => {
@@ -295,7 +300,7 @@ export class EditProductComponent implements OnInit {
   //}
   }
 
-  addProductVariant(){
+  addProductVariant(isClone:boolean){
       let formValues: ProductVariantForm = this.variantForm.value;
 
       console.log('formValues at all', formValues.operationType);
@@ -331,7 +336,6 @@ export class EditProductComponent implements OnInit {
               this.toastr.success('Product Edited Successfully!!', 'Success!');
               this.productVariantDto[index] = variant;
               this.productVariantDto = this.productVariantDto.slice();
-              console.log('array index', this.productVariantDto[index]);
           }
         }
         else{
@@ -339,6 +343,10 @@ export class EditProductComponent implements OnInit {
           this.toastr.success('Product Added Successfully!!', 'Success!');
           this.productVariantDto.push(variant);
           this.productVariantDto = this.productVariantDto.slice();
+
+          if(isClone){
+            this.variantForm.get('productNo').setValue('');
+          }
         }
       }
       this.variantOperation = 'Add';

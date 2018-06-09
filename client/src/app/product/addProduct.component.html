@@ -73,6 +73,7 @@
                             </div>
                             <div class="col-md-8 product-textbox">
                                 <select class="form-control" formControlName="subCategory">
+                                        <option selected>Please Select SubCategory</option>
                                             <option *ngFor="let subCategory of this.subCategoryDto" [ngValue]= "subCategory">
                                                 {{subCategory.name}}
                                                 </option>
@@ -125,10 +126,11 @@
                             </div>
                             <div class="col-md-8 product-textbox">
                                 <select class="form-control" formControlName="model" name="model">
-                                            <option *ngFor = "let model of modelDto" [ngValue]="model">
-                                                {{model.name}}
-                                                </option>
-                                        </select>
+                                    <option selected>Please Select Model</option>
+                                    <option *ngFor = "let model of modelDto" [ngValue]="model">
+                                    {{model.name}}
+                                    </option>
+                                    </select>
                             </div>
                         </div>
                         <div class="row m-2">
@@ -252,7 +254,7 @@
                             <div class="col-md-12 product-textbox">
                                 <div class="checkbox">
                                     <label>
-                                              <input type="checkbox" (click) = "showDialog()" formControlName="variant">
+                                        <input type="checkbox" formControlName="variant">
                                                Is Variant
                                             </label>
                                 </div>

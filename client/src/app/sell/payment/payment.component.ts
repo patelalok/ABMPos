@@ -150,20 +150,6 @@ export class PaymentComponent implements OnInit {
     console.log('Final Payment List', this.paymentList);
     this.sellService.addPaymentDetails(this.paymentList);
          this.clearPage();
-    // .subscribe(data => {
-    //   if(data){
-    //     this.toastr.success('Payment Recived Succesfully !!', 'Success!');
-    //     this.clearPage();
-    //   }
-    //   else {
-    //     this.toastr.error('Can Not Process Payment !!', 'Error!');
-    //   }
-    //   console.log(data);
-    // },
-    // error => {
-    //   this.toastr.error('Can Not Process Payment !!', 'Error!');
-    //   console.log(JSON.stringify(error.json()));
-    // });
   }
   }
 
