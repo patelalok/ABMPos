@@ -825,7 +825,7 @@ export class SaleComponent implements OnInit, AfterViewInit {
 
     this.disablePaymentButtons = false;
     this.disablePaymentButtonsWithAmount = false;
-    this.disableOnAccountButtons = this.selectedCustomer == null;
+    // this.disableOnAccountButtons = this.selectedCustomer == null;
 
     // This mean this customer has some store credit to use so i need to enable store credit button.
     if (this.selectedCustomer) {
@@ -853,14 +853,19 @@ export class SaleComponent implements OnInit, AfterViewInit {
     this.disablePaymentButtons = false;
     this.disablePaymentButtonsWithAmount = false;
 
-    this.disableOnAccountButtons = this.selectedCustomer == null;
-    // This mean this customer has some store credit to use so i need to enable store credit button.
-    if (this.selectedCustomer && this.selectedCustomer.storeCredit > 0) {
-      this.disableStoreCreditButtons = false;
-    }
-    else {
-      this.disableStoreCreditButtons = true;
-    }
+       // This mean this customer has some store credit to use so i need to enable store credit button.
+       if (this.selectedCustomer) {
+        this.disableCompleteSaleButton = false;
+        if (this.selectedCustomer.storeCredit > 0) {
+          this.disableStoreCreditButtons = false;
+        }
+        else {
+          this.disableStoreCreditButtons = true;
+        }
+      }
+      else {
+        this.disableCompleteSaleButton = true;
+      }
     this.payAmountTextBox = this.transactionDtoList.transactionBalance;
     this.dueAmountForTransaction = this.transactionDtoList.transactionBalance;
 
