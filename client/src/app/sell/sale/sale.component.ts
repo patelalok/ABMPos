@@ -613,39 +613,12 @@ export class SaleComponent implements OnInit, AfterViewInit {
       this.paymentDaoList.push(paymentDaoObj);
       this.validatePaymentButtons(paymentAmount);
     }
-    //   else if (paymentType == 'DEBIT') {
-
-    //     paymentDaoObj.type = 'DEBIT';
-    //     // This mean customer has paid less or equal amount.
-    //     if(paymentAmount <= this.dueAmountForTransaction){
-    //       paymentDaoObj.amount = paymentAmount;
-    //     }
-    //     else {
-    //       paymentDaoObj.amount = this.dueAmountForTransaction;
-    //     }
-
-    //     this.paymentObjectForPaymentSellTable.push({ 'paymentType': 'DEBIT', 'paymentAmount': paymentAmount });
-    //     this.validatePaymentButtons(paymentAmount);
-    // }
-    //   else if (paymentType == 'STORE CREDIT') {
-
-    //     paymentDaoObj.type = 'STORE CREDIT';
-    //     // This mean customer has paid less or equal amount.
-    //     if(paymentAmount <= this.dueAmountForTransaction){
-    //       paymentDaoObj.amount = paymentAmount;
-    //     }
-    //     else {
-    //       paymentDaoObj.amount = this.dueAmountForTransaction;
-    //     }
-
-    //     this.paymentObjectForPaymentSellTable.push({ 'paymentType': 'STORE CREDIT', 'paymentAmount': paymentAmount });
-    //     this.paymentDaoList.push(paymentDaoObj);
-    //     this.validatePaymentButtons(paymentAmount);
-    // }
 
     else if (paymentType == 'Store Credit') {
 
       paymentDaoObj.type = 'Store Credit';
+
+      this.disableStoreCreditButtons = true;
 
       // Now I have to handle two scenario
       // Case 1. Store credit can greater then equal to payment amount
