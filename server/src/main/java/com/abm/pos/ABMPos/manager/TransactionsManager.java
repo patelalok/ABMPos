@@ -1045,7 +1045,7 @@ public class TransactionsManager {
 
             doc.add(totalDueAmount);
 
-            if (transactionDao.getNote().length() > 1) {
+            if (null != transactionDao.getNote() && transactionDao.getNote().length() > 1) {
                 Paragraph notes = new Paragraph("Receipt Notes: ");
                 Paragraph transactionNotes = new Paragraph(transactionDao.getNote());
                 transactionNotes.setSpacingBefore(30f);

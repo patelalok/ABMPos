@@ -137,7 +137,7 @@ public interface TransactionRepository extends JpaRepository<TransactionDao, Int
             "SUM(t.total_balance_due) totalBalanceDue,             \n" +
             "SUM(t.shipping) shipping,             \n" +
             "SUM(temp.profit) profit,             \n" +
-            "(SELECT SUM(total_amount) from transaction WHERE status = 'Return' AND (date BETWEEN ?1 AND ?2 )) As totalReturn\n" +
+            "(SELECT IFNULL(SUM(total_amount), 0) from transaction WHERE status = 'Return' AND (date BETWEEN ?1 AND ?2 )) As totalReturn\n" +
             "FROM transaction t             \n" +
             "INNER JOIN    \n" +
             "(SELECT t.transaction_com_id,\n" +
@@ -164,7 +164,7 @@ public interface TransactionRepository extends JpaRepository<TransactionDao, Int
             "SUM(t.total_balance_due) totalBalanceDue,             \n" +
             "SUM(t.shipping) shipping,\n" +
             "SUM(temp.profit) profit,\n" +
-            "(SELECT SUM(total_amount) from transaction WHERE status = 'Return' AND (date BETWEEN ?1 AND ?2 )) As totalReturn\n" +
+            "(SELECT IFNULL(SUM(total_amount), 0) from transaction WHERE status = 'Return' AND (date BETWEEN ?1 AND ?2 )) As totalReturn\n" +
             "FROM transaction t             \n" +
             "INNER JOIN    \n" +
             "(SELECT t.transaction_com_id,\n" +
@@ -190,7 +190,7 @@ public interface TransactionRepository extends JpaRepository<TransactionDao, Int
             "SUM(t.total_balance_due) totalBalanceDue,             \n" +
             "SUM(t.shipping) shipping,             \n" +
             "SUM(temp.profit) profit,             \n" +
-            "(SELECT SUM(total_amount) from transaction WHERE status = 'Return' AND (date BETWEEN ?1 AND ?2 )) As totalReturn\n" +
+            "(SELECT IFNULL(SUM(total_amount), 0) from transaction WHERE status = 'Return' AND (date BETWEEN ?1 AND ?2 )) As totalReturn\n" +
             "FROM transaction t             \n" +
             "INNER JOIN    \n" +
             "(SELECT t.transaction_com_id,\n" +
@@ -216,7 +216,7 @@ public interface TransactionRepository extends JpaRepository<TransactionDao, Int
             "SUM(t.total_balance_due) totalBalanceDue,             \n" +
             "SUM(t.shipping) shipping,             \n" +
             "SUM(temp.profit) profit,             \n" +
-            "(SELECT SUM(total_amount) from transaction WHERE status = 'Return' AND (date BETWEEN ?1 AND ?2 )) As totalReturn\n" +
+            "(SELECT IFNULL(SUM(total_amount), 0) from transaction WHERE status = 'Return' AND (date BETWEEN ?1 AND ?2 )) As totalReturn\n" +
             "FROM transaction t             \n" +
             "INNER JOIN    \n" +
             "(SELECT t.transaction_com_id,\n" +
