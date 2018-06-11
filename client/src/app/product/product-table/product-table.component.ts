@@ -396,6 +396,12 @@ export class ProductTableComponent implements OnInit {
     productInventoryObj.productNo = this.productInventoryList[0].productNo;
     productInventoryObj.productId = this.productInventoryList[0].productId;
 
+    productInventoryObj.tier1 = this.productInventoryList[0].tier1;
+    productInventoryObj.tier2 = this.productInventoryList[0].tier2;
+    productInventoryObj.tier3 = this.productInventoryList[0].tier3;
+
+
+
     productInventoryObj.cost = this.cost;
     //productInventoryObj.retail = this.productInventoryList[0].retail;
     productInventoryObj.quantity = this.quantity;
