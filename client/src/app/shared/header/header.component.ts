@@ -220,6 +220,11 @@ export class HeaderComponent implements OnInit {
         this.clockInObj.userClockInId = this.lastClockInId;
         this.clockInObj.date = this.lastDate;
 
+        let index = this.employeeDto.findIndex((el)=> el.username == username);
+        if(index > -1){
+          this.clockInObj.hourlyRate = this.employeeDto[index].hourlyRate;
+        }
+
 
         this.employeeService.addClockInDetails(this.clockInObj)
         .subscribe(data => {
