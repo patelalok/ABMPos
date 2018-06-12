@@ -631,8 +631,6 @@ export class SaleComponent implements OnInit, AfterViewInit {
         paymentDaoObj.amount = this.dueAmountForTransaction;
         this.paymentDaoList.push(paymentDaoObj);
 
-
-
         //this.paymentObjectForPaymentSellTable.push({ 'paymentType': 'StoreCredit', 'paymentAmount': paymentDaoObj.amount });
         this.validatePaymentButtons(paymentDaoObj.amount);
       }
@@ -1103,8 +1101,16 @@ export class SaleComponent implements OnInit, AfterViewInit {
           this.setCustomerDetailsForParkSale(phoneNo);
         }
 
-        this.persit.setProducts(transaction.transactionLineItemDaoList);
-        this.transactionLineItemDaoList = this.persit.getProducts() || [];
+        //Hopefull this will fix the issue with parksale, where transactionLineItemId coming from back and creating
+        // Percitance entity exceptions - > which was painfull to figure it out.
+        if(transaction && transaction.transactionLineItemDaoList){
+          transaction.transactionLineItemDaoList.forEach((lineItem)=>{
+            lineItem.transactionLineItemId = 0;
+          });
+
+          this.persit.setProducts(transaction.transactionLineItemDaoList);
+          this.transactionLineItemDaoList = this.persit.getProducts() || [];
+        }
         this.setTransactionDtoList();
       });
   }
@@ -1454,6 +1460,7 @@ export class TransactionLineItemDaoList {
   saleQuantity?: number;
   // defaultQuantity: number;
   transactionComId?: number;
+  transactionLineItemId?:number;
   date?: any;
   time?: any;
   status?: string;
