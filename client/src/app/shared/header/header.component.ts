@@ -183,6 +183,11 @@ export class HeaderComponent implements OnInit {
         this.clockInObj.clockIn = moment(Date.now()).format('HH:mm:ss');
         this.clockInObj.username = username;
 
+        let index = this.employeeDto.findIndex((el)=> el.username == username);
+        if(index > -1){
+          this.clockInObj.hourlyRate = this.employeeDto[index].hourlyRate;
+        }
+
         console.log('clok in object', this.clockInObj)
         this.employeeService.addClockInDetails(this.clockInObj)
         .subscribe(data => {

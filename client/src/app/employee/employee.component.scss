@@ -8,3 +8,29 @@
     color: white;
     margin: 5px;
 }
+
+.action-button {
+    transition: all 0.2s ease;
+    //min-width: 10px !important;
+    max-width: 30px !important;
+    height: 40px;
+    // font-size: 18px !important;
+    border-radius: 20px !important;
+}
+
+.action-button-table {
+    transition: all 0.2s ease;
+    min-width: 45px !important;
+    height: 40px;
+    // font-size: 18px !important;
+    border-radius: 5px !important;
+    margin: 1px;
+    span {
+        display: flex;
+    }
+}
+
+.table td {
+    padding: 5px;
+    vertical-align: baseline;
+}

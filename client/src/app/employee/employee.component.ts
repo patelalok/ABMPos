@@ -151,26 +151,16 @@ export class EmployeeComponent implements OnInit {
             c.onlyDate = moment(c.date).format('YYYY-MM-DD');
 
             let clockInHourMoment = moment(c.clockIn, 'HH:mm');
-            let clockInMinuteMoment = moment(c.clockIn, 'HH:mm');
-
             let clockOutHourMoment = moment(c.clockOut,'HH:mm');
-            let clockOutMinuteMoment = moment(c.clockOut,'HH:mm');
 
-
-            let hour = moment.duration(clockInHourMoment.diff(clockOutHourMoment)).asHours().toFixed(2);
-            let minute = moment.duration(clockInMinuteMoment.diff(clockOutMinuteMoment)).asHours().toFixed(2);
-
-            // let duration = moment.duration(dateMoment.diff(this.clockInObj.clockIn)).asHours().toFixed(2);
-
-            console.log('hour', hour);
-            console.log('min', minute);
-
+            if(c.clockOut != undefined && c.clockOut != NaN ){
+              c.noOfHours = moment.duration(clockOutHourMoment.diff(clockInHourMoment)).asHours().toFixed(2);
+              c.totalAmount = c.noOfHours *c.hourlyRate;
+            }
           })
           this.clockInDto = clockIn;
           this.clockInDto = this.clockInDto.slice();
         })
-
-
       // this.employeeService.getEmployeesFinancialDetails(this.dateDto.startDate, this.dateDto.endDate,this.selectedCustomer.phoneNo)
       // .subscribe((financialDetails)=>{
       //   this.customerFinancialDto = financialDetails;
