@@ -180,7 +180,7 @@ export class HeaderComponent implements OnInit {
 
         this.clockInObj = new ClockIn();
         this.clockInObj.date = moment(Date.now()).format('YYYY-MM-DD HH:mm:ss');
-        this.clockInObj.clockIn = moment(Date.now()).format('YYYY-MM-DD HH:mm:ss');
+        this.clockInObj.clockIn = moment(Date.now()).format('HH:mm:ss');
         this.clockInObj.username = username;
 
         console.log('clok in object', this.clockInObj)
@@ -208,7 +208,7 @@ export class HeaderComponent implements OnInit {
 
         this.clockInObj.username = this.clockInForm.get('username').value;
         this.clockInObj.clockIn = this.lastClockInDate;
-        this.clockInObj.clockOut = moment(Date.now()).format('YYYY-MM-DD HH:mm:ss');
+        this.clockInObj.clockOut = moment(Date.now()).format('HH:mm:ss');
         this.clockInObj.noOfHours = this.noOfHours;
         this.clockInObj.noOfMinute = this.noOfMinute;
         this.clockInObj.username = username;

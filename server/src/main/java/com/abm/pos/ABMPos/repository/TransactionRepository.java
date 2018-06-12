@@ -74,16 +74,17 @@ public interface TransactionRepository extends JpaRepository<TransactionDao, Int
 
 
     @Query(value = "select temp.NameOfMonth, max(cash) cash, max(credit) credit, max(check_amount) check_amount, max(store_credit) store_credit from \n" +
-            "(select monthname(date) AS NameOfMonth,  \n" +
-            "if(type = 'Cash', sum(amount),0) as cash, \n" +
-            "if(type = 'Credit', sum(amount),0) as credit,\n" +
-            "if(type = 'Check', sum(amount),0) as check_amount,\n" +
-            "if(type = 'StoreCredit', sum(amount),0) as store_credit \n" +
-            "from transaction_payment \n" +
-            "where date between ?1 and ?2\n" +
-            "group by NameOfMonth,type) temp \n" +
-            "group by temp.NameOfMonth\n" +
-            "ORDER BY field(NameOfMonth,'January','February','March','April','May','June','July','August','September','October','November','December')", nativeQuery = true)
+            "            (select monthname(date) AS NameOfMonth,  \n" +
+            "            if(type = 'Cash', sum(amount),0) as cash, \n" +
+            "            if(type = 'Credit', sum(amount),0) as credit,\n" +
+            "            if(type = 'Check', sum(amount),0) as check_amount,\n" +
+            "            if(type = 'StoreCredit', sum(amount),0) as store_credit \n" +
+            "            from transaction_payment \n" +
+            "            where date between ?1  AND ?2\n" +
+            "            AND (status = 'Complete' OR status = 'Return' OR 'Pending')\n" +
+            "            group by NameOfMonth,type) temp \n" +
+            "            group by temp.NameOfMonth\n" +
+            "            ORDER BY field(NameOfMonth,'January','February','March','April','May','June','July','August','September','October','November','December')", nativeQuery = true)
     List<Object[]> getYearlyPaymentReport(String startDate, String endDate);
     
     @Query(value = "select temp.dates, max(cash) cash, max(credit) credit, max(check_amount) check_amount, max(store_credit) store_credit from \n" +
@@ -94,6 +95,7 @@ public interface TransactionRepository extends JpaRepository<TransactionDao, Int
             "if(type = 'StoreCredit', sum(amount),0) as store_credit \n" +
             "from transaction_payment \n" +
             "where date between ?1 and ?2 \n" +
+            "AND (status = 'Complete' OR status = 'Return' OR 'Pending')\n" +
             "group by dates,type) temp \n" +
             "group by temp.dates",nativeQuery = true)
     List<Object []> getMonthlyPaymentReport(String startDate, String endDate);
@@ -110,6 +112,7 @@ public interface TransactionRepository extends JpaRepository<TransactionDao, Int
             "if(type = 'StoreCredit', sum(amount),0) as store_credit\n" +
             "from transaction_payment\n" +
             "where date BETWEEN ?1 AND ?2\n" +
+            "AND (status = 'Complete' OR status = 'Return' OR 'Pending')\n" +
             "group by dates,type) temp\n" +
             "group by Week(temp.dates)",nativeQuery = true)
     List<Object []> getWeeklyPaymentReport(String startDate, String endDate);
@@ -123,6 +126,7 @@ public interface TransactionRepository extends JpaRepository<TransactionDao, Int
             "if(type = 'StoreCredit', sum(amount),0) as store_credit \n" +
             "from transaction_payment \n" +
             "where date between ?1 and ?2 \n" +
+            "AND (status = 'Complete' OR status = 'Return' OR 'Pending')\n" +
             "group by hours,type) temp \n" +
             "group by temp.hours", nativeQuery = true)
     List<Object[]> getHourlyPaymentReport(String startDate, String endDate);

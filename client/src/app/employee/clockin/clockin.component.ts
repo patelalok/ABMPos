@@ -190,6 +190,7 @@ export class ClockIn {
   totalAmount: any;
   commissionAmount: any;
   noOfMinute: any;
+  onlyDate: any;
 }
 
 export interface ClockInInterface {

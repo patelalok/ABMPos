@@ -4,6 +4,10 @@ import { FormBuilder, Validators, FormGroup, FormControl } from '@angular/forms'
 import { Message } from 'primeng/primeng';
 import { SellRoutingModule } from 'app/sell/sell-routing.module';
 import { Router } from '@angular/router';
+import { DateDto, DateService } from 'app/shared/services/date.service';
+import { ClockIn } from './clockin/clockin.component';
+import * as moment from 'moment';
+
 
 
 @Component({
@@ -20,8 +24,12 @@ export class EmployeeComponent implements OnInit {
   selectedEmployee: Employee;
   selectedEmployeeForDelete: Employee;
   msgs: Message[] = [];
+  clockInDto: ClockIn[] = [];
+  dateDto = new DateDto();
+  employeeDetailsBy: string = 'Month';
 
-  constructor(private employeeService: EmployeeService, private formBuilder: FormBuilder, private router: Router) { }
+
+  constructor(private employeeService: EmployeeService, private formBuilder: FormBuilder, private router: Router, private dateServie: DateService) { }
 
   ngOnInit() {
 
@@ -75,6 +83,7 @@ export class EmployeeComponent implements OnInit {
   }
 
   updateEmployee(employee: Employee) {
+
     this.displayDialog = true;
     //Seeting the value into form for UPDATE TODO WRITE SEPARETE METHOD FOR THIS.
     this.employeeForm.get('name').setValue(employee.name);
@@ -100,6 +109,93 @@ export class EmployeeComponent implements OnInit {
   deleteEmployee() {
     this.employeeService.deleteEmployee(this.selectedEmployeeForDelete.id);
     this.getEmployeeDetails();
+  }
+
+  onRowSelectFromEmployee(event) {
+
+    this.selectedEmployee = event.data;
+    this.getEmployeeDetailBy(this.employeeDetailsBy);
+    this.setEmployeeDetailsForUpdate();
+  }
+
+
+  getEmployeeDetailBy(employeeDetailsBy: string) {
+    this.employeeDetailsBy = employeeDetailsBy;
+
+    if (employeeDetailsBy == 'Today') {
+      this.dateDto = this.dateServie.getCurrentDay();
+      this.getEmployeeClockInDetails();
+    }
+    else if (employeeDetailsBy == 'Week') {
+      this.dateDto = this.dateServie.getCurrentWeek();
+      this.getEmployeeClockInDetails();
+    }
+    else if (employeeDetailsBy == 'Month') {
+      this.dateDto = this.dateServie.getCurrentMonth();
+      this.getEmployeeClockInDetails();
+
+    }
+    else if (employeeDetailsBy == 'Year') {
+      this.dateDto = this.dateServie.getCurrentYear();
+      this.getEmployeeClockInDetails();
+    }
+  }
+
+  getEmployeeClockInDetails() {
+
+    if (this.selectedEmployee) {
+      this.employeeService.getEmployeeClockInDetails(this.selectedEmployee.username, this.dateDto.startDate, this.dateDto.endDate)
+        .subscribe((clockIn) => {
+
+          clockIn.forEach((c)=>{
+            c.onlyDate = moment(c.date).format('YYYY-MM-DD');
+
+            let clockInHourMoment = moment(c.clockIn, 'HH:mm');
+            let clockInMinuteMoment = moment(c.clockIn, 'HH:mm');
+
+            let clockOutHourMoment = moment(c.clockOut,'HH:mm');
+            let clockOutMinuteMoment = moment(c.clockOut,'HH:mm');
+
+
+            let hour = moment.duration(clockInHourMoment.diff(clockOutHourMoment)).asHours().toFixed(2);
+            let minute = moment.duration(clockInMinuteMoment.diff(clockOutMinuteMoment)).asHours().toFixed(2);
+
+            // let duration = moment.duration(dateMoment.diff(this.clockInObj.clockIn)).asHours().toFixed(2);
+
+            console.log('hour', hour);
+            console.log('min', minute);
+
+          })
+          this.clockInDto = clockIn;
+          this.clockInDto = this.clockInDto.slice();
+        })
+
+
+      // this.employeeService.getEmployeesFinancialDetails(this.dateDto.startDate, this.dateDto.endDate,this.selectedCustomer.phoneNo)
+      // .subscribe((financialDetails)=>{
+      //   this.customerFinancialDto = financialDetails;
+      // });
+    }
+
+  }
+
+  setEmployeeDetailsForUpdate() {
+
+    this.employeeForm.get('name').setValue(this.selectedEmployee.name);
+    this.employeeForm.get('phoneNo').setValue(this.selectedEmployee.phoneNo);
+    this.employeeForm.get('username').setValue(this.selectedEmployee.username);
+    this.employeeForm.get('password').setValue(this.selectedEmployee.password);
+    this.employeeForm.get('taxId').setValue(this.selectedEmployee.taxId);
+    this.employeeForm.get('dateOfBirth').setValue(this.selectedEmployee.dateOfBirth);
+    this.employeeForm.get('role').setValue(this.selectedEmployee.role);
+    this.employeeForm.get('gender').setValue(this.selectedEmployee.gender);
+    this.employeeForm.get('street').setValue(this.selectedEmployee.street);
+    this.employeeForm.get('city').setValue(this.selectedEmployee.city);
+    this.employeeForm.get('state').setValue(this.selectedEmployee.state);
+    this.employeeForm.get('zipCode').setValue(this.selectedEmployee.zipCode);
+    this.employeeForm.get('hourlyRate').setValue(this.selectedEmployee.hourlyRate);
+    this.employeeForm.get('commissionPercentage').setValue(this.selectedEmployee.commissionPercentage);
+    this.employeeForm.get('id').setValue(this.selectedEmployee.id);
   }
 
 }
