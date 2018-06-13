@@ -255,13 +255,11 @@ public class TransactionsManager {
 
              transactionDao1 = transactionRepository.save(transactionDao);
 
-            // I need to do this because, I am not able to update payment, just payment table becuase of forign key problem.
-            // Every time inserting manually.
-
-            //List<PaymentDao> paymentDaoList = new ArrayList<>();
-
-
             for (PaymentDao payment : transactionDao.getPaymentDao()) {
+
+                if (payment.getTransactionPaymentId() <= 0){
+                    
+                }
 
                 payment.setTransactionComId(transactionDao1.getTransactionComId());
 

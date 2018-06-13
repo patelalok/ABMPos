@@ -29,6 +29,8 @@ import { UtilService } from './services/util.service';
 import { GobalProdcutService } from 'app/shared/global-product.service';
 import {CdkTableModule} from '@angular/cdk/table';
 import {TableModule} from 'primeng/table';
+import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
+
 
 
 
@@ -56,7 +58,9 @@ import {TableModule} from 'primeng/table';
     MatTabsModule,
     MatTableModule,
     CdkTableModule,
-    TableModule
+    TableModule,
+    OwlDateTimeModule,
+    OwlNativeDateTimeModule
   ],
   providers: [PersistenceService, DateService, UtilService,GobalProdcutService]
 })

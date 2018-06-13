@@ -117,7 +117,7 @@
                                     <td>{{clock.hourlyRate}}</td>
                                     <td>{{clock.totalAmount}}</td>
                                     <td>
-                                        <button mat-button class="btn-blue action-button-table" (click)="this.updateClockInDetails(clock)">
+                                        <button mat-button class="btn-blue action-button-table">
                                             <i class="fa fa-pencil" aria-hidden="true"></i>
                                         </button>
                                         <button mat-button data-toggle="modal" data-target="#deleteClockIn" (click)="this.deleteClockInDetail(clock)" mat-button
@@ -619,3 +619,27 @@
 </div>
 
 <!-- End of Delete Employee Popup -->
+
+<!-- Start of Update Clock In details Popup -->
+
+
+<div class="modal fade" id="updateClockIn" role="dialog">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Delete Employee</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
+   <input [owlDateTimeTrigger]="dt4" [owlDateTime]="dt4">
+    <owl-date-time [pickerType]="'timer'" #dt4></owl-date-time>
+            </div>
+            <div class="modal-footer">
+
+                <button type="button" class="btn btn-danger" data-dismiss="modal" (click)="this.deleteEmployee()">Yes</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- End of Update Clock In details Popup -->

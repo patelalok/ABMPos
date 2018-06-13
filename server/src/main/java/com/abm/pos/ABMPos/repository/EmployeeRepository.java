@@ -15,7 +15,6 @@ import java.util.List;
 @Transactional
 public interface EmployeeRepository extends JpaRepository<EmployeeDao,Integer> {
 
-    @Cacheable("employee")
     List<EmployeeDao> findAll();
 
     @Query(value = "SELECT distinct e.username,\n" +

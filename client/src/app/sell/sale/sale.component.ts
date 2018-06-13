@@ -1,27 +1,20 @@
-import { Component, ViewChild, ElementRef, OnInit, Pipe, PipeTransform, AfterViewInit, HostBinding, Inject } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
-import { LazyLoadEvent } from 'primeng/primeng';
-import { SellService } from 'app/sell/sell.service';
-import 'rxjs/Rx';
-import { FormControl } from '@angular/forms';
-import { SelectItem } from 'primeng/primeng';
-import { StoreSetupService } from 'app/shared/storesetup/storesetup.service';
-import { StoreSetupDto } from 'app/shared/storesetup/storesetup.component';
-import { CustomerService } from 'app/customer/customer.service';
-import { Customer } from 'app/customer/customer.component';
-import * as moment from 'moment';
+import { AfterViewInit, Component, HostBinding, Inject, OnInit } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
-import { fadeInAnimation } from 'app/shared/animations/fade-in.animation';
-import { ProductInventory, ProductVariantDetail } from 'app/product/product.component';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ToastsManager } from 'ng2-toastr/src/toast-manager';
-import { empty } from 'rxjs/Observer';
-import { MenuItem } from 'app/shared/top-navbar/top-navbar.component';
-import { PersistenceService } from 'app/shared/services/persistence.service';
-import { forEach } from '@angular/router/src/utils/collection';
+import { Customer } from 'app/customer/customer.component';
+import { CustomerService } from 'app/customer/customer.service';
+import { ProductInventory, ProductVariantDetail } from 'app/product/product.component';
 import { ProductService } from 'app/product/product.service';
+import { SellService } from 'app/sell/sell.service';
+import { fadeInAnimation } from 'app/shared/animations/fade-in.animation';
+import { PersistenceService } from 'app/shared/services/persistence.service';
+import { StoreSetupDto } from 'app/shared/storesetup/storesetup.component';
+import { StoreSetupService } from 'app/shared/storesetup/storesetup.service';
+import { MenuItem } from 'app/shared/top-navbar/top-navbar.component';
+import * as moment from 'moment';
+import { ToastsManager } from 'ng2-toastr/src/toast-manager';
+import 'rxjs/Rx';
 import { LoadingService } from '../../loading.service';
-import * as jsPDF from 'jspdf'
 import { UtilService } from '../../shared/services/util.service';
 
 declare var $: JQueryStatic;
@@ -976,8 +969,16 @@ export class SaleComponent implements OnInit, AfterViewInit {
     this.transactionDtoList.subtotal = this.transactionDtoList.subtotal + totalLineItemDiscount;
 
     for (let payment of this.paymentDaoList) {
+
       payment.status = this.saleType;
-      payment.date = this.transactionDtoList.date;
+      payment.date = moment(Date.now()).format('YYYY-MM-DD HH:mm:ss');
+      // console.log('paymentId', payment.transactionPaymentId);
+      // if(payment.transactionPaymentId <=0 || payment.transactionPaymentId == undefined){
+      //   payment.date = moment(Date.now()).format('YYYY-MM-DD HH:mm:ss');
+      // }
+      // else {
+      //   payment.date = this.transactionDtoList.date;
+      // }
     }
     // This is very important logic to maintain, total due balance in backend.
     if (this.selectedCustomer && this.selectedCustomer != undefined) {

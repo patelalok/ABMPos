@@ -70,6 +70,7 @@ export class EmployeeComponent implements OnInit {
     this.displayDialog = !this.displayDialog;
   }
   showDialogToAdd() {
+    this.employeeForm.reset();
     this.employee = new PrimeEmployee();
     this.displayDialog = true;
   }

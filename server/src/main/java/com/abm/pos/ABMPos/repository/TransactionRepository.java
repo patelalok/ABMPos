@@ -81,7 +81,7 @@ public interface TransactionRepository extends JpaRepository<TransactionDao, Int
             "            if(type = 'StoreCredit', sum(amount),0) as store_credit \n" +
             "            from transaction_payment \n" +
             "            where date between ?1  AND ?2\n" +
-            "            AND (status = 'Complete' OR status = 'Return' OR 'Pending')\n" +
+            "            AND (status = 'Complete' OR status = 'Return' OR status = 'Pending')\n" +
             "            group by NameOfMonth,type) temp \n" +
             "            group by temp.NameOfMonth\n" +
             "            ORDER BY field(NameOfMonth,'January','February','March','April','May','June','July','August','September','October','November','December')", nativeQuery = true)
@@ -95,7 +95,7 @@ public interface TransactionRepository extends JpaRepository<TransactionDao, Int
             "if(type = 'StoreCredit', sum(amount),0) as store_credit \n" +
             "from transaction_payment \n" +
             "where date between ?1 and ?2 \n" +
-            "AND (status = 'Complete' OR status = 'Return' OR 'Pending')\n" +
+            "AND (status = 'Complete' OR status = 'Return' OR status = 'Pending')\n" +
             "group by dates,type) temp \n" +
             "group by temp.dates",nativeQuery = true)
     List<Object []> getMonthlyPaymentReport(String startDate, String endDate);
@@ -112,7 +112,7 @@ public interface TransactionRepository extends JpaRepository<TransactionDao, Int
             "if(type = 'StoreCredit', sum(amount),0) as store_credit\n" +
             "from transaction_payment\n" +
             "where date BETWEEN ?1 AND ?2\n" +
-            "AND (status = 'Complete' OR status = 'Return' OR 'Pending')\n" +
+            "AND (status = 'Complete' OR status = 'Return' OR status = 'Pending')\n" +
             "group by dates,type) temp\n" +
             "group by Week(temp.dates)",nativeQuery = true)
     List<Object []> getWeeklyPaymentReport(String startDate, String endDate);
@@ -126,7 +126,7 @@ public interface TransactionRepository extends JpaRepository<TransactionDao, Int
             "if(type = 'StoreCredit', sum(amount),0) as store_credit \n" +
             "from transaction_payment \n" +
             "where date between ?1 and ?2 \n" +
-            "AND (status = 'Complete' OR status = 'Return' OR 'Pending')\n" +
+            "AND (status = 'Complete' OR status = 'Return' OR status = 'Pending')\n" +
             "group by hours,type) temp \n" +
             "group by temp.hours", nativeQuery = true)
     List<Object[]> getHourlyPaymentReport(String startDate, String endDate);
