@@ -258,7 +258,7 @@ public class TransactionsManager {
             for (PaymentDao payment : transactionDao.getPaymentDao()) {
 
                 if (payment.getTransactionPaymentId() <= 0){
-                    
+
                 }
 
                 payment.setTransactionComId(transactionDao1.getTransactionComId());

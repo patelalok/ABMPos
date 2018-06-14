@@ -148,15 +148,30 @@ export class EmployeeComponent implements OnInit {
       this.employeeService.getEmployeeClockInDetails(this.selectedEmployee.username, this.dateDto.startDate, this.dateDto.endDate)
         .subscribe((clockIn) => {
 
-          clockIn.forEach((c)=>{
+          clockIn.forEach((c) => {
             c.onlyDate = moment(c.date).format('YYYY-MM-DD');
 
-            let clockInHourMoment = moment(c.clockIn, 'HH:mm');
-            let clockOutHourMoment = moment(c.clockOut,'HH:mm');
+            let clockInHourMoment = moment.utc(c.clockIn, "YYYY-MM-DD HH:mm:ss");
+            let clockOutHourMoment = moment.utc(c.clockOut, "YYYY-MM-DD HH:mm:ss");
 
-            if(c.clockOut != undefined && c.clockOut != NaN ){
-              c.noOfHours = moment.duration(clockOutHourMoment.diff(clockInHourMoment)).asHours().toFixed(2);
-              c.totalAmount = c.noOfHours *c.hourlyRate;
+            // Please dont move this from here;
+            // KEEP IN MIND SMALL hh MEANS 12 HOUR FORMATE.
+            c.clockIn = moment(c.clockIn).format('hh:mm: A');
+
+
+            if (c.clockOut != undefined && c.clockOut != NaN) {
+
+              // Please dont move this from here;other wise it will show invalid date in case of not clock out date.
+
+              c.clockOut = moment(c.clockOut).format('hh:mm: A');
+              let duration = moment.duration(clockOutHourMoment.diff(clockInHourMoment));
+              let totalHours = moment.utc(+duration).format('HH:mm:ss');
+
+              var a = totalHours.split(':'); // split it at the colons
+              //Converting all in seconds and then calculating total amount.
+              let seconds = (+a[0]) * 60 * 60 + (+a[1]) * 60 + (+a[2]);
+              c.noOfHours = ((seconds / 60) / 60).toFixed(2);
+              c.totalAmount = (c.noOfHours * c.hourlyRate).toFixed(2);
             }
           })
           this.clockInDto = clockIn;

@@ -279,6 +279,9 @@ public class ProductManager{
                 productRepository.deleteProduct(productDao.getProductId());
             }
 
+            // I Need to do this otherwise this will show 2 product on the sale page and product page because my query to get products.
+            productInventoryRepository.delete(productInventoryRepository.findAllByProductIdAndProductNo(productDao.getProductId(), productDao.getProductNo()));
+
             return "Success";
         }
         else
