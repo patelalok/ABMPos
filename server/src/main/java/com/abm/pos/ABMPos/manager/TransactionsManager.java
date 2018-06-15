@@ -973,42 +973,46 @@ public class TransactionsManager {
 
                 for (PaymentDao payment : transactionDao.getPaymentDao()) {
 
-                    try {
-                        d1 = f.parse(payment.getDate());
-                    } catch (ParseException e) {
-                        e.printStackTrace();
+                    if (!payment.getStatus().equalsIgnoreCase("Void")) {
+
+                        try {
+                            d1 = f.parse(payment.getDate());
+                        } catch (ParseException e) {
+                            e.printStackTrace();
+                        }
+                        DateFormat payDate = new SimpleDateFormat("MM-dd-yyyy");//NEED TO CHECK THIS
+                        DateFormat payTime = new SimpleDateFormat("hh:mm a");
+
+                        PdfPCell cell1 = new PdfPCell();
+                        PdfPCell cell2 = new PdfPCell();
+                        PdfPCell cell3 = new PdfPCell();
+                        PdfPCell cell4 = new PdfPCell();
+
+                        cell1.setFixedHeight(30);
+                        cell2.setFixedHeight(30);
+                        cell3.setFixedHeight(30);
+                        cell4.setFixedHeight(30);
+
+                        cell1.setCellEvent(new PositionEvent(new Phrase(10, payment.getType(), FontFactory.getFont(FontFactory.HELVETICA, 12, Font.NORMAL)), 0.5f, 0.5f, Element.ALIGN_CENTER));
+                        cell2.setCellEvent(new PositionEvent(new Phrase(10, "$ " + String.valueOf(payment.getAmount()), FontFactory.getFont(FontFactory.HELVETICA, 12, Font.NORMAL)), 0.5f, 0.5f, Element.ALIGN_CENTER));
+                        cell3.setCellEvent(new PositionEvent(new Phrase(10, String.valueOf(payDate.format(d1)), FontFactory.getFont(FontFactory.HELVETICA, 12, Font.NORMAL)), 0.5f, 0.5f, Element.ALIGN_CENTER));
+                        cell4.setCellEvent(new PositionEvent(new Phrase(10, payTime.format(d1), FontFactory.getFont(FontFactory.HELVETICA, 12, Font.NORMAL)), 0.5f, 0.5f, Element.ALIGN_CENTER));
+
+                        cell1.setBorderColor(BaseColor.LIGHT_GRAY);
+                        cell2.setBorderColor(BaseColor.LIGHT_GRAY);
+                        cell3.setBorderColor(BaseColor.LIGHT_GRAY);
+                        cell4.setBorderColor(BaseColor.LIGHT_GRAY);
+
+                        paymentMethod.addCell(cell1);
+                        paymentMethod.addCell(cell2);
+                        paymentMethod.addCell(cell3);
+                        paymentMethod.addCell(cell4);
+
                     }
-                    DateFormat payDate = new SimpleDateFormat("MM-dd-yyyy");//NEED TO CHECK THIS
-                    DateFormat payTime = new SimpleDateFormat("hh:mm a");
-
-                    PdfPCell cell1 = new PdfPCell();
-                    PdfPCell cell2 = new PdfPCell();
-                    PdfPCell cell3 = new PdfPCell();
-                    PdfPCell cell4 = new PdfPCell();
-
-                    cell1.setFixedHeight(30);
-                    cell2.setFixedHeight(30);
-                    cell3.setFixedHeight(30);
-                    cell4.setFixedHeight(30);
-
-                    cell1.setCellEvent(new PositionEvent(new Phrase(10, payment.getType(), FontFactory.getFont(FontFactory.HELVETICA, 12, Font.NORMAL)), 0.5f, 0.5f, Element.ALIGN_CENTER));
-                    cell2.setCellEvent(new PositionEvent(new Phrase(10, "$ " + String.valueOf(payment.getAmount()), FontFactory.getFont(FontFactory.HELVETICA, 12, Font.NORMAL)), 0.5f, 0.5f, Element.ALIGN_CENTER));
-                    cell3.setCellEvent(new PositionEvent(new Phrase(10, String.valueOf(payDate.format(d1)), FontFactory.getFont(FontFactory.HELVETICA, 12, Font.NORMAL)), 0.5f, 0.5f, Element.ALIGN_CENTER));
-                    cell4.setCellEvent(new PositionEvent(new Phrase(10, payTime.format(d1), FontFactory.getFont(FontFactory.HELVETICA, 12, Font.NORMAL)), 0.5f, 0.5f, Element.ALIGN_CENTER));
-
-                    cell1.setBorderColor(BaseColor.LIGHT_GRAY);
-                    cell2.setBorderColor(BaseColor.LIGHT_GRAY);
-                    cell3.setBorderColor(BaseColor.LIGHT_GRAY);
-                    cell4.setBorderColor(BaseColor.LIGHT_GRAY);
-
-                    paymentMethod.addCell(cell1);
-                    paymentMethod.addCell(cell2);
-                    paymentMethod.addCell(cell3);
-                    paymentMethod.addCell(cell4);
-
                 }
 
-                paymentMethod.setSpacingBefore(25);
+                    paymentMethod.setSpacingBefore(25);
+
             }
 
             totalDueAmount.setSpacingBefore(25);
