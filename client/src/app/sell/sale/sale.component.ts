@@ -460,7 +460,10 @@ export class SaleComponent implements OnInit, AfterViewInit {
     if (this.transactionDtoList.shipping == NaN || this.transactionDtoList.shipping <= 0 || this.transactionDtoList.shipping == undefined || this.shippingAmount > 0) {
       this.transactionDtoList.shipping = this.shippingAmount;
     }
-
+    // This will help to make shipping amount 0, when user wants to remove shipping from transaction.
+    if(this.shippingAmount == 0){
+      this.transactionDtoList.shipping = 0;
+    }
     this.transactionDtoList.totalAmount = +this.transactionDtoList.totalAmount + this.transactionDtoList.shipping;
 
     console.log('total amount', this.transactionDtoList.totalAmount);
