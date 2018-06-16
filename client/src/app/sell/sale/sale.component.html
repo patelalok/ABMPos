@@ -1,8 +1,9 @@
 <div class="row" *ngIf="this.productList && this.productList.length > 0">
-    <div class="col-lg-9">
+    <!-- <div class="row"> -->
+    <div class="col-md-9">
         <mat-card>
             <div class="row">
-                <div class="align-self-center col-lg-7" style="max-height: 500px !important;">
+                <div class="align-self-center col-md-7" style="max-height: 500px !important;">
 
                     <p-autoComplete id="productsearch" [(ngModel)]="this.productForSearchBox" class="full-width m-1" [suggestions]="product" placeholder="Scan or Search Product" (completeMethod)="filterProducts($event)" name="test" [minLength]="3" (keyup.enter)="submitProduct(productForSearchBox)" (onSelect) = "this.selectProductFromSearch(productForSearchBox)"
                         field="description">
@@ -14,8 +15,8 @@
                     <!-- <button (click)="this.testFocus()">Click me</button> -->
 
                 </div>
-                <div class="col-lg-0"></div>
-                <div class="col-lg-5 d-flex justify-content-end">
+                <!-- <div class="col-lg-0"></div> -->
+                <div class="col-md-5 d-flex justify-content-end">
                     <!-- Buttons go here  -->
                     <button (click)="this.parkSale()" class="bg-primary text-white action-button m-1" mat-raised-button [disabled]="this.disablePaymentButtonOnSale">
                         <span>
@@ -62,7 +63,8 @@
 
                         <p-column field="productNo" header="ProductNo" [style]="{'width':'15%','text-align':'center', 'overflow':'visible'}"></p-column>
                         <p-column field="description" header="Description" [style]="{'width':'45%','text-align':'center', 'overflow':'visible'}" [editable]="true"></p-column>
-                        <p-column field="saleQuantity" header="Quantity" [editable]="true">
+                        <p-column fiel
+                        d="saleQuantity" header="Quantity" [editable]="true">
                             <ng-template let-product="rowData" pTemplate="body">
                                 <div id="lineitem{{product.productNo}}" [ngClass]="{'quantity-updated': product.quantityUpdated }">
                                     {{product.saleQuantity}}
@@ -88,7 +90,7 @@
             </mat-card-content>
         </mat-card>
     </div>
-    <div class="col-lg-3">
+    <div class="col-md-3">
         <mat-card>
             <mat-card-content>
                 <div class="row">
@@ -368,18 +370,18 @@
 
 
                 <div class="row" style="margin-top: 30px">
-                    <div class="col-lg-3">
+                    <div class="col-md-3">
                         <button mat-raised-button class="primary-button" (click)="this.setPaymentDto('Cash',this.payAmountTextBox)" [disabled]="this.disablePaymentButtons">CASH</button>
                     </div>
 
-                    <div class="col-lg-3">
+                    <div class="col-md-3">
                         <button mat-raised-button class="primary-button" (click)="this.setPaymentDto('Credit',this.payAmountTextBox)" [disabled]="this.disablePaymentButtons">CREDIT</button>
                     </div>
 
-                    <div class="col-lg-3">
+                    <div class="col-md-3">
                         <button mat-raised-button class="primary-button" (click)="this.setPaymentDto('Check',this.payAmountTextBox)" [disabled]="this.disablePaymentButtons">CHECK</button>
                     </div>
-                    <div class="col-lg-3">
+                    <div class="col-md-3">
                         <button mat-raised-button class="secondary-button" [disabled]="this.disableStoreCreditButtons" (click)="this.setPaymentDto('Store Credit', this.selectedCustomer.storeCredit)">STORE CREDIT</button>
 
                         <!-- <button mat-raised-button class="primary-button" (click)="this.setPaymentDto('DEBIT',this.payAmountTextBox)" [disabled]="true">Debit</button> -->

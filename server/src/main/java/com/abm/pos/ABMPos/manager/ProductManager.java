@@ -89,6 +89,13 @@ public class ProductManager{
                  productDao1 = productRepository.save(productDao);
              }
 
+             //Now I need to update retail price if user has updated the retail price,
+            // If not then still I have to update it so in case of change it will update or all.
+
+            productInventoryRepository.updateProductRetailPrice(productDao.getTier1(), productDao.getTier2(), productDao.getTier3(),productDao.getProductNo());
+
+
+
              // This is important spacially when user changes the product no.
 //             if(productDao1 == null && productDao.getProductNo().length()>1 && productDao.getDescription().length() > 1){
 //                 productRepository.save(productDao);
@@ -122,8 +129,6 @@ public class ProductManager{
 
         return productDao1;
     }
-    //@CachePut(value = "products", key = "#productDao.productNo")
-   // @CacheEvict(value = "products",  key = "#root.target.KEY")
 
     @CachePut("products")
     //@CacheEvict("products")
@@ -198,7 +203,7 @@ public class ProductManager{
         // This Logic to only update product tier retail price.
         if(null != productVariantDao && null != productVariantDao.getOperationType() && productVariantDao.getOperationType().equalsIgnoreCase("retailTierEdit"))
         {
-            productInventoryRepository.updateProductRetailPrice(productVariantDao.getTier1(),productVariantDao.getTier2(),productVariantDao.getTier3(), productVariantDao.getProductId());
+            productInventoryRepository.updateProductRetailPrice(productVariantDao.getTier1(),productVariantDao.getTier2(),productVariantDao.getTier3(), productVariantDao.getProductNo());
         }
         else {
 

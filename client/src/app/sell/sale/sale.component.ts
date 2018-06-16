@@ -123,6 +123,8 @@ export class SaleComponent implements OnInit, AfterViewInit {
     this.getProductDetails();
     this.selectedCustomer = this.persit.getCustomerDetailsForSale();
 
+    this.setFocusOnProductSearch();
+
     // This will help to get customer product price, cause its cusotmer is selected then definetly the price is stored in local storage.
     if (this.selectedCustomer) {
       this.productPriceArryByCustomer = this.persit.getCustomerProductPriceForSale();
@@ -152,23 +154,7 @@ export class SaleComponent implements OnInit, AfterViewInit {
 
 
   public addTransactionLineItem(productObj: any): TransactionLineItemDaoList[] {
-
-    console.log('Product Object in add line item', productObj);
-
-    // Price by customer logic., THIS LOGIC IS NOT NEEDED NOW SO COMMETING IT, PLEASE DONT REMOVE IT.
-    // if (null != this.selectedCustomer && this.selectedCustomer != undefined) {
-    //   if (this.productPriceArryByCustomer && null != this.productPriceArryByCustomer && this.productPriceArryByCustomer.length > 0) {
-
-    //     this.productPriceArryByCustomer.forEach((product) => {
-    //       // here product[1] is the product no coming from back end, i am sending only 2 values prodcut no and retail.  like this--->["23424234234", 12.99]
-    //       if (product[0] == productObj.productNo) {
-    //         productObj.retailWithDiscount = product[1];
-    //       }
-    //     })
-    //   }
-    // }
-
-
+  
     // FIRST NEED TO CHECK CUSTOMER IS SELECTED OR NOT.
     // THEN NEED TO CHECK HIS TIER AND WITH TIER, I NEED TO SET RETAIL PRICE FOR THE PERTICULAR PRODUCT.
 
@@ -230,7 +216,7 @@ export class SaleComponent implements OnInit, AfterViewInit {
             lineItem.quantityUpdated = false;
             this.persit.setProducts(this.transactionLineItemDaoList);
             this.transactionLineItemDaoList = this.transactionLineItemDaoList.slice();
-          }, 3000);
+          }, 500);
           break;
         }
         // Do not try to be smart please keep this logic, Never touch here
@@ -254,20 +240,16 @@ export class SaleComponent implements OnInit, AfterViewInit {
 
 
     // NEVER Delete this very important logic
+    // for now just commenting this logic to fix the issue with screen going blank.
     $(`lineitem${productObj.productNo}`).ready(function () {
       document.getElementById(`lineitem${productObj.productNo}`).scrollIntoView();
     });
 
-
-
-    // this.product = null;
-    // this.productForSearchBox = null;
-    // this.filterProducts(null);
     return this.transactionLineItemDaoList;
   }
-  // #productsearch > span > input
+
+  // This method helps to set focus on search box when user come on sell page.
   setFocusOnProductSearch() {
-    // document.querySelector("#productsearch > span > input").focus();
     $('#productsearch > span > input').focus();
   }
 
@@ -299,7 +281,7 @@ export class SaleComponent implements OnInit, AfterViewInit {
 
   submitProduct(value: any) {
     console.log('Inside submit product', value);
-    let productFound: boolean;
+    let productFound:boolean = false;
 
     if (null != value && value.length > 7 && (value.match(/[0-9]/i))) {
       console.log('This mean user has scan the barcode no', value);
@@ -309,7 +291,7 @@ export class SaleComponent implements OnInit, AfterViewInit {
         if (value == product.productNo) {
           productFound = true;
           this.addTransactionLineItem(product);
-          this.timeOut();
+          //this.timeOut();
         }
       });
 
@@ -318,7 +300,7 @@ export class SaleComponent implements OnInit, AfterViewInit {
           if (value == product.productNo) {
             productFound = true;
             this.addTransactionLineItem(product);
-            this.timeOut();
+            //this.timeOut();
           }
         })
       }
@@ -348,18 +330,18 @@ export class SaleComponent implements OnInit, AfterViewInit {
         this.addTransactionLineItem(value);
     }
 
-    // setTimeout(() => {
-    //   this.product = null;
-    //   this.productForSearchBox = null; 
-    // }, 1000)
-  }
-
-  timeOut() {
     setTimeout(() => {
       this.product = null;
-      this.productForSearchBox = null;
+      this.productForSearchBox = null; 
     }, 500)
   }
+
+  // timeOut() {
+  //   setTimeout(() => {
+  //     this.product = null;
+  //     this.productForSearchBox = null;
+  //   }, 500)
+  // }
 
   setProductForDelete(product: Product) {
     this.selectedProduct = product;
@@ -995,15 +977,11 @@ export class SaleComponent implements OnInit, AfterViewInit {
  
     // NOW MAKING SERVICE CALL TO ADD TRANSACTION AND LINE ITEM DETAILS AND WILL ADD LINE ITEM DETAILS ONLY IF ADD TRANASACTION CALL IS SUCCESS !!!
     this.sellService.addTransactionDetails(this.transactionDtoList)
-
-      .subscribe(
-        data => {
-
+      .subscribe(data => {
           this.printTransactionDto = data.json();
           if (this.saleType == 'Park') {
             this.toastr.success('Parked Transaction Successfully', 'Success!');
             this.clearAllDateAfterTransactionComplete();
-
           }
           this.disableCompleteSaleButton = true;
           console.log('addTransaction response', data);
@@ -1015,8 +993,6 @@ export class SaleComponent implements OnInit, AfterViewInit {
         () => {
         }
       );
-    // This will focus on the autocomplete field
-    $('#productsearch > span > input').focus();
 
     this.loadingService.loading = false;
 
@@ -1032,7 +1008,7 @@ export class SaleComponent implements OnInit, AfterViewInit {
   }
 
   clearAllDateAfterTransactionComplete() {
-
+    this.setFocusOnProductSearch();
     // For now i have to do this to fix the issue with quantity not showing 
     this.getProductDetails();
 

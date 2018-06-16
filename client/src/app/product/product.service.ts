@@ -30,7 +30,7 @@ export class ProductService {
     this.http.post(this.url+'/addProduct', product)
     .subscribe(data => {
       if(data.status == 200 || data.status == 201){
-        this.toastr.success('Product Added Successfully!!', 'Success!');
+        this.toastr.success('Product Added Successfully!!', 'Success!',{toastLife:1});
 
         if(product.operationType == 'Edit'){
           let index = this.productList.findIndex((el) => el.productId == product.productId);
@@ -49,7 +49,7 @@ export class ProductService {
         }
     },
       error => {
-        this.toastr.error('Opps something goes wrong!!', 'Error!');
+        this.toastr.error('Opps something goes wrong!!', 'Error!',{positionClass:'toast-top-full-width'});
         console.log(JSON.stringify(error.json()));
   });
   }

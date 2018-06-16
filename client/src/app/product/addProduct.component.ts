@@ -163,6 +163,13 @@ export class AddProductComponent implements OnInit {
       this.productInventory.quantity = formValues.quantity;
       this.productInventory.createdTimestamp = moment(Date.now()).format('YYYY-MM-DD HH:mm:ss');
 
+      if(null == formValues.subCategory){
+        formValues.subCategory = new SubCategory();
+      }
+      if(null == formValues.model){
+        formValues.model = new Model();
+      }
+
 
       let product: Product = {
         productNo: formValues.productNo,
