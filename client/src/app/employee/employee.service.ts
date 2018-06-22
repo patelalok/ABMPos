@@ -51,11 +51,14 @@ constructor(private http: Http) {
 
     getEmployeeClockInDetails(username: string, startDate: any, endDate: any): Observable<ClockIn []>
     {
+      if(null != username)
+      {
       console.log('Username coming from the clock In component'+ username);
       return this.http.get(this.url+'/getClockIn?username='+username+'&startDate='+startDate+'&endDate='+endDate)
       .map(this.extractData)
       .catch(this.handleError);
-}
+      }
+    }
 getEmployeeAllClockInDetails(username: string, startDate: any, endDate: any): Observable<ClockIn[]>
 {
   console.log('Username coming from the clock In component'+ username);

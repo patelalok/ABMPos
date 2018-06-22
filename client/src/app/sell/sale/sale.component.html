@@ -1,16 +1,25 @@
-<div class="row" *ngIf="this.productList && this.productList.length > 0">
-    <!-- <div class="row"> -->
+<!-- <div class="row" *ngIf="this.productList && this.productList.length > 0"> -->
+<div class="row">
     <div class="col-md-9">
         <mat-card>
             <div class="row">
                 <div class="align-self-center col-md-7" style="max-height: 500px !important;">
 
-                    <p-autoComplete id="productsearch" [(ngModel)]="this.productForSearchBox" class="full-width m-1" [suggestions]="product" placeholder="Scan or Search Product" (completeMethod)="filterProducts($event)" name="test" [minLength]="3" (keyup.enter)="submitProduct(productForSearchBox)" (onSelect) = "this.selectProductFromSearch(productForSearchBox)"
-                        field="description">
-                        <ng-template>
-                            <span style="max-width:500px !important">
-                                </span>
-                        </ng-template>
+                    <p-autoComplete 
+                    id="productsearch" 
+                    [(ngModel)]="this.productForSearchBox" 
+                    class="full-width m-1" 
+                    [suggestions]="product"
+                    placeholder="Scan or Search Product" 
+                    (completeMethod)="filterProducts($event)" 
+                    name="test" [minLength]="3"
+                    (keyup.enter)="submitProduct(productForSearchBox)" 
+                    field="description">
+                    <!-- (onSelect)="this.selectProductFromSearch(productForSearchBox)" -->
+                    <ng-template>
+                        <span style="max-width:500px !important">
+                        </span>
+                    </ng-template>
                     </p-autoComplete>
                     <!-- <button (click)="this.testFocus()">Click me</button> -->
 
@@ -25,7 +34,8 @@
                             </i>
                         </span>
                     </button>
-                    <button class="bg-danger text-white action-button m-1" mat-raised-button data-toggle="modal" data-target="#deleteProduct" (click)="this.setHeaderAndMessageForDisgardPopup()" [disabled]="this.disablePaymentButtonOnSale">
+                    <button class="bg-danger text-white action-button m-1" mat-raised-button data-toggle="modal" data-target="#deleteProduct"
+                        (click)="this.setHeaderAndMessageForDisgardPopup()" [disabled]="this.disablePaymentButtonOnSale">
                         <span>
                             <i class="fa fa-trash">
                                 Discard Sale
@@ -58,13 +68,55 @@
             <mat-card-content>
                 <div class="row p-md-3">
                     <!-- Product Table -->
-                    <p-dataTable [value]="this.transactionLineItemDaoList" scrollable="true" [responsive]="true" scrollHeight="300px" [editable]="true" (onEditComplete)="updateLineItemDetails($event)">
+                    <!-- <p-table [value]="this.transactionLineItemDaoList" (onEditComplete)="updateLineItemDetails($event)">
+                        <ng-template pTemplate="header">
+                            <tr>
+                                <th>ProductNo</th>
+                                <th>Description</th>
+                                <th>Quantity</th>
+                                <th>Retail</th>
+                                <th>RetWtDis</th>
+                                <th>Total</th>
+                                <th>Total</th>
+                            </tr>
+                        </ng-template>
+                        <ng-template pTemplate="body" let-lineItem>
+                            <tr>
+                                <td>{{lineItem.productNo}}</td>
+                                <td>{{lineItem.description}}</td>
+                                <td [pEditableColumn]="lineItem" [pEditableColumnField]="'saleQuantity'">
+                                    <p-cellEditor>
+                                        <ng-template pTemplate="input">
+                                            <input type="text" [(ngModel)]="lineItem.saleQuantity">
+                                        </ng-template>
+                                        <ng-template pTemplate="output">
+                                                {{lineItem.saleQuantity}}
+                                            </ng-template>
+                                    </p-cellEditor>
+                                </td>
+                            </tr>
+                        </ng-template>
+                    </p-table> -->
+
+
+
+
+
+
+
+
+
+
+
+
+                     <p-dataTable [value]="this.transactionLineItemDaoList" scrollable="true" [responsive]="true" scrollHeight="400px" [editable]="true"
+                        (onEditComplete)="updateLineItemDetails($event)">
                         <p-header>Product Sale Table</p-header>
 
                         <p-column field="productNo" header="ProductNo" [style]="{'width':'15%','text-align':'center', 'overflow':'visible'}"></p-column>
-                        <p-column field="description" header="Description" [style]="{'width':'45%','text-align':'center', 'overflow':'visible'}" [editable]="true"></p-column>
-                        <p-column fiel
-                        d="saleQuantity" header="Quantity" [editable]="true">
+                        <p-column field="description" header="Description" [style]="{'width':'45%','text-align':'center', 'overflow':'visible'}"
+                            [editable]="true"></p-column>
+                        <p-column field="saleQuantity" header="Quantity" [editable]="true">
                             <ng-template let-product="rowData" pTemplate="body">
                                 <div id="lineitem{{product.productNo}}" [ngClass]="{'quantity-updated': product.quantityUpdated }">
                                     {{product.saleQuantity}}
@@ -78,7 +130,8 @@
                         <p-column header="" styleClass="col-button" [style]="{'width':'5%','text-align':'center', 'overflow':'visible'}">
 
                             <ng-template let-product="rowData" pTemplate="body">
-                                <button mat-button class="btn-red action-button-table" mat-button (click)="this.setProductForDelete(product)" data-toggle="modal" data-target="#deleteProduct">
+                                <button mat-button class="btn-red action-button-table" mat-button (click)="this.setProductForDelete(product)" data-toggle="modal"
+                                    data-target="#deleteProduct">
                                     <i class="fa fa-trash" aria-hidden="true"></i>
                                 </button>
                             </ng-template>
@@ -98,7 +151,9 @@
                         <span class="input-group-addon" id="basic-addon1">
                             <i class="fa fa-user-plus" aria-hidden="true"></i>
                         </span>
-                        <p-autoComplete id="customerSearch" [(ngModel)]="this.selectedCustomer" [field]="'name'" [suggestions]="filteredCustomer" (completeMethod)="this.filterCustomers($event)" class="full-width" [minLength]="1" (keyup.enter)="this.submitCustomer()" (onClear)="this.removeCustomerOnSale()">
+                        <p-autoComplete id="customerSearch" [(ngModel)]="this.selectedCustomer" [field]="'name'" [suggestions]="filteredCustomer"
+                            (completeMethod)="this.filterCustomers($event)" class="full-width" [minLength]="1" (keyup.enter)="this.submitCustomer()"
+                            (onClear)="this.removeCustomerOnSale()">
                             <ng-template let-c pTemplate="item">
                                 <div class="ui-helper-clearfix" style="border-bottom:1px solid #D5D5D5">
                                     <div style="width:32px;display:inline-block;margin:5px 0 2px 5px">{{c.name}}</div>
@@ -144,7 +199,7 @@
                             </tr>
                             <tr>
                                 <td colspan="2">
-                                    <input type="text>" class="form-control" placeholder="Customer Notes" [(ngModel)] = "this.selectedCustomer.customerNote">
+                                    <input type="text>" class="form-control" placeholder="Customer Notes" [(ngModel)]="this.selectedCustomer.customerNote">
                                 </td>
                             </tr>
                         </tbody>
@@ -167,9 +222,9 @@
                     </dl>
                     <dl class="row">
                         <dt>
-                        <a  href="javascript:void(0)" (click)="this.manageTaxForTransaction()">
+                            <a href="javascript:void(0)" (click)="this.manageTaxForTransaction()">
                                 Tax ({{this.taxPercent}}%)
-                        </a>
+                            </a>
                         </dt>
                         <!-- <dt *ngIf="this.taxPercent == 0">
                             <a  href="javascript:void(0)" (click)="this.taxPercent = this.storeDetails.tax">
@@ -199,7 +254,9 @@
                         <dd class="">{{this.transactionDtoList.totalAmount | currency:'USD':'true'}}</dd>
                     </dl>
                 </div>
-                <button *ngIf="this.saleType == 'Complete' " mat-raised-button [disabled]="this.disablePaymentButtonOnSale" type="button" (click)="this.setDataForPaymentModel()" data-toggle="modal" data-target="#paymentModel" style="width: 100%; font-size: 20px" class="btn btn-green btn-lg text-white m-md-1 p-md-2">
+                <button *ngIf="this.saleType == 'Complete' " mat-raised-button [disabled]="this.disablePaymentButtonOnSale" type="button"
+                    (click)="this.setDataForPaymentModel()" data-toggle="modal" data-target="#paymentModel" style="width: 100%; font-size: 20px"
+                    class="btn btn-green btn-lg text-white m-md-1 p-md-2">
                     <div class="row p-md-1 font-weight-bold">
                         <div class="col-md-6 text-left">Payment</div>
                         <div class="col-md-6 text-right">{{this.transactionDtoList.totalAmount | currency:'USD':'true'}}</div>
@@ -216,37 +273,38 @@
 
 <!-- Start of Product Variant Popup -->
 <div class="modal fade" id="productVariantPopup" role="dialog">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h4 class="modal-title">Please Select Product Variant Below</h4>
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                </div>
-                <div class="modal-body">
-                    <p-dataTable [value]="this.productPopupVariantList" selectionMode="single" dataKey="productNo" (onRowSelect)="onVariantSelect($event)" scrollable="true" scrollHeight="500px" [responsive]="true">
-                        <p-column field="productNo" header="Product No"></p-column>
-                        <p-column field="variant1" header="Variant1"></p-column>
-                        <p-column field="value1" header="Value1"></p-column>
-                        <p-column field="variant2" header="Variant2"></p-column>
-                        <p-column field="value2" header="Value2"></p-column>
-                        <p-column field="variant3" header="Variant3"></p-column>
-                        <p-column field="value3" header="Value3"></p-column>
-                        <p-column field="tier1" header="Retail Tier">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Please Select Product Variant Below</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p-dataTable [value]="this.productPopupVariantList" selectionMode="single" dataKey="productNo" (onRowSelect)="onVariantSelect($event)"
+                    scrollable="true" scrollHeight="500px" [responsive]="true">
+                    <p-column field="productNo" header="Product No"></p-column>
+                    <p-column field="variant1" header="Variant1"></p-column>
+                    <p-column field="value1" header="Value1"></p-column>
+                    <p-column field="variant2" header="Variant2"></p-column>
+                    <p-column field="value2" header="Value2"></p-column>
+                    <p-column field="variant3" header="Variant3"></p-column>
+                    <p-column field="value3" header="Value3"></p-column>
+                    <p-column field="tier1" header="Retail Tier">
 
                         <ng-template let-product="rowData" pTemplate="body">
-                                {{product.tier1}} , {{product.tier2}} , {{product.tier3}}
-                            </ng-template>
-                        </p-column>
-                    </p-dataTable>
-                </div>
-                <div class="modal-footer">
-    
-                    <!-- <button type="button" class="btn btn-danger" data-dismiss="modal" (click)="this.deleteCustomer()">Yes</button>
+                            {{product.tier1}} , {{product.tier2}} , {{product.tier3}}
+                        </ng-template>
+                    </p-column>
+                </p-dataTable>
+            </div>
+            <div class="modal-footer">
+
+                <!-- <button type="button" class="btn btn-danger" data-dismiss="modal" (click)="this.deleteCustomer()">Yes</button>
                         <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button> -->
-                </div>
             </div>
         </div>
     </div>
+</div>
 <!-- End of Product Variant Popup -->
 
 <!-- Popover -->
@@ -274,8 +332,8 @@
     </div>
     <div class="d-flex justify-content-center  p-md-3">
         <button mat-button class="btn-red action-button-table" (click)="this.calculateDiscount(this.discountValue)">
-                        Apply
-            </button>
+            Apply
+        </button>
 
 
     </div>
@@ -313,7 +371,7 @@
 <!-- End of Product and Sale discard Pop up -->
 
 
- <!-- Start Of payment model -->
+<!-- Start Of payment model -->
 <div class="modal fade" id="paymentModel" role="dialog">
     <div class="modal-dialog modal-lg">
 
@@ -444,7 +502,8 @@
                     </div>
 
                     <div class="col-md-6">
-                        <button mat-raised-button [ngClass]="{'primary-button': this.saleType == 'Complete' || 'Pending', 'danger-button': this.saleType == 'Return' }" (click)="this.completeSale()" [disabled]="this.disableCompleteSaleButton">COMPLETE SALE</button>
+                        <button mat-raised-button [ngClass]="{'primary-button': this.saleType == 'Complete' || 'Pending', 'danger-button': this.saleType == 'Return' }"
+                            (click)="this.completeSale()" [disabled]="this.disableCompleteSaleButton">COMPLETE SALE</button>
                     </div>
 
                     <div class="col-md-3">
@@ -458,7 +517,8 @@
                     </div>
 
                     <div class="col-md-6">
-                        <button mat-raised-button [ngClass]="{'primary-button': this.saleType == 'Complete' || 'Pending', 'danger-button': this.saleType == 'Return' }" (click)="this.printReciept()" data-dismiss="modal" data-toggle="modal">PRINT RECEIPT</button>
+                        <button mat-raised-button [ngClass]="{'primary-button': this.saleType == 'Complete' || 'Pending', 'danger-button': this.saleType == 'Return' }"
+                            (click)="this.printReciept()" data-dismiss="modal" data-toggle="modal">PRINT RECEIPT</button>
                     </div>
 
                     <div class="col-md-3">
@@ -498,17 +558,18 @@
                     <p-column field="status" header="Action" [style]="{'width': '20%'}">
                         <ng-template let-transaction="rowData" pTemplate="body">
                             <button class="btn-green action-b1268901272349
-                            utton-table" mat-button data-dismiss="modal" (click)="this.setDataForPaymentModelForPendingInvoice(transaction)" data-toggle="modal" data-target="#paymentModel">
-                                            <i class="" aria-hidden="true">
-                                                PAY
-                                            </i>
-                                    </button>
+                            utton-table" mat-button data-dismiss="modal" (click)="this.setDataForPaymentModelForPendingInvoice(transaction)"
+                                data-toggle="modal" data-target="#paymentModel">
+                                <i class="" aria-hidden="true">
+                                    PAY
+                                </i>
+                            </button>
                             <button class="btn-blue action-button-table" mat-button (click)="this.printReceipt(transaction)">
-                                        <i class="fa fa-print" aria-hidden="true"></i>
-                                </button>
+                                <i class="fa fa-print" aria-hidden="true"></i>
+                            </button>
                             <button class="btn-red action-button-table" mat-button (click)="this.sendEmail(transaction)">
-                                        <i class="fa fa-envelope" aria-hidden="true"></i>
-                                    </button>
+                                <i class="fa fa-envelope" aria-hidden="true"></i>
+                            </button>
                         </ng-template>
                     </p-column>
                 </p-dataTable>

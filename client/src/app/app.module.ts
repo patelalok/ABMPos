@@ -7,8 +7,6 @@ import {ContextMenuModule} from 'primeng/primeng';
 import { HttpModule } from '@angular/http';
 import { SellModule } from 'app/sell/sell.module';
 import {TabMenuModule} from 'primeng/primeng';
-
-
 import { AppComponent } from './app.component';
 import 'hammerjs';
 import { ProductModule } from 'app/product/product.module';

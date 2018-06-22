@@ -24,14 +24,14 @@ export class AppComponent implements OnInit {
   ngOnInit() {
       // this.toastr.success("App initiated", "Yay!");
 
-      this.configService.isCustomerView()
-        .subscribe((status) => {
-          this.config = {
-            showFooter: !status,
-            showHeader: !status,
-            showNavbar: !status
-          }
-        }); 
+      // this.configService.isCustomerView()
+      //   .subscribe((status) => {
+      //     this.config = {
+      //       showFooter: !status,
+      //       showHeader: !status,
+      //       showNavbar: !status
+      //     }
+      //   }); 
   }
 
 }

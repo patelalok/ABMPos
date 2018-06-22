@@ -29,8 +29,8 @@ declare var $: JQueryStatic;
 
   // host: { '[@fadeInAnimation]': '' }
 })
-export class SaleComponent implements OnInit, AfterViewInit {
-  @HostBinding('@fadeInAnimation') fadeInAnimation;
+export class SaleComponent implements OnInit {
+  // @HostBinding('@fadeInAnimation') fadeInAnimation;
 
   product: Product[] = [];
   productList: Product[] = [];
@@ -86,7 +86,7 @@ export class SaleComponent implements OnInit, AfterViewInit {
   popupMessage: string;
   items: MenuItem[];
 
-  _subscriptionCustomer: any;
+  //_subscriptionCustomer: any;
   _subscriptionProduct: any;
   _subscriptionProductVariant: any;
 
@@ -94,8 +94,19 @@ export class SaleComponent implements OnInit, AfterViewInit {
 
 
   constructor(
-    private sellService: SellService, @Inject('Window') private window: Window, private persit: PersistenceService, private productService: ProductService, private storeSetupService: StoreSetupService, private customerService: CustomerService, private sanitizer: DomSanitizer, private route: ActivatedRoute, private router: Router, private toastr: ToastsManager, private loadingService: LoadingService, private utilService: UtilService) {
-    this.getCustomerDetails();
+    private sellService: SellService,
+    // @Inject('Window') private window: Window, 
+    private persit: PersistenceService,
+    private productService: ProductService,
+    private storeSetupService: StoreSetupService,
+    private customerService: CustomerService,
+    private sanitizer: DomSanitizer,
+    private route: ActivatedRoute,
+    private router: Router,
+    private toastr: ToastsManager,
+    // private loadingService: LoadingService, 
+    private utilService: UtilService) {
+    // this.getCustomerDetails();
     this.getProductDetails();
 
   }
@@ -126,9 +137,9 @@ export class SaleComponent implements OnInit, AfterViewInit {
     this.setFocusOnProductSearch();
 
     // This will help to get customer product price, cause its cusotmer is selected then definetly the price is stored in local storage.
-    if (this.selectedCustomer) {
-      this.productPriceArryByCustomer = this.persit.getCustomerProductPriceForSale();
-    }
+    // if (this.selectedCustomer) {
+    //   // this.productPriceArryByCustomer = this.persit.getCustomerProductPriceForSale();
+    // }
 
     this.transactionLineItemDaoList = this.persit.getProducts() || [];
     // this will show transaction data on right side on refresh or on load of the page
@@ -147,18 +158,23 @@ export class SaleComponent implements OnInit, AfterViewInit {
     $('#productsearch > span > input').focus();
   }
 
-  openSellCustomerView() {
-    let url = '/sell-customer';
-    window.open(url, '_blank', 'toolbar=0,location=0,menubar=0');
-  }
+  // openSellCustomerView() {
+  //   let url = '/sell-customer';
+  //   window.open(url, '_blank', 'toolbar=0,location=0,menubar=0');
+  // }
 
 
   public addTransactionLineItem(productObj: any): TransactionLineItemDaoList[] {
-  
+    console.log('inside the add lineItem method', productObj);
+
     // FIRST NEED TO CHECK CUSTOMER IS SELECTED OR NOT.
     // THEN NEED TO CHECK HIS TIER AND WITH TIER, I NEED TO SET RETAIL PRICE FOR THE PERTICULAR PRODUCT.
 
     if (null != this.selectedCustomer && this.selectedCustomer != undefined && this.selectedCustomer.tier > 0) {
+      // productObj.retailWithDiscount = productObj.tier3;
+      // productObj.retail = productObj.tier3;
+
+      // TODO NO NEED TO PUT BACK
       if (this.selectedCustomer.tier == 1) {
         productObj.retailWithDiscount = productObj.tier1;
         productObj.retail = productObj.tier1;
@@ -167,10 +183,10 @@ export class SaleComponent implements OnInit, AfterViewInit {
         productObj.retailWithDiscount = productObj.tier2;
         productObj.retail = productObj.tier2;
       }
-      else if (this.selectedCustomer.tier == 3) {
-        productObj.retailWithDiscount = productObj.tier3;
-        productObj.retail = productObj.tier3;
-      }
+      // else if (this.selectedCustomer.tier == 3) {
+      //   productObj.retailWithDiscount = productObj.tier3;
+      //   productObj.retail = productObj.tier3;
+      // }
     }
     else {
       productObj.retailWithDiscount = productObj.tier3;
@@ -198,7 +214,7 @@ export class SaleComponent implements OnInit, AfterViewInit {
       // Checking weather user is adding same product agian or not if its true, :::: ---> then just add the quantity of that product by 1.
       for (let lineItem of this.transactionLineItemDaoList) {
 
-        if (productObj.productNo === lineItem.productNo) {
+        if (productObj.productNo == lineItem.productNo) {
           // This flag helps to determin whether to add new product or just update the quantity
           this.isProductExistsInSellList = true;
           lineItem.saleQuantity = +lineItem.saleQuantity + 1;
@@ -206,7 +222,7 @@ export class SaleComponent implements OnInit, AfterViewInit {
 
           lineItem.totalProductPrice = parseFloat((lineItem.retailWithDiscount * lineItem.saleQuantity).toFixed(2));
           lineItem.taxAmountOnProduct = (lineItem.retailWithDiscount * this.taxPercent) / 100;
-          this.transactionLineItemDaoList = this.transactionLineItemDaoList.slice();
+          //this.transactionLineItemDaoList = this.transactionLineItemDaoList.slice();
           this.product = null;
           this.productForSearchBox = null;
           this.setTransactionDtoList()
@@ -214,9 +230,9 @@ export class SaleComponent implements OnInit, AfterViewInit {
 
           setTimeout(() => {
             lineItem.quantityUpdated = false;
-            this.persit.setProducts(this.transactionLineItemDaoList);
-            this.transactionLineItemDaoList = this.transactionLineItemDaoList.slice();
-          }, 500);
+            //this.persit.setProducts(this.transactionLineItemDaoList);
+            //this.transactionLineItemDaoList = this.transactionLineItemDaoList.slice();
+          }, 400);
           break;
         }
         // Do not try to be smart please keep this logic, Never touch here
@@ -255,6 +271,8 @@ export class SaleComponent implements OnInit, AfterViewInit {
 
   selectProductFromSearch(productForSearchBox: Product) {
 
+    console.log('selected');
+
     this.productPopupVariantList = [];
 
     if (productForSearchBox.variant) {
@@ -280,68 +298,74 @@ export class SaleComponent implements OnInit, AfterViewInit {
   }
 
   submitProduct(value: any) {
-    console.log('Inside submit product', value);
-    let productFound:boolean = false;
 
-    if (null != value && value.length > 7 && (value.match(/[0-9]/i))) {
+    let productFound: boolean = false;
+
+    if (value && value.length > 7 && (value.match(/[0-9]/i))) {
       console.log('This mean user has scan the barcode no', value);
 
-      // First finding product no in variant list and then in real product List
-      this.productVariantList.forEach((product) => {
-        if (value == product.productNo) {
-          productFound = true;
-          this.addTransactionLineItem(product);
-          //this.timeOut();
-        }
-      });
-
-      if (!productFound) {
-        this.productList.forEach((product) => {
-          if (value == product.productNo) {
-            productFound = true;
-            this.addTransactionLineItem(product);
-            //this.timeOut();
-          }
-        })
+      let product = this.productList.find(x => x.productNo == value);
+      if (product != undefined) {
+        productFound = true;
+        this.addTransactionLineItem(product);
+        this.timeOut();
       }
 
+      console.log('before variant check',productFound)
       if (!productFound) {
+        let product = this.productVariantList.find(x => x.productNo == value);
+        if (product != undefined) {
+          productFound = true;
+          this.addTransactionLineItem(product);
+          this.timeOut();
+        }
+      }
+      console.log('after variant check', productFound)
+ 
+      if (productFound == false) {
         alert("Sorry Can Not Find The Product!!!");
         this.productForSearchBox = null;
       }
+
+      // setTimeout(() => {
+      //   this.product = null;
+      //   this.productForSearchBox = null;
+      // }, 300)
     }
+    else {
 
-    if (typeof value === 'string') {
-      if (value !== '' && value !== undefined && value.indexOf('.') !== 0) {
-        if (value.match(/[a-z]/i)) {
-          // Not sure wt it is doing
+      if (typeof value === 'string') {
+        if (value !== '' && value !== undefined && value.indexOf('.') !== 0) {
+          // if (value.match(/[a-z]/i)) {
+          //   // Not sure wt it is doing
+          // }
+          if (value.match(/[0-9]/i) && value.indexOf('.') > 0)
+            this.updateProductPrice(value);
+
+          // So here i am assuming quantity is not gonna be more then 5, so anything more then 5 just add to product grid.
+          else if (value.match(/[0-9]/i) && value.length < 5)
+            this.updateProductQuantity(value);
         }
-        if (value.match(/[0-9]/i) && value.indexOf('.') > 0)
-          this.updateProductPrice(value);
-
-        // So here i am assuming quantity is not gonna be more then 5, so anything more then 5 just add to product grid.
-        else if (value.match(/[0-9]/i) && value.length < 5)
-          this.updateProductQuantity(value);
+      }
+      else if (value != null && value != undefined) {
+        // if (!value.variant)
+        console.log('oops coming for lineitem');
+        this.addTransactionLineItem(value);
       }
     }
-    else if (value != null) {
 
-      if (value != undefined && !value.variant)
-        this.addTransactionLineItem(value);
-    }
-
-    setTimeout(() => {
-      this.product = null;
-      this.productForSearchBox = null; 
-    }, 500)
+    // setTimeout(() => {
+    //   this.product = null;
+    //   this.productForSearchBox = null; 
+    // }, 300)
   }
 
-  // timeOut() {
-  //   setTimeout(() => {
-  //     this.product = null;
-  //     this.productForSearchBox = null;
-  //   }, 500)
-  // }
+  timeOut() {
+    setTimeout(() => {
+      this.product = null;
+      this.productForSearchBox = null;
+    }, 400)
+  }
 
   setProductForDelete(product: Product) {
     this.selectedProduct = product;
@@ -443,7 +467,7 @@ export class SaleComponent implements OnInit, AfterViewInit {
       this.transactionDtoList.shipping = this.shippingAmount;
     }
     // This will help to make shipping amount 0, when user wants to remove shipping from transaction.
-    if(this.shippingAmount == 0){
+    if (this.shippingAmount == 0) {
       this.transactionDtoList.shipping = 0;
     }
     this.transactionDtoList.totalAmount = +this.transactionDtoList.totalAmount + this.transactionDtoList.shipping;
@@ -491,11 +515,11 @@ export class SaleComponent implements OnInit, AfterViewInit {
 
         this.persit.setCustomerDetailsForSale(this.selectedCustomer);
 
-        this.sellService.getProductPriceByCustomer(this.selectedCustomer.phoneNo)
-          .subscribe((productPrice) => {
-            this.productPriceArryByCustomer = productPrice;
-            this.persit.setCustomerProductPriceForSale(this.productPriceArryByCustomer);
-          });
+        // this.sellService.getProductPriceByCustomer(this.selectedCustomer.phoneNo)
+        //   .subscribe((productPrice) => {
+        //     this.productPriceArryByCustomer = productPrice;
+        //     // this.persit.setCustomerProductPriceForSale(this.productPriceArryByCustomer);
+        //   });
 
         this.setTransactionDtoList();
       })
@@ -802,19 +826,19 @@ export class SaleComponent implements OnInit, AfterViewInit {
     this.disablePaymentButtons = false;
     this.disablePaymentButtonsWithAmount = false;
 
-       // This mean this customer has some store credit to use so i need to enable store credit button.
-       if (this.selectedCustomer) {
-        this.disableCompleteSaleButton = false;
-        if (this.selectedCustomer.storeCredit > 0) {
-          this.disableStoreCreditButtons = false;
-        }
-        else {
-          this.disableStoreCreditButtons = true;
-        }
+    // This mean this customer has some store credit to use so i need to enable store credit button.
+    if (this.selectedCustomer) {
+      this.disableCompleteSaleButton = false;
+      if (this.selectedCustomer.storeCredit > 0) {
+        this.disableStoreCreditButtons = false;
       }
       else {
-        this.disableCompleteSaleButton = true;
+        this.disableStoreCreditButtons = true;
       }
+    }
+    else {
+      this.disableCompleteSaleButton = true;
+    }
     this.payAmountTextBox = this.transactionDtoList.transactionBalance;
     this.dueAmountForTransaction = this.transactionDtoList.transactionBalance;
 
@@ -949,7 +973,7 @@ export class SaleComponent implements OnInit, AfterViewInit {
         totalLineItemDiscount = + ((lineItem.retail - lineItem.retailWithDiscount) * lineItem.saleQuantity) + totalLineItemDiscount;
       }
     }
-    this.transactionDtoList.totalDiscount = +this.totalTransactionDiscount +totalLineItemDiscount;
+    this.transactionDtoList.totalDiscount = +this.totalTransactionDiscount + totalLineItemDiscount;
     // I am doing this to show subtotal without line item discount, so in invoice customer wont get confuse.
     this.transactionDtoList.subtotal = this.transactionDtoList.subtotal + totalLineItemDiscount;
 
@@ -967,26 +991,26 @@ export class SaleComponent implements OnInit, AfterViewInit {
     }
     // This is very important logic to maintain, total due balance in backend.
     if (this.selectedCustomer && this.selectedCustomer != undefined) {
-      if(this.transactionDtoList.status == 'Pending'){
-        this.transactionDtoList.totalBalanceDue =+this.selectedCustomer.balance +this.dueAmountForTransaction;
+      if (this.transactionDtoList.status == 'Pending') {
+        this.transactionDtoList.totalBalanceDue = +this.selectedCustomer.balance + this.dueAmountForTransaction;
       }
       else {
         this.transactionDtoList.totalBalanceDue = this.selectedCustomer.balance;
       }
     }
- 
+
     // NOW MAKING SERVICE CALL TO ADD TRANSACTION AND LINE ITEM DETAILS AND WILL ADD LINE ITEM DETAILS ONLY IF ADD TRANASACTION CALL IS SUCCESS !!!
     this.sellService.addTransactionDetails(this.transactionDtoList)
       .subscribe(data => {
-          this.printTransactionDto = data.json();
-          if (this.saleType == 'Park') {
-            this.toastr.success('Parked Transaction Successfully', 'Success!');
-            this.clearAllDateAfterTransactionComplete();
-          }
-          this.disableCompleteSaleButton = true;
-          console.log('addTransaction response', data);
-          console.log('printTransaction dao', this.printTransactionDto);
-        },
+        this.printTransactionDto = data.json();
+        if (this.saleType == 'Park') {
+          this.toastr.success('Parked Transaction Successfully', 'Success!');
+          this.clearAllDateAfterTransactionComplete();
+        }
+        this.disableCompleteSaleButton = true;
+        console.log('addTransaction response', data);
+        console.log('printTransaction dao', this.printTransactionDto);
+      },
         error => {
           console.log(JSON.stringify(error.json()));
         },
@@ -994,7 +1018,7 @@ export class SaleComponent implements OnInit, AfterViewInit {
         }
       );
 
-    this.loadingService.loading = false;
+    // this.loadingService.loading = false;
 
   }
 
@@ -1083,8 +1107,8 @@ export class SaleComponent implements OnInit, AfterViewInit {
 
         //Hopefull this will fix the issue with parksale, where transactionLineItemId coming from back and creating
         // Percitance entity exceptions - > which was painfull to figure it out.
-        if(transaction && transaction.transactionLineItemDaoList){
-          transaction.transactionLineItemDaoList.forEach((lineItem)=>{
+        if (transaction && transaction.transactionLineItemDaoList) {
+          transaction.transactionLineItemDaoList.forEach((lineItem) => {
             lineItem.transactionLineItemId = 0;
           });
 
@@ -1155,12 +1179,10 @@ export class SaleComponent implements OnInit, AfterViewInit {
 
   public getCustomerDetails() {
 
-    this.customerService.getCustomerDetails();
-    this._subscriptionCustomer = this.customerService.customerListChange
-      .subscribe((cust) => {
-        this.customerDto = cust;
-        this.customerDto = this.customerDto.slice();
-      });
+    this.customerService.getCustomerDetailsFromBackEnd()
+      .subscribe((customer) => {
+        this.customerDto = customer;
+      })
   }
 
 
@@ -1209,11 +1231,10 @@ export class SaleComponent implements OnInit, AfterViewInit {
 
   filterCustomers(event) {
     let query = event.query;
-    // this.customerService.getCustomerDetailsFromBackEnd()
-    //   .subscribe((customers) => {
-    // console.log(products);
-    this.filteredCustomer = this.filterCustomer(query, this.customerDto);
-    // });
+    this.customerService.getCustomerDetailsFromBackEnd()
+      .subscribe((customers) => {
+        this.filteredCustomer = this.filterCustomer(query, this.customerDto);
+      });
   }
 
   filterCustomer(query, customers: Customer[]): Customer[] {
@@ -1222,10 +1243,10 @@ export class SaleComponent implements OnInit, AfterViewInit {
       let cust = customers[i];
 
       // This if condition will fix the problem of searching when company name is null.
-      if(cust != undefined && cust.companyName != null && cust.companyName != undefined)
-      if (cust.name.toLowerCase().includes(query.toLowerCase()) || cust.companyName.toLowerCase().includes(query.toLowerCase()) || cust.phoneNo.includes(query)) {
-        filtered.push(cust);
-      }
+      if (cust != undefined && cust.companyName != null && cust.companyName != undefined)
+        if (cust.name.toLowerCase().includes(query.toLowerCase()) || cust.companyName.toLowerCase().includes(query.toLowerCase()) || cust.phoneNo.includes(query)) {
+          filtered.push(cust);
+        }
     }
     return filtered;
 
@@ -1234,15 +1255,18 @@ export class SaleComponent implements OnInit, AfterViewInit {
     this.productService.getProductDetails();
     this._subscriptionProduct = this.productService.productListChange.subscribe((product) => {
       this.productList = product;
-      this.productList = this.productList.slice();
+      //this.productList = this.productList.slice();
     })
   }
   getAllProductVariant() {
-    this.productService.getAllProductVariant();
-    this._subscriptionProductVariant = this.productService.productVariantListChange.subscribe((variant) => {
-      this.productVariantList = variant;
-      this.productPopupVariantList = this.productPopupVariantList.slice();
-    })
+    this.productService.getAllProductVariantFromBackEnd()
+      .subscribe((variant) => {
+        this.productVariantList = variant;
+      })
+    // this._subscriptionProductVariant = this.productService.productVariantListChange.subscribe((variant) => {
+    //   this.productVariantList = variant;
+    //   //this.productPopupVariantList = this.productPopupVariantList.slice();
+    // })
   }
 
   disgardCompleteSale() {
@@ -1267,9 +1291,9 @@ export class SaleComponent implements OnInit, AfterViewInit {
 
   ngOnDestroy() {
     //prevent memory leak when component destroyed
-    this._subscriptionCustomer.unsubscribe();
+    //this._subscriptionCustomer.unsubscribe();
     this._subscriptionProduct.unsubscribe();
-    this._subscriptionProductVariant.unsubscribe();
+    //this._subscriptionProductVariant.unsubscribe();
   }
 }
 
@@ -1433,14 +1457,11 @@ export class TransactionLineItemDaoList {
 
   productId?: number;
   productNo: string;
-  // productVariantNo: number;
   cost?: number;
   retail?: number;
-  // actualRetail?: number;
   saleQuantity?: number;
-  // defaultQuantity: number;
   transactionComId?: number;
-  transactionLineItemId?:number;
+  transactionLineItemId?: number;
   date?: any;
   time?: any;
   status?: string;
@@ -1451,18 +1472,7 @@ export class TransactionLineItemDaoList {
   imeiNo?: any;
   quantityUpdated?: boolean;
   description: string;
-  // minQuantity: number;
-  // isTax: number;
-  // IsVariant: number;
-  // IsActive: number;
-  // IsEcomerce: number;
-  // IsRelatedProduct: number;
-  // categoryName: string;
-  // brandName: string;
-  // vendorName: string;
-  // modelName: string;
-  // alternetNo: string;
-  // markup: number;
+
 }
 
 export class TransactionDtoList {
@@ -1529,7 +1539,7 @@ export class PaymentDetails {
 }
 
 export class PaymentHistoryDto {
-  
+
   transactionComId: number;
   paymentDao: PaymentDao;
   customerFirstLastName: string;

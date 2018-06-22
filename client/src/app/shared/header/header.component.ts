@@ -47,7 +47,9 @@ export class HeaderComponent implements OnInit {
 
     this.clockInForm.get('username').valueChanges
     .subscribe((change) => {
-      this.getClockInDetails();
+      if(null != this.clockInForm.get('username').value){
+        this.getClockInDetails();
+      }
     })
   }
 
@@ -64,22 +66,17 @@ export class HeaderComponent implements OnInit {
 
   getClockInDetails() {
 
-    let username: string;
-
     this.clockInObj = new ClockIn();
-
     this.clockInObj.username = this.clockInForm.get('username').value;
     this.dateDto = this.dateService.getCurrentDay();
 
     // Need to do this becuase when user chnage the username from dropdown, if the one user is clocked in it is showing for clock out for all users which is wrong, so this helps to fix this problem.
     this.isClockIn = false;
-    username = this.clockInForm.get('username').value;
 
     this.employeeService.getEmployeeClockInDetails(this.clockInObj.username, this.dateDto.startDate, this.dateDto.endDate)
     .subscribe((clockInList: ClockIn[]) => {
       this.clockInList = clockInList;
       this.setClockInListForView();
-      console.log('clockInList', this.clockInList)
 
       // This mean user has some clock in history for the current day, so now i need to he is clocked in or clock out and, on behalf of that, i need to set up clock in flag.
       if(this.clockInList && this.clockInList.length > 0)
@@ -103,9 +100,6 @@ export class HeaderComponent implements OnInit {
 
     this.employeeService.validateEmployee(this.clockInForm.get('username').value, this.clockInForm.get('password').value)
     .subscribe((valid) => {
-
-      console.log('after valid', valid);
-
       if(valid)
       {
         if(this.clockInList && this.clockInList.length > 0){
@@ -121,7 +115,6 @@ export class HeaderComponent implements OnInit {
             }
           })
         }
-        console.log('clock in List', this.clockInList);
       }
       else {
         this.toastr.error("Wrong Credintails, Please Try Again!!", 'Error');
