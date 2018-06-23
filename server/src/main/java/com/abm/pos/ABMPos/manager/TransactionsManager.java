@@ -1081,24 +1081,6 @@ public class TransactionsManager {
         public void onEndPage(PdfWriter writer, Document document) {
             footer.writeSelectedRows(0, -4, 36, 64, writer.getDirectContent());
         }
-//
-//        this is a footer xcvxcv sdfsdf sdfsdfsdf sfsfsfsfsfsf" +
-//                "sfscdsfsd sdfsdfsdf sfsdfsf s fsfsfsfsfsfsfsfs       sdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsd" +
-//                "sdfsdfsdfsdfsdfsdfasdfasdfasdfsadf sdafasdfsadfasdfasdfsadfasdfasdfasdfadsfasdfasdf" +
-//                "asdfasdfasdfasdfsdafadsfasdfasdfasd  sd  das f adsf asd f ads f ds f asd f sad f s dafsda f sad fa sdf asd f asd f asd f sad f sad f asdf asd f sad f asd f asdf a sdf as df asd f sa dfasdfas df sad f sad f asdf" +
-//                "asdf sda f sdaf asdf asdf a sdf  dsaf dsa f sd f ds f sda f sda f sad f sad f asd fa sd f sdaf as
-
-//    class MyFooter extends PdfPageEventHelper {
-//        Font ffont = new Font(Font.FontFamily.UNDEFINED, 5, Font.ITALIC);
-//
-//        public void onEndPage(PdfWriter writer, Document document) {
-//            PdfContentByte cb = writer.getDirectContent();
-//            Phrase footer = new Phrase(" f asd f asd f asd f as sdf asd", ffont);
-//            ColumnText.showTextAligned(cb, Element.ALIGN_CENTER,
-//                    footer,
-//                    (document.right() - document.left()) / 2 + document.leftMargin(),
-//                    document.bottom() - 10, 0);
-//        }
     }
 
         public List<TransactionDao> getPendingInvoiceByCustomer(String phoneNo) {

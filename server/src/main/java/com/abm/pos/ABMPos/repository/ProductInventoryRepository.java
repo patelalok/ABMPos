@@ -16,8 +16,6 @@ public interface ProductInventoryRepository extends JpaRepository<ProductInvento
 
     List<ProductInventoryDao> findAllByProductId(int productId);
     List<ProductInventoryDao> findAllByProductIdAndProductNo(int productId, String productNo);
-
-
     @Query("SELECT i FROM ProductInventoryDao i WHERE i.createdTimestamp = '2017-10-08 12:49:42' ")
     ProductInventoryDao test();
 

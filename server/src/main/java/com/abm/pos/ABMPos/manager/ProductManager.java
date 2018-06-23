@@ -83,59 +83,17 @@ public class ProductManager{
 
         else if((null != productDao && productDao.getOperationType().equalsIgnoreCase("Edit")))
         {
-             productDao1 = productRepository.findOne(productDao.getProductId());
+             productDao1 = productRepository.findOneByProductNo(productDao.getProductNo());
 
              if(productDao1 != null){
                  productDao1 = productRepository.save(productDao);
+                 // Update retail price just in case if user has changes.
+                 productInventoryRepository.updateProductRetailPrice(productDao.getTier1(), productDao.getTier2(), productDao.getTier3(),productDao.getProductNo());
              }
-
-             //Now I need to update retail price if user has updated the retail price,
-            // If not then still I have to update it so in case of change it will update or all.
-
-            productInventoryRepository.updateProductRetailPrice(productDao.getTier1(), productDao.getTier2(), productDao.getTier3(),productDao.getProductNo());
-
-
-
-             // This is important spacially when user changes the product no.
-//             if(productDao1 == null && productDao.getProductNo().length()>1 && productDao.getDescription().length() > 1){
-//                 productRepository.save(productDao);
-//                 productDao1 = productRepository.findOne(productDao.getProductNo());
-//             }
-
-
-            int totalProduct = 0;
-
-            // I need to do this cause i need to maintain retail price of the product in both product and product inventory Table.
-            // So this is really important.
-            // TODO NEED FIX this with new tier retail price logic.
-            if(null != productDao1 && productDao.getRetail() != productDao1.getRetail()) {
-
-               // productInventoryRepository.updateProductRetailPrice(productDao.getTier1(),productDao.getTier2(),productDao.getTier3(), productDao.getProductNo());
-            }
-                    // This will sync the product quantity after every update.
-//            assert productDao1 != null;
-//            List<ProductInventoryDao> productInventoryDaoList = productInventoryRepository.findAllByProductNo(productDao1.getProductNo());
-//
-//                    if (null != productInventoryDaoList && productInventoryDaoList.size() > 0) {
-//                        for (ProductInventoryDao productInventoryDao2 : productInventoryDaoList) {
-//                            totalProduct = totalProduct + productInventoryDao2.getQuantity();
-//                        }
-//                        // Now i need to update quantity in product table, so setting data here which will save after this.
-//                        productDao.setQuantity(totalProduct);
-//                        productDao.setCost(productInventoryDaoList.get(0).getCost());
-//                    }
-//            productDao1 = productRepository.save(productDao);
         }
-
         return productDao1;
     }
 
-    @CachePut("products")
-    //@CacheEvict("products")
-    public ProductDao addProductTest(ProductDao productDao) {
-
-       return productRepository.save(productDao);
-    }
     public ProductInventoryDao addProductInventory(ProductInventoryDao productInventoryDao) {
 
         ProductInventoryDao productInventoryDao1 = new ProductInventoryDao();
@@ -232,12 +190,9 @@ public class ProductManager{
                 ProductImageDao productImageDao = new ProductImageDao();
                 productImageDao.setProductNo(productVariantDao.getProductNo());
                 productImageRepository.save(productImageDao);
-
             }
         }
-
         return productVariantDao;
-
     }
 
     public List<ProductVariantDao> getProductVariant() {

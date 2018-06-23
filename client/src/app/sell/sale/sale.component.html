@@ -14,6 +14,7 @@
                     (completeMethod)="filterProducts($event)" 
                     name="test" [minLength]="3"
                     (keyup.enter)="submitProduct(productForSearchBox)" 
+                    (onSelect)="this.selectProductFromSearch(productForSearchBox)" 
                     field="description">
                     <!-- (onSelect)="this.selectProductFromSearch(productForSearchBox)" -->
                     <ng-template>

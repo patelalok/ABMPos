@@ -1,6 +1,7 @@
 package com.abm.pos.ABMPos.repository;
 
 import com.abm.pos.ABMPos.dao.ProductDao;
+import com.abm.pos.ABMPos.dao.ProductInventoryDao;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -16,15 +17,8 @@ import java.util.List;
 
 @Transactional
 public interface ProductRepository extends JpaRepository<ProductDao, Integer> {
-
-    public static final String KEY = "products";
-
-
-
     List<ProductDao> findAll();
-
     List<ProductDao> findAllByCategoryIdAndActive(String categoryId, boolean active);
-
 
     @Query("SELECT p.description FROM ProductDao p WHERE p.productNo = ?1")
     @Cacheable(value = "description")
@@ -42,6 +36,8 @@ public interface ProductRepository extends JpaRepository<ProductDao, Integer> {
     List<ProductDao> findAllByCategoryId(String categoryId);
 
     ProductDao findOneByProductId(Integer productId);
+
+    ProductDao findOneByProductNo(String productNo);
 
     @Modifying
     @Query("UPDATE ProductDao SET quantity = ?1, cost = ?2 WHERE productNo = ?3")
@@ -96,10 +92,16 @@ public interface ProductRepository extends JpaRepository<ProductDao, Integer> {
 
     List<ProductDao> findAllByVendorId(String s);
 
-    @Query(value = "SELECT p.product_id, p.product_no,p.description, p.tax,i.tier1, i.tier2, i.tier3,\n" +
+    @Query(value = "SELECT p.product_id,\n" +
+            "p.product_no,\n" +
+            "p.description,\n" +
+            "p.tax,\n" +
+            "i.tier1,\n" +
+            "i.tier2, \n" +
+            "i.tier3,\n" +
             "sum(i.quantity) from product p\n" +
             "inner join product_inventory i\n" +
-            "on p.product_id = i.product_id\n" +
+            "on p.product_no = i.product_no\n" +
             "Where p.variant = 0 AND p.active = 1\n" +
             "group by p.product_id, p.product_no,p.description, p.tax,i.tier1, i.tier2, i.tier3 ", nativeQuery = true)
     List<Object[]> getAllActiveProductWithoutVariant();

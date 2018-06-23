@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, HostBinding, Inject, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Customer } from 'app/customer/customer.component';
@@ -14,7 +14,6 @@ import { MenuItem } from 'app/shared/top-navbar/top-navbar.component';
 import * as moment from 'moment';
 import { ToastsManager } from 'ng2-toastr/src/toast-manager';
 import 'rxjs/Rx';
-import { LoadingService } from '../../loading.service';
 import { UtilService } from '../../shared/services/util.service';
 
 declare var $: JQueryStatic;
@@ -171,10 +170,7 @@ export class SaleComponent implements OnInit {
     // THEN NEED TO CHECK HIS TIER AND WITH TIER, I NEED TO SET RETAIL PRICE FOR THE PERTICULAR PRODUCT.
 
     if (null != this.selectedCustomer && this.selectedCustomer != undefined && this.selectedCustomer.tier > 0) {
-      // productObj.retailWithDiscount = productObj.tier3;
-      // productObj.retail = productObj.tier3;
 
-      // TODO NO NEED TO PUT BACK
       if (this.selectedCustomer.tier == 1) {
         productObj.retailWithDiscount = productObj.tier1;
         productObj.retail = productObj.tier1;
@@ -183,10 +179,6 @@ export class SaleComponent implements OnInit {
         productObj.retailWithDiscount = productObj.tier2;
         productObj.retail = productObj.tier2;
       }
-      // else if (this.selectedCustomer.tier == 3) {
-      //   productObj.retailWithDiscount = productObj.tier3;
-      //   productObj.retail = productObj.tier3;
-      // }
     }
     else {
       productObj.retailWithDiscount = productObj.tier3;
@@ -1255,18 +1247,19 @@ export class SaleComponent implements OnInit {
     this.productService.getProductDetails();
     this._subscriptionProduct = this.productService.productListChange.subscribe((product) => {
       this.productList = product;
-      //this.productList = this.productList.slice();
+      this.productList = this.productList.slice();
     })
   }
   getAllProductVariant() {
-    this.productService.getAllProductVariantFromBackEnd()
-      .subscribe((variant) => {
-        this.productVariantList = variant;
-      })
-    // this._subscriptionProductVariant = this.productService.productVariantListChange.subscribe((variant) => {
-    //   this.productVariantList = variant;
-    //   //this.productPopupVariantList = this.productPopupVariantList.slice();
-    // })
+    // this.productService.getAllProductVariantFromBackEnd()
+    //   .subscribe((variant) => {
+    //     this.productVariantList = variant;
+    //   })
+    this.productService.getProductVariantDetails();
+    this._subscriptionProductVariant = this.productService.productVariantListChange.subscribe((variant) => {
+      this.productVariantList = variant;
+      this.productPopupVariantList = this.productPopupVariantList.slice();
+    })
   }
 
   disgardCompleteSale() {
@@ -1293,7 +1286,7 @@ export class SaleComponent implements OnInit {
     //prevent memory leak when component destroyed
     //this._subscriptionCustomer.unsubscribe();
     this._subscriptionProduct.unsubscribe();
-    //this._subscriptionProductVariant.unsubscribe();
+    this._subscriptionProductVariant.unsubscribe();
   }
 }
 
