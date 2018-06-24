@@ -62,19 +62,19 @@ export class ProductService {
 
   getProductDetails()  {
 
-    if(this.productList && this.productList.length <= 0){
+    // if(this.productList && this.productList.length <= 0){
       this.getProductDetailsFromBackEnd()
       .subscribe((product)=>{
         this.productList = product;
         this.productListChange.next(this.productList);
         return this.productList;
       })
-    }
-    else {
-      console.log('Product List alredy exists', this.productList)
-      this.productListChange.next(this.productList);
-      return this.productList;
-    }
+  //  }
+    // else {
+    //   console.log('Product List alredy exists', this.productList)
+    //   this.productListChange.next(this.productList);
+    //   return this.productList;
+    // }
   }
 
   getProductDetailsFromBackEnd(): Observable<Product[]>{

@@ -92,6 +92,8 @@ public interface ProductRepository extends JpaRepository<ProductDao, Integer> {
 
     List<ProductDao> findAllByVendorId(String s);
 
+
+    // always keep the inner join dont think of left outer join, cause that will create problem.
     @Query(value = "SELECT p.product_id,\n" +
             "p.product_no,\n" +
             "p.description,\n" +

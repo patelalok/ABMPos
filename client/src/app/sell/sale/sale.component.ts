@@ -179,11 +179,18 @@ export class SaleComponent implements OnInit {
         productObj.retailWithDiscount = productObj.tier2;
         productObj.retail = productObj.tier2;
       }
+      // Dont be smart, please keep this logic.
+      else if (this.selectedCustomer.tier == 3) {
+        productObj.retailWithDiscount = productObj.tier3;
+        productObj.retail = productObj.tier3;
+      }
     }
     else {
       productObj.retailWithDiscount = productObj.tier3;
       productObj.retail = productObj.tier3;
     }
+
+    console.log('product price', productObj);
     // this will help me to set default quantity by for each product.
     if (productObj.saleQuantity <= 0 || productObj.saleQuantity == undefined) {
       productObj.saleQuantity = 1;
@@ -303,7 +310,7 @@ export class SaleComponent implements OnInit {
         this.timeOut();
       }
 
-      console.log('before variant check',productFound)
+      console.log('before variant check', productFound)
       if (!productFound) {
         let product = this.productVariantList.find(x => x.productNo == value);
         if (product != undefined) {
@@ -313,7 +320,7 @@ export class SaleComponent implements OnInit {
         }
       }
       console.log('after variant check', productFound)
- 
+
       if (productFound == false) {
         alert("Sorry Can Not Find The Product!!!");
         this.productForSearchBox = null;

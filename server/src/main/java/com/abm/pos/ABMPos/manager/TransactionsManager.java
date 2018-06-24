@@ -323,24 +323,31 @@ public class TransactionsManager {
 
         for (TransactionLineItemDao lineItemDao : transactionDao.getTransactionLineItemDaoList()) {
 
-
             ProductInventoryDao productInventoryDao = productInventoryRepository.findFirstByProductNoOrderByCreatedTimestampAsc(lineItemDao.getProductNo());
 
             // This is very important, if i dont do this then it will messed up complete count of the quantity.
             ProductInventoryDao productInventoryDaoFinal = new ProductInventoryDao();
             if (null != productInventoryDao) {
-                productInventoryDaoFinal.setCost(Math.abs(productInventoryDao.getCost()));
                 productInventoryDaoFinal.setProductNo(lineItemDao.getProductNo());
-                productInventoryDaoFinal.setRetail(Math.abs((lineItemDao.getRetail())));
+                productInventoryDaoFinal.setProductId(lineItemDao.getProductId());
+                productInventoryDaoFinal.setCost(Math.abs(productInventoryDao.getCost()));
+                productInventoryDaoFinal.setTier1(Math.abs(productInventoryDao.getTier1()));
+                productInventoryDaoFinal.setTier2(Math.abs(productInventoryDao.getTier2()));
+                productInventoryDaoFinal.setTier3(Math.abs(productInventoryDao.getTier3()));
                 productInventoryDaoFinal.setQuantity(lineItemDao.getSaleQuantity());
                 productInventoryDaoFinal.setCreatedTimestamp(transactionDao.getDate());
             }
 
-            ProductInventoryDao productInventoryDao1 = productInventoryRepository.save(productInventoryDaoFinal);
+           // ProductInventoryDao productInventoryDao1 = productInventoryRepository.save(productInventoryDaoFinal);
+
+            productInventoryRepository.save(productInventoryDaoFinal);
 
             // I need to recalculate the product inventory from inventory table and then set the quantity to PRODUCT tabel to sync product table stock and inventory Table.
             // This is real method who updated the PRODUCT TABLE.
-            updateQuantityInProductTable(productInventoryDao1);
+
+
+            // No need to do this anymore cause now all inventory is managed from
+           // updateQuantityInProductTable(productInventoryDao1);
         }
     }
 
