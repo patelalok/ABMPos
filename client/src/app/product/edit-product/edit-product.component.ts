@@ -79,14 +79,27 @@ export class EditProductComponent implements OnInit {
           }
         );
 
-        this.form.valueChanges
-        .subscribe((changes) => {
-          console.log('form valurs', this.form.errors);
-          console.log('form valurs', this.form.valid);
+        // this.form.valueChanges
+        // .subscribe((changes) => {
+        //   console.log('form valurs', this.form.errors);
+        //   console.log('form valurs', this.form.valid);
+        //   console.log('complete form', this.form.value);
+        // })
 
-          console.log('complete form', this.form.value);
 
-        })
+    this.form.valueChanges
+    .debounceTime(600)
+    .distinctUntilChanged()
+    .subscribe((change)=>{
+      if(this.form.get('retail').value > 0){
+        let retail:number = this.form.get('retail').value;
+       // let cost: number = this.form.get('cost').value;
+       console.log('cost', this.currentProduct);
+        let markup = ((retail - this.currentProduct.cost)/retail) * 100;
+        let finalMarkup = markup.toFixed(2);
+        this.form.get('markup').setValue(finalMarkup);
+      }
+    });
    
         this.productService.getCategoryDetails()
         .subscribe((categories: Category[]) => {

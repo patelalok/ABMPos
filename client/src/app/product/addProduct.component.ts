@@ -68,20 +68,18 @@ export class AddProductComponent implements OnInit {
     );
 
     this.form.valueChanges
-    .debounceTime(800)
+    .debounceTime(600)
     .distinctUntilChanged()
     .subscribe((change)=>{
       if(this.form.get('retail').value > 0){
         let retail:number = this.form.get('retail').value;
         let cost: number = this.form.get('cost').value;
 
-        console.log('retail', retail);
-        console.log('cost', cost);
         let markup = ((retail - cost)/retail) * 100;
         let finalMarkup = markup.toFixed(2);
         this.form.get('markup').setValue(finalMarkup);
       }
-    })
+    });
 
     this.productService.getCategoryDetails()
       .subscribe((categories: Category[]) => {
