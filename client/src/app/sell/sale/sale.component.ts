@@ -91,6 +91,8 @@ export class SaleComponent implements OnInit {
 
   parkDate: any;
 
+  productMap = new Map();
+
 
   constructor(
     private sellService: SellService,
@@ -133,7 +135,7 @@ export class SaleComponent implements OnInit {
     this.getProductDetails();
     this.selectedCustomer = this.persit.getCustomerDetailsForSale();
 
-    this.setFocusOnProductSearch();
+    //this.setFocusOnProductSearch();
 
     // This will help to get customer product price, cause its cusotmer is selected then definetly the price is stored in local storage.
     // if (this.selectedCustomer) {
@@ -229,8 +231,8 @@ export class SaleComponent implements OnInit {
 
           setTimeout(() => {
             lineItem.quantityUpdated = false;
-            //this.persit.setProducts(this.transactionLineItemDaoList);
-            //this.transactionLineItemDaoList = this.transactionLineItemDaoList.slice();
+            this.persit.setProducts(this.transactionLineItemDaoList);
+            this.transactionLineItemDaoList = this.transactionLineItemDaoList.slice();
           }, 400);
           break;
         }
@@ -303,7 +305,11 @@ export class SaleComponent implements OnInit {
     if (value && value.length > 7 && (value.match(/[0-9]/i))) {
       console.log('This mean user has scan the barcode no', value);
 
-      let product = this.productList.find(x => x.productNo == value);
+      // let product = this.productList.find(x => x.productNo == value);
+
+      let product = this.productMap.get(value);
+      console.log('value', value);
+      console.log('product',product);
       if (product != undefined) {
         productFound = true;
         this.addTransactionLineItem(product);
@@ -1031,7 +1037,6 @@ export class SaleComponent implements OnInit {
   }
 
   clearAllDateAfterTransactionComplete() {
-    this.setFocusOnProductSearch();
     // For now i have to do this to fix the issue with quantity not showing 
     this.getProductDetails();
 
@@ -1255,6 +1260,14 @@ export class SaleComponent implements OnInit {
     this._subscriptionProduct = this.productService.productListChange.subscribe((product) => {
       this.productList = product;
       this.productList = this.productList.slice();
+
+      if(null != this.productList){
+        this.productList.forEach((p)=>{
+          this.productMap.set(p.productNo, p);
+        });
+      }
+
+      console.log('map object after get product', this.productMap);
     })
   }
   getAllProductVariant() {
