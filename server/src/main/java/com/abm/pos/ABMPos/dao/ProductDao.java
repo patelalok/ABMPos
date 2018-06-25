@@ -24,7 +24,7 @@ public class ProductDao implements Serializable {
     private String brandId;
 
     private String vendorId;
-    private String modelId;
+//    private String modelId;
     private String alternetNo;
 
     private double cost;
@@ -117,14 +117,14 @@ public class ProductDao implements Serializable {
     public void setVendorId(String vendorId) {
         this.vendorId = vendorId;
     }
-
-    public String getModelId() {
-        return modelId;
-    }
-
-    public void setModelId(String modelId) {
-        this.modelId = modelId;
-    }
+//
+//    public String getModelId() {
+//        return modelId;
+//    }
+//
+//    public void setModelId(String modelId) {
+//        this.modelId = modelId;
+//    }
 
     public String getAlternetNo() {
         return alternetNo;
