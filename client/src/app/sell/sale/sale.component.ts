@@ -109,6 +109,7 @@ export class SaleComponent implements OnInit {
     private utilService: UtilService) {
     // this.getCustomerDetails();
     this.getProductDetails();
+    this.getAllProductVariant();
 
   }
   ngOnInit() {
