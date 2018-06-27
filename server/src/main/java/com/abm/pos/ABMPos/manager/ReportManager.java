@@ -10,6 +10,7 @@ import com.abm.pos.ABMPos.dao.TransactionLineItemDao;
 import com.abm.pos.ABMPos.dto.*;
 import com.abm.pos.ABMPos.repository.*;
 import com.abm.pos.ABMPos.util.Utility;
+import com.google.api.client.util.NanoClock;
 import com.itextpdf.text.*;
 import com.itextpdf.text.pdf.*;
 import com.itextpdf.text.pdf.draw.LineSeparator;
@@ -113,6 +114,8 @@ public class ReportManager {
         double totalRetail = 0;
         int totalQuantity = 0;
         double avgMarkup;
+        DecimalFormat df = new DecimalFormat("#.##");
+
 
 
         if (null != result) {
@@ -125,8 +128,17 @@ public class ReportManager {
                 inventoryDto.setRetail(Double.parseDouble(j[3].toString()));
 
                 double markupPer = ((inventoryDto.getRetail() - inventoryDto.getCost()) / inventoryDto.getCost()) * 100;
-                DecimalFormat df = new DecimalFormat("#.##");
-                inventoryDto.setMarkup(Double.parseDouble(df.format(markupPer)));
+
+                if(!Double.isNaN(markupPer))
+                {
+                    inventoryDto.setMarkup(Double.parseDouble(df.format(markupPer)));
+
+                }
+                else {
+                    inventoryDto.setMarkup(0.00);
+
+                }
+
 
                 inventoryDtoList.add(inventoryDto);
             }
@@ -144,6 +156,20 @@ public class ReportManager {
         inventoryDto.setCost(totalCost);
         inventoryDto.setRetail(totalRetail);
         inventoryDto.setQuantity(totalQuantity);
+
+        System.out.println(totalRetail);
+        System.out.println(totalCost);
+
+
+
+        double totalMarkUp = ((totalRetail - totalCost) / totalCost) * 100;
+        System.out.println(totalMarkUp);
+
+
+        if(!Double.isNaN(totalMarkUp))
+        {
+            inventoryDto.setMarkup(Double.parseDouble(df.format(totalMarkUp)));
+        }
 
         inventoryDtoList.add(inventoryDto);
 
