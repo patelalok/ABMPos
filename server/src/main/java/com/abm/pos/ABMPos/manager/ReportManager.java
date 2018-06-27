@@ -771,13 +771,13 @@ public class ReportManager {
     // This will print report by CATEGORY, BRAND AND ALL.
     private void printSalesSummaryReportByOtherType(Document doc, List<SalesDto> salesDtoList) throws DocumentException {
 
-        PdfPTable mainTable = new PdfPTable(4);
-        String[] mainTableHeader = new String[]{"NAME", "TOTAL AMOUNT","QUANTITY","DISCOUNT"};
+        PdfPTable mainTable = new PdfPTable(5);
+        String[] mainTableHeader = new String[]{"NAME", "TOTAL AMOUNT","QUANTITY","DISCOUNT", "PROFIT"};
         mainTable.setWidthPercentage(100);
 
         // This will print table header only
         mainTable.setHeaderRows(1);
-        mainTable.setWidths(new float[]{4,3,2,2});
+        mainTable.setWidths(new float[]{4,3,2,2,2});
         mainTable.setSpacingBefore(3);
         mainTable.setSplitLate(false);
 
@@ -789,26 +789,37 @@ public class ReportManager {
             PdfPCell cell2 = new PdfPCell();
             PdfPCell cell3 = new PdfPCell();
             PdfPCell cell4 = new PdfPCell();
+            PdfPCell cell5 = new PdfPCell();
+
 
             cell1.addElement(new Phrase(salesDto.getName(), FontFactory.getFont(FontFactory.HELVETICA, 12, Font.NORMAL)));
             cell2.setCellEvent(new PositionEvent(new Phrase(1, "$ " + String.valueOf(salesDto.getRetail()), FontFactory.getFont(FontFactory.HELVETICA, 12, Font.NORMAL)), 0.5f, 0.5f, Element.ALIGN_CENTER));
             cell3.setCellEvent(new PositionEvent(new Phrase(1,  String.valueOf(salesDto.getQuantity()), FontFactory.getFont(FontFactory.HELVETICA, 12, Font.NORMAL)), 0.5f, 0.5f, Element.ALIGN_CENTER));
             cell4.setCellEvent(new PositionEvent(new Phrase(1, "$ " + String.valueOf(salesDto.getDiscount()), FontFactory.getFont(FontFactory.HELVETICA, 12, Font.NORMAL)), 0.5f, 0.5f, Element.ALIGN_CENTER));
+            cell5.setCellEvent(new PositionEvent(new Phrase(1, "$ " + String.valueOf(salesDto.getProfit()), FontFactory.getFont(FontFactory.HELVETICA, 12, Font.NORMAL)), 0.5f, 0.5f, Element.ALIGN_CENTER));
+
 
             cell1.setBorderColor(BaseColor.LIGHT_GRAY);
             cell2.setBorderColor(BaseColor.LIGHT_GRAY);
             cell3.setBorderColor(BaseColor.LIGHT_GRAY);
             cell4.setBorderColor(BaseColor.LIGHT_GRAY);
+            cell5.setBorderColor(BaseColor.LIGHT_GRAY);
+
 
             cell1.setBorder(Rectangle.NO_BORDER);
             cell2.setBorder(Rectangle.NO_BORDER);
             cell3.setBorder(Rectangle.NO_BORDER);
             cell4.setBorder(Rectangle.NO_BORDER);
+            cell5.setBorder(Rectangle.NO_BORDER);
+
+
 
             mainTable.addCell(cell1);
             mainTable.addCell(cell2);
             mainTable.addCell(cell3);
             mainTable.addCell(cell4);
+            mainTable.addCell(cell5);
+
         }
         doc.add(mainTable);
     }

@@ -91,7 +91,8 @@ public class TransactionsManager {
     public TransactionDao addTransaction(TransactionDao transactionDao) {
         TransactionDao transactionDao1 = null;
 
-            assert transactionDao != null;
+
+        if(null !=transactionDao) {
             if (transactionDao.getStatus().equalsIgnoreCase("Complete") || transactionDao.getStatus().equalsIgnoreCase("Pending")) {
 
                 List<TransactionLineItemDao> transactionLineItemDaoList = new ArrayList<>();
@@ -210,6 +211,22 @@ public class TransactionsManager {
 //            }
             } else if (transactionDao.getStatus().equalsIgnoreCase("Return") || transactionDao.getStatus().equalsIgnoreCase("Void")) {
 
+                ProductInventoryDao productInventoryDao = new ProductInventoryDao();
+
+                // TODO NEED TO REFACTORE DUPLICATE CHECK.
+                // Now First I need to check this is return or not, I know its duplicate check.
+                // Need to set cost price negative otherwise it will create lots of problem in counting profit, cause it will set to ZERO if i do not do this.
+                if (transactionDao.getStatus().equalsIgnoreCase("Return")) {
+                    for (TransactionLineItemDao lineItem: transactionDao.getTransactionLineItemDaoList()){
+
+                        productInventoryDao = productInventoryRepository.findFirstByProductNoOrderByCreatedTimestampAsc(lineItem.getProductNo());
+                        if(null != productInventoryDao){
+                            lineItem.setCost(productInventoryDao.getCost() * -1);
+                        }
+                    }
+                }
+
+
                 // this logic help to, manage regular return and RMI return, cause in RMI return we do not need to insert inventory again.
                 if (!transactionDao.isRma()) {
                     // Managing inventory for the RETURN or VOID
@@ -253,11 +270,11 @@ public class TransactionsManager {
             }
 
 
-             transactionDao1 = transactionRepository.save(transactionDao);
+            transactionDao1 = transactionRepository.save(transactionDao);
 
             for (PaymentDao payment : transactionDao.getPaymentDao()) {
 
-                if (payment.getTransactionPaymentId() <= 0){
+                if (payment.getTransactionPaymentId() <= 0) {
 
                 }
 
@@ -272,7 +289,6 @@ public class TransactionsManager {
             paymentRepository.save(transactionDao.getPaymentDao());
 
             //System.out.println("Exception"+e);
-        return transactionDao1;
 
 //
 //        if (transactionDao1.getTransactionComId() != 0) {
@@ -293,30 +309,9 @@ public class TransactionsManager {
 //
 //                // TODO Need add this logic for store credit
 //
-////                if(paymentDao.getCash() != 0 || paymentDao.getCredit() != 0  || paymentDao.getDebit() != 0  || paymentDao.getCheckAmount() != 0 || paymentDao.getStoreCredit()  != 0) {
-////                    paymentRepository.insertPaymentDetail(transactionDao.getTransactionComId(),
-////                            transactionDao.getStatus(),
-////                            paymentDao.getDate(),
-////                            paymentDao.getCash(),
-////                            paymentDao.getCredit(),
-////                            paymentDao.getDebit(),
-////                            paymentDao.getCheckAmount(),
-////                            paymentDao.getStoreCredit(),
-////                            paymentDao.getLoyalty(),
-////                            paymentDao.getLayby(),
-////                            paymentDao.getChangeForCash(),
-////                            paymentDao.getCreditCardLast4()
-////                    );
-////                }
-//            }
-////            transactionDao.setPaymentDao(paymentDaoList);
-//
-//        }
-        // paymentDaoList = paymentRepository.findAllByTransactionComId(transactionDao.getTransactionComId());
-
-
-        //transactionDao1.setPaymentDao(paymentDaoList);
-
+////
+        }
+        return transactionDao1;
     }
 
     private void manageProductInventoryAfterSale(TransactionDao transactionDao) {
