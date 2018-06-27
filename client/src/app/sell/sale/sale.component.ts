@@ -1159,6 +1159,7 @@ export class SaleComponent implements OnInit, AfterViewInit {
 
 
 export class Product {
+  productId?: number;
   productNo: string;
   // productVariantNo: number;
   description: string;
@@ -1196,6 +1197,7 @@ export class Product {
 }
 export class TransactionLineItemDaoList {
 
+  productId?: number;
   productNo: string;
   // productVariantNo: number;
   cost?: number;

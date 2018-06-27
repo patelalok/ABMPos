@@ -164,6 +164,7 @@ export class EditProductComponent implements OnInit {
       // if(!isAlternetNoExists){
 
       let product: Product = {
+        productId: this.currentProduct.productId,
         productNo: formValues.productNo,
         categoryId: formValues.category.categoryId,
         // brandId: formValues.brand.brandId,
@@ -191,7 +192,7 @@ export class EditProductComponent implements OnInit {
         time:null,
         totalProductPrice: 0,
         transactionComId: 0,
-        varaint: null,
+        // varaint: null,
         operationType: 'Edit',
         saleQuantity:0
 

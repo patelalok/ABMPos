@@ -15,7 +15,7 @@ import java.util.List;
  */
 
 @Transactional
-public interface ProductRepository extends JpaRepository<ProductDao, String> {
+public interface ProductRepository extends JpaRepository<ProductDao, Integer> {
 
     public static final String KEY = "products";
 
@@ -26,9 +26,9 @@ public interface ProductRepository extends JpaRepository<ProductDao, String> {
     List<ProductDao> findAllByCategoryIdAndActive(String categoryId, boolean active);
 
 
-    @Query("SELECT p.description FROM ProductDao p WHERE p.productNo = ?1")
-    @Cacheable(value = "description")
-    String test(String productNo);
+//    @Query("SELECT p.description FROM ProductDao p WHERE p.productNo = ?1")
+//    @Cacheable(value = "description")
+//    String test(String productNo);
 
    //@Query("SELECT p FROM ProductDao p WHERE p.active = true ORDER BY p.description ASC")
     @Query("SELECT p FROM ProductDao p WHERE p.active = true ORDER BY p.productNo ASC")

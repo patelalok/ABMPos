@@ -232,6 +232,7 @@ export class AddProductComponent implements OnInit {
 
 export interface ProductForm {
 
+  productId?: number;
   productNo: string;
   productVariantNo?: number;
   description: string;

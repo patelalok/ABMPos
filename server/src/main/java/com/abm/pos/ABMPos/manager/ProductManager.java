@@ -74,7 +74,7 @@ public class ProductManager{
 
         else if((null != productDao && productDao.getOperationType().equalsIgnoreCase("Edit")))
         {
-             productDao1 = productRepository.findOne(productDao.getProductNo());
+             productDao1 = productRepository.findOneByProductNo(productDao.getProductNo());
             int totalProduct = 0;
             // I need to do this cause i need to maintain retail price of the product in both product and product inventory Table.
             // So this is really important.
@@ -203,7 +203,7 @@ public class ProductManager{
     }
         public ProductDao getProductById(String productNo) {
 
-        return productRepository.findOne(productNo);
+        return productRepository.findOneByProductNo(productNo);
     }
 
     public void addProductVariant(ProductVariantDao productVariantDao) {
