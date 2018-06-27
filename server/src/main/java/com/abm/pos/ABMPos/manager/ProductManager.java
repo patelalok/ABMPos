@@ -83,7 +83,8 @@ public class ProductManager{
 
         else if((null != productDao && productDao.getOperationType().equalsIgnoreCase("Edit")))
         {
-             productDao1 = productRepository.findOneByProductNo(productDao.getProductNo());
+            // Here I have to use product id to update the product, cause this will handle scenario where product no is updating.
+             productDao1 = productRepository.findOne(productDao.getProductId());
 
              if(productDao1 != null){
                  productDao1 = productRepository.save(productDao);

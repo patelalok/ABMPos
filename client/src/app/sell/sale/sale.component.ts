@@ -1276,7 +1276,7 @@ export class SaleComponent implements OnInit {
     //   .subscribe((variant) => {
     //     this.productVariantList = variant;
     //   })
-    this.productService.getProductVariantDetails();
+    this.productService.getAllProductVariant();
     this._subscriptionProductVariant = this.productService.productVariantListChange.subscribe((variant) => {
       this.productVariantList = variant;
       this.productPopupVariantList = this.productPopupVariantList.slice();

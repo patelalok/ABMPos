@@ -255,6 +255,13 @@ export class EditProductComponent implements OnInit {
 
       // if(!isAlternetNoExists){
 
+        if(null == formValues.subCategory){
+          formValues.subCategory = new SubCategory();
+        }
+        if(null == formValues.model){
+          formValues.model = new Model();
+        }
+
       let product: Product = {
         productId: this.currentProduct.productId,
         productNo: formValues.productNo,
