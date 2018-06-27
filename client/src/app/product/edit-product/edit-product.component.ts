@@ -147,8 +147,10 @@ export class EditProductComponent implements OnInit {
   
   }
 
-  addProduct() {
+  addProduct(event) {
     {
+
+      console.log('event after edit', event);
       let isAlternetNoExists: boolean;
 
       let formValues: ProductForm = this.form.value;
