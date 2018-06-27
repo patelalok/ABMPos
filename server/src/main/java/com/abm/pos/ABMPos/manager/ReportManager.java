@@ -1207,7 +1207,6 @@ public class ReportManager {
                 if (null != j[2]) {
                     setPaymentDetailsToStatement(j, customerStatementDtoList);
                 }
-
                 //customerStatementDto.setTransactionComId(Integer.parseInt(j[0].toString()));
                 customerStatementDto.setDate(j[1].toString());
                 customerStatementDto.setDescription("Invoice" + "(# " + j[0].toString() + ")");
