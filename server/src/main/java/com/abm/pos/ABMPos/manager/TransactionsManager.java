@@ -68,6 +68,20 @@ public class TransactionsManager {
     private BaseFont bfBold;
     private BaseFont bf;
     private int pageNumber = 0;
+    int transId = 39300;
+
+
+
+    public void updateTransaction(){
+
+        for(TransactionDao trans: transactionRepository.findAllByOrderByTransactionComIdAsc())
+        {
+            transId ++;
+            transactionRepository.updateTransactionId(transId, trans.getTransactionComId());
+            System.out.println(transId);
+
+        }
+    }
 
 
     public TransactionDao addTransaction(TransactionDao transactionDao) {

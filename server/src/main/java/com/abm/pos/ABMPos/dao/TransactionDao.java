@@ -24,12 +24,19 @@ public class TransactionDao {
     private double totalDiscount;
     private double  subtotal;
     private int quantity;
+
     private String customerPhoneno;
     private String status;
+
     private double transactionBalance;
+
     private String username;
+
     private String customerFirstLastName;
+
     private String note;
+
+
     private boolean parkSale;
 
     //this is need to handle store credit scenario

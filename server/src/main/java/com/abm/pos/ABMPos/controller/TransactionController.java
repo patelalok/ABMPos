@@ -30,6 +30,13 @@ public class TransactionController {
     @Autowired
     private TransactionsManager transactionManager;
 
+    @RequestMapping(value = "/updateTransaction", method = RequestMethod.GET)
+    public void updateTransaction()
+    {
+         transactionManager.updateTransaction();
+//        return new ResponseEntity(HttpStatus.CREATED);
+    }
+
     @RequestMapping(value = "/addTransaction", method = RequestMethod.POST, consumes = "application/json")
     public TransactionDao addTransaction(@RequestBody TransactionDao transactionDao)
     {

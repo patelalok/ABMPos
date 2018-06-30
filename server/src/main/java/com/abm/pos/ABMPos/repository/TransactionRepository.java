@@ -3,6 +3,7 @@ package com.abm.pos.ABMPos.repository;
 import com.abm.pos.ABMPos.dao.TransactionDao;
 import org.omg.CORBA.OBJ_ADAPTER;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 
 import javax.transaction.Transactional;
@@ -16,6 +17,8 @@ import java.util.List;
 public interface TransactionRepository extends JpaRepository<TransactionDao, Integer> {
 
     List<TransactionDao> findAll();
+
+    List<TransactionDao> findAllByOrderByTransactionComIdAsc();
 
     TransactionDao findFirstByCustomerPhoneno(String phoneNo);
 
@@ -142,4 +145,8 @@ public interface TransactionRepository extends JpaRepository<TransactionDao, Int
             "WHERE t.date BETWEEN ?1 AND ?2 AND t.status = 'Pending'\n" +
             "group by NameOfMonth", nativeQuery = true)
     List<Object[]> getYearlySalesReportForDueBalance(String startDate, String endDate);
+
+    @Modifying
+    @Query(value = "update transaction set transaction_com_id = ?1 where transaction_com_id = ?2", nativeQuery = true)
+    void updateTransactionId(int newId, int oldId);
 }
