@@ -192,6 +192,7 @@
                             {{summary.dueBalance | currency:'USD':'true'}}
                         </ng-template>
                     </p-column> -->
+                    
                     <p-column field="profit" header="Profit" [sortable]="true">
                         <ng-template let-summary="rowData" pTemplate="body">
                             {{summary.profit | currency:'USD':'true'}}
