@@ -68,7 +68,7 @@ public class TransactionsManager {
     private BaseFont bfBold;
     private BaseFont bf;
     private int pageNumber = 0;
-    int transId = 51506;
+    int transId = 51790;
 
 
 
