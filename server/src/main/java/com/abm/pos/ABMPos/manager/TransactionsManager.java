@@ -1022,8 +1022,8 @@ public class TransactionsManager {
             if (null != transactionDao.getCustomerPhoneno()) {
                 List<Double> totalDueBalance;
 
-                // this will give live due amount but this is not what we want so i am commenting this.
-                //totalDueBalance = transactionRepository.getTransactionDueAmountByCustomer(transactionDao.getCustomerPhoneno());
+                 //this will give live due amount but this is not what we want so i am commenting this.
+                totalDueBalance = transactionRepository.getTransactionDueAmountByCustomer(transactionDao.getCustomerPhoneno());
 
                 if ( transactionDao.getTotalBalanceDue() > 0) {
                     Paragraph totalBalanceDueText = new Paragraph("TOTAL BALANCE DUE", FontFactory.getFont(FontFactory.HELVETICA, 14, Font.BOLD));
@@ -1032,7 +1032,7 @@ public class TransactionsManager {
                     totalBalanceDue.addElement(totalBalanceDueText);
                     totalBalanceDue.setBorder(PdfPCell.NO_BORDER);
 
-                    Paragraph totalBalanceDueAmount1 = new Paragraph("$ " + transactionDao.getTotalBalanceDue(), FontFactory.getFont(FontFactory.HELVETICA, 14, Font.BOLD));
+                    Paragraph totalBalanceDueAmount1 = new Paragraph("$ " + totalDueBalance, FontFactory.getFont(FontFactory.HELVETICA, 14, Font.BOLD));
                     totalBalanceDueAmount1.setAlignment(PdfPCell.ALIGN_RIGHT);
 
                     totalBalanceDueAmount.addElement(totalBalanceDueAmount1);

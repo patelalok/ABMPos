@@ -166,7 +166,7 @@ export class SaleComponent implements OnInit {
   // }
 
 
-  public addTransactionLineItem(productObj: any): TransactionLineItemDaoList[] {
+  public addTransactionLineItem(productObj: any) {
     console.log('inside the add lineItem method', productObj);
 
     // FIRST NEED TO CHECK CUSTOMER IS SELECTED OR NOT.
@@ -198,52 +198,36 @@ export class SaleComponent implements OnInit {
     if (productObj.saleQuantity <= 0 || productObj.saleQuantity == undefined) {
       productObj.saleQuantity = 1;
     }
-    // This is fisrt time when user is adding product to sell.
-    if (this.transactionLineItemDaoList.length == 0) {
-
-      productObj.totalProductPrice = parseFloat(productObj.retailWithDiscount.toFixed(2));
-      productObj.taxAmountOnProduct = (productObj.retailWithDiscount * this.taxPercent) / 100;
-
-      this.transactionLineItemDaoList.push(productObj);
-      this.product = null;
-      this.productForSearchBox = null;
-      this.transactionLineItemDaoList[this.transactionLineItemDaoList.length - 1].retailWithDiscount = productObj.retailWithDiscount;
-      this.transactionLineItemDaoList = this.transactionLineItemDaoList.slice();
-      this.setTransactionDtoList()
-      this.persit.setProducts(this.transactionLineItemDaoList);
-    }
-    else {
-      // Checking weather user is adding same product agian or not if its true, :::: ---> then just add the quantity of that product by 1.
-      for (let lineItem of this.transactionLineItemDaoList) {
-
-        if (productObj.productNo == lineItem.productNo) {
-          // This flag helps to determin whether to add new product or just update the quantity
-          this.isProductExistsInSellList = true;
-          lineItem.saleQuantity = +lineItem.saleQuantity + 1;
-          lineItem.quantityUpdated = true;
-
-          lineItem.totalProductPrice = parseFloat((lineItem.retailWithDiscount * lineItem.saleQuantity).toFixed(2));
-          lineItem.taxAmountOnProduct = (lineItem.retailWithDiscount * this.taxPercent) / 100;
-          //this.transactionLineItemDaoList = this.transactionLineItemDaoList.slice();
-          this.product = null;
-          this.productForSearchBox = null;
-          this.setTransactionDtoList()
-          this.persit.setProducts(this.transactionLineItemDaoList);
-
-          setTimeout(() => {
-            lineItem.quantityUpdated = false;
+          for (let lineItem of this.transactionLineItemDaoList) {
+          if (productObj.productNo == lineItem.productNo) {
+            // This flag helps to determin whether to add new product or just update the quantity
+            this.isProductExistsInSellList = true;
+            lineItem.saleQuantity = +lineItem.saleQuantity + 1;
+            lineItem.quantityUpdated = true;
+  
+            lineItem.totalProductPrice = parseFloat((lineItem.retailWithDiscount * lineItem.saleQuantity).toFixed(2));
+            lineItem.taxAmountOnProduct = (lineItem.retailWithDiscount * this.taxPercent) / 100;
+            this.product = null;
+            this.productForSearchBox = null;
+            this.setTransactionDtoList()
             this.persit.setProducts(this.transactionLineItemDaoList);
-            this.transactionLineItemDaoList = this.transactionLineItemDaoList.slice();
-          }, 400);
-          break;
+  
+            setTimeout(() => {
+              lineItem.quantityUpdated = false;
+              this.persit.setProducts(this.transactionLineItemDaoList);
+              this.transactionLineItemDaoList = this.transactionLineItemDaoList.slice();
+            }, 400);
+
+            break;
+
+          }
+          // Do not try to be smart please keep this logic, Never touch here
+          else {
+            // This flag helps to determin whether to add new product or just update the quantity
+            this.isProductExistsInSellList = false;
+          }
         }
-        // Do not try to be smart please keep this logic, Never touch here
-        else {
-          // This flag helps to determin whether to add new product or just update the quantity
-          this.isProductExistsInSellList = false;
-        }
-      }
-      if (!this.isProductExistsInSellList) {
+        if (!this.isProductExistsInSellList) {
         productObj.totalProductPrice = productObj.retailWithDiscount * productObj.saleQuantity;
         productObj.taxAmountOnProduct = parseFloat(((productObj.retailWithDiscount * this.taxPercent) / 100).toFixed(2));
         this.transactionLineItemDaoList.push(productObj);
@@ -254,16 +238,12 @@ export class SaleComponent implements OnInit {
         this.setTransactionDtoList()
         this.persit.setProducts(this.transactionLineItemDaoList);
       }
-    }
-
 
     // NEVER Delete this very important logic
     // for now just commenting this logic to fix the issue with screen going blank.
     $(`lineitem${productObj.productNo}`).ready(function () {
       document.getElementById(`lineitem${productObj.productNo}`).scrollIntoView();
     });
-
-    return this.transactionLineItemDaoList;
   }
 
   // This method helps to set focus on search box when user come on sell page.
@@ -370,7 +350,7 @@ export class SaleComponent implements OnInit {
     setTimeout(() => {
       this.product = null;
       this.productForSearchBox = null;
-    }, 400)
+    }, 500);
   }
 
   setProductForDelete(product: Product) {

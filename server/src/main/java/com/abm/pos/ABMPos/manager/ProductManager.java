@@ -56,6 +56,8 @@ public class ProductManager{
     {
         ProductDao productDao1 = new ProductDao();
 
+
+
         // I need to do this, cause that is the only way to add the inventory into inventory table, if i wont do it then user can not sale this product.
         if(null != productDao && productDao.getOperationType().equalsIgnoreCase("Add"))
         {
