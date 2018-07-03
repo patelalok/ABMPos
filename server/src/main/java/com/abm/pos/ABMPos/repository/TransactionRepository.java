@@ -71,9 +71,10 @@ public interface TransactionRepository extends JpaRepository<TransactionDao, Int
             "SUM(payment.cash) cash,\n" +
             "SUM(payment.credit) credit,\n" +
             "SUM(payment.debit) debit,\n" +
-            "SUM(payment.check_amount) checkAmount,\n" +
+            "SUM(payment.check_amount) checkAmount," +
+            "SUM(payment.store_credit) store_credit,\n" +
             "SUM(t.tax) tax,\n" +
-            "SUM(t.total_amount) totalAmount,SUM(payment.store_credit) store_credit, \n" +
+            "SUM(t.total_amount) totalAmount,\n" +
             "SUM(CASE WHEN t.status = 'Pending' THEN t.transaction_balance ELSE 0 end) dueBalance,\n" +
             "SUM(t.total_discount) discount,\n" +
             "SUM(temp.profit) profit\n" +
@@ -105,9 +106,10 @@ public interface TransactionRepository extends JpaRepository<TransactionDao, Int
             "SUM(payment.cash) cash,\n" +
             "SUM(payment.credit) credit,\n" +
             "SUM(payment.debit) debit,\n" +
-            "SUM(payment.check_amount) checkAmount,\n" +
+            "SUM(payment.check_amount) checkAmount," +
+            "SUM(payment.store_credit) store_credit,\n" +
             "SUM(t.tax) tax,\n" +
-            "SUM(t.total_amount) totalAmount,SUM(payment.store_credit) store_credit, \n" +
+            "SUM(t.total_amount) totalAmount, \n" +
             "SUM(CASE WHEN t.status = 'Pending' THEN t.transaction_balance ELSE 0 end) dueBalance,\n" +
             "SUM(t.total_discount) discount,\n" +
             "SUM(temp.profit) profit\n" +

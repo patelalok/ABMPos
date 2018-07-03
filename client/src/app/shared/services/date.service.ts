@@ -186,6 +186,10 @@ export class DateService {
             this.dateDto.startDate = year + '-' + '06' + '-' + '01'+ ' 00:00:000';
             this.dateDto.endDate = year + '-' + '06' + '-' + '31' + ' 23:59:59';
         }
+        else if (monthName === 'July') {
+            this.dateDto.startDate = year + '-' + '07' + '-' + '01'+ ' 00:00:000';
+            this.dateDto.endDate = year + '-' + '07' + '-' + '31' + ' 23:59:59';
+        }
         else if (monthName === 'August') {
             this.dateDto.startDate = year + '-' + '08' + '-' + '01'+ ' 00:00:000';
             this.dateDto.endDate = year + '-' + '08' + '-' + '31' + ' 23:59:59';

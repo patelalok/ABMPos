@@ -79,7 +79,7 @@ export class SalesComponent implements OnInit {
         this.dateDto = this.dateService.getCurrentDay();
       }
       else if(this.salesSummaryDropdown === 'Sales By Hour') {
-        
+        this.dateDto = this.dateService.getDateByInput(this.salesDateDropdown);
       }
 
       this.reportService.getSalesSummaryReport(this.salesSummaryDropdown, this.dateDto.startDate, this.dateDto.endDate)

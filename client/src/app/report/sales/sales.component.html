@@ -13,7 +13,6 @@
                     <option>Sales Summary</option>
                     <option>Sales By Category</option>
                     <option>Sales By Vendor</option>
-                    <!-- <option>Sales By Brand</option> -->
                     <option>Sales By Product</option>
                     <option>Sales By Employee</option>
                     <option>Sales By Customer</option>
@@ -59,7 +58,7 @@
 
             </div>
 
-            <div *ngIf="this.salesDropdown != 'Sales Summary' " class="col-md-2">
+            <div *ngIf="this.salesDropdown != 'Sales Summary' || this.salesSummaryDropdown == 'Sales By Hour' " class="col-md-2">
                 <select class="form-control" [(ngModel)]="this.salesDateDropdown" (change)="this.getReportDetails()">
                   <option>Today</option>
                   <option>Yesterday</option>
