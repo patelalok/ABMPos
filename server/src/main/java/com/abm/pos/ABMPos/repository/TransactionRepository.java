@@ -257,20 +257,29 @@ public interface TransactionRepository extends JpaRepository<TransactionDao, Int
 
     List<TransactionDao> findAllByCustomerPhonenoAndStatusAndDateBetweenOrderByDateAsc(String phoneNo, String status, String startDate, String endDate);
 
-    @Query(value = "SELECT t.transaction_com_id , \n" +
-            "t.date as tranDate, \n" +
-            "p.date as payDate,\n" +
-            "t.total_amount,\n" +
-            "p.amount, \n" +
-            "p.type,\n" +
-            "t.transaction_balance,\n" +
-            "t.total_balance_due\n" +
+    @Query(value = "SELECT t.transaction_com_id,\n" +
+            "            CASE WHEN t.date>=?1 THEN t.date else NULL end as tranDate,\n" +
+            "            p.date as payDate,\n" +
+            "            t.total_amount,\n" +
+            "            p.amount,\n" +
+            "            p.type,\n" +
+            "            t.transaction_balance,\n" +
+            "            t.total_balance_due\n" +
+            "            FROM transaction t\n" +
+            "            LEFT JOIN transaction_payment p\n" +
+            "            ON p.transaction_com_id = t.transaction_com_id\n" +
+            "            WHERE (t.date >= ?1 or p.date >= ?1)  AND t.customer_phoneno = ?2\n" +
+            "            AND (t.status != 'Void' OR p.status != 'Void')\n" +
+            "            ORDER BY t.date ", nativeQuery = true)
+    List<Object[]> getCustomerStatement(String startDate, String phoneNo);
+
+    @Query(value = "SELECT IFNULL (SUM(t.transaction_balance), 0.00)\n" +
             "FROM transaction t\n" +
             "LEFT JOIN transaction_payment p\n" +
             "ON p.transaction_com_id = t.transaction_com_id\n" +
-            "WHERE t.date BETWEEN ?1 AND ?2 AND t.customer_phoneno = ?3 " +
-            "ORDER BY t.date", nativeQuery = true)
-    List<Object[]> getCustomerStatement(String startDate, String endDate, String phoneNo);
+            "WHERE t.date < ?1 AND t.customer_phoneno = ?2 " +
+            "AND t.status != 'Void'", nativeQuery = true)
+    double getBalanceForwardAmount(String startDate, String phoneNo);
 //
 //    @Query("")
 //    List<Object[]> getPaymentSummaryReport(String startDate, String endDate);

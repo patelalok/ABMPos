@@ -177,7 +177,7 @@ public class PaymentManager {
         PaymentDao paymentDao = new PaymentDao();
 
         if (null != paymentHistoryDto && null != paymentHistoryDto.getPaymentDao() && paymentHistoryDto.getPaymentDao().getTransactionPaymentId() > 0 && paymentHistoryDto.getPaymentDao().getTransactionComId() > 0) {
-            if (paymentHistoryDto.getPaymentDao().getStatus().equalsIgnoreCase("Complete") && paymentHistoryDto.getPaymentDao().getAmount() > 0) {
+            if ( (paymentHistoryDto.getPaymentDao().getStatus().equalsIgnoreCase("Complete") || paymentHistoryDto.getPaymentDao().getStatus().equalsIgnoreCase("Pending") ) && paymentHistoryDto.getPaymentDao().getAmount() > 0) {
                 // In Case of store credit void I need to put the store credit back to customers account.
                 if (null != paymentHistoryDto.getCustomerPhoneno() && paymentHistoryDto.getPaymentDao().getType().equalsIgnoreCase("Store Credit")) {
                     CustomerDao customerDao = customerRepository.getOne(paymentHistoryDto.getCustomerPhoneno());

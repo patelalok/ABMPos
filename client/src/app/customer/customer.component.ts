@@ -187,10 +187,10 @@ export class CustomerComponent implements OnInit {
   printCustomerPaymentStatement(){
 
     // First get the current day.
+    let startDate = this.dateServie.getCurrentMonth();
+    let endDate = this.dateServie.getLastMonth();
 
-    let date:DateDto = this.dateServie.getCurrentMonth();
-
-    this.customerService.printPaymentStatement(date.startDate, date.endDate, this.selectedCustomer.phoneNo)
+    this.customerService.printPaymentStatement(startDate.startDate, endDate.endDate, this.selectedCustomer.phoneNo)
   }
   emailCustomerStatement(){
     this.customerService.emailCustomerStatement(this.dateDto.startDate, this.dateDto.endDate, this.selectedCustomer.phoneNo)

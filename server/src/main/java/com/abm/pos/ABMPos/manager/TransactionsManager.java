@@ -286,7 +286,13 @@ public class TransactionsManager {
                     payment.setAmount(payment.getAmount() * -1);
                 }
             }
-            paymentRepository.save(transactionDao.getPaymentDao());
+
+
+//            // In Case of return, I can not insert record in payment table cause it will create problem.
+//            if(!transactionDao.getStatus().equalsIgnoreCase("Return"))
+//            {
+                paymentRepository.save(transactionDao.getPaymentDao());
+//            }
 
             //System.out.println("Exception"+e);
 

@@ -324,32 +324,32 @@ export class ReturnSaleComponent implements OnInit, AfterViewInit {
 
     let paymentDaoObj = new PaymentDao();
 
-     if (paymentType == 'CASH') {
-      this.paymentObjectForPaymentSellTable.push({ 'paymentType': 'CASH', 'paymentAmount': paymentAmount });
+     if (paymentType == 'Cash') {
+      this.paymentObjectForPaymentSellTable.push({ 'paymentType': 'Cash', 'paymentAmount': paymentAmount });
       paymentDaoObj.amount = paymentAmount;
-      paymentDaoObj.type = 'CASH';
+      paymentDaoObj.type = 'Cash';
       this.paymentDaoList.push(paymentDaoObj);
       this.validatePaymentForReturn();
     }
-    if (paymentType == 'CREDIT') {
-      this.paymentObjectForPaymentSellTable.push({ 'paymentType': 'CREDIT', 'paymentAmount': paymentAmount });
+    if (paymentType == 'Credit') {
+      this.paymentObjectForPaymentSellTable.push({ 'paymentType': 'Credit', 'paymentAmount': paymentAmount });
       paymentDaoObj.amount = paymentAmount;
-      paymentDaoObj.type = 'CREDIT';
+      paymentDaoObj.type = 'Credit';
       this.paymentDaoList.push(paymentDaoObj);
       this.validatePaymentForReturn();
     }
-    if (paymentType == 'CHECK') {
-      this.paymentObjectForPaymentSellTable.push({ 'paymentType': 'CHECK', 'paymentAmount': paymentAmount });
+    if (paymentType == 'Check') {
+      this.paymentObjectForPaymentSellTable.push({ 'paymentType': 'Check', 'paymentAmount': paymentAmount });
       paymentDaoObj.amount = paymentAmount;
-      paymentDaoObj.type = 'CHECK';
+      paymentDaoObj.type = 'Check';
       this.paymentDaoList.push(paymentDaoObj);
       this.validatePaymentForReturn();
     }
-    if (paymentType == 'STORE CREDIT') {
+    if (paymentType == 'Store Credit') {
       paymentAmount = Math.abs(paymentAmount);
-      this.paymentObjectForPaymentSellTable.push({ 'paymentType': 'STORE CREDIT', 'paymentAmount': paymentAmount });
+      this.paymentObjectForPaymentSellTable.push({ 'paymentType': 'Store Credit', 'paymentAmount': paymentAmount });
       paymentDaoObj.amount = paymentAmount;
-      paymentDaoObj.type = 'STORE CREDIT';
+      paymentDaoObj.type = 'Store Credit';
       this.paymentDaoList.push(paymentDaoObj);
       this.validatePaymentForReturn();
     }

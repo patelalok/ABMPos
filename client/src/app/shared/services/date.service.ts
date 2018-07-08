@@ -9,6 +9,7 @@ export class DateService {
 
     getDateByInput(inputName: string): DateDto {
 
+
         if (inputName === 'Today') {
             return this.getCurrentDay();
         }
@@ -55,71 +56,100 @@ export class DateService {
     }
 
     getCurrentDay(): DateDto {
+
+        this.dateDto = new DateDto();
+
         this.dateDto.startDate = moment(Date.now()).startOf('day').format('YYYY-MM-DD HH:mm:ss');
         this.dateDto.endDate = moment(Date.now()).endOf('day').format('YYYY-MM-DD HH:mm:ss');
         return this.dateDto;
     }
     getPreviousDay() {
+        this.dateDto = new DateDto();
+
         this.dateDto.startDate = moment(Date.now()).subtract(1, 'day').startOf('day').format('YYYY-MM-DD HH:mm:ss');
         this.dateDto.endDate = moment(Date.now()).subtract(1, 'day').endOf('day').format('YYYY-MM-DD HH:mm:ss');
         return this.dateDto;
     }
     getCurrentWeek() {
+        this.dateDto = new DateDto();
+
         this.dateDto.startDate = moment(Date.now()).startOf('isoWeek').format('YYYY-MM-DD HH:mm:ss');
         this.dateDto.endDate = moment(Date.now()).endOf('isoWeek').format('YYYY-MM-DD HH:mm:ss');
         return this.dateDto;
     }
     getLastWeek() {
+        this.dateDto = new DateDto();
+
         this.dateDto.startDate = moment(Date.now()).subtract(1, 'weeks').startOf('isoWeek').format('YYYY-MM-DD HH:mm:ss');
         this.dateDto.endDate = moment(Date.now()).subtract(1, 'weeks').endOf('isoWeek').format('YYYY-MM-DD HH:mm:ss');
         return this.dateDto;
     }
     getLast2Weeks() {
+        this.dateDto = new DateDto();
+
         this.dateDto.startDate = moment(Date.now()).subtract(2, 'weeks').startOf('isoWeek').format('YYYY-MM-DD HH:mm:ss');
         this.dateDto.endDate = moment(Date.now()).subtract(1, 'weeks').endOf('isoWeek').format('YYYY-MM-DD HH:mm:ss');
         return this.dateDto;
     }
     getLast4Weeks() {
+        this.dateDto = new DateDto();
+
         this.dateDto.startDate = moment(Date.now()).subtract(4, 'weeks').startOf('isoWeek').format('YYYY-MM-DD HH:mm:ss');
         this.dateDto.endDate = moment(Date.now()).subtract(1, 'weeks').endOf('isoWeek').format('YYYY-MM-DD HH:mm:ss');
         return this.dateDto;
     }
     getCurrentMonth() {
+        this.dateDto = new DateDto();
+
         this.dateDto.startDate = moment(Date.now()).startOf('month').format('YYYY-MM-DD HH:mm:ss');
         this.dateDto.endDate = moment(Date.now()).endOf('month').format('YYYY-MM-DD HH:mm:ss');
         return this.dateDto;
     }
     getLastMonth() {
+        this.dateDto = new DateDto();
+
         this.dateDto.startDate = moment(Date.now()).subtract(1, 'month').startOf('month').format('YYYY-MM-DD HH:mm:ss');
         this.dateDto.endDate = moment(Date.now()).subtract(1, 'month').endOf('month').format('YYYY-MM-DD HH:mm:ss');
         return this.dateDto;
     }
     getLast3Months() {
+        this.dateDto = new DateDto();
+
         this.dateDto.startDate = moment(Date.now()).subtract(3, 'month').startOf('month').format('YYYY-MM-DD HH:mm:ss');
         this.dateDto.endDate = moment(Date.now()).subtract(1, 'month').endOf('month').format('YYYY-MM-DD HH:mm:ss');
         return this.dateDto;
     }
     getLast6Months() {
+        this.dateDto = new DateDto();
+
         this.dateDto.startDate = moment(Date.now()).subtract(6, 'month').startOf('month').format('YYYY-MM-DD HH:mm:ss');
         this.dateDto.endDate = moment(Date.now()).subtract(1, 'month').endOf('month').format('YYYY-MM-DD HH:mm:ss');
         return this.dateDto;
     }
     getCurrentYear() {
+        this.dateDto = new DateDto();
+
         this.dateDto.startDate = moment(Date.now()).startOf('year').format('YYYY-MM-DD HH:mm:ss');
         this.dateDto.endDate = moment(Date.now()).endOf('year').format('YYYY-MM-DD HH:mm:ss');
         return this.dateDto;
     }
     getLastYear() {
+        this.dateDto = new DateDto();
+
         this.dateDto.startDate = moment(Date.now()).subtract(1, 'year').startOf('year').format('YYYY-MM-DD HH:mm:ss');
         this.dateDto.endDate = moment(Date.now()).subtract(1, 'year').endOf('year').format('YYYY-MM-DD HH:mm:ss');
         return this.dateDto;
     }
     getLast5Years() {
+        this.dateDto = new DateDto();
+
         this.dateDto.startDate = moment(Date.now()).subtract(5, 'year').startOf('year').format('YYYY-MM-DD HH:mm:ss');
         this.dateDto.endDate = moment(Date.now()).subtract(1, 'year').endOf('year').format('YYYY-MM-DD HH:mm:ss');
         return this.dateDto;
     }
     getLast10Years() {
+        this.dateDto = new DateDto();
+
         this.dateDto.startDate = moment(Date.now()).subtract(10, 'year').startOf('year').format('YYYY-MM-DD HH:mm:ss');
         this.dateDto.endDate = moment(Date.now()).subtract(1, 'year').endOf('year').format('YYYY-MM-DD HH:mm:ss');
         return this.dateDto;
@@ -127,6 +157,7 @@ export class DateService {
 
     getMonthDate(monthName: string) {
 
+        this.dateDto = new DateDto();
         var now = new Date();
         var year = now.getFullYear();
 

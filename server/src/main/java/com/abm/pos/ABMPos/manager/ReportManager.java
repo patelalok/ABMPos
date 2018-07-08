@@ -65,6 +65,9 @@ public class ReportManager {
     private BaseFont bf;
     private int pageNumber = 0;
 
+    DecimalFormat df = new DecimalFormat("#.00");
+
+
     @Autowired
     public ReportManager(BrandRepository brandRepository, CategoryRepository categoryRepository, ProductRepository productRepository, ProductInventoryRepository productInventoryRepository, Utility utility, VendorRepository vendorRepository, ModelRepository modelRepository, TransactionRepository transactionRepository, CustomerRepository customerRepository, EmployeeRepository employeeRepository, StoreSetupRepository storeSetupRepository) {
         this.brandRepository = brandRepository;
@@ -114,7 +117,6 @@ public class ReportManager {
         double totalRetail = 0;
         int totalQuantity = 0;
         double avgMarkup;
-        DecimalFormat df = new DecimalFormat("#.##");
 
 
 
@@ -1232,25 +1234,69 @@ public class ReportManager {
 
     public List<CustomerStatementDto> getCustomerStatement(String startDate, String endDate, String phoneNo) {
 
-        List<Object[]> result = transactionRepository.getCustomerStatement(startDate, endDate, phoneNo);
+
+        // First get balance forward amount and then get details for current month.
+
+
+        double finalBalanceForwardAmount = transactionRepository.getBalanceForwardAmount(startDate, phoneNo);
+        List<Object[]> result = transactionRepository.getCustomerStatement(startDate, phoneNo);
         List<CustomerStatementDto> customerStatementDtoList = new ArrayList<>();
+        CustomerStatementDto customerStatementDto1 = new CustomerStatementDto();
+
+        // Now I need to set balance transfer, right here cause after this i need to add or subtract balance forward amount accordingly.
+        customerStatementDto1.setDate(endDate);
+        customerStatementDto1.setDescription("Balance Forward");
+
+        finalBalanceForwardAmount = Double.parseDouble(df.format(finalBalanceForwardAmount));
+        customerStatementDto1.setTransactionBalance(finalBalanceForwardAmount);
+
+        customerStatementDtoList.add(customerStatementDto1);
+
 
         if (null != result) {
             for (Object[] j : result) {
-                CustomerStatementDto customerStatementDto = new CustomerStatementDto();
+
+                // this means transaction date is not null, this will happen in case where user has invoice in last month and paying in current month.
+                if(j[1] != null) {
+
+                    CustomerStatementDto customerStatementDto = new CustomerStatementDto();
+
+                    double transactionAmount = Double.parseDouble(df.format(Double.parseDouble(j[3].toString())));
+
+                    finalBalanceForwardAmount = +finalBalanceForwardAmount + transactionAmount;
+
+                    finalBalanceForwardAmount = Double.parseDouble(df.format(finalBalanceForwardAmount));
+
+                    customerStatementDto.setDate(j[1].toString());
+                    customerStatementDto.setDescription("Invoice" + "(# " + j[0].toString() + ")");
+                    customerStatementDto.setTransactionAmount(Double.parseDouble(j[3].toString()));
+                    customerStatementDto.setTransactionBalance(finalBalanceForwardAmount);
+//                customerStatementDto.setTotalDueAmount(Double.parseDouble(j[7].toString()));
+
+                    customerStatementDtoList.add(customerStatementDto);
+                }
 
                 // This mean this transaction has payment as well as transaction, so i need to add two entries for this transaction
-                if (null != j[2]) {
-                    setPaymentDetailsToStatement(j, customerStatementDtoList);
-                }
-                //customerStatementDto.setTransactionComId(Integer.parseInt(j[0].toString()));
-                customerStatementDto.setDate(j[1].toString());
-                customerStatementDto.setDescription("Invoice" + "(# " + j[0].toString() + ")");
-                customerStatementDto.setTransactionAmount(Double.parseDouble(j[3].toString()));
-//                customerStatementDto.setTransactionBalance(Double.parseDouble(j[4].toString()));
-                customerStatementDto.setTotalDueAmount(Double.parseDouble(j[7].toString()));
+                if (null != j[2] && null != j[5] && !(j[5].toString().equalsIgnoreCase("Store Credit") && Double.parseDouble(j[4].toString()) < 0)) {
 
-                customerStatementDtoList.add(customerStatementDto);
+                    CustomerStatementDto customerStatementDto = new CustomerStatementDto();
+
+                    double paymentAmount = Double.parseDouble(df.format(Double.parseDouble(j[4].toString())));
+
+                    finalBalanceForwardAmount = finalBalanceForwardAmount - paymentAmount;
+
+                    finalBalanceForwardAmount = Double.parseDouble(df.format(finalBalanceForwardAmount));
+
+
+                    // This is payment date in query
+                    customerStatementDto.setDate(j[2].toString());
+                    customerStatementDto.setDescription("Payment" + "(" + j[5].toString() + ")");
+                    customerStatementDto.setTransactionAmount(Double.parseDouble(j[4].toString()) * -1);
+                    customerStatementDto.setTransactionBalance(finalBalanceForwardAmount);
+
+                    customerStatementDtoList.add(customerStatementDto);
+//                    setPaymentDetailsToStatement(j, customerStatementDtoList, finalBalanceForwardAmount);
+                }
             }
         }
 
@@ -1258,15 +1304,17 @@ public class ReportManager {
         return customerStatementDtoList;
     }
 
-    private void setPaymentDetailsToStatement(Object[] j, List<CustomerStatementDto> customerStatementDtoList) {
+    private void setPaymentDetailsToStatement(Object[] j, List<CustomerStatementDto> customerStatementDtoList, double finalBalanceForwardAmount) {
 
         CustomerStatementDto customerStatementDto = new CustomerStatementDto();
+
+        finalBalanceForwardAmount = finalBalanceForwardAmount - Double.parseDouble(j[4].toString());
 
         // This is payment date in query
         customerStatementDto.setDate(j[2].toString());
         customerStatementDto.setDescription("Payment" + "(" + j[5].toString() + ")");
-        customerStatementDto.setTransactionAmount(Double.parseDouble(j[4].toString()));
-        customerStatementDto.setTotalDueAmount(Double.parseDouble(j[7].toString()));
+        customerStatementDto.setTransactionAmount(Double.parseDouble(j[4].toString()) * -1);
+        customerStatementDto.setTransactionBalance(finalBalanceForwardAmount);
 
         customerStatementDtoList.add(customerStatementDto);
 
@@ -1421,7 +1469,7 @@ public class ReportManager {
                 cell2.setCellEvent(new PositionEvent(new Phrase(0f, dateTimeDto.getTime(), FontFactory.getFont(FontFactory.HELVETICA, 8, Font.NORMAL)), 0.5f, 0.5f, Element.ALIGN_CENTER));
                 cell3.setCellEvent(new PositionEvent(new Phrase(0f, String.valueOf(customerStatementDto.getDescription()), FontFactory.getFont(FontFactory.HELVETICA, 8, Font.NORMAL)), 0.5f, 0.5f, Element.ALIGN_CENTER));
                 cell4.setCellEvent(new PositionEvent(new Phrase(0f, String.valueOf(customerStatementDto.getTransactionAmount()), FontFactory.getFont(FontFactory.HELVETICA, 8, Font.NORMAL)), 0.5f, 0.5f, Element.ALIGN_CENTER));
-                cell5.setCellEvent(new PositionEvent(new Phrase(0f, "$ " + String.valueOf(customerStatementDto.getTotalDueAmount()), FontFactory.getFont(FontFactory.HELVETICA, 8, Font.NORMAL)), 0.5f, 0.5f, Element.ALIGN_CENTER));
+                cell5.setCellEvent(new PositionEvent(new Phrase(0f, "$ " + String.valueOf(customerStatementDto.getTransactionBalance()), FontFactory.getFont(FontFactory.HELVETICA, 8, Font.NORMAL)), 0.5f, 0.5f, Element.ALIGN_CENTER));
 
                 cell1.setBorderColor(BaseColor.LIGHT_GRAY);
                 cell2.setBorderColor(BaseColor.LIGHT_GRAY);

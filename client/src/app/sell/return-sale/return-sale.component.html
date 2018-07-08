@@ -302,20 +302,20 @@
 
                 <div class="row" style="margin-top: 30px">
                     <div class="col-lg-3">
-                        <button mat-raised-button class="primary-button" (click)="this.setPaymentDtoForRetun('CASH',this.payAmountTextBox)" [disabled]="this.disablePaymentButtons">CASH</button>
+                        <button mat-raised-button class="primary-button" (click)="this.setPaymentDtoForRetun('Cash',this.payAmountTextBox)" [disabled]="this.disablePaymentButtons">CASH</button>
                     </div>
 
                     <div class="col-lg-3">
-                        <button mat-raised-button class="primary-button" (click)="this.setPaymentDtoForRetun('CREDIT',this.payAmountTextBox)" [disabled]="this.disablePaymentButtons">CREDIT / DEBIT</button>
+                        <button mat-raised-button class="primary-button" (click)="this.setPaymentDtoForRetun('Credit',this.payAmountTextBox)" [disabled]="this.disablePaymentButtons">CREDIT / DEBIT</button>
                     </div>
 
                     <div class="col-lg-3">
-                        <button mat-raised-button class="primary-button" (click)="this.setPaymentDtoForRetun('CHECK',this.payAmountTextBox)" [disabled]="this.disablePaymentButtons">CHECK</button>
+                        <button mat-raised-button class="primary-button" (click)="this.setPaymentDtoForRetun('Check',this.payAmountTextBox)" [disabled]="this.disablePaymentButtons">CHECK</button>
                     </div>
 
                     <div class="col-lg-3">
                         <!-- <button mat-raised-button class="primary-button" (click)="this.setPaymentDtoForRetun('Debit',this.payAmountTextBox)" [disabled]="this.disablePaymentButtons">Debit</button> -->
-                        <button mat-raised-button class="secondary-button" [disabled]="this.disableStoreCreditButtons" (click)="this.setPaymentDtoForRetun('STORE CREDIT', this.payAmountTextBox)">STORE CREDIT</button>
+                        <button mat-raised-button class="secondary-button" [disabled]="this.disableStoreCreditButtons" (click)="this.setPaymentDtoForRetun('Store Credit', this.payAmountTextBox)">STORE CREDIT</button>
 
                     </div>
                 </div>
