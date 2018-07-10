@@ -1,19 +1,35 @@
 <mat-card>
     <mat-card-title>
         <div class="row">
-            <div class="col-md-8">
+            <div class="col-md-7">
                 <h4>Retail Dashboard</h4>
             </div>
-            <div class="col-md-4">
+            <div class="col-md-3">
                 <div class="btn-group" role="group" aria-label="Basic example">
                     <button type="button" class="btn btn-secondary" (click)="getDashboardDetailBy('Today')">Today</button>
                     <button type="button" class="btn btn-secondary" (click)="getDashboardDetailBy('Week')">Week</button>
                     <button type="button" class="btn btn-secondary" (click)="getDashboardDetailBy('Month')">Month</button>
                     <button type="button" class="btn btn-secondary" (click)="getDashboardDetailBy('Year')">Year</button>
-                    <button type="button" class="btn btn-secondary">Custom</button>
+                    <button type="button" class="btn btn-secondary" (click)="getDashboardDetailBy('Custom')">Custom</button>
                 </div>
 
             </div>
+
+            <div style="padding-left: 0px" *ngIf="this.isCustomDate" class="col-md-2 form-group d-flex align-items-center" [formGroup]="this.customDate">
+
+                <mat-form-field class="float-never col-md-6">
+                    <input formControlName="fromDate" matInput [matDatepicker]="fromDate" placeholder="Start Date" [max]="this.currentDate">
+                    <mat-datepicker-toggle matSuffix [for]="fromDate"></mat-datepicker-toggle>
+                    <mat-datepicker #fromDate></mat-datepicker>
+                </mat-form-field>
+                <label class="text-center">To</label>
+                <mat-form-field class="float-never col-md-6">
+                    <input class="" formControlName="toDate" matInput [matDatepicker]="toDate" placeholder="End Date" [min]="this.customDate.get('fromDate').value" [max]="this.currentDate">
+                    <mat-datepicker-toggle matSuffix [for]="toDate"></mat-datepicker-toggle>
+                    <mat-datepicker #toDate></mat-datepicker>
+                </mat-form-field>
+            </div>
+
         </div>
 
     </mat-card-title>
