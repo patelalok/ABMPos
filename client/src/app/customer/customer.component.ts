@@ -33,19 +33,27 @@ export class CustomerComponent implements OnInit {
   customer: Customer = new Customer();
   showDeleteButton = true;
   isAdd: boolean;
+  isCustomDate: boolean = false;
+  customDate: FormGroup;
+  currentDate = new Date();
+
+
 
 
   
 
 
   customerTransactionDetails: TransactionDtoList[] = [];
-  constructor(private customerService: CustomerService,private dateServie: DateService, private formBuilder: FormBuilder,private toastr: ToastsManager) {
+  constructor(private customerService: CustomerService,private dateServie: DateService, private formBuilder: FormBuilder,private toastr: ToastsManager, private fb: FormBuilder) {
     this.getCustomerDetails();
 
    }
 
+   
+
   ngOnInit() {
     this.getCustomerDetails();
+
     this.getCustomerDetailBy(this.customerDetailsBy);
 
     this.cols = [
@@ -74,6 +82,21 @@ export class CustomerComponent implements OnInit {
       'customerNote':['']
     }
   );
+
+  this.customDate = this.fb.group({
+    'fromDate': new Date(),
+    'toDate': new Date()
+  });
+
+  this.customDate.valueChanges
+  .subscribe((change) => {
+    console.log('Custom Date', change);
+    //this.loadingServie.loading = true;
+    let customDateValues: { toDate: Date, fromDate: Date } = change;
+    this.dateDto.startDate = moment(customDateValues.fromDate).hour(0).format('YYYY-MM-DD HH:mm:ss');
+    this.dateDto.endDate = moment(customDateValues.toDate).hour(23).minute(59).format('YYYY-MM-DD HH:mm:ss');
+    this.getCustomerTransactionDetails();
+  });
   }
 
   setCustomerDetailsForUpdate(){
@@ -92,6 +115,8 @@ export class CustomerComponent implements OnInit {
     this.customerForm.get('zipCode').setValue(this.selectedCustomer.zipCode);
     this.customerForm.get('customerNote').setValue(this.selectedCustomer.customerNote);
   }
+
+  
 
   getCustomerDetails() {
    // this.loadingServie.loading = true;
@@ -112,20 +137,31 @@ export class CustomerComponent implements OnInit {
     if(customerDetailsBy == 'Today'){
       this.dateDto = this.dateServie.getCurrentDay();
       this.getCustomerTransactionDetails();
+      this.isCustomDate = false;
+
     }
     else if(customerDetailsBy == 'Week'){
       this.dateDto = this.dateServie.getCurrentWeek();
       this.getCustomerTransactionDetails();
+      this.isCustomDate = false;
+
 
     }
     else if(customerDetailsBy == 'Month'){
       this.dateDto = this.dateServie.getCurrentMonth();
       this.getCustomerTransactionDetails();
+      this.isCustomDate = false;
+
 
     }
     else if(customerDetailsBy == 'Year'){
       this.dateDto = this.dateServie.getCurrentYear();
       this.getCustomerTransactionDetails();
+      this.isCustomDate = false;
+
+    }
+    else if(customerDetailsBy == 'Custom'){
+      this.isCustomDate = true;
     }
   }
 
