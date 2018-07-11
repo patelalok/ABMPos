@@ -49,12 +49,7 @@ export class DashboardComponent implements OnInit {
   ngOnInit() {
 
     this.getDashboardDetailBy('Year');
-
-    // this.testForm = this.formBuilder.group(
-    //   {
-    //   }
-    // );
-
+    
     this.customDate = this.formBuilder.group({
       'fromDate': new Date(),
       'toDate': new Date()

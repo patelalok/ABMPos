@@ -1236,28 +1236,41 @@ public class ReportManager {
 
 
         // First get balance forward amount and then get details for current month.
-
-
         double finalBalanceForwardAmount = transactionRepository.getBalanceForwardAmount(startDate, phoneNo);
         List<Object[]> result = transactionRepository.getCustomerStatement(startDate, phoneNo);
         List<CustomerStatementDto> customerStatementDtoList = new ArrayList<>();
         CustomerStatementDto customerStatementDto1 = new CustomerStatementDto();
 
+        // Now I need to get payment detail, for the invoice where invoice was in last month but customer has paid in this month,
+        // and ADD to balance transfer amount to show right calculation,
+
+        double lastMonthBalancePaidAmount = transactionRepository.getPaidAmountForPreviousMonthTransactions(startDate, phoneNo);
+        lastMonthBalancePaidAmount =  Double.parseDouble(df.format(lastMonthBalancePaidAmount));
+
+        finalBalanceForwardAmount = Double.parseDouble(df.format(finalBalanceForwardAmount));
+
         // Now I need to set balance transfer, right here cause after this i need to add or subtract balance forward amount accordingly.
         customerStatementDto1.setDate(endDate);
         customerStatementDto1.setDescription("Balance Forward");
 
-        finalBalanceForwardAmount = Double.parseDouble(df.format(finalBalanceForwardAmount));
+        // Now I have to add Final balance forward amount and paid amount for last month transaction in current month
+        finalBalanceForwardAmount = finalBalanceForwardAmount + lastMonthBalancePaidAmount;
+
         customerStatementDto1.setTransactionBalance(finalBalanceForwardAmount);
 
         customerStatementDtoList.add(customerStatementDto1);
 
 
         if (null != result) {
+
+            int transId = 0;
             for (Object[] j : result) {
 
                 // this means transaction date is not null, this will happen in case where user has invoice in last month and paying in current month.
-                if(j[1] != null) {
+                // The second condition is very important, it handles the scenario where customer has more then one time for on invoice, this logic saves duplicate entry here, to make our calculation right.
+                if(j[1] != null && transId != Integer.parseInt(j[0].toString())) {
+
+                    transId = Integer.parseInt(j[0].toString());
 
                     CustomerStatementDto customerStatementDto = new CustomerStatementDto();
 
@@ -1277,7 +1290,14 @@ public class ReportManager {
                 }
 
                 // This mean this transaction has payment as well as transaction, so i need to add two entries for this transaction
-                if (null != j[2] && null != j[5] && !(j[5].toString().equalsIgnoreCase("Store Credit") && Double.parseDouble(j[4].toString()) < 0)) {
+                if (
+                        null != j[2]
+                        && null != j[5]
+                        && !(j[5].toString().equalsIgnoreCase("Store Credit")
+                        && Double.parseDouble(j[4].toString()) < 0)
+                        && !(j[9].toString().equalsIgnoreCase("Void"))
+                        ) {
+
 
                     CustomerStatementDto customerStatementDto = new CustomerStatementDto();
 

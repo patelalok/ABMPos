@@ -227,7 +227,7 @@ public class TransactionsManager {
                 }
 
 
-                // this logic help to, manage regular return and RMI return, cause in RMI return we do not need to insert inventory again.
+                // this logic help to, manage regular return and RMI return, cause in RMA return we do not need to insert inventory again.
                 if (!transactionDao.isRma()) {
                     // Managing inventory for the RETURN or VOID
                     manageProductInventoryAfterSale(transactionDao);
@@ -342,13 +342,6 @@ public class TransactionsManager {
            // ProductInventoryDao productInventoryDao1 = productInventoryRepository.save(productInventoryDaoFinal);
 
             productInventoryRepository.save(productInventoryDaoFinal);
-
-            // I need to recalculate the product inventory from inventory table and then set the quantity to PRODUCT tabel to sync product table stock and inventory Table.
-            // This is real method who updated the PRODUCT TABLE.
-
-
-            // No need to do this anymore cause now all inventory is managed from
-           // updateQuantityInProductTable(productInventoryDao1);
         }
     }
 

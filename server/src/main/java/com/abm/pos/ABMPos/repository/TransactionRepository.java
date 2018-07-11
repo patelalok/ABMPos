@@ -257,32 +257,45 @@ public interface TransactionRepository extends JpaRepository<TransactionDao, Int
 
     List<TransactionDao> findAllByCustomerPhonenoAndStatusAndDateBetweenOrderByDateAsc(String phoneNo, String status, String startDate, String endDate);
 
-    @Query(value = "SELECT t.transaction_com_id,\n" +
+    @Query(value = "\t\t\tSELECT t.transaction_com_id,\n" +
             "            CASE WHEN t.date>=?1 THEN t.date else NULL end as tranDate,\n" +
             "            p.date as payDate,\n" +
-            "            t.total_amount,\n" +
+            "            CASE WHEN t.date>=?1 THEN t.total_amount else NULL end as transAmount,\n" +
             "            p.amount,\n" +
             "            p.type,\n" +
-            "            t.transaction_balance,\n" +
-            "            t.total_balance_due\n" +
+            "            CASE WHEN t.date>=?1 THEN t.transaction_balance else NULL end as transBalance,\n" +
+            "            CASE WHEN t.date>=?1 THEN t.total_balance_due else NULL end as totalBalance,\n" +
+            "\t\t\tt.status transStatus,\n" +
+            "            p.status payStatus\n" +
             "            FROM transaction t\n" +
             "            LEFT JOIN transaction_payment p\n" +
             "            ON p.transaction_com_id = t.transaction_com_id\n" +
-            "            WHERE (t.date >= ?1 or p.date >= ?1)  AND t.customer_phoneno = ?2\n" +
-            "            AND (t.status != 'Void' OR p.status != 'Void')\n" +
-            "            ORDER BY t.date ", nativeQuery = true)
+            "            WHERE (t.date >= ?1 or p.date >= ?1) \n" +
+            "            AND t.customer_phoneno = ?2\n" +
+            "\t\t\tAND ((t.status != 'Void' AND t.status != 'Return' AND t.status != 'Park' ) OR (p.status != 'Void' AND p.status != 'Return' AND p.status != 'Park'))\n" +
+            "            ORDER BY t.date ASC,p.date ASC;", nativeQuery = true)
     List<Object[]> getCustomerStatement(String startDate, String phoneNo);
 
     @Query(value = "SELECT IFNULL (SUM(t.transaction_balance), 0.00)\n" +
             "FROM transaction t\n" +
-            "LEFT JOIN transaction_payment p\n" +
-            "ON p.transaction_com_id = t.transaction_com_id\n" +
             "WHERE t.date < ?1 AND t.customer_phoneno = ?2 " +
             "AND t.status != 'Void'", nativeQuery = true)
     double getBalanceForwardAmount(String startDate, String phoneNo);
+    
+    
+
+    // Never change this query, specially the void condition at the end.
+    @Query(value = "SELECT IFNULL (SUM(p.amount), 0.00)\n" +
+            "FROM transaction t\n" +
+            "LEFT JOIN transaction_payment p\n" +
+            "ON p.transaction_com_id = t.transaction_com_id\n" +
+            "WHERE t.date < ?1 AND p.date >= ?1 AND t.customer_phoneno = ?2 \n" +
+            "AND t.status != 'Void' ", nativeQuery = true)
+    double getPaidAmountForPreviousMonthTransactions(String startDate, String phoneNo);
 //
 //    @Query("")
 //    List<Object[]> getPaymentSummaryReport(String startDate, String endDate);
+
 
 //    @Query(value = "SELECT t.transaction_com_id,t.date, t.total_amount,t.transaction_balance\n" +
 //            "FROM transaction t \n" +

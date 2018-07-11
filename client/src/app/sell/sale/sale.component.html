@@ -1,6 +1,6 @@
 <!-- <div class="row" *ngIf="this.productList && this.productList.length > 0"> -->
 <div class="row">
-    <div class="col-md-9">
+    <div class="col-md-9" style="padding: 0px;">
         <mat-card>
             <div class="row">
                 <div class="align-self-center col-md-7" style="max-height: 500px !important;">
@@ -15,7 +15,7 @@
                     name="test" [minLength]="3"
                     (keyup.enter)="submitProduct(productForSearchBox)" 
                     (onSelect)="this.selectProductFromSearch(productForSearchBox)" 
-                    field="description">
+                    field="descri ption">
                     <ng-template>
                         <span style="max-width:500px !important">
                         </span>
