@@ -1072,6 +1072,11 @@ public class TransactionsManager {
         return null;
     }
 
+    public void deleteParkedTransaction(int transactionDao) {
+
+        transactionRepository.delete(transactionDao);
+    }
+
     public static class FooterTable extends PdfPageEventHelper {
         protected PdfPTable footer;
 

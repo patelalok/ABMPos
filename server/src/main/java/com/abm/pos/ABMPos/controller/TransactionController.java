@@ -133,6 +133,14 @@ public class TransactionController {
        }
     }
 
+    @RequestMapping(value = "/deleteParkedTransaction", method = RequestMethod.DELETE)
+    public ResponseEntity deleteParkedTransaction(@RequestParam int transactionCompId)
+    {
+        transactionManager.deleteParkedTransaction(transactionCompId);
+        return  new ResponseEntity(HttpStatus.OK);
+    }
+
+
     @RequestMapping(value = "/sendEmail", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public boolean sendEmail(@RequestParam int transactionCompId) throws DocumentException {
         return transactionManager.sendEmail(transactionCompId);

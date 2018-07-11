@@ -116,6 +116,9 @@ paymentDetialsToVoid: PaymentHistoryDto;
   voidTransaction(transactionToVoid: TransactionDtoList) {
     return this.http.post(this.url+'/voidTransaction', transactionToVoid);
   }
+  deleteParkedTransaction(transactionComId: number){
+    return this.http.delete(this.url+'/deleteParkedTransaction?transactionCompId='+transactionComId);
+  }
 
   setPaymentToVoid(paymentDetails: PaymentHistoryDto) {
 

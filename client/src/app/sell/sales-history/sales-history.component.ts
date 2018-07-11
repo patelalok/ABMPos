@@ -36,11 +36,13 @@ export class SalesHistoryComponent implements OnInit {
   searchByReceiptNoInputBox = new FormControl();
   searchByTransactionType: string = 'All Transaction Status';
   transactionToVoid: TransactionDtoList;
+  transactionToDelete: TransactionDtoList;
+
 
   document: jspdf; 
   customDate: FormGroup; 
   
-  constructor(private sellService: SellService, private fb: FormBuilder, private dateService: DateService, private http: Http, private toastr: ToastsManager, private loadingServie: LoadingService, private utilService: UtilService) { }
+  constructor(public sellService: SellService, private fb: FormBuilder, private dateService: DateService, private http: Http, private toastr: ToastsManager, private loadingServie: LoadingService, private utilService: UtilService) { }
 
   ngOnInit() {
 
@@ -219,6 +221,10 @@ export class SalesHistoryComponent implements OnInit {
 
   }
 
+  setTransactionForDelete(transaction: TransactionDtoList){
+    this.transactionToDelete = transaction;
+  }
+
 
   // Here i am setting status to void for transaction and transaction lineitem
   voidTransaction() {
@@ -257,6 +263,18 @@ export class SalesHistoryComponent implements OnInit {
     });
     }
     
+  }
+
+  deleteParkTransaction(){
+    this.sellService.deleteParkedTransaction(this.transactionToDelete.transactionComId)
+    .subscribe((response)=>{
+      this.toastr.success('Transaction Deleted Successfully !!!', 'Success!');
+      console.log(response);
+    },
+    (error) => {
+      this.toastr.error(error, 'Error!');
+      console.log(JSON.stringify(error.json()));
+  });
   }
 
   sendEmail(transaction: TransactionDtoList){
