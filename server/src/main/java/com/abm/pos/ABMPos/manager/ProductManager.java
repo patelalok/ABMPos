@@ -9,9 +9,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Component;
 
 import javax.jws.Oneway;
+import javax.validation.ConstraintViolationException;
+import java.sql.SQLException;
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Stream;
@@ -61,23 +65,49 @@ public class ProductManager{
         // I need to do this, cause that is the only way to add the inventory into inventory table, if i wont do it then user can not sale this product.
         if(null != productDao && productDao.getOperationType().equalsIgnoreCase("Add"))
         {
-            // First I need to add the product then i need to inventory details
-            productDao1 = productRepository.save(productDao);
 
-            // Now i need to add inventory for this product, need to do this manually cause the JPA is gives problem in get so i need handle manually.
-            ProductInventoryDao productInventoryDao = new ProductInventoryDao();
+            try {
+                // First I need to add the product then i need to inventory details
+                productDao1 = productRepository.save(productDao);
 
-            productInventoryDao.setProductId(productDao.getProductId());
-            productInventoryDao.setProductNo(productDao.getProductNo());
-            productInventoryDao.setCreatedTimestamp(productDao.getCreatedTimestamp());
-            productInventoryDao.setCost(productDao.getCost());
-            //productInventoryDao.setRetail(productDao.getRetail());
-            productInventoryDao.setTier1(productDao.getTier1());
-            productInventoryDao.setTier2(productDao.getTier2());
-            productInventoryDao.setTier3(productDao.getTier3());
-            productInventoryDao.setQuantity(productDao.getQuantity());
+                // Now i need to add inventory for this product, need to do this manually cause the JPA is gives problem in get so i need handle manually.
+                ProductInventoryDao productInventoryDao = new ProductInventoryDao();
 
-            productInventoryRepository.save(productInventoryDao);
+                productInventoryDao.setProductId(productDao.getProductId());
+                productInventoryDao.setProductNo(productDao.getProductNo());
+                productInventoryDao.setCreatedTimestamp(productDao.getCreatedTimestamp());
+                productInventoryDao.setCost(productDao.getCost());
+                //productInventoryDao.setRetail(productDao.getRetail());
+                productInventoryDao.setTier1(productDao.getTier1());
+                productInventoryDao.setTier2(productDao.getTier2());
+                productInventoryDao.setTier3(productDao.getTier3());
+                productInventoryDao.setQuantity(productDao.getQuantity());
+
+                productInventoryRepository.save(productInventoryDao);
+
+            }
+
+            // This means product is in active, so i just need to active product.
+            catch (Exception e){
+
+                    productRepository.activeProduct(productDao.getProductNo());
+                    // Now i need to add inventory for this product, need to do this manually cause the JPA is gives problem in get so i need handle manually.
+                    ProductInventoryDao productInventoryDao = new ProductInventoryDao();
+
+                    productInventoryDao.setProductId(productDao.getProductId());
+                    productInventoryDao.setProductNo(productDao.getProductNo());
+                    productInventoryDao.setCreatedTimestamp(productDao.getCreatedTimestamp());
+                    productInventoryDao.setCost(productDao.getCost());
+                    //productInventoryDao.setRetail(productDao.getRetail());
+                    productInventoryDao.setTier1(productDao.getTier1());
+                    productInventoryDao.setTier2(productDao.getTier2());
+                    productInventoryDao.setTier3(productDao.getTier3());
+                    productInventoryDao.setQuantity(productDao.getQuantity());
+
+                    productInventoryRepository.save(productInventoryDao);
+            }
+
+
 
             // Need to add mark up logic, for now let it be.
 //            productInventoryDao.setMarkup(productDao);
