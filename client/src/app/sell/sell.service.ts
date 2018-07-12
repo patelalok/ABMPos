@@ -129,8 +129,7 @@ paymentDetialsToVoid: PaymentHistoryDto;
     this.paymentDetialsToVoid = paymentDetails;
     this.paymentDetialsToVoid.paymentDao.updatedTimestamp = moment(Date.now()).format('YYYY-MM-DD HH:mm:ss');
   }
-  voidPayment()
-  {
+  voidPayment(){
     this.http.post(this.url+'/voidPayment', this.paymentDetialsToVoid)
     .subscribe(data => {
       alert('ok');

@@ -104,7 +104,11 @@ export class EditProductComponent implements OnInit {
             'variant':[this.currentProduct.variant, ''],
             'tax': [this.currentProduct.tax, null],
             'ecommerce': [this.currentProduct.ecommerce, null],
-            'alternetNo':[this.currentProduct.alternetNo, null]
+            'alternetNo':[this.currentProduct.alternetNo, null],
+            'newProduct':[this.currentProduct.newProduct, null],
+            'onSale':[this.currentProduct.onSale, null],
+            'featured':[this.currentProduct.featured, null]
+
             
           }
         );
@@ -279,6 +283,9 @@ export class EditProductComponent implements OnInit {
         active: true,
         ecommerce: formValues.ecommerce,
         relatedProduct: formValues.relatedProduct,
+        newProduct: formValues.newProduct,
+        onSale:formValues.onSale,
+        featured:formValues.featured,
         tax: formValues.tax,
         minQuantity: formValues.minQuantity,
         quantity: formValues.quantity,

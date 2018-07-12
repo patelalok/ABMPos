@@ -1334,6 +1334,10 @@ export class Product {
   operationType?: string;
   color?: string;
   memory?: string;
+  newProduct?:boolean;
+  onSale?:boolean;
+  featured?:boolean;
+
 }
 
 export class ProductVariant {

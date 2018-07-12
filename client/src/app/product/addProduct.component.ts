@@ -73,7 +73,10 @@ export class AddProductComponent implements OnInit {
         'tax': [true, null],
         'ecommerce': [false, null],
         'variant': [false, null],
-        'alternetNo':[null]
+        'alternetNo':[null],
+        'newProduct':[false, null],
+        'onSale':[false, null],
+        'featured': [false, null]
       }
     );
 
@@ -197,6 +200,9 @@ export class AddProductComponent implements OnInit {
         returnRule: formValues.returnRule,
         createdTimestamp: moment(Date.now()).format('YYYY-MM-DD HH:mm:ss'),
         productInventoryDaoList: this.productInventoryList,
+        newProduct:formValues.newProduct,
+        onSale:formValues.onSale,
+        featured:formValues.featured,
         operationType: 'Add'
       }
       this.productService.addProduct(product);
@@ -314,6 +320,9 @@ export interface ProductForm {
   productInventoryDaoList?: ProductInventory[];
   color?: string;
   memory?:string;
+  newProduct?:boolean;
+  onSale?:boolean;
+  featured?:boolean;
   // isSold?:boolean;
 
 }
