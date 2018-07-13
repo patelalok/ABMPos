@@ -260,10 +260,10 @@ public class ReportManager {
             PaymentSummaryDto paymentSummaryDto = new PaymentSummaryDto();
 
             paymentSummaryDto.setName("TOTAL");
-            paymentSummaryDto.setCash(totalCash);
-            paymentSummaryDto.setCredit(totalCredit);
-            paymentSummaryDto.setCheck(totalCheck);
-            paymentSummaryDto.setStoreCredit(totalStoreCredit);
+            paymentSummaryDto.setCash(Double.parseDouble(df.format(totalCash)));
+            paymentSummaryDto.setCredit(Double.parseDouble(df.format(totalCredit)));
+            paymentSummaryDto.setCheck(Double.parseDouble(df.format(totalCheck)));
+            paymentSummaryDto.setStoreCredit(Double.parseDouble(df.format(totalStoreCredit)));
 
             paymentSummaryDtoList.add(paymentSummaryDto);
 
@@ -343,16 +343,16 @@ public class ReportManager {
             SalesSummaryDto salesSummaryDto = new SalesSummaryDto();
 
             salesSummaryDto.setName("Total");
-            salesSummaryDto.setTotalAmount(totalAmount);
-            salesSummaryDto.setTax(totalTax);
-            salesSummaryDto.setDiscount(totalDiscount);
-            salesSummaryDto.setSubtotal(totalSubtotal);
+            salesSummaryDto.setTotalAmount(Double.parseDouble(df.format(totalAmount)));
+            salesSummaryDto.setTax(Double.parseDouble(df.format(totalTax)));
+            salesSummaryDto.setDiscount(Double.parseDouble(df.format(totalDiscount)));
+            salesSummaryDto.setSubtotal(Double.parseDouble(df.format(totalSubtotal)));
             salesSummaryDto.setQuantity(totalQuantity);
-            salesSummaryDto.setTransactionBalance(totalTransactionBalance);
-            salesSummaryDto.setTotalDueAmount(totalDueBalance);
-            salesSummaryDto.setShipping(totalShipping);
-            salesSummaryDto.setProfit(totalProfit);
-            salesSummaryDto.setReturns(totalReturn);
+            salesSummaryDto.setTransactionBalance(Double.parseDouble(df.format(totalTransactionBalance)));
+            salesSummaryDto.setTotalDueAmount(Double.parseDouble(df.format(totalDueBalance)));
+            salesSummaryDto.setShipping(Double.parseDouble(df.format(totalShipping)));
+            salesSummaryDto.setProfit(Double.parseDouble(df.format(totalProfit)));
+            salesSummaryDto.setReturns(Double.parseDouble(df.format(totalReturn)));
 
             salesSummaryDtoList.add(salesSummaryDto);
         }
@@ -425,11 +425,11 @@ public class ReportManager {
             SalesDto salesDto = new SalesDto();
 
             salesDto.setName("TOTAL");
-            salesDto.setCost(totalCost);
-            salesDto.setRetail(totalRetail);
+            salesDto.setCost(Double.parseDouble(df.format(totalCost)));
+            salesDto.setRetail(Double.parseDouble(df.format(totalRetail)));
             salesDto.setQuantity(totalQuantity);
-            salesDto.setProfit(totalProfit);
-            salesDto.setDiscount(totalDiscount);
+            salesDto.setProfit(Double.parseDouble(df.format(totalProfit)));
+            salesDto.setDiscount(Double.parseDouble(df.format(totalDiscount)));
 
             salesDtoList.add(salesDto);
 
