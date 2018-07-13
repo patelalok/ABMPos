@@ -393,13 +393,29 @@ export class SaleComponent implements OnInit {
 
   // this method helps to update lineItem Detail when user change the quatity or change the retail from editable box
   updateLineItemDetails(event) {
-    this.transactionLineItemDaoList[event.index].saleQuantity = event.data.saleQuantity;
-    this.transactionLineItemDaoList[event.index].retailWithDiscount = event.data.retailWithDiscount;
-    this.transactionLineItemDaoList[event.index].description = event.data.description;
+
+    let index = this.transactionLineItemDaoList.indexOf(event.data);
+
+    console.log('event after update', event);
+    this.transactionLineItemDaoList[index].saleQuantity = event.data.saleQuantity;
+    this.transactionLineItemDaoList[index].retailWithDiscount = event.data.retailWithDiscount;
+    this.transactionLineItemDaoList[index].description = event.data.description;
     // this will convert numern into numer to show in 2 digits. cause i can not use .toFix here.
-    this.transactionLineItemDaoList[event.index].totalProductPrice = Math.round((event.data.saleQuantity * event.data.retailWithDiscount) * 1e2) / 1e2;
+    this.transactionLineItemDaoList[index].totalProductPrice = Math.round((event.data.saleQuantity * event.data.retailWithDiscount) * 1e2) / 1e2;
     this.setTransactionDtoList()
     this.persit.setProducts(this.transactionLineItemDaoList);
+
+    
+
+    //THIS IS OLD P-TABLE WORKING CODE DONT REMOVE THIS PLEASE.
+
+    //  this.transactionLineItemDaoList[event.data].saleQuantity = event.data.saleQuantity;
+    // this.transactionLineItemDaoList[event.data].retailWithDiscount = event.data.retailWithDiscount;
+    // this.transactionLineItemDaoList[event.data].description = event.data.description;
+    // // this will convert numern into numer to show in 2 digits. cause i can not use .toFix here.
+    // this.transactionLineItemDaoList[event.data].totalProductPrice = Math.round((event.data.saleQuantity * event.data.retailWithDiscount) * 1e2) / 1e2;
+    // this.setTransactionDtoList()
+    // this.persit.setProducts(this.transactionLineItemDaoList);
   }
 
   showPopover(discount) {
