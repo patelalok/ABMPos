@@ -23,12 +23,16 @@ export class SalesComponent implements OnInit {
   salesSummaryMonthDropdown: string = 'January';
   salesSummaryWeekDropdown: string = 'This Week';
   salesSummaryHourDropdown: string = 'Today';
-  salesDateDropdown: string = 'Today';
+  paymentSummaryHourDropdown: string = 'Today';
+  otherSummaryHourDropdown:string = 'Today';
   salesByYearDropdown: string = 'This Year';
   dateTest: string;
   dateDto = new DateDto();
   pieChartData: ChartDto[];
   customDate: FormGroup;
+  customDateForPayment: FormGroup;
+  customDateForOther: FormGroup;
+
   currentDate = new Date();
 
 
@@ -48,13 +52,41 @@ export class SalesComponent implements OnInit {
       'toDate': new Date()
     });
 
+    this.customDateForPayment = this.fb.group({
+      'fromDate': new Date(),
+      'toDate': new Date()
+    });
+
+      // Here Other mean, category, brand and all reports
+    this.customDateForOther = this.fb.group({
+      'fromDate': new Date(),
+      'toDate': new Date()
+    });
+
     this.customDate.valueChanges
-      .subscribe((change) => {
-        console.log('Custom Date', change);
-        //this.loadingServie.loading = true;
-        let customDateValues: { toDate: Date, fromDate: Date } = change;
-        this.getSalesDetailsFromCustomDate(moment(customDateValues.fromDate).hour(0).format('YYYY-MM-DD HH:mm:ss'), moment(customDateValues.toDate).hour(23).minute(59).format('YYYY-MM-DD HH:mm:ss'));
-      });
+    .subscribe((change) => {
+      console.log('Custom Date', change);
+      //this.loadingServie.loading = true;
+      let customDateValues: { toDate: Date, fromDate: Date } = change;
+      this.getSalesDetailsFromCustomDate(moment(customDateValues.fromDate).hour(0).format('YYYY-MM-DD HH:mm:ss'), moment(customDateValues.toDate).hour(23).minute(59).second(59).format('YYYY-MM-DD HH:mm:ss'));
+    });
+
+    this.customDateForPayment.valueChanges
+    .subscribe((change) => {
+      console.log('CustomPayment Date', change);
+      //this.loadingServie.loading = true;
+      let customDateValues: { toDate: Date, fromDate: Date } = change;
+      this.getPaymentDetailsFromCustomDate(moment(customDateValues.fromDate).hour(0).format('YYYY-MM-DD HH:mm:ss'), moment(customDateValues.toDate).hour(23).minute(59).second(59).format('YYYY-MM-DD HH:mm:ss'));
+    });
+
+      // Here Other mean, category, brand and all reports
+    this.customDateForOther.valueChanges
+    .subscribe((change) => {
+      console.log('CustomPayment Date', change);
+      //this.loadingServie.loading = true;
+      let customDateValues: { toDate: Date, fromDate: Date } = change;
+      this.getOtherDetailsFromCustomDate(moment(customDateValues.fromDate).hour(0).format('YYYY-MM-DD HH:mm:ss'), moment(customDateValues.toDate).hour(23).minute(59).second(59).format('YYYY-MM-DD HH:mm:ss'));
+    });
 
   }
 
@@ -67,25 +99,25 @@ export class SalesComponent implements OnInit {
       this.getSalesSummaryDetails();
     }
     else if (this.salesDropdown == 'Sales By Category') {
-      this.dateDto = this.dateService.getDateByInput(this.salesDateDropdown)
+      this.dateDto = this.dateService.getDateByInput(this.otherSummaryHourDropdown)
     }
     else if (this.salesDropdown == 'Sales By Vendor') {
-      this.dateDto = this.dateService.getDateByInput(this.salesDateDropdown)
+      this.dateDto = this.dateService.getDateByInput(this.otherSummaryHourDropdown)
     }
     else if (this.salesDropdown == 'Sales By Brand') {
-      this.dateDto = this.dateService.getDateByInput(this.salesDateDropdown)
+      this.dateDto = this.dateService.getDateByInput(this.otherSummaryHourDropdown)
     }
     else if (this.salesDropdown == 'Sales By Model') {
-      this.dateDto = this.dateService.getDateByInput(this.salesDateDropdown)
+      this.dateDto = this.dateService.getDateByInput(this.otherSummaryHourDropdown)
     }
     else if (this.salesDropdown == 'Sales By Product') {
-      this.dateDto = this.dateService.getDateByInput(this.salesDateDropdown)
+      this.dateDto = this.dateService.getDateByInput(this.otherSummaryHourDropdown)
     }
     else if (this.salesDropdown == 'Sales By Employee') {
-      this.dateDto = this.dateService.getDateByInput(this.salesDateDropdown)
+      this.dateDto = this.dateService.getDateByInput(this.otherSummaryHourDropdown)
     }
     else if (this.salesDropdown == 'Sales By Customer') {
-      this.dateDto = this.dateService.getDateByInput(this.salesDateDropdown)
+      this.dateDto = this.dateService.getDateByInput(this.otherSummaryHourDropdown)
     }
 
     this.reportService.getSalesDetails(this.salesDropdown, this.dateDto.startDate, this.dateDto.endDate)
@@ -143,12 +175,29 @@ export class SalesComponent implements OnInit {
   }
 
   getSalesDetailsFromCustomDate(startDate: string, endDate: string) {
-
-    this.reportService.getSalesDetails(this.salesDropdown, startDate, endDate)
-      .subscribe((sales: SalesDto[]) => {
-        this.salesDto = sales;
+    this.reportService.getSalesSummaryReport(this.salesSummaryDropdown, startDate, endDate)
+      .subscribe((summary: SalesSummaryDto[]) => {
+        this.salesSummaryDto = summary;
       });
   }
+
+  getPaymentDetailsFromCustomDate(startDate: string, endDate: string) {
+    this.reportService.getPaymentSummaryReport(this.salesSummaryDropdown,startDate,endDate)
+      .subscribe((summary: PaymentSummaryDto[]) => {
+        this.paymentSummaryDto = summary;
+      });
+  }
+
+  // Here Other mean, category, brand and all reports
+  getOtherDetailsFromCustomDate(startDate: string, endDate: string) {
+    this.reportService.getSalesDetails(this.salesDropdown, startDate,endDate)
+      .subscribe((sales: SalesDto[]) => {
+        this.salesDto = sales;
+        // this.getPieChartDetailsForSales();
+      });
+  }
+
+
 
   salesByYearOptions(){
 

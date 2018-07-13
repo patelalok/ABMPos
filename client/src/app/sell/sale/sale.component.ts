@@ -1247,9 +1247,8 @@ export class SaleComponent implements OnInit {
           this.productMap.set(p.productNo, p);
         });
       }
-
       console.log('map object after get product', this.productMap);
-    })
+    });
   }
   getAllProductVariant() {
     // this.productService.getAllProductVariantFromBackEnd()
