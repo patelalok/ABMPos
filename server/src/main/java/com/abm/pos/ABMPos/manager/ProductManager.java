@@ -554,8 +554,7 @@ public class ProductManager{
                 productVariantDao.setTier2(Double.parseDouble(j[9].toString()));
                 productVariantDao.setTier3(Double.parseDouble(j[10].toString()));
                 productVariantDao.setDescription(j[11].toString());
-
-
+                productVariantDao.setQuantity(Integer.parseInt(j[12].toString()));
 
                 productVariantDaoList.add(productVariantDao);
 

@@ -55,7 +55,7 @@
             </div> -->
     </mat-card>
     <!-- <br/> -->
-    <mat-card>
+    <mat-card style="padding-top: 5px;">
       <!-- <mat-card-title></mat-card-title> -->
       <mat-card-content>
         <div class="row p-md-3">
@@ -68,12 +68,12 @@
           <p-table [value]="this.transactionLineItemDaoList" (onEditComplete)="updateLineItemDetails($event)">
             <ng-template pTemplate="header" let-columns>
               <tr>
-                <th style="width:15%">ProductNo</th>
+                <th style="width:15%; height: 40px;">ProductNo</th>
                 <th style="width:45%">Description</th>
                 <th>Quantity</th>
                 <th>Retail</th>
                 <th>RetWtDis</th>
-                <th>Total</th>
+                <th>Stock</th>
                 <th>Total</th>
                 <th style="width:5%">Action</th>
               </tr>
