@@ -294,17 +294,29 @@ public class ReportManager {
                 SalesSummaryDto salesSummaryDto = new SalesSummaryDto();
 
                 if (isWeekly) {
-                    salesSummaryDto.setName("(" + j[1].toString() + ")" + " to " + "(" + j[2].toString() + ")");
-                    salesSummaryDto.setTotalAmount(Double.parseDouble(j[3].toString()));
-                    salesSummaryDto.setTax(Double.parseDouble(j[4].toString()));
-                    salesSummaryDto.setDiscount(Double.parseDouble(j[5].toString()));
-                    salesSummaryDto.setSubtotal(Double.parseDouble(j[6].toString()));
-                    salesSummaryDto.setQuantity(Integer.parseInt(j[7].toString()));
-                    salesSummaryDto.setTransactionBalance(Double.parseDouble(j[8].toString()));
-                    salesSummaryDto.setTotalDueAmount(Double.parseDouble(j[9].toString()));
-                    salesSummaryDto.setShipping(Double.parseDouble(j[10].toString()));
-                    salesSummaryDto.setProfit(Double.parseDouble(j[11].toString()));
-                    salesSummaryDto.setReturns(Double.parseDouble(j[12].toString()));
+
+                    try {
+                        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+
+                        Date a = dateFormat.parse(j[1].toString());
+                        Date b = dateFormat.parse(j[2].toString());
+
+                        salesSummaryDto.setName("(" +dateFormat.format(a) + ")" + " to " + "(" + dateFormat.format(b) + ")");
+                        salesSummaryDto.setTotalAmount(Double.parseDouble(j[3].toString()));
+                        salesSummaryDto.setTax(Double.parseDouble(j[4].toString()));
+                        salesSummaryDto.setDiscount(Double.parseDouble(j[5].toString()));
+                        salesSummaryDto.setSubtotal(Double.parseDouble(j[6].toString()));
+                        salesSummaryDto.setQuantity(Integer.parseInt(j[7].toString()));
+                        salesSummaryDto.setTransactionBalance(Double.parseDouble(j[8].toString()));
+                        salesSummaryDto.setTotalDueAmount(Double.parseDouble(j[9].toString()));
+                        salesSummaryDto.setShipping(Double.parseDouble(j[10].toString()));
+                        salesSummaryDto.setProfit(Double.parseDouble(j[11].toString()));
+                        salesSummaryDto.setReturns(Double.parseDouble(j[12].toString()));
+                    }
+                    catch (Exception e){
+
+                    }
+
 
                 } else {
 
