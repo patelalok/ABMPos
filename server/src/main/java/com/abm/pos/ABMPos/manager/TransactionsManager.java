@@ -294,28 +294,6 @@ public class TransactionsManager {
                 paymentRepository.save(transactionDao.getPaymentDao());
 //            }
 
-            //System.out.println("Exception"+e);
-
-//
-//        if (transactionDao1.getTransactionComId() != 0) {
-//
-//            PaymentDao paymentDao;
-//            paymentDao = transactionDao.getPaymentDao().get(0);
-//
-//            if (null != paymentDao) {
-//
-//                // TODO Need add this logic for store credit
-//
-//
-//                // This logic helps when user is returing the transactin by giving store credit to the user, so here i need to store store credit as negative value to show correct reporting.
-////                if (paymentDao.getStoreCredit() > 0 && transactionDao.getStatus().equalsIgnoreCase("Return")) {
-////                    // funny logic, i love it.
-////                    paymentDao.setStoreCredit(paymentDao.getStoreCredit() * -1);
-////                }
-//
-//                // TODO Need add this logic for store credit
-//
-////
         }
         return transactionDao1;
     }
@@ -372,7 +350,9 @@ public class TransactionsManager {
         if (null != customerDao) {
 
             for (PaymentDao payment : transactionDao.getPaymentDao()) {
-                if (null != transactionDao.getCustomerPhoneno()) {
+
+                // the second condition is very important otherwise it will store negative store credit to customer account.
+                if (null != transactionDao.getCustomerPhoneno() && payment.getType().equalsIgnoreCase("Store Credit")) {
                     customerDao.setStoreCredit(customerDao.getStoreCredit() - payment.getAmount());
                     customerRepository.save(customerDao);
                 }
