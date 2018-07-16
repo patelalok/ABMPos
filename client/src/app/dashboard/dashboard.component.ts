@@ -76,7 +76,7 @@ colorScheme = {
       this.dateDto = this.dateServie.getCurrentDay();
     }
     else if(dashboardDetailsBy == 'Week'){
-      this.dateDto = this.dateServie.getLast7Day();
+      this.dateDto = this.dateServie.getCurrentWeek();
     }
     else if(dashboardDetailsBy == 'Month'){
       this.dateDto = this.dateServie.getCurrentMonth();

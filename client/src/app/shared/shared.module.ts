@@ -18,6 +18,7 @@ import {
   MatChipsModule,
   MatTableDataSource,
   MatTableModule,
+  MatTabsModule,
 } from "@angular/material";
 import { Routes, RouterModule } from '@angular/router';
 import { SellRoutingModule } from 'app/sell/sell-routing.module';
@@ -26,6 +27,8 @@ import { DateService } from 'app/shared/services/date.service';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { TopSubNavbarComponent } from 'app/shared/top-sub-navbar/top-sub-navbar.component';
 import { UtilService } from './services/util.service';
+import { CdkTableModule } from '@angular/cdk/table';
+import { TableModule } from 'primeng/table';
 
 @NgModule({
   imports: [
@@ -48,7 +51,10 @@ import { UtilService } from './services/util.service';
     HeaderComponent, 
     FooterComponent,
     MatChipsModule,
-    MatTableModule
+    MatTabsModule,
+    MatTableModule,
+    CdkTableModule,
+    TableModule
   ],
   providers: [PersistenceService, DateService, UtilService]
 })

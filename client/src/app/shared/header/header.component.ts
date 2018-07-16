@@ -47,11 +47,11 @@ export class HeaderComponent implements OnInit {
 
     this.clockInForm.get('username').valueChanges
     .subscribe((change) => {
-      this.getClockInDetails();
+      if(null != this.clockInForm.get('username').value){
+        this.getClockInDetails();
+      }
     })
   }
-
-
 
   getEmployeeDetails() {
     this.employeeService.getEmployeeDetails()
@@ -66,34 +66,23 @@ export class HeaderComponent implements OnInit {
 
   getClockInDetails() {
 
-    let username: string;
-
+    this.clockInObj = new ClockIn();
     this.clockInObj.username = this.clockInForm.get('username').value;
     this.dateDto = this.dateService.getCurrentDay();
 
-    // Need to do this becuase when user chnage the username from dropdown, if the one user is clocked in it is showing for clock out for all users which is wrond, so this helps to fix this problem.
+    // Need to do this becuase when user chnage the username from dropdown, if the one user is clocked in it is showing for clock out for all users which is wrong, so this helps to fix this problem.
     this.isClockIn = false;
 
-    if(this.clockInForm.get('username').value == null)
-    {
-      username = this.employeeDto[0].username;
-    }
-    else {
-      username = this.clockInForm.get('username').value;
-    }
-    this.employeeService.getEmployeeClockInDetails(username, this.dateDto.startDate, this.dateDto.endDate)
+    this.employeeService.getEmployeeClockInDetails(this.clockInObj.username, this.dateDto.startDate, this.dateDto.endDate)
     .subscribe((clockInList: ClockIn[]) => {
       this.clockInList = clockInList;
       this.setClockInListForView();
 
-      console.log('clockInList', this.clockInList)
-
       // This mean user has some clock in history for the current day, so now i need to he is clocked in or clock out and, on behalf of that, i need to set up clock in flag.
-      if(null != this.clockInList && this.clockInList.length > 0)
+      if(this.clockInList && this.clockInList.length > 0)
       {
         this.clockInList.forEach((clockIn) => {
-          if(null != clockIn.clockOut)
-          {
+          if(null != clockIn.clockOut){
             this.isClockIn = false;
           }
           else {
@@ -102,45 +91,7 @@ export class HeaderComponent implements OnInit {
           }
         })
       }
-
-
-      // this mean user has alredy clocked in
-      if(this.isClockIn)
-      {
-        let currentHour = moment(Date.now()).format('HH');
-        let currentMinute = moment(Date.now()).format('mm');
-
-        let clockInHour = moment(this.clockInObj.clockIn).format('HH');
-        let clockInMinute =  moment(this.clockInObj.clockIn).format('mm');
-
-        this.noOfHours = (+currentHour - +clockInHour);
-
-        this.noOfMinute = (+currentMinute - +clockInMinute);
-
-        this.clockInObj.noOfHours = this.noOfHours;
-        this.clockInObj.noOfMinute =  this.noOfMinute;
-      
-        console.log('no of hours', this.noOfHours);
-
-
-        let now  =  moment(Date.now());
-      
-        let dateMoment = moment(now,'YYYY-MM-DD HH:mm:ss');
-
-        let duration = moment.duration(dateMoment.diff(this.clockInObj.clockIn)).asHours().toFixed(2);
-        //let hours = duration.asHours().toFixed(2);
-
-        console.log('hours', duration);
-
-       // this.isClockIn = true;
-      }
-
-      else {
-        this.isClockIn = false;
-      }
     });
-     
-
   }
   validateAndAddClockInDetails() {
 
@@ -149,14 +100,11 @@ export class HeaderComponent implements OnInit {
 
     this.employeeService.validateEmployee(this.clockInForm.get('username').value, this.clockInForm.get('password').value)
     .subscribe((valid) => {
-
       if(valid)
       {
-        if(null != this.clockInList && this.clockInList.length > 0)
-        {
+        if(this.clockInList && this.clockInList.length > 0){
           this.clockInList.forEach((clockIn) => {
-            if(null != clockIn.clockOut )
-            {
+            if(null != clockIn.clockOut ){
               this.isClockIn = false;
             }
             else {
@@ -167,15 +115,22 @@ export class HeaderComponent implements OnInit {
             }
           })
         }
-        console.log('clock in List', this.clockInList);
+      }
+      else {
+        this.toastr.error("Wrong Credintails, Please Try Again!!", 'Error');
       }
 
-      if(valid && this.isClockIn == false) {
+      if(valid && !this.isClockIn) {
 
         this.clockInObj = new ClockIn();
         this.clockInObj.date = moment(Date.now()).format('YYYY-MM-DD HH:mm:ss');
         this.clockInObj.clockIn = moment(Date.now()).format('YYYY-MM-DD HH:mm:ss');
         this.clockInObj.username = username;
+
+        let index = this.employeeDto.findIndex((el)=> el.username == username);
+        if(index > -1){
+          this.clockInObj.hourlyRate = this.employeeDto[index].hourlyRate;
+        }
 
         console.log('clok in object', this.clockInObj)
         this.employeeService.addClockInDetails(this.clockInObj)
@@ -203,12 +158,16 @@ export class HeaderComponent implements OnInit {
         this.clockInObj.username = this.clockInForm.get('username').value;
         this.clockInObj.clockIn = this.lastClockInDate;
         this.clockInObj.clockOut = moment(Date.now()).format('YYYY-MM-DD HH:mm:ss');
-        this.clockInObj.noOfHours = this.noOfHours;
-        this.clockInObj.noOfMinute = this.noOfMinute;
+        // this.clockInObj.noOfHours = this.noOfHours;
+        // this.clockInObj.noOfMinute = this.noOfMinute;
         this.clockInObj.username = username;
         this.clockInObj.userClockInId = this.lastClockInId;
         this.clockInObj.date = this.lastDate;
 
+        let index = this.employeeDto.findIndex((el)=> el.username == username);
+        if(index > -1){
+          this.clockInObj.hourlyRate = this.employeeDto[index].hourlyRate;
+        }
 
         this.employeeService.addClockInDetails(this.clockInObj)
         .subscribe(data => {
@@ -237,39 +196,27 @@ export class HeaderComponent implements OnInit {
   setClockInListForView() {
 
     this.clockInViewList = [];
-    
     this.clockInList.forEach((clockIn) => {
-
       let clockInViewList = new ClockIn();
-
-      clockInViewList.clockIn = moment(clockIn.clockIn).format('YYYY-MM-DD HH:mm:ss');
+      clockInViewList.clockIn = moment(clockIn.clockIn).format('HH:mm A')
       if(clockIn.clockOut != null){
-
-        clockInViewList.clockOut = moment(clockIn.clockOut).format('YYYY-MM-DD HH:mm:ss');
+        clockInViewList.clockOut = moment(clockIn.clockOut).format('HH:mm A')
       }
 
       if(clockIn.clockIn != null && clockIn.clockOut != null) {
 
-        let totalClockInHour = moment(clockIn.clockIn).format('HH');
-        let totalClockInMinute = moment(clockIn.clockIn).format('mm');
+        let start = moment.utc(clockIn.clockIn,  "YYYY-MM-DD HH:mm:ss");
+        let end = moment.utc(clockIn.clockOut, "YYYY-MM-DD HH:mm:ss");
 
-        let totalClockOutHour = moment(clockIn.clockOut).format('HH');
-        let totalClockOutMinute = moment(clockIn.clockOut).format('mm');
-
-        clockInViewList.noOfHours = (+totalClockOutHour - +totalClockInHour);
-        clockInViewList.noOfMinute = (+totalClockOutMinute - +totalClockInMinute);
+        let duration = moment.duration(end.diff(start));
+        let totalHours = moment.utc(+duration).format('HH:mm');
+        
+          clockInViewList.noOfHours = totalHours;
       }
-
       this.clockInViewList.push(clockInViewList);
-
-    }
-  
-  );
-
-   
+      this.clockInViewList = this.clockInViewList.slice();
+    });
   }
-
-
   logout(){
     this.userService.userLogout();
   }

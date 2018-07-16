@@ -2,7 +2,6 @@ package com.abm.pos.ABMPos.controller;
 
 import com.abm.pos.ABMPos.dao.ClockInDao;
 import com.abm.pos.ABMPos.dao.EmployeeDao;
-import com.abm.pos.ABMPos.dao.ProductDao;
 import com.abm.pos.ABMPos.manager.EmployeeManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -21,7 +20,7 @@ import java.util.List;
 public class EmployeeController {
 
     @Autowired
-    EmployeeManager employeeManager;
+    private EmployeeManager employeeManager;
 
     @RequestMapping(value = "/addEmployee", method = RequestMethod.POST, consumes = "application/json")
     public ResponseEntity addProduct(@RequestBody EmployeeDao employeeDao)

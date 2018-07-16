@@ -2,7 +2,7 @@ import {Injectable } from '@angular/core';
 import {Http, Response, Headers} from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import { FormControl } from '@angular/forms/forms';
-import { Category, Brand, Vendor, Model, ProductVariantDetail, CategoryTest } from 'app/product/product.component';
+import { Category, Brand, Vendor, Model, ProductVariantDetail } from 'app/product/product.component';
 import { EmployeeInterface, Employee } from 'app/employee/employee.component';
 import { ClockInInterface, ClockIn } from "app/employee/clockin/clockin.component";
 import { environment } from 'environments/environment';
@@ -51,11 +51,14 @@ constructor(private http: Http) {
 
     getEmployeeClockInDetails(username: string, startDate: any, endDate: any): Observable<ClockIn []>
     {
+      if(null != username)
+      {
       console.log('Username coming from the clock In component'+ username);
       return this.http.get(this.url+'/getClockIn?username='+username+'&startDate='+startDate+'&endDate='+endDate)
       .map(this.extractData)
       .catch(this.handleError);
-}
+      }
+    }
 getEmployeeAllClockInDetails(username: string, startDate: any, endDate: any): Observable<ClockIn[]>
 {
   console.log('Username coming from the clock In component'+ username);
@@ -121,5 +124,3 @@ getEmployeeAllClockInDetails(username: string, startDate: any, endDate: any): Ob
     return Observable.throw(errMsg);
   }
 }
-
-  

@@ -5,7 +5,6 @@ import com.abm.pos.ABMPos.dao.EmployeeDao;
 import com.abm.pos.ABMPos.repository.ClockInRepository;
 import com.abm.pos.ABMPos.repository.EmployeeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.CachePut;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -42,7 +41,7 @@ public class EmployeeManager {
 
     public ClockInDao addClockIn(ClockInDao clockInDao) {
 
-       return clockInRepository.save(clockInDao);
+        return clockInRepository.save(clockInDao);
     }
 
     public List<ClockInDao> getClockIn(String username, String startDate, String endDate) {

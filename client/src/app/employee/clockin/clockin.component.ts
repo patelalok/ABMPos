@@ -53,10 +53,8 @@ export class ClockinComponent implements OnInit {
           // 'zipCode':  [''],
           // 'hourlyRate': [''],
           // 'commissionPercentage': ['']
-
       //   }
       // );
-
 updateClockInDetails()
 {
 
@@ -69,17 +67,14 @@ deleteClockInDetails()
   //   this.employeeService.getEmployeeClockInDetails()
   //   .subscribe((emp: ClockIn[]) => {
   //   this.clockInDto = emp;
-
   //   //This set the defualt value for dropdown
   //   // this.employeeForm.get('role').setValue('Admin');
   //   // this.employeeForm.get('city').setValue('Atlanta');
   //   // this.employeeForm.get('state').setValue('AB');
   //   // this.employeeForm.get('gender').setValue('Male');
-
   //     console.log('Employee Detail' + this.clockInDto);
   //     });
   // }
-
       showDialog() {
         this.displayDialog = !this.displayDialog;
   }
@@ -98,7 +93,6 @@ deleteClockInDetails()
             //this.employeeService.addOrUpdateEmployee(this.clockIn.value);
              this.showSuccess('success', 'Insert', 'Customer Added Successfully!!');
              //this.getClockInDetails();
-
              //this.clockInForm.reset();
             this.displayDialog = false;
           }
@@ -116,7 +110,6 @@ deleteClockInDetails()
           {
             // this.employeeService.deleteEmployee(this.employeeForm.value.phoneNo);
             //               this.getEmployeeDetails();
-
             // this.displayDialog = false;
           }
         showDialogToAdd() {
@@ -147,7 +140,6 @@ deleteClockInDetails()
         // this.employeeForm.get('zipCode').setValue(event.data.zipCode);
         // this.employeeForm.get('hourlyRate').setValue(event.data.hourlyRate);
         // this.employeeForm.get('commissionPercentage').setValue(event.data.commissionPercentage);
-
 
 
         console.log('Customer Even', event);
@@ -190,6 +182,7 @@ export class ClockIn {
   totalAmount: any;
   commissionAmount: any;
   noOfMinute: any;
+  onlyDate: any;
 }
 
 export interface ClockInInterface {
@@ -203,5 +196,3 @@ export interface ClockInInterface {
   totalAmount?;
   commissionAmount?;
 }
-
-
