@@ -65,7 +65,7 @@
 
 
           <!-- Product Table -->
-          <p-table [value]="this.transactionLineItemDaoList" (onEditComplete)="updateLineItemDetails($event)">
+          <p-table [value]="this.transactionLineItemDaoList" (onEditComplete)="updateLineItemDetails($event)" [scrollable]="true" scrollHeight="450px">
             <ng-template pTemplate="header" let-columns>
               <tr>
                 <th style="width:15%; height: 40px;">ProductNo</th>
@@ -80,8 +80,8 @@
             </ng-template>
             <ng-template pTemplate="body" let-lineItem let-columns="columns">
               <tr>
-                <td>{{lineItem.productNo}}</td>
-                <td [pEditableColumn]="lineItem" [pEditableColumnField]="'description'">
+                <td  style="width:15%; height: 40px;">{{lineItem.productNo}}</td>
+                <td style="width:45%" [pEditableColumn]="lineItem" [pEditableColumnField]="'description'">
                   <p-cellEditor>
                     <ng-template pTemplate="input">
                       <input type="text" [(ngModel)]="lineItem.description">
@@ -116,7 +116,7 @@
                 </td>
                 <td>{{lineItem.quantity}}</td>
                 <td>{{lineItem.totalProductPrice}}</td>
-                <td>
+                <td style="width:5%">
                   <button mat-button class="btn-red action-button-table col-button" mat-button (click)="this.setProductForDelete(lineItem)"
                     data-toggle="modal" data-target="#deleteProduct">
                     <i class="fa fa-trash" aria-hidden="true"></i>
