@@ -441,9 +441,21 @@ export class SaleComponent implements OnInit {
       this.totalTransactionDiscount = value;
     }
     else if (this.discountType == 'By Percentage') {
-      this.totalTransactionDiscount = parseFloat(((this.transactionDtoList.totalAmount * value) / 100).toFixed(2));
+
+      // AS a user u need to make sure that, thats the last thing you do, cause it wont store the price.
+      // This logic is to set lineItem discount on all the product when user selete discount type as percentage, so i am changing retail with discount price for all products.
+      this.transactionLineItemDaoList.forEach((lineItem)=>{
+        lineItem.retailWithDiscount = lineItem.retailWithDiscount -(parseFloat(((lineItem.retailWithDiscount * value) / 100).toFixed(2)));
+        lineItem.retailWithDiscount = parseFloat((lineItem.retailWithDiscount).toFixed(2));
+        lineItem.totalProductPrice = lineItem.retailWithDiscount * lineItem.saleQuantity;
+      });
+
+      //this.totalTransactionDiscount = parseFloat(((this.transactionDtoList.totalAmount * value) / 100).toFixed(2));
     }
     this.setTransactionDtoList();
+
+          this.totalTransactionDiscount = parseFloat(((this.transactionDtoList.totalAmount * value) / 100).toFixed(2));
+
   }
 
   setTransactionDtoList() {
