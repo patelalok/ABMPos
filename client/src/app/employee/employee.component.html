@@ -81,8 +81,8 @@
                     <mat-card class="customer-mat-card" style="background: #43a047;">
                         <mat-card-title>
                             <div class="btn-group" role="group" aria-label="Basic example">
-                                <button type="button" class="btn btn-secondary" (click)="printClockInDetails()">Print</button>
-                                <button type="button" class="btn btn-secondary" (click)="emailClockInDetails()">Email</button>
+                                <button type="button" class="btn btn-secondary">Print</button>
+                                <button type="button" class="btn btn-secondary">Email</button>
                             </div>
                         </mat-card-title>
                         <mat-card-content>
@@ -120,14 +120,14 @@
                                         <button mat-button class="btn-blue action-button-table">
                                             <i class="fa fa-pencil" aria-hidden="true"></i>
                                         </button>
-                                        <button mat-button data-toggle="modal" data-target="#deleteClockIn" (click)="this.deleteClockInDetail(clock)" mat-button
+                                        <button mat-button data-toggle="modal" data-target="#deleteClockIn" mat-button
                                             class="btn-red action-button-table" mat-button data-toggle="modal" data-target="#deleteEmployee">
                                             <i class="fa fa-trash" aria-hidden="true"></i>
                                         </button>
-                                        <button class="btn-blue action-button-table" mat-button (click)="this.printClockInDetails(clock)">
+                                        <button class="btn-blue action-button-table" mat-button >
                                             <i class="fa fa-print" aria-hidden="true"></i>
                                         </button>
-                                        <button class="btn-green action-button-table" mat-button (click)='this.emailClockInDetails(clock)'>
+                                        <button class="btn-green action-button-table" mat-button>
                                             <i class="fa fa-envelope" aria-hidden="true"></i>
                                         </button>
 

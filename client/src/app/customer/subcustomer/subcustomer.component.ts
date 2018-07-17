@@ -55,7 +55,8 @@ export class SubcustomerComponent implements OnInit {
         'type': [''],
         'companyName': [''],
         'enableSms':[''],
-        'enableEmail':['']
+        'enableEmail':[''],
+        'customerNote':['']
       }
     );
   }
@@ -182,6 +183,8 @@ export class SubcustomerComponent implements OnInit {
     this.customerForm.get('zipCode').setValue(this.selectedCustomerForUpdate.zipCode);
     this.customerForm.get('enableSms').setValue(this.selectedCustomerForUpdate.enableSms);
     this.customerForm.get('enableEmail').setValue(this.selectedCustomerForUpdate.enableEmail);
+    this.customerForm.get('customerNote').setValue(this.selectedCustomerForUpdate.customerNote);
+
 
   }
 
@@ -251,6 +254,7 @@ export class Customer {
   noOfEyebrow?: number;
   enableSms?:boolean;
   enableEmail?:boolean;
+  customerNote?:any;
 }
 
 export interface CustomerInterface {
