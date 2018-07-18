@@ -296,8 +296,6 @@ export class SaleComponent implements OnInit {
 
       console.log('before variant check', productFound)
       if (!productFound) {
-        console.log('before variant check', productFound)
-
         let product = this.productVariantMap.get(value);
         if (product != undefined) {
           productFound = true;
@@ -317,7 +315,7 @@ export class SaleComponent implements OnInit {
       // }, 300)
     }
     else {
-
+      
       if (typeof value === 'string') {
         if (value !== '' && value !== undefined && value.indexOf('.') !== 0) {
           // if (value.match(/[a-z]/i)) {
