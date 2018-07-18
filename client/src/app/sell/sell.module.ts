@@ -36,7 +36,7 @@ import { PaymentHistoryComponent } from './payment-history/payment-history.compo
     DropdownModule,
     SharedModule
   ],
-  declarations: [SellComponent, ReceiptComponent, SalesHistoryComponent, ReturnSaleComponent, SaleComponent,CloseRegisterComponent, PaymentComponent, PaymentHistoryComponent],
+  declarations: [SellComponent, SalesHistoryComponent,ReceiptComponent, ReturnSaleComponent, SaleComponent,CloseRegisterComponent, PaymentComponent, PaymentHistoryComponent],
   providers: [SellService, CustomerService],
   bootstrap: [SellComponent]
 })

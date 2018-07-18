@@ -185,8 +185,8 @@
               (onClear)="this.removeCustomerOnSale()">
               <ng-template let-c pTemplate="item">
                 <div class="ui-helper-clearfix" style="border-bottom:1px solid #D5D5D5">
-                  <div style="width:32px;display:inline-block;margin:5px 0 2px 5px">{{c.name}}</div>
-                  <div style="font-size:18px;float:right;margin:10px 10px 0 0">{{c.phoneNo}}</div>
+                  <span >{{c.name}} &ensp;</span>
+                  <span>{{c.phoneNo}}</span>
                 </div>
               </ng-template>
 

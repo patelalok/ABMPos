@@ -21,10 +21,10 @@ declare var $: JQueryStatic;
   selector: 'app-sale',
   templateUrl: './sale.component.html',
   styleUrls: ['./sale.component.scss'],
-  animations: [fadeInAnimation],
-  providers: [
-    { provide: 'Window', useValue: window }
-  ]
+  // animations: [fadeInAnimation],
+  // providers: [
+  //   { provide: 'Window', useValue: window }
+  // ]
 
   // host: { '[@fadeInAnimation]': '' }
 })
@@ -92,6 +92,7 @@ export class SaleComponent implements OnInit {
   parkDate: any;
 
   productMap = new Map();
+  productVariantMap = new Map();
 
 
   constructor(
@@ -114,10 +115,10 @@ export class SaleComponent implements OnInit {
   }
   ngOnInit() {
 
-    this.items = [
-      { name: 'Return', icon: 'fa fa-reply-all fa-x', link: '/return' },
-      { name: 'Purchase Order', icon: 'fa fa-bookmark fa-x', link: '/sell/purchaseOrder' }
-    ];
+    // this.items = [
+    //   { name: 'Return', icon: 'fa fa-reply-all fa-x', link: '/return' },
+    //   { name: 'Purchase Order', icon: 'fa fa-bookmark fa-x', link: '/sell/purchaseOrder' }
+    // ];
 
     this.getAllProductVariant();
     this.storeSetupService.getStoreDetails().
@@ -286,27 +287,24 @@ export class SaleComponent implements OnInit {
     if (value && value.length > 7 && (value.match(/[0-9]/i))) {
       console.log('This mean user has scan the barcode no', value);
 
-      // let product = this.productList.find(x => x.productNo == value);
-
       let product = this.productMap.get(value);
-      console.log('value', value);
-      console.log('product',product);
       if (product != undefined) {
         productFound = true;
-        this.addTransactionLineItem(product);
         this.timeOut();
+        this.addTransactionLineItem(product);
       }
 
       console.log('before variant check', productFound)
       if (!productFound) {
-        let product = this.productVariantList.find(x => x.productNo == value);
+        console.log('before variant check', productFound)
+
+        let product = this.productVariantMap.get(value);
         if (product != undefined) {
           productFound = true;
-          this.addTransactionLineItem(product);
           this.timeOut();
+          this.addTransactionLineItem(product);
         }
       }
-      console.log('after variant check', productFound)
 
       if (productFound == false) {
         alert("Sorry Can Not Find The Product!!!");
@@ -350,7 +348,7 @@ export class SaleComponent implements OnInit {
     setTimeout(() => {
       this.product = null;
       this.productForSearchBox = null;
-    }, 500);
+    }, 400);
   }
 
   setProductForDelete(product: Product) {
@@ -1268,7 +1266,7 @@ export class SaleComponent implements OnInit {
     this.productService.getProductDetails();
     this._subscriptionProduct = this.productService.productListChange.subscribe((product) => {
       this.productList = product;
-      this.productList = this.productList.slice();
+      // this.productList = this.productList.slice();
 
       if(null != this.productList){
         this.productList.forEach((p)=>{
@@ -1286,8 +1284,15 @@ export class SaleComponent implements OnInit {
     this.productService.getAllProductVariant();
     this._subscriptionProductVariant = this.productService.productVariantListChange.subscribe((variant) => {
       this.productVariantList = variant;
-      this.productPopupVariantList = this.productPopupVariantList.slice();
-    })
+      //this.productVariantList = this.productVariantList.slice();
+
+      this.productVariantList.forEach((variant)=>{
+        this.productVariantMap.set(variant.productNo, variant);
+      });
+      console.log('map object after get productProduct Variant', this.productVariantMap);
+
+    });
+
   }
 
   disgardCompleteSale() {
@@ -1302,9 +1307,9 @@ export class SaleComponent implements OnInit {
     this.selectedCustomer = null;
     this.setTransactionDtoList();
     this.saleType = 'Complete';
-    this.router.navigate(['/sell/sale']);
+    //this.router.navigate(['/sell/sale']);
     //this.productList = [];
-    this.getProductDetails();
+    //this.getProductDetails();
   }
   print(obj) {
     console.log("Coming form print", obj);
