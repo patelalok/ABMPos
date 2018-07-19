@@ -187,7 +187,7 @@ export class AddProductComponent implements OnInit {
         tier1: formValues.tier1,
         tier2: formValues.tier2,
         tier3: formValues.tier3,
-        description: formValues.description.toUpperCase(),
+        description: this.converDescriptionToSentanceForm(formValues.description),
         imeiNo: null,
         active: true,
         ecommerce: formValues.ecommerce,
@@ -279,6 +279,14 @@ let selectedCategory: Category = this.categoryDto[event.target.selectedIndex];
     //   this.productList = products;
     // });
   }
+
+   converDescriptionToSentanceForm(str) {
+    return str.replace(/\w\S*/g, function(txt){
+        return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
+    });
+}
+
+
   ngOnDestroy() {
     //prevent memory leak when component destroyed
      this._subscriptionProduct.unsubscribe();
