@@ -29,6 +29,16 @@ public class TransactionLineItemDao {
     private String description;
 
 
+    // This three is for sales history reporting.
+    @Transient
+    private int transactionComId;
+    @Transient
+    private String customerFirstLastName;
+    @Transient
+    private String username;
+
+
+
     public int getTransactionLineItemId() {
         return transactionLineItemId;
     }
@@ -140,5 +150,29 @@ public class TransactionLineItemDao {
 
     public void setProductId(int productId) {
         this.productId = productId;
+    }
+
+    public int getTransactionComId() {
+        return transactionComId;
+    }
+
+    public void setTransactionComId(int transactionComId) {
+        this.transactionComId = transactionComId;
+    }
+
+    public String getCustomerFirstLastName() {
+        return customerFirstLastName;
+    }
+
+    public void setCustomerFirstLastName(String customerFirstLastName) {
+        this.customerFirstLastName = customerFirstLastName;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 }

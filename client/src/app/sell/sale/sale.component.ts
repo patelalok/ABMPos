@@ -1500,6 +1500,8 @@ export class TransactionLineItemDaoList {
   imeiNo?: any;
   quantityUpdated?: boolean;
   description: string;
+  username?:string;
+  customerFirstLastName?: string;
 
 }
 

@@ -196,25 +196,28 @@
                     <table class="table">
                         <thead>
                             <tr>
-
+                                <th>TransId</th>
                                 <th>Date</th>
                                 <th>Time</th>
                                 <th>Product No</th>
                                 <th>Product Sold</th>
                                 <th>Cost</th>
                                 <th>Retail</th>
-
+                                <th>Customer</th>
+                                <th>Employee</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr *ngFor="let product of this.productHistoryDto">
+                                <td>{{product.transactionComId}}</td>
                                 <td>{{product.date}}</td>
                                 <td>{{product.time}}</td>
                                 <td>{{product.productNo}}</td>
                                 <td>{{product.saleQuantity}}</td>
                                 <td>{{product.cost}}</td>
                                 <td>{{product.retail}}</td>
-
+                                <td>{{product.customerFirstLastName}}</td>
+                                <td>{{product.username}}</td>
                             </tr>
                         </tbody>
                     </table>

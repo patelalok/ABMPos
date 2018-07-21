@@ -17,8 +17,23 @@ public interface TransactionLineItemRepository extends JpaRepository<Transaction
 
     List<TransactionLineItemDao> findAll();
 
-    @Query("SELECT p FROM TransactionLineItemDao p WHERE p.productNo = ?1 AND p.productId = ?2 AND p.date BETWEEN ?3 AND ?4")
-    List<TransactionLineItemDao> getProductHistory(String productNo,int productId,String startDate, String endDate);
+    @Query(value = "SELECT t.transaction_com_id,\n" +
+            "t.date,\n" +
+            "t.status,\n" +
+            "t.customer_first_last_name,\n" +
+            "t.username,\n" +
+            "l.product_id,\n" +
+            "l.product_no,\n" +
+            "l.cost,\n" +
+            "l.retail_with_discount,\n" +
+            "l.sale_quantity\n" +
+            "FROM transaction t\n" +
+            "INNER JOIN transaction_line_item l\n" +
+            "ON t.transaction_com_id = l.transaction_com_id\n" +
+            "WHERE l.product_no = ?1\n" +
+            "AND t.date between ?2 and ?3\n" +
+            "AND (t.status = 'Complete' || t.status = 'Return' || t.status = 'Pending')", nativeQuery = true)
+    List<Object[]> getProductHistory(String productNo,String startDate, String endDate);
 
 
 
