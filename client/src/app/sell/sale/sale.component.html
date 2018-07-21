@@ -201,28 +201,28 @@
               <tr>
                 <td>
                   <dl class="row">
-                    <dt class="">Name:</dt>
-                    <dd class="">{{this.selectedCustomer.name}}</dd>
+                    <dt>Name:</dt>
+                    <dd>{{this.selectedCustomer.name}}</dd>
                   </dl>
                 </td>
                 <td>
                   <dl class="row">
-                    <dt class="">Phone:</dt>
-                    <dd class="">{{this.selectedCustomer.phoneNo}}</dd>
+                    <dt>Phone:</dt>
+                    <dd>{{this.selectedCustomer.phoneNo}}</dd>
                   </dl>
                 </td>
               </tr>
               <tr>
                 <td>
                   <dl class="row">
-                    <dt class="">Balance:</dt>
-                    <dd class="">{{this.selectedCustomer.balance | currency:'USD':'true'}}</dd>
+                    <dt>Balance:</dt>
+                    <dd>{{this.selectedCustomer.balance | currency:'USD':'true'}}</dd>
                   </dl>
                 </td>
                 <td>
                   <dl class="row">
-                    <dt class="">Credit:</dt>
-                    <dd class="">{{this.selectedCustomer.storeCredit | currency:'USD':'true'}}</dd>
+                    <dt>Credit:</dt>
+                    <dd>{{this.selectedCustomer.storeCredit | currency:'USD':'true'}}</dd>
                   </dl>
                 </td>
               </tr>
@@ -238,16 +238,16 @@
         <div class="sales-total p-md-4">
 
           <dl class="row">
-            <dt class="">Sub-total</dt>
-            <dd class="">{{this.transactionDtoList.subtotal | currency:'USD':'true'}}</dd>
+            <dt>Sub-total</dt>
+            <dd>{{this.transactionDtoList.subtotal | currency:'USD':'true'}}</dd>
           </dl>
           <dl class="row">
-            <dt class="">
+            <dt>
               <a #discount id="discount-popover" href="javascript:void(0)" (click)="this.showPopover(discount)">
                 Discount
               </a>
             </dt>
-            <dd class="">{{this.totalTransactionDiscount | currency:'USD':'true'}}</dd>
+            <dd>{{this.totalTransactionDiscount | currency:'USD':'true'}}</dd>
           </dl>
           <dl class="row">
             <dt>
@@ -260,27 +260,27 @@
                                 No Tax
                             </a>
                         </dt> -->
-            <dd class="">{{this.transactionDtoList.tax | currency:'USD':'true'}}</dd>
+            <dd>{{this.transactionDtoList.tax | currency:'USD':'true'}}</dd>
           </dl>
           <dl class="row">
-            <dt class="">Quantity</dt>
-            <dd class="">{{this.transactionDtoList.quantity}}</dd>
+            <dt>Quantity</dt>
+            <dd>{{this.transactionDtoList.quantity}}</dd>
           </dl>
           <dl class="row" *ngIf="this.selectedCustomer != null && this.selectedCustomer.balance > 0">
-            <dt class="">Pre Balance</dt>
-            <dd class="">
+            <dt>Pre Balance</dt>
+            <dd>
               <a data-target="#pendingInvoice" data-toggle="modal" id="MainNavHelp" href="#pendingInvoice">{{this.selectedCustomer.balance | currency:'USD':'true'}}</a>
             </dd>
           </dl>
           <dl class="row">
-            <dt class="">Shipping</dt>
-            <dd class="">
+            <dt>Shipping</dt>
+            <dd>
               <input (keyup.enter)="this.setTransactionDtoList()" style="width: 65px;" type="number" class="form-control" [(ngModel)]="this.shippingAmount">
             </dd>
           </dl>
           <dl class="row">
-            <dt class="">Total</dt>
-            <dd class="">{{this.transactionDtoList.totalAmount | currency:'USD':'true'}}</dd>
+            <dt>Total</dt>
+            <dd>{{this.transactionDtoList.totalAmount | currency:'USD':'true'}}</dd>
           </dl>
         </div>
         <button *ngIf="this.saleType == 'Complete' " mat-raised-button [disabled]="this.disablePaymentButtonOnSale" type="button"
