@@ -29,7 +29,6 @@ public class ProductDao implements Serializable {
     private String brandId;
 
     private String vendorId;
-    private String modelId;
     private String alternetNo;
 
     @Transient
@@ -151,13 +150,6 @@ public class ProductDao implements Serializable {
         this.vendorId = vendorId;
     }
 
-    public String getModelId() {
-        return modelId;
-    }
-
-    public void setModelId(String modelId) {
-        this.modelId = modelId;
-    }
 
     public String getAlternetNo() {
         return alternetNo;

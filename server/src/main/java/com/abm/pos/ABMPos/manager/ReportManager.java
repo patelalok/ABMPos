@@ -50,7 +50,6 @@ public class ReportManager {
     private final CategoryRepository categoryRepository;
     private final BrandRepository brandRepository;
     private final VendorRepository vendorRepository;
-    private final ModelRepository modelRepository;
     private final TransactionRepository transactionRepository;
     private final CustomerRepository customerRepository;
     private final EmployeeRepository employeeRepository;
@@ -69,14 +68,13 @@ public class ReportManager {
 
 
     @Autowired
-    public ReportManager(BrandRepository brandRepository, CategoryRepository categoryRepository, ProductRepository productRepository, ProductInventoryRepository productInventoryRepository, Utility utility, VendorRepository vendorRepository, ModelRepository modelRepository, TransactionRepository transactionRepository, CustomerRepository customerRepository, EmployeeRepository employeeRepository, StoreSetupRepository storeSetupRepository) {
+    public ReportManager(BrandRepository brandRepository, CategoryRepository categoryRepository, ProductRepository productRepository, ProductInventoryRepository productInventoryRepository, Utility utility, VendorRepository vendorRepository, TransactionRepository transactionRepository, CustomerRepository customerRepository, EmployeeRepository employeeRepository, StoreSetupRepository storeSetupRepository) {
         this.brandRepository = brandRepository;
         this.categoryRepository = categoryRepository;
         this.productRepository = productRepository;
         this.productInventoryRepository = productInventoryRepository;
         this.utility = utility;
         this.vendorRepository = vendorRepository;
-        this.modelRepository = modelRepository;
         this.transactionRepository = transactionRepository;
         this.customerRepository = customerRepository;
         this.employeeRepository = employeeRepository;
@@ -100,12 +98,7 @@ public class ReportManager {
             List<Object[]> result = vendorRepository.getInventoryByVendor();
 
             return setDataForCommonInventory(result);
-        } else if (inventoryReportBy.equalsIgnoreCase("Model")) {
-
-            List<Object[]> result = modelRepository.getInventoryByModel();
-
-            return setDataForCommonInventory(result);
-        } else {
+        }  else {
             return null;
         }
 
@@ -384,10 +377,7 @@ public class ReportManager {
         } else if (salesReportBy.equalsIgnoreCase("Sales By Vendor")) {
             List<Object[]> result = vendorRepository.getSalesReportByVendor(startDate, endDate);
             return setDataForCommonReportBySales(result);
-        } else if (salesReportBy.equalsIgnoreCase("Sales By Model")) {
-            List<Object[]> result = modelRepository.getSalesReportByModel(startDate, endDate);
-            return setDataForCommonReportBySales(result);
-        } else if (salesReportBy.equalsIgnoreCase("Sales By Product")) {
+        }  else if (salesReportBy.equalsIgnoreCase("Sales By Product")) {
             List<Object[]> result = productRepository.getSalesReportByProduct(startDate, endDate);
             return setDataForCommonReportBySales(result);
         } else if (salesReportBy.equalsIgnoreCase("Sales By Employee")) {

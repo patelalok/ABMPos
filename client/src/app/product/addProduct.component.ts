@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ProductService } from "app/product/product.service";
 // import { FormBuilder } from "@angular/forms/forms";
 import { FormBuilder, Validators, FormGroup, FormControl } from '@angular/forms';
-import { Category, Brand, Vendor, ProductVariantDetail, Model, ProductInventory, SubCategory } from "app/product/product.component";
+import { Category, Brand, Vendor, ProductVariantDetail, ProductInventory, SubCategory } from "app/product/product.component";
 import * as moment from 'moment';
 import { slideInOutAnimation } from 'app/shared/animations/slide-in-out.animation';
 import { ToastsManager } from 'ng2-toastr/src/toast-manager';
@@ -27,7 +27,6 @@ export class AddProductComponent implements OnInit {
   subCategoryDto: SubCategory[];
   brandDto: Brand[];
   vendorDto: Vendor[];
-  modelDto: Model[];
   productVariantDetailsDto: ProductVariantDetail[];
   productVariantDetailsByNameDto: ProductVariantDetail[];
   displayDialog = false;
@@ -61,7 +60,6 @@ export class AddProductComponent implements OnInit {
         'subCategory':['Please Select SubCategory',null],
         'brand': [null, Validators.required],
         'vendor': [null],
-        'model': ['Please Select Model',null],
         'cost': [null, [Validators.required, Validators.pattern('^[0-9-.]+$')]],
         // 'markup': [null, Validators.pattern('^[0-9-.]+$')],
         // 'retail': [null, [Validators.required, Validators.pattern('^[0-9-.]+$')]],
@@ -107,13 +105,6 @@ export class AddProductComponent implements OnInit {
         this.vendorDto = vendors;
         this.form.get('vendor').setValue(this.vendorDto[0]);
         //console.log('VendorList' + this.vendorDto);
-      });
-
-    this.productService.getModelDetails()
-      .subscribe((models: Model[]) => {
-        this.modelDto = models;
-      // this.form.get('model').setValue(this.modelDto[0]);
-        //console.log('ModelList' + this.modelDto);
       });
 
       this.getProductDetails();
@@ -169,18 +160,13 @@ export class AddProductComponent implements OnInit {
       if(null == formValues.subCategory){
         formValues.subCategory = new SubCategory();
       }
-      if(null == formValues.model){
-        formValues.model = new Model();
-      }
-
-
+    
       let product: Product = {
         productNo: formValues.productNo,
         categoryId: formValues.category.categoryId,
         subCategoryId: formValues.subCategory.id,
         brandId: formValues.brand.brandId,
         vendorId: formValues.vendor.vendorId,
-        modelId: formValues.model.modelId,
         alternetNo: formValues.alternetNo,
         cost: formValues.cost,
         //retail: formValues.retail,
@@ -304,7 +290,6 @@ export interface ProductForm {
   subCategory?:SubCategory;
   brand?: Brand
   vendor?: Vendor;
-  model?: Model;
   alternetNo?: string;
   cost?: number;
   retail?: number;

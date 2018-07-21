@@ -25,7 +25,6 @@ export class ProductComponent implements OnInit {
   categoryDto: Category[];
   brandDto: Brand[];
   vendorDto: Vendor[];
-  modelDto: Model[];
   items: MenuItem[];
   // activeItem: MenuItem;
   selectedProductDropdownOption: string;
@@ -42,11 +41,9 @@ export class ProductComponent implements OnInit {
 
     this.items = [
       { name: 'Inventory', icon: 'fa fa-tags fa-x', link: '/product/productTable' },
-      { name: 'Phone', icon: 'fa fa-mobile fa-x', link: '/product/phone' },
       { name: 'Category', icon: 'fa fa-list fa-x', link: '/product/category' },
       { name: 'Brand', icon: 'fa fa-bookmark fa-x', link: '/product/brand' },
       { name: 'Vendor', icon: 'fa fa-user fa-x', link: '/product/vendor' },
-      { name: 'Model', icon: 'fa fa-mobile fa-x', link: '/product/model' },
       { name: 'Manage Variant', icon: 'fa fa-object-group fa-x', link: '/product/variant' }
 
     ];
@@ -74,12 +71,6 @@ export class ProductComponent implements OnInit {
       this.productService.getVendorDetails()
         .subscribe((vendors: Vendor[]) => {
           this.listOfProductOption = vendors;
-        });
-    }
-    else if (this.selectedProductDropdownOption === 'Model') {
-      this.productService.getModelDetails()
-        .subscribe((models: Model[]) => {
-          this.listOfProductOption = models;
         });
     }
     else {
@@ -138,17 +129,6 @@ export interface VendorTest {
 
 }
 
-export class Model {
-  modelId: number;
-  name: string;
-  description: string;
-}
-
-export class ModelTest {
-  modelId?;
-  name?;
-  description?;
-}
 
 export class ProductVariantDetail {
   id: number;

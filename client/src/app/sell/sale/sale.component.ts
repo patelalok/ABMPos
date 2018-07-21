@@ -1331,7 +1331,6 @@ export class Product {
   subCategoryId?: number;
   brandId?: number
   vendorId?: number;
-  modelId?: number;
   alternetNo?: string;
   cost?: number;
   retail?: number;
@@ -1395,7 +1394,6 @@ export class ProductVariant {
   subCategoryId?: number;
   brandId?: number
   vendorId?: number;
-  modelId?: number;
   alternetNo?: string;
 
   markup?: number;
@@ -1446,7 +1444,6 @@ export interface ProductVariantForm {
   subCategoryId?: number;
   brandId?: number
   vendorId?: number;
-  modelId?: number;
   alternetNo?: string;
 
   markup?: number;

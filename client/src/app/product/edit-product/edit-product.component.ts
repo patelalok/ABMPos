@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators, FormGroup, FormControl } from '@angular/forms';
 
-import {Category, Brand, Vendor, Model, ProductVariantDetail, ProductInventory, SubCategory } from 'app/product/product.component';
+import {Category, Brand, Vendor, ProductVariantDetail, ProductInventory, SubCategory } from 'app/product/product.component';
 import * as moment from 'moment';
 import { ProductService } from 'app/product/product.service';
 import { ProductForm } from 'app/product/addProduct.component';
@@ -25,7 +25,6 @@ export class EditProductComponent implements OnInit {
   subCategoryDto:SubCategory[] = [];
   brandDto: Brand[];
   vendorDto: Vendor[];
-  modelDto: Model[];
   productVariantDetailsDto: ProductVariantDetail[];
   productVariantDto: ProductVariant[] = [];
   variantOperation: string = 'Add';
@@ -92,7 +91,6 @@ export class EditProductComponent implements OnInit {
             'subCategory': [null],
             'brand': [null, Validators.required],
             'vendor': [null, Validators.required],
-            'model': [null],
             // 'costPrice': [this.currentProduct.cost, [Validators.required, Validators.pattern('^[0-9-.]+$')]],
             'markup': [null, Validators.pattern('^[0-9-.]+$')],
             'retail': [this.currentProduct.retail, [Validators.required, Validators.pattern('^[0-9-.]+$')]],
@@ -191,20 +189,6 @@ export class EditProductComponent implements OnInit {
           this.form.get('vendor').setValue(currentVendor);
           // console.log('VendorList' + this.vendorDto);
         });
-
-      this.productService.getModelDetails()
-        .subscribe((models: Model[]) => {
-          this.modelDto = models;
-          currentModel = this.modelDto.filter((el)=> el.modelId==this.currentProduct.modelId)[0];
-
-          //This will help me fix the problem when model is undefined or not added befor.
-          if(currentModel == undefined){
-            currentModel = new Model();
-          }
-          //console.log('undfined model', currentModel);
-          this.form.get('model').setValue(currentModel);
-        });
-
         this.productService.getProductVariantDetails()
         .subscribe((variants:ProductVariantDetail[] )=>{
           this.productVariantDetailsDto = variants;
@@ -262,9 +246,6 @@ export class EditProductComponent implements OnInit {
         if(null == formValues.subCategory){
           formValues.subCategory = new SubCategory();
         }
-        if(null == formValues.model){
-          formValues.model = new Model();
-        }
 
       let product: Product = {
         productId: this.currentProduct.productId,
@@ -273,7 +254,6 @@ export class EditProductComponent implements OnInit {
         subCategoryId: formValues.subCategory.id,
         brandId: formValues.brand.brandId,
         vendorId: formValues.vendor.vendorId,
-        modelId: formValues.model.modelId,
         cost: formValues.cost,
         retail: formValues.retail,
         tier1: formValues.tier1,

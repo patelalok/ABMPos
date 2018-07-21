@@ -3,7 +3,7 @@ import { ProductService } from "app/product/product.service";
 // import { FormBuilder } from "@angular/forms/forms";
 import { FormBuilder, Validators, FormGroup, FormControl } from '@angular/forms';
 import { MenuItem, LazyLoadEvent } from 'primeng/primeng';
-import { Category, Brand, Model, Vendor, ProductCommon, ProductInventory } from "app/product/product.component";
+import { Category, Brand, Vendor, ProductCommon, ProductInventory } from "app/product/product.component";
 import * as moment from 'moment';
 import { ViewChild } from '@angular/core/src/metadata/di';
 import { Element } from '@angular/compiler';
@@ -34,7 +34,6 @@ export class ProductTableComponent implements OnInit {
   categoryDto: Category[];
   brandDto: Brand[];
   vendorDto: Vendor[];
-  modelDto: Model[];
   items: MenuItem[];
   activeItem: MenuItem;
   selectedProductDropdownOption: any = "Select All";
@@ -158,9 +157,7 @@ export class ProductTableComponent implements OnInit {
     else if (this.selectedProductDropdownOption === 'Vendor') {
       this.productFullList = this.backendProductDto.filter((ven) => ven.vendorId == obj)
     }
-    else if (this.selectedProductDropdownOption === 'Model') {
-      this.productFullList = this.backendProductDto.filter((mod) => mod.modelId == obj)
-    }
+  
 
     // console.log('Product full list here', this.productFullList);
     this.loadProductsLazy({ first: 0, rows: this.rowsToShow * 2 });
@@ -203,16 +200,7 @@ export class ProductTableComponent implements OnInit {
           }));
         });
     }
-    else if (this.selectedProductDropdownOption === 'Model') {
-      this.productService.getModelDetails()
-        .subscribe((models: Model[]) => {
-          this.listOfProductOption = [];
-          models.forEach((el) => this.listOfProductOption.push({
-            id: el.modelId,
-            name: el.name
-          }));
-        });
-    }
+  
     else {
       this.listOfProductOption = null;
       this.productFullList = this.backendProductDto;
