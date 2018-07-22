@@ -92,7 +92,7 @@ public interface ProductRepository extends JpaRepository<ProductDao, Integer> {
 
     List<ProductDao> findAllByBrandId(String s);
 
-    List<ProductDao> findAllByModelId(String s);
+//    List<ProductDao> findAllByModelId(String s);
 
     List<ProductDao> findAllByVendorId(String s);
 

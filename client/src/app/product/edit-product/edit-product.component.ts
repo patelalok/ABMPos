@@ -122,11 +122,11 @@ export class EditProductComponent implements OnInit {
 
             'quantity': [null, [Validators.pattern('^[0-9]+$')]],
             'variant1': [null, [Validators.required]],
-            //'variant2': [null],
-           // 'variant3': [null],
+            'variant2': [null],
+            'variant3': [null],
             'value1': [null],
-            //'value2': [null],
-            //'value3': [null]
+            'value2': [null],
+            'value3': [null]
             // 'minQuantity': [null, [Validators.pattern('^[0-9]+$')]],
             // 'ecommerce': [false, null],
             // 'alternetNo':[null]
@@ -310,9 +310,9 @@ export class EditProductComponent implements OnInit {
         quantity:formValues.quantity,
         variant1:formValues.variant1.name,
         value1:formValues.value1,
-        // variant2:formValues.variant2,
-        // value2:formValues.value2,
-        // variant3:formValues.variant3,
+        variant2:formValues.variant2.name,
+        value2:formValues.value2,
+        variant3:formValues.variant3.name,
         value3:formValues.value3,
         createdTimestamp: moment(Date.now()).format('YYYY-MM-DD HH:mm:ss'),
         operationType: this.variantOperation,

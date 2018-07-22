@@ -1,154 +1,154 @@
 <mat-card>
-    <form *ngIf="this.form != null" [formGroup]="form">
-        <mat-card-title>
-            Edit Product
-        </mat-card-title>
-        <mat-card-content>
+  <form *ngIf="this.form != null" [formGroup]="form">
+    <mat-card-title>
+      Edit Product
+    </mat-card-title>
+    <mat-card-content>
 
-            <div class="row">
+      <div class="row">
 
-                <div class="col-md-6">
+        <div class="col-md-6">
 
-                    <div class="row m-2">
-                        <div class="col-md-4 product-textbox">
-                            <label>Product No:</label>
-                        </div>
+          <div class="row m-2">
+            <div class="col-md-4 product-textbox">
+              <label>Product No:</label>
+            </div>
 
-                        <div class="col-md-8 product-textbox">
-                            <input type="text" class="form-control" formControlName="productNo" placeholder="Please Enter ProductNo">
-                            <div *ngIf="form.get('productNo').hasError('required') && form.get('productNo').touched" class="alert alert-danger">
-                                *Required!!
-                            </div>
-                            <div *ngIf="form.get('productNo').hasError('pattern') && form.get('productNo').touched" class="alert alert-danger">
-                                *Value Not Alloewd</div>
-                        </div>
-                    </div>
-                
-                    <div class="row m-2">
-                        <div class="col-md-4 product-textbox">
-                            <label class="control-label">Category Name:</label>
-                        </div>
-                        <div class="col-md-8 product-textbox">
-                            <select class="form-control" formControlName="category" (change)="onCategorySelect($event)">
-                                      <option *ngFor="let category of categoryDto" [ngValue]= "category">
-                                          {{category.name}}
-                                          </option>
-                                  </select>
-                            <p *ngIf="form.get('category').hasError('required')" class="alert alert-danger">
-                                *Required!!</p>
-                        </div>
-                    </div>
+            <div class="col-md-8 product-textbox">
+              <input type="text" class="form-control" formControlName="productNo" placeholder="Please Enter ProductNo">
+              <div *ngIf="form.get('productNo').hasError('required') && form.get('productNo').touched" class="alert alert-danger">
+                *Required!!
+              </div>
+              <div *ngIf="form.get('productNo').hasError('pattern') && form.get('productNo').touched" class="alert alert-danger">
+                *Value Not Alloewd</div>
+            </div>
+          </div>
 
-                    <div class="row m-2">
-                            <div class="col-md-4 product-textbox">
-                                <label class="control-label">Sub Category Name:</label>
-                            </div>
-                            <div class="col-md-8 product-textbox">
-                                <select class="form-control" formControlName="subCategory">
-                                        <option selected>Please Select SubCategory</option>
-                                          <option *ngFor="let subCategory of subCategoryDto" [ngValue]= "subCategory">
-                                              {{subCategory.name}}
-                                              </option>
-                                      </select>
-                                <p *ngIf="form.get('subCategory').hasError('required')" class="alert alert-danger">
-                                    *Required!!</p>
-                            </div>
-                        </div>
+          <div class="row m-2">
+            <div class="col-md-4 product-textbox">
+              <label class="control-label">Category Name:</label>
+            </div>
+            <div class="col-md-8 product-textbox">
+              <select class="form-control" formControlName="category" (change)="onCategorySelect($event)">
+                <option *ngFor="let category of categoryDto" [ngValue]="category">
+                  {{category.name}}
+                </option>
+              </select>
+              <p *ngIf="form.get('category').hasError('required')" class="alert alert-danger">
+                *Required!!</p>
+            </div>
+          </div>
 
-                    <div class="row m-2">
+          <div class="row m-2">
+            <div class="col-md-4 product-textbox">
+              <label class="control-label">Sub Category Name:</label>
+            </div>
+            <div class="col-md-8 product-textbox">
+              <select class="form-control" formControlName="subCategory">
+                <option selected>Please Select SubCategory</option>
+                <option *ngFor="let subCategory of subCategoryDto" [ngValue]="subCategory">
+                  {{subCategory.name}}
+                </option>
+              </select>
+              <p *ngIf="form.get('subCategory').hasError('required')" class="alert alert-danger">
+                *Required!!</p>
+            </div>
+          </div>
 
-                        <div class="col-md-4 product-textbox">
-                            <label class="control-label">Brand Name:</label>
-                        </div>
+          <div class="row m-2">
 
-                        <div class="col-md-8 product-textbox">
-                            <select class="form-control" formControlName="brand" name="brand">
-                                      <option *ngFor = "let brand of brandDto" [ngValue]="brand">
-                                          {{brand.name}}
-                                      </option>
-                                  </select>
-                            <p *ngIf="form.get('brand').hasError('required')" class="alert alert-danger">
-                                *Required!!</p>
-                        </div>
-                    </div>
-                    <div class="row m-2">
-                        <div class="col-md-4 product-textbox">
-                            <label class="control-label">Vender Name:</label>
-                        </div>
-                        <div class="col-md-8 product-textbox">
-                            <select class="form-control" formControlName="vendor" name="vendor">
-                                      <option *ngFor = "let vendor of vendorDto" [ngValue]="vendor">
-                                          {{vendor.name}}
-                                          </option>
-                                  </select>
-                            <p *ngIf="form.get('vendor').hasError('required')" class="alert alert-danger">
-                                *Required!!</p>
-                        </div>
-                    </div>
+            <div class="col-md-4 product-textbox">
+              <label class="control-label">Brand Name:</label>
+            </div>
 
-                </div>
+            <div class="col-md-8 product-textbox">
+              <select class="form-control" formControlName="brand" name="brand">
+                <option *ngFor="let brand of brandDto" [ngValue]="brand">
+                  {{brand.name}}
+                </option>
+              </select>
+              <p *ngIf="form.get('brand').hasError('required')" class="alert alert-danger">
+                *Required!!</p>
+            </div>
+          </div>
+          <div class="row m-2">
+            <div class="col-md-4 product-textbox">
+              <label class="control-label">Vender Name:</label>
+            </div>
+            <div class="col-md-8 product-textbox">
+              <select class="form-control" formControlName="vendor" name="vendor">
+                <option *ngFor="let vendor of vendorDto" [ngValue]="vendor">
+                  {{vendor.name}}
+                </option>
+              </select>
+              <p *ngIf="form.get('vendor').hasError('required')" class="alert alert-danger">
+                *Required!!</p>
+            </div>
+          </div>
 
-                <!--End of left side Div-->
+        </div>
 
-                <!--Start of Right Side DIV-->
+        <!--End of left side Div-->
 
-                <div class="col-md-6">
-                    <div class="row m-2">
-                        <label class="col-md-4 control-label product-textbox">
-                                    Retail Price:
-                                </label>
-                        <div class="col-md-2 product-textbox">
-                            Tier1 :
-                            <input type="number" formControlName="tier1" class="form-control">
-                            <!-- <p *ngIf="form.get('retail').hasError('required') && form.get('retail').touched" class="alert alert-danger">
+        <!--Start of Right Side DIV-->
+
+        <div class="col-md-6">
+          <div class="row m-2">
+            <label class="col-md-4 control-label product-textbox">
+              Retail Price:
+            </label>
+            <div class="col-md-2 product-textbox">
+              Tier1 :
+              <input type="number" formControlName="tier1" class="form-control">
+              <!-- <p *ngIf="form.get('retail').hasError('required') && form.get('retail').touched" class="alert alert-danger">
                                 *Required!!</p>
                             <p *ngIf="form.get('retail').hasError('pattern') && form.get('retail').touched" class="alert alert-danger">
                                 *Value Not Alloewd*</p> -->
-                        </div>
-                        <div class="col-md-2 product-textbox">
-                                Tier2 :
-                                <input type="number" formControlName="tier2" class="form-control">
-                                <!-- <p *ngIf="form.get('retail').hasError('required') && form.get('retail').touched" class="alert alert-danger">
+            </div>
+            <div class="col-md-2 product-textbox">
+              Tier2 :
+              <input type="number" formControlName="tier2" class="form-control">
+              <!-- <p *ngIf="form.get('retail').hasError('required') && form.get('retail').touched" class="alert alert-danger">
                                     *Required!!</p>
                                 <p *ngIf="form.get('retail').hasError('pattern') && form.get('retail').touched" class="alert alert-danger">
                                     *Value Not Alloewd*</p> -->
-                            </div>
-                            <div class="col-md-2 product-textbox">
-                                    Tier3 :
-                                    <input type="number" formControlName="tier3" class="form-control">
-                                    <!-- <p *ngIf="form.get('retail').hasError('required') && form.get('retail').touched" class="alert alert-danger">
+            </div>
+            <div class="col-md-2 product-textbox">
+              Tier3 :
+              <input type="number" formControlName="tier3" class="form-control">
+              <!-- <p *ngIf="form.get('retail').hasError('required') && form.get('retail').touched" class="alert alert-danger">
                                         *Required!!</p>
                                     <p *ngIf="form.get('retail').hasError('pattern') && form.get('retail').touched" class="alert alert-danger">
                                         *Value Not Alloewd*</p> -->
-                                </div>
-                    </div>
+            </div>
+          </div>
 
-                    <div class="row m-2">
-
-
-                        <label class="col-md-4 control-label product-textbox">
-                                Total Quantity:
-                            </label>
-                        <div class="col-md-8 product-textbox">
-                            <input type="number" class="form-control" formControlName="quantity" placeholder="Please Enter Quantity" disabled="disabled">
-                            <div *ngIf="form.get('quantity').hasError('pattern') && form.get('quantity').touched" class="alert alert-danger">
-                                *Value Not Alloewd*</div>
-                        </div>
-                    </div>
-                    <div class="row m-2">
+          <div class="row m-2">
 
 
-                        <label class="col-md-4 control-label product-textbox">
-                                ReOrder Quantity:
-                                          </label>
-                        <div class="col-md-8 product-textbox">
-                            <input type="text" class="form-control" formControlName="minQuantity" placeholder="Please Enter Min-Quantity">
-                            <div *ngIf="form.get('minQuantity').hasError('pattern') && form.get('minQuantity').touched" class="alert alert-danger">
-                                *Value Not Alloewd*</div>
-                        </div>
-                    </div>
+            <label class="col-md-4 control-label product-textbox">
+              Total Quantity:
+            </label>
+            <div class="col-md-8 product-textbox">
+              <input type="number" class="form-control" formControlName="quantity" placeholder="Please Enter Quantity" disabled="disabled">
+              <div *ngIf="form.get('quantity').hasError('pattern') && form.get('quantity').touched" class="alert alert-danger">
+                *Value Not Alloewd*</div>
+            </div>
+          </div>
+          <div class="row m-2">
 
-                    <!-- <div class="row m-2">
+
+            <label class="col-md-4 control-label product-textbox">
+              ReOrder Quantity:
+            </label>
+            <div class="col-md-8 product-textbox">
+              <input type="text" class="form-control" formControlName="minQuantity" placeholder="Please Enter Min-Quantity">
+              <div *ngIf="form.get('minQuantity').hasError('pattern') && form.get('minQuantity').touched" class="alert alert-danger">
+                *Value Not Alloewd*</div>
+            </div>
+          </div>
+
+          <!-- <div class="row m-2">
 
                         <div class="col-md-4 product-textbox">
                             <label class="control-label">Alternate No:</label>
@@ -158,7 +158,7 @@
                             <input type="text" class="form-control" formControlName="alternetNo" placeholder="Please Enter Alternate No">
                         </div>
                     </div> -->
-                    <!-- <div class="row m-2">
+          <!-- <div class="row m-2">
 
 
                         <label class="col-md-4 control-label product-textbox">
@@ -178,156 +178,159 @@
 
                         </div>
                     </div> -->
-                    <div class="row m-2">
+          <div class="row m-2">
 
-                        <div class="col-md-12 product-textbox">
-                            <div class="row">
-                            <div class="checkbox col-md-4" >
-                                <label>
-                                        <input type="checkbox" formControlName="tax">
-                                         Is Taxable
-                                      </label>
-                            </div>
-                            <div class="checkbox col-md-4">
-                                <label>
-                                        <input type="checkbox" formControlName="ecommerce">
-                                         Is Ecomerce
-                                      </label>
-                            </div>
-                            <div class="checkbox col-md-4">
-                                <label>
-                                        <input type="checkbox" formControlName="variant">
-                                         Is Variant
-                                      </label>
-                            </div>
-                        </div>
-                    </div>
-
-                    </div>
-
-                    <div class="row m-2">
-
-                        <div class="col-md-12 product-textbox">
-                            <div class="row">
-                            <div class="checkbox col-md-4" >
-                                <label>
-                                    <input type="checkbox" formControlName="newProduct">
-                                           Is New Product
-                                        </label>
-                            </div>
-                            <div class="checkbox col-md-4">
-                                <label>
-                                    <input type="checkbox" formControlName="onSale">
-                                           Is On Sale
-                                        </label>
-                            </div>
-                            <div class="checkbox col-md-4">
-                                <label>
-                                    <input type="checkbox" formControlName="featured">
-                                           Is Featured Product
-                                </label>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    </div>
-
-                    <div class="row m-2">
-
-                            <div class="col-md-4 product-textbox">
-                                <label class="control-label"> Description:</label>
-                            </div>
-    
-                            <div class="col-md-8 product-textbox">
-                                <textarea class="form-control" style="text-transform:uppercase" formControlName="description" placeholder="Please Enter Description" id="exampleFormControlTextarea1" rows="2"></textarea>
-
-                                <!-- <input type="text" class="form-control" style="text-transform:uppercase" formControlName="description" placeholder="Please Enter Description"> -->
-                                <p *ngIf="form.get('description').hasError('required') && form.get('description').touched" class="alert alert-danger">
-                                    *Required!!</p>
-                            </div>
-                        </div>
-
+            <div class="col-md-12 product-textbox">
+              <div class="row">
+                <div class="checkbox col-md-4">
+                  <label>
+                    <input type="checkbox" formControlName="tax"> Is Taxable
+                  </label>
                 </div>
-                <!-- end of row for right side-->
-            </div>
-
-            <!--End Main Row-->
-
-            <hr>
-
-            <div class="row">
-                <div class="col-md-12">
-                    <div class = "my-md-2" style="display: flex; justify-content:space-between;">
-                         <h4>Product Inventory Details</h4>
-                        <button type="button" mat-raised-button class="bg-primary text-white action-button-lg" (click) = "this.clearVariantForm()" data-target="#addVariant" data-toggle="modal" [disabled]="!this.currentProduct.variant" >
-                            <i class="fa fa-plus-square" aria-hidden="true" label="Add"></i>
-                                Add Variant
-                        </button>
-                    </div>
-                   
-               
-                    <p-dataTable [value]="this.productVariantDto" [editable]="true" scrollable="true" [responsive]="true" scrollHeight="300px" (onEditComplete)="this.updateProductInventory($event)">
-                        <p-column  field="productNo" header="ProductNo"></p-column>
-                        <p-column field="variant1" header="Variant1" [editable]="true"></p-column>
-                        <p-column field="value1" header="Value1"></p-column>
-                        <p-column field="cost" header="Cost">
-                            <ng-template let-product="rowData" pTemplate="body">
-                                <a href="JavaScript:void(0);" (click)="setProductInventoryForSelectedProduct(product, true)" data-toggle="modal" data-target="#productInventory">{{product.cost}}</a>
-                            </ng-template>
-                        </p-column>
-                        <p-column field="retail" header="Retail">
-                                <ng-template let-product="rowData" pTemplate="body">
-                                        <a href="JavaScript:void(0);" (click) = "setProductInventoryForSelectedProduct(product, false)" data-toggle="modal" data-target="#retailTier">{{product.tier1}} , {{product.tier2}} , {{product.tier3}}  </a>
-                                    </ng-template>
-                        </p-column>
-                        <p-column field="quantity" header="Quantity">
-
-                        </p-column>
-                        
-                        <p-column [style]="{'width': '20%'}" header="Action">
-                            <ng-template let-product="rowData" pTemplate="body" class="m-auto">
-
-                                <button class="btn-blue action-button-table" mat-button data-target="#addVariant" data-toggle="modal" (click) = "this.updateProductVariant(product)">
-                                    <i class="fa fa-pencil" aria-hidden="true"></i>
-                                </button>
-                            <button mat-button class="btn-red action-button-table" mat-button (click)="this.setVariantForDelete(product)" data-toggle="modal" data-target="#deleteVariant">
-                                    <i class="fa fa-trash" aria-hidden="true"></i>
-                                </button>
-                            <button mat-button class="btn-green action-button-table" mat-button (click)="this.setProductForHistory(product)" data-toggle="modal" data-target="#productHistoryModel">
-                                    <i class="fa fa-history" aria-hidden="true"></i>
-                                </button>
-                            <button mat-button class="btn-gray action-button-table" mat-button data-toggle="modal" data-target="#productHistoryModel">
-                                    <i class="fa fa-barcode" aria-hidden="true"></i>
-                                </button>
-
-                            </ng-template>
-                        </p-column>
-                    </p-dataTable>
-
+                <div class="checkbox col-md-4">
+                  <label>
+                    <input type="checkbox" formControlName="ecommerce"> Is Ecomerce
+                  </label>
                 </div>
-            </div>
-        </mat-card-content>
-        <mat-card-footer>
-            <!--Submit button Row-->
-            <div class="d-flex p-md-3 justify-content-center">
-                <!-- <button mat-raised-button class="bg-danger text-white m-2 action-button-lg" routerLink="/product/productTable">Cancel</button> -->
-                <button mat-raised-button class="bg btn-green text-white m-2 action-button-lg" type="button" (click)="addProduct()" [disabled]="form.invalid">
-                        <i class="fa fa-paper-plane" aria-hidden="true" ></i>
-                        
-                    Update Product</button>
+                <div class="checkbox col-md-4">
+                  <label>
+                    <input type="checkbox" formControlName="variant"> Is Variant
+                  </label>
+                </div>
+              </div>
             </div>
 
-        </mat-card-footer>
+          </div>
+
+          <div class="row m-2">
+
+            <div class="col-md-12 product-textbox">
+              <div class="row">
+                <div class="checkbox col-md-4">
+                  <label>
+                    <input type="checkbox" formControlName="newProduct"> Is New Product
+                  </label>
+                </div>
+                <div class="checkbox col-md-4">
+                  <label>
+                    <input type="checkbox" formControlName="onSale"> Is On Sale
+                  </label>
+                </div>
+                <div class="checkbox col-md-4">
+                  <label>
+                    <input type="checkbox" formControlName="featured"> Is Featured Product
+                  </label>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+          <div class="row m-2">
+
+            <div class="col-md-4 product-textbox">
+              <label class="control-label"> Description:</label>
+            </div>
+
+            <div class="col-md-8 product-textbox">
+              <textarea class="form-control" style="text-transform:uppercase" formControlName="description" placeholder="Please Enter Description"
+                id="exampleFormControlTextarea1" rows="2"></textarea>
+
+              <!-- <input type="text" class="form-control" style="text-transform:uppercase" formControlName="description" placeholder="Please Enter Description"> -->
+              <p *ngIf="form.get('description').hasError('required') && form.get('description').touched" class="alert alert-danger">
+                *Required!!</p>
+            </div>
+          </div>
+
+        </div>
+        <!-- end of row for right side-->
+      </div>
+
+      <!--End Main Row-->
+
+      <hr>
+
+      <div class="row">
+        <div class="col-md-12">
+          <div class="my-md-2" style="display: flex; justify-content:space-between;">
+            <h4>Product Inventory Details</h4>
+            <button type="button" mat-raised-button class="bg-primary text-white action-button-lg" (click)="this.clearVariantForm()"
+              data-target="#addVariant" data-toggle="modal" [disabled]="!this.currentProduct.variant">
+              <i class="fa fa-plus-square" aria-hidden="true" label="Add"></i>
+              Add Variant
+            </button>
+          </div>
 
 
-        <!-- <div class="col-md-2 product-textbox">
+          <p-dataTable [value]="this.productVariantDto" [editable]="true" scrollable="true" [responsive]="true" scrollHeight="300px"
+            (onEditComplete)="this.updateProductInventory($event)">
+            <p-column field="productNo" header="ProductNo"></p-column>
+            <p-column field="variant1" header="Variant1" ></p-column>
+            <p-column field="value1" header="Value1" [editable]="true"></p-column>
+            <p-column field="variant2" header="Variant2" ></p-column>
+            <p-column field="value2" header="Value2" [editable]="true"></p-column>
+            <p-column field="variant3" header="Variant3"></p-column>
+            <p-column field="value3" header="Value3" [editable]="true"></p-column>
+            <p-column field="cost" header="Cost">
+              <ng-template let-product="rowData" pTemplate="body">
+                <a href="JavaScript:void(0);" (click)="setProductInventoryForSelectedProduct(product, true)" data-toggle="modal" data-target="#productInventory">{{product.cost}}</a>
+              </ng-template>
+            </p-column>
+            <p-column field="retail" header="Retail">
+              <ng-template let-product="rowData" pTemplate="body">
+                <a href="JavaScript:void(0);" (click)="setProductInventoryForSelectedProduct(product, false)" data-toggle="modal" data-target="#retailTier">{{product.tier1}} , {{product.tier2}} , {{product.tier3}} </a>
+              </ng-template>
+            </p-column>
+            <p-column field="quantity" header="Quantity">
+
+            </p-column>
+
+            <p-column [style]="{'width': '20%'}" header="Action">
+              <ng-template let-product="rowData" pTemplate="body" class="m-auto">
+
+                <button class="btn-blue action-button-table" mat-button data-target="#addVariant" data-toggle="modal" (click)="this.updateProductVariant(product)">
+                  <i class="fa fa-pencil" aria-hidden="true"></i>
+                </button>
+                <button mat-button class="btn-red action-button-table" mat-button (click)="this.setVariantForDelete(product)" data-toggle="modal"
+                  data-target="#deleteVariant">
+                  <i class="fa fa-trash" aria-hidden="true"></i>
+                </button>
+                <button mat-button class="btn-green action-button-table" mat-button (click)="this.setProductForHistory(product)" data-toggle="modal"
+                  data-target="#productHistoryModel">
+                  <i class="fa fa-history" aria-hidden="true"></i>
+                </button>
+                <button mat-button class="btn-gray action-button-table" mat-button data-toggle="modal" data-target="#productHistoryModel">
+                  <i class="fa fa-barcode" aria-hidden="true"></i>
+                </button>
+
+              </ng-template>
+            </p-column>
+          </p-dataTable>
+
+        </div>
+      </div>
+    </mat-card-content>
+    <mat-card-footer>
+      <!--Submit button Row-->
+      <div class="d-flex p-md-3 justify-content-center">
+        <!-- <button mat-raised-button class="bg-danger text-white m-2 action-button-lg" routerLink="/product/productTable">Cancel</button> -->
+        <button mat-raised-button class="bg btn-green text-white m-2 action-button-lg" type="button" (click)="addProduct()" [disabled]="form.invalid">
+          <i class="fa fa-paper-plane" aria-hidden="true"></i>
+
+          Update Product</button>
+      </div>
+
+    </mat-card-footer>
+
+
+    <!-- <div class="col-md-2 product-textbox">
                       <p><button [disabled]="form.invalid" (click)="addProduct(true)" class="btn btn-primary btn-block">Next</button></p>
                   </div> -->
 
 
 
 
-    </form>
+  </form>
 
 </mat-card>
 
@@ -335,272 +338,317 @@
 
 <!-- Start of Invoce by Customer Popup -->
 <div class="modal fade" id="addVariant" role="dialog">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h4 class="modal-title">Add Product Variant</h4>
-                    <button type="button" (click) = "this.clearVariantForm()" class="close" data-dismiss="modal">&times;</button>
-                </div>
-                <div class="modal-body">
-                    <form *ngIf="this.variantForm != null" [formGroup]="this.variantForm">
-                        <div class="row">
-                         <div class="col-md-6">
-                            <ul>
-                                <li>
-                                    <label>Product No
-                                        <em>*</em>
-                                    </label>
-                                    <div style="display: flex;">
-                                        <input type="text" class="form-control" formControlName = "productNo">
-                                        <button class="btn-gray action-button" style="width: 50%" mat-raised-button (click)="getAutoGeneratedProductNo($event)">Generate</button>
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Add Product Variant</h4>
+        <button type="button" (click)="this.clearVariantForm()" class="close" data-dismiss="modal">&times;</button>
+      </div>
+      <div class="modal-body">
+        <form *ngIf="this.variantForm != null" [formGroup]="this.variantForm">
+          <div class="row">
+            <div class="col-md-6">
+              <ul>
+                <li>
+                  <label>Product No
+                    <em>*</em>
+                  </label>
+                  <div style="display: flex;">
+                    <input type="text" class="form-control" formControlName="productNo">
+                    <button class="btn-gray action-button" style="width: 50%" mat-raised-button (click)="getAutoGeneratedProductNo($event)">Generate</button>
 
-                                    </div>
-                                </li>
-                            </ul>
-                         </div>
-                         <div class="col-md-3">
-                                <ul>
-                                    <li>
-                                      <label>Cost Price
-                                                <em>*</em>
-                                            </label>
-                                            <div>
-                                                <input type="number" class="form-control" formControlName = "cost">
-                                            </div>
-                                        </li>
-                                    </ul>
-                         </div>
-    
-                         <div class="col-md-3">
-                                <ul>
-                                        <li>
-                                            <label>Quantity
-                                            </label>
-                                            <div>
-                                                <input type="number" class="form-control" formControlName = "quantity">
-                                            </div>
-                                        </li>
-                                    </ul>
-                         </div>
-                         </div>
-                         <div class="row">
-                                <!-- <label>Retail Price
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="col-md-3">
+              <ul>
+                <li>
+                  <label>Cost Price
+                    <em>*</em>
+                  </label>
+                  <div>
+                    <input type="number" class="form-control" formControlName="cost">
+                  </div>
+                </li>
+              </ul>
+            </div>
+
+            <div class="col-md-3">
+              <ul>
+                <li>
+                  <label>Quantity
+                  </label>
+                  <div>
+                    <input type="number" class="form-control" formControlName="quantity">
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </div>
+          <div class="row">
+            <!-- <label>Retail Price
                                         <em>*</em>
                                     </label> -->
-                                <div class="col-md-4">
-                                        <ul>
-                                            <li>
-                                                <label>Retail Tier1
-                                                    <em>*</em>
-                                                </label>
-                                                <div>
-                                                    <input type="number" class="form-control" formControlName = "tier1">
-                                                </div>
-                                             </li>
-                                        </ul>
-                                 </div>
-                                 <div class="col-md-4">
-                                        <ul>
-                                            <li>
-                                                <label>Retail Tier2
-                                                    <em>*</em>
-                                                </label>
-                                                <div>
-                                                    <input type="number" class="form-control" formControlName = "tier2">
-                                                </div>
-                                             </li>
-                                        </ul>
-                                 </div>
-                                 <div class="col-md-4">
-                                        <ul>
-                                            <li>
-                                                <label>Retail Tier3
-                                                    <em>*</em>
-                                                </label>
-                                                <div>
-                                                    <input type="number" class="form-control" formControlName = "tier3">
-                                                </div>
-                                             </li>
-                                        </ul>
-                                 </div>
-                         </div>
-                         <div class="row">
-                         <div class="col-md-3">
-                            <ul>
-                                <li>
-                                        <label>Variant 1
-                                                <em>*</em>
-                                            </label>
-                                </li>
-                                <select class="form-control" formControlName = "variant1" (change) = "this.onVariantSelect($event)">
-                                    <option *ngFor="let variant1 of this.productVariantDetailsDto" [ngValue] = "variant1">
-                                        {{variant1.name}}
-                                    </option>
-                                </select>
-                                <input type="text" formControlName = "value1" class="form-control">
-                                <!-- <select class="form-control" formControlName = "value1">
+            <div class="col-md-4">
+              <ul>
+                <li>
+                  <label>Retail Tier1
+                    <em>*</em>
+                  </label>
+                  <div>
+                    <input type="number" class="form-control" formControlName="tier1">
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="col-md-4">
+              <ul>
+                <li>
+                  <label>Retail Tier2
+                    <em>*</em>
+                  </label>
+                  <div>
+                    <input type="number" class="form-control" formControlName="tier2">
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="col-md-4">
+              <ul>
+                <li>
+                  <label>Retail Tier3
+                    <em>*</em>
+                  </label>
+                  <div>
+                    <input type="number" class="form-control" formControlName="tier3">
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-3">
+              <ul>
+                <li>
+                  <label>Variant 1
+                    <em>*</em>
+                  </label>
+                </li>
+                <select class="form-control" formControlName="variant1" (change)="this.onVariantSelect($event)">
+                  <option *ngFor="let variant1 of this.productVariantDetailsDto" [ngValue]="variant1">
+                    {{variant1.name}}
+                  </option>
+                </select>
+                <input type="text" formControlName="value1" class="form-control">
+              </ul>
+
+            </div>
+            <div class="col-md-3">
+              <ul>
+                <li>
+                  <label>Variant 2
+                    <em>*</em>
+                  </label>
+                </li>
+                <select class="form-control" formControlName="variant2" (change)="this.onVariantSelect($event)">
+                  <option *ngFor="let variant2 of this.productVariantDetailsDto" [ngValue]="variant2">
+                    {{variant2.name}}
+                  </option>
+                </select>
+                <input type="text" formControlName="value2" class="form-control">
+                <!-- <select class="form-control" formControlName = "value1">
                                         <option *ngFor="let v of this.productVariantDetails">
                                             {{v.value}}
                                         </option>
                                     </select> -->
-                            </ul>
-                         </div>
-                        </div>
-                        <div class="row d-flex p-md-3 justify-content-center">
-                                        <button mat-raised-button class="bg-danger text-white m-2 action-button-lg" data-dismiss="modal">Cancel</button>
-                                        <button mat-raised-button class="bg btn-green text-white m-2 action-button-lg" type="submit" (click) = "this.addProductVariant(false)" data-dismiss="modal" [disabled]="this.variantForm.invalid">
-                                            <i class="fa fa-paper-plane" aria-hidden="true" ></i>
-                                                Add Variant
-                                        </button>
-                                        <button mat-raised-button class="bg btn-green text-white m-2 action-button-lg" type="submit" (click) = "this.addProductVariant(true)" [disabled]="this.variantForm.invalid">
-                                            <i class="fa fa-paper-plane" aria-hidden="true" ></i>
-                                                Add & Clone
-                                        </button>
-                        </div>
-                        
-                    </form>
-                </div>
-                <div class="modal-footer">
-                        <button type="button" (click) = "this.clearVariantForm()" class="btn btn-default" data-dismiss="modal">Close</button>
-                    </div>
+
+              </ul>
+
             </div>
-        </div>
+            <div class="col-md-3">
+              <ul>
+                <li>
+                  <label>Variant 3
+                    <em>*</em>
+                  </label>
+                </li>
+                <select class="form-control" formControlName="variant3" (change)="this.onVariantSelect($event)">
+                  <option *ngFor="let variant3 of this.productVariantDetailsDto" [ngValue]="variant3">
+                    {{variant3.name}}
+                  </option>
+                </select>
+                <input type="text" formControlName="value3" class="form-control">
+                <!-- <select class="form-control" formControlName = "value1">
+                                        <option *ngFor="let v of this.productVariantDetails">
+                                            {{v.value}}
+                                        </option>
+                                    </select> -->
+
+              </ul>
+
+            </div>
+          </div>
+          <div class="row d-flex p-md-3 justify-content-center">
+            <button mat-raised-button class="bg-danger text-white m-2 action-button-lg" data-dismiss="modal">Cancel</button>
+            <button mat-raised-button class="bg btn-green text-white m-2 action-button-lg" type="submit" (click)="this.addProductVariant(false)"
+              data-dismiss="modal" [disabled]="this.variantForm.invalid">
+              <i class="fa fa-paper-plane" aria-hidden="true"></i>
+              Add Variant
+            </button>
+            <button mat-raised-button class="bg btn-green text-white m-2 action-button-lg" type="submit" (click)="this.addProductVariant(true)"
+              [disabled]="this.variantForm.invalid">
+              <i class="fa fa-paper-plane" aria-hidden="true"></i>
+              Add & Clone
+            </button>
+          </div>
+
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" (click)="this.clearVariantForm()" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
     </div>
+  </div>
+</div>
 
 <!-- End Of Add Variant Logic -->
 
 <!-- Start Of Cost price and Quantity model -->
 <div class="modal fade" id="productInventory" role="dialog" (keyup.enter)="this.hideProductModal()">
-    <div class="modal-dialog modal-lg">
+  <div class="modal-dialog modal-lg">
 
-        <!-- Modal content-->
-        <div class="modal-content">
-            <div class="modal-header">
-                <h4 class="modal-title">Product Inventory</h4>
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
-            </div>
-            <div class="modal-body">
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Product Inventory</h4>
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+      </div>
+      <div class="modal-body">
 
-                <div class="row">
-                    <div class="col-md-4">
-                        <input class="form-control" [(ngModel)]="this.cost" type="number" placeholder="Cost">
-                    </div>
-                    <div class="col-md-4">
-                        <input class="form-control" [(ngModel)]="this.quantity" type="number" placeholder="Quantity">
-                    </div>
-                    <div class="col-md-4">
-                        <button type="button" mat-raised-button class="bg-primary text-white" style="width: 100%;" (click)="this.addProductInventory()" data-dismiss="modal">
-                                <i class="fa fa-plus-square" aria-hidden="true" label="Add"></i>
-                                Add Product Inventory
-                        </button>
-                    </div>
+        <div class="row">
+          <div class="col-md-4">
+            <input class="form-control" [(ngModel)]="this.cost" type="number" placeholder="Cost">
+          </div>
+          <div class="col-md-4">
+            <input class="form-control" [(ngModel)]="this.quantity" type="number" placeholder="Quantity">
+          </div>
+          <div class="col-md-4">
+            <button type="button" mat-raised-button class="bg-primary text-white" style="width: 100%;" (click)="this.addProductInventory()"
+              data-dismiss="modal">
+              <i class="fa fa-plus-square" aria-hidden="true" label="Add"></i>
+              Add Product Inventory
+            </button>
+          </div>
 
-                </div>
-                <div class="row p-3">
-                    <p-dataTable [value]="this.productInventoryList" [editable]="true" scrollable="true" [responsive]="true" scrollHeight="300px" (onEditComplete)="this.updateProductInventory($event)">
-                        <p-column field="cost" header="Cost" [editable]="true">
-                            <ng-template let-product="rowData" pTemplate="body">
-                                {{product.cost | currency:'USD':'true'}}
-                            </ng-template>
-                        </p-column>
+        </div>
+        <div class="row p-3">
+          <p-dataTable [value]="this.productInventoryList" [editable]="true" scrollable="true" [responsive]="true" scrollHeight="300px"
+            (onEditComplete)="this.updateProductInventory($event)">
+            <p-column field="cost" header="Cost" [editable]="true">
+              <ng-template let-product="rowData" pTemplate="body">
+                {{product.cost | currency:'USD':'true'}}
+              </ng-template>
+            </p-column>
 
-                        <p-column field="quantity" header="Quantity" [editable]="true"></p-column>
+            <p-column field="quantity" header="Quantity" [editable]="true"></p-column>
 
-                        <p-column field="date" header="Date"></p-column>
+            <p-column field="date" header="Date"></p-column>
 
-                        <p-column field="time" header="Time"></p-column>
+            <p-column field="time" header="Time"></p-column>
 
-                    </p-dataTable>
-                </div>
-
-            </div>
-
-
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-            </div>
+          </p-dataTable>
         </div>
 
+      </div>
 
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
     </div>
+
+
+  </div>
 
 </div>
- <!-- End Of Cost price and Quantity model -->
+<!-- End Of Cost price and Quantity model -->
 
-     <!-- Start Of Retail Tier Model -->
-     <div class="modal fade" id="retailTier" role="dialog" (keyup.enter)="this.hideProductModal()">
-        <div class="modal-dialog modal-lg">
-    
-            <!-- Modal content-->
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h4 class="modal-title">Manage Retail Tier Price</h4>
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                </div>
-                <div class="modal-body">
-    
-                    <div class="row">
-                            <p-dataTable [value]="this.productInventoryList" [editable]="true" scrollable="true" [responsive]="true" scrollHeight="300px" (onEditComplete)="this.updateProductVariantRetailTierPrice($event)">
-                                    <p-column field="tier1" header="Tier1" [editable]="true"></p-column>
-                                    <p-column field="tier2" header="Tier2" [editable]="true"></p-column>
-                                    <p-column field="tier3" header="Tier3"[editable]="true"></p-column>
-            
-                                </p-dataTable>
-                    </div>
-                </div>
-    
-    
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                </div>
-            </div>
-    
-    
+<!-- Start Of Retail Tier Model -->
+<div class="modal fade" id="retailTier" role="dialog" (keyup.enter)="this.hideProductModal()">
+  <div class="modal-dialog modal-lg">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Manage Retail Tier Price</h4>
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+      </div>
+      <div class="modal-body">
+
+        <div class="row">
+          <p-dataTable [value]="this.productInventoryList" [editable]="true" scrollable="true" [responsive]="true" scrollHeight="300px"
+            (onEditComplete)="this.updateProductVariantRetailTierPrice($event)">
+            <p-column field="tier1" header="Tier1" [editable]="true"></p-column>
+            <p-column field="tier2" header="Tier2" [editable]="true"></p-column>
+            <p-column field="tier3" header="Tier3" [editable]="true"></p-column>
+
+          </p-dataTable>
         </div>
-    
-    </div>
-     <!-- End Of Retail Tier Model -->
+      </div>
 
-     <!-- Start of Delete Invenotory Popup -->
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+
+
+  </div>
+
+</div>
+<!-- End Of Retail Tier Model -->
+
+<!-- Start of Delete Invenotory Popup -->
 <div class="modal fade" id="deleteProductInventory" role="dialog">
-    <div class="modal-dialog modal-sm">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h4 class="modal-title">Delete Product Inventory</h4>
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
-            </div>
-            <div class="modal-body">
-                <p>Are You Sure You Want To Delete This Product Inventory</p>
-            </div>
-            <div class="modal-footer">
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Delete Product Inventory</h4>
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+      </div>
+      <div class="modal-body">
+        <p>Are You Sure You Want To Delete This Product Inventory</p>
+      </div>
+      <div class="modal-footer">
 
-                <button type="button" class="btn btn-danger" data-dismiss="modal" (click)="this.deleteProductInventory()">Yes</button>
-                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-            </div>
-        </div>
+        <button type="button" class="btn btn-danger" data-dismiss="modal" (click)="this.deleteProductInventory()">Yes</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+      </div>
     </div>
+  </div>
 </div>
 
 <!-- End of Delete Invenotory Popup -->
 
 <!-- Start of Delete Variant Popup -->
 <div class="modal fade" id="deleteVariant" role="dialog">
-    <div class="modal-dialog modal-sm">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h4 class="modal-title">Delete Product Variant</h4>
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
-            </div>
-            <div class="modal-body">
-                <p>Are You Sure You Want To Delete This Product Variant</p>
-            </div>
-            <div class="modal-footer">
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Delete Product Variant</h4>
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+      </div>
+      <div class="modal-body">
+        <p>Are You Sure You Want To Delete This Product Variant</p>
+      </div>
+      <div class="modal-footer">
 
-                <button type="button" class="btn btn-danger" data-dismiss="modal" (click)="this.deleteVariant()">Yes</button>
-                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-            </div>
-        </div>
+        <button type="button" class="btn btn-danger" data-dismiss="modal" (click)="this.deleteVariant()">Yes</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+      </div>
     </div>
+  </div>
 </div>
 
 <!-- End of Delete Invenotory Popup -->
@@ -609,91 +657,87 @@
 
 
 <div class="modal fade" id="productHistoryModel" role="dialog">
-        <div class="modal-dialog modal-lg">
-    
-            <!-- Modal content-->
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h3 class="modal-title">Product History</h3>
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                </div>
-                <div class="modal-body">
-    
-                    <div style="display:flex; justify-content: space-between;">
-                        <!-- <div class="col-md-4"> -->
-    
-                            <mat-slide-toggle
-                            class="example-margin"
-                            [color]="color"
-                            [checked]="checked"
-                            [disabled]="disabled">
-                          Show RMA!
-                        </mat-slide-toggle>
-                        <div> <select class="form-control form-control-lg" [(ngModel)]="this.productHistoryDropDown" (change)="this.getProductHistory()">
-                                <option>Today</option>
-                                <option>Yesterday</option>
-                                <option>This Week</option>
-                                <option>Last Week</option>
-                                <option>This Month</option>
-                                <option>Last Month</option>
-                                <option>Last 3 Months</option>
-                                <option>Last 6 Months</option>
-                                <option>This Year</option>
-                                <option>Last Year</option>
-                                <option>Custom</option>
-    
-                            </select>
-                        </div>
-    
-    
-                        <!-- </div> -->
-    
-                        <div>
-                            <h5>Total Number Of Product Sold: {{this.totalSaleQuantity}}</h5>
-                        </div>
-    
-                    </div>
-    
-                    <div class="row">
-                        <table class="table">
-                            <thead>
-                                <tr>
-    
-                                    <th>Date</th>
-                                    <th>Time</th>
-                                    <th>Product No</th>
-                                    <th>Product Sold</th>
-                                    <th>Cost</th>
-                                    <th>Retail</th>
-    
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr *ngFor="let product of this.productHistoryDto">
-                                    <td>{{product.date}}</td>
-                                    <td>{{product.time}}</td>
-                                    <td>{{product.productNo}}</td>
-                                    <td>{{product.saleQuantity}}</td>
-                                    <td>{{product.cost}}</td>
-                                    <td>{{product.retail}}</td>
-    
-                                </tr>
-                            </tbody>
-                        </table>
-    
-                    </div>
-    
-    
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                </div>
-            </div>
-    
-    
+  <div class="modal-dialog modal-lg">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="modal-title">Product History</h3>
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+      </div>
+      <div class="modal-body">
+
+        <div style="display:flex; justify-content: space-between;">
+          <!-- <div class="col-md-4"> -->
+
+          <mat-slide-toggle class="example-margin" [color]="color" [checked]="checked" [disabled]="disabled">
+            Show RMA!
+          </mat-slide-toggle>
+          <div>
+            <select class="form-control form-control-lg" [(ngModel)]="this.productHistoryDropDown" (change)="this.getProductHistory()">
+              <option>Today</option>
+              <option>Yesterday</option>
+              <option>This Week</option>
+              <option>Last Week</option>
+              <option>This Month</option>
+              <option>Last Month</option>
+              <option>Last 3 Months</option>
+              <option>Last 6 Months</option>
+              <option>This Year</option>
+              <option>Last Year</option>
+              <option>Custom</option>
+
+            </select>
+          </div>
+
+
+          <!-- </div> -->
+
+          <div>
+            <h5>Total Number Of Product Sold: {{this.totalSaleQuantity}}</h5>
+          </div>
+
         </div>
-    
+
+        <div class="row">
+          <table class="table">
+            <thead>
+              <tr>
+
+                <th>Date</th>
+                <th>Time</th>
+                <th>Product No</th>
+                <th>Product Sold</th>
+                <th>Cost</th>
+                <th>Retail</th>
+
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let product of this.productHistoryDto">
+                <td>{{product.date}}</td>
+                <td>{{product.time}}</td>
+                <td>{{product.productNo}}</td>
+                <td>{{product.saleQuantity}}</td>
+                <td>{{product.cost}}</td>
+                <td>{{product.retail}}</td>
+
+              </tr>
+            </tbody>
+          </table>
+
+        </div>
+
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
     </div>
-    
-    <!-- End of Prodcut Histoty Model -->
-    
+
+
+  </div>
+
+</div>
+
+<!-- End of Prodcut Histoty Model -->

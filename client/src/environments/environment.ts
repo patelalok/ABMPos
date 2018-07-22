@@ -6,7 +6,7 @@
 export const environment = {
   production: false,
   loginExpireWithinMinutes: 30, 
-  productUrl: 'http://localhost:8080',
-  userUrl: 'http://localhost:8080',
-  reportUrl: 'http://localhost:8080'
+  productUrl: 'http://localhost:5000',
+  userUrl: 'http://localhost:5000',
+  reportUrl: 'http://localhost:5000'
 };
