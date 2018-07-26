@@ -278,7 +278,7 @@
                         <input class="form-control" [(ngModel)]="this.cost" type="number" placeholder="Cost">
                     </div>
                     <div class="col-md-4">
-                        <input class="form-control" [(ngModel)]="this.quantity" type="number" placeholder="Quantity">
+                        <input class="form-control" [(ngModel)]="this.quantity" type="number" placeholder="Quantity" min="1">
                     </div>
                     <div class="col-md-4">
                         <button type="button" mat-raised-button class="bg-primary text-white" style="width: 100%;" (click)="this.addProductInventory()" data-dismiss="modal">

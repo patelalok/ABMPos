@@ -391,6 +391,10 @@ export class ProductTableComponent implements OnInit {
   }
   addProductInventory() {
 
+    if(this.quantity >=1)
+    {
+
+
     let productInventoryObj: ProductInventory = new ProductInventory();
 
     productInventoryObj.productNo = this.productInventoryList[0].productNo;
@@ -437,6 +441,11 @@ export class ProductTableComponent implements OnInit {
           this.toastr.error('Opps Something goes wrong !!', 'Error!!');
           console.log(JSON.stringify(error.json()));
         });
+}
+else {
+  this.toastr.error('Quantity Must Be Greater Then 0 !!', 'Error!!');
+
+}
 
     this.cost = null;
     this.quantity = null;
