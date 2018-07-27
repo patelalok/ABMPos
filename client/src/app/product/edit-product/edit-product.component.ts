@@ -493,6 +493,10 @@ export class EditProductComponent implements OnInit {
     productInventoryObj.productId = this.currentProduct.productId;
     productInventoryObj.productNo = this.productInventoryList[0].productNo;
     productInventoryObj.cost = this.cost;
+    productInventoryObj.tier1 = this.productInventoryList[0].tier1;
+    productInventoryObj.tier2 = this.productInventoryList[0].tier2;
+    productInventoryObj.tier3 = this.productInventoryList[0].tier3;
+
     //productInventoryObj.retail = this.productInventoryList[0].retail;
     productInventoryObj.quantity = this.quantity;
     productInventoryObj.createdTimestamp = moment(Date.now()).format('YYYY-MM-DD HH:mm:ss');
@@ -531,6 +535,7 @@ export class EditProductComponent implements OnInit {
 
     updateProductInventory(event) {
 
+    
       let product: Product = event.data;
       let quantity: number = Number(product.quantity);
 
