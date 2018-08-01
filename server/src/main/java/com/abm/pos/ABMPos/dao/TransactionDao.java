@@ -183,12 +183,11 @@ public class TransactionDao {
     }
 
     public void setTransactionLineItemDaoList(List<TransactionLineItemDao> transactionLineItemDaoList) {
-
-
-        for(TransactionLineItemDao t: transactionLineItemDaoList)
-        {
-           //t.setTransactionLineItemId(0);
-        }
+//
+//        for(TransactionLineItemDao t: transactionLineItemDaoList)
+//        {
+//           //t.setTransactionLineItemId(0);
+//        }
         this.transactionLineItemDaoList = transactionLineItemDaoList;
     }
 

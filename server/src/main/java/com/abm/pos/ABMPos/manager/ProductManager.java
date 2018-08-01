@@ -417,11 +417,12 @@ public class ProductManager{
                 productDao.setProductNo(j[1].toString());
                 productDao.setDescription(j[2].toString());
                 productDao.setTax(Boolean.parseBoolean(j[3].toString()));
+                productDao.setVendorId((j[4].toString()));
                 productDao.setVariant(false);
-                productDao.setTier1(Double.parseDouble(j[4].toString()));
-                productDao.setTier2(Double.parseDouble(j[5].toString()));
-                productDao.setTier3(Double.parseDouble(j[6].toString()));
-                productDao.setQuantity(Integer.parseInt(j[7].toString()));
+                productDao.setTier1(Double.parseDouble(j[5].toString()));
+                productDao.setTier2(Double.parseDouble(j[6].toString()));
+                productDao.setTier3(Double.parseDouble(j[7].toString()));
+                productDao.setQuantity(Integer.parseInt(j[8].toString()));
 
                 productDaoList.add(productDao);
             }
@@ -436,11 +437,13 @@ public class ProductManager{
                 productDao.setProductNo(j[1].toString());
                 productDao.setDescription(j[2].toString());
                 productDao.setTax(Boolean.parseBoolean(j[3].toString()));
+                productDao.setVendorId((j[4].toString()));
+
                 productDao.setVariant(true);
 //                productDao.setTier1(Double.parseDouble(j[4].toString()));
 //                productDao.setTier2(Double.parseDouble(j[5].toString()));
 //                productDao.setTier3(Double.parseDouble(j[6].toString()));
-                productDao.setQuantity(Integer.parseInt(j[4].toString()));
+                productDao.setQuantity(Integer.parseInt(j[5].toString()));
 
                 productDaoList.add(productDao);
             }

@@ -1,0 +1,99 @@
+<mat-card>
+    <mat-card-title style="margin-top: 15px">
+      <h4>Purchase Order List</h4>
+    </mat-card-title>
+    <mat-card-content>
+      <div class="row d-flex align-items-center">
+
+          <div class="col-md-3">
+              <input class="form-control " [formControl]="this.searchOrderTextbox" type="text" placeholder="Search By Order Id">
+          </div>
+
+        <div class="col-md-3">
+          <select class="form-control form-control" [(ngModel)]="this.purchaseOrderDropdown" (change)="this.getPurchaseOrderDetails(this.purchaseOrderDropdown)">
+            <option>Today</option>
+            <option>Yesterday</option>
+            <option>This Week</option>
+            <option>Last Week</option>
+            <option>This Month</option>
+            <option>Last Month</option>
+            <option>Last 3 Months</option>
+            <option>Last 6 Months</option>
+            <option>This Year</option>
+            <option>Last Year</option>
+            <option>Custom</option>
+
+          </select>
+
+        </div>
+        <div *ngIf="this.purchaseOrderDropdown == 'Custom' " class="col-md-3 form-group d-flex align-items-center" [formGroup]="this.customDate">
+
+          <mat-form-field class="float-never col-md-6">
+            <input formControlName="fromDate" matInput [matDatepicker]="fromDate" placeholder="Start Date" [max]="this.currentDate">
+            <mat-datepicker-toggle matSuffix [for]="fromDate"></mat-datepicker-toggle>
+            <mat-datepicker #fromDate></mat-datepicker>
+          </mat-form-field>
+          <label class="text-center">To</label>
+          <mat-form-field class="float-never col-md-6">
+            <input class="" formControlName="toDate" matInput [matDatepicker]="toDate" placeholder="End Date" [min]="this.customDate.get('fromDate').value"
+              [max]="this.currentDate">
+            <mat-datepicker-toggle matSuffix [for]="toDate"></mat-datepicker-toggle>
+            <mat-datepicker #toDate></mat-datepicker>
+          </mat-form-field>
+        </div>
+
+        <div class="col-md-3 justify-content-end">
+            <button type="button" mat-raised-button class="bg-primary text-white action-button" [routerLink]="['/purchase-order']">
+              <i class="fa fa-plus-square" aria-hidden="true" label="Add"></i>
+              Create Purchase Order
+              
+          </button>
+        </div>
+
+      </div> 
+
+      <div class="row p-md-3">
+        <table class="table table-hover table-bordered ">
+          <thead class="thead-light">
+            <th scope="col">Order Id</th>
+            <th scope="col">Date</th>
+            <th scope="col">Time</th>
+            <th scope="col">Vendor Name</th>
+            <th scope="col">Total Qty</th>
+            <th scope="col">Total Amount</th>
+            <th scope="col">Status</th>
+            <th scope="col">Action</th>
+          </thead>
+          <tbody>
+            <tr *ngFor="let order of this.orderDetails">
+              <td>{{order.transactionComId}}</td>
+              <td>{{order.onlyDate}}</td>
+              <td>{{order.time}}</td>
+              <td>{{order.customerPhoneno}}</td>
+              <td>{{order.customerFirstLastName}}</td>
+              <td>{{order.totalAmount}}</td>
+              <td>
+                <mat-chip-list>
+                  <mat-chip [ngClass]="[order.status == 'Complete' ? 'complete':'', order.status == 'Pending' ? 'pending':'', order.status == 'Return' ? 'return':'', order.status == 'Void' ? 'void':'', order.status == 'Park' ? 'park':'']"
+                    selected="true">{{order.status}}</mat-chip>
+                </mat-chip-list>
+              </td>
+              <td>
+
+
+                <button class="btn-blue action-button-table" mat-button (click)="this.printReceipt(transaction)">
+                  <i class="fa fa-print" aria-hidden="true"></i>
+                </button>
+                <button class="btn-green action-button-table" mat-button (click)='this.sendEmail(transaction)'>
+                  <i class="fa fa-envelope" aria-hidden="true"></i>
+                </button>
+
+              </td>
+
+            </tr>
+          </tbody>
+
+        </table>
+      </div>
+    </mat-card-content>
+</mat-card>

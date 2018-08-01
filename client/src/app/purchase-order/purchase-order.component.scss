@@ -1,0 +1,26 @@
+.table{
+    font-size: 14px;
+}
+.mat-button{
+    border-radius: 25px;
+    min-width: 30px;
+    line-height: 25px;
+    padding: 0px;
+}
+
+td {
+    padding-left: 5px;
+    padding-right: 5px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    vertical-align: middle;
+}
+
+.action-button{
+    width: 25%;
+    height: 40px;
+}
+
+.span.ui-cell-data > button.action-button-table{
+    height: 25px;
+}

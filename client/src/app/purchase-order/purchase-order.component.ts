@@ -1,12 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { ProductService } from 'app/product/product.service';
-import {ProductInventory, Vendor } from 'app/product/product.component';
+import { ProductInventory, Vendor } from 'app/product/product.component';
 import { SellService } from 'app/sell/sell.service';
 import { PersistenceService } from 'app/shared/services/persistence.service';
 import * as moment from 'moment';
 import { ToastsManager } from 'ng2-toastr';
 import { Event } from '@angular/router/src/events';
 import { Product } from 'app/sell/sale/sale.component';
+import { PurchaseOrderService } from './purchase-order.service';
 
 @Component({
   selector: 'app-purchase-order',
@@ -21,14 +22,23 @@ export class PurchaseOrderComponent implements OnInit {
   productInventotyList: ProductInventory[];
   productInventoryObject = new ProductInventory();
   selectedProduct: Product;
-  selectedVendor: any;
+  selectedVendor: Vendor;
+  selectedVendorName: any;
   vendorDto: Vendor[] = [];
   filteredProductByVendor: Product[] = [];
   popupHeader: string;
   popupMessage: string;
   displayDialog = false;
+  productViewList: Product[] = [];
+  purchaseOrderDao = new PurchaseOrderDao();
+  purchaseOrderDetailsDaoList: PurchaseOrderDetailsDaoList[] = [];
 
-  constructor(private saleService: SellService, private productService: ProductService, private persit: PersistenceService, private toastr: ToastsManager) { }
+
+  constructor(private saleService: SellService,
+    private purchaseOrderService: PurchaseOrderService,
+    private productService: ProductService, 
+    private persit: PersistenceService, 
+    private toastr: ToastsManager) { }
 
   ngOnInit() {
 
@@ -42,7 +52,7 @@ export class PurchaseOrderComponent implements OnInit {
       .subscribe((pro: Product[]) => {
         this.productDto = pro;
         this.filteredProductByVendor = this.productDto;
-        console.log('ProductList' + this.productDto);
+        console.log('ProductList' + this.productDto[0]);
       });
 
   }
@@ -57,11 +67,13 @@ export class PurchaseOrderComponent implements OnInit {
   // TODO NEED TO make it common so i can use other places too.
   filterProducts(event) {
     let query = event.query;
-    this.productService.getProductDetailsFromBackEnd()
-      .subscribe((products) => {
-        // console.log(products);
-        this.product = this.filterProduct(query, products);
-      });
+    // this.productService.getProductDetailsFromBackEnd()
+    //   .subscribe((products) => {
+    //     // console.log(products);
+    //     this.product = this.filterProduct(query, products);
+    //   });
+
+    this.product = this.filterProduct(query, this.productViewList);
   }
 
   filterProduct(query, products: Product[]): Product[] {
@@ -135,7 +147,7 @@ export class PurchaseOrderComponent implements OnInit {
     return this.productInventotyList;
   }
 
-  openProductLookUpModel(){
+  openProductLookUpModel() {
     this.displayDialog = !this.displayDialog;
   }
 
@@ -148,6 +160,77 @@ export class PurchaseOrderComponent implements OnInit {
     console.log('purchase order quantity', event);
   }
 
+  addProductInventoryToPurchaseOrder() {
+
+    this.productInventotyList = [];
+
+    this.openProductLookUpModel();
+    this.productViewList.forEach((product) => {
+      if (product.purchasedOrderQuanity > 0) {
+        this.productInventotyList.push(product);
+      }
+    });
+
+    this.productInventotyList = this.productInventotyList.slice();
+  }
+
+  createPurchaseOrder() {
+    
+    let totalQuantity:number = 0;
+    this.purchaseOrderDetailsDaoList = [];
+    this.purchaseOrderDao = new PurchaseOrderDao();
+
+    this.productInventotyList.forEach((product)=>{
+
+      let purchaseOrderDetailsDaoList = new PurchaseOrderDetailsDaoList();
+      purchaseOrderDetailsDaoList.productId = product.productId;
+      purchaseOrderDetailsDaoList.productNo = product.productNo;
+      purchaseOrderDetailsDaoList.retail = product.tier3;
+      purchaseOrderDetailsDaoList.currentStock = product.quantity;
+      purchaseOrderDetailsDaoList.orderQuantity = product.purchasedOrderQuanity;
+      purchaseOrderDetailsDaoList.status = 'Pending';
+      purchaseOrderDetailsDaoList.date = moment(Date.now()).format('YYYY-MM-DD HH:mm:ss');
+      this.purchaseOrderDetailsDaoList.push(purchaseOrderDetailsDaoList);
+
+      totalQuantity = +product.purchasedOrderQuanity + totalQuantity;
+
+    });
+
+    this.purchaseOrderDao.date = moment(Date.now()).format('YYYY-MM-DD HH:mm:ss');
+    this.purchaseOrderDao.purchaseOrderDetailsDaoList = this.purchaseOrderDetailsDaoList;
+    this.purchaseOrderDao.vendorName = this.selectedVendor.name;
+    this.purchaseOrderDao.vendorId = this.selectedVendor.vendorId;
+    this.purchaseOrderDao.totalQuantity = totalQuantity;
+    this.purchaseOrderDao.username = 'alok@alok.com';
+    this.purchaseOrderDao.status = 'Pending';
+
+
+
+    this.purchaseOrderService.createPurchaseOrder(this.purchaseOrderDao)
+    .subscribe((response)=>{
+      console.log('response', response);
+      if(response && response.status == 201){
+        this.toastr.success("Purchase Order Created Successfully!!!", 'Success');
+        this.clearDateAfterCreatePurchaseOrder();
+      }
+      else {
+        this.toastr.error("Internal Server Error!!!", 'Error')
+      }
+    },
+    (error) => {
+      this.toastr.error(error, 'Error!');
+      console.log(JSON.stringify(error.json()));
+  });
+  }
+
+  clearDateAfterCreatePurchaseOrder(){
+
+    this.purchaseOrderDetailsDaoList = [];
+    this.purchaseOrderDao = new PurchaseOrderDao();
+    this.selectedVendor = null;
+    this.productInventotyList = [];
+    this.selectedVendorName = '';
+    }
   // I HAVE KEEP IT CASUE MAY BE I NEED TO HANDLE THIS LOGIC WHEN EVER USER ADD SAME PRODCUT INTO TABLE.
   // else {
 
@@ -262,10 +345,21 @@ export class PurchaseOrderComponent implements OnInit {
 
   // TO DO NEED TO FIGURE OUT FILTERTING HERE
   onVendorChoose() {
-    this.productDto.filter((product) => {
-      // return product.vendorId = thi
 
+
+    this.vendorDto.forEach((vendor) => {
+      if (vendor.name == this.selectedVendorName) {
+        this.selectedVendorName = vendor.name;
+        this.selectedVendor = new Vendor();
+        this.selectedVendor = vendor;
+        console.log('selected Vendor', this.selectedVendor);
+        this.productViewList = [];
+        this.productViewList = this.productDto.filter((ven) => ven.vendorId == this.selectedVendor.vendorId)
+        console.log('filtered products by vendor', this.productViewList);
+
+      }
     })
+
   }
 
   setHeaderForAddProductInventory() {
@@ -291,9 +385,29 @@ export class PurchaseOrderComponent implements OnInit {
     //   });
 
   }
+}
+export class PurchaseOrderDao {
+  // purchaseOrderId: number;
+  vendorId: number;
+  vendorName: string;
+  date: string;
+  username: string;
+  totalQuantity: number;
+  totalAmount: number;
+  status: string;
+  purchaseOrderDetailsDaoList: PurchaseOrderDetailsDaoList[];
+}
 
-  
+export class PurchaseOrderDetailsDaoList {
 
-
+  id?: number;
+  productNo: string;
+  productId: number;
+  date: string;
+  cost: number;
+  retail: number;
+  orderQuantity: number;
+  currentStock: number;
+  status: string;
 
 }

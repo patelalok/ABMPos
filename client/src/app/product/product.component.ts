@@ -205,6 +205,7 @@ export class ProductInventory {
   vendorId?: number;
   date?: any;
   time?: any;
+  purchasedOrderQuanity?:number;
 }
 
 

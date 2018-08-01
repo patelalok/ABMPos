@@ -5,6 +5,8 @@ import { PurchaseOrderRoutingModule } from 'app/purchase-order/purchase-order-ro
 import { SharedModule } from 'app/shared/shared.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DataTableModule, AutoCompleteModule, DropdownModule, DialogModule } from 'primeng/primeng';
+import { PurchaseOrderListComponent } from './purchase-order-list/purchase-order-list.component';
+import { PurchaseOrderService } from './purchase-order.service';
 
 @NgModule({
   imports: [
@@ -18,6 +20,7 @@ import { DataTableModule, AutoCompleteModule, DropdownModule, DialogModule } fro
     DropdownModule,
     DialogModule
   ],
-  declarations: [PurchaseOrderComponent]
+  declarations: [PurchaseOrderComponent, PurchaseOrderListComponent],
+  providers: [PurchaseOrderService]
 })
 export class PurchaseOrderModule { }

@@ -1340,6 +1340,7 @@ export class Product {
   tier3?: number;
   markup?: number;
   quantity?: number;
+  purchasedOrderQuanity?:number;
   minQuantity?: number;
   tax?: boolean;
   variant?: boolean;

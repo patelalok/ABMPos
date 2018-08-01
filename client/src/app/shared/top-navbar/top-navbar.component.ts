@@ -17,7 +17,7 @@ export class TopNavbarComponent implements OnInit {
         { name: 'Sell', link: '/sell', icon: 'fa fa-usd fa-2x text-green' },
         { name: 'Sales History', link: '/sales-history', icon: 'fa fa-history fa-2x text-bittersweet ' },
         { name: 'Product', link: '/product', icon: 'fa fa-tag fa-2x text-blue' },
-        { name: 'Purchase Order', link: '/purchase-order', icon: 'fa fa-first-order fa-x fa-2x text-green' },
+        { name: 'Purchase Order', link: '/purchase-order-list', icon: 'fa fa-first-order fa-x fa-2x text-green' },
        { name: 'Customer', link: '/customer', icon: 'fa fa-user fa-2x text-bittersweet' },
        { name: 'Report', link: '/report', icon: 'fa fa-line-chart fa-2x text-orange' },
         { name: 'Employee', link: '/employee', icon: 'fa fa-user-circle-o fa-2x text-blue' },

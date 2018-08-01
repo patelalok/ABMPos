@@ -1,78 +1,82 @@
 <mat-card>
-    <mat-card-title>
-        Purchase Order
-    </mat-card-title>
-    <mat-card-content>
-        <div class="row">
-            <div class="col-md-5">
-                <select class="form-control form-control-lg" [(ngModel)]="this.selectedVendor" (change)="this.onVendorChoose()">
-                                    <option>Please Select Vendor</option>
-                                 <option *ngFor="let vendor of this.vendorDto">
-                                     {{vendor.name}}
-                                 </option>
-                                </select>
-            </div>
-            <div class="col-md-4">
+  <mat-card-title>
+    Purchase Order
+  </mat-card-title>
+  <mat-card-content>
+    <div class="row">
+      <div class="col-md-5">
+        <select class="form-control" [(ngModel)]="this.selectedVendorName" (change)="this.onVendorChoose()">
+          <option>Please Select Vendor</option>
+          <option *ngFor="let vendor of this.vendorDto">
+            {{vendor.name}}
+          </option>
+        </select>
+      </div>
+      <div class="col-md-4">
+        <p-autoComplete id="productsearch" [(ngModel)]="p" class="full-width m-1" [suggestions]="product" placeholder="Scan or Search Product"
+          (completeMethod)="filterProducts($event)" name="test" [minLength]="3" (keyup.enter)="submitProduct(p)" field="description">
+        </p-autoComplete>
+      </div>
+      <div class="col-md-3">
+        <button class="bg btn-green text-white action-button" style="margin-left: 15px;width: 100%;" mat-raised-button (click)="this.openProductLookUpModel()">
+          <i class="fa fa-search" aria-hidden="true"></i>
+          Product look up
+        </button>
+      </div>
 
-                <p-autoComplete id="productsearch" [(ngModel)]="p" class="full-width m-1" [suggestions]="product" placeholder="Scan or Search Product" (completeMethod)="filterProducts($event)" name="test" [minLength]="3" (keyup.enter)="submitProduct(p)" field="description">
-                </p-autoComplete>
-                <!-- <span style="margin-left:10px"></span> -->
+    </div>
 
-                <!-- <button type="button " (click)="this.test(10)" class="btn btn-success ">Add Product</button> -->
-            </div>
-            <div class="col-md-3">
-                <button class="bg btn-green text-white m-3 action-button-lg" mat-raised-button (click)="this.openProductLookUpModel()">
-                        <i class="fa fa-search" aria-hidden="true"></i>
-                            Product look up
-                </button>
-            </div>
+    <div class="row" style="margin-top: 15px;">
+      <!-- Product Table -->
+      <p-dataTable [value]="this.productInventotyList" scrollable="true" [responsive]="true" scrollHeight="300px" [editable]="true"
+        (onEditComplete)="updateInventoryDetails($event)">
+        <!-- <p-header>Add Purchase Order Details</p-header> -->
 
-        </div>
-
-        <div class="row">
-            <!-- Product Table -->
-            <p-dataTable [value]="this.productInventotyList" scrollable="true" [responsive]="true" scrollHeight="300px" [editable]="true" (onEditComplete)="updateInventoryDetails($event)">
-                <p-header>Add Purchase Order Details</p-header>
-
-                <p-column field="productNo" header="ProductNo" [style]="{'width':'15%','text-align':'center', 'overflow':'visible'}"></p-column>
-                <p-column field="description" header="Description" [style]="{'width':'50%','text-align':'center', 'overflow':'visible'}"></p-column>
-                <p-column field="defaultQuantity" header="Quantity" [editable]="true"></p-column>
-                <p-column field="cost" header="Cost" [editable]="true"></p-column>
-                <p-column field="retail" header="Retail" [editable]="true"></p-column>
-                <p-column field="quantity" header="In-Stock"></p-column>
-                <p-column field="totalProductPrice" header="Total"></p-column>
-                <p-column header="" styleClass="col-button" [style]="{'width':'3%','text-align':'center', 'overflow':'visible'}">
-                    <!-- <ng-template pTemplate="header">
-                                        <button type="button" pButton icon="fa-refresh"></button>
-                                    </ng-template> -->
-                    <ng-template let-product="rowData" pTemplate="body">
-
-                        <button mat-button class="btn-red action-button-table" mat-button (click)="this.setProductForDelete(product)" data-toggle="modal" data-target="#removeProductInventory">
-                                    <i class="fa fa-trash" aria-hidden="true"></i>
-                                </button>
-                    </ng-template>
-                </p-column>
+        <p-column field="productNo" header="ProductNo" [style]="{'width':'12%','text-align':'left', 'overflow':'visible'}"></p-column>
+        <p-column field="description" header="Description" [style]="{'width':'45%','text-align':'left', 'overflow':'visible'}"></p-column>
+        <p-column field="purchasedOrderQuanity" header="Ord-Qty" [editable]="true"></p-column>
+        <p-column field="cost" header="Cost" [editable]="true"></p-column>
+        <p-column field="retail" header="Retail" [editable]="true">
+            <ng-template let-product="rowData" pTemplate="body">
+              <!-- {{product.tier1}}, {{product.tier2}}, {{product.tier3}} -->
+              {{product.tier3}}
+              </ng-template>
+        </p-column>
+        <p-column field="quantity" header="In-Stock"></p-column>
+        <p-column field="totalProductPrice" header="Total"></p-column>
+        <p-column header="" styleClass="col-button" [style]="{'width':'3%','text-align':'center', 'overflow':'visible'}">
+          <ng-template let-product="rowData" pTemplate="body">
+            <button class="btn-red" style="border-radius: 10px;" (click)="this.setProductForDelete(product)" data-toggle="modal" data-target="#removeProductInventory"
+              aria-hidden="true">
+              <i class="fa fa-trash"></i>
+            </button>
 
 
-            </p-dataTable>
-        </div>
-    </mat-card-content>
+          </ng-template>
+        </p-column>
 
-    <mat-card-footer class="d-flex justify-content-md-center">
 
-        <button class="bg-danger text-white m-3 action-button-lg" mat-raised-button data-toggle="modal" data-target="#removeProductInventory" (click)="this.setHeaderForRemoveAllInventoryProduct()">
-                        <i class="fa fa-trash">
-                            Discard Order
-                        </i>
-                    </button>
+      </p-dataTable>
+    </div>
+  </mat-card-content>
 
-        <button class="bg btn-green text-white m-3 action-button-lg" mat-raised-button data-toggle="modal" data-target="#removeProductInventory" (click)="this.setHeaderForAddProductInventory()"> 
-                            <i class="fa fa-paper-plane" aria-hidden="true" >
-                                    Add Order
-                            </i>
-                         
-                    </button>
-    </mat-card-footer>
+  <mat-card-footer class="d-flex justify-content-md-center">
+
+    <button class="bg-danger text-white m-3 action-button" mat-raised-button data-toggle="modal" data-target="#removeProductInventory"
+      (click)="this.setHeaderForRemoveAllInventoryProduct()">
+      <i class="fa fa-trash">
+        DISCARD ORDER
+      </i>
+    </button>
+
+    <button class="bg btn-green text-white m-3 action-button" mat-raised-button data-toggle="modal" data-target="#removeProductInventory"
+      (click)="this.setHeaderForAddProductInventory()">
+      <i class="fa fa-paper-plane" aria-hidden="true">
+        CREATE PURCHASE ORDER
+      </i>
+
+    </button>
+  </mat-card-footer>
 </mat-card>
 
 
@@ -81,79 +85,87 @@
 <!-- Start of Product and Sale discard Pop up -->
 
 <div class="modal fade" id="removeProductInventory" role="dialog">
-    <div class="modal-dialog modal-sm">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h4 class="modal-title">{{this.popupHeader}}</h4>
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
-            </div>
-            <div class="modal-body">
-                <p>{{this.popupMessage}}</p>
-            </div>
-            <div class="modal-footer">
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">{{this.popupHeader}}</h4>
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+      </div>
+      <div class="modal-body">
+        <p>{{this.popupMessage}}</p>
+      </div>
+      <div class="modal-footer">
 
-                <!-- This logic to reuse the model code cause i need popup for delete single product and also delete complete sale -->
-                <button *ngIf="this.popupHeader == 'Remove Product Inventory' " type="button" class="btn btn-danger" data-dismiss="modal" (click)="this.deleteProduct()">Yes</button>
-                <button *ngIf="this.popupHeader == 'Remove All Products Inventory'" type="button" class="btn btn-danger" data-dismiss="modal" (click)="this.removeAllProductInventory()">Yes</button>
+        <!-- This logic to reuse the model code cause i need popup for delete single product and also delete complete sale -->
+        <button *ngIf="this.popupHeader == 'Remove Product Inventory' " type="button" class="btn btn-danger" data-dismiss="modal"
+          (click)="this.deleteProduct()">Yes</button>
+        <button *ngIf="this.popupHeader == 'Remove All Products Inventory'" type="button" class="btn btn-danger" data-dismiss="modal"
+          (click)="this.removeAllProductInventory()">Yes</button>
 
-                <button *ngIf="this.popupHeader == 'Add All Product Inventory' " type="button" class="btn btn-success" data-dismiss="modal" (click)="this.addProductInventoryToBackEnd()">Yes</button>
+        <button *ngIf="this.popupHeader == 'Add All Product Inventory' " type="button" class="btn btn-success" data-dismiss="modal"
+          (click)="this.createPurchaseOrder()">Yes</button>
 
-                <!-- TODO Add one more button for add product if it does not exists -->
-                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-            </div>
-        </div>
+        <!-- TODO Add one more button for add product if it does not exists -->
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+      </div>
     </div>
+  </div>
 </div>
 
 <!-- End of Product and Sale discard Pop up -->
 
 <p-dialog header="Product Details" appendTo="body" [(visible)]="displayDialog" [responsive]="true" showEffect="fade" [modal]="true">
 
-    <div class="container">
+  <div class="container">
 
-        <div class="row">
+    <div class="row">
 
-            <table class="table table-striped">
-                <thead>
-                    <tr>
-                        <th>Product No</th>
-                        <th>Description</th>
-                        <th>Cost</th>
-                        <th>Retail</th>
-                        <th>Stock</th>
-                        <th>Order Quantity</th>
-                        <th>History</th>
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>Product No</th>
+            <th>Description</th>
+            <!-- <th>Cost</th> -->
+            <!-- <th>Retail</th> -->
+            <th>Stock</th>
+            <th>Order Quantity</th>
+            <th>History</th>
 
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr *ngFor="let product of this.filteredProductByVendor">
-                        <td>{{product.productNo}}</td>
-                        <td>{{product.description}}</td>
-                        <td>{{product.cost}}</td>
-                        <td>{{product.retail}}</td>
-                        <td [ngStyle]="{'backgroundColor': (product.quantity >= 0)?'':'red'}">{{product.quantity}}</td>
-                        <td>
-                            <input type="number" (keyup.enter)="this.addProdutForPurchaseOrder($event, product)">
-                        </td>
-                        <td>
-                            <button mat-button class="btn-green action-button-table" mat-button (click)="this.setProductForHistory(product)" data-toggle="modal" data-target="#productHistoryModel">
-                                <i class="fa fa-history" aria-hidden="true"></i>
-                            </button>
-                        </td>
+          </tr>
+        </thead>
+        <tbody *ngIf="this.productViewList != []">
+          <tr *ngFor="let product of this.productViewList; let index = index;" [ngStyle]="{'backgroundColor': (product.quantity >= 0)?'':'#ff4c4c'}">
+            <td>{{product.productNo}}</td>
+            <td>{{product.description}}</td>
+            <!-- <td>{{product.cost}}</td> -->
+            <!-- <td>{{product.retail}}</td> -->
+            <td>{{product.quantity}}</td>
+            <td>
+              <!-- <input type="number" (keyup.enter)="this.addProdutForPurchaseOrder($event, product)"> -->
+              <input type="number" name=a{{index}} [(ngModel)]='product.purchasedOrderQuanity'>
+            </td>
+            <td>
+              <button mat-button class="btn-green action-button-table" mat-button (click)="this.setProductForHistory(product)" data-toggle="modal"
+                data-target="#productHistoryModel">
+                <i class="fa fa-history" aria-hidden="true"></i>
+              </button>
+            </td>
 
-                    </tr>
-                </tbody>
-            </table>
+          </tr>
+        </tbody>
+      </table>
 
-        </div>
     </div>
+  </div>
 
-    <p-footer>
-        <div style="text-align: center">
-
-        </div>
-    </p-footer>
+  <p-footer>
+    <div style="text-align: center">
+      <button (click)="this.addProductInventoryToPurchaseOrder()" type="button" mat-raised-button class="bg-primary text-white action-button-lg">
+        <i class="fa fa-plus-square" aria-hidden="true" label="Add"></i>
+        Add Inventory
+      </button>
+    </div>
+  </p-footer>
 
 
 </p-dialog>
