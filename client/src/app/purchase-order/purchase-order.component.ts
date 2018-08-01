@@ -387,7 +387,7 @@ export class PurchaseOrderComponent implements OnInit {
   }
 }
 export class PurchaseOrderDao {
-  // purchaseOrderId: number;
+  purchaseOrderId: number;
   vendorId: number;
   vendorName: string;
   date: string;
@@ -396,6 +396,10 @@ export class PurchaseOrderDao {
   totalAmount: number;
   status: string;
   purchaseOrderDetailsDaoList: PurchaseOrderDetailsDaoList[];
+  originalDate?:any;
+  time?:any;
+  onlyDate?:any;
+
 }
 
 export class PurchaseOrderDetailsDaoList {

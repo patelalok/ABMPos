@@ -9,6 +9,6 @@ import java.util.List;
 @Transactional
 public interface PurchaseOrderRepository extends JpaRepository<PurchaseOrderDao, Integer> {
 
-    List<PurchaseOrderDao> findAllByDateBetweenOrderByDateAsc(String startDate, String endDate);
+    List<PurchaseOrderDao> findAllByDateBetweenOrderByDateDesc(String startDate, String endDate);
 
 }

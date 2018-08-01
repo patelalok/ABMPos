@@ -19,7 +19,7 @@ export class PurchaseOrderService {
       .catch(this.handleError);
     }
 
-    getPurchaseOrderDetailsByDate(startDate:string, endDate: string): Observable<PurchaseOrderDao>{
+    getPurchaseOrderDetailsByDate(startDate:string, endDate: string): Observable<PurchaseOrderDao[]>{
       return this.http.get(this.url+"/getPurchaseOrder?startDate="+startDate+"&endDate="+endDate)
       .map(this.extractData)
       .catch(this.handleError);

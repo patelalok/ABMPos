@@ -20,7 +20,7 @@ public class PurchaseOrderManager {
 
     public List<PurchaseOrderDao> getPurchaseOrder(String startDate, String endDate) {
 
-        return purchaseOrderRepository.findAllByDateBetweenOrderByDateAsc(startDate,endDate);
+        return purchaseOrderRepository.findAllByDateBetweenOrderByDateDesc(startDate,endDate);
 
     }
 }

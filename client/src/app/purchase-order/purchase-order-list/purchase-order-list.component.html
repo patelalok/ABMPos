@@ -6,7 +6,7 @@
       <div class="row d-flex align-items-center">
 
           <div class="col-md-3">
-              <input class="form-control " [formControl]="this.searchOrderTextbox" type="text" placeholder="Search By Order Id">
+              <input class="form-control" [formControl]="this.searchOrderTextbox" type="text" placeholder="Search By Order Id">
           </div>
 
         <div class="col-md-3">
@@ -65,13 +65,15 @@
             <th scope="col">Action</th>
           </thead>
           <tbody>
-            <tr *ngFor="let order of this.orderDetails">
-              <td>{{order.transactionComId}}</td>
+            <tr *ngFor="let order of this.purchaseOrderDaoList">
+              <td>{{order.purchaseOrderId}}</td>
               <td>{{order.onlyDate}}</td>
               <td>{{order.time}}</td>
-              <td>{{order.customerPhoneno}}</td>
-              <td>{{order.customerFirstLastName}}</td>
+              <td>{{order.vendorName}}</td>
+              <td>{{order.totalQuantity}}</td>
               <td>{{order.totalAmount}}</td>
+              <td>{{order.status}}</td>
+
               <td>
                 <mat-chip-list>
                   <mat-chip [ngClass]="[order.status == 'Complete' ? 'complete':'', order.status == 'Pending' ? 'pending':'', order.status == 'Return' ? 'return':'', order.status == 'Void' ? 'void':'', order.status == 'Park' ? 'park':'']"
@@ -81,12 +83,12 @@
               <td>
 
 
-                <button class="btn-blue action-button-table" mat-button (click)="this.printReceipt(transaction)">
+                <!-- <button class="btn-blue action-button-table" mat-button (click)="this.printReceipt(transaction)">
                   <i class="fa fa-print" aria-hidden="true"></i>
                 </button>
                 <button class="btn-green action-button-table" mat-button (click)='this.sendEmail(transaction)'>
                   <i class="fa fa-envelope" aria-hidden="true"></i>
-                </button>
+                </button> -->
 
               </td>
 
