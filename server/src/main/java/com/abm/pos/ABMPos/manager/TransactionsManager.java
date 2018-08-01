@@ -999,7 +999,7 @@ public class TransactionsManager {
             totalDueAmount.setSpacingBefore(25);
 
             if (null != transactionDao.getCustomerPhoneno()) {
-                List<Double> totalDueBalance;
+                Double totalDueBalance;
 
                  //this will give live due amount but this is not what we want so i am commenting this.
                 totalDueBalance = transactionRepository.getTransactionDueAmountByCustomer(transactionDao.getCustomerPhoneno());

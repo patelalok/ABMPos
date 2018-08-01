@@ -5,7 +5,7 @@
     <mat-card-content>
         <div class="row">
             <div class="col-lg-5">
-                <select class="form-control form-control-lg" [(ngModel)]="this.selectedVendor" (change)="onVendorChoose()">
+                <select class="form-control form-control" [(ngModel)]="this.selectedVendor" (change)="onVendorChoose()">
                                 <option>Please Select Vendor</option>
                              <option *ngFor="let vendor of this.vendorDto">
                                  {{vendor.name}}
