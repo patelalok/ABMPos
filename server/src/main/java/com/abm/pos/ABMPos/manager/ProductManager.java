@@ -51,21 +51,13 @@ public class ProductManager{
     @Autowired
     private Utility utility;
 
-
-    //public static final String KEY = "products";
-
-
-    //@CachePut("products")
     public ProductDao addProduct(ProductDao productDao)
     {
         ProductDao productDao1 = new ProductDao();
 
-
-
         // I need to do this, cause that is the only way to add the inventory into inventory table, if i wont do it then user can not sale this product.
         if(null != productDao && productDao.getOperationType().equalsIgnoreCase("Add"))
         {
-
             try {
                 // First I need to add the product then i need to inventory details
                 productDao1 = productRepository.save(productDao);
@@ -118,8 +110,17 @@ public class ProductManager{
             // Here I have to use product id to update the product, cause this will handle scenario where product no is updating.
              productDao1 = productRepository.findOne(productDao.getProductId());
 
+            //Here, I have to update the product No in Inventory table also, cause if user has update the the product no,
+//            It must updated to inventory table otherwise it will create problem and product wont show up on ui.
+            // I can not do at database level cause in case of variant, product no wont be in product table.so i have to do it here.
+            // I MUST HAVE TO DO IT HERE CAUSE FOR SOME REASON IF I AM DOING AFTER PRODUCT UPDATE, PRODUCTDAO1 OBJECT IS CHNAGEING AND UPDATING WIHT NEW VALUE OF PRODUCT NO SO ITS HARD FORM ME TO UPDATE INVENTORY TABLE FOR THE PRODUCT NO
+             if(null != productDao1 && !productDao.getProductNo().equalsIgnoreCase(productDao1.getProductNo())){
+                 productInventoryRepository.updateProductNo(productDao.getProductNo(), productDao1.getProductNo(), productDao.getProductId());
+             }
+
              if(productDao1 != null){
                  productDao1 = productRepository.save(productDao);
+
                  // Update retail price just in case if user has changes.
                  productInventoryRepository.updateProductRetailPrice(productDao.getTier1(), productDao.getTier2(), productDao.getTier3(),productDao.getProductNo());
              }
