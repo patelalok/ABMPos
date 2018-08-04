@@ -45,7 +45,10 @@ export class PurchaseOrderComponent implements OnInit {
     this.getProductDetails();
     this.getVendorDetails();
 
-    this.productInventotyList = this.persit.getProductInventoryForAdd() || [];
+    this.selectedVendor = this.persit.getVendorDetailsForPurchaseOrder() || new Vendor();
+    this.selectedVendorName = this.selectedVendor.name || '';
+
+    // this.productInventotyList = this.persit.getProductsForPurchaseOrder() || [];
   }
   getProductDetails() {
     this.productService.getProductDetailsFromBackEnd()
@@ -89,25 +92,16 @@ export class PurchaseOrderComponent implements OnInit {
 
   // This method helps when user try to change retial price or quanity from the sell text box.
   submitProduct(value: any) {
-
-    console.log('This is value: ', value);
-
     if (typeof value === 'string') {
-
-      console.log('This is value: ', value);
-
       // this is the senario where user is adding new product to Add into Inventory
       if (this.product != null && this.product.length > 0) {
         console.log("coming here");
         this.addProductInventory(this.product[0]);
       }
-
       // Dont understabd this
       else if (value !== '' && value !== undefined && value.indexOf('.') !== 0) {
-
         if (value.match(/[a-z]/i))
           console.log('contains only charcters');
-
         // this mean this is decimal value so it will change the retail price of the product
         if (value.match(/[0-9]/i) && value.indexOf('.') > 0)
           this.updateCostPrice(value);
@@ -168,6 +162,8 @@ export class PurchaseOrderComponent implements OnInit {
     this.productViewList.forEach((product) => {
       if (product.purchasedOrderQuanity > 0) {
         this.productInventotyList.push(product);
+        // Also storing into local storage just in case user nevigate to other page.
+        this.persit.setProductsForPurchaseOrder(product)
       }
     });
 
@@ -346,17 +342,16 @@ export class PurchaseOrderComponent implements OnInit {
   // TO DO NEED TO FIGURE OUT FILTERTING HERE
   onVendorChoose() {
 
-
     this.vendorDto.forEach((vendor) => {
       if (vendor.name == this.selectedVendorName) {
         this.selectedVendorName = vendor.name;
         this.selectedVendor = new Vendor();
         this.selectedVendor = vendor;
-        console.log('selected Vendor', this.selectedVendor);
+        this.persit.setVendorDetailsForPurchaseOrder(this.selectedVendor);
         this.productViewList = [];
         this.productViewList = this.productDto.filter((ven) => ven.vendorId == this.selectedVendor.vendorId)
-        console.log('filtered products by vendor', this.productViewList);
-
+        // console.log('filtered products by vendor', this.productViewList);
+        
       }
     })
 

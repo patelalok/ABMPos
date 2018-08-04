@@ -368,23 +368,31 @@ export class SaleComponent implements OnInit {
   }
 
   updateProductQuantity(value: any) {
-    console.log('Quantity change');
+
+    // For some reason this is not working
+    // this.setFocusOnProductSearch();
+
     this.transactionLineItemDaoList[this.transactionLineItemDaoList.length - 1].saleQuantity = value;
     this.transactionLineItemDaoList[this.transactionLineItemDaoList.length - 1].totalProductPrice = parseFloat((this.transactionLineItemDaoList[this.transactionLineItemDaoList.length - 1].retailWithDiscount * this.transactionLineItemDaoList[this.transactionLineItemDaoList.length - 1].saleQuantity).toFixed(2));
     this.transactionLineItemDaoList = this.transactionLineItemDaoList.slice();
     this.setTransactionDtoList()
     this.persit.setProducts(this.transactionLineItemDaoList);
     this.productForSearchBox = null;
+
+
   }
 
   updateProductPrice(value: any) {
-    console.log('Price change');
+
     this.transactionLineItemDaoList[this.transactionLineItemDaoList.length - 1].retailWithDiscount = value;
     this.transactionLineItemDaoList[this.transactionLineItemDaoList.length - 1].totalProductPrice = (this.transactionLineItemDaoList[this.transactionLineItemDaoList.length - 1].retailWithDiscount * this.transactionLineItemDaoList[this.transactionLineItemDaoList.length - 1].saleQuantity);
     this.transactionLineItemDaoList = this.transactionLineItemDaoList.slice();
     this.setTransactionDtoList();
     this.persit.setProducts(this.transactionLineItemDaoList);
     this.productForSearchBox = null;
+
+    // For some reason this is not working
+    // this.setFocusOnProductSearch();
   }
 
   // this method helps to update lineItem Detail when user change the quatity or change the retail from editable box

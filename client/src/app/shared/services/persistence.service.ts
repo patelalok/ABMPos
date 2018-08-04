@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { Vendor } from '../../product/product.component';
 
 @Injectable()
 export class PersistenceService {
@@ -88,6 +89,18 @@ export class PersistenceService {
     localStorage.removeItem('shippingAmount');
   }
 
+  setVendorDetailsForPurchaseOrder(vendor: Vendor){
+    localStorage.setItem('selectedVendorForPurchaseOrder', JSON.stringify(vendor));
+  }
+  getVendorDetailsForPurchaseOrder(): Vendor {
+    return JSON.parse(localStorage.getItem('selectedVendorForPurchaseOrder'));
+  }
 
+  setProductsForPurchaseOrder(product: any){
+    localStorage.setItem('selectedProductForPurchaseOrder', JSON.stringify(product));
+  }
+  getProductsForPurchaseOrder(): any{
+    return JSON.parse(localStorage.getItem('selectedProductForPurchaseOrder'));
+  }
 
 }
