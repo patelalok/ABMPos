@@ -85,16 +85,43 @@ export class VendorComponent implements OnInit {
 
         let newVendor = this.vendorForm.value;
        
-        this.vendorService.addOrUpdateVendor(this.vendorForm.value); 
-        this.vendorDto.push(newVendor);
-        this.vendorDto = this.vendorDto.slice();
+        this.vendorService.addOrUpdateVendor(this.vendorForm.value)
+        .subscribe((data)=>{
+            if (data) {
+                this.toastr.success('Vendor Added Successfully!!', 'Success!!');
+                // this is update
+                if (newVendor.vendorId > 0) {
+                    let index = this.vendorDto.findIndex((el) => el.name == newVendor.name);
+                    this.vendorDto[index] = newVendor;
+                }
+                else {
+                    this.vendorDto.push(newVendor);
+                }
+                this.vendorDto = this.vendorDto.slice();
+                this.displayDialog = false;
 
-        this.displayDialog = false;
-
+            }
+    },
+        error => {
+            this.toastr.error('Something Goes Wrong!!', 'Error!!')
+        });
     }
     updateVendor(event) {
 
-        this.vendorService.addOrUpdateVendor(event.data);
+        this.vendorService.addOrUpdateVendor(event.data)
+        .subscribe((data)=>{
+            if (data) {
+                this.toastr.success('Vendor Added Successfully!!', 'Success!!');
+                    let index = this.vendorDto.findIndex((el) => el.name == event.data.name);
+                    this.vendorDto[index] = event.data;
+                    this.vendorDto = this.vendorDto.slice();
+                    this.displayDialog = false;
+
+                }
+            },
+        error => {
+            this.toastr.error('Something Goes Wrong!!', 'Error!!')
+        });
 
     }
 
