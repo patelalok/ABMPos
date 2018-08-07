@@ -59,6 +59,12 @@ public class ProductController {
         return productManager.getProductForProductTable();
     }
 
+    @RequestMapping(value = "/getProductForPurchaseOrderWithCost", method = RequestMethod.GET, produces = "application/json")
+    public List<ProductDao> getProductForPurchaseOrderWithCost()
+    {
+        return productManager.getProductForPurchaseOrderWithCost();
+    }
+
 //    @RequestMapping(value = "/getProduct", method = RequestMethod.GET, produces = "application/json")
 //    public List<ProductDao> getProductForSellPage()
 //    {

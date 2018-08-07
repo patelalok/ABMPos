@@ -83,6 +83,14 @@ export class ProductService {
     .catch(this.handleError);
   }
 
+  getProductDetailsForPurchaseOrder(): Observable<Product[]>{
+    return this.http.get(this.url+'/getProductForPurchaseOrderWithCost')
+    .map(this.extractData)
+    .catch(this.handleError);
+  }
+
+
+
   getAllProductVariant(){
     this.getAllProductVariantFromBackEnd()
     .subscribe((variant)=>{

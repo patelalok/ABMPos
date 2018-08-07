@@ -15,6 +15,7 @@ public class ProductInventoryDao {
 
     private int productId;
     private String productNo;
+//    private int vendorId;
     private double cost;
     private double retail;
     private double tier1;
@@ -23,12 +24,16 @@ public class ProductInventoryDao {
     private double markup;
     private int quantity;
     private String createdTimestamp;
+    private String lastUpdatedTimestamp;
 
     @Transient
     private int totalQuantity;
 
     @Transient
     private boolean variant;
+
+//    @Transient
+//    private String vendorName;
 
 
     public int getId() {
@@ -54,6 +59,14 @@ public class ProductInventoryDao {
     public void setProductNo(String productNo) {
         this.productNo = productNo;
     }
+
+//    public int getVendorId() {
+//        return vendorId;
+//    }
+//
+//    public void setVendorId(int vendorId) {
+//        this.vendorId = vendorId;
+//    }
 
     public double getCost() {
         return cost;
@@ -133,5 +146,13 @@ public class ProductInventoryDao {
 
     public void setVariant(boolean variant) {
         this.variant = variant;
+    }
+
+    public String getLastUpdatedTimestamp() {
+        return lastUpdatedTimestamp;
+    }
+
+    public void setLastUpdatedTimestamp(String lastUpdatedTimestamp) {
+        this.lastUpdatedTimestamp = lastUpdatedTimestamp;
     }
 }

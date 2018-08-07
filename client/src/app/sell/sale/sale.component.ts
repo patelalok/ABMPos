@@ -257,8 +257,13 @@ export class SaleComponent implements OnInit {
     console.log('selected');
 
     this.productPopupVariantList = [];
+    console.log('Variant List', this.productVariantList)
+
 
     if (productForSearchBox.variant) {
+      console.log('yes variant');
+      console.log('Variant List', this.productVariantList)
+
       this.productVariantList.forEach((variant) => {
         if (productForSearchBox.productId == variant.productId) {
           this.productPopupVariantList.push(variant);

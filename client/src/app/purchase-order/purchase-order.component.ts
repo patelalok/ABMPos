@@ -1,13 +1,13 @@
 import { Component, OnInit } from '@angular/core';
-import { ProductService } from 'app/product/product.service';
 import { ProductInventory, Vendor } from 'app/product/product.component';
+import { ProductService } from 'app/product/product.service';
+import { Product } from 'app/sell/sale/sale.component';
 import { SellService } from 'app/sell/sell.service';
 import { PersistenceService } from 'app/shared/services/persistence.service';
 import * as moment from 'moment';
 import { ToastsManager } from 'ng2-toastr';
-import { Event } from '@angular/router/src/events';
-import { Product } from 'app/sell/sale/sale.component';
 import { PurchaseOrderService } from './purchase-order.service';
+import { LoadingService } from '../loading.service';
 
 @Component({
   selector: 'app-purchase-order',
@@ -22,7 +22,7 @@ export class PurchaseOrderComponent implements OnInit {
   productInventotyList: ProductInventory[];
   productInventoryObject = new ProductInventory();
   selectedProduct: Product;
-  selectedVendor: Vendor;
+  selectedVendor = new Vendor();
   selectedVendorName: any;
   vendorDto: Vendor[] = [];
   filteredProductByVendor: Product[] = [];
@@ -36,9 +36,10 @@ export class PurchaseOrderComponent implements OnInit {
 
   constructor(private saleService: SellService,
     private purchaseOrderService: PurchaseOrderService,
-    private productService: ProductService, 
-    private persit: PersistenceService, 
-    private toastr: ToastsManager) { }
+    private productService: ProductService,
+    private persit: PersistenceService,
+    private toastr: ToastsManager,
+    private loadingService: LoadingService) { }
 
   ngOnInit() {
 
@@ -47,15 +48,19 @@ export class PurchaseOrderComponent implements OnInit {
 
     this.selectedVendor = this.persit.getVendorDetailsForPurchaseOrder() || new Vendor();
     this.selectedVendorName = this.selectedVendor.name || '';
+    this.productInventotyList = this.persit.getProductsForPurchaseOrder() || [];
 
-    // this.productInventotyList = this.persit.getProductsForPurchaseOrder() || [];
+    console.log('product inv list', this.productInventotyList);
   }
   getProductDetails() {
-    this.productService.getProductDetailsFromBackEnd()
+    this.loadingService.loading = true;
+    this.productService.getProductDetailsForPurchaseOrder()
       .subscribe((pro: Product[]) => {
         this.productDto = pro;
         this.filteredProductByVendor = this.productDto;
-        console.log('ProductList' + this.productDto[0]);
+        // console.log('ProductList' + this.productDto[0]);
+
+        this.loadingService.loading = false;
       });
 
   }
@@ -64,7 +69,13 @@ export class PurchaseOrderComponent implements OnInit {
       .subscribe((vendors: Vendor[]) => {
         this.vendorDto = vendors;
 
-        // this.form.get('vendor').setValue(this.vendorDto[0]);
+        // if(this.selectedVendorName && this.selectedVendor){
+        //   this.selectedVendorName = this.selectedVendorName;
+        // }
+        // else {
+        //   this.selectedVendorName = this.vendorDto[0].name;
+        // }
+
       });
   }
   // TODO NEED TO make it common so i can use other places too.
@@ -142,7 +153,12 @@ export class PurchaseOrderComponent implements OnInit {
   }
 
   openProductLookUpModel() {
+
+    if (this.selectedVendor) {
+      this.productViewList = this.productDto.filter((ven) => ven.vendorId == this.selectedVendor.vendorId)
+    }
     this.displayDialog = !this.displayDialog;
+
   }
 
   addProdutForPurchaseOrder(event: any, product: Product) {
@@ -159,11 +175,12 @@ export class PurchaseOrderComponent implements OnInit {
     this.productInventotyList = [];
 
     this.openProductLookUpModel();
-    this.productViewList.forEach((product) => {
+    this.productViewList.forEach((product: ProductInventory) => {
       if (product.purchasedOrderQuanity > 0) {
+        product.totalProductPrice = parseFloat((product.cost * product.purchasedOrderQuanity).toFixed(2));
         this.productInventotyList.push(product);
         // Also storing into local storage just in case user nevigate to other page.
-        this.persit.setProductsForPurchaseOrder(product)
+        this.persit.setProductsForPurchaseOrder(this.productInventotyList)
       }
     });
 
@@ -171,12 +188,12 @@ export class PurchaseOrderComponent implements OnInit {
   }
 
   createPurchaseOrder() {
-    
-    let totalQuantity:number = 0;
+
+    let totalQuantity: number = 0;
     this.purchaseOrderDetailsDaoList = [];
     this.purchaseOrderDao = new PurchaseOrderDao();
 
-    this.productInventotyList.forEach((product)=>{
+    this.productInventotyList.forEach((product) => {
 
       let purchaseOrderDetailsDaoList = new PurchaseOrderDetailsDaoList();
       purchaseOrderDetailsDaoList.productId = product.productId;
@@ -203,30 +220,30 @@ export class PurchaseOrderComponent implements OnInit {
 
 
     this.purchaseOrderService.createPurchaseOrder(this.purchaseOrderDao)
-    .subscribe((response)=>{
-      console.log('response', response);
-      if(response && response.status == 201){
-        this.toastr.success("Purchase Order Created Successfully!!!", 'Success');
-        this.clearDateAfterCreatePurchaseOrder();
-      }
-      else {
-        this.toastr.error("Internal Server Error!!!", 'Error')
-      }
-    },
-    (error) => {
-      this.toastr.error(error, 'Error!');
-      console.log(JSON.stringify(error.json()));
-  });
+      .subscribe((response) => {
+        console.log('response', response);
+        if (response && response.status == 201) {
+          this.toastr.success("Purchase Order Created Successfully!!!", 'Success');
+          this.clearDateAfterCreatePurchaseOrder();
+        }
+        else {
+          this.toastr.error("Internal Server Error!!!", 'Error')
+        }
+      },
+        (error) => {
+          this.toastr.error(error, 'Error!');
+          console.log(JSON.stringify(error.json()));
+        });
   }
 
-  clearDateAfterCreatePurchaseOrder(){
+  clearDateAfterCreatePurchaseOrder() {
 
     this.purchaseOrderDetailsDaoList = [];
     this.purchaseOrderDao = new PurchaseOrderDao();
     this.selectedVendor = null;
     this.productInventotyList = [];
     this.selectedVendorName = '';
-    }
+  }
   // I HAVE KEEP IT CASUE MAY BE I NEED TO HANDLE THIS LOGIC WHEN EVER USER ADD SAME PRODCUT INTO TABLE.
   // else {
 
@@ -282,32 +299,32 @@ export class PurchaseOrderComponent implements OnInit {
 
     console.log('Price change');
     this.productInventotyList[this.productInventotyList.length - 1].cost = value;
-    // this.transactionLineItemDaoList[this.transactionLineItemDaoList.length - 1].totalProductPrice = (this.transactionLineItemDaoList[this.transactionLineItemDaoList.length - 1].retail * this.transactionLineItemDaoList[this.transactionLineItemDaoList.length - 1].defaultQuantity);
+    this.productInventotyList[this.productInventotyList.length - 1].totalProductPrice = (this.productInventotyList[this.productInventotyList.length - 1].cost * this.productInventotyList[this.productInventotyList.length - 1].purchasedOrderQuanity);
     this.productInventotyList = this.productInventotyList.slice();
-    //this.setTransactionDtoList(this.transactionLineItemDaoList)
 
-    this.persit.setProductInventoryForAdd(this.productInventotyList);
+    this.persit.setProductsForPurchaseOrder(this.productInventotyList);
     this.p = null;
   }
 
   updateProductQuantityToAddInventory(value: any) {
     console.log('Quantity change');
     this.productInventotyList[this.productInventotyList.length - 1].quantity = value;
-    // this.transactionLineItemDaoList[this.transactionLineItemDaoList.length - 1].totalProductPrice = parseFloat((this.transactionLineItemDaoList[this.transactionLineItemDaoList.length - 1].retail * this.transactionLineItemDaoList[this.transactionLineItemDaoList.length - 1].defaultQuantity).toFixed(2));
+    this.productInventotyList[this.productInventotyList.length - 1].totalProductPrice = (this.productInventotyList[this.productInventotyList.length - 1].cost * this.productInventotyList[this.productInventotyList.length - 1].purchasedOrderQuanity);
     this.productInventotyList = this.productInventotyList.slice();
     // this.setTransactionDtoList(this.transactionLineItemDaoList)
-    this.persit.setProductInventoryForAdd(this.productInventotyList);
+    this.persit.setProductsForPurchaseOrder(this.productInventotyList);
     this.p = null;
   }
 
   updateInventoryDetails(event) {
-    this.productInventotyList[event.index].quantity = event.data.quantity;
+    console.log('line item update');
+    this.productInventotyList[event.index].purchasedOrderQuanity = event.data.purchasedOrderQuanity;
     this.productInventotyList[event.index].cost = event.data.cost;
-    // this.transactionLineItemDaoList[event.index].totalProductPrice = (event.data.defaultQuantity * event.data.retail);
+    this.productInventotyList[event.index].totalProductPrice = (event.data.purchasedOrderQuanity * event.data.cost);
     // this.transactionLineItemDaoList[event.index].taxAmountOnProduct = ((event.data.defaultQuantity * event.data.retail) * 7) / 100
     // this.setTransactionDtoList(this.transactionLineItemDaoList)
 
-    this.persit.setProductInventoryForAdd(this.productInventotyList);
+    this.persit.setProductsForPurchaseOrder(this.productInventotyList);
   }
 
   setProductForDelete(product: Product) {
@@ -323,7 +340,7 @@ export class PurchaseOrderComponent implements OnInit {
     if (index > -1) {
       this.productInventotyList.splice(index, 1);
       this.productInventotyList = this.productInventotyList.slice();
-      this.persit.setProductInventoryForAdd(this.productInventotyList);
+      this.persit.setProductsForPurchaseOrder(this.productInventotyList);
 
     }
   }
@@ -333,8 +350,7 @@ export class PurchaseOrderComponent implements OnInit {
     this.popupMessage = 'Are Sure You Want To Remove All Product Inventory ?';
   }
   removeAllProductInventory() {
-
-    this.persit.clearProductInventory();
+    this.persit.clearProductsForPurchaseOrder();
     this.productInventotyList = [];
   }
 
@@ -347,11 +363,14 @@ export class PurchaseOrderComponent implements OnInit {
         this.selectedVendorName = vendor.name;
         this.selectedVendor = new Vendor();
         this.selectedVendor = vendor;
+        console.log('selected Vendor', this.selectedVendor);
         this.persit.setVendorDetailsForPurchaseOrder(this.selectedVendor);
+
+        console.log('selected Vendor from cache', this.persit.getVendorDetailsForPurchaseOrder());
         this.productViewList = [];
         this.productViewList = this.productDto.filter((ven) => ven.vendorId == this.selectedVendor.vendorId)
         // console.log('filtered products by vendor', this.productViewList);
-        
+
       }
     })
 
@@ -391,9 +410,9 @@ export class PurchaseOrderDao {
   totalAmount: number;
   status: string;
   purchaseOrderDetailsDaoList: PurchaseOrderDetailsDaoList[];
-  originalDate?:any;
-  time?:any;
-  onlyDate?:any;
+  originalDate?: any;
+  time?: any;
+  onlyDate?: any;
 
 }
 

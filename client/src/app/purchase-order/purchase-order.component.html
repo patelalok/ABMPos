@@ -6,8 +6,8 @@
     <div class="row">
       <div class="col-md-5">
         <select class="form-control" [(ngModel)]="this.selectedVendorName" (change)="this.onVendorChoose()">
-          <option>Please Select Vendor</option>
-          <option *ngFor="let vendor of this.vendorDto">
+          <!-- <option>Please Select Vendor</option> -->
+          <option *ngFor="let vendor of this.vendorDto" [ngValue]="vendor.name">
             {{vendor.name}}
           </option>
         </select>
@@ -36,7 +36,7 @@
         <p-column field="description" header="Description" [style]="{'width':'45%','text-align':'left', 'overflow':'visible'}"></p-column>
         <p-column field="purchasedOrderQuanity" header="Ord-Qty" [editable]="true"></p-column>
         <p-column field="cost" header="Cost" [editable]="true"></p-column>
-        <p-column field="retail" header="Retail" [editable]="true">
+        <p-column field="retail" header="Retail">
             <ng-template let-product="rowData" pTemplate="body">
               <!-- {{product.tier1}}, {{product.tier2}}, {{product.tier3}} -->
               {{product.tier3}}

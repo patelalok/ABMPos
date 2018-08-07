@@ -95,12 +95,19 @@ export class PersistenceService {
   getVendorDetailsForPurchaseOrder(): Vendor {
     return JSON.parse(localStorage.getItem('selectedVendorForPurchaseOrder'));
   }
+  clearVendorDetailsForPurchaseOrder(){
+    localStorage.removeItem('selectedVendorForPurchaseOrder');
+  }
 
   setProductsForPurchaseOrder(product: any){
     localStorage.setItem('selectedProductForPurchaseOrder', JSON.stringify(product));
   }
-  getProductsForPurchaseOrder(): any{
+  getProductsForPurchaseOrder(): any {
     return JSON.parse(localStorage.getItem('selectedProductForPurchaseOrder'));
+  }
+  clearProductsForPurchaseOrder(){
+    localStorage.removeItem('selectedProductForPurchaseOrder');
+
   }
 
 }

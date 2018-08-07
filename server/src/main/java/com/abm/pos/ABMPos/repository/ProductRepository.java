@@ -114,12 +114,61 @@ public interface ProductRepository extends JpaRepository<ProductDao, Integer> {
             "order by quantity asc", nativeQuery = true)
     List<Object[]> getAllActiveProductWithoutVariant();
 
-    @Query(value = "SELECT p.product_id, p.product_no,p.description, p.tax,p.vendor_id,sum(i.quantity) quantity \n" +
-            "from product p\n" +
+    @Query(value = "SELECT \n" +
+            "p.product_id,\n" +
+            "p.product_no,\n" +
+            "p.description,\n" +
+            "p.tax,\n" +
+            "p.vendor_id,\n" +
+            "i.tier1,\n" +
+            "i.tier2,\n" +
+            "i.tier3,\n" +
+            "sum(i.quantity) quantity from product p\n" +
             "inner join product_inventory i\n" +
-            "on p.product_id = i.product_id\n" +
+            "on p.product_no = i.product_no\n" +
             "Where p.variant = 1 AND p.active = 1\n" +
-            "group by p.product_id, p.product_no,p.description, p.tax,p.vendor_id " +
+            "group by p.product_id, p.product_no,p.description, p.tax,p.vendor_id,i.tier1, i.tier2, i.tier3 \n" +
             "order by quantity asc" , nativeQuery = true)
     List<Object[]> getAllActiveProductWithVariant();
+
+    @Query(value = "select " +
+            "p.product_id,\n" +
+            "p.product_no,\n" +
+            "p.description,\n" +
+            "p.tax,\n" +
+            "p.vendor_id,\n" +
+            "i.tier1,\n" +
+            "i.tier2, \n" +
+            "i.tier3,\n" +
+            "i.cost,\n" +
+            "b.quantity\n" +
+            "from product p\n" +
+            "inner join product_inventory i\n" +
+            "on i.product_no = p.product_no\n" +
+            "inner join (Select product_no, max(created_timestamp) maxDate, sum(quantity) quantity from product_inventory group by product_no) \n" +
+            "b on i.product_no = b.product_no and i.created_timestamp = b.maxDate\n" +
+            "Where p.variant = 0 AND p.active = 1\n" +
+            "group by p.product_id, p.product_no,p.description, p.tax,p.vendor_id,i.tier1, i.tier2, i.tier3, i.cost\n" +
+            "order by quantity asc;", nativeQuery = true)
+    List<Object[]> getAllActiveProductWithoutVariantForPurchaseOrder();
+
+    @Query(value = "select p.product_id,\n" +
+            "p.product_no,\n" +
+            "p.description,\n" +
+            "p.tax,\n" +
+            "p.vendor_id,\n" +
+            "i.tier1,\n" +
+            "i.tier2, \n" +
+            "i.tier3,\n" +
+            "i.cost,\n" +
+            "b.quantity\n" +
+            "from product p\n" +
+            "inner join product_inventory i\n" +
+            "on i.product_no = p.product_no\n" +
+            "inner join (Select product_no, max(created_timestamp) maxDate, sum(quantity) quantity from product_inventory group by product_no) \n" +
+            "b on i.product_no = b.product_no and i.created_timestamp = b.maxDate\n" +
+            "Where p.variant = 0 AND p.active = 1\n" +
+            "group by p.product_id, p.product_no,p.description, p.tax,p.vendor_id,i.tier1, i.tier2, i.tier3, i.cost\n" +
+            "order by quantity asc;", nativeQuery = true)
+ List<Object[]> getAllActiveProductWithVariantForPurchaseOrder();
 }
