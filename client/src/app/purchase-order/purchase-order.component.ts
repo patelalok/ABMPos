@@ -8,6 +8,8 @@ import * as moment from 'moment';
 import { ToastsManager } from 'ng2-toastr';
 import { PurchaseOrderService } from './purchase-order.service';
 import { LoadingService } from '../loading.service';
+import { ActivatedRoute, Router } from '@angular/router';
+import { invertColor } from '@swimlane/ngx-charts/release/utils';
 
 @Component({
   selector: 'app-purchase-order',
@@ -32,6 +34,8 @@ export class PurchaseOrderComponent implements OnInit {
   productViewList: Product[] = [];
   purchaseOrderDao = new PurchaseOrderDao();
   purchaseOrderDetailsDaoList: PurchaseOrderDetailsDaoList[] = [];
+  isEditPurchaseOrder: boolean;
+  purchaseProductId:any;
 
 
   constructor(private saleService: SellService,
@@ -39,16 +43,26 @@ export class PurchaseOrderComponent implements OnInit {
     private productService: ProductService,
     private persit: PersistenceService,
     private toastr: ToastsManager,
-    private loadingService: LoadingService) { }
+    private loadingService: LoadingService,
+    private route: ActivatedRoute,
+    private router: Router) { }
 
   ngOnInit() {
 
     this.getProductDetails();
     this.getVendorDetails();
 
-    this.selectedVendor = this.persit.getVendorDetailsForPurchaseOrder() || new Vendor();
-    this.selectedVendorName = this.selectedVendor.name || '';
-    this.productInventotyList = this.persit.getProductsForPurchaseOrder() || [];
+    this.purchaseProductId = this.route.snapshot.paramMap.get('purchaseOrderId');
+    if (this.purchaseProductId) {
+      let editPurchaseOrder = this.route.snapshot.paramMap.get('edit');
+      this.isEditPurchaseOrder = (editPurchaseOrder === 'true');
+      this.handlePurchaseOrderToAddInventory(this.purchaseProductId);
+    }
+    else {
+      this.selectedVendor = this.persit.getVendorDetailsForPurchaseOrder() || new Vendor();
+      this.selectedVendorName = this.selectedVendor.name || '';
+      this.productInventotyList = this.persit.getProductsForPurchaseOrder() || [];
+    }
 
     console.log('product inv list', this.productInventotyList);
   }
@@ -135,16 +149,19 @@ export class PurchaseOrderComponent implements OnInit {
 
     this.productInventoryObject = new ProductInventory();
 
+    this.productInventoryObject.productId = productObj.productId;
     this.productInventoryObject.productNo = productObj.productNo;
     this.productInventoryObject.description = productObj.description;
     this.productInventoryObject.cost = productObj.cost;
+    this.productInventoryObject.quantity = productObj.quantity;
     this.productInventoryObject.retail = productObj.retail;
-    this.productInventoryObject.quantity = productObj.quantity
+    this.productInventoryObject.purchasedOrderQuanity = 1;
     this.productInventoryObject.markup = 0.00;
+    this.productInventoryObject.totalProductPrice = 1 * productObj.cost;
 
     this.productInventotyList.push(this.productInventoryObject);
 
-    this.persit.setProductInventoryForAdd(this.productInventotyList);
+    this.persit.setProductsForPurchaseOrder(this.productInventotyList);
     this.product = null;
     this.p = null
     // }
@@ -190,6 +207,7 @@ export class PurchaseOrderComponent implements OnInit {
   createPurchaseOrder() {
 
     let totalQuantity: number = 0;
+    let totalAmount: number = 0;
     this.purchaseOrderDetailsDaoList = [];
     this.purchaseOrderDao = new PurchaseOrderDao();
 
@@ -198,6 +216,7 @@ export class PurchaseOrderComponent implements OnInit {
       let purchaseOrderDetailsDaoList = new PurchaseOrderDetailsDaoList();
       purchaseOrderDetailsDaoList.productId = product.productId;
       purchaseOrderDetailsDaoList.productNo = product.productNo;
+      purchaseOrderDetailsDaoList.cost = product.cost;
       purchaseOrderDetailsDaoList.retail = product.tier3;
       purchaseOrderDetailsDaoList.currentStock = product.quantity;
       purchaseOrderDetailsDaoList.orderQuantity = product.purchasedOrderQuanity;
@@ -206,16 +225,25 @@ export class PurchaseOrderComponent implements OnInit {
       this.purchaseOrderDetailsDaoList.push(purchaseOrderDetailsDaoList);
 
       totalQuantity = +product.purchasedOrderQuanity + totalQuantity;
+      totalAmount = +(product.purchasedOrderQuanity * product.cost) +totalAmount;
 
     });
 
+    if(this.purchaseProductId > 0)
+    {
+      this.purchaseOrderDao.purchaseOrderId = this.purchaseProductId;
+    }
+
+    console.log('pOId', this.purchaseOrderDao.purchaseOrderId);
     this.purchaseOrderDao.date = moment(Date.now()).format('YYYY-MM-DD HH:mm:ss');
     this.purchaseOrderDao.purchaseOrderDetailsDaoList = this.purchaseOrderDetailsDaoList;
-    this.purchaseOrderDao.vendorName = this.selectedVendor.name;
+    this.purchaseOrderDao.vendorName = this.selectedVendorName;
     this.purchaseOrderDao.vendorId = this.selectedVendor.vendorId;
     this.purchaseOrderDao.totalQuantity = totalQuantity;
+    this.purchaseOrderDao.totalAmount = totalAmount;
     this.purchaseOrderDao.username = 'alok@alok.com';
     this.purchaseOrderDao.status = 'Pending';
+
 
 
 
@@ -243,6 +271,41 @@ export class PurchaseOrderComponent implements OnInit {
     this.selectedVendor = null;
     this.productInventotyList = [];
     this.selectedVendorName = '';
+  }
+
+
+  handlePurchaseOrderToAddInventory(purchaseOrderId: any){
+
+    this.purchaseOrderService.getPurchaseOrderDetailByOrderId(purchaseOrderId)
+    .subscribe((purchaseOrder)=>{
+
+      if(purchaseOrder){
+
+        if(this.isEditPurchaseOrder){
+          this.purchaseOrderDao.purchaseOrderId = purchaseOrder.purchaseOrderId;
+        }
+
+        this.productInventotyList = [];
+        this.selectedVendorName = purchaseOrder.vendorName;
+        purchaseOrder.purchaseOrderDetailsDaoList.forEach((orderItem)=>{
+          let inventoryObj = new ProductInventory();
+          inventoryObj.productId = orderItem.productId;
+          inventoryObj.productNo = orderItem.productNo;
+          inventoryObj.cost = orderItem.cost;
+          inventoryObj.retail = orderItem.retail;
+          inventoryObj.purchasedOrderQuanity = orderItem.orderQuantity;
+          inventoryObj.totalProductPrice = parseFloat((orderItem.cost * orderItem.orderQuantity).toFixed(2));
+          inventoryObj.quantity = orderItem.currentStock;
+          inventoryObj.description = orderItem.description;
+          this.productInventotyList.push(inventoryObj);
+        });
+
+        this.productInventotyList =  this.productInventotyList.slice();
+      }
+      // this.productInventotyList = purchaseOrder.purchaseOrderDetailsDaoList
+    })
+    console.log('Inside the add inventory page')
+
   }
   // I HAVE KEEP IT CASUE MAY BE I NEED TO HANDLE THIS LOGIC WHEN EVER USER ADD SAME PRODCUT INTO TABLE.
   // else {
@@ -308,7 +371,7 @@ export class PurchaseOrderComponent implements OnInit {
 
   updateProductQuantityToAddInventory(value: any) {
     console.log('Quantity change');
-    this.productInventotyList[this.productInventotyList.length - 1].quantity = value;
+    this.productInventotyList[this.productInventotyList.length - 1].purchasedOrderQuanity = value;
     this.productInventotyList[this.productInventotyList.length - 1].totalProductPrice = (this.productInventotyList[this.productInventotyList.length - 1].cost * this.productInventotyList[this.productInventotyList.length - 1].purchasedOrderQuanity);
     this.productInventotyList = this.productInventotyList.slice();
     // this.setTransactionDtoList(this.transactionLineItemDaoList)
@@ -427,5 +490,6 @@ export class PurchaseOrderDetailsDaoList {
   orderQuantity: number;
   currentStock: number;
   status: string;
+  description?: string;
 
 }

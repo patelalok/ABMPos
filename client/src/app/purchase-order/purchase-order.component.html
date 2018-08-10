@@ -72,10 +72,18 @@
     <button class="bg btn-green text-white m-3 action-button" mat-raised-button data-toggle="modal" data-target="#removeProductInventory"
       (click)="this.setHeaderForAddProductInventory()">
       <i class="fa fa-paper-plane" aria-hidden="true">
-        CREATE PURCHASE ORDER
+        SAVE PURCHASE ORDER
       </i>
-
     </button>
+
+    <button class="bg btn-green text-white m-3 action-button" mat-raised-button data-toggle="modal" data-target="#removeProductInventory"
+    (click)="this.addProductInventory()">
+    <i class="fa fa-paper-plane" aria-hidden="true">
+      ADD TO INVENTORY
+    </i>
+  </button>
+
+
   </mat-card-footer>
 </mat-card>
 

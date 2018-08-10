@@ -35,4 +35,10 @@ public class PurchaseOrderController {
         return purchaseOrderManager.getPurchaseOrder(startDate, endDate);
 
     }
+    @RequestMapping(value = "/getPurchaseOrderById", method = RequestMethod.GET, produces = "application/json")
+    public PurchaseOrderDao getPurchaseOrderById(@RequestParam int purchaseOrderId)
+    {
+        return purchaseOrderManager.getPurchaseOrderById(purchaseOrderId);
+
+    }
 }

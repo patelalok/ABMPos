@@ -5,6 +5,7 @@ import { PurchaseOrderDao } from '../purchase-order.component';
 import { DateDto, DateService } from '../../shared/services/date.service';
 import { LoadingService } from '../../loading.service';
 import * as moment from 'moment';
+import { ActivatedRoute, Router } from '@angular/router';
 
 
 @Component({
@@ -21,13 +22,12 @@ export class PurchaseOrderListComponent implements OnInit {
   purchaseOrderDaoList: PurchaseOrderDao[] = [];
   dateDto = new DateDto();
 
-
-
-
   constructor(private purchaseOrderService:PurchaseOrderService,
     private dateService:DateService, 
     private loadingServie: LoadingService,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private route: ActivatedRoute,
+    private router: Router
    ) { }
 
   ngOnInit() {
@@ -116,6 +116,22 @@ export class PurchaseOrderListComponent implements OnInit {
       this.purchaseOrderDaoList = order;
       this.loadingServie.loading = false;
     });
+  }
+
+  editPurchaseOrder(){
+
+  }
+  deletePurchaseOrder(){
+
+  }
+  printPurchaseOrder(){
+
+  }
+  emailPurchaseOrder(){
+
+  }
+  confirmPurchaseOrder(){
+
   }
 
 

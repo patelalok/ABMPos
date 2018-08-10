@@ -20,6 +20,9 @@ public interface ProductRepository extends JpaRepository<ProductDao, Integer> {
     List<ProductDao> findAll();
     List<ProductDao> findAllByCategoryIdAndActive(String categoryId, boolean active);
 
+    @Query("SELECT p.description from ProductDao p where p.productId = ?1")
+    String findDescriptionByProductId(int productId);
+
     @Query("SELECT p.description FROM ProductDao p WHERE p.productNo = ?1")
     @Cacheable(value = "description")
     String test(String productNo);

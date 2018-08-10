@@ -25,6 +25,11 @@ export class PurchaseOrderService {
       .catch(this.handleError);
 
     }
+    getPurchaseOrderDetailByOrderId(purchaseOrderId: number): Observable<PurchaseOrderDao>{
+      return this.http.get(this.url+"/getPurchaseOrderById?purchaseOrderId="+purchaseOrderId)
+      .map(this.extractData)
+      .catch(this.handleError);
+    }
 
     private extractData(res: Response): any {
       let body = res.json();
