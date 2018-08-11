@@ -15,7 +15,7 @@ public class ProductInventoryDao {
 
     private int productId;
     private String productNo;
-    private int vendorId;
+//    private int vendorId;
     private double cost;
     private double retail;
     private double tier1;
@@ -179,14 +179,14 @@ public class ProductInventoryDao {
     public void setCurrentStock(int currentStock) {
         this.currentStock = currentStock;
     }
-
-    public int getVendorId() {
-        return vendorId;
-    }
-
-    public void setVendorId(int vendorId) {
-        this.vendorId = vendorId;
-    }
+//
+//    public int getVendorId() {
+//        return vendorId;
+//    }
+//
+//    public void setVendorId(int vendorId) {
+//        this.vendorId = vendorId;
+//    }
 
     public int getOrderId() {
         return orderId;

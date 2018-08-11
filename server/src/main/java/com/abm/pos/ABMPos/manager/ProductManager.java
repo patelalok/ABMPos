@@ -649,7 +649,7 @@ public class ProductManager{
                 productInventoryLog.setCost(productInventoryDao.getCost());
                 productInventoryLog.setQuantity(productInventoryDao.getQuantity());
                 productInventoryLog.setCurrentStock(productInventoryDao.getCurrentStock());
-                productInventoryLog.setVendorId(productInventoryDao.getVendorId());
+//                productInventoryLog.setVendorId(productInventoryDao.getVendorId());
                 productInventoryLog.setCreatedTimestamp(productInventoryDao.getCreatedTimestamp());
 
                 productInventoryLogList.add(productInventoryLog);

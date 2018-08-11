@@ -1004,7 +1004,7 @@ public class TransactionsManager {
                  //this will give live due amount but this is not what we want so i am commenting this.
                 totalDueBalance = transactionRepository.getTransactionDueAmountByCustomer(transactionDao.getCustomerPhoneno());
 
-                if ( totalDueBalance > 0) {
+                if ( null != totalDueBalance && totalDueBalance > 0) {
                     Paragraph totalBalanceDueText = new Paragraph("TOTAL BALANCE DUE", FontFactory.getFont(FontFactory.HELVETICA, 14, Font.BOLD));
                     totalBalanceDueText.setAlignment(PdfPCell.ALIGN_LEFT);
 
