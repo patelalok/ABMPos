@@ -6,6 +6,6 @@ export const environment = {
   // reportUrl: 'http://96.73.255.162:5000/'
 
   productUrl: 'http://localhost:5000',
-  userUrl: 'http://localhost:5000/',
-  reportUrl: 'http://localhost:5000/'
+  userUrl: 'http://localhost:5000',
+  reportUrl: 'http://localhost:5000'
 };
