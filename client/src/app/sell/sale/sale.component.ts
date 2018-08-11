@@ -217,7 +217,7 @@ export class SaleComponent implements OnInit {
               lineItem.quantityUpdated = false;
               this.persit.setProducts(this.transactionLineItemDaoList);
               this.transactionLineItemDaoList = this.transactionLineItemDaoList.slice();
-            }, 400);
+            }, 1500);
 
             break;
 
@@ -380,6 +380,12 @@ export class SaleComponent implements OnInit {
     this.transactionLineItemDaoList[this.transactionLineItemDaoList.length - 1].saleQuantity = value;
     this.transactionLineItemDaoList[this.transactionLineItemDaoList.length - 1].totalProductPrice = parseFloat((this.transactionLineItemDaoList[this.transactionLineItemDaoList.length - 1].retailWithDiscount * this.transactionLineItemDaoList[this.transactionLineItemDaoList.length - 1].saleQuantity).toFixed(2));
     this.transactionLineItemDaoList = this.transactionLineItemDaoList.slice();
+
+        // this.setFocusOnProductSearch();
+        $('#productsearch > span > input').focus();
+        console.log('updat qty');
+
+
     this.setTransactionDtoList()
     this.persit.setProducts(this.transactionLineItemDaoList);
     this.productForSearchBox = null;
@@ -406,6 +412,9 @@ export class SaleComponent implements OnInit {
     let index = this.transactionLineItemDaoList.indexOf(event.data);
 
     console.log('event after update', event);
+
+    $('#productsearch > span > input').focus();
+
     this.transactionLineItemDaoList[index].saleQuantity = event.data.saleQuantity;
     this.transactionLineItemDaoList[index].retailWithDiscount = event.data.retailWithDiscount;
     this.transactionLineItemDaoList[index].description = event.data.description;

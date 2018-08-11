@@ -27,31 +27,25 @@ public class ProductController {
     private TransactionLineItemManager transactionLineItemManager;
 
     @RequestMapping(value = "/addProduct", method = RequestMethod.POST, consumes = "application/json")
-    public ProductDao addProduct(@RequestBody ProductDao productDao)
-    {
+    public ProductDao addProduct(@RequestBody ProductDao productDao) {
         System.out.println("Product added or updated successfully ");
          return productManager.addProduct(productDao);
     }
 
     @RequestMapping(value = "/addProductInventory", method = RequestMethod.POST, consumes = "application/json")
-    public ProductInventoryDao addProductInventory(@RequestBody ProductInventoryDao productInventoryDao)
-    {
+    public ProductInventoryDao addProductInventory(@RequestBody ProductInventoryDao productInventoryDao) {
         return productManager.addProductInventory(productInventoryDao);
-//        System.out.println("Product Inventory list added successfully ");
-//        return new ResponseEntity(HttpStatus.CREATED);
+    }
+
+    @RequestMapping(value = "/addProductInventoryFromPurchaseOrder", method = RequestMethod.POST, consumes = "application/json")
+    public void addProductInventoryFromPurchaseOrder(@RequestBody List<ProductInventoryDao> productInventoryDaoList) {
+         productManager.addProductInventoryFromPurchaseOrder(productInventoryDaoList);
     }
 
     @RequestMapping(value = "/getProductInventory", method = RequestMethod.GET, produces = "application/json")
-    public List<ProductInventoryDao> getProductInventory(int productId, String productNo)
-    {
+    public List<ProductInventoryDao> getProductInventory(int productId, String productNo) {
         return productManager.getProductInventory(productId, productNo);
     }
-
-//    @RequestMapping(value = "/getProductTableDetails", method = RequestMethod.GET, produces = "application/json")
-//    public List<ProductDao> getProductTableDetails()
-//    {
-//        return productManager.getProductForSellPage();
-//    }
 
     @RequestMapping(value = "/getProductForProductTable", method = RequestMethod.GET, produces = "application/json")
     public List<ProductDao> getProductForProductTable()
@@ -60,20 +54,12 @@ public class ProductController {
     }
 
     @RequestMapping(value = "/getProductForPurchaseOrderWithCost", method = RequestMethod.GET, produces = "application/json")
-    public List<ProductDao> getProductForPurchaseOrderWithCost()
-    {
+    public List<ProductDao> getProductForPurchaseOrderWithCost() {
         return productManager.getProductForPurchaseOrderWithCost();
     }
 
-//    @RequestMapping(value = "/getProduct", method = RequestMethod.GET, produces = "application/json")
-//    public List<ProductDao> getProductForSellPage()
-//    {
-//        return productManager.getProductForSellPage();
-//    }
-
     @RequestMapping(value = "/getProductById", method = RequestMethod.GET, produces = "application/json")
-    public ProductDao getProductById(@RequestParam Integer productId)
-    {
+    public ProductDao getProductById(@RequestParam Integer productId) {
         return productManager.getProductById(productId);
     }
 
@@ -84,15 +70,13 @@ public class ProductController {
     }
 
     @RequestMapping(value = "/deleteProduct", method = RequestMethod.PUT, consumes = "application/json")
-    public ResponseEntity<String> deleteProduct(@RequestBody ProductDao productDao)
-    {
+    public ResponseEntity<String> deleteProduct(@RequestBody ProductDao productDao) {
         String status = productManager.deleteProduct(productDao);
 
         if(status.equalsIgnoreCase("Success"))
             return new ResponseEntity<>(status, HttpStatus.OK);
         else
             return new ResponseEntity<>(status, HttpStatus.CONFLICT);
-
     }
 
     @RequestMapping(value = "/deleteProductInventory", method = RequestMethod.POST)
@@ -119,6 +103,8 @@ public class ProductController {
     {
         return transactionLineItemManager.getProductHistory(productNo,startDate, endDate);
     }
+
+
 
 
 

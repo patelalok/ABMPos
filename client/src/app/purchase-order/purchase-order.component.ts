@@ -22,7 +22,7 @@ export class PurchaseOrderComponent implements OnInit {
   productDto: Product[];
   product: Product[];
   productInventotyList: ProductInventory[];
-  productInventoryObject = new ProductInventory();
+  // productInventoryObject = new ProductInventory();
   selectedProduct: Product;
   selectedVendor = new Vendor();
   selectedVendorName: any;
@@ -35,7 +35,7 @@ export class PurchaseOrderComponent implements OnInit {
   purchaseOrderDao = new PurchaseOrderDao();
   purchaseOrderDetailsDaoList: PurchaseOrderDetailsDaoList[] = [];
   isEditPurchaseOrder: boolean;
-  purchaseProductId:any;
+  purchaseProductId: any;
 
 
   constructor(private saleService: SellService,
@@ -66,101 +66,26 @@ export class PurchaseOrderComponent implements OnInit {
 
     console.log('product inv list', this.productInventotyList);
   }
-  getProductDetails() {
-    this.loadingService.loading = true;
-    this.productService.getProductDetailsForPurchaseOrder()
-      .subscribe((pro: Product[]) => {
-        this.productDto = pro;
-        this.filteredProductByVendor = this.productDto;
-        // console.log('ProductList' + this.productDto[0]);
 
-        this.loadingService.loading = false;
-      });
 
-  }
-  getVendorDetails() {
-    this.productService.getVendorDetails()
-      .subscribe((vendors: Vendor[]) => {
-        this.vendorDto = vendors;
-
-        // if(this.selectedVendorName && this.selectedVendor){
-        //   this.selectedVendorName = this.selectedVendorName;
-        // }
-        // else {
-        //   this.selectedVendorName = this.vendorDto[0].name;
-        // }
-
-      });
-  }
-  // TODO NEED TO make it common so i can use other places too.
-  filterProducts(event) {
-    let query = event.query;
-    // this.productService.getProductDetailsFromBackEnd()
-    //   .subscribe((products) => {
-    //     // console.log(products);
-    //     this.product = this.filterProduct(query, products);
-    //   });
-
-    this.product = this.filterProduct(query, this.productViewList);
-  }
-
-  filterProduct(query, products: Product[]): Product[] {
-    let filtered: Product[] = [];
-    for (let i = 0; i < products.length; i++) {
-      let p = products[i];
-      if (p.description.toLowerCase().includes(query.toLowerCase())) {
-        filtered.push(p);
-      }
-    }
-    return filtered;
-  }
-
-  // This method helps when user try to change retial price or quanity from the sell text box.
-  submitProduct(value: any) {
-    if (typeof value === 'string') {
-      // this is the senario where user is adding new product to Add into Inventory
-      if (this.product != null && this.product.length > 0) {
-        console.log("coming here");
-        this.addProductInventory(this.product[0]);
-      }
-      // Dont understabd this
-      else if (value !== '' && value !== undefined && value.indexOf('.') !== 0) {
-        if (value.match(/[a-z]/i))
-          console.log('contains only charcters');
-        // this mean this is decimal value so it will change the retail price of the product
-        if (value.match(/[0-9]/i) && value.indexOf('.') > 0)
-          this.updateCostPrice(value);
-        // this mean this is integer value so it will change the quantity of the product
-        else if (value.match(/[0-9]/i))
-          this.updateProductQuantityToAddInventory(value);
-      }
-
-    }
-    else if (value != null) {
-      this.addProductInventory(value);
-    }
-  }
-
-  addProductInventory(productObj: Product): ProductInventory[] {
+  addSingleProductToPurchaseOrder(productObj: Product): ProductInventory[] {
 
     // This mean user is adding first product into grid.
     // if(this.productInventotyList.length == 0) {
+    let productInventoryObject = new ProductInventory();
+
+    productInventoryObject.productId = productObj.productId;
+    productInventoryObject.productNo = productObj.productNo;
+    productInventoryObject.description = productObj.description;
+    productInventoryObject.cost = productObj.cost;
+    productInventoryObject.quantity = productObj.quantity;
+    productInventoryObject.retail = productObj.retail;
+    productInventoryObject.purchasedOrderQuanity = 1;
+    productInventoryObject.markup = 0.00;
+    productInventoryObject.totalProductPrice = 1 * productObj.cost;
+
+    this.productInventotyList.push(productInventoryObject);
     this.productInventotyList = this.productInventotyList.slice();
-
-    this.productInventoryObject = new ProductInventory();
-
-    this.productInventoryObject.productId = productObj.productId;
-    this.productInventoryObject.productNo = productObj.productNo;
-    this.productInventoryObject.description = productObj.description;
-    this.productInventoryObject.cost = productObj.cost;
-    this.productInventoryObject.quantity = productObj.quantity;
-    this.productInventoryObject.retail = productObj.retail;
-    this.productInventoryObject.purchasedOrderQuanity = 1;
-    this.productInventoryObject.markup = 0.00;
-    this.productInventoryObject.totalProductPrice = 1 * productObj.cost;
-
-    this.productInventotyList.push(this.productInventoryObject);
-
     this.persit.setProductsForPurchaseOrder(this.productInventotyList);
     this.product = null;
     this.p = null
@@ -175,22 +100,16 @@ export class PurchaseOrderComponent implements OnInit {
       this.productViewList = this.productDto.filter((ven) => ven.vendorId == this.selectedVendor.vendorId)
     }
     this.displayDialog = !this.displayDialog;
-
   }
 
   addProdutForPurchaseOrder(event: any, product: Product) {
-
     product.quantity = event.target.value;
-    this.addProductInventory(product);
-
-    console.log('purchase order Product No', event.target.value);
-    console.log('purchase order quantity', event);
+    this.addSingleProductToPurchaseOrder(product);
   }
 
+  // This method helps to add all products to purchaseOrder from the popup.
   addProductInventoryToPurchaseOrder() {
-
     this.productInventotyList = [];
-
     this.openProductLookUpModel();
     this.productViewList.forEach((product: ProductInventory) => {
       if (product.purchasedOrderQuanity > 0) {
@@ -225,12 +144,11 @@ export class PurchaseOrderComponent implements OnInit {
       this.purchaseOrderDetailsDaoList.push(purchaseOrderDetailsDaoList);
 
       totalQuantity = +product.purchasedOrderQuanity + totalQuantity;
-      totalAmount = +(product.purchasedOrderQuanity * product.cost) +totalAmount;
+      totalAmount = +(product.purchasedOrderQuanity * product.cost) + totalAmount;
 
     });
 
-    if(this.purchaseProductId > 0)
-    {
+    if (this.purchaseProductId > 0) {
       this.purchaseOrderDao.purchaseOrderId = this.purchaseProductId;
     }
 
@@ -243,8 +161,6 @@ export class PurchaseOrderComponent implements OnInit {
     this.purchaseOrderDao.totalAmount = totalAmount;
     this.purchaseOrderDao.username = 'alok@alok.com';
     this.purchaseOrderDao.status = 'Pending';
-
-
 
 
     this.purchaseOrderService.createPurchaseOrder(this.purchaseOrderDao)
@@ -273,37 +189,43 @@ export class PurchaseOrderComponent implements OnInit {
     this.selectedVendorName = '';
   }
 
+  addInventoryFromPurchaseOrder(){
+    this.productInventotyList.forEach((inventory)=>{
+      
+    })
+  }
 
-  handlePurchaseOrderToAddInventory(purchaseOrderId: any){
+
+  handlePurchaseOrderToAddInventory(purchaseOrderId: any) {
 
     this.purchaseOrderService.getPurchaseOrderDetailByOrderId(purchaseOrderId)
-    .subscribe((purchaseOrder)=>{
+      .subscribe((purchaseOrder) => {
 
-      if(purchaseOrder){
+        if (purchaseOrder) {
 
-        if(this.isEditPurchaseOrder){
-          this.purchaseOrderDao.purchaseOrderId = purchaseOrder.purchaseOrderId;
+          if (this.isEditPurchaseOrder) {
+            this.purchaseOrderDao.purchaseOrderId = purchaseOrder.purchaseOrderId;
+          }
+
+          this.productInventotyList = [];
+          this.selectedVendorName = purchaseOrder.vendorName;
+          purchaseOrder.purchaseOrderDetailsDaoList.forEach((orderItem) => {
+            let inventoryObj = new ProductInventory();
+            inventoryObj.productId = orderItem.productId;
+            inventoryObj.productNo = orderItem.productNo;
+            inventoryObj.cost = orderItem.cost;
+            inventoryObj.retail = orderItem.retail;
+            inventoryObj.purchasedOrderQuanity = orderItem.orderQuantity;
+            inventoryObj.totalProductPrice = parseFloat((orderItem.cost * orderItem.orderQuantity).toFixed(2));
+            inventoryObj.quantity = orderItem.currentStock;
+            inventoryObj.description = orderItem.description;
+            this.productInventotyList.push(inventoryObj);
+          });
+
+          this.productInventotyList = this.productInventotyList.slice();
         }
-
-        this.productInventotyList = [];
-        this.selectedVendorName = purchaseOrder.vendorName;
-        purchaseOrder.purchaseOrderDetailsDaoList.forEach((orderItem)=>{
-          let inventoryObj = new ProductInventory();
-          inventoryObj.productId = orderItem.productId;
-          inventoryObj.productNo = orderItem.productNo;
-          inventoryObj.cost = orderItem.cost;
-          inventoryObj.retail = orderItem.retail;
-          inventoryObj.purchasedOrderQuanity = orderItem.orderQuantity;
-          inventoryObj.totalProductPrice = parseFloat((orderItem.cost * orderItem.orderQuantity).toFixed(2));
-          inventoryObj.quantity = orderItem.currentStock;
-          inventoryObj.description = orderItem.description;
-          this.productInventotyList.push(inventoryObj);
-        });
-
-        this.productInventotyList =  this.productInventotyList.slice();
-      }
-      // this.productInventotyList = purchaseOrder.purchaseOrderDetailsDaoList
-    })
+        // this.productInventotyList = purchaseOrder.purchaseOrderDetailsDaoList
+      })
     console.log('Inside the add inventory page')
 
   }
@@ -461,6 +383,73 @@ export class PurchaseOrderComponent implements OnInit {
     //     console.log(JSON.stringify(error.json()));
     //   });
 
+  }
+
+  getProductDetails() {
+    this.loadingService.loading = true;
+    this.productService.getProductDetailsForPurchaseOrder()
+      .subscribe((pro: Product[]) => {
+        this.productDto = pro;
+        this.filteredProductByVendor = this.productDto;
+        // console.log('ProductList' + this.productDto[0]);
+
+        this.loadingService.loading = false;
+      });
+
+  }
+  getVendorDetails() {
+    this.productService.getVendorDetails()
+      .subscribe((vendors: Vendor[]) => {
+        this.vendorDto = vendors;
+      });
+  }
+  // TODO NEED TO make it common so i can use other places too.
+  filterProducts(event) {
+    let query = event.query;
+    // this.productService.getProductDetailsFromBackEnd()
+    //   .subscribe((products) => {
+    //     // console.log(products);
+    //     this.product = this.filterProduct(query, products);
+    //   });
+
+    this.product = this.filterProduct(query, this.productViewList);
+  }
+
+  filterProduct(query, products: Product[]): Product[] {
+    let filtered: Product[] = [];
+    for (let i = 0; i < products.length; i++) {
+      let p = products[i];
+      if (p.description.toLowerCase().includes(query.toLowerCase())) {
+        filtered.push(p);
+      }
+    }
+    return filtered;
+  }
+
+  // This method helps when user try to change retial price or quanity from the sell text box.
+  submitProduct(value: any) {
+    if (typeof value === 'string') {
+      // this is the senario where user is adding new product to Add into Inventory
+      if (this.product != null && this.product.length > 0) {
+        console.log("coming here");
+        this.addSingleProductToPurchaseOrder(this.product[0]);
+      }
+      // Dont understabd this
+      else if (value !== '' && value !== undefined && value.indexOf('.') !== 0) {
+        if (value.match(/[a-z]/i))
+          console.log('contains only charcters');
+        // this mean this is decimal value so it will change the retail price of the product
+        if (value.match(/[0-9]/i) && value.indexOf('.') > 0)
+          this.updateCostPrice(value);
+        // this mean this is integer value so it will change the quantity of the product
+        else if (value.match(/[0-9]/i))
+          this.updateProductQuantityToAddInventory(value);
+      }
+
+    }
+    else if (value != null) {
+      this.addSingleProductToPurchaseOrder(value);
+    }
   }
 }
 export class PurchaseOrderDao {

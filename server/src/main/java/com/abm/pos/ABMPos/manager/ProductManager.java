@@ -43,13 +43,14 @@ public class ProductManager{
     private ProductInventoryRepository productInventoryRepository;
 
     @Autowired
+    private ProductInventoryLogRepository productInventoryLogRepository;
+
+    @Autowired
     private CustomerProductPriceRepository customerProductPriceRepository;
 
     @Autowired
     private ProductImageRepository productImageRepository;
 
-    @Autowired
-    private Utility utility;
 
     public ProductDao addProduct(ProductDao productDao)
     {
@@ -626,5 +627,35 @@ public class ProductManager{
 
         return productDaoList;
 
+    }
+
+    public void addProductInventoryFromPurchaseOrder(List<ProductInventoryDao> productInventoryDaoList) {
+
+        List<ProductInventoryLog> productInventoryLogList = new ArrayList<>();
+
+        // This is to add Inventory.
+        List<ProductInventoryDao> inventoryResponse = productInventoryRepository.save(productInventoryDaoList);
+
+        // Now I need to log this details to inventory log table for future reporting and use.
+        if(null !=inventoryResponse && inventoryResponse.size() > 0){
+
+            for(ProductInventoryDao productInventoryDao: inventoryResponse){
+
+                ProductInventoryLog productInventoryLog = new ProductInventoryLog();
+
+                productInventoryLog.setProductId(productInventoryDao.getProductId());
+                productInventoryLog.setProductNo(productInventoryDao.getProductNo());
+                productInventoryLog.setUsername(productInventoryDao.getUsername());
+                productInventoryLog.setCost(productInventoryDao.getCost());
+                productInventoryLog.setQuantity(productInventoryDao.getQuantity());
+                productInventoryLog.setCurrentStock(productInventoryDao.getCurrentStock());
+                productInventoryLog.setVendorId(productInventoryDao.getVendorId());
+                productInventoryLog.setCreatedTimestamp(productInventoryDao.getCreatedTimestamp());
+
+                productInventoryLogList.add(productInventoryLog);
+            }
+
+            productInventoryLogRepository.save(productInventoryLogList);
+        }
     }
 }

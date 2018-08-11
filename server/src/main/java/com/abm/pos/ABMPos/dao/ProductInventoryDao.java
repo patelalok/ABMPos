@@ -15,7 +15,7 @@ public class ProductInventoryDao {
 
     private int productId;
     private String productNo;
-//    private int vendorId;
+    private int vendorId;
     private double cost;
     private double retail;
     private double tier1;
@@ -25,12 +25,20 @@ public class ProductInventoryDao {
     private int quantity;
     private String createdTimestamp;
     private String lastUpdatedTimestamp;
+    private String username;
 
     @Transient
     private int totalQuantity;
 
     @Transient
     private boolean variant;
+
+    @Transient
+    private int currentStock;
+
+    @Transient
+    private int orderId;
+
 
 //    @Transient
 //    private String vendorName;
@@ -154,5 +162,37 @@ public class ProductInventoryDao {
 
     public void setLastUpdatedTimestamp(String lastUpdatedTimestamp) {
         this.lastUpdatedTimestamp = lastUpdatedTimestamp;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public int getCurrentStock() {
+        return currentStock;
+    }
+
+    public void setCurrentStock(int currentStock) {
+        this.currentStock = currentStock;
+    }
+
+    public int getVendorId() {
+        return vendorId;
+    }
+
+    public void setVendorId(int vendorId) {
+        this.vendorId = vendorId;
+    }
+
+    public int getOrderId() {
+        return orderId;
+    }
+
+    public void setOrderId(int orderId) {
+        this.orderId = orderId;
     }
 }
