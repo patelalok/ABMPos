@@ -82,6 +82,41 @@
                                 *Required!!</p>
                         </div>
                     </div>
+
+                    <div class="row m-2">
+
+                            <div class="col-md-4 product-textbox">
+                                <label class="control-label">Alternate No:</label>
+                            </div>
+    
+                            <div class="col-md-8 product-textbox">
+                                <input type="text" class="form-control" placeholder="Please Enter Alternate No">
+                            </div>
+                        </div>
+
+                    <div class="row m-2">
+
+
+                            <label class="col-md-4 control-label product-textbox">
+                                                  Return Rule:
+                                              </label>
+                            <div class="col-md-8 product-textbox">
+                                <select class="form-control">
+                                          <option>No-Return-Allowed</option>
+                                          <option>1 Day</option>
+                                          <option>1 Week</option>
+                                          <option>2 Week</option>
+                                           <option>1 Month</option>
+                                           <option>3 Months</option>
+                                           <option>6 Months</option>
+                                           <option>12 Months</option>
+                                      </select>
+    
+                            </div>
+                        </div>
+
+                 
+
                     <!-- <div class="row m-2">
                         <div class="col-md-4 product-textbox">
                             <label class="control-label"> Model Name:</label>
@@ -101,7 +136,23 @@
 
                 <!--Start of Right Side DIV-->
 
+               
+
                 <div class="col-md-6">
+
+                        <div class="row m-2">
+                                <label class="col-md-4 control-label product-textbox">
+                                            Cost Price:
+                                        </label>
+                                <div class="col-md-8 product-textbox">
+                                    <input type="number" formControlName="cost" class="form-control">
+                                    <p *ngIf="form.get('cost').hasError('required') && form.get('cost').touched" class="alert alert-danger">
+                                        *Required!!</p>
+                                    <p *ngIf="form.get('cost').hasError('pattern') && form.get('cost').touched" class="alert alert-danger">
+                                        *Value Not Alloewd*</p>
+                                </div>
+                            </div>
+
                     <div class="row m-2">
                         <label class="col-md-4 control-label product-textbox">
                                     Retail Price:
@@ -140,36 +191,7 @@
                         </div>
                     </div>
 
-                    <div class="row m-2">
 
-                        <div class="col-md-4 product-textbox">
-                            <label class="control-label">Alternate No:</label>
-                        </div>
-
-                        <div class="col-md-8 product-textbox">
-                            <input type="text" class="form-control" placeholder="Please Enter Alternate No">
-                        </div>
-                    </div>
-                    <div class="row m-2">
-
-
-                        <label class="col-md-4 control-label product-textbox">
-                                              Return Rule:
-                                          </label>
-                        <div class="col-md-8 product-textbox">
-                            <select class="form-control">
-                                      <option>No-Return-Allowed</option>
-                                      <option>1 Day</option>
-                                      <option>1 Week</option>
-                                      <option>2 Week</option>
-                                       <option>1 Month</option>
-                                       <option>3 Months</option>
-                                       <option>6 Months</option>
-                                       <option>12 Months</option>
-                                  </select>
-
-                        </div>
-                    </div>
                     <div class="row m-2">
                         <div class="col-md-6 product-textbox">
                             <div class="checkbox">
@@ -290,7 +312,7 @@
             </div>
             <div class="modal-footer">
 
-                <button type="button" class="btn btn-danger" data-dismiss="modal" (click)="this.deleteProductInventory()">Yes</button>
+                <!-- <button type="button" class="btn btn-danger" data-dismiss="modal" (click)="this.deleteProductInventory()">Yes</button> -->
                 <button type="button" class="btn btn-default" data-dismiss="modal">Cancle</button>
             </div>
         </div>

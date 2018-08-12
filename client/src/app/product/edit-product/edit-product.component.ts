@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators, FormGroup, FormControl } from '@angular/forms';
 
-import {Category, Brand, Vendor, Model, ProductVariantDetail } from 'app/product/product.component';
+import {Category, Brand, Vendor, ProductVariantDetail } from 'app/product/product.component';
 import * as moment from 'moment';
 import { ProductService } from 'app/product/product.service';
 import { ProductForm } from 'app/product/addProduct.component';
@@ -22,7 +22,6 @@ export class EditProductComponent implements OnInit {
   categoryDto: Category[];
   brandDto: Brand[];
   vendorDto: Vendor[];
-  modelDto: Model[];
   productVariantDetailsDto: ProductVariantDetail[];
   productVariantDetailsByNameDto: ProductVariantDetail[];
   displayDialog = false;
@@ -60,7 +59,7 @@ export class EditProductComponent implements OnInit {
             'category': [null, Validators.required],
             'brand': [null, Validators.required],
             'vendor': [null, Validators.required],
-            // 'costPrice': [this.currentProduct.cost, [Validators.required, Validators.pattern('^[0-9-.]+$')]],
+            'cost': [this.currentProduct.cost, [Validators.required, Validators.pattern('^[0-9-.]+$')]],
             'markup': [null, Validators.pattern('^[0-9-.]+$')],
             'retail': [this.currentProduct.retail, [Validators.required, Validators.pattern('^[0-9-.]+$')]],
             'quantity': [this.currentProduct.quantity,''],

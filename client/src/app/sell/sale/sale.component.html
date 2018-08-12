@@ -3,13 +3,22 @@
         <mat-card>
             <div class="row">
                 <div class="align-self-center col-md-7" style="max-height: 500px !important;">
-                    <p-autoComplete id="productsearch" [(ngModel)]="productForSearchBox" class="full-width m-1" [suggestions]="product" placeholder="Please Enter Service Name" (onFocus)="print($event)" (onBlur)="print($event)" (completeMethod)="filterProducts($event)" name="test"
+                    <!-- <p-autoComplete id="productsearch" [(ngModel)]="productForSearchBox" class="full-width m-1" [suggestions]="product" placeholder="Please Enter Service Name" (onFocus)="print($event)" (onBlur)="print($event)" (completeMethod)="filterProducts($event)" name="test"
                         [minLength]="3" (keyup.enter)="submitProduct(productForSearchBox)" field="description">
                         <ng-template>
                             <span style="max-width:500px !important">
                                 </span>
                         </ng-template>
-                    </p-autoComplete>
+                    </p-autoComplete> -->
+
+                    <p-autoComplete id="productsearch" [(ngModel)]="this.productForSearchBox" class="full-width m-1" [suggestions]="product"
+                    placeholder="Scan or Search Product" (completeMethod)="filterProducts($event)" name="test" [minLength]="3" (keyup.enter)="submitProduct(productForSearchBox)"
+                    (onSelect)="this.selectProductFromSearch(productForSearchBox)" field="description">
+                    <ng-template>
+                      <span style="max-width:500px !important">
+                      </span>
+                    </ng-template>
+                  </p-autoComplete>
                 </div>
                 <div class="col-md-5 d-flex justify-content-end">
                     <!-- Buttons go here  -->

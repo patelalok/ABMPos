@@ -34,14 +34,15 @@ export class SaleComponent implements OnInit {
 
 
   product: Product[] = [];
-  productListByCategory:Product[] = [];
+  productListByCategory: Product[] = [];
   productList: Product[] = [];
   productForSearchBox: any;
   selectedProduct: Product;
   isProductExistsInSellList = false;
   productPriceArryByCustomer: Array<any[]>;
+  productMap = new Map();
 
-  categoryDto: Category[] =[];
+  categoryDto: Category[] = [];
 
   customerDto: PrimeCustomer[];
   selectedCustomer: Customer;
@@ -126,7 +127,7 @@ export class SaleComponent implements OnInit {
 
     this.transactionLineItemDaoList = this.persit.getProducts() || [];
 
-    if(this.selectedCustomer){
+    if (this.selectedCustomer) {
       this.showCustomerSearchBox = false;
     }
     else {
@@ -147,58 +148,80 @@ export class SaleComponent implements OnInit {
   }
 
 
-    submitProduct(value: any) {
+  submitProduct(value: any) {
 
-    // if(this.p.length > 8){
-    //   this.product.forEach((p)=>{
-    //     if(p.productNo == this.p)
-    //     {
-    //       this.addTransactionLineItem(value);
-    //     }
-    // })
-    //   console.log("ok found wiht scanner");
-    // }
-    if (typeof value === 'string') {
-      if (value !== '' && value !== undefined && value.indexOf('.') !== 0) {
-        if (value.match(/[a-z]/i)) {
-          // Not sure wt it is doing
-        }
-        if (value.match(/[0-9]/i) && value.indexOf('.') > 0)
-          this.updateProductPrice(value);
+    let productFound: boolean = false;
 
-        // So here i am assuming quantity is not gonna be more then 5, so anything more then 5 just add to product grid.
-        else if (value.match(/[0-9]/i) && value.length < 5)
-          this.updateProductQuantity(value);
+    if (value && value.length > 7 && (value.match(/[0-9]/i))) {
+      console.log('This mean user has scan the barcode no', value);
+
+      let product = this.productMap.get(value);
+      if (product != undefined) {
+        productFound = true;
+        this.timeOut();
+        this.addTransactionLineItem(product);
+      }
+
+
+      if (productFound == false) {
+        alert("Sorry Can Not Find The Product!!!");
+        this.productForSearchBox = null;
       }
     }
-    else if (value != null) {
-      this.addTransactionLineItem(value);
+
+    else {
+
+        if (typeof value === 'string') {
+          if (value !== '' && value !== undefined && value.indexOf('.') !== 0) {
+            // if (value.match(/[a-z]/i)) {
+            //   // Not sure wt it is doing
+            // }
+            if (value.match(/[0-9]/i) && value.indexOf('.') > 0)
+              this.updateProductPrice(value);
+  
+            // So here i am assuming quantity is not gonna be more then 5, so anything more then 5 just add to product grid.
+            else if (value.match(/[0-9]/i) && value.length < 5)
+              this.updateProductQuantity(value);
+          }
+        }
+
+      else if (value != null) {
+        this.addTransactionLineItem(value);
+      }
     }
+  }
+
+  timeOut() {
+    setTimeout(() => {
+      this.product = null;
+      this.productForSearchBox = null;
+    }, 400);
   }
 
 
 
   addProductForSale(productIndex: number) {
-    let productObj:Product = this.productListByCategory[productIndex];
+    let productObj: Product = this.productListByCategory[productIndex];
     this.addTransactionLineItem(productObj);
   }
 
   addTransactionLineItem(productObj: Product) {
     productObj.saleQuantity = 1;
 
-   
-    productObj.retailWithDiscount = productObj.retail;
-    productObj.totalProductPrice = productObj.saleQuantity *productObj.retailWithDiscount;
 
-    if(this.selectedCustomer && productObj.productNo == '100000000014' && this.selectedCustomer.noOfEyebrow == 7){
+    productObj.retailWithDiscount = productObj.retail;
+    productObj.totalProductPrice = productObj.saleQuantity * productObj.retailWithDiscount;
+
+    if (this.selectedCustomer && productObj.productNo == '100000000014' && this.selectedCustomer.noOfEyebrow == 7) {
       // This customer is eligable for free eybrow.
       productObj.retailWithDiscount = 0.00;
-      productObj.totalProductPrice = productObj.saleQuantity *productObj.retailWithDiscount;      
+      productObj.totalProductPrice = productObj.saleQuantity * productObj.retailWithDiscount;
     }
     this.transactionLineItemDaoList.push(productObj);
     this.transactionLineItemDaoList = this.transactionLineItemDaoList.slice();
     this.persit.setProducts(this.transactionLineItemDaoList);
     this.setTransactionDtoList();
+    this.productForSearchBox = null;
 
     // $(`lineitem${productObj.productNo}`).ready(function () {
     //   // $(`lineitem${productObj.productNo}`).sc
@@ -206,7 +229,7 @@ export class SaleComponent implements OnInit {
     // });
 
   }
-  
+
   showPopover(discount) {
     let { x, y } = <DOMRectInit>discount.getBoundingClientRect();
     if (this.popoverStyle)
@@ -244,6 +267,7 @@ export class SaleComponent implements OnInit {
     this.setTransactionDtoList();
 
     this.productForSearchBox = null;
+    
   }
 
   updateProductPrice(value: any) {
@@ -256,7 +280,7 @@ export class SaleComponent implements OnInit {
     this.productForSearchBox = null;
   }
 
-  updateLineItemDetails(event){
+  updateLineItemDetails(event) {
     console.log('event line item', event);
     this.transactionLineItemDaoList[event.index].saleQuantity = event.data.saleQuantity;
     // this will convert numern into numer to show in 2 digits. cause i can not use .toFix here.
@@ -277,8 +301,8 @@ export class SaleComponent implements OnInit {
     this.transactionLineItemDaoList.forEach((lineItem) => {
       totalQuantity = +lineItem.saleQuantity + totalQuantity;
       totalPrice = +lineItem.totalProductPrice + totalPrice;
-      if(lineItem.tax){
-        tax = +tax +(lineItem.totalProductPrice * this.taxPercent)/100;
+      if (lineItem.tax) {
+        tax = +tax + (lineItem.totalProductPrice * this.taxPercent) / 100;
       }
     })
 
@@ -308,8 +332,8 @@ export class SaleComponent implements OnInit {
     this.cust = null;
     this.showCustomerSearchBox = !this.showCustomerSearchBox;
   }
-  showCustomerDetailsPopup(){
-console.log('inside the mnethose');
+  showCustomerDetailsPopup() {
+    console.log('inside the mnethose');
   }
 
   print(obj) {
@@ -870,7 +894,7 @@ console.log('inside the mnethose');
     $('#paymentModel').modal('toggle');
   }
 
-  
+
   filterProducts(event) {
     let query = event.query;
     this.sellService.getProductDetails()
@@ -912,48 +936,48 @@ console.log('inside the mnethose');
       });
   }
 
-  getProduct(){
+  getProduct() {
     this.productService.getProductDetails()
-    .subscribe((product: Product[]) =>{
-      this.productList = product;
-
-        this.productList.forEach((product)=>{
-      if(product.favorite){
-        this.productListByCategory.push(product);
-      }
-    })
-    this.productListByCategory = this.productListByCategory.slice();
-    });
+      .subscribe((product: Product[]) => {
+        this.productList = product;
+        this.productList.forEach((product) => {
+          if (product.favorite) {
+            this.productListByCategory.push(product);
+          }
+          this.productMap.set(product.productNo, product);
+        })
+        this.productListByCategory = this.productListByCategory.slice();
+      });
   }
 
   getCategoryDetails(): void {
     this.productService.getCategoryDetails()
-    .subscribe((categories: Category[]) => {
-    this.categoryDto = categories;
-    console.log('CategoryList' + this.categoryDto);
+      .subscribe((categories: Category[]) => {
+        this.categoryDto = categories;
+        console.log('CategoryList' + this.categoryDto);
       });
   }
 
-  getFavoriteProduct(){
+  getFavoriteProduct() {
     this.productListByCategory = [];
-    this.productList.forEach((product)=>{
-      if(product.favorite){
+    this.productList.forEach((product) => {
+      if (product.favorite) {
         this.productListByCategory.push(product);
       }
     })
     this.productListByCategory = this.productListByCategory.slice();
   }
 
-  getProductByCategory(test: any){
-    console.log("category event",test);
+  getProductByCategory(test: any) {
+    console.log("category event", test);
     this.productListByCategory = [];
 
     let no: number = this.categoryDto[test].categoryId;
-    console.log("category event",no);
+    console.log("category event", no);
 
-    this.productList.forEach((product)=>{
+    this.productList.forEach((product) => {
 
-      if(product.categoryId == no){
+      if (product.categoryId == no) {
         this.productListByCategory.push(product);
       }
     })
@@ -1029,6 +1053,7 @@ export class TransactionLineItemDaoList {
   productNo: string;
   cost: number;
   retail: number;
+  quantity: number;
   saleQuantity: number;
   transactionComId: number;
   date: any;

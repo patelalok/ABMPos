@@ -3,7 +3,7 @@ import { ProductService } from "app/product/product.service";
 // import { FormBuilder } from "@angular/forms/forms";
 import { FormBuilder, Validators, FormGroup, FormControl } from '@angular/forms';
 import { MenuItem, LazyLoadEvent } from 'primeng/primeng';
-import { Category, Brand, Model, Vendor, ProductCommon } from "app/product/product.component";
+import { Category, Brand, Vendor, ProductCommon } from "app/product/product.component";
 import * as moment from 'moment';
 import { ViewChild } from '@angular/core/src/metadata/di';
 import { Element } from '@angular/compiler';
@@ -33,7 +33,6 @@ export class ProductTableComponent implements OnInit {
   categoryDto: Category[];
   brandDto: Brand[];
   vendorDto: Vendor[];
-  modelDto: Model[];
   items: MenuItem[];
   activeItem: MenuItem;
   selectedProductDropdownOption: any = "Select All";
