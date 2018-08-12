@@ -362,6 +362,17 @@ export class EditProductComponent implements OnInit {
     this.variantForm.get('tier2').setValue(product.tier2);
     this.variantForm.get('tier3').setValue(product.tier3);
     this.variantForm.get('value1').setValue(product.value1);
+    this.variantForm.get('value2').setValue(product.value2);
+    this.variantForm.get('value3').setValue(product.value3);
+
+    console.log('variant2',product.variant2);
+
+    this.variantForm.get('variant2').setValue(product.variant2);
+    this.variantForm.get('variant3').setValue(product.variant3);
+
+
+
+
     // this.variantForm.get('cost').setValue(product.cost);
     // this.variantForm.get('tier1').setValue(product.tier1);
     // this.variantForm.get('tier2').setValue(product.tier2);
