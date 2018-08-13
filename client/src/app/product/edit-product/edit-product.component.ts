@@ -52,6 +52,7 @@ export class EditProductComponent implements OnInit {
   productInventoryList: ProductInventory[] = [];
   cost: number;
   quantity: number;
+  disableCostQtyForEdit: boolean = true;
 
  
 
@@ -192,11 +193,23 @@ export class EditProductComponent implements OnInit {
         this.productService.getProductVariantDetails()
         .subscribe((variants:ProductVariantDetail[] )=>{
           this.productVariantDetailsDto = variants;
-          if(this.productVariantDetailsDto != null) {
-          this.variantForm.get('variant1').setValue(this.productVariantDetailsDto[0]);
-          // this.variantForm.get('variant2').setValue(this.variantDto[0].value);
-          // this.variantForm.get('variant3').setValue(this.variantDto[0].value);
+
+
+          if(this.currentProduct.variant){
+            // First get the all variant details for this product.
+            this.getProductVariantById(this.currentProduct.productId);
           }
+          else {
+            this.variantForm.get('variant1').setValue(this.productVariantDetailsDto[0]);
+            this.variantForm.get('variant2').setValue(this.productVariantDetailsDto[1]);
+            this.variantForm.get('variant3').setValue(this.productVariantDetailsDto[2]);
+          }
+          // if(this.productVariantDetailsDto != null) {
+          //   currentVariant1 = this.productVariantDetailsDto.filter((el)=>el.name == this)
+          // this.variantForm.get('variant1').setValue(this.productVariantDetailsDto[0]);
+          // this.variantForm.get('variant2').setValue(this.productVariantDetailsDto[0].value);
+          // this.variantForm.get('variant3').setValue(this.productVariantDetailsDto[0].value);
+          // }
         })
 
         this.getProductVariantById(this.currentProduct.productId);
@@ -350,42 +363,33 @@ export class EditProductComponent implements OnInit {
 
   
   
-  updateProductVariant(product: ProductVariant){
+  updateProductVariant(selectedVariant: ProductVariant){
 
     this.variantOperation = 'Edit';
-    console.log('update variant', product);
 
-    this.variantOperation = 'Edit';
-    this.variantForm.get('productNo').setValue(product.productNo);
-    this.variantForm.get('cost').setValue(product.cost);
-    this.variantForm.get('tier1').setValue(product.tier1);
-    this.variantForm.get('tier2').setValue(product.tier2);
-    this.variantForm.get('tier3').setValue(product.tier3);
-    this.variantForm.get('value1').setValue(product.value1);
-    this.variantForm.get('value2').setValue(product.value2);
-    this.variantForm.get('value3').setValue(product.value3);
+    this.disableCostQtyForEdit = true;
+    this.variantForm.get('productNo').setValue(selectedVariant.productNo);
+    this.variantForm.get('cost').setValue(selectedVariant.cost);
+    this.variantForm.get('quantity').setValue(selectedVariant.quantity);
 
-    console.log('variant2',product.variant2);
+    this.variantForm.get('tier1').setValue(selectedVariant.tier1);
+    this.variantForm.get('tier2').setValue(selectedVariant.tier2);
+    this.variantForm.get('tier3').setValue(selectedVariant.tier3);
+    this.variantForm.get('value1').setValue(selectedVariant.value1);
+    this.variantForm.get('value2').setValue(selectedVariant.value2);
+    this.variantForm.get('value3').setValue(selectedVariant.value3);
 
-    this.variantForm.get('variant2').setValue(product.variant2);
-    this.variantForm.get('variant3').setValue(product.variant3);
+    let variant1: ProductVariantDetail[]  = this.productVariantDetailsDto.filter((el)=> el.name == selectedVariant.variant1);
+    let variant2: ProductVariantDetail[]  = this.productVariantDetailsDto.filter((el)=> el.name == selectedVariant.variant2);
+    let variant3: ProductVariantDetail[]  = this.productVariantDetailsDto.filter((el)=> el.name == selectedVariant.variant3);
 
-
-
-
-    // this.variantForm.get('cost').setValue(product.cost);
-    // this.variantForm.get('tier1').setValue(product.tier1);
-    // this.variantForm.get('tier2').setValue(product.tier2);
-    // this.variantForm.get('tier3').setValue(product.tier3);
-    // this.variantForm.get('operationType').setValue('Edit');
-
-    // this.variantForm.get('quantity').disabled = true;
+    this.variantForm.get('variant1').setValue(variant1[0]);
+    this.variantForm.get('variant2').setValue(variant2[0]);
+    this.variantForm.get('variant3').setValue(variant3[0]);
 
     //this.productService.addProductVariant(this.variantForm.value);
 
-    // this.variantForm.get('quantity').setValue(product.quantity);
 
-    console.log('update product varianr', product);
   }
 
   setVariantForDelete(productVariant: ProductVariant){
@@ -611,14 +615,34 @@ export class EditProductComponent implements OnInit {
     this.form.get('quantity').setValue(null);
   }
 
-  clearVariantForm(){
+  clearVariantForm() {
+
+    this.disableCostQtyForEdit = false;
     this.variantForm.get('productNo').setValue(null);
     this.variantForm.get('value1').setValue(null);
+    this.variantForm.get('value2').setValue(null);
+    this.variantForm.get('value3').setValue(null);
     this.variantForm.get('cost').setValue(null);
-    this.variantForm.get('tier1').setValue(null);
-    this.variantForm.get('tier2').setValue(null);
-    this.variantForm.get('tier3').setValue(null);
-    this.variantForm.get('quantity').setValue(null);    
+    this.variantForm.get('tier1').setValue(this.currentProduct.tier1);
+    this.variantForm.get('tier2').setValue(this.currentProduct.tier2);
+    this.variantForm.get('tier3').setValue(this.currentProduct.tier3);
+    this.variantForm.get('quantity').setValue(null);
+    
+    if(this.productVariantDetailsDto.length > 2){
+      this.variantForm.get('variant1').setValue(this.productVariantDetailsDto[0]);
+      this.variantForm.get('variant2').setValue(this.productVariantDetailsDto[1]);
+      this.variantForm.get('variant3').setValue(this.productVariantDetailsDto[2]);
+    }
+    else if(this.productVariantDetailsDto.length > 1)
+    {
+      this.variantForm.get('variant1').setValue(this.productVariantDetailsDto[0]);
+      this.variantForm.get('variant2').setValue(this.productVariantDetailsDto[1]);
+      // this.variantForm.get('variant3').setValue(this.productVariantDetailsDto[2]);
+    }
+    else {
+      this.variantForm.get('variant1').setValue(this.productVariantDetailsDto[0]);
+
+    }
     
   }
   showDialog() {

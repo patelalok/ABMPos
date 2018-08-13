@@ -1370,6 +1370,7 @@ export class Product {
 }
 
 export class ProductVariant {
+  id?:number;
   productId: number;
   productNo: string;
   cost?: number;
