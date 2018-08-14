@@ -81,7 +81,7 @@
                                             <td>{{subCategory.name}}</td>
                                             <td>{{subCategory.description}}</td>
                                             <td>
-                                                <button class="btn-red action-button-table" mat-button data-toggle="modal" data-target="#deleteCategory" (click)="this.setCategoryForDelete(category)">
+                                                <button class="btn-red action-button-table" mat-button data-toggle="modal" data-target="#deleteSubCategory" (click)="this.setSubCategoryForDelete(subCategory)">
                                                     <i class="fa fa-trash" aria-hidden="true"></i>
                                                 </button>
                                                 <button class="btn-blue action-button-table" mat-button (click)= "setSubCategoryForUpdate(subCategory)">
@@ -220,3 +220,25 @@
 </div>
 
 <!-- End of Delete Category Popup -->
+
+<!-- Start of Delete SubCategory Popup -->
+<div class="modal fade" id="deleteSubCategory" role="dialog">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Delete Category</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <p>Are You Sure You Want To Delete This SubCategory</p>
+                </div>
+                <div class="modal-footer">
+    
+                    <button type="button" class="btn btn-danger" data-dismiss="modal" (click)="this.deleteSubCategory()">Yes</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- End of Delete SubCategory Popup -->

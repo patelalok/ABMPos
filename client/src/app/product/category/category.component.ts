@@ -24,6 +24,8 @@ export class CategoryComponent implements OnInit {
     subCategoryDto: SubCategory[] = [];
     selectedCategoryForAddSubCategory: Category;
 
+    selectedSubCategoryForDelete: SubCategory;
+
     msgs: Message[] = [];
 
     category = new Category();
@@ -166,6 +168,9 @@ export class CategoryComponent implements OnInit {
     setCategoryForDelete(cate: Category) {
         this.selectedCategoryForDelete = cate;
     }
+    setSubCategoryForDelete(subCategory: SubCategory) {
+        this.selectedSubCategoryForDelete = subCategory;
+    }
 
     deleteCategory() {
         this.categoryService.deleteCategory(this.selectedCategoryForDelete.categoryId)
@@ -178,6 +183,26 @@ export class CategoryComponent implements OnInit {
                         this.toastr.success(data.json().message, 'Success!!');
                     }
                     // this.categoryDto = this.categoryDto.splice(0, index).concat(this.categoryDto.splice(index));            
+                }
+                else {
+                    this.toastr.error(data.json().message, 'Error!!');
+                }
+            },
+                error => {
+                    this.toastr.error('Something Goes Wrong!!', 'Error!!')
+                }
+            )
+    }
+    deleteSubCategory(){
+        this.categoryService.deleteSubCategory(this.selectedSubCategoryForDelete.id)
+            .subscribe((data) => {
+                if (data && data.status == 200) {
+                    let index = this.subCategoryDto.findIndex((el) => el.name == this.selectedSubCategoryForDelete.name);
+                    if (index > -1) {
+                        this.subCategoryDto.splice(index, 1);
+                        this.subCategoryDto = this.subCategoryDto.slice();
+                        this.toastr.success(data.json().message, 'Success!!');
+                    }
                 }
                 else {
                     this.toastr.error(data.json().message, 'Error!!');

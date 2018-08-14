@@ -29,7 +29,7 @@ export class ProductService {
     this.http.post(this.url+'/addProduct', product)
     .subscribe(data => {
       if(data.status == 200 || data.status == 201){
-        this.toastr.success('Product Added Successfully!!', 'Success!',{toastLife:1});
+        this.toastr.success('Product Added Successfully!!', 'Success!');
 
         if(product.operationType == 'Edit'){
           let index = this.productList.findIndex((el) => el.productId == product.productId);

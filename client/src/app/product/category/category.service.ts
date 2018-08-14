@@ -24,4 +24,8 @@ export class CategoryService {
   deleteCategory(categoryId: number): Observable<Response> {
     return this.http.delete(this.url+'/deleteCategory?categoryId=' + categoryId)
   }
+
+  deleteSubCategory(subCategoryId: number) {
+    return this.http.delete(this.url+'/deleteSubCategory?subCategoryId=' + subCategoryId)
+  }
 }
