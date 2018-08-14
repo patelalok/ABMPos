@@ -84,12 +84,12 @@
                             <i class="fa fa-user-plus" aria-hidden="true"></i>
                         </span>
                         <p-autoComplete [(ngModel)]="this.selectedCustomer" [field]="'name'" [suggestions]="filteredCustomer" (completeMethod)="this.filterCustomers($event)" class="full-width" [minLength]="1" (keyup.enter)="this.submitCustomer(this.selectedCustomer)" (onClear)="this.removeCustomerOnSale()">
-                            <ng-template let-c pTemplate="item">
-                                <div class="ui-helper-clearfix" style="border-bottom:1px solid #D5D5D5">
-                                    <div style="width:32px;display:inline-block;margin:5px 0 2px 5px">{{c.name}}</div>
-                                    <div style="font-size:18px;float:right;margin:10px 10px 0 0">{{c.phoneNo}}</div>
-                                </div>
-                            </ng-template>
+                                <ng-template let-c pTemplate="item">
+                                        <div class="ui-helper-clearfix" style="border-bottom:1px solid #D5D5D5">
+                                          <span >{{c.name}} &ensp;</span>
+                                          <span>{{c.companyName}}</span>
+                                        </div>
+                                      </ng-template>
 
                         </p-autoComplete>
 

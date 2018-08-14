@@ -20,6 +20,7 @@ import { MenuItem } from 'app/shared/top-navbar/top-navbar.component';
 import { TransactionLineItemDaoList, TransactionDtoList, PaymentDao, PaymentObjectForPaymentSellTable, Product, ProductVariant } from 'app/sell/sale/sale.component';
 import { PersistenceService } from 'app/shared/services/persistence.service';
 import { ProductService } from 'app/product/product.service';
+import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 declare var $: JQueryStatic;
 
 @Component({
@@ -32,6 +33,7 @@ export class ReturnSaleComponent implements OnInit, AfterViewInit {
 
 
   product: Product[];
+  productList: Product[] = [];
   productVariantList: ProductVariant[] = [];
   productForSearchBox: any;
   isProductExistsInSellList = false;
@@ -72,8 +74,10 @@ export class ReturnSaleComponent implements OnInit, AfterViewInit {
   popupHeader: string;
   popupMessage: string;
 
-  _subscriptionCustomer: any;
+  // _subscriptionCustomer: any;
   _subscriptionProductVariant: any;
+  _subscriptionProduct: any;
+
 
 
 
@@ -88,7 +92,9 @@ export class ReturnSaleComponent implements OnInit, AfterViewInit {
     private router: Router,
     private toastr: ToastsManager
   ) {
-    this.getCustomerDetails();
+    this.getProductDetails();
+    this.getAllProductVariant();
+    // this.getCustomerDetails();
 
   }
 
@@ -100,6 +106,7 @@ export class ReturnSaleComponent implements OnInit, AfterViewInit {
         this.taxPercent = this.storeDetails.tax;
       });
 
+    this.getProductDetails();
     this.getAllProductVariant();
     this.getCustomerDetails();
   }
@@ -286,10 +293,11 @@ export class ReturnSaleComponent implements OnInit, AfterViewInit {
         this.taxPercent = 0;
       }
 
-    this.sellService.getProductPriceByCustomer(this.selectedCustomer.phoneNo)
-    .subscribe((productPrice) => {
-      this.productPriceArryByCustomer = productPrice;
-    });
+      // Commeting for now.
+    // this.sellService.getProductPriceByCustomer(this.selectedCustomer.phoneNo)
+    // .subscribe((productPrice) => {
+    //   this.productPriceArryByCustomer = productPrice;
+    // });
   console.log('customer', this.selectedCustomer);
     })
     
@@ -393,6 +401,21 @@ export class ReturnSaleComponent implements OnInit, AfterViewInit {
   setHeaderAndMessageForDisgardPopup() {
     this.popupHeader = 'Discard Sale';
     this.popupMessage = 'Are You Sure You Want To Delete Complete Sale?';
+  }
+
+  getProductDetails() {
+    this.productService.getProductDetails();
+    this._subscriptionProduct = this.productService.productListChange.subscribe((product) => {
+      this.productList = product;
+      // this.productList = this.productList.slice();
+
+      // if(null != this.product) {
+      //   this.product.forEach((p)=>{
+      //     this.productMap.set(p.productNo, p);
+      //   });
+      // }
+      // console.log('map object after get product', this.productMap);
+    });
   }
 
   getAllProductVariant(){
@@ -521,31 +544,45 @@ export class ReturnSaleComponent implements OnInit, AfterViewInit {
     $('#paymentModel').modal('toggle');
   }
 
-  filterProducts(event) {
-    let query = event.query;
-    this.productService.getProductDetailsFromBackEnd()
-      .subscribe((products: Product[]) => {
-        // console.log(products);
-        this.product = this.filterProduct(query, products);
-      });
-  }
-
-
-  filterProduct(query, products: Product[]): Product[] {
-    let filtered: Product[] = [];
-    for (let i = 0; i < products.length; i++) {
-      let p = products[i];
-      if (p.description.toLowerCase().includes(query.toLowerCase()) || p.productNo.includes(query)) {
-        filtered.push(p);
-      }
-    }
-    return filtered;
-  }
   setProductForDelete(product: Product) {
     this.selectedProduct = product;
     this.popupHeader = 'Delete Product';
     this.popupMessage = 'Are You Sure You Want To Delete Product?';
   }
+
+
+  filterProducts(event) {
+    // if(!event){
+    //   this.product = null; 
+
+    //   return;
+    // }
+    let query = event.query;
+    // this.productService.getProductDetails()
+    // if(!query){
+    //   this.product = null; 
+
+    //   return;
+    // }
+    //   .subscribe((products) => {
+    // console.log(products);
+    this.product = this.filterProduct(query, this.productList);
+    // });
+  }
+
+  filterProduct(query, products: Product[]): Product[] {
+    let filtered: Product[] = [];
+    for (let i = 0; i < products.length; i++) {
+      let p = products[i];
+      // if (p.description.toLowerCase().includes(query.toLowerCase()) || p.productNo.includes(query)) {
+      if (p.description.toLowerCase().includes(query.toLowerCase())) {
+
+        filtered.push(p);
+      }
+    }
+    return filtered;
+  }
+
 
   filterCustomers(event) {
     let query = event.query;
@@ -571,17 +608,24 @@ export class ReturnSaleComponent implements OnInit, AfterViewInit {
 
   getCustomerDetails() {
 
-    this.customerService.getCustomerDetails();
-    this._subscriptionCustomer = this.customerService.customerListChange
-    .subscribe((cust)=>{
-      this.customerDto = cust;
-      this.customerDto = this.customerDto.slice();
-    });
+    this.customerService.getCustomerDetailsFromBackEnd()
+      .subscribe((customer) => {
+        this.customerDto = customer;
+      });
+
+      // This is good logic but need to test and check, DO NOT REMOVE IT
+    // this.customerService.getCustomerDetails();
+    // this._subscriptionCustomer = this.customerService.customerListChange
+    // .subscribe((cust)=>{
+    //   this.customerDto = cust;
+    //   this.customerDto = this.customerDto.slice();
+    // });
   }
   ngOnDestroy() {
     //prevent memory leak when component destroyed
-     this._subscriptionCustomer.unsubscribe();
-    //  this._subscriptionProduct.unsubscribe();
+    //  this._subscriptionCustomer.unsubscribe();ß
+     this._subscriptionProduct.unsubscribe();
+     this._subscriptionProductVariant.unsubscribe();
    }
 
 }
