@@ -311,6 +311,13 @@ export class EditProductComponent implements OnInit {
       let formValues: ProductVariantForm = this.variantForm.value;
 
       console.log('formValues at all', formValues.operationType);
+
+      if(null == formValues.variant2 || formValues.variant2 == undefined) {
+        formValues.variant2 = new ProductVariantDetail();
+      }
+      if(null == formValues.variant3 || formValues.variant3 == undefined) {
+        formValues.variant3 = new ProductVariantDetail();
+      }
   
       let productVariant: ProductVariant = {
         productId: this.currentProduct.productId,
