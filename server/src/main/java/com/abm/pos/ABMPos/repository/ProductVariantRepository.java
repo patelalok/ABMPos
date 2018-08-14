@@ -32,7 +32,7 @@ public interface ProductVariantRepository extends JpaRepository<ProductVariantDa
             "i.tier1,\n" +
             "i.tier2,\n" +
             "i.tier3,\n" +
-            "CONCAT(p.description, ' ',ifnull(v.variant1, ''), ' ',ifnull(v.value1, ''), ' ',ifnull(v.variant2,''), ' ', ifnull(v.value2, ''), ' ',ifnull(v.variant3,''), ' ', ifnull(v.value3, '')) as description,\n" +
+            "CONCAT(p.description, ' ',ifnull(v.value1, ''),' ', ifnull(v.value2, ''),' ', ifnull(v.value3, '')) as description,\n" +
             "sum(i.quantity)\n" +
             "from product_variant v \n" +
             "inner join product_inventory i \n" +
