@@ -286,6 +286,7 @@ export class ReturnSaleComponent implements OnInit, AfterViewInit {
   }
   submitCustomer(a: any) {
 
+    this.setFocusOnProductSearch();
     this.customerService.getCustomerDetailsByPhoneNo(a.phoneNo)
     .subscribe((customer)=>{
       this.selectedCustomer = customer;
@@ -298,8 +299,7 @@ export class ReturnSaleComponent implements OnInit, AfterViewInit {
     // .subscribe((productPrice) => {
     //   this.productPriceArryByCustomer = productPrice;
     // });
-  console.log('customer', this.selectedCustomer);
-    })
+    });
     
   }
   removeCustomerOnSale() {
@@ -621,6 +621,11 @@ export class ReturnSaleComponent implements OnInit, AfterViewInit {
     //   this.customerDto = this.customerDto.slice();
     // });
   }
+
+    // This method helps to set focus on search box when user come on sell page.
+    setFocusOnProductSearch() {
+      $('#productsearch > span > input').focus();
+    }
   ngOnDestroy() {
     //prevent memory leak when component destroyed
     //  this._subscriptionCustomer.unsubscribe();ß

@@ -1,6 +1,7 @@
 package com.abm.pos.ABMPos.manager;
 
 import com.abm.pos.ABMPos.dao.*;
+import com.abm.pos.ABMPos.dao.ReportDao.InventoryDto;
 import com.abm.pos.ABMPos.dto.CustomerFinancialDto;
 import com.abm.pos.ABMPos.dto.PaymentDetails;
 import com.abm.pos.ABMPos.repository.*;
@@ -156,6 +157,11 @@ public class TransactionsManager {
                                 }
                                 // This means we have last entry in product inventory table and user has not updated the quantity.
                                 else {
+
+
+                                    // Now check if this product has other inventory with positive quantity cause according to logic above, it product has 0 or
+                                    // Negative value with old date right now it will minus from other one and that will create inventory problem, very rare but possible.
+
                                     // This is Important because i need to set cost price separately that's why i need to do this.
                                     lineItemDao.setCost(productInventoryDao.getCost());
                                     transactionLineItemDaoListNew.add(lineItemDao);

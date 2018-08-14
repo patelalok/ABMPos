@@ -370,27 +370,17 @@ export class SaleComponent implements OnInit {
       this.setTransactionDtoList();
       this.persit.setProducts(this.transactionLineItemDaoList);
     }
+    this.setFocusOnProductSearch();
   }
 
   updateProductQuantity(value: any) {
 
-    // For some reason this is not working
-    // this.setFocusOnProductSearch();
-
     this.transactionLineItemDaoList[this.transactionLineItemDaoList.length - 1].saleQuantity = value;
     this.transactionLineItemDaoList[this.transactionLineItemDaoList.length - 1].totalProductPrice = parseFloat((this.transactionLineItemDaoList[this.transactionLineItemDaoList.length - 1].retailWithDiscount * this.transactionLineItemDaoList[this.transactionLineItemDaoList.length - 1].saleQuantity).toFixed(2));
     this.transactionLineItemDaoList = this.transactionLineItemDaoList.slice();
-
-        // this.setFocusOnProductSearch();
-        $('#productsearch > span > input').focus();
-        console.log('updat qty');
-
-
     this.setTransactionDtoList()
     this.persit.setProducts(this.transactionLineItemDaoList);
     this.productForSearchBox = null;
-
-
   }
 
   updateProductPrice(value: any) {
@@ -401,9 +391,6 @@ export class SaleComponent implements OnInit {
     this.setTransactionDtoList();
     this.persit.setProducts(this.transactionLineItemDaoList);
     this.productForSearchBox = null;
-
-    // For some reason this is not working
-    // this.setFocusOnProductSearch();
   }
 
   // this method helps to update lineItem Detail when user change the quatity or change the retail from editable box
@@ -411,10 +398,8 @@ export class SaleComponent implements OnInit {
 
     let index = this.transactionLineItemDaoList.indexOf(event.data);
 
-    console.log('event after update', event);
-
-    $('#productsearch > span > input').focus();
-
+    this.setFocusOnProductSearch();
+    
     this.transactionLineItemDaoList[index].saleQuantity = event.data.saleQuantity;
     this.transactionLineItemDaoList[index].retailWithDiscount = event.data.retailWithDiscount;
     this.transactionLineItemDaoList[index].description = event.data.description;
@@ -519,6 +504,8 @@ export class SaleComponent implements OnInit {
 
   submitCustomer() {
 
+    this.setFocusOnProductSearch();
+
     this.customerService.getCustomerDetailsByPhoneNo(this.selectedCustomer.phoneNo)
       .subscribe((customer) => {
         this.selectedCustomer = customer;
@@ -554,9 +541,7 @@ export class SaleComponent implements OnInit {
         //   });
 
         this.setTransactionDtoList();
-      })
-
-
+      });
 
   }
 
