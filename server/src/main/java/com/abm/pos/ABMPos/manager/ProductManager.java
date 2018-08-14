@@ -197,14 +197,17 @@ public class ProductManager{
             productInventoryRepository.updateProductRetailPrice(productVariantDao.getTier1(),productVariantDao.getTier2(),productVariantDao.getTier3(), productVariantDao.getProductNo());
         }
         else {
+                ProductVariantDao p = productVariantRepository.save(productVariantDao);
 
-            ProductVariantDao p = productVariantRepository.save(productVariantDao);
             // Here I need to add inventory details as soon as product variant added.
-            if (null != p) {
+            // In case of edit do not add inventory.
+            if (null != p
+                    && null != productVariantDao
+                    && null != productVariantDao.getOperationType()
+                    && productVariantDao.getOperationType().equalsIgnoreCase("Add")) {
 
                 ProductInventoryDao productInventoryDao = new ProductInventoryDao();
 
-                assert productVariantDao != null;
                 productInventoryDao.setProductId(productVariantDao.getProductId());
                 productInventoryDao.setProductNo(productVariantDao.getProductNo());
                 productInventoryDao.setCost(productVariantDao.getCost());
@@ -219,7 +222,6 @@ public class ProductManager{
                 productInventoryRepository.save(productInventoryDao);
 
                 // Here I need to add Entry in Image Table as soon as product variant added.
-
                 ProductImageDao productImageDao = new ProductImageDao();
                 productImageDao.setProductNo(productVariantDao.getProductNo());
                 productImageRepository.save(productImageDao);

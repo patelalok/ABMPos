@@ -201,8 +201,9 @@ export class EditProductComponent implements OnInit {
           }
           else {
             this.variantForm.get('variant1').setValue(this.productVariantDetailsDto[0]);
-            this.variantForm.get('variant2').setValue(this.productVariantDetailsDto[1]);
-            this.variantForm.get('variant3').setValue(this.productVariantDetailsDto[2]);
+            // This is creating proble, showing this values un neccessary so just commeting it.
+            // this.variantForm.get('variant2').setValue(this.productVariantDetailsDto[1]);
+            // this.variantForm.get('variant3').setValue(this.productVariantDetailsDto[2]);
           }
           // if(this.productVariantDetailsDto != null) {
           //   currentVariant1 = this.productVariantDetailsDto.filter((el)=>el.name == this)
