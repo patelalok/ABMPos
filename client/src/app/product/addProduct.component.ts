@@ -143,7 +143,7 @@ export class AddProductComponent implements OnInit {
         ecommerce: formValues.ecommerce,
         relatedProduct: formValues.relatedProduct,
         tax: formValues.tax,
-        varaint: formValues.varaint,
+        // varaint: formValues.varaint,
         markup: formValues.markup,
         minQuantity: formValues.minQuantity,
         // productVariantNo: formValues.productVariantNo,
