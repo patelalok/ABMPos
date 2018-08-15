@@ -15,7 +15,10 @@ public class PurchaseOrderDetailsDao {
     private int productId;
     private String date;
     private double cost;
-    private double retail;
+    private double tier1;
+    private double tier2;
+    private double tier3;
+
     private int orderQuantity;
     private int currentStock;
     private String status;
@@ -64,12 +67,28 @@ public class PurchaseOrderDetailsDao {
         this.cost = cost;
     }
 
-    public double getRetail() {
-        return retail;
+    public double getTier1() {
+        return tier1;
     }
 
-    public void setRetail(double retail) {
-        this.retail = retail;
+    public void setTier1(double tier1) {
+        this.tier1 = tier1;
+    }
+
+    public double getTier2() {
+        return tier2;
+    }
+
+    public void setTier2(double tier2) {
+        this.tier2 = tier2;
+    }
+
+    public double getTier3() {
+        return tier3;
+    }
+
+    public void setTier3(double tier3) {
+        this.tier3 = tier3;
     }
 
     public int getOrderQuantity() {

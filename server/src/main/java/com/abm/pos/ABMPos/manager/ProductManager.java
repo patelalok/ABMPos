@@ -51,6 +51,9 @@ public class ProductManager{
     @Autowired
     private ProductImageRepository productImageRepository;
 
+    @Autowired
+    private PurchaseOrderRepository purchaseOrderRepository;
+
 
     public ProductDao addProduct(ProductDao productDao)
     {
@@ -659,6 +662,9 @@ public class ProductManager{
             }
 
             productInventoryLogRepository.save(productInventoryLogList);
+
+            // Now I need to update the status of the purchase order, from pending to completed.
+            purchaseOrderRepository.updatePurchaseOrderStatus("Complete", inventoryResponse.get(0).getOrderId());
         }
     }
 }

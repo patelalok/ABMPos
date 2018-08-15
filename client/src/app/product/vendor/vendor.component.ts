@@ -6,6 +6,7 @@ import { Message } from 'primeng/primeng';
 import { VendorService } from 'app/product/vendor/vendor.service';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ToastsManager } from 'ng2-toastr';
+import { error } from 'util';
 
 
 @Component({
@@ -64,8 +65,15 @@ export class VendorComponent implements OnInit {
         if (this.newVendor) {
             newVendorDto.push(this.vendor);
 
-            this.vendorService.addOrUpdateVendor(this.vendor);
-            this.showSuccess('success', 'Insert', 'Vendor Added Successfully!!');
+            this.vendorService.addOrUpdateVendor(this.vendor)
+            .subscribe((response)=>{
+                if(response){
+                    this.toastr.success("Vendor Added Successfully");
+                }
+            },
+            error => {
+                this.toastr.error('Something Goes Wrong!!', 'Error!!')
+            });
             this.getVendorDetails();
             this.displayDialog = false;
 
@@ -73,8 +81,16 @@ export class VendorComponent implements OnInit {
             newVendorDto[this.findSelectedCarIndex()] = this.vendor;
             this.vendorDto = newVendorDto;
 
-            this.vendorService.addOrUpdateVendor(this.vendor);
-            this.vendor = null;
+            this.vendorService.addOrUpdateVendor(this.vendor)
+            .subscribe((response)=>{
+                if(response){
+                    this.toastr.success("Vendor Updated Successfully", "Success!!");
+                    this.vendor = null;
+                }
+            },
+            error => {
+                this.toastr.error('Something Goes Wrong!!', 'Error!!')
+            });
             this.getVendorDetails();
             this.showSuccess('success', 'Update', 'Vendor Updated Successfully!!');
             this.displayDialog = false;
@@ -84,17 +100,37 @@ export class VendorComponent implements OnInit {
     addVendor() {
 
         let newVendor = this.vendorForm.value;
-       
-        this.vendorService.addOrUpdateVendor(this.vendorForm.value); 
-        this.vendorDto.push(newVendor);
-        this.vendorDto = this.vendorDto.slice();
+        this.vendorService.addOrUpdateVendor(this.vendorForm.value)
+        .subscribe((response)=>{
+            if(response){
+                this.toastr.success("Vendor Added Successfully", "Success!!");
+                this.vendorDto.push(newVendor);
+                this.vendorDto = this.vendorDto.slice();
+            }
+        },
+        error => {
+            this.toastr.error('Something Goes Wrong!!', 'Error!!')
+        });
+  
 
         this.displayDialog = false;
 
     }
     updateVendor(event) {
 
-        this.vendorService.addOrUpdateVendor(event.data);
+        this.vendorService.addOrUpdateVendor(event.data) 
+        .subscribe((response)=>{
+            if(response){
+                let index = this.vendorDto.findIndex((el) => el.name == event.data.name);
+                this.vendorDto[index] = event.data;
+                this.vendorDto = this.vendorDto.slice();
+                this.toastr.success("Vendor Updated Successfully", "Success");
+            }
+        },
+        error => {
+            this.toastr.error('Something Goes Wrong!!', 'Error!!')
+        });
+        
 
     }
 

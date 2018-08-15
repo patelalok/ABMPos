@@ -6,6 +6,10 @@ import { DateDto, DateService } from '../../shared/services/date.service';
 import { LoadingService } from '../../loading.service';
 import * as moment from 'moment';
 import { ActivatedRoute, Router } from '@angular/router';
+import { ToastsManager } from 'ng2-toastr';
+import { error } from 'protractor';
+import { VendorService } from '../../product/vendor/vendor.service';
+import { Vendor } from '../../product/product.component';
 
 
 @Component({
@@ -21,13 +25,18 @@ export class PurchaseOrderListComponent implements OnInit {
   searchOrderTextbox: string;
   purchaseOrderDaoList: PurchaseOrderDao[] = [];
   dateDto = new DateDto();
+  selectedPurchaseOrderForDelete =  new PurchaseOrderDao();
+  seletePurchaseOrderForEmail =  new PurchaseOrderDao();
 
   constructor(private purchaseOrderService:PurchaseOrderService,
     private dateService:DateService, 
     private loadingServie: LoadingService,
     private fb: FormBuilder,
     private route: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private toastr: ToastsManager,
+    private vendorService: VendorService
+
    ) { }
 
   ngOnInit() {
@@ -121,13 +130,42 @@ export class PurchaseOrderListComponent implements OnInit {
   editPurchaseOrder(){
 
   }
-  deletePurchaseOrder(){
 
+  setPurchaseOrderForDelete(purchaseOrder : PurchaseOrderDao){
+    this.selectedPurchaseOrderForDelete = purchaseOrder;
+  }
+  
+  deletePurchaseOrder() {
+    this.purchaseOrderService.deletePurchaseOrder(this.selectedPurchaseOrderForDelete.purchaseOrderId)
+    .subscribe((response)=>{
+      if(response){
+        this.toastr.success("Purchase Order Deleted Successfully!!", "Success")
+      }
+    }),
+    error => {
+      this.toastr.error("Something Goes Wrong!!", "Error");
+      console.log(error);
+    }
   }
   printPurchaseOrder(){
 
   }
-  emailPurchaseOrder(){
+  emailPurchaseOrder(purchaseOrder : PurchaseOrderDao){
+
+    this.vendorService.getVendorById(purchaseOrder.vendorId)
+    .subscribe((vendor: Vendor)=>{
+      if(vendor && vendor.email){
+        this.purchaseOrderService.sendPurchaseOrderToVendor(purchaseOrder.purchaseOrderId)
+        .subscribe((response)=>{
+
+          alert("uuummmmmm...to much exitment, please wait for this feature to be done!!!")
+        })
+
+      }
+      else {
+        alert("Email address is not found for the vendor!!!")
+      }
+    })
 
   }
   confirmPurchaseOrder(){

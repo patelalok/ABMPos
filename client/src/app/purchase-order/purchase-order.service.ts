@@ -31,6 +31,18 @@ export class PurchaseOrderService {
       .catch(this.handleError);
     }
 
+    deletePurchaseOrder(purchaseOrderId: number) {
+      return this.http.delete(this.url+"/deletePurchaseOrder?purchaseOrderId="+purchaseOrderId)
+      .map(this.extractData)
+      .catch(this.handleError);
+    }
+
+    sendPurchaseOrderToVendor(purchaseOrderId: number) {
+      return this.http.get(this.url+"/emailPurchaseOrderToVendor?purchaseOrderId="+purchaseOrderId)
+      .map(this.extractData)
+      .catch(this.handleError);
+    }
+
     private extractData(res: Response): any {
       let body = res.json();
       console.log(body);

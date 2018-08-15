@@ -45,4 +45,14 @@ public class PurchaseOrderManager {
 
         return purchaseOrderDao;
     }
+
+    public void deletePurchaseOrder(int purchaseOrderId) {
+        purchaseOrderRepository.delete(purchaseOrderId);
+    }
+
+    public void emailPurchaseOrderToVendor(int purchaseOrderDao) {
+
+        // TODO Need to write logic to send an email to vendor.
+        // GET the purchase order id from db and then send to email, do not get it from ul.
+    }
 }

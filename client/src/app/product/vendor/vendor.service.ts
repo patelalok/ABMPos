@@ -2,28 +2,49 @@ import {Injectable } from '@angular/core';
 import {Http, Response, Headers} from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import { FormControl } from '@angular/forms/forms';
-import { VendorTest } from "app/product/product.component";
+import { VendorTest, Vendor } from "app/product/product.component";
+import { environment } from 'environments/environment';
 
 @Injectable()
 export class VendorService {
+  private url: string;
 
-    constructor(private http: Http) { }
+    constructor(private http: Http) { 
+      this.url = environment.productUrl;
+    }
 
-    addOrUpdateVendor(vendor: VendorTest)
-    {
-      console.log("Category Added" + vendor.name);
-      this.http.post('http://localhost:8080/addVendor', vendor)
-      .subscribe(data => {
-        alert('Vendor Updated !!');
-        console.log(data);
-      },
-        error => {
-      console.log(JSON.stringify(error.json()));
-    });
+    addOrUpdateVendor(vendor: VendorTest){
+      return this.http.post(this.url+'/addVendor', vendor);
+    }
+
+    getVendorById(vendorId: number): Observable<Vendor> {
+      return this.http.get(this.url+'/getVendorById?vendorId='+vendorId)
+      .map(this.extractData)
+      .catch(this.handleError);
     }
 
       deleteVendor(vendorId: number): Observable<Response>
     {
-      return this.http.delete('http://localhost:8080/deleteVendor?vendorId=' + vendorId);
+      return this.http.delete(this.url+'/deleteVendor?vendorId=' + vendorId);
     }
+
+    private extractData(res: Response): any {
+      let body = res.json();
+      console.log(body);
+      return body || {};
+    }
+
+  private handleError(error: Response | any) {
+    // In a real world app, you might use a remote logging infrastructure
+    let errMsg: string;
+    if (error instanceof Response) {
+      const body = error.json() || '';
+      const err = body.error || JSON.stringify(body);
+      errMsg = `${error.status} - ${error.statusText || ''} ${err}`;
+    } else {
+      errMsg = error.message ? error.message : error.toString();
+    }
+    console.error(errMsg);
+    return Observable.throw(errMsg);
+  }
 }

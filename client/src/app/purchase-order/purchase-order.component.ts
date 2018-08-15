@@ -64,6 +64,8 @@ export class PurchaseOrderComponent implements OnInit {
       this.productInventotyList = this.persit.getProductsForPurchaseOrder() || [];
     }
 
+    console.log('id', this.purchaseProductId)
+
     console.log('product inv list', this.productInventotyList);
   }
 
@@ -136,7 +138,10 @@ export class PurchaseOrderComponent implements OnInit {
       purchaseOrderDetailsDaoList.productId = product.productId;
       purchaseOrderDetailsDaoList.productNo = product.productNo;
       purchaseOrderDetailsDaoList.cost = product.cost;
-      purchaseOrderDetailsDaoList.retail = product.tier3;
+      purchaseOrderDetailsDaoList.tier1 = product.tier1;
+      purchaseOrderDetailsDaoList.tier2 = product.tier2;
+      purchaseOrderDetailsDaoList.tier3 = product.tier3;
+
       purchaseOrderDetailsDaoList.currentStock = product.quantity;
       purchaseOrderDetailsDaoList.orderQuantity = product.purchasedOrderQuanity;
       purchaseOrderDetailsDaoList.status = 'Pending';
@@ -190,13 +195,6 @@ export class PurchaseOrderComponent implements OnInit {
     this.persit.clearProductsForPurchaseOrder();
   }
 
-  addInventoryFromPurchaseOrder(){
-    this.productInventotyList.forEach((inventory)=>{
-      
-    })
-  }
-
-
   handlePurchaseOrderToAddInventory(purchaseOrderId: any) {
 
     this.purchaseOrderService.getPurchaseOrderDetailByOrderId(purchaseOrderId)
@@ -217,12 +215,16 @@ export class PurchaseOrderComponent implements OnInit {
             inventoryObj.productId = orderItem.productId;
             inventoryObj.productNo = orderItem.productNo;
             inventoryObj.cost = orderItem.cost;
-            inventoryObj.retail = orderItem.retail;
+            inventoryObj.tier1 = orderItem.tier1;
+            inventoryObj.tier2 = orderItem.tier3;
+            inventoryObj.tier3 = orderItem.tier3;
+
             inventoryObj.currentStock = orderItem.currentStock;
             inventoryObj.totalProductPrice = parseFloat((orderItem.cost * orderItem.orderQuantity).toFixed(2));
 
             // This is real quantity which i need to store in inventory table.
             inventoryObj.quantity = orderItem.orderQuantity;
+            inventoryObj.purchasedOrderQuanity = orderItem.orderQuantity;
             inventoryObj.description = orderItem.description;
             inventoryObj.username = purchaseOrder.username;
             inventoryObj.vendorId = purchaseOrder.vendorId;
@@ -384,6 +386,7 @@ export class PurchaseOrderComponent implements OnInit {
       .subscribe(data => {
         if (data) {
           this.toastr.success('All Product Inventory Added Successfully !!', 'Success!');
+          this.clearDateAfterCreatePurchaseOrder();
         }
       },
       error => {
@@ -483,7 +486,10 @@ export class PurchaseOrderDetailsDaoList {
   productId: number;
   date: string;
   cost: number;
-  retail: number;
+  // retail: number;
+  tier1?: number;
+  tier2?: number;
+  tier3?: number;
   orderQuantity: number;
   currentStock: number;
   status: string;

@@ -41,4 +41,15 @@ public class PurchaseOrderController {
         return purchaseOrderManager.getPurchaseOrderById(purchaseOrderId);
 
     }
+    @RequestMapping(value = "/deletePurchaseOrder", method = RequestMethod.DELETE, produces = "application/json")
+    public void  deletePurchaseOrder(@RequestParam int purchaseOrderId)
+    {
+        purchaseOrderManager.deletePurchaseOrder(purchaseOrderId);
+    }
+
+    @RequestMapping(value = "/emailPurchaseOrderToVendor", method = RequestMethod.GET, produces = "application/json")
+    public void  emailPurchaseOrderToVendor(@RequestParam int purchaseOrderId)
+    {
+        purchaseOrderManager.emailPurchaseOrderToVendor(purchaseOrderId);
+    }
 }

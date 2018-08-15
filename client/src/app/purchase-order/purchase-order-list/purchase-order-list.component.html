@@ -84,17 +84,17 @@
               <button class="btn-blue action-button-table" [routerLink]="['/purchase-order', {purchaseOrderId: order.purchaseOrderId, edit:true}]" mat-button>
                 <i class="fa fa-pencil" aria-hidden="true" ></i>
               </button>
-              <button class="btn-green action-button-table" [routerLink]="['/purchase-order', {purchaseOrderId: order.purchaseOrderId, edit:false}]" mat-button>
+              <!-- <button class="btn-green action-button-table" [routerLink]="['/purchase-order', {purchaseOrderId: order.purchaseOrderId, edit:false}]" mat-button>
                 <i class="fa fa-plus-square" aria-hidden="true"></i>
-              </button>
-              <button mat-button class="btn-red action-button-table" mat-button (click)="this.deletePurchaseOrder()" data-toggle="modal"
+              </button> -->
+              <button mat-button class="btn-red action-button-table" mat-button (click)="this.setPurchaseOrderForDelete(order)" data-toggle="modal"
                 data-target="#deleteProduct">
                 <i class="fa fa-trash" aria-hidden="true"></i>
               </button>
               <button class="btn-blue action-button-table" mat-button (click)="this.printPurchaseOrder()">
                 <i class="fa fa-print" aria-hidden="true"></i>
               </button>
-              <button class="btn-green action-button-table" mat-button (click)='this.emailPurchaseOrder()'>
+              <button class="btn-green action-button-table" mat-button (click)='this.emailPurchaseOrder(order)'>
                 <i class="fa fa-envelope" aria-hidden="true"></i>
               </button>
 
