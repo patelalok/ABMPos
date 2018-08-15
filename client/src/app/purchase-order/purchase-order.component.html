@@ -69,15 +69,14 @@
       </i>
     </button>
 
-    <button class="bg btn-green text-white m-3 action-button" mat-raised-button data-toggle="modal" data-target="#removeProductInventory"
-      (click)="this.setHeaderForAddProductInventory()">
+    <button (click)="this.createPurchaseOrder()" class="bg btn-green text-white m-3 action-button" mat-raised-button >
       <i class="fa fa-paper-plane" aria-hidden="true">
         SAVE PURCHASE ORDER
       </i>
     </button>
 
     <button class="bg btn-green text-white m-3 action-button" mat-raised-button data-toggle="modal" data-target="#removeProductInventory"
-    (click)="this.addProductInventory()">
+    (click)="this.setHeaderForAddProductInventory()">
     <i class="fa fa-paper-plane" aria-hidden="true">
       ADD TO INVENTORY
     </i>
@@ -111,7 +110,7 @@
           (click)="this.removeAllProductInventory()">Yes</button>
 
         <button *ngIf="this.popupHeader == 'Add All Product Inventory' " type="button" class="btn btn-success" data-dismiss="modal"
-          (click)="this.createPurchaseOrder()">Yes</button>
+          (click)="this.addProductInventoryToBackEnd()">Yes</button>
 
         <!-- TODO Add one more button for add product if it does not exists -->
         <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
@@ -168,9 +167,9 @@
 
   <p-footer>
     <div style="text-align: center">
-      <button (click)="this.addProductInventoryToPurchaseOrder()" type="button" mat-raised-button class="bg-primary text-white action-button-lg">
+      <button style="width:50%;" (click)="this.addProductInventoryToPurchaseOrder()" type="button" mat-raised-button class="bg-primary text-white action-button-lg">
         <i class="fa fa-plus-square" aria-hidden="true" label="Add"></i>
-        Add Inventory
+        Add To Purchase Order
       </button>
     </div>
   </p-footer>

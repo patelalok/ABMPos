@@ -201,6 +201,7 @@ export class ProductInventory {
   markup?: number;
   quantity?: number;
   totalQuantity?:number;
+  username?:any;
 
   // this is just for purchase order.to show total amount on PO creatin view.
   totalProductPrice?: number;
@@ -211,6 +212,8 @@ export class ProductInventory {
   date?: any;
   time?: any;
   purchasedOrderQuanity?:number;
+  orderId?:number;
+  currentStock?:number;
 }
 
 

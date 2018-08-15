@@ -536,13 +536,11 @@ export class EditProductComponent implements OnInit {
     updateProductInventory(event) {
 
     
-      let product: Product = event.data;
+      let product: ProductInventory = event.data;
       let quantity: number = Number(product.quantity);
+      product.lastUpdatedTimestamp = moment(Date.now()).format('YYYY-MM-DD HH:mm:ss');
 
-      // Here i need to set this flag to manage backend logic with inventory update w
-      console.log('Updating product inventory', product);
-  
-      console.log('event on inventoty', event.date);
+      console.log('event on inventoty', product);
       //let productInventory: ProductInventory[] = []; 
       
       //productInventory.push(event.data);
@@ -560,7 +558,6 @@ export class EditProductComponent implements OnInit {
           if(index > -1){
           this.productVariantDto[index].quantity = backendResponse.totalQuantity;
           this.productVariantDto[index].cost = backendResponse.cost;
-  
           this.productVariantDto = this.productVariantDto.slice();
           this.toastr.success('Inventory Updated Successfully !!', 'Success!');
           }

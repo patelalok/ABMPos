@@ -34,10 +34,13 @@ public class ProductInventoryDao {
     private boolean variant;
 
     @Transient
-    private int currentStock;
+    private int purchasedOrderQuanity;
 
     @Transient
     private int orderId;
+
+    @Transient
+    private int vendorId;
 
 
 //    @Transient
@@ -172,21 +175,21 @@ public class ProductInventoryDao {
         this.username = username;
     }
 
-    public int getCurrentStock() {
-        return currentStock;
+    public int getPurchasedOrderQuanity() {
+        return purchasedOrderQuanity;
     }
 
-    public void setCurrentStock(int currentStock) {
-        this.currentStock = currentStock;
+    public void setPurchasedOrderQuanity(int purchasedOrderQuanity) {
+        this.purchasedOrderQuanity = purchasedOrderQuanity;
     }
-//
-//    public int getVendorId() {
-//        return vendorId;
-//    }
-//
-//    public void setVendorId(int vendorId) {
-//        this.vendorId = vendorId;
-//    }
+
+    public int getVendorId() {
+        return vendorId;
+    }
+
+    public void setVendorId(int vendorId) {
+        this.vendorId = vendorId;
+    }
 
     public int getOrderId() {
         return orderId;

@@ -294,6 +294,9 @@
                                     </ng-template>
                         </p-column>
                         <p-column field="quantity" header="Quantity">
+                                <ng-template let-product="rowData" pTemplate="body">
+                                        <a href="JavaScript:void(0);" (click)="setProductInventoryForSelectedProduct(product, true)" data-toggle="modal" data-target="#productInventory">{{product.cost}}</a>
+                                    </ng-template>
 
                         </p-column>
                         
@@ -635,13 +638,13 @@
                     <div style="display:flex; justify-content: space-between;">
                         <!-- <div class="col-md-4"> -->
     
-                            <mat-slide-toggle
+                            <!-- <mat-slide-toggle
                             class="example-margin"
                             [color]="color"
                             [checked]="checked"
                             [disabled]="disabled">
                           Show RMA!
-                        </mat-slide-toggle>
+                        </mat-slide-toggle> -->
                         <div> <select class="form-control form-control-lg" [(ngModel)]="this.productHistoryDropDown" (change)="this.getProductHistory()">
                                 <option>Today</option>
                                 <option>Yesterday</option>

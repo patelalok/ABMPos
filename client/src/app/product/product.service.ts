@@ -221,6 +221,11 @@ export class ProductService {
     return this.http.post(this.url+'/addProductInventory', productInventory);
   }
 
+  addProductInventoryFromPurchaseOrder(productInventory: ProductInventory[]) {
+    console.log("Product Added", productInventory);
+    return this.http.post(this.url+'/addProductInventoryFromPurchaseOrder', productInventory);
+  }
+
   addProductVariantDetails(productVariantDetailDao: ProductVariantDetail){
     return this.http.post(this.url+'/addProductVariantDetails',productVariantDetailDao);
   }

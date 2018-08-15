@@ -449,10 +449,9 @@ export class ProductTableComponent implements OnInit {
 
   updateProductInventory(event) {
 
-    let product: Product = event.data;
+    let product: ProductInventory = event.data;
     let quantity: number = Number(product.quantity);
-    console.log('Updating product inventory', product);
-    console.log('event on inventoty', event.date);
+    product.lastUpdatedTimestamp = moment(Date.now()).format('YYYY-MM-DD HH:mm:ss');
     //let productInventory: ProductInventory[] = []; 
 
     //productInventory.push(event.data);

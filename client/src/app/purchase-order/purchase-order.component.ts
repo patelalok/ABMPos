@@ -167,7 +167,7 @@ export class PurchaseOrderComponent implements OnInit {
       .subscribe((response) => {
         console.log('response', response);
         if (response && response.status == 201) {
-          this.toastr.success("Purchase Order Created Successfully!!!", 'Success');
+          this.toastr.success("Purchase Order Saved Successfully!!!", 'Success');
           this.clearDateAfterCreatePurchaseOrder();
         }
         else {
@@ -187,6 +187,7 @@ export class PurchaseOrderComponent implements OnInit {
     this.selectedVendor = null;
     this.productInventotyList = [];
     this.selectedVendorName = '';
+    this.persit.clearProductsForPurchaseOrder();
   }
 
   addInventoryFromPurchaseOrder(){
@@ -211,14 +212,21 @@ export class PurchaseOrderComponent implements OnInit {
           this.selectedVendorName = purchaseOrder.vendorName;
           purchaseOrder.purchaseOrderDetailsDaoList.forEach((orderItem) => {
             let inventoryObj = new ProductInventory();
+
+            inventoryObj.orderId = purchaseOrder.purchaseOrderId;
             inventoryObj.productId = orderItem.productId;
             inventoryObj.productNo = orderItem.productNo;
             inventoryObj.cost = orderItem.cost;
             inventoryObj.retail = orderItem.retail;
-            inventoryObj.purchasedOrderQuanity = orderItem.orderQuantity;
+            inventoryObj.currentStock = orderItem.currentStock;
             inventoryObj.totalProductPrice = parseFloat((orderItem.cost * orderItem.orderQuantity).toFixed(2));
-            inventoryObj.quantity = orderItem.currentStock;
+
+            // This is real quantity which i need to store in inventory table.
+            inventoryObj.quantity = orderItem.orderQuantity;
             inventoryObj.description = orderItem.description;
+            inventoryObj.username = purchaseOrder.username;
+            inventoryObj.vendorId = purchaseOrder.vendorId;
+
             this.productInventotyList.push(inventoryObj);
           });
 
@@ -367,21 +375,21 @@ export class PurchaseOrderComponent implements OnInit {
   }
   addProductInventoryToBackEnd() {
 
-    // this.productInventotyList.forEach((inventory) => {
-    //   inventory.createdTimestamp = moment(Date.now()).format('YYYY-MM-DD HH:mm:ss');
-    // });
+    console.log('product inventory list to add to backend', this.productInventotyList);
+    this.productInventotyList.forEach((inventory) => {
+      inventory.createdTimestamp = moment(Date.now()).format('YYYY-MM-DD HH:mm:ss');
+    });
 
-    // this.productService.addProductInventory(this.productInventotyList)
-    //   .subscribe(data => {
-
-    //     if (data) {
-    //       this.toastr.success('Inventory Added Successfully !!', 'Success!');
-    //     }
-    //   },
-    //   error => {
-    //     this.toastr.error('Opps Something goes wrong !!', 'Error!!');
-    //     console.log(JSON.stringify(error.json()));
-    //   });
+    this.productService.addProductInventoryFromPurchaseOrder(this.productInventotyList)
+      .subscribe(data => {
+        if (data) {
+          this.toastr.success('All Product Inventory Added Successfully !!', 'Success!');
+        }
+      },
+      error => {
+        this.toastr.error('Opps Something goes wrong !!', 'Error!!');
+        console.log(JSON.stringify(error.json()));
+      });
 
   }
 
