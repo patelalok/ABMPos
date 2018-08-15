@@ -47,8 +47,7 @@ public class ProductManager{
 
         productRepository.save(productDao);
     }
-    @CachePut("products")
-    //@CacheEvict("products")
+
     public ProductDao addProductTest(ProductDao productDao) {
 
        return productRepository.save(productDao);

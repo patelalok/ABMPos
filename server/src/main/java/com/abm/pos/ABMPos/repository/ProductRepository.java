@@ -29,11 +29,9 @@ public interface ProductRepository extends JpaRepository<ProductDao, String> {
 
     //@Query("SELECT p FROM ProductDao p WHERE p.active = true ORDER BY p.description ASC")
     @Query("SELECT p FROM ProductDao p WHERE p.active = true ORDER BY p.productNo ASC")
-    //@Cacheable(value = "products",  key = "#root.target.KEY")
     List<ProductDao> getAllActiveProduct();
 
-    @Query("SELECT p FROM ProductDao p WHERE p.active = true")
-        //@Cacheable(value = "products")
+    @Query("SELECT p FROM ProductDao p WHERE p.active = true Order BY p.description")
     List<ProductDao> getAllActiveProductForSellPage();
 
     ProductDao findOneByProductNo(String productNo);
