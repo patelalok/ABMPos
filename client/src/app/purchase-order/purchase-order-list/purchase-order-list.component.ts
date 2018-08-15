@@ -158,12 +158,12 @@ export class PurchaseOrderListComponent implements OnInit {
         this.purchaseOrderService.sendPurchaseOrderToVendor(purchaseOrder.purchaseOrderId)
         .subscribe((response)=>{
 
-          alert("uuummmmmm...to much exitment, please wait for this feature to be done!!!")
+          this.toastr.warning("uuummmmmm...to much exitment, please wait for this feature to be done!!!")
         })
 
       }
       else {
-        alert("Email address is not found for the vendor!!!")
+        this.toastr.warning("Email Address Not Found For Vandor!!")
       }
     })
 
