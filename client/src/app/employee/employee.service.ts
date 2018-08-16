@@ -67,16 +67,8 @@ getEmployeeAllClockInDetails(username: string, startDate: any, endDate: any): Ob
   .catch(this.handleError);
 }
 
-    addOrUpdateEmployee(employee: Employee)
-    {
-     console.log('Employee to be Added' + employee.name);
-      this.http.post(this.url+'/addEmployee', employee)
-      .subscribe(data => {
-        console.log('Response From Add Employee call' + data);
-      },
-        error => {
-      console.log(JSON.stringify(error.json()));
-    });
+    addOrUpdateEmployee(employee: Employee){
+      return this.http.post(this.url+'/addEmployee', employee);
     }
 
     addClockInDetails(clockIn: ClockIn): Observable<ClockIn>
@@ -84,7 +76,6 @@ getEmployeeAllClockInDetails(username: string, startDate: any, endDate: any): Ob
       return this.http.post(this.url+'/addClockIn', clockIn)
       .map(this.extractData)
       .catch(this.handleError);
-    
     }
 
     deleteEmployee(id: number)

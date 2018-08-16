@@ -7,6 +7,7 @@ import { Router } from '@angular/router';
 import { DateDto, DateService } from 'app/shared/services/date.service';
 import { ClockIn } from './clockin/clockin.component';
 import * as moment from 'moment';
+import { ToastsManager } from 'ng2-toastr';
 
 
 
@@ -29,7 +30,11 @@ export class EmployeeComponent implements OnInit {
   employeeDetailsBy: string = 'Month';
 
 
-  constructor(private employeeService: EmployeeService, private formBuilder: FormBuilder, private router: Router, private dateServie: DateService) { }
+  constructor(private employeeService: EmployeeService,
+    private formBuilder: FormBuilder,
+    private router: Router,
+    private dateServie: DateService,
+    private toastr: ToastsManager) { }
 
   ngOnInit() {
 
@@ -78,7 +83,16 @@ export class EmployeeComponent implements OnInit {
     this.employeeForm.reset();
   }
   addEmployee() {
-    this.employeeService.addOrUpdateEmployee(this.employeeForm.value);
+    this.employeeService.addOrUpdateEmployee(this.employeeForm.value)
+      .subscribe(data => {
+        if (data) {
+          this.toastr.success("Employee Add Successfully", "Success!!");
+        }
+      },
+        error => {
+          this.toastr.error("Something Wrong", "Error!!")
+          console.log(JSON.stringify(error.json()));
+        });
     this.employeeForm.reset();
     this.displayDialog = false;
   }
