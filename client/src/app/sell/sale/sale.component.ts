@@ -152,7 +152,7 @@ export class SaleComponent implements OnInit {
 
     let productFound: boolean = false;
 
-    if (value && value.length > 7 && (value.match(/[0-9]/i))) {
+    if (value && value.length > 3) {
       console.log('This mean user has scan the barcode no', value);
 
       let product = this.productMap.get(value);
@@ -1029,7 +1029,7 @@ export class Product {
   quantity: number;
   minQuantity: number;
   tax: boolean;
-  varaint: boolean;
+  varaint?: boolean;
   active: boolean;
   ecommerce: boolean;
   relatedProduct: boolean;

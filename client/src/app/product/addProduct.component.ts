@@ -19,8 +19,7 @@ import { Product } from 'app/sell/sale/sale.component';
   // host: { '[@slideInOutAnimation]': '' }
 })
 export class AddProductComponent implements OnInit {
-
-
+  
   form: FormGroup;
   backendProductDto: Product[];
   categoryDto: Category[];
@@ -48,7 +47,7 @@ export class AddProductComponent implements OnInit {
 
     this.form = this.formBuilder.group(
       {
-        'productNo': [null, [Validators.required, Validators.pattern('^[0-9]+$')]],
+        'productNo': [null, [Validators.required]],
         'description': ['', Validators.required],
         'category': [null, Validators.required],
         'brand': [null, Validators.required],
@@ -143,7 +142,7 @@ export class AddProductComponent implements OnInit {
         ecommerce: formValues.ecommerce,
         relatedProduct: formValues.relatedProduct,
         tax: formValues.tax,
-        // varaint: formValues.varaint,
+        varaint: formValues.varaint,
         markup: formValues.markup,
         minQuantity: formValues.minQuantity,
         // productVariantNo: formValues.productVariantNo,
@@ -157,7 +156,7 @@ export class AddProductComponent implements OnInit {
         time: null,
         createdTimestamp: moment(Date.now()).format('YYYY-MM-DD HH:mm:ss'),
         //enableDigitalPunch: formValues.enableDigitalPunch,
-        noOfSaleForFreeService: formValues.noOfSaleForFreeService,
+        // noOfSaleForFreeService: formValues.noOfSaleForFreeService,
         favorite: formValues.favorite
 
        // productInventoryDaoList: this.productInventoryList
