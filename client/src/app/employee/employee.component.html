@@ -100,8 +100,8 @@
                                     <th>Clock In</th>
                                     <th>Clock Out</th>
                                     <th>Total Hour</th>
-                                    <th>Hourly Rate</th>
-                                    <th>Total Amount</th>
+                                    <!-- <th>Hourly Rate</th>
+                                    <th>Total Amount</th> -->
                                     <th>Action</th>
                                 </tr>
 
@@ -114,11 +114,11 @@
                                     <td>{{clock.clockIn}}</td>
                                     <td>{{clock.clockOut}}</td>
                                     <td>{{clock.noOfHours}}</td>
-                                    <td>{{clock.hourlyRate}}</td>
-                                    <td>{{clock.totalAmount}}</td>
+                                    <!-- <td>{{clock.hourlyRate}}</td>
+                                    <td>{{clock.totalAmount}}</td> -->
                                     <td>
-                                        <button mat-button class="btn-blue action-button-table">
-                                            <i class="fa fa-pencil" aria-hidden="true"></i>
+                                        <button mat-button class="btn-blue action-button-table" data-toggle="modal" data-target="#updateClockIn">
+                                            <i class="fa fa-pencil" aria-hidden="true" ></i>
                                         </button>
                                         <button mat-button data-toggle="modal" data-target="#deleteClockIn" (click)="this.deleteClockInDetail(clock)" mat-button
                                             class="btn-red action-button-table" mat-button data-toggle="modal" data-target="#deleteEmployee">
@@ -624,22 +624,6 @@
 
 
 <div class="modal fade" id="updateClockIn" role="dialog">
-    <div class="modal-dialog modal-sm">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h4 class="modal-title">Delete Employee</h4>
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
-            </div>
-            <div class="modal-body">
-   <input [owlDateTimeTrigger]="dt4" [owlDateTime]="dt4">
-    <owl-date-time [pickerType]="'timer'" #dt4></owl-date-time>
-            </div>
-            <div class="modal-footer">
-
-                <button type="button" class="btn btn-danger" data-dismiss="modal" (click)="this.deleteEmployee()">Yes</button>
-                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-            </div>
-        </div>
-    </div>
+        <!-- <datetime [(ngModel)]="this.date"></datetime> -->
 </div>
 <!-- End of Update Clock In details Popup -->

@@ -120,7 +120,7 @@ export class SaleComponent implements OnInit {
     //   { name: 'Purchase Order', icon: 'fa fa-bookmark fa-x', link: '/sell/purchaseOrder' }
     // ];
 
-    this.getAllProductVariant();
+    //this.getAllProductVariant();
     this.storeSetupService.getStoreDetails().
       then((data) => {
         this.storeDetails = data;
@@ -134,7 +134,7 @@ export class SaleComponent implements OnInit {
       });
 
     this.getCustomerDetails();
-    this.getProductDetails();
+    //this.getProductDetails();
     this.selectedCustomer = this.persit.getCustomerDetailsForSale();
 
     //this.setFocusOnProductSearch();
@@ -1268,6 +1268,9 @@ export class SaleComponent implements OnInit {
 
   }
   getProductDetails() {
+    let no = 1
+    console.log('no', no++);
+
     this.productService.getProductDetails();
     this._subscriptionProduct = this.productService.productListChange.subscribe((product) => {
       this.productList = product;

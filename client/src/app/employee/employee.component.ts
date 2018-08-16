@@ -8,8 +8,6 @@ import { DateDto, DateService } from 'app/shared/services/date.service';
 import { ClockIn } from './clockin/clockin.component';
 import * as moment from 'moment';
 
-
-
 @Component({
   selector: 'app-employee',
   templateUrl: './employee.component.html',
@@ -27,6 +25,7 @@ export class EmployeeComponent implements OnInit {
   clockInDto: ClockIn[] = [];
   dateDto = new DateDto();
   employeeDetailsBy: string = 'Month';
+  date: any;
 
 
   constructor(private employeeService: EmployeeService, private formBuilder: FormBuilder, private router: Router, private dateServie: DateService) { }
