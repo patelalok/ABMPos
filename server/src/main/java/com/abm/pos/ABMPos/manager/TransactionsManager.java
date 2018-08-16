@@ -703,7 +703,7 @@ public class TransactionsManager {
         PdfPTable totalDueAmount = new PdfPTable(2);
 
 
-        String[] header = new String[]{"PRODUCT NO", "DESCRIPTION", "QTY", "RETAIL", "AMOUNT"};
+        String[] header = new String[]{"PRODUCT NO", "DESCRIPTION", "QTY", "RETAIL","RETWTDIS","AMOUNT"};
         String[] paymentHeader = new String[]{"PAYMENT METHOD", "AMOUNT", "DATE", "TIME"};
 
 
@@ -789,7 +789,6 @@ public class TransactionsManager {
                 Paragraph phoneNo = new Paragraph(transactionDao.getStoreSetupDao().getPhoneNo());
                 phoneNo.setAlignment(PdfPCell.ALIGN_LEFT);
                 Paragraph email = new Paragraph(transactionDao.getStoreSetupDao().getEmail());
-
                 email.setAlignment(PdfPCell.ALIGN_LEFT);
 
                 storeDetails.addElement(storeName);
@@ -856,12 +855,15 @@ public class TransactionsManager {
                     PdfPCell cell3 = new PdfPCell();
                     PdfPCell cell4 = new PdfPCell();
                     PdfPCell cell5 = new PdfPCell();
+                    PdfPCell cell6 = new PdfPCell();
+
 
                     cell1.addElement(new Phrase(lineItem.getProductNo(), FontFactory.getFont(FontFactory.HELVETICA, 8, Font.NORMAL)));
                     cell2.addElement(new Phrase(lineItem.getDescription(), FontFactory.getFont(FontFactory.HELVETICA, 8, Font.NORMAL)));
                     cell3.setCellEvent(new PositionEvent(new Phrase(10, String.valueOf(lineItem.getSaleQuantity()), FontFactory.getFont(FontFactory.HELVETICA, 8, Font.NORMAL)), 0.5f, 0.5f, Element.ALIGN_CENTER));
-                    cell4.setCellEvent(new PositionEvent(new Phrase(10, String.valueOf(lineItem.getRetailWithDiscount()), FontFactory.getFont(FontFactory.HELVETICA, 8, Font.NORMAL)), 0.5f, 0.5f, Element.ALIGN_CENTER));
-                    cell5.setCellEvent(new PositionEvent(new Phrase(10, String.valueOf(lineItem.getTotalProductPrice()), FontFactory.getFont(FontFactory.HELVETICA, 8, Font.NORMAL)), 0.5f, 0.5f, Element.ALIGN_CENTER));
+                    cell4.setCellEvent(new PositionEvent(new Phrase(10, String.valueOf(lineItem.getRetail()), FontFactory.getFont(FontFactory.HELVETICA, 8, Font.NORMAL)), 0.5f, 0.5f, Element.ALIGN_CENTER));
+                    cell5.setCellEvent(new PositionEvent(new Phrase(10, String.valueOf(lineItem.getRetailWithDiscount()), FontFactory.getFont(FontFactory.HELVETICA, 8, Font.NORMAL)), 0.5f, 0.5f, Element.ALIGN_CENTER));
+                    cell6.setCellEvent(new PositionEvent(new Phrase(10, String.valueOf(lineItem.getTotalProductPrice()), FontFactory.getFont(FontFactory.HELVETICA, 8, Font.NORMAL)), 0.5f, 0.5f, Element.ALIGN_CENTER));
 
 //                    cell3.addElement(new Phrase(String.valueOf(lineItem.getSaleQuantity()),FontFactory.getFont(FontFactory.HELVETICA, 10, Font.NORMAL)));
 //                    cell4.addElement(new Phrase(String.valueOf(lineItem.getRetailWithDiscount()),FontFactory.getFont(FontFactory.HELVETICA, 10, Font.NORMAL)));
@@ -872,12 +874,16 @@ public class TransactionsManager {
                     cell3.setBorderColor(BaseColor.LIGHT_GRAY);
                     cell4.setBorderColor(BaseColor.LIGHT_GRAY);
                     cell5.setBorderColor(BaseColor.LIGHT_GRAY);
+                    cell6.setBorderColor(BaseColor.LIGHT_GRAY);
+
 
                     lineItemTable.addCell(cell1);
                     lineItemTable.addCell(cell2);
                     lineItemTable.addCell(cell3);
                     lineItemTable.addCell(cell4);
                     lineItemTable.addCell(cell5);
+                    lineItemTable.addCell(cell6);
+
                 }
 
             }
