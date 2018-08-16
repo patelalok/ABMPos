@@ -58,6 +58,9 @@ public class CloseRegisterManager {
     @Autowired
     private ReportManager reportManager;
 
+    // This wil help to show only 2 digits after decimal
+    DecimalFormat df2 = new DecimalFormat(".##");
+
     public void addCloseRegisterDetails(CloseRegisterDao closeRegisterDao) {
 
         // Blindly deleting close register details for the current day then adding value by user,
@@ -378,27 +381,27 @@ public class CloseRegisterManager {
                 //For Cash
                 createContent(cb, 140, 600, "$" + Double.toString(closeRegisterDao.getCloseCash()), PdfContentByte.ALIGN_LEFT);
                 createContent(cb, 250, 600, "$" + Double.toString(closeRegisterDao.getReportCash()), PdfContentByte.ALIGN_LEFT);
-                createContent(cb, 370, 600, "$" + Double.toString(closeRegisterDao.getDifferenceCash()), PdfContentByte.ALIGN_LEFT);
+                createContent(cb, 370, 600, "$" + Double.toString(Double.parseDouble(df2.format(closeRegisterDao.getCloseCash() - closeRegisterDao.getReportCash()))), PdfContentByte.ALIGN_LEFT);
                 createContent(cb, 490, 600, "$" + Double.toString(closeRegisterDao.getCashFromPendingInvoice()), PdfContentByte.ALIGN_LEFT);
 
 
 //            //For Credit
                 createContent(cb, 140, 570, "$" + Double.toString(closeRegisterDao.getCloseCredit()), PdfContentByte.ALIGN_LEFT);
                 createContent(cb, 250, 570, "$" + Double.toString(closeRegisterDao.getReportCredit()), PdfContentByte.ALIGN_LEFT);
-                createContent(cb, 370, 570, "$" + Double.toString(closeRegisterDao.getDifferenceCredit()), PdfContentByte.ALIGN_LEFT);
+                createContent(cb, 370, 570, "$" + Double.toString(Double.parseDouble(df2.format(closeRegisterDao.getCloseCredit() - closeRegisterDao.getReportCredit()))), PdfContentByte.ALIGN_LEFT);
                 createContent(cb, 490, 570, "$" + Double.toString(closeRegisterDao.getCreditFromPendingInvoice()), PdfContentByte.ALIGN_LEFT);
 
 //           // For Debit
                 createContent(cb, 140, 540, "$" + Double.toString(closeRegisterDao.getCloseDebit()), PdfContentByte.ALIGN_LEFT);
                 createContent(cb, 250, 540, "$" + Double.toString(closeRegisterDao.getReportDebit()), PdfContentByte.ALIGN_LEFT);
-                createContent(cb, 370, 540, "$" + Double.toString(closeRegisterDao.getDifferenceDebit()), PdfContentByte.ALIGN_LEFT);
+                createContent(cb, 370, 540, "$" + Double.toString(Double.parseDouble(df2.format(closeRegisterDao.getCloseDebit() - closeRegisterDao.getReportDebit()))), PdfContentByte.ALIGN_LEFT);
                 createContent(cb, 490, 540, "$" + Double.toString(closeRegisterDao.getDebitFromPendingInvoice()), PdfContentByte.ALIGN_LEFT);
 
 
 //            //For Check
                 createContent(cb, 140, 510, "$" + Double.toString(closeRegisterDao.getCloseCheck()), PdfContentByte.ALIGN_LEFT);
                 createContent(cb, 250, 510, "$" + Double.toString(closeRegisterDao.getReportCheck()), PdfContentByte.ALIGN_LEFT);
-                createContent(cb, 370, 510, "$" + Double.toString(closeRegisterDao.getDifferenceCheck()), PdfContentByte.ALIGN_LEFT);
+                createContent(cb, 370, 510, "$" + Double.toString(Double.parseDouble(df2.format(closeRegisterDao.getCloseCheck() - closeRegisterDao.getReportCheck()))), PdfContentByte.ALIGN_LEFT);
                 createContent(cb, 490, 510, "$" + Double.toString(closeRegisterDao.getCheckFromPendingInvoice()), PdfContentByte.ALIGN_LEFT);
 
                 //For Store credit
@@ -445,8 +448,7 @@ public class CloseRegisterManager {
 
                 // - closeRegisterDao.getTotalTax() + paidOutDtos.get(0).getPaidOutAmount1() + paidOutDtos.get(0).getPaidOutAmount2() + paidOutDtos.get(0).getPaidOutAmount3())
 //
-                // This wil help to show only 2 digits after decimal
-                DecimalFormat df2 = new DecimalFormat(".##");
+
 
                 createContent(cb, 30, 300, "$" + Double.toString(Double.parseDouble(df2.format(closeRegisterDao.getReportTotalAmount() - closeRegisterDao.getTax()))), PdfContentByte.ALIGN_LEFT);
                 createContent(cb, 200, 300, "$" + Double.toString(closeRegisterDao.getTax()), PdfContentByte.ALIGN_LEFT);

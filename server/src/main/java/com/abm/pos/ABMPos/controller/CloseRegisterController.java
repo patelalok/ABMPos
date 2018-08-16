@@ -40,7 +40,6 @@ public class CloseRegisterController {
     @RequestMapping(value= "/printClosingDetails", method = RequestMethod.GET, produces = "application/pdf")
     public ResponseEntity<byte[]> getPrintClosingDetails(@RequestParam String startDate, @RequestParam String endDate) throws IOException, DocumentException, NoSuchFieldException, IllegalAccessException {
 
-
         byte[] pdfDataBytes = closeRegisterManager.printClosingDetails(startDate,endDate);
 
         HttpHeaders headers = new HttpHeaders();
