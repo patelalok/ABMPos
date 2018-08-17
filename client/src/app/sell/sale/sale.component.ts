@@ -1015,6 +1015,7 @@ export class SaleComponent implements OnInit {
 }
 
 export class Product {
+  productId?: number;
   productNo: string;
   // productVariantNo: number;
   description: string;

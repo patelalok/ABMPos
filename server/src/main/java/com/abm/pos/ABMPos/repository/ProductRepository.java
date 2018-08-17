@@ -15,13 +15,14 @@ import java.util.List;
  */
 
 @Transactional
-public interface ProductRepository extends JpaRepository<ProductDao, String> {
+public interface ProductRepository extends JpaRepository<ProductDao, Integer> {
 
     public static final String KEY = "products";
 
 
 
     List<ProductDao> findAll();
+
 
     @Query("SELECT p.description FROM ProductDao p WHERE p.productNo = ?1")
     @Cacheable(value = "description")

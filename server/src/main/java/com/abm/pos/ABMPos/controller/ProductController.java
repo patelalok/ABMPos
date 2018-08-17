@@ -24,15 +24,6 @@ public class ProductController {
 
     @Autowired
     private TransactionLineItemManager transactionLineItemManager;
-//
-//    @Autowired
-//    ProductInventoryRepository productInventoryRepository;
-//
-//    @RequestMapping(value = "/getProductInventory", method = RequestMethod.GET, produces = "application/json")
-//    public ProductInventoryDao getProductInventory()
-//    {
-//        return productInventoryRepository.test();
-//    }
 
     @RequestMapping(value = "/addProduct", method = RequestMethod.POST, consumes = "application/json")
     public ProductDao addProduct(@RequestBody ProductDao productDao)
@@ -40,19 +31,6 @@ public class ProductController {
         System.out.println("Product added or updated successfully ");
          return productManager.addProductTest(productDao);
     }
-//
-//    @RequestMapping(value = "/getProductTableDetails", method = RequestMethod.GET, produces = "application/json")
-//    public List<ProductDao> getProductTableDetails()
-//    {
-//        return productManager.getProductForProductTable();
-//    }
-
-//    @RequestMapping(value = "/getProductForProductTable", method = RequestMethod.GET, produces = "application/json")
-//    public List<ProductDao> getProductForProductTable()
-//    {
-//        return productManager.getProductForProductTable();
-//    }
-
     @RequestMapping(value = "/getProduct", method = RequestMethod.GET, produces = "application/json")
     public List<ProductDao> getProductForSellPage()
     {
@@ -60,8 +38,7 @@ public class ProductController {
     }
 
     @RequestMapping(value = "/getProductById", method = RequestMethod.GET, produces = "application/json")
-    public ProductDao getProductById(@RequestParam String productNo)
-    {
+    public ProductDao getProductById(@RequestParam String productNo) {
         return productManager.getProductById(productNo);
     }
 

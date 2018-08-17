@@ -59,7 +59,7 @@ public class ProductManager{
     }
         public ProductDao getProductById(String productNo) {
 
-        return productRepository.findOne(productNo);
+        return productRepository.findOneByProductNo(productNo);
     }
 
     public void addProductVariant(ProductVariantDao productVariantDao) {

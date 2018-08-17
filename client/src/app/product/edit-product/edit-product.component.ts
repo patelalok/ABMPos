@@ -32,7 +32,6 @@ export class EditProductComponent implements OnInit {
   finalProductTosend: Product;
   showDigitalPunchTextBox = false;
  
-
   currentProduct: Product; 
   constructor(private productService: ProductService, private formBuilder: FormBuilder, private route: ActivatedRoute, private router: Router, private toastr: ToastsManager) {
   }
@@ -54,7 +53,8 @@ export class EditProductComponent implements OnInit {
        // this.showDigitalPunchTextBox = this.currentProduct.enableDigitalPunch;
         this.form = this.formBuilder.group(
           {
-            'productNo': [this.currentProduct.productNo, [Validators.required, Validators.pattern('^[0-9]+$')]],
+            'productId': this.currentProduct.productId,
+            'productNo': [this.currentProduct.productNo, [Validators.required]],
             'description': [this.currentProduct.description, Validators.required],
             'category': [null, Validators.required],
             'brand': [null, Validators.required],
@@ -145,6 +145,7 @@ export class EditProductComponent implements OnInit {
 
       let formValues: ProductForm = this.form.value;
       let product: Product = {
+        productId: this.currentProduct.productId,
         productNo: formValues.productNo,
         categoryId: formValues.category.categoryId,
         brandId: formValues.brand.brandId,

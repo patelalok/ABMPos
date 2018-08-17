@@ -15,8 +15,10 @@ import java.util.List;
 public class ProductDao implements Serializable {
 
     @Id
-    private String productNo;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private int productId;
 
+    private String productNo;
     private String description;
     private String categoryId;
     private String brandId;
@@ -68,6 +70,14 @@ public class ProductDao implements Serializable {
     @Transient
     private String imeiNo;
 
+
+    public int getProductId() {
+        return productId;
+    }
+
+    public void setProductId(int productId) {
+        this.productId = productId;
+    }
 
     public String getProductNo() {
         return productNo;
