@@ -107,18 +107,6 @@ export class SaleComponent implements OnInit {
     this.getCategoryDetails();
     this.getProduct();
 
-    this.storeSetupService.getStoreDetails().
-      then((data) => {
-        this.storeDetails = data;
-        if (this.selectedCustomer != null && this.selectedCustomer.type == 'Business') {
-          this.taxPercent = 0.00;
-        }
-        else {
-          this.taxPercent = this.storeDetails.tax;
-        }
-        this.setTransactionDtoList();
-      });
-
     let transactionComId = this.route.snapshot.paramMap.get('transactionComId');
     if (transactionComId) {
       this.handleParkedTransactionFromSalesHistory(transactionComId);
@@ -135,6 +123,19 @@ export class SaleComponent implements OnInit {
       this.showCustomerSearchBox = true;
     }
     this.getFavoriteProduct();
+
+    // Always keep this thing as last item.
+    this.storeSetupService.getStoreDetails().
+    then((data) => {
+      this.storeDetails = data;
+      if (this.selectedCustomer != null && this.selectedCustomer.type == 'Business') {
+        this.taxPercent = 0.00;
+      }
+      else {
+        this.taxPercent = this.storeDetails.tax;
+      }
+      this.setTransactionDtoList();
+    });
   }
 
   ngAfterViewInit() {
