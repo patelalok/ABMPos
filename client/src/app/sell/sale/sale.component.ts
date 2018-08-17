@@ -116,6 +116,7 @@ export class SaleComponent implements OnInit {
         else {
           this.taxPercent = this.storeDetails.tax;
         }
+        this.setTransactionDtoList();
       });
 
     let transactionComId = this.route.snapshot.paramMap.get('transactionComId');
@@ -134,7 +135,6 @@ export class SaleComponent implements OnInit {
       this.showCustomerSearchBox = true;
     }
     this.getFavoriteProduct();
-    this.setTransactionDtoList();
   }
 
   ngAfterViewInit() {
@@ -301,6 +301,7 @@ export class SaleComponent implements OnInit {
     this.transactionLineItemDaoList.forEach((lineItem) => {
       totalQuantity = +lineItem.saleQuantity + totalQuantity;
       totalPrice = +lineItem.totalProductPrice + totalPrice;
+      console.log('tax percentage', this.taxPercent);
       if (lineItem.tax) {
         tax = +tax + (lineItem.totalProductPrice * this.taxPercent) / 100;
       }
