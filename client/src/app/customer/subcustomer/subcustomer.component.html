@@ -26,11 +26,11 @@
                     <p-column [style]="{'width': '15%'}" field="name" header="Name" filterPlaceholder="Search For Customer Name" [filter]="true"></p-column>
                     <p-column [style]="{'width': '15%'}" field="phoneNo" header="PhoneNo" filterPlaceholder="Search For Customer Phono No" [sortable]="true" [filter]="true"></p-column>
                     <p-column [style]="{'width': '23%'}" field="email" header="Email" filterPlaceholder="Search For Customer Email" [sortable]="true" [filter]="true"></p-column>
-                    <p-column [style]="{'width': '10%'}" field="noOfEyebrow" header="No Of Eyebrow" [sortable]="true">
+                    <!-- <p-column [style]="{'width': '10%'}" field="noOfEyebrow" header="No Of Eyebrow" [sortable]="true">
                         <ng-template let-customer="rowData" pTemplate="body">
                             {{customer.noOfEyebrow}}
                         </ng-template>
-                    </p-column>
+                    </p-column> -->
                     <p-column [style]="{'width': '10%'}" field="storeCredit" header="Store Credit" [sortable]="true">
                         <ng-template let-customer="rowData" pTemplate="body">
                             {{customer.storeCredit | currency:'USD':'true'}}
