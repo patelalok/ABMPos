@@ -750,7 +750,7 @@ export class SaleComponent implements OnInit {
 
     // I am doing this to show subtotal without line item discount, so in invoice customer wont get confuse.
     // 
-    this.transactionDtoList.subtotal = this.transactionDtoList.subtotal;
+    this.transactionDtoList.subtotal = this.transactionDtoList.subtotal + totalLineItemDiscount;
     //+ this.transactionDtoList.totalDiscount;
     // NOW MAKING SERVICE CALL TO ADD TRANSACTION AND LINE ITEM DETAILS AND WILL ADD LINE ITEM DETAILS ONLY IF ADD TRANASACTION CALL IS SUCCESS !!!
     this.sellService.addTransactionDetails(this.transactionDtoList)
