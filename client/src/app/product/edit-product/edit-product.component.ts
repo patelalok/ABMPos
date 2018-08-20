@@ -8,6 +8,7 @@ import { ProductForm } from 'app/product/addProduct.component';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastsManager } from 'ng2-toastr';
 import { Product } from 'app/sell/sale/sale.component';
+import { element } from 'protractor';
 
 
 
@@ -140,9 +141,13 @@ export class EditProductComponent implements OnInit {
     this.showDigitalPunchTextBox = !this.showDigitalPunchTextBox;
   }
 
-  addProduct() {
-    {
+  addProduct(event) {
 
+      // if(event.clientX > 0){
+      //   console.log('barcode scan for update');
+      // }
+
+      // else {
       let formValues: ProductForm = this.form.value;
       let product: Product = {
         productId: this.currentProduct.productId,
@@ -192,9 +197,9 @@ export class EditProductComponent implements OnInit {
       });
       //this.clearProductForm();
 
-      this.router.navigate(['/product/productTable']);
-      
-    }
+     // this.router.navigate(['/product/productTable']);
+   // }
+    
   }
 
   // updateProductInventory(event) {
