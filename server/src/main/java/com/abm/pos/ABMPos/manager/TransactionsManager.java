@@ -82,28 +82,28 @@ public class TransactionsManager {
                         }
 
                         // This is the digital punching logic for EYEBROW only :)
-                        if (productDao.getProductNo().equalsIgnoreCase("100000000014")) {
-                            if (null != transactionDao.getCustomerPhoneno()) {
-                                CustomerDao customerDao = customerRepository.findByPhoneNo(transactionDao.getCustomerPhoneno());
-
-                                if (null != customerDao) {
-                                    customerDao.setNoOfEyebrow(customerDao.getNoOfEyebrow() + 1);
-                                    // Just for testing
-                                    //sendEmailForEyebrowReminder(transactionDao, customerDao);
-
-                                    //Here Need to send an email to the customer on his/her 5th eyebrow, doing with 6 cause i am doing +1 before.
-                                    if (customerDao.getNoOfEyebrow() == 6 && null != customerDao.getEmail()) {
-                                        //sendEmailForEyebrowReminder(transactionDao, customerDao);
-                                    }
-
-                                    // Here i need to reset the count after customer reach to final service.
-                                    if (customerDao.getNoOfEyebrow() > 7) {
-                                        customerDao.setNoOfEyebrow(0);
-                                    }
-                                    customerRepository.save(customerDao);
-                                }
-                            }
-                        }
+//                        if (productDao.getProductNo().equalsIgnoreCase("100000000014")) {
+//                            if (null != transactionDao.getCustomerPhoneno()) {
+//                                CustomerDao customerDao = customerRepository.findByPhoneNo(transactionDao.getCustomerPhoneno());
+//
+//                                if (null != customerDao) {
+//                                    customerDao.setNoOfEyebrow(customerDao.getNoOfEyebrow() + 1);
+//                                    // Just for testing
+//                                    //sendEmailForEyebrowReminder(transactionDao, customerDao);
+//
+//                                    //Here Need to send an email to the customer on his/her 5th eyebrow, doing with 6 cause i am doing +1 before.
+//                                    if (customerDao.getNoOfEyebrow() == 6 && null != customerDao.getEmail()) {
+//                                        //sendEmailForEyebrowReminder(transactionDao, customerDao);
+//                                    }
+//
+//                                    // Here i need to reset the count after customer reach to final service.
+//                                    if (customerDao.getNoOfEyebrow() > 7) {
+//                                        customerDao.setNoOfEyebrow(0);
+//                                    }
+//                                    customerRepository.save(customerDao);
+//                                }
+//                            }
+//                        }
                     }
                 }
             }
