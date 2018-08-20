@@ -254,7 +254,10 @@ export class SaleComponent implements OnInit {
       this.totalTransactionDiscount = value;
     }
     else if (this.discountType == 'By Percentage') {
-      this.totalTransactionDiscount = parseFloat(((this.transactionDtoList.totalAmount * value) / 100).toFixed(2));
+      this.totalTransactionDiscount = parseFloat(((this.transactionDtoList.subtotal * value) / 100).toFixed(2));
+      // this.totalTransactionDiscount = this.transactionDtoList.subtotal * value / 100
+
+      console.log('discount value', this.totalTransactionDiscount);
     }
     this.setTransactionDtoList();
   }
@@ -267,8 +270,7 @@ export class SaleComponent implements OnInit {
     this.persit.setProducts(this.transactionLineItemDaoList);
     this.setTransactionDtoList();
 
-    this.productForSearchBox = null;
-    
+    this.productForSearchBox = null; 
   }
 
   updateProductPrice(value: any) {
@@ -302,16 +304,13 @@ export class SaleComponent implements OnInit {
     this.transactionLineItemDaoList.forEach((lineItem) => {
       totalQuantity = +lineItem.saleQuantity + totalQuantity;
       totalPrice = +lineItem.totalProductPrice + totalPrice;
-      console.log('tax percentage', this.taxPercent);
-      if (lineItem.tax) {
-        tax = +tax + (lineItem.totalProductPrice * this.taxPercent) / 100;
-      }
     })
 
     this.transactionDtoList.quantity = parseFloat(totalQuantity.toFixed(2));
     this.transactionDtoList.subtotal = parseFloat(totalPrice.toFixed(2));
+    console.log('subtoal', this.transactionDtoList.subtotal);
     let totalAfterDiscount: number = this.transactionDtoList.subtotal - this.totalTransactionDiscount;
-    this.transactionDtoList.tax = tax;
+    this.transactionDtoList.tax = ((totalAfterDiscount * this.taxPercent / 100));
     this.transactionDtoList.totalAmount = +totalAfterDiscount + this.transactionDtoList.tax;
 
     // This logic helps to manage main payment button enable or diable.
@@ -324,7 +323,6 @@ export class SaleComponent implements OnInit {
   }
   submitCustomer() {
     this.persit.setCustomerDetailsForSale(this.selectedCustomer);
-
     this.showCustomerSearchBox = !this.showCustomerSearchBox;
   }
 
@@ -752,7 +750,8 @@ export class SaleComponent implements OnInit {
 
     // I am doing this to show subtotal without line item discount, so in invoice customer wont get confuse.
     // 
-    this.transactionDtoList.subtotal = this.transactionDtoList.subtotal + this.transactionDtoList.totalDiscount;
+    this.transactionDtoList.subtotal = this.transactionDtoList.subtotal;
+    //+ this.transactionDtoList.totalDiscount;
     // NOW MAKING SERVICE CALL TO ADD TRANSACTION AND LINE ITEM DETAILS AND WILL ADD LINE ITEM DETAILS ONLY IF ADD TRANASACTION CALL IS SUCCESS !!!
     this.sellService.addTransactionDetails(this.transactionDtoList)
       .subscribe(

@@ -54,7 +54,7 @@ export class SalesHistoryComponent implements OnInit {
 
     this.getTransactionDetails(this.salesHistoryDropdown);
 
-    
+
     // this.customDate = this.fb.group({
     //   'fromDate' : moment(Date.now()).format('YYYY-MM-DD HH:mm:ss'),
     //   'toDate': moment(Date.now()).format('YYYY-MM-DD HH:mm:ss')
@@ -269,10 +269,7 @@ export class SalesHistoryComponent implements OnInit {
     else{
       this.toastr.error('Can not find email address for transaction !!', 'Error!');
     }
-
-
   }
-
 }
 
 

@@ -20,9 +20,6 @@ import { ReturnSaleComponent } from './return-sale/return-sale.component';
 import { SaleComponent } from './sale/sale.component';
 import { CloseRegisterComponent } from './close-register/close-register.component';
 
-
-
-
 @NgModule({
   imports: [
     CommonModule,
