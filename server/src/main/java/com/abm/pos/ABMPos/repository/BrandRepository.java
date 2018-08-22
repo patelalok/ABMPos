@@ -14,6 +14,8 @@ public interface BrandRepository extends JpaRepository<BrandDao, Integer>{
     //@Query("SELECT  b.name, b.description FROM BrandDao b join ProductDao p where p.brandName = b.name")
     List<BrandDao> findAll();
 
+    List<BrandDao> findAllByOrderByNameAsc();
+
     @Query(value = "SELECT distinct b.name, sum(i.quantity) quantity, sum(i.cost * i.quantity) cost, sum(i.retail * i.quantity) retail \n" +
             "from product p Inner Join brand b on p.brand_id = b.brand_id\n" +
             "inner join product_inventory i on i.product_no = p.product_no\n" +

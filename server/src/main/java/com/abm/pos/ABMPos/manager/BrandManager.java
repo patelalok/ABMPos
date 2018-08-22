@@ -56,7 +56,7 @@ public class BrandManager {
     }
 
     public List<BrandDao> getBrand() {
-        return brandRepository.findAll();
+        return brandRepository.findAllByOrderByNameAsc();
     }
 
     @Scheduled(fixedDelay = 50000)

@@ -59,6 +59,6 @@ public class ModelManager {
 
     public List<ModelDao> getModel() {
 
-        return modelRepository.findAll();
+        return modelRepository.findAllByOrderByNameAsc();
     }
 }

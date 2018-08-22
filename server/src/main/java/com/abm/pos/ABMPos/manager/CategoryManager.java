@@ -65,7 +65,7 @@ public class CategoryManager {
 
     public List<CategoryDao> getCategoryForAddProductPage() {
 
-        return categoryRepository.findAll();
+        return categoryRepository.findAllByOrderByNameAsc();
 
 
 //        List<Object[]> categoryObject =  categoryRepository.getNoOfProducts();

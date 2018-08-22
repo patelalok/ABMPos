@@ -20,6 +20,7 @@ public interface CategoryRepository extends JpaRepository<CategoryDao, Integer>{
     List<Object[]> getNoOfProducts();
 
     List<CategoryDao> findAll();
+    List<CategoryDao> findAllByOrderByNameAsc();
 
     @Query(value = "SELECT distinct c.name, sum(i.quantity) quantity, sum(i.cost * i.quantity) cost, sum(i.retail * i.quantity) retail \n" +
             "from product p \n" +
