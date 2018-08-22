@@ -987,12 +987,12 @@ export class SaleComponent implements OnInit {
       // This means user has given line item discount.
       if (lineItem.retailWithDiscount < lineItem.retail) {
         lineItem.discount = (lineItem.retail - lineItem.retailWithDiscount) * lineItem.saleQuantity;
-        totalLineItemDiscount = + ((lineItem.retail - lineItem.retailWithDiscount) * lineItem.saleQuantity) + totalLineItemDiscount;
+        totalLineItemDiscount = +lineItem.discount + totalLineItemDiscount;
       }
     }
     this.transactionDtoList.totalDiscount = +this.totalTransactionDiscount + totalLineItemDiscount;
     // I am doing this to show subtotal without line item discount, so in invoice customer wont get confuse.
-    this.transactionDtoList.subtotal = this.transactionDtoList.subtotal + totalLineItemDiscount;
+    this.transactionDtoList.subtotal = this.transactionDtoList.subtotal + this.transactionDtoList.totalDiscount;
 
     for (let payment of this.paymentDaoList) {
 
