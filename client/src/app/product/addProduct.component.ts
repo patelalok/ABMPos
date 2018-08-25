@@ -58,10 +58,10 @@ export class AddProductComponent implements OnInit {
         'productNo': [null, [Validators.required, Validators.pattern('^[0-9]+$')]],
         'description': ['', Validators.required],
         'category': [null, Validators.required],
-        'subCategory':['Please Select SubCategory',null],
+        'subCategory': ['Please Select SubCategory', null],
         'brand': [null, Validators.required],
         'vendor': [null],
-        'model': ['Please Select Model',null],
+        'model': ['Please Select Model', null],
         'cost': [null, [Validators.required, Validators.pattern('^[0-9-.]+$')]],
         // 'markup': [null, Validators.pattern('^[0-9-.]+$')],
         // 'retail': [null, [Validators.required, Validators.pattern('^[0-9-.]+$')]],
@@ -73,9 +73,9 @@ export class AddProductComponent implements OnInit {
         'tax': [true, null],
         'ecommerce': [false, null],
         'variant': [false, null],
-        'alternetNo':[null],
-        'newProduct':[false, null],
-        'onSale':[false, null],
+        'alternetNo': [null],
+        'newProduct': [false, null],
+        'onSale': [false, null],
         'featured': [false, null]
       }
     );
@@ -88,12 +88,12 @@ export class AddProductComponent implements OnInit {
       });
 
 
-      this.productService.getSubCategoryDetailsByCategoryId(0)
+    this.productService.getSubCategoryDetailsByCategoryId(0)
       .subscribe((subCategory: SubCategory[]) => {
         this.subCategoryDto = subCategory;
         //this.form.get('subCategory').setValue(this.subCategoryDto[0]);
       });
-    
+
 
     this.productService.getBrandDetails()
       .subscribe((brands: Brand[]) => {
@@ -112,11 +112,11 @@ export class AddProductComponent implements OnInit {
     this.productService.getModelDetails()
       .subscribe((models: Model[]) => {
         this.modelDto = models;
-      // this.form.get('model').setValue(this.modelDto[0]);
+        // this.form.get('model').setValue(this.modelDto[0]);
         //console.log('ModelList' + this.modelDto);
       });
 
-      this.getProductDetails();
+    this.getProductDetails();
 
 
 
@@ -134,31 +134,28 @@ export class AddProductComponent implements OnInit {
     //     });
   }
 
-  addProduct(isAddClone:boolean) {
+  addProduct(isAddClone: boolean) {
 
     let isProductExists: boolean;
     let isAlternateNoExists: boolean;
 
-  
-    
-      this.productInventoryList.push(this.productInventory);
+    this.productInventoryList.push(this.productInventory);
 
-      let formValues: ProductForm = this.form.value;
+    let formValues: ProductForm = this.form.value;
 
-      this.productList.forEach((product)=>{
+    this.productList.forEach((product) => {
 
-        if(product.productNo == formValues.productNo){
-          isProductExists = true;
-          alert('Duplicate Product Number, Please Use Different Product Number!!!')
-        }
-        if(product.alternetNo && product.alternetNo == formValues.alternetNo){
-          isAlternateNoExists = true;
-          alert('Duplicate AlternetNo Number, Please Use Different AlternetNo Number!!!')
-        }
-      });
+      if (product.productNo == formValues.productNo) {
+        isProductExists = true;
+        alert('Duplicate Product Number, Please Use Different Product Number!!!')
+      }
+      if (product.alternetNo && product.alternetNo == formValues.alternetNo) {
+        isAlternateNoExists = true;
+        alert('Duplicate AlternetNo Number, Please Use Different AlternetNo Number!!!')
+      }
+    });
 
-      if(!isProductExists && !isAlternateNoExists)
-      {
+    if (!isProductExists && !isAlternateNoExists) {
       // Here i need to add product inventory details to the product inventory table 
       this.productInventory.productNo = formValues.productNo;
       this.productInventory.cost = formValues.cost;
@@ -166,13 +163,12 @@ export class AddProductComponent implements OnInit {
       this.productInventory.quantity = formValues.quantity;
       this.productInventory.createdTimestamp = moment(Date.now()).format('YYYY-MM-DD HH:mm:ss');
 
-      if(null == formValues.subCategory){
+      if (null == formValues.subCategory) {
         formValues.subCategory = new SubCategory();
       }
-      if(null == formValues.model){
+      if (null == formValues.model) {
         formValues.model = new Model();
       }
-
 
       let product: Product = {
         productNo: formValues.productNo,
@@ -187,7 +183,7 @@ export class AddProductComponent implements OnInit {
         tier1: formValues.tier1,
         tier2: formValues.tier2,
         tier3: formValues.tier3,
-        description: this.converDescriptionToSentanceForm(formValues.description),
+        description: formValues.description,
         imeiNo: null,
         active: true,
         ecommerce: formValues.ecommerce,
@@ -200,23 +196,22 @@ export class AddProductComponent implements OnInit {
         returnRule: formValues.returnRule,
         createdTimestamp: moment(Date.now()).format('YYYY-MM-DD HH:mm:ss'),
         productInventoryDaoList: this.productInventoryList,
-        newProduct:formValues.newProduct,
-        onSale:formValues.onSale,
-        featured:formValues.featured,
+        newProduct: formValues.newProduct,
+        onSale: formValues.onSale,
+        featured: formValues.featured,
         operationType: 'Add'
       }
       this.productService.addProduct(product);
 
-      if(isAddClone){
+      if (isAddClone) {
         this.form.get('productNo').setValue(null);
         this.form.get('tax').setValue(true);
-
       }
       else {
         this.clearProductForm();
 
       }
-    }   
+    }
   }
 
   clearProductForm() {
@@ -233,33 +228,33 @@ export class AddProductComponent implements OnInit {
       brand: this.brandDto[0],
       vendor: this.vendorDto[0],
       // model: this.modelDto[0]
-    }); 
+    });
   }
 
   getAutoGeneratedProductNo(event): any {
 
-    if(event.clientX > 0){
-    this.productService.getAutoGeneratedBarcode()
-      .subscribe((a: string) => {
-        this.form.get('productNo').setValue(a);
-      });
+    if (event.clientX > 0) {
+      this.productService.getAutoGeneratedBarcode()
+        .subscribe((a: string) => {
+          this.form.get('productNo').setValue(a);
+        });
     }
-      console.log(event);
+    console.log(event);
   }
 
-  onCategorySelect(event){
+  onCategorySelect(event) {
 
-console.log(event.target.selectedIndex);
+    console.log(event.target.selectedIndex);
 
-let selectedCategory: Category = this.categoryDto[event.target.selectedIndex];
+    let selectedCategory: Category = this.categoryDto[event.target.selectedIndex];
 
     this.productService.getSubCategoryDetailsByCategoryId(selectedCategory.categoryId)
-    .subscribe((subCategory: SubCategory[]) => {
-      this.subCategoryDto = subCategory;
-      this.subCategoryDto = this.subCategoryDto.slice();
-      this.form.get('subCategory').setValue(this.subCategoryDto[0]);
-      console.log('sub CategoryId', this.subCategoryDto);
-    })
+      .subscribe((subCategory: SubCategory[]) => {
+        this.subCategoryDto = subCategory;
+        this.subCategoryDto = this.subCategoryDto.slice();
+        this.form.get('subCategory').setValue(this.subCategoryDto[0]);
+        console.log('sub CategoryId', this.subCategoryDto);
+      })
   }
 
   showDialog() {
@@ -270,27 +265,27 @@ let selectedCategory: Category = this.categoryDto[event.target.selectedIndex];
   getProductDetails() {
 
     this.productService.getProductDetails();
-   this._subscriptionProduct =  this.productService.productListChange.subscribe((product)=>{
+    this._subscriptionProduct = this.productService.productListChange.subscribe((product) => {
       this.productList = product;
     })
     // this.productService.getProductDetails()
     // .subscribe((products) => {
-      // console.log(products);
+    // console.log(products);
     //   this.productList = products;
     // });
   }
 
-   converDescriptionToSentanceForm(str) {
-    return str.replace(/\w\S*/g, function(txt){
-        return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
-    });
-}
+  //    converDescriptionToSentanceForm(str) {
+  //     return str.replace(/\w\S*/g, function(txt){
+  //         return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
+  //     });
+  // }
 
 
   ngOnDestroy() {
     //prevent memory leak when component destroyed
-     this._subscriptionProduct.unsubscribe();
-   }
+    this._subscriptionProduct.unsubscribe();
+  }
 
 
 }
@@ -301,7 +296,7 @@ export interface ProductForm {
   productVariantNo?: number;
   description: string;
   category?: Category;
-  subCategory?:SubCategory;
+  subCategory?: SubCategory;
   brand?: Brand
   vendor?: Vendor;
   model?: Model;
@@ -327,10 +322,10 @@ export interface ProductForm {
   customLoyaltyAmount?: number;
   productInventoryDaoList?: ProductInventory[];
   color?: string;
-  memory?:string;
-  newProduct?:boolean;
-  onSale?:boolean;
-  featured?:boolean;
+  memory?: string;
+  newProduct?: boolean;
+  onSale?: boolean;
+  featured?: boolean;
   // isSold?:boolean;
 
 }

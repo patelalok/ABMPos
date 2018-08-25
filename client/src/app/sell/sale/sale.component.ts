@@ -199,46 +199,46 @@ export class SaleComponent implements OnInit {
     if (productObj.saleQuantity <= 0 || productObj.saleQuantity == undefined) {
       productObj.saleQuantity = 1;
     }
-          for (let lineItem of this.transactionLineItemDaoList) {
-          if (productObj.productNo == lineItem.productNo) {
-            // This flag helps to determin whether to add new product or just update the quantity
-            this.isProductExistsInSellList = true;
-            lineItem.saleQuantity = +lineItem.saleQuantity + 1;
-            lineItem.quantityUpdated = true;
-  
-            lineItem.totalProductPrice = parseFloat((lineItem.retailWithDiscount * lineItem.saleQuantity).toFixed(2));
-            lineItem.taxAmountOnProduct = (lineItem.retailWithDiscount * this.taxPercent) / 100;
-            this.product = null;
-            this.productForSearchBox = null;
-            this.setTransactionDtoList()
-            this.persit.setProducts(this.transactionLineItemDaoList);
-  
-            setTimeout(() => {
-              lineItem.quantityUpdated = false;
-              this.persit.setProducts(this.transactionLineItemDaoList);
-              this.transactionLineItemDaoList = this.transactionLineItemDaoList.slice();
-            }, 1500);
+    for (let lineItem of this.transactionLineItemDaoList) {
+      if (productObj.productNo == lineItem.productNo) {
+        // This flag helps to determin whether to add new product or just update the quantity
+        this.isProductExistsInSellList = true;
+        lineItem.saleQuantity = +lineItem.saleQuantity + 1;
+        lineItem.quantityUpdated = true;
 
-            break;
-
-          }
-          // Do not try to be smart please keep this logic, Never touch here
-          else {
-            // This flag helps to determin whether to add new product or just update the quantity
-            this.isProductExistsInSellList = false;
-          }
-        }
-        if (!this.isProductExistsInSellList) {
-        productObj.totalProductPrice = productObj.retailWithDiscount * productObj.saleQuantity;
-        productObj.taxAmountOnProduct = parseFloat(((productObj.retailWithDiscount * this.taxPercent) / 100).toFixed(2));
-        this.transactionLineItemDaoList.push(productObj);
+        lineItem.totalProductPrice = parseFloat((lineItem.retailWithDiscount * lineItem.saleQuantity).toFixed(2));
+        lineItem.taxAmountOnProduct = (lineItem.retailWithDiscount * this.taxPercent) / 100;
         this.product = null;
-        this.productForSearchBox = null
-        this.transactionLineItemDaoList[this.transactionLineItemDaoList.length - 1].retailWithDiscount = productObj.retailWithDiscount;
-        this.transactionLineItemDaoList = this.transactionLineItemDaoList.slice();
+        this.productForSearchBox = null;
         this.setTransactionDtoList()
         this.persit.setProducts(this.transactionLineItemDaoList);
+
+        setTimeout(() => {
+          lineItem.quantityUpdated = false;
+          this.persit.setProducts(this.transactionLineItemDaoList);
+          this.transactionLineItemDaoList = this.transactionLineItemDaoList.slice();
+        }, 1500);
+
+        break;
+
       }
+      // Do not try to be smart please keep this logic, Never touch here
+      else {
+        // This flag helps to determin whether to add new product or just update the quantity
+        this.isProductExistsInSellList = false;
+      }
+    }
+    if (!this.isProductExistsInSellList) {
+      productObj.totalProductPrice = productObj.retailWithDiscount * productObj.saleQuantity;
+      productObj.taxAmountOnProduct = parseFloat(((productObj.retailWithDiscount * this.taxPercent) / 100).toFixed(2));
+      this.transactionLineItemDaoList.push(productObj);
+      this.product = null;
+      this.productForSearchBox = null
+      this.transactionLineItemDaoList[this.transactionLineItemDaoList.length - 1].retailWithDiscount = productObj.retailWithDiscount;
+      this.transactionLineItemDaoList = this.transactionLineItemDaoList.slice();
+      this.setTransactionDtoList()
+      this.persit.setProducts(this.transactionLineItemDaoList);
+    }
 
     // NEVER Delete this very important logic
     // for now just commenting this logic to fix the issue with screen going blank.
@@ -254,7 +254,7 @@ export class SaleComponent implements OnInit {
 
   selectProductFromSearch(productForSearchBox: Product) {
 
-    console.log('selected');
+    console.log('selected', productForSearchBox);
 
     this.productPopupVariantList = [];
     console.log('Variant List', this.productVariantList)
@@ -268,12 +268,12 @@ export class SaleComponent implements OnInit {
         if (productForSearchBox.productId == variant.productId) {
           this.productPopupVariantList.push(variant);
         }
-        //this.productPopupVariantList = this.productPopupVariantList.slice();
       });
       $('#productVariantPopup').modal('show');
-      this.productPopupVariantList = this.productPopupVariantList.slice();
+      // this.productPopupVariantList = this.productPopupVariantList.slice();
     }
     else if (productForSearchBox != null) {
+      console.log('coming in stupid else', productForSearchBox);
       this.addTransactionLineItem(productForSearchBox);
     }
   }
@@ -320,7 +320,7 @@ export class SaleComponent implements OnInit {
       // }, 300)
     }
     else {
-      
+
       if (typeof value === 'string') {
         if (value !== '' && value !== undefined && value.indexOf('.') !== 0) {
           // if (value.match(/[a-z]/i)) {
@@ -334,7 +334,7 @@ export class SaleComponent implements OnInit {
             this.updateProductQuantity(value);
         }
       }
-      else if (value != null && value != undefined) {
+      else if (value != null && value != undefined && !value.variant) {
         // if (!value.variant)
         console.log('oops coming for lineitem');
         this.addTransactionLineItem(value);
@@ -399,7 +399,7 @@ export class SaleComponent implements OnInit {
     let index = this.transactionLineItemDaoList.indexOf(event.data);
 
     this.setFocusOnProductSearch();
-    
+
     this.transactionLineItemDaoList[index].saleQuantity = event.data.saleQuantity;
     this.transactionLineItemDaoList[index].retailWithDiscount = event.data.retailWithDiscount;
     this.transactionLineItemDaoList[index].description = event.data.description;
@@ -408,7 +408,7 @@ export class SaleComponent implements OnInit {
     this.setTransactionDtoList()
     this.persit.setProducts(this.transactionLineItemDaoList);
 
-    
+
 
     //THIS IS OLD P-TABLE WORKING CODE DONT REMOVE THIS PLEASE.
 
@@ -447,8 +447,8 @@ export class SaleComponent implements OnInit {
 
       // AS a user u need to make sure that, thats the last thing you do, cause it wont store the price.
       // This logic is to set lineItem discount on all the product when user selete discount type as percentage, so i am changing retail with discount price for all products.
-      this.transactionLineItemDaoList.forEach((lineItem)=>{
-        lineItem.retailWithDiscount = lineItem.retailWithDiscount -(parseFloat(((lineItem.retailWithDiscount * value) / 100).toFixed(2)));
+      this.transactionLineItemDaoList.forEach((lineItem) => {
+        lineItem.retailWithDiscount = lineItem.retailWithDiscount - (parseFloat(((lineItem.retailWithDiscount * value) / 100).toFixed(2)));
         lineItem.retailWithDiscount = parseFloat((lineItem.retailWithDiscount).toFixed(2));
         lineItem.totalProductPrice = lineItem.retailWithDiscount * lineItem.saleQuantity;
       });
@@ -457,7 +457,7 @@ export class SaleComponent implements OnInit {
     }
     this.setTransactionDtoList();
 
-          this.totalTransactionDiscount = parseFloat(((this.transactionDtoList.totalAmount * value) / 100).toFixed(2));
+    this.totalTransactionDiscount = parseFloat(((this.transactionDtoList.totalAmount * value) / 100).toFixed(2));
 
   }
 
@@ -1276,8 +1276,8 @@ export class SaleComponent implements OnInit {
       this.productList = product;
       // this.productList = this.productList.slice();
 
-      if(null != this.productList){
-        this.productList.forEach((p)=>{
+      if (null != this.productList) {
+        this.productList.forEach((p) => {
           this.productMap.set(p.productNo, p);
         });
       }
@@ -1294,7 +1294,7 @@ export class SaleComponent implements OnInit {
       this.productVariantList = variant;
       //this.productVariantList = this.productVariantList.slice();
 
-      this.productVariantList.forEach((variant)=>{
+      this.productVariantList.forEach((variant) => {
         this.productVariantMap.set(variant.productNo, variant);
       });
       console.log('map object after get productProduct Variant', this.productVariantMap);
@@ -1350,7 +1350,7 @@ export class Product {
   tier3?: number;
   markup?: number;
   quantity?: number;
-  purchasedOrderQuanity?:number;
+  purchasedOrderQuanity?: number;
   minQuantity?: number;
   tax?: boolean;
   variant?: boolean;
@@ -1375,9 +1375,9 @@ export class Product {
   operationType?: string;
   color?: string;
   memory?: string;
-  newProduct?:boolean;
-  onSale?:boolean;
-  featured?:boolean;
+  newProduct?: boolean;
+  onSale?: boolean;
+  featured?: boolean;
 
 }
 
@@ -1511,7 +1511,7 @@ export class TransactionLineItemDaoList {
   imeiNo?: any;
   quantityUpdated?: boolean;
   description: string;
-  username?:string;
+  username?: string;
   customerFirstLastName?: string;
 
 }

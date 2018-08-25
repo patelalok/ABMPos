@@ -279,7 +279,7 @@ export class EditProductComponent implements OnInit {
         tier1: formValues.tier1,
         tier2: formValues.tier2,
         tier3: formValues.tier3,
-        description: this.converDescriptionToSentanceForm(formValues.description),
+        description: formValues.description,
         active: true,
         ecommerce: formValues.ecommerce,
         relatedProduct: formValues.relatedProduct,
@@ -735,11 +735,11 @@ onCategorySelect(event){
       console.log(this.productHistoryDto)
     }
 
-    converDescriptionToSentanceForm(str) {
-      return str.replace(/\w\S*/g, function(txt){
-          return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
-      });
-  }
+  //   converDescriptionToSentanceForm(str) {
+  //     return str.replace(/\w\S*/g, function(txt){
+  //         return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
+  //     });
+  // }
 
   ngOnDestroy() {
     //prevent memory leak when component destroyed
