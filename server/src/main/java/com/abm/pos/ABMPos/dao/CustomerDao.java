@@ -19,6 +19,7 @@ public class CustomerDao {
     private String companyName;
     private String email;
     private String taxId;
+    private String tobaccoId;
     private String type;
     private String gender;
     private String street;
@@ -73,7 +74,13 @@ public class CustomerDao {
         this.taxId = taxId;
     }
 
+    public String getTobaccoId() {
+        return tobaccoId;
+    }
 
+    public void setTobaccoId(String tobaccoId) {
+        this.tobaccoId = tobaccoId;
+    }
 
     public String getType() {
         return type;

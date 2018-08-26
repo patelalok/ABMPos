@@ -329,7 +329,7 @@ export class SaleComponent implements OnInit {
             this.updateProductQuantity(value);
         }
       }
-      else if (value != null && value != undefined) {
+      else if (value != null && value != undefined && !value.variant) {
         // if (!value.variant)
         console.log('oops coming for lineitem');
         this.addTransactionLineItem(value);

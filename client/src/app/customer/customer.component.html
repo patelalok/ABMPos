@@ -202,29 +202,34 @@
                                 <div class="row">
 
                                     <div class="col-md-2 p-1">
-                                        <label>Company Name:</label>
-                                    </div>
-
-                                    <div class="col-md-4 p-1">
-                                        <input type="text" class="form-control" formControlName="companyName" placeholder="Enter Company Name">
-                                    </div>
-
-                                    <div class="col-md-2 p-1">
                                         <label>Customer Name:</label>
                                     </div>
 
                                     <div class="col-md-4 p-1">
                                         <input type="text" class="form-control" formControlName="name" placeholder="Enter First and Last Name">
                                     </div>
+
+                                    <div class="col-md-2 p-1">
+                                            <label>Phone Number:</label>
+                                        </div>
+    
+                                        <div class="col-md-4 p-1">
+                                            <input type="text" class="form-control" formControlName="phoneNo" placeholder="Enter Phone Number">
+                                        </div>
                                     <!-- Second row of the cusotmer -->
 
                                     <div class="col-md-2 p-1">
-                                        <label>Phone Number:</label>
-                                    </div>
+                                            <label>Company Name:</label>
+                                        </div>
+    
+                                        <div class="col-md-10 p-1">
+                                            <input type="text" class="form-control" formControlName="companyName" placeholder="Enter Company Name">
+                                        </div>
 
-                                    <div class="col-md-4 p-1">
-                                        <input type="text" class="form-control" formControlName="phoneNo" placeholder="Enter Phone Number">
-                                    </div>
+
+                                    <!-- Third row of the cusotmer -->
+
+                            
                                     <div class="col-md-2 p-1">
                                             <label>Tax Id:</label>
                                         </div>
@@ -233,11 +238,13 @@
                                             <input type="text" class="form-control" formControlName="taxId" placeholder="Enter Tax Id">
                                         </div>
                                 
-
-                                    <!-- thirs row of customer -->
-
-                                
-
+                                        <div class="col-md-2 p-1">
+                                                <label>Tobacco Id:</label>
+                                            </div>
+        
+                                            <div class="col-md-4 p-1">
+                                                <input type="text" class="form-control" formControlName="tobaccoId" placeholder="Enter Tax Id">
+                                            </div>                            
                            
                                     <!-- forth row of customer -->
                                     <div class="col-md-2 p-1">
@@ -429,20 +436,33 @@
                                     <label>Company Name:</label>
                                 </div>
                 
-                                <div class="col-md-4 p-1">
+                                <div class="col-md-10 p-1">
                                     <input type="text" class="form-control" formControlName="companyName" placeholder="Enter Company Name">
                                 </div>
                 
+                            </div>
+
+                            <div class="row">
+
+                                    <div class="col-md-2 p-1">
+                                            <label>Tax Id:</label>
+                                        </div>
+                        
+                                        <div class="col-md-4 p-1">
+                                            <input type="text" class="form-control" formControlName="taxId" placeholder="Enter Tax Id">
+                                        </div>
                 
                                 <div class="col-md-2 p-1">
-                                    <label>Tax Id:</label>
+                                    <label>Tobocco Id:</label>
                                 </div>
                 
                                 <div class="col-md-4 p-1">
-                                    <input type="text" class="form-control" formControlName="taxId" placeholder="Enter Tax Id">
+                                    <input type="text" class="form-control" formControlName="tobaccoId" placeholder="Enter Tobacco Id">
                                 </div>
                 
                             </div>
+
+
                 
                             <div class="row">
                 
@@ -579,8 +599,8 @@
                                     <textarea formControlName="customerNote" class="form-control" aria-label="With textarea"></textarea>
                                 </div>
                             </div>
-                            <div class="row">
-                            <div style="text-align: center">
+                            <div class="row m-3" style="display: flex;justify-content: center;">
+                            <div>
                                     <button type="button" (click)="addCustomer()" class="btn btn-success" [disabled]="customerForm.invalid" data-dismiss="modal">
                                         <i class="fa fa-paper-plane" aria-hidden="true"></i>
                                         Save Customer Details

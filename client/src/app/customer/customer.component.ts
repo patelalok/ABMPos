@@ -71,6 +71,7 @@ export class CustomerComponent implements OnInit {
       'username': [null],
       'email': [null], // TODO - Need to fox this too .com is not validating
       'taxId': [''],
+      'tobaccoId': [''],
       'tier':[3,''],
       'type': ['Business',''],
       'street': [null],
@@ -107,6 +108,7 @@ export class CustomerComponent implements OnInit {
     this.customerForm.get('companyName').setValue(this.selectedCustomer.companyName);
     this.customerForm.get('email').setValue(this.selectedCustomer.email);
     this.customerForm.get('taxId').setValue(this.selectedCustomer.taxId);
+    this.customerForm.get('tobaccoId').setValue(this.selectedCustomer.tobaccoId);
     this.customerForm.get('tier').setValue(this.selectedCustomer.tier);
     this.customerForm.get('type').setValue(this.selectedCustomer.type);
     this.customerForm.get('street').setValue(this.selectedCustomer.street);
@@ -475,6 +477,7 @@ export class Customer {
   companyName: string;
   email: any;
   taxId: any;
+  tobaccoId: any;
   dateOfBirth: any;
   type: any;
   gender: any;
