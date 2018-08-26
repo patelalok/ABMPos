@@ -84,6 +84,7 @@ export class ModelComponent implements OnInit {
 
     setModelForDelete(model: Model) {
         this.selectedModelForDelete = model;
+        console.log('model', this.selectedModelForDelete);
     }
 
     deleteModel() {
