@@ -3,6 +3,7 @@ import {Http, Response, Headers} from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import { FormControl } from '@angular/forms/forms';
 import { ModelTest } from 'app/product/product.component';
+import { environment } from 'environments/environment';
 
 
 
@@ -11,14 +12,15 @@ import { ModelTest } from 'app/product/product.component';
 export class ModelService {
   private url: string; 
 
-    constructor(private http: Http) { }
+    constructor(private http: Http) {
+      this.url = environment.productUrl;
+     }
 
     addOrUpdateModel(model: ModelTest)
     {
-      return this.http.post('http://localhost:8080/addModel', model)
+      return this.http.post(this.url+'/addModel', model)
     }
-
       deleteModel(modelId: number) : Observable<Response> {
-      return this.http.delete('http://localhost:8080/deleteModel?modelId=' + modelId);
+      return this.http.delete(this.url+'/deleteModel?modelId=' + modelId);
     }
 }
