@@ -30,7 +30,7 @@ export class ProductService {
     this.http.post(this.url+'/addProduct', product)
     .subscribe(data => {
       if(data.status == 200 || data.status == 201){
-        this.toastr.success('Product Added Successfully!!', 'Success!',{toastLife:1});
+        this.toastr.success('Product Added Successfully!!', 'Success!!');
 
         if(product.operationType == 'Edit'){
           let index = this.productList.findIndex((el) => el.productId == product.productId);
@@ -38,7 +38,9 @@ export class ProductService {
           console.log('edit product', product);
           this.productList[index] = product;
           this.productList = this.productList.slice();
-
+        }
+        else if(product.operationType == "Description Update") {
+          console.log('do not do anything.')
         }
         else {
           this.productList.push(product);
