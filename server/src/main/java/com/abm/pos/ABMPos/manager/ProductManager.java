@@ -129,6 +129,12 @@ public class ProductManager{
                  productInventoryRepository.updateProductRetailPrice(productDao.getTier1(), productDao.getTier2(), productDao.getTier3(),productDao.getProductNo());
              }
         }
+
+        // This condition provides the functionality for user to update description from the product table directly.
+        else if(null != productDao && productDao.getOperationType().equalsIgnoreCase("Description Update"))
+        {
+            productRepository.updateProductDescription(productDao.getDescription(), productDao.getProductId());
+        }
         return productDao1;
     }
 

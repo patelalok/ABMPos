@@ -339,6 +339,15 @@ export class ProductTableComponent implements OnInit {
         });
   }
 
+  updateProductDescription(event) {
+    
+    let product: Product = event.data;
+    product.operationType = "Description Update";
+    if(product){
+      this.productService.addProduct(product);
+    }
+  }
+
   // This method helps to set the perticualr product inventory details to show on popup when user click on the cost price.
   setProductInventoryForSelectedProduct(product: Product, isCost: boolean) {
 
