@@ -157,7 +157,7 @@ export class ProductTableComponent implements OnInit {
     else if (this.selectedProductDropdownOption === 'Vendor') {
       this.productFullList = this.backendProductDto.filter((ven) => ven.vendorId == obj)
     }
-  
+
 
     // console.log('Product full list here', this.productFullList);
     this.loadProductsLazy({ first: 0, rows: this.rowsToShow * 2 });
@@ -200,7 +200,7 @@ export class ProductTableComponent implements OnInit {
           }));
         });
     }
-  
+
     else {
       this.listOfProductOption = null;
       this.productFullList = this.backendProductDto;
@@ -295,7 +295,7 @@ export class ProductTableComponent implements OnInit {
     }
 
     this.totalSaleQuantity = 0;
-    this.productService.getProductHistory(this.selectedProductForHistory.productNo, this.selectedProductForHistory.productId,this.dateDto.startDate, this.dateDto.endDate)
+    this.productService.getProductHistory(this.selectedProductForHistory.productNo, this.selectedProductForHistory.productId, this.dateDto.startDate, this.dateDto.endDate)
       .subscribe((productHistory: TransactionLineItemDaoList[]) => {
         productHistory.forEach((history => {
           history.time = moment(history.date).format('hh:mm A');
@@ -325,6 +325,14 @@ export class ProductTableComponent implements OnInit {
           this.toastr.error('Opps Something goes wrong !!', 'Error!!');
           console.log(JSON.stringify(error.json()));
         });
+  }
+
+  updateProductDescription(event) {
+    let product: Product = event.data;
+    product.operationType = "Description Update";
+    if (product) {
+      this.productService.addProduct(product);
+    }
   }
 
   // This method helps to set the perticualr product inventory details to show on popup when user click on the cost price.

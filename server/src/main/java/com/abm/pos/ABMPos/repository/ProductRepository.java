@@ -20,9 +20,9 @@ public interface ProductRepository extends JpaRepository<ProductDao, Integer> {
     List<ProductDao> findAll();
     List<ProductDao> findAllByCategoryIdAndActive(String categoryId, boolean active);
 
-    @Query("SELECT p.description FROM ProductDao p WHERE p.productNo = ?1")
-    @Cacheable(value = "description")
-    String test(String productNo);
+//    @Query("SELECT p.description FROM ProductDao p WHERE p.productNo = ?1")
+//    @Cacheable(value = "description")
+//    String test(String productNo);
 
    //@Query("SELECT p FROM ProductDao p WHERE p.active = true ORDER BY p.description ASC")
     @Query("SELECT p FROM ProductDao p WHERE p.active = true ORDER BY p.productNo ASC")
@@ -38,6 +38,11 @@ public interface ProductRepository extends JpaRepository<ProductDao, Integer> {
     ProductDao findOneByProductId(Integer productId);
 
     ProductDao findOneByProductNo(String productNo);
+
+
+    @Modifying
+    @Query("UPDATE ProductDao SET description = ?1 WHERE productId = ?2")
+    void updateProductDescription(String description, int productId);
 
     @Modifying
     @Query("UPDATE ProductDao SET quantity = ?1, cost = ?2 WHERE productNo = ?3")

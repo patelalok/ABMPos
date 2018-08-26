@@ -39,6 +39,9 @@ export class ProductService {
           this.productList = this.productList.slice();
 
         }
+        else if(product.operationType == "Description Update") {
+          console.log('do not do anything.')
+        }
         else {
           this.productList.push(product);
         }
