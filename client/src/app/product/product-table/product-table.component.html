@@ -51,7 +51,7 @@
 
         <!-- <p-header>Product Details</p-header> -->
         <p-dataTable [value]="this.productViewList" [editable]="true" scrollable="true" virtualScroll="virtualScroll" [rows]="this.rowsToShow"
-          [lazy]="true" [totalRecords]="this.totalNumberProducts" [responsive]="true" scrollHeight="400px" (onEditComplete)="this.updateRetailPrice($event)"
+          [lazy]="true" [totalRecords]="this.totalNumberProducts" [responsive]="true" scrollHeight="400px" (onEditComplete)="this.updateProductDescription($event)"
           (onLazyLoad)="loadProductsLazy($event)">
           <p-column [style]="{'width': '10%'}" field="productId" header="Product Number" filterPlaceholder="Search For Product Name"></p-column>
           <p-column [style]="{'width': '30%', 'text-align': 'left'}" [editable] = "true" field="description" header="Description" [sortable]="true"></p-column>
