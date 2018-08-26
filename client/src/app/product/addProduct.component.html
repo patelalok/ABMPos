@@ -41,7 +41,7 @@
                             </div>
 
                             <div class="col-md-8 product-textbox">
-                                <input type="text" class="form-control" style="text-transform:uppercase" formControlName="description" placeholder="Please Enter Description">
+                                <input type="text" class="form-control" formControlName="description" placeholder="Please Enter Description">
                                 <p *ngIf="form.get('description').hasError('required') && form.get('description').touched" class="alert alert-danger">
                                     *Required!!</p>
                             </div>
