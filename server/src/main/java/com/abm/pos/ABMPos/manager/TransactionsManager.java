@@ -662,24 +662,30 @@ public class TransactionsManager {
 
         PdfPTable table = new PdfPTable(1);
         table.setTotalWidth(523);
-        PdfPCell cell = new PdfPCell(new Phrase("***** ALL SALES ARE FINAL NO EXCHANGE AND NO RETURN ACCEPTED *****",FontFactory.getFont(FontFactory.HELVETICA, 8, Font.NORMAL)));
+
+        PdfPCell cell = new PdfPCell(new Phrase("***** All sales are final. Any claim must be reported within 48 hours of delivery. NO DAMAGED ITEMS WILL BE ACCEPTED AS RETURN POST 48hr. *****",FontFactory.getFont(FontFactory.HELVETICA, 7, Font.NORMAL)));
         cell.setHorizontalAlignment(Element.ALIGN_CENTER);
         cell.setBorder(0);
         cell.setBackgroundColor(BaseColor.LIGHT_GRAY);
-
-        table.addCell(cell);
-        cell = new PdfPCell(new Phrase("Any item returned its need to be in original packaging and only eligible for exchange and store credit as long as there is no physical damage and discontinued by carriers. If you prefer a store credit you will be refunded at the current sale price of the item or your purchase price(which is lower) and also 15% Restocking fess apply after 15 days period.",FontFactory.getFont(FontFactory.HELVETICA, 8, Font.NORMAL) ));
-        cell.setBorder(0);
-
-        cell.setBackgroundColor(BaseColor.LIGHT_GRAY);
         table.addCell(cell);
 
-
-        cell = new PdfPCell(new Phrase("***** NO PHYSICAL DAMAGE COVERED *****",FontFactory.getFont(FontFactory.HELVETICA, 8, Font.NORMAL)));
+        cell = new PdfPCell(new Phrase("There will be no cash refund on return merchandise; we will apply in-store credit for all items only. Purchase invoice or Invoice number is necessary for making any/all returns. Elements Distribution / smokemantra.com will not be held responsible or liable for any injury, damage or defect (permanent or temporary) that may be caused by the use of Li-Ion battery or any other products distributed by us. It is buyers' responsibility to have a basic understanding of all the products that are purchased through us. All smoking accessories are for Tobacco use only. Buyer is responsible for all the items purchased and to ensure the products they buy & sell are legal and in compliance with their local laws. Buyer is responsible for State and local taxes.",FontFactory.getFont(FontFactory.HELVETICA, 6, Font.NORMAL)));
         cell.setHorizontalAlignment(Element.ALIGN_CENTER);
         cell.setBorder(0);
         cell.setBackgroundColor(BaseColor.LIGHT_GRAY);
+        table.addCell(cell);
 
+
+        cell = new PdfPCell(new Phrase("There will be a $30.00 return check fees for all NSF checks. In case of bad checks, buyer is personally responsible for all bad checks and by making a purchase with Elements Distribution, gives them the right to pursue the buyer legally in his personal rights. For all invoices & outstanding balances, buyer is personally responsible and liable to Elements Distribution. In case of non-payment, Elements Distribution LLC has all the rights to hold the buyer's company and the buyer himself, as a sole entity, responsible for all the invoices owed; and, Elements Distribution will find in its legal rights to pursue buyer by the means of Law.",FontFactory.getFont(FontFactory.HELVETICA, 6, Font.NORMAL)));
+        cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+        cell.setBorder(0);
+        cell.setBackgroundColor(BaseColor.LIGHT_GRAY);
+        table.addCell(cell);
+
+        cell = new PdfPCell(new Phrase("***** We hope to help grow your business. Thank you for your business! *****",FontFactory.getFont(FontFactory.HELVETICA, 8, Font.NORMAL)));
+        cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+        cell.setBorder(0);
+        cell.setBackgroundColor(BaseColor.LIGHT_GRAY);
 
         table.addCell(cell);
 
@@ -999,12 +1005,12 @@ public class TransactionsManager {
             totalDueAmount.setSpacingBefore(25);
 
             if (null != transactionDao.getCustomerPhoneno()) {
-                List<Double> totalDueBalance;
+                Double totalDueBalance;
 
                  //this will give live due amount but this is not what we want so i am commenting this.
                 totalDueBalance = transactionRepository.getTransactionDueAmountByCustomer(transactionDao.getCustomerPhoneno());
 
-                if ( transactionDao.getTotalBalanceDue() > 0) {
+                if (null != totalDueBalance && totalDueBalance > 0) {
                     Paragraph totalBalanceDueText = new Paragraph("TOTAL BALANCE DUE", FontFactory.getFont(FontFactory.HELVETICA, 14, Font.BOLD));
                     totalBalanceDueText.setAlignment(PdfPCell.ALIGN_LEFT);
 
@@ -1019,6 +1025,7 @@ public class TransactionsManager {
 
                     totalDueAmount.addCell(totalBalanceDue);
                     totalDueAmount.addCell(totalBalanceDueAmount);
+                    totalDueAmount.setSpacingAfter(10);
                 }
             }
 
@@ -1065,7 +1072,7 @@ public class TransactionsManager {
         }
 
         public void onEndPage(PdfWriter writer, Document document) {
-            footer.writeSelectedRows(0, -4, 36, 64, writer.getDirectContent());
+            footer.writeSelectedRows(0, -6, 36, 80, writer.getDirectContent());
         }
     }
 

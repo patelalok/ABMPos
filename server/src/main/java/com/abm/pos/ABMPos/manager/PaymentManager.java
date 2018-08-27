@@ -449,12 +449,12 @@ public class PaymentManager {
 
             if (null != customerDao) {
 
-                List<Double> totalDueBalance;
+                Double totalDueBalance;
 
                 // this will give live due amount but this is not what we want so i am commenting this.
                 totalDueBalance = transactionRepository.getTransactionDueAmountByCustomer(transactionDao.getCustomerPhoneno());
 
-                if (null != totalDueBalance && totalDueBalance.get(0) > 0) {
+                if (null != totalDueBalance && totalDueBalance > 0) {
 
                     Paragraph totalBalanceDueText = new Paragraph("TOTAL BALANCE DUE", FontFactory.getFont(FontFactory.HELVETICA, 14, Font.BOLD));
                     totalBalanceDueText.setAlignment(PdfPCell.ALIGN_LEFT);
@@ -462,7 +462,7 @@ public class PaymentManager {
                     totalBalanceDue.addElement(totalBalanceDueText);
                     totalBalanceDue.setBorder(PdfPCell.NO_BORDER);
 
-                    Paragraph totalBalanceDueAmount1 = new Paragraph("$ " + totalDueBalance.get(0), FontFactory.getFont(FontFactory.HELVETICA, 14, Font.BOLD));
+                    Paragraph totalBalanceDueAmount1 = new Paragraph("$ " + totalDueBalance, FontFactory.getFont(FontFactory.HELVETICA, 14, Font.BOLD));
                     totalBalanceDueAmount1.setAlignment(PdfPCell.ALIGN_RIGHT);
 
                     totalBalanceDueAmount.addElement(totalBalanceDueAmount1);
