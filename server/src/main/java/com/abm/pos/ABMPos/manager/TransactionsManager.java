@@ -703,7 +703,7 @@ public class TransactionsManager {
         PdfPTable totalDueAmount = new PdfPTable(2);
 
 
-        String[] header = new String[]{"PRODUCT NO", "DESCRIPTION", "QTY", "RETAIL", "AMOUNT"};
+        String[] header = new String[]{"PRODUCT NO", "DESCRIPTION", "QTY", "PRICE", "AMOUNT"};
         String[] paymentHeader = new String[]{"PAYMENT METHOD", "AMOUNT", "DATE", "TIME"};
 
 
