@@ -844,7 +844,8 @@ public class TransactionsManager {
                     headerCell.addElement(new Phrase(columnHeader, FontFactory.getFont(FontFactory.HELVETICA, 10, Font.BOLD)));
                     headerCell.setHorizontalAlignment(Element.ALIGN_CENTER);
                     headerCell.setVerticalAlignment(Element.ALIGN_MIDDLE);
-                    headerCell.setBorderColor(BaseColor.LIGHT_GRAY);
+                    headerCell.setBorderColor(BaseColor.BLACK);
+                    headerCell.setBackgroundColor(BaseColor.LIGHT_GRAY);
                     headerCell.setPadding(4);
                     lineItemTable.addCell(headerCell);
                 }
