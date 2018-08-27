@@ -27,6 +27,7 @@ export class EmployeeComponent implements OnInit {
   dateDto = new DateDto();
   employeeDetailsBy: string = 'Month';
   date: any;
+  showUpdateTime: boolean = false;
 
 
   constructor(private employeeService: EmployeeService,
@@ -94,6 +95,13 @@ export class EmployeeComponent implements OnInit {
         });
     this.employeeForm.reset();
     this.displayDialog = false;
+  }
+
+  test(){
+    console.log('click now');
+    this.showUpdateTime = true;
+    console.log('click now', this.showUpdateTime);
+
   }
 
   updateEmployee(employee: Employee) {

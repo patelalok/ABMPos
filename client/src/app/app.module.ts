@@ -30,6 +30,7 @@ import { PromotionModule } from 'app/promotion/promotion.module';
 import { PurchaseOrderModule } from 'app/purchase-order/purchase-order.module';
 import { DashboardModule } from './dashboard/dashboard.module';
 import { RepairModule } from './repair/repair.module';
+import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
 // import { NKDatetimeModule } from 'ng2-datetime/ng2-datetime';
 
 
@@ -60,7 +61,8 @@ import { RepairModule } from './repair/repair.module';
     PurchaseOrderModule,
     DashboardModule,
     RepairModule,
-    // NKDatetimeModule,
+    OwlDateTimeModule,
+    OwlNativeDateTimeModule,
     environment.production ? ServiceWorkerModule.register('/ngsw-worker.js') : [],
     ToastModule.forRoot()
     

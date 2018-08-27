@@ -72,46 +72,75 @@ export class ProductTableComponent implements OnInit {
       .debounceTime(800)
       .distinctUntilChanged()
       .subscribe((change) => {
-        this.filterProducts(change)
+        
+        this.productViewList = [];
+        this.productService.getProductDetailsFromBackEndNewWay(change)
+        .subscribe((pro: Product[]) => {
+          console.log('product pro',pro);
+
+          this.productViewList = pro;
+          this.productViewList = this.productViewList.slice();
+          console.log('product view list', this.productViewList);
+         // pResponse = this.productFullList;
+          //return this.productFullList;
+  
+          //this.backendProductDto = pro;
+  
+          // if (this.dropdownOptionValue)
+          //   this.fiterProductByDropdown(this.dropdownOptionValue);
+  
+          // this.loadProductsLazy({ first: 0, rows: this.rowsToShow * 2 });
+  
+          //this.loadingService.loading = false;
+        });
       });
   }
 
-  getProductDetails() {
-    this.loadingService.loading = true;
-    this.productService.getProductDetailsFromBackEnd()
-      .subscribe((pro: Product[]) => {
-        // console.log(pro); 
-        // this.productViewList = pro.slice(0,500);
+  getProductDetails(searchValue?:string) {
 
-        // this.productViewList = pro;
+    console.log('response', searchValue);
+    let pResponse: Product[] = [];
+
+    this.productFullList = [];
+    //this.loadingService.loading = true;
+    this.productService.getProductDetailsFromBackEndNewWay(searchValue)
+      .subscribe((pro: Product[]) => {
+
         this.productFullList = pro;
         this.productFullList = this.productFullList.slice();
-        this.backendProductDto = pro;
+        console.log('product view list', this.productViewList);
+        pResponse = this.productFullList;
+        //return this.productFullList;
 
-        if (this.dropdownOptionValue)
-          this.fiterProductByDropdown(this.dropdownOptionValue);
+        //this.backendProductDto = pro;
 
-        this.loadProductsLazy({ first: 0, rows: this.rowsToShow * 2 });
+        // if (this.dropdownOptionValue)
+        //   this.fiterProductByDropdown(this.dropdownOptionValue);
 
-        this.loadingService.loading = false;
+        // this.loadProductsLazy({ first: 0, rows: this.rowsToShow * 2 });
+
+        //this.loadingService.loading = false;
       });
 
-  }
-  loadProductsLazy(event: LazyLoadEvent) {
-    this.loadingService.loading = true;
-    if (this.productFullList) {
-      this.totalNumberProducts = this.productFullList.length;
-      this.productViewList = this.productFullList.slice(event.first, event.first + event.rows - 1);
-    }
+     return pResponse;
 
-    this.loadingService.loading = false;
+
   }
+  // loadProductsLazy(event: LazyLoadEvent) {
+  //   this.loadingService.loading = true;
+  //   if (this.productFullList) {
+  //     this.totalNumberProducts = this.productFullList.length;
+  //     this.productViewList = this.productFullList.slice(event.first, event.first + event.rows - 1);
+  //   }
+
+  //   this.loadingService.loading = false;
+  // }
 
 
   filterProducts(input: string) {
     this.loadingService.loading = true;
     if (input.length > 0)
-      this.productFullList = this.nowFilterProduct(input, this.backendProductDto)
+      this.productFullList = this.getProductDetails(input)
     else {
       this.getProductDetails();
       if (this.dropdownOptionValue)
@@ -121,7 +150,7 @@ export class ProductTableComponent implements OnInit {
     this.loadingService.loading = false;
     console.log('Filtering product list..', this.productFullList);
 
-    this.loadProductsLazy({ first: 0, rows: this.rowsToShow * 2 });
+    //this.loadProductsLazy({ first: 0, rows: this.rowsToShow * 2 });
   }
 
   nowFilterProduct(input: string, backendProductDto: Product[]): Product[] {
@@ -144,7 +173,7 @@ export class ProductTableComponent implements OnInit {
     console.log(obj);
     if (obj == -1) {
       this.productFullList = this.backendProductDto;
-      this.loadProductsLazy({ first: 0, rows: this.rowsToShow * 2 });
+      //this.loadProductsLazy({ first: 0, rows: this.rowsToShow * 2 });
       return;
     }
     if (this.selectedProductDropdownOption === 'Brand') {
@@ -163,7 +192,7 @@ export class ProductTableComponent implements OnInit {
     }
 
     // console.log('Product full list here', this.productFullList);
-    this.loadProductsLazy({ first: 0, rows: this.rowsToShow * 2 });
+    //this.loadProductsLazy({ first: 0, rows: this.rowsToShow * 2 });
   }
   onProductDropdownChoose(): void {
     console.log(this.selectedProductDropdownOption);
@@ -216,7 +245,7 @@ export class ProductTableComponent implements OnInit {
     else {
       this.listOfProductOption = null;
       this.productFullList = this.backendProductDto;
-      this.loadProductsLazy({ first: 0, rows: this.rowsToShow * 2 });
+     // this.loadProductsLazy({ first: 0, rows: this.rowsToShow * 2 });
     }
   }
 

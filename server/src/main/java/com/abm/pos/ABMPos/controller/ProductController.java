@@ -42,15 +42,20 @@ public class ProductController {
          productManager.addProductInventoryFromPurchaseOrder(productInventoryDaoList);
     }
 
+    @RequestMapping(value = "/getProductFormSearch", method = RequestMethod.GET, produces = "application/json")
+    public List<ProductInventoryDao> getProductFormSearch(String searchInput) {
+        return productManager.getProductFormSearch(searchInput);
+    }
+
     @RequestMapping(value = "/getProductInventory", method = RequestMethod.GET, produces = "application/json")
     public List<ProductInventoryDao> getProductInventory(int productId, String productNo) {
         return productManager.getProductInventory(productId, productNo);
     }
 
     @RequestMapping(value = "/getProductForProductTable", method = RequestMethod.GET, produces = "application/json")
-    public List<ProductDao> getProductForProductTable()
+    public List<ProductDao> getProductForProductTable(String searchValue)
     {
-        return productManager.getProductForProductTable();
+        return productManager.getProductForProductTable(searchValue);
     }
 
     @RequestMapping(value = "/getProductForPurchaseOrderWithCost", method = RequestMethod.GET, produces = "application/json")

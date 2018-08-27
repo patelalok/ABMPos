@@ -85,6 +85,12 @@ export class ProductService {
     .catch(this.handleError);
   }
 
+  getProductDetailsFromBackEndNewWay(searchValue?:string): Observable<Product[]>{
+    return this.http.get(this.url+'/getProductForProductTable?searchValue='+searchValue)
+    .map(this.extractData)
+    .catch(this.handleError);
+  }
+
   getProductDetailsForPurchaseOrder(): Observable<Product[]>{
     return this.http.get(this.url+'/getProductForPurchaseOrderWithCost')
     .map(this.extractData)
