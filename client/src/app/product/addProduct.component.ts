@@ -45,7 +45,6 @@ export class AddProductComponent implements OnInit {
 
   constructor(private productService: ProductService, private formBuilder: FormBuilder, private toastr: ToastsManager) {
     this.getProductDetails();
-
   }
 
   ngOnInit() {

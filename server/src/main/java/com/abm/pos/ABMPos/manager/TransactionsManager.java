@@ -669,7 +669,7 @@ public class TransactionsManager {
         cell.setBackgroundColor(BaseColor.LIGHT_GRAY);
         table.addCell(cell);
 
-        cell = new PdfPCell(new Phrase("There will be no cash refund on return merchandise; we will apply in-store credit for all items only. Purchase invoice or Invoice number is necessary for making any/all returns. Elements Distribution / smokemantra.com will not be held responsible or liable for any injury, damage or defect (permanent or temporary) that may be caused by the use of Li-Ion battery or any other products distributed by us. It is buyers' responsibility to have a basic understanding of all the products that are purchased through us. All smoking accessories are for Tobacco use only. Buyer is responsible for all the items purchased and to ensure the products they buy & sell are legal and in compliance with their local laws. Buyer is responsible for State and local taxes.",FontFactory.getFont(FontFactory.HELVETICA, 6, Font.NORMAL)));
+        cell = new PdfPCell(new Phrase("STI# 20263129712, Tobacco Lic # 0069313. There will be no cash refund on return merchandise; we will apply in-store credit for all items only. Purchase invoice or Invoice number is necessary for making any/all returns. Elements Distribution / smokemantra.com will not be held responsible or liable for any injury, damage or defect (permanent or temporary) that may be caused by the use of Li-Ion battery or any other products distributed by us. It is buyers' responsibility to have a basic understanding of all the products that are purchased through us. All smoking accessories are for Tobacco use only. Buyer is responsible for all the items purchased and to ensure the products they buy & sell are legal and in compliance with their local laws. Buyer is responsible for State and local taxes.",FontFactory.getFont(FontFactory.HELVETICA, 6, Font.NORMAL)));
         cell.setHorizontalAlignment(Element.ALIGN_CENTER);
         cell.setBorder(0);
         cell.setBackgroundColor(BaseColor.LIGHT_GRAY);
@@ -1073,7 +1073,7 @@ public class TransactionsManager {
         }
 
         public void onEndPage(PdfWriter writer, Document document) {
-            footer.writeSelectedRows(0, -6, 36, 80, writer.getDirectContent());
+            footer.writeSelectedRows(0, -6, 36, 85, writer.getDirectContent());
         }
     }
 
