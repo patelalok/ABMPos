@@ -72,101 +72,65 @@ export class ProductTableComponent implements OnInit {
       .debounceTime(800)
       .distinctUntilChanged()
       .subscribe((change) => {
-        
+
         this.productViewList = [];
         this.productService.getProductDetailsFromBackEndNewWay(change)
-        .subscribe((pro: Product[]) => {
-          console.log('product pro',pro);
+          .subscribe((pro: Product[]) => {
+            console.log('product pro', pro);
 
-          this.productViewList = pro;
-          this.productViewList = this.productViewList.slice();
-          console.log('product view list', this.productViewList);
-         // pResponse = this.productFullList;
-          //return this.productFullList;
-  
-          //this.backendProductDto = pro;
-  
-          // if (this.dropdownOptionValue)
-          //   this.fiterProductByDropdown(this.dropdownOptionValue);
-  
-          // this.loadProductsLazy({ first: 0, rows: this.rowsToShow * 2 });
-  
-          //this.loadingService.loading = false;
-        });
+            this.productViewList = pro;
+            this.productViewList = this.productViewList.slice();
+
+            //this.loadingService.loading = false;
+          });
       });
   }
 
-  getProductDetails(searchValue?:string) {
-
-    console.log('response', searchValue);
-    let pResponse: Product[] = [];
+  getProductDetails(searchValue?: string) {
 
     this.productFullList = [];
-    //this.loadingService.loading = true;
-    this.productService.getProductDetailsFromBackEndNewWay(searchValue)
+    // this.loadingService.loading = true;
+    this.productService.getProductDetailsFromBackEnd()
       .subscribe((pro: Product[]) => {
-
         this.productFullList = pro;
         this.productFullList = this.productFullList.slice();
-        console.log('product view list', this.productViewList);
-        pResponse = this.productFullList;
-        //return this.productFullList;
 
-        //this.backendProductDto = pro;
-
-        // if (this.dropdownOptionValue)
-        //   this.fiterProductByDropdown(this.dropdownOptionValue);
-
-        // this.loadProductsLazy({ first: 0, rows: this.rowsToShow * 2 });
-
-        //this.loadingService.loading = false;
+        return this.productFullList;
       });
-
-     return pResponse;
-
+      // this.loadingService.loading = false;
 
   }
-  // loadProductsLazy(event: LazyLoadEvent) {
+
+  // filterProducts(input: string) {
   //   this.loadingService.loading = true;
-  //   if (this.productFullList) {
-  //     this.totalNumberProducts = this.productFullList.length;
-  //     this.productViewList = this.productFullList.slice(event.first, event.first + event.rows - 1);
+  //   if (input.length > 0)
+  //     this.productFullList = this.getProductDetails(input)
+  //   else {
+  //     this.getProductDetails();
+  //     if (this.dropdownOptionValue)
+  //       this.fiterProductByDropdown(this.dropdownOptionValue);
   //   }
 
   //   this.loadingService.loading = false;
+  //   console.log('Filtering product list..', this.productFullList);
+
+  //   //this.loadProductsLazy({ first: 0, rows: this.rowsToShow * 2 });
   // }
 
+  // nowFilterProduct(input: string, backendProductDto: Product[]): Product[] {
 
-  filterProducts(input: string) {
-    this.loadingService.loading = true;
-    if (input.length > 0)
-      this.productFullList = this.getProductDetails(input)
-    else {
-      this.getProductDetails();
-      if (this.dropdownOptionValue)
-        this.fiterProductByDropdown(this.dropdownOptionValue);
-    }
+  //   let filtered: Product[] = [];
+  //   // for (let i = 0; i < backendProductDto.length; i++) {
+  //   // let p = backendProductDto[i];
+  //   // if (p.description.toLowerCase().includes(input.toLowerCase()) || p.productNo.includes(input)) {
+  //   //   filtered.push(p);
+  //   // }
 
-    this.loadingService.loading = false;
-    console.log('Filtering product list..', this.productFullList);
-
-    //this.loadProductsLazy({ first: 0, rows: this.rowsToShow * 2 });
-  }
-
-  nowFilterProduct(input: string, backendProductDto: Product[]): Product[] {
-
-    let filtered: Product[] = [];
-    // for (let i = 0; i < backendProductDto.length; i++) {
-    // let p = backendProductDto[i];
-    // if (p.description.toLowerCase().includes(input.toLowerCase()) || p.productNo.includes(input)) {
-    //   filtered.push(p);
-    // }
-
-    // ); 
-    // }
-    filtered = backendProductDto.filter((p) => p.description.toLowerCase().includes(input.toLowerCase()) || p.productNo.includes(input))
-    return filtered;
-  }
+  //   // ); 
+  //   // }
+  //   filtered = backendProductDto.filter((p) => p.description.toLowerCase().includes(input.toLowerCase()) || p.productNo.includes(input))
+  //   return filtered;
+  // }
   fiterProductByDropdown(obj: number) {
     if (obj)
       this.dropdownOptionValue = obj;
@@ -245,7 +209,7 @@ export class ProductTableComponent implements OnInit {
     else {
       this.listOfProductOption = null;
       this.productFullList = this.backendProductDto;
-     // this.loadProductsLazy({ first: 0, rows: this.rowsToShow * 2 });
+      // this.loadProductsLazy({ first: 0, rows: this.rowsToShow * 2 });
     }
   }
 
@@ -336,7 +300,7 @@ export class ProductTableComponent implements OnInit {
     }
 
     this.totalSaleQuantity = 0;
-    this.productService.getProductHistory(this.selectedProductForHistory.productNo, this.selectedProductForHistory.productId,this.dateDto.startDate, this.dateDto.endDate)
+    this.productService.getProductHistory(this.selectedProductForHistory.productNo, this.selectedProductForHistory.productId, this.dateDto.startDate, this.dateDto.endDate)
       .subscribe((productHistory: TransactionLineItemDaoList[]) => {
         productHistory.forEach((history => {
           history.time = moment(history.date).format('hh:mm A');
@@ -369,10 +333,10 @@ export class ProductTableComponent implements OnInit {
   }
 
   updateProductDescription(event) {
-    
+
     let product: Product = event.data;
     product.operationType = "Description Update";
-    if(product){
+    if (product) {
       this.productService.addProduct(product);
     }
   }

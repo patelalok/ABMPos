@@ -65,7 +65,7 @@ export class ProductService {
   getProductDetails()  {
 
     // if(this.productList && this.productList.length <= 0){
-      this.getProductDetailsFromBackEnd()
+      this.getProductDetailsForSalePage()
       .subscribe((product)=>{
         this.productList = product;
         this.productListChange.next(this.productList);
@@ -79,8 +79,14 @@ export class ProductService {
     // }
   }
 
-  getProductDetailsFromBackEnd(): Observable<Product[]>{
+  getProductDetailsFromBackEnd(): Observable<Product[]> {
     return this.http.get(this.url+'/getProductForProductTable')
+    .map(this.extractData)
+    .catch(this.handleError);
+  }
+
+  getProductDetailsForSalePage(): Observable<Product[]> {
+    return this.http.get(this.url+'/getProductForSalePage')
     .map(this.extractData)
     .catch(this.handleError);
   }
@@ -96,8 +102,6 @@ export class ProductService {
     .map(this.extractData)
     .catch(this.handleError);
   }
-
-
 
   getAllProductVariant(){
     this.getAllProductVariantFromBackEnd()

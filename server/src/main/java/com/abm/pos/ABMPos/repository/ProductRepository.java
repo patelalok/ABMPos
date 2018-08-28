@@ -105,22 +105,22 @@ public interface ProductRepository extends JpaRepository<ProductDao, Integer> {
     List<ProductDao> findAllByVendorId(String s);
 
 
-    // always keep the inner join dont think of left outer join, cause that will create problem.
-//    @Query(value = "SELECT p.product_id,\n" +
-//            "p.product_no,\n" +
-//            "p.description,\n" +
-//            "p.tax," +
-//            "p.vendor_id,\n" +
-//            "i.tier1,\n" +
-//            "i.tier2, \n" +
-//            "i.tier3,\n" +
-//            "sum(i.quantity) quantity from product p\n" +
-//            "inner join product_inventory i\n" +
-//            "on p.product_no = i.product_no\n" +
-//            "Where p.variant = 0 AND p.active = 1\n" +
-//            "group by p.product_id, p.product_no,p.description, p.tax,p.vendor_id,i.tier1, i.tier2, i.tier3 " +
-//            "order by quantity asc", nativeQuery = true)
-//    List<Object[]> getAllActiveProductWithoutVariant();
+     //always keep the inner join dont think of left outer join, cause that will create problem.
+    @Query(value = "SELECT p.product_id,\n" +
+            "p.product_no,\n" +
+            "p.description,\n" +
+            "p.tax," +
+            "p.vendor_id,\n" +
+            "i.tier1,\n" +
+            "i.tier2, \n" +
+            "i.tier3,\n" +
+            "sum(i.quantity) quantity from product p\n" +
+            "inner join product_inventory i\n" +
+            "on p.product_no = i.product_no\n" +
+            "Where p.variant = 0 AND p.active = 1\n" +
+            "group by p.product_id, p.product_no,p.description, p.tax,p.vendor_id,i.tier1, i.tier2, i.tier3 " +
+            "order by p.description asc", nativeQuery = true)
+    List<Object[]> getAllActiveProductWithoutVariantForSalePage();
 
  // always keep the inner join dont think of left outer join, cause that will create problem.
     @Query(value = "SELECT p.product_id,p.product_no,p.description,p.tax,p.vendor_id,i.tier1,i.tier2,i.tier3,\n" +
@@ -131,7 +131,7 @@ public interface ProductRepository extends JpaRepository<ProductDao, Integer> {
             "and (p.description LIKE %?1% OR p.product_no = ?1)\n" +
             "group by p.product_id, p.product_no,p.description, p.tax,p.vendor_id,i.tier1, i.tier2, i.tier3\n" +
             "order by quantity asc", nativeQuery = true)
-    List<Object[]> getAllActiveProductWithoutVariant(String searchValue);
+    List<Object[]> getAllActiveProductWithoutVariantForProductPage(String searchValue);
 
     @Query(value = "SELECT \n" +
             "p.product_id,\n" +
@@ -147,8 +147,18 @@ public interface ProductRepository extends JpaRepository<ProductDao, Integer> {
             "on p.product_no = i.product_no\n" +
             "Where p.variant = 1 AND p.active = 1\n" +
             "group by p.product_id, p.product_no,p.description, p.tax,p.vendor_id,i.tier1, i.tier2, i.tier3 \n" +
+            "order by p.description asc" , nativeQuery = true)
+    List<Object[]> getAllActiveProductWithVariantForSalePage();
+
+    @Query(value = "SELECT p.product_id,p.product_no,p.description,p.tax,p.vendor_id,i.tier1,i.tier2,i.tier3,sum(i.quantity) quantity \n" +
+            "from product p\n" +
+            "inner join product_inventory i\n" +
+            "on p.product_no = i.product_no\n" +
+            "Where p.variant = 1 AND p.active = 1\n" +
+            "and (p.description LIKE %?1% OR p.product_no = ?1)\n" +
+            "group by p.product_id, p.product_no,p.description, p.tax,p.vendor_id,i.tier1, i.tier2, i.tier3\n" +
             "order by quantity asc" , nativeQuery = true)
-    List<Object[]> getAllActiveProductWithVariant();
+    List<Object[]> getAllActiveProductWithVariantProductPage(String searchValue);
 
     @Query(value = "select " +
             "p.product_id,\n" +
