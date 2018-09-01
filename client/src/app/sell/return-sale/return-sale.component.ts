@@ -72,6 +72,7 @@ export class ReturnSaleComponent implements OnInit, AfterViewInit {
   popupHeader: string;
   popupMessage: string;
 
+  _subscriptionProduct: any;
   _subscriptionCustomer: any;
   _subscriptionProductVariant: any;
 
@@ -521,9 +522,24 @@ export class ReturnSaleComponent implements OnInit, AfterViewInit {
     $('#paymentModel').modal('toggle');
   }
 
+  // getProductDetails() {
+  //   this.productService.getProductDetails();
+  //   this._subscriptionProduct = this.productService.productListChange.subscribe((product) => {
+  //     this.productList = product;
+  //     // this.productList = this.productList.slice();
+
+  //     if(null != this.productList){
+  //       this.productList.forEach((p)=>{
+  //         this.productMap.set(p.productNo, p);
+  //       });
+  //     }
+  //     console.log('map object after get product', this.productMap);
+  //   });
+  // }
+
   filterProducts(event) {
     let query = event.query;
-    this.productService.getProductDetailsFromBackEnd()
+    this.productService.getProductDetailsForSalePage()
       .subscribe((products: Product[]) => {
         // console.log(products);
         this.product = this.filterProduct(query, products);

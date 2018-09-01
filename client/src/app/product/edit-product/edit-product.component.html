@@ -266,11 +266,11 @@
             (onEditComplete)="this.updateProductInventory($event)">
             <p-column field="productNo" header="ProductNo"></p-column>
             <p-column field="variant1" header="Variant1" ></p-column>
-            <p-column field="value1" header="Value1" [editable]="true"></p-column>
+            <p-column field="value1" header="Value1"></p-column>
             <p-column field="variant2" header="Variant2" ></p-column>
-            <p-column field="value2" header="Value2" [editable]="true"></p-column>
+            <p-column field="value2" header="Value2"></p-column>
             <p-column field="variant3" header="Variant3"></p-column>
-            <p-column field="value3" header="Value3" [editable]="true"></p-column>
+            <p-column field="value3" header="Value3"></p-column>
             <p-column field="cost" header="Cost">
               <ng-template let-product="rowData" pTemplate="body">
                 <a href="JavaScript:void(0);" (click)="setProductInventoryForSelectedProduct(product, true)" data-toggle="modal" data-target="#productInventory">{{product.cost}}</a>

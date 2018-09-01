@@ -260,9 +260,6 @@ public class ProductManager{
                 productInventoryRepository.updateProductNo(productVariantDao.getProductNo(), productVariantDao.getOldProductNo(), productVariantDao.getProductId());
 
             }
-
-
-
         }
         return productVariantDao;
     }
