@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators, FormGroup, FormControl } from '@angular/forms';
 
-import {Category, Brand, Vendor, ProductVariantDetail, ProductInventory, SubCategory } from 'app/product/product.component';
+import { Category, Brand, Vendor, ProductVariantDetail, ProductInventory, SubCategory } from 'app/product/product.component';
 import * as moment from 'moment';
 import { ProductService } from 'app/product/product.service';
 import { ProductForm } from 'app/product/addProduct.component';
@@ -11,18 +11,18 @@ import { Product, ProductVariant, VariantInventoryDto, ProductVariantForm, Trans
 import { DateDto, DateService } from '../../shared/services/date.service';
 
 
-
 @Component({
   selector: 'app-edit-product',
   templateUrl: './edit-product.component.html',
   styleUrls: ['./edit-product.component.scss']
 })
+
 export class EditProductComponent implements OnInit {
   form: FormGroup;
   variantForm: FormGroup;
   backendProductDto: Product[];
   categoryDto: Category[];
-  subCategoryDto:SubCategory[] = [];
+  subCategoryDto: SubCategory[] = [];
   brandDto: Brand[];
   vendorDto: Vendor[];
   productVariantDetailsDto: ProductVariantDetail[];
@@ -54,9 +54,9 @@ export class EditProductComponent implements OnInit {
   quantity: number;
   disableCostQtyForEdit: boolean = true;
 
- 
 
-  currentProduct: Product; 
+
+  currentProduct: Product;
   constructor(private productService: ProductService, private formBuilder: FormBuilder, private route: ActivatedRoute, private router: Router, private toastr: ToastsManager, private dateService: DateService) {
     this.getProductDetails();
 
@@ -66,54 +66,56 @@ export class EditProductComponent implements OnInit {
 
     //this.generatedProductNo = '123213131';
     let productNo = this.route.snapshot.paramMap.get('productNo');
-    if(productNo){
+    if (productNo) {
       this.productService.getProductDetailsById(productNo)
-      .subscribe((product) =>{
-        this.currentProduct=product;
+        .subscribe((product) => {
+          this.currentProduct = product;
 
-        // TODO HERE I NEED TO ADD LOGIC TO SHOW INVENTORY DETAILS.
-        
-        // this.currentProduct.productInventoryDaoList.forEach((inventory => {
-        //   inventory.time = moment(inventory.date).format('hh:mm A');
-        //   inventory.date = moment(inventory.date).format('MM/DD/YYYY');
-        //   this.currentProduct.quantity = +this.currentProduct.quantity + inventory.quantity;
-        // }));
+          // TODO HERE I NEED TO ADD LOGIC TO SHOW INVENTORY DETAILS.
 
-        let currentCategory={};
-        let currentSubCategory={}; 
-        let currentBrand ={};
-        let currentVendor ={}; 
-        let currentModel = {}; 
-        this.form = this.formBuilder.group(
-          {
-            'productNo': [this.currentProduct.productNo, [Validators.required, Validators.pattern('^[0-9]+$')]],
-            'description': [this.currentProduct.description, Validators.required],
-            'category': [null, Validators.required],
-            'subCategory': [null],
-            'brand': [null, Validators.required],
-            'vendor': [null, Validators.required],
-            // 'costPrice': [this.currentProduct.cost, [Validators.required, Validators.pattern('^[0-9-.]+$')]],
-            'markup': [null, Validators.pattern('^[0-9-.]+$')],
-            'retail': [this.currentProduct.retail, [Validators.required, Validators.pattern('^[0-9-.]+$')]],
-            'tier1': [this.currentProduct.tier1, [Validators.required, Validators.pattern('^[0-9-.]+$')]],
-            'tier2': [this.currentProduct.tier2, [Validators.required, Validators.pattern('^[0-9-.]+$')]],
-            'tier3': [this.currentProduct.tier3, [Validators.required, Validators.pattern('^[0-9-.]+$')]],
-            'quantity': [this.currentProduct.quantity,''],
-            'minQuantity': [this.currentProduct.minQuantity,''],
-            'variant':[this.currentProduct.variant, ''],
-            'tax': [this.currentProduct.tax, null],
-            'ecommerce': [this.currentProduct.ecommerce, null],
-            'alternetNo':[this.currentProduct.alternetNo, null],
-            'newProduct':[this.currentProduct.newProduct, null],
-            'onSale':[this.currentProduct.onSale, null],
-            'featured':[this.currentProduct.featured, null]
+          // this.currentProduct.productInventoryDaoList.forEach((inventory => {
+          //   inventory.time = moment(inventory.date).format('hh:mm A');
+          //   inventory.date = moment(inventory.date).format('MM/DD/YYYY');
+          //   this.currentProduct.quantity = +this.currentProduct.quantity + inventory.quantity;
+          // }));
 
-            
-          }
-        );
-        this.variantForm =  this.formBuilder.group({
-          
+          let currentCategory = {};
+          let currentSubCategory = {};
+          let currentBrand = {};
+          let currentVendor = {};
+          let currentModel = {};
+          this.form = this.formBuilder.group(
+            {
+              'productNo': [this.currentProduct.productNo, [Validators.required, Validators.pattern('^[0-9]+$')]],
+              'description': [this.currentProduct.description, Validators.required],
+              'category': [null, Validators.required],
+              'subCategory': [null],
+              'brand': [null, Validators.required],
+              'vendor': [null, Validators.required],
+              // 'costPrice': [this.currentProduct.cost, [Validators.required, Validators.pattern('^[0-9-.]+$')]],
+              'markup': [null, Validators.pattern('^[0-9-.]+$')],
+              'retail': [this.currentProduct.retail, [Validators.required, Validators.pattern('^[0-9-.]+$')]],
+              'tier1': [this.currentProduct.tier1, [Validators.required, Validators.pattern('^[0-9-.]+$')]],
+              'tier2': [this.currentProduct.tier2, [Validators.required, Validators.pattern('^[0-9-.]+$')]],
+              'tier3': [this.currentProduct.tier3, [Validators.required, Validators.pattern('^[0-9-.]+$')]],
+              'quantity': [this.currentProduct.quantity, ''],
+              'minQuantity': [this.currentProduct.minQuantity, ''],
+              'variant': [this.currentProduct.variant, ''],
+              'tax': [this.currentProduct.tax, null],
+              'ecommerce': [this.currentProduct.ecommerce, null],
+              'alternetNo': [this.currentProduct.alternetNo, null],
+              'newProduct': [this.currentProduct.newProduct, null],
+              'onSale': [this.currentProduct.onSale, null],
+              'featured': [this.currentProduct.featured, null]
+
+
+            }
+          );
+          this.variantForm = this.formBuilder.group({
+
+            'productVariantId': [null],
             'productNo': [null, [Validators.required, Validators.pattern('^[0-9]+$')]],
+            'oldProductNo':[null],
             'cost': [null, [Validators.required, Validators.pattern('^[0-9-.]+$')]],
             // 'markup': [null, Validators.pattern('^[0-9-.]+$')],
             // 'retail': [null, [Validators.required, Validators.pattern('^[0-9-.]+$')]],
@@ -131,96 +133,96 @@ export class EditProductComponent implements OnInit {
             // 'minQuantity': [null, [Validators.pattern('^[0-9]+$')]],
             // 'ecommerce': [false, null],
             // 'alternetNo':[null]
-        })
+          })
 
-        this.form.valueChanges
-        .subscribe((changes) => {
-          console.log('form valurs', this.form.errors);
-          console.log('form valurs', this.form.valid);
+          this.form.valueChanges
+            .subscribe((changes) => {
+              console.log('form valurs', this.form.errors);
+              console.log('form valurs', this.form.valid);
 
-          console.log('complete form', this.form.value);
+              console.log('complete form', this.form.value);
 
-        })
+            })
 
-        // this.variantForm.valueChanges
-        // .subscribe((changes) => {
-        //   console.log('form valurs', this.variantForm.errors);
-        //   console.log('form valurs', this.variantForm.valid);
+          // this.variantForm.valueChanges
+          // .subscribe((changes) => {
+          //   console.log('form valurs', this.variantForm.errors);
+          //   console.log('form valurs', this.variantForm.valid);
 
-        //   console.log('complete form', this.variantForm.value);
+          //   console.log('complete form', this.variantForm.value);
 
-        // })
-   
-        this.productService.getCategoryDetails()
-        .subscribe((categories: Category[]) => {
-          this.categoryDto = categories;
-          currentCategory = this.categoryDto.filter((el)=> el.categoryId==this.currentProduct.categoryId)[0]; 
-          this.form.get('category').setValue(currentCategory);
-          // console.log('CategoryList' + this.categoryDto);
-          // console.log(currentCategory);
-          // console.log(this.form.value);
-        });
+          // })
+
+          this.productService.getCategoryDetails()
+            .subscribe((categories: Category[]) => {
+              this.categoryDto = categories;
+              currentCategory = this.categoryDto.filter((el) => el.categoryId == this.currentProduct.categoryId)[0];
+              this.form.get('category').setValue(currentCategory);
+              // console.log('CategoryList' + this.categoryDto);
+              // console.log(currentCategory);
+              // console.log(this.form.value);
+            });
 
 
-        // Here I am sending 0, cause i need all subcatgories
-        this.productService.getSubCategoryDetailsByCategoryId(0)
-        .subscribe((subCategory: SubCategory[]) => {
-          this.subCategoryDto = subCategory;
+          // Here I am sending 0, cause i need all subcatgories
+          this.productService.getSubCategoryDetailsByCategoryId(0)
+            .subscribe((subCategory: SubCategory[]) => {
+              this.subCategoryDto = subCategory;
 
-          currentSubCategory = this.subCategoryDto.filter((el)=> el.id==this.currentProduct.subCategoryId)[0];
+              currentSubCategory = this.subCategoryDto.filter((el) => el.id == this.currentProduct.subCategoryId)[0];
               //This will help me fix the problem when model is undefined or not added befor.
-              if(currentSubCategory == undefined){
+              if (currentSubCategory == undefined) {
                 currentSubCategory = new SubCategory();
               }
               this.form.get('subCategory').setValue(currentSubCategory);
+            });
+
+          this.productService.getBrandDetails()
+            .subscribe((brands: Brand[]) => {
+              this.brandDto = brands;
+              currentBrand = this.brandDto.filter((el) => el.brandId == this.currentProduct.brandId)[0];
+              this.form.get('brand').setValue(currentBrand);
+              // console.log('BrandList' + this.brandDto);
+            });
+
+          this.productService.getVendorDetails()
+            .subscribe((vendors: Vendor[]) => {
+              this.vendorDto = vendors;
+              currentVendor = this.vendorDto.filter((el) => el.vendorId == this.currentProduct.vendorId)[0];
+              this.form.get('vendor').setValue(currentVendor);
+              // console.log('VendorList' + this.vendorDto);
+            });
+          this.productService.getProductVariantDetails()
+            .subscribe((variants: ProductVariantDetail[]) => {
+              this.productVariantDetailsDto = variants;
+
+
+              if (this.currentProduct.variant) {
+                // First get the all variant details for this product.
+                this.getProductVariantById(this.currentProduct.productId);
+              }
+              else {
+                this.variantForm.get('variant1').setValue(this.productVariantDetailsDto[0]);
+                // This is creating proble, showing this values un neccessary so just commeting it.
+                // this.variantForm.get('variant2').setValue(this.productVariantDetailsDto[1]);
+                // this.variantForm.get('variant3').setValue(this.productVariantDetailsDto[2]);
+              }
+              // if(this.productVariantDetailsDto != null) {
+              //   currentVariant1 = this.productVariantDetailsDto.filter((el)=>el.name == this)
+              // this.variantForm.get('variant1').setValue(this.productVariantDetailsDto[0]);
+              // this.variantForm.get('variant2').setValue(this.productVariantDetailsDto[0].value);
+              // this.variantForm.get('variant3').setValue(this.productVariantDetailsDto[0].value);
+              // }
+            })
+
+          this.getProductVariantById(this.currentProduct.productId);
+
+
         });
-
-      this.productService.getBrandDetails()
-        .subscribe((brands: Brand[]) => {
-          this.brandDto = brands;
-          currentBrand = this.brandDto.filter((el)=> el.brandId==this.currentProduct.brandId)[0]; 
-          this.form.get('brand').setValue(currentBrand);
-          // console.log('BrandList' + this.brandDto);
-        });
-
-      this.productService.getVendorDetails()
-        .subscribe((vendors: Vendor[]) => {
-          this.vendorDto = vendors;
-          currentVendor = this.vendorDto.filter((el)=> el.vendorId==this.currentProduct.vendorId)[0]; 
-          this.form.get('vendor').setValue(currentVendor);
-          // console.log('VendorList' + this.vendorDto);
-        });
-        this.productService.getProductVariantDetails()
-        .subscribe((variants:ProductVariantDetail[] )=>{
-          this.productVariantDetailsDto = variants;
-
-
-          if(this.currentProduct.variant){
-            // First get the all variant details for this product.
-            this.getProductVariantById(this.currentProduct.productId);
-          }
-          else {
-            this.variantForm.get('variant1').setValue(this.productVariantDetailsDto[0]);
-            // This is creating proble, showing this values un neccessary so just commeting it.
-            // this.variantForm.get('variant2').setValue(this.productVariantDetailsDto[1]);
-            // this.variantForm.get('variant3').setValue(this.productVariantDetailsDto[2]);
-          }
-          // if(this.productVariantDetailsDto != null) {
-          //   currentVariant1 = this.productVariantDetailsDto.filter((el)=>el.name == this)
-          // this.variantForm.get('variant1').setValue(this.productVariantDetailsDto[0]);
-          // this.variantForm.get('variant2').setValue(this.productVariantDetailsDto[0].value);
-          // this.variantForm.get('variant3').setValue(this.productVariantDetailsDto[0].value);
-          // }
-        })
-
-        this.getProductVariantById(this.currentProduct.productId);
-
-
-      });
     }
 
     this.getProductDetails();
-    
+
 
 
     // DO NOT DELETE THIS NEED WHEN YOU HANDLE PRODUCT VARIENT
@@ -236,10 +238,8 @@ export class EditProductComponent implements OnInit {
     // console.log('productVariantDetailsByNameDto' + this.productVariantDetailsByNameDto);
     //     });
 
-  
+
   }
-
-
 
   addProduct() {
     {
@@ -257,11 +257,12 @@ export class EditProductComponent implements OnInit {
 
       // if(!isAlternetNoExists){
 
-        if(null == formValues.subCategory){
-          formValues.subCategory = new SubCategory();
-        }
+      if (null == formValues.subCategory) {
+        formValues.subCategory = new SubCategory();
+      }
 
       let product: Product = {
+
         productId: this.currentProduct.productId,
         productNo: formValues.productNo,
         categoryId: formValues.category.categoryId,
@@ -278,8 +279,8 @@ export class EditProductComponent implements OnInit {
         ecommerce: formValues.ecommerce,
         relatedProduct: formValues.relatedProduct,
         newProduct: formValues.newProduct,
-        onSale:formValues.onSale,
-        featured:formValues.featured,
+        onSale: formValues.onSale,
+        featured: formValues.featured,
         tax: formValues.tax,
         minQuantity: formValues.minQuantity,
         quantity: formValues.quantity,
@@ -288,93 +289,96 @@ export class EditProductComponent implements OnInit {
         createdTimestamp: null,
         alternetNo: formValues.alternetNo,
         date: null,
-        discount:0,
+        discount: 0,
         imeiNo: null,
         retailWithDiscount: 0,
         returnRule: null,
         status: null,
         taxAmountOnProduct: 0,
-        time:null,
+        time: null,
         totalProductPrice: 0,
         transactionComId: 0,
         variant: formValues.variant,
         operationType: 'Edit',
-        saleQuantity:0
-          }
+        saleQuantity: 0
+      }
 
       this.productService.addProduct(product);
       //this.router.navigate(['/product/productTable']); 
     }
-  //}
+    //}
   }
 
-  addProductVariant(isClone:boolean){
-      let formValues: ProductVariantForm = this.variantForm.value;
+  addProductVariant(isClone: boolean) {
+    let formValues: ProductVariantForm = this.variantForm.value;
 
-      console.log('formValues at all', formValues.operationType);
+    console.log('formValues at all', formValues.operationType);
 
-      if(null == formValues.variant2 || formValues.variant2 == undefined) {
-        formValues.variant2 = new ProductVariantDetail();
-      }
-      if(null == formValues.variant3 || formValues.variant3 == undefined) {
-        formValues.variant3 = new ProductVariantDetail();
-      }
-  
-      let productVariant: ProductVariant = {
-        productId: this.currentProduct.productId,
-        productNo: formValues.productNo,
-        cost:formValues.cost,
-        // retail: formValues.retail,
-        tier1: formValues.tier1,
-        tier2: formValues.tier2,
-        tier3: formValues.tier3,
-        quantity:formValues.quantity,
-        variant1:formValues.variant1.name,
-        value1:formValues.value1,
-        variant2:formValues.variant2.name,
-        value2:formValues.value2,
-        variant3:formValues.variant3.name,
-        value3:formValues.value3,
-        createdTimestamp: moment(Date.now()).format('YYYY-MM-DD HH:mm:ss'),
-        operationType: this.variantOperation,
-        active: true
-      }
-      this.productService.addProductVariant(productVariant)
-      .subscribe((variant:ProductVariant)=>{
-        if(variant){
+    if (null == formValues.variant2 || formValues.variant2 == undefined) {
+      formValues.variant2 = new ProductVariantDetail();
+    }
+    if (null == formValues.variant3 || formValues.variant3 == undefined) {
+      formValues.variant3 = new ProductVariantDetail();
+    }
+
+    let productVariant: ProductVariant = {
+
+      productVariantId: formValues.productVariantId,
+      oldProductNo: formValues.oldProductNo,
+      productId: this.currentProduct.productId,
+      productNo: formValues.productNo,
+      cost: formValues.cost,
+      // retail: formValues.retail,
+      tier1: formValues.tier1,
+      tier2: formValues.tier2,
+      tier3: formValues.tier3,
+      quantity: formValues.quantity,
+      variant1: formValues.variant1.name,
+      value1: formValues.value1,
+      variant2: formValues.variant2.name,
+      value2: formValues.value2,
+      variant3: formValues.variant3.name,
+      value3: formValues.value3,
+      createdTimestamp: moment(Date.now()).format('YYYY-MM-DD HH:mm:ss'),
+      operationType: this.variantOperation,
+      active: true
+    }
+    this.productService.addProductVariant(productVariant)
+      .subscribe((variant: ProductVariant) => {
+        if (variant) {
           console.log('response', variant);
-          if(variant.operationType == 'Edit')
-          {
-            let index = this.productVariantDto.findIndex((el)=> el.productNo == productVariant.productNo);
+          if (variant.operationType == 'Edit') {
+            let index = this.productVariantDto.findIndex((el) => el.productNo == productVariant.productNo);
             console.log('index', index);
-            if(index > -1){
+            if (index > -1) {
               this.toastr.success('Product Edited Successfully!!', 'Success!');
               this.productVariantDto[index] = variant;
               this.productVariantDto = this.productVariantDto.slice();
+            }
           }
-        }
-        else{
-          console.log('This is add', variant);
-          this.toastr.success('Product Added Successfully!!', 'Success!');
-          this.productVariantDto.push(variant);
-          this.productVariantDto = this.productVariantDto.slice();
+          else {
+            console.log('This is add', variant);
+            this.toastr.success('Product Added Successfully!!', 'Success!');
+            this.productVariantDto.push(variant);
+            this.productVariantDto = this.productVariantDto.slice();
 
-          if(isClone){
-            this.variantForm.get('productNo').setValue('');
+            if (isClone) {
+              this.variantForm.get('productNo').setValue('');
+            }
           }
         }
+        this.variantOperation = 'Add';
       }
-      this.variantOperation = 'Add';
-    }
-    );
+      );
   }
 
-  
-  
-  updateProductVariant(selectedVariant: ProductVariant){
+
+
+  updateProductVariant(selectedVariant: ProductVariant) {
 
     this.variantOperation = 'Edit';
-
+    this.variantForm.get('productVariantId').setValue(selectedVariant.productVariantId);
+    this.variantForm.get('oldProductNo').setValue(selectedVariant.productNo);
     this.disableCostQtyForEdit = true;
     this.variantForm.get('productNo').setValue(selectedVariant.productNo);
     this.variantForm.get('cost').setValue(selectedVariant.cost);
@@ -387,9 +391,9 @@ export class EditProductComponent implements OnInit {
     this.variantForm.get('value2').setValue(selectedVariant.value2);
     this.variantForm.get('value3').setValue(selectedVariant.value3);
 
-    let variant1: ProductVariantDetail[]  = this.productVariantDetailsDto.filter((el)=> el.name == selectedVariant.variant1);
-    let variant2: ProductVariantDetail[]  = this.productVariantDetailsDto.filter((el)=> el.name == selectedVariant.variant2);
-    let variant3: ProductVariantDetail[]  = this.productVariantDetailsDto.filter((el)=> el.name == selectedVariant.variant3);
+    let variant1: ProductVariantDetail[] = this.productVariantDetailsDto.filter((el) => el.name == selectedVariant.variant1);
+    let variant2: ProductVariantDetail[] = this.productVariantDetailsDto.filter((el) => el.name == selectedVariant.variant2);
+    let variant3: ProductVariantDetail[] = this.productVariantDetailsDto.filter((el) => el.name == selectedVariant.variant3);
 
     this.variantForm.get('variant1').setValue(variant1[0]);
     this.variantForm.get('variant2').setValue(variant2[0]);
@@ -400,35 +404,35 @@ export class EditProductComponent implements OnInit {
 
   }
 
-  setVariantForDelete(productVariant: ProductVariant){
+  setVariantForDelete(productVariant: ProductVariant) {
     this.selectedVariantForDetete = productVariant;
   }
 
-  deleteVariant(){
+  deleteVariant() {
 
     this.productService.deleteVariant(this.selectedVariantForDetete)
-    .subscribe((variant)=>{
+      .subscribe((variant) => {
 
-      if(variant && variant.status === 200){
-        this.toastr.success('Product Variant Deleted Successfully !!', 'Success!');
-        let index = this.productVariantDto.findIndex((el) => el.productNo == this.selectedVariantForDetete.productNo);
-        this.productVariantDto.splice(index, 1);
-        this.productVariantDto = this.productVariantDto.slice();
-      }
-    },
-    error => {
-      console.log('data', error);
-      if (error.status == 409) {
-        this.toastr.warning('Can not delete this product, cause it has inventory in it !!', 'Warning!');
-      }
-      else {
-        this.toastr.error('Opps Something goes wrong !!', 'Error!!');
-        console.log(JSON.stringify(error.json()));
-      }
-    });
+        if (variant && variant.status === 200) {
+          this.toastr.success('Product Variant Deleted Successfully !!', 'Success!');
+          let index = this.productVariantDto.findIndex((el) => el.productNo == this.selectedVariantForDetete.productNo);
+          this.productVariantDto.splice(index, 1);
+          this.productVariantDto = this.productVariantDto.slice();
+        }
+      },
+        error => {
+          console.log('data', error);
+          if (error.status == 409) {
+            this.toastr.warning('Can not delete this product, cause it has inventory in it !!', 'Warning!');
+          }
+          else {
+            this.toastr.error('Opps Something goes wrong !!', 'Error!!');
+            console.log(JSON.stringify(error.json()));
+          }
+        });
   }
 
-  onVariantSelect(event){
+  onVariantSelect(event) {
     // console.log(event.target.selectedIndex);
     // let selectedVariant: ProductVariantDetail = this.variantDto[event.target.selectedIndex]
     // this.productService.getProductVariantDetailsByName(selectedVariant)
@@ -439,16 +443,16 @@ export class EditProductComponent implements OnInit {
     // })
   }
 
-  getProductVariantById(productId:number){
+  getProductVariantById(productId: number) {
 
     this.productService.getProductVariantById(productId)
-    .subscribe((product:ProductVariant[])=>{
-      this.productVariantDto = product;
-      console.log('variant Inventory', this.productVariantDto);
-    });
+      .subscribe((product: ProductVariant[]) => {
+        this.productVariantDto = product;
+        console.log('variant Inventory', this.productVariantDto);
+      });
   }
 
-  setProductInventoryForSelectedProduct(productVariant: ProductVariant, isCost: boolean){
+  setProductInventoryForSelectedProduct(productVariant: ProductVariant, isCost: boolean) {
     // console.log('product no', productVariant.productNo);
     // console.log('inventory dto', this.productVariantInventoryDto);
 
@@ -456,41 +460,41 @@ export class EditProductComponent implements OnInit {
     // Newly added inventory details.
     // I NEED TO DO THIS CALL IN BOTH IF USER CLICK ON COST OR RETAIL DOES NOT MATTER.
     this.productService.getProductInventoryByProduct(productVariant.productId, productVariant.productNo)
-    .subscribe((inventory: ProductInventory[]) => {
-      this.productInventoryList = inventory;
+      .subscribe((inventory: ProductInventory[]) => {
+        this.productInventoryList = inventory;
 
-      this.productInventoryList.forEach((inventory) => {
-        inventory.time = moment(inventory.createdTimestamp).format('hh:mm A');
-        inventory.date = moment(inventory.createdTimestamp).format('MM-DD-YYYY');
-        inventory.productNo = productVariant.productNo;
-        this.productInventoryList = this.productInventoryList.slice();
+        this.productInventoryList.forEach((inventory) => {
+          inventory.time = moment(inventory.createdTimestamp).format('hh:mm A');
+          inventory.date = moment(inventory.createdTimestamp).format('MM-DD-YYYY');
+          inventory.productNo = productVariant.productNo;
+          this.productInventoryList = this.productInventoryList.slice();
 
-      })
-    });
+        })
+      });
 
-  if (isCost) {
-    // this logic helps when there is no data in inventory table.
-    if (this.productInventoryList.length == 0 || this.productInventoryList == undefined || null == this.productInventoryList) {
-      let inventoryObj = new ProductInventory();
+    if (isCost) {
+      // this logic helps when there is no data in inventory table.
+      if (this.productInventoryList.length == 0 || this.productInventoryList == undefined || null == this.productInventoryList) {
+        let inventoryObj = new ProductInventory();
 
-      inventoryObj.productNo = productVariant.productNo;
-      inventoryObj.productId = productVariant.productId;
-      this.productInventoryList.push(inventoryObj)
+        inventoryObj.productNo = productVariant.productNo;
+        inventoryObj.productId = productVariant.productId;
+        this.productInventoryList.push(inventoryObj)
+      }
+
     }
-
-  }
-  // THIS MEANS USEER HAS CLICK ON THE RETAIL.
-  else {
+    // THIS MEANS USEER HAS CLICK ON THE RETAIL.
+    else {
       // $('#retailTier').modal('show');
       this.productInventoryList = this.productInventoryList.slice();
     }
- 
-  }  
-
-  setProductRetailPriceTierForSelectedVariant(productNo: any){
 
   }
-  addProductInventory(){
+
+  setProductRetailPriceTierForSelectedVariant(productNo: any) {
+
+  }
+  addProductInventory() {
     let productInventoryObj: ProductInventory = new ProductInventory();
 
     productInventoryObj.productId = this.currentProduct.productId;
@@ -503,104 +507,104 @@ export class EditProductComponent implements OnInit {
     //this.productInventoryList.push(productInventoryObj);
 
     this.productService.addProductInventory(productInventoryObj)
-    .subscribe((data) => {
-      if(null != data){
-        let response = data.json();
-        let backendResponse: ProductInventory = response;
+      .subscribe((data) => {
+        if (null != data) {
+          let response = data.json();
+          let backendResponse: ProductInventory = response;
 
-        let index = this.productVariantDto.findIndex((el) => el.productNo == productInventoryObj.productNo);
-        if(index > -1){
-          this.productVariantDto[index].quantity = backendResponse.totalQuantity;
-          this.productVariantDto[index].cost = backendResponse.cost;
-  
-          this.productVariantDto = this.productVariantDto.slice();
-          this.toastr.success('Inventory Updated Successfully !!', 'Success!');
+          let index = this.productVariantDto.findIndex((el) => el.productNo == productInventoryObj.productNo);
+          if (index > -1) {
+            this.productVariantDto[index].quantity = backendResponse.totalQuantity;
+            this.productVariantDto[index].cost = backendResponse.cost;
+
+            this.productVariantDto = this.productVariantDto.slice();
+            this.toastr.success('Inventory Updated Successfully !!', 'Success!');
           }
-      }
-      else{
-        this.toastr.error('Opps Something Goes Wrong !!', 'Error!');
+        }
+        else {
+          this.toastr.error('Opps Something Goes Wrong !!', 'Error!');
 
-      }
-    },
-    error => {
-      this.toastr.error('Opps Something goes wrong !!', 'Error!!');
-      console.log(JSON.stringify(error.json()));
-    });
+        }
+      },
+        error => {
+          this.toastr.error('Opps Something goes wrong !!', 'Error!!');
+          console.log(JSON.stringify(error.json()));
+        });
 
     this.cost = null;
     this.quantity = null;
 
-    }
+  }
 
-    updateProductInventory(event) {
+  updateProductInventory(event) {
 
-      let product: Product = event.data;
-      let quantity: number = Number(product.quantity);
+    let product: Product = event.data;
+    let quantity: number = Number(product.quantity);
 
-      // Here i need to set this flag to manage backend logic with inventory update w
-      console.log('Updating product inventory', product);
-  
-      console.log('event on inventoty', event.date);
-      //let productInventory: ProductInventory[] = []; 
-      
-      //productInventory.push(event.data);
-  
-      //console.log('product invetrory object', productInventory);
-  
-      this.productService.updateProductInventory(product)
+    // Here i need to set this flag to manage backend logic with inventory update w
+    console.log('Updating product inventory', product);
+
+    console.log('event on inventoty', event.date);
+    //let productInventory: ProductInventory[] = []; 
+
+    //productInventory.push(event.data);
+
+    //console.log('product invetrory object', productInventory);
+
+    this.productService.updateProductInventory(product)
       .subscribe(data => {
-  
-        if(data){
+
+        if (data) {
           let response = data.json();
           let backendResponse: ProductInventory = response;
-  
+
           let index = this.productVariantDto.findIndex((el) => el.productNo == product.productNo);
-          if(index > -1){
-          this.productVariantDto[index].quantity = backendResponse.totalQuantity;
-          this.productVariantDto[index].cost = backendResponse.cost;
-  
-          this.productVariantDto = this.productVariantDto.slice();
-          this.toastr.success('Inventory Updated Successfully !!', 'Success!');
+          if (index > -1) {
+            this.productVariantDto[index].quantity = backendResponse.totalQuantity;
+            this.productVariantDto[index].cost = backendResponse.cost;
+
+            this.productVariantDto = this.productVariantDto.slice();
+            this.toastr.success('Inventory Updated Successfully !!', 'Success!');
           }
         }
       },
-      error => {
-        this.toastr.error('Opps Something goes wrong !!', 'Error!!');
-        console.log(JSON.stringify(error.json()));
-      });
-      // let index = this.productViewList.findIndex((el) => el.productNo == product.productNo);
-  
-  
-      // this.productViewList[index] = {
-      //   ...this.productViewList[index],
-      //   ...product
-      // };
-  
-      // this.productViewList = this.productViewList.slice();
-  
-      this.hideProductModal();
-  
-    }
+        error => {
+          this.toastr.error('Opps Something goes wrong !!', 'Error!!');
+          console.log(JSON.stringify(error.json()));
+        });
+    // let index = this.productViewList.findIndex((el) => el.productNo == product.productNo);
 
-    updateProductVariantRetailTierPrice(event){
 
-      this.productService.updateRetailTierPrice(event.data)
-      .subscribe((data)=>{
-        if(data){
+    // this.productViewList[index] = {
+    //   ...this.productViewList[index],
+    //   ...product
+    // };
+
+    // this.productViewList = this.productViewList.slice();
+
+    this.hideProductModal();
+
+  }
+
+  updateProductVariantRetailTierPrice(event) {
+
+    this.productService.updateRetailTierPrice(event.data)
+      .subscribe((data) => {
+        if (data) {
           this.toastr.success('Retail Tier Price Updated Successfully !!', 'Success!');
         }
       },
-      error => {
-        this.toastr.error('Opps Something goes wrong !!', 'Error!!');
-        console.log(JSON.stringify(error.json()));
-      });
-      console.log('retail tier update', event.data);
-    }
-  
-    hideProductModal() {
-      console.log('Hiding modal');
-      $('#productInventory').modal('hide');
-    }
+        error => {
+          this.toastr.error('Opps Something goes wrong !!', 'Error!!');
+          console.log(JSON.stringify(error.json()));
+        });
+    console.log('retail tier update', event.data);
+  }
+
+  hideProductModal() {
+    console.log('Hiding modal');
+    $('#productInventory').modal('hide');
+  }
 
 
   setProductInventoryDetailsForDelete(inventory: ProductInventory) {
@@ -635,14 +639,13 @@ export class EditProductComponent implements OnInit {
     this.variantForm.get('tier2').setValue(this.currentProduct.tier2);
     this.variantForm.get('tier3').setValue(this.currentProduct.tier3);
     this.variantForm.get('quantity').setValue(null);
-    
-    if(this.productVariantDetailsDto.length > 2){
+
+    if (this.productVariantDetailsDto.length > 2) {
       this.variantForm.get('variant1').setValue(this.productVariantDetailsDto[0]);
       this.variantForm.get('variant2').setValue(this.productVariantDetailsDto[1]);
       this.variantForm.get('variant3').setValue(this.productVariantDetailsDto[2]);
     }
-    else if(this.productVariantDetailsDto.length > 1)
-    {
+    else if (this.productVariantDetailsDto.length > 1) {
       this.variantForm.get('variant1').setValue(this.productVariantDetailsDto[0]);
       this.variantForm.get('variant2').setValue(this.productVariantDetailsDto[1]);
       // this.variantForm.get('variant3').setValue(this.productVariantDetailsDto[2]);
@@ -651,119 +654,119 @@ export class EditProductComponent implements OnInit {
       this.variantForm.get('variant1').setValue(this.productVariantDetailsDto[0]);
 
     }
-    
+
   }
   showDialog() {
     this.displayDialog = !this.displayDialog;
   }
   getProductDetails() {
-  this.productService.getProductDetails();
-  this._subscriptionProduct =  this.productService.productListChange.subscribe((product)=>{
-     this.productList = product;
-   })
-   // this.productService.getProductDetails()
-   // .subscribe((products) => {
-     // console.log(products);
-   //   this.productList = products;
-   // });
- }
-
- getAutoGeneratedProductNo(event): any {
-
-  if(event.clientX > 0){
-  this.productService.getAutoGeneratedBarcode()
-    .subscribe((a: string) => {
-      this.variantForm.get('productNo').setValue(a);
-    });
+    this.productService.getProductDetails();
+    this._subscriptionProduct = this.productService.productListChange.subscribe((product) => {
+      this.productList = product;
+    })
+    // this.productService.getProductDetails()
+    // .subscribe((products) => {
+    // console.log(products);
+    //   this.productList = products;
+    // });
   }
-    console.log(event);
-}
-onCategorySelect(event){
 
-  console.log(event.target.selectedIndex);
-  
-  let selectedCategory: Category = this.categoryDto[event.target.selectedIndex];
-  
-      this.productService.getSubCategoryDetailsByCategoryId(selectedCategory.categoryId)
+  getAutoGeneratedProductNo(event): any {
+
+    if (event.clientX > 0) {
+      this.productService.getAutoGeneratedBarcode()
+        .subscribe((a: string) => {
+          this.variantForm.get('productNo').setValue(a);
+        });
+    }
+    console.log(event);
+  }
+  onCategorySelect(event) {
+
+    console.log(event.target.selectedIndex);
+
+    let selectedCategory: Category = this.categoryDto[event.target.selectedIndex];
+
+    this.productService.getSubCategoryDetailsByCategoryId(selectedCategory.categoryId)
       .subscribe((subCategory: SubCategory[]) => {
         this.subCategoryDto = subCategory;
         this.subCategoryDto = this.subCategoryDto.slice();
         this.form.get('subCategory').setValue(this.subCategoryDto[0]);
         console.log('sub CategoryId', this.subCategoryDto);
       })
+  }
+
+  setProductForHistory(product: Product) {
+    this.selectedProductForHistory = product;
+
+    // I need to do this becuase after, after setting product, its opens the model and if i dont call this method user wont see anything on popup.
+    this.getProductHistory();
+  }
+
+  getProductHistory(): void {
+
+    if (this.productHistoryDropDown == 'Today') {
+      this.dateDto = this.dateService.getCurrentDay();
+    }
+    else if (this.productHistoryDropDown == 'Yesterday') {
+      this.dateDto = this.dateService.getPreviousDay();
+
+    }
+    else if (this.productHistoryDropDown == 'This Week') {
+      this.dateDto = this.dateService.getCurrentWeek();
+
+    }
+    else if (this.productHistoryDropDown == 'Last Week') {
+      this.dateDto = this.dateService.getLastWeek();
+
+    }
+    else if (this.productHistoryDropDown == 'This Month') {
+      this.dateDto = this.dateService.getCurrentMonth();
+
+    }
+    else if (this.productHistoryDropDown == 'Last Month') {
+      this.dateDto = this.dateService.getLastMonth();
+
+    }
+    else if (this.productHistoryDropDown == 'Last 3 Months') {
+      this.dateDto = this.dateService.getLast3Months();
+
+    } else if (this.productHistoryDropDown == 'Last 6 Months') {
+      this.dateDto = this.dateService.getLast6Months();
+
+    }
+    else if (this.productHistoryDropDown == 'This Year') {
+      this.dateDto = this.dateService.getCurrentYear();
+
+    }
+    else if (this.productHistoryDropDown == 'Last Year') {
+      this.dateDto = this.dateService.getLastYear();
     }
 
-    setProductForHistory(product: Product) {
-      this.selectedProductForHistory = product;
-  
-      // I need to do this becuase after, after setting product, its opens the model and if i dont call this method user wont see anything on popup.
-      this.getProductHistory();
-    }
+    this.totalSaleQuantity = 0;
+    this.productService.getProductHistory(this.selectedProductForHistory.productNo, this.selectedProductForHistory.productId, this.dateDto.startDate, this.dateDto.endDate)
+      .subscribe((productHistory: TransactionLineItemDaoList[]) => {
+        productHistory.forEach((history => {
+          history.time = moment(history.date).format('hh:mm A');
+          history.date = moment(history.date).format('MM/DD/YYYY');
+          this.totalSaleQuantity = +this.totalSaleQuantity + history.saleQuantity;
+        }))
 
-    getProductHistory(): void {
+        this.productHistoryDto = productHistory;
 
-      if (this.productHistoryDropDown == 'Today') {
-        this.dateDto = this.dateService.getCurrentDay();
-      }
-      else if (this.productHistoryDropDown == 'Yesterday') {
-        this.dateDto = this.dateService.getPreviousDay();
-  
-      }
-      else if (this.productHistoryDropDown == 'This Week') {
-        this.dateDto = this.dateService.getCurrentWeek();
-  
-      }
-      else if (this.productHistoryDropDown == 'Last Week') {
-        this.dateDto = this.dateService.getLastWeek();
-  
-      }
-      else if (this.productHistoryDropDown == 'This Month') {
-        this.dateDto = this.dateService.getCurrentMonth();
-  
-      }
-      else if (this.productHistoryDropDown == 'Last Month') {
-        this.dateDto = this.dateService.getLastMonth();
-  
-      }
-      else if (this.productHistoryDropDown == 'Last 3 Months') {
-        this.dateDto = this.dateService.getLast3Months();
-  
-      } else if (this.productHistoryDropDown == 'Last 6 Months') {
-        this.dateDto = this.dateService.getLast6Months();
-  
-      }
-      else if (this.productHistoryDropDown == 'This Year') {
-        this.dateDto = this.dateService.getCurrentYear();
-  
-      }
-      else if (this.productHistoryDropDown == 'Last Year') {
-        this.dateDto = this.dateService.getLastYear();
-      }
-  
-      this.totalSaleQuantity = 0;
-      this.productService.getProductHistory(this.selectedProductForHistory.productNo, this.selectedProductForHistory.productId,this.dateDto.startDate, this.dateDto.endDate)
-        .subscribe((productHistory: TransactionLineItemDaoList[]) => {
-          productHistory.forEach((history => {
-            history.time = moment(history.date).format('hh:mm A');
-            history.date = moment(history.date).format('MM/DD/YYYY');
-            this.totalSaleQuantity = +this.totalSaleQuantity + history.saleQuantity;
-          }))
-  
-          this.productHistoryDto = productHistory;
-  
-        });
-      console.log("Product data from UI for History", this.selectedProductForHistory);
-      console.log(this.productHistoryDto)
-    }
-
-    converDescriptionToSentanceForm(str) {
-      return str.replace(/\w\S*/g, function(txt){
-          return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
       });
+    console.log("Product data from UI for History", this.selectedProductForHistory);
+    console.log(this.productHistoryDto)
+  }
+
+  converDescriptionToSentanceForm(str) {
+    return str.replace(/\w\S*/g, function (txt) {
+      return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
+    });
   }
 
   ngOnDestroy() {
     //prevent memory leak when component destroyed
-     this._subscriptionProduct.unsubscribe();
-   }
+    this._subscriptionProduct.unsubscribe();
+  }
 }

@@ -54,17 +54,16 @@ public class ProductController {
 //    }
 
     @RequestMapping(value = "/getProductForProductTable", method = RequestMethod.GET, produces = "application/json")
-    public List<ProductDao> getProductForProductTable()
+    public List<ProductDao> getProductForProductTable(String searchValue)
     {
-        return productManager.getProductForProductTable();
+        return productManager.getProductForProductTable(searchValue);
     }
 
-//    @RequestMapping(value = "/getProduct", method = RequestMethod.GET, produces = "application/json")
-//    public List<ProductDao> getProductForSellPage()
-//    {
-//        return productManager.getProductForSellPage();
-//    }
-
+    @RequestMapping(value = "/getProductForSalePage", method = RequestMethod.GET, produces = "application/json")
+    public List<ProductDao> getProductForSalePage()
+    {
+        return productManager.getProductForSalePage();
+    }
     @RequestMapping(value = "/getProductById", method = RequestMethod.GET, produces = "application/json")
     public ProductDao getProductById(@RequestParam Integer productId)
     {

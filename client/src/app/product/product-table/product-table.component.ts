@@ -71,79 +71,68 @@ export class ProductTableComponent implements OnInit {
       .debounceTime(800)
       .distinctUntilChanged()
       .subscribe((change) => {
-        this.filterProducts(change)
+
+        this.productViewList = [];
+        this.productService.getProductDetailsFromBackEndNewWay(change)
+          .subscribe((pro: Product[]) => {
+            console.log('product pro', pro);
+            this.productViewList = pro;
+            this.productViewList = this.productViewList.slice();
+
+            //this.loadingService.loading = false;
+          });
       });
   }
 
-  getProductDetails() {
-    this.loadingService.loading = true;
-    this.productService.getProductDetailsFromBackEnd()
+
+  getProductDetails(searchValue?: string) {
+
+   // this.productFullList = [];
+    // this.loadingService.loading = true;
+    this.productService.getProductDetailsForSalePage()
       .subscribe((pro: Product[]) => {
-        // console.log(pro); 
-        // this.productViewList = pro.slice(0,500);
+       // this.productFullList = pro;
+       // this.productFullList = this.productFullList.slice();
 
-        // this.productViewList = pro;
-        this.productFullList = pro;
-        this.productFullList = this.productFullList.slice();
-        this.backendProductDto = pro;
-
-        if (this.dropdownOptionValue)
-          this.fiterProductByDropdown(this.dropdownOptionValue);
-
-        this.loadProductsLazy({ first: 0, rows: this.rowsToShow * 2 });
-
-        this.loadingService.loading = false;
+        ///return this.productFullList;
       });
-
-  }
-  loadProductsLazy(event: LazyLoadEvent) {
-    this.loadingService.loading = true;
-    if (this.productFullList) {
-      this.totalNumberProducts = this.productFullList.length;
-      this.productViewList = this.productFullList.slice(event.first, event.first + event.rows - 1);
-    }
-
-    this.loadingService.loading = false;
+      // this.loadingService.loading = false;
   }
 
+  // filterProducts(input: string) {
+  //   this.loadingService.loading = true;
+  //   if (input.length > 0)
+  //     this.productFullList = this.getProductDetails(input)
+  //   else {
+  //     this.getProductDetails();
+  //     if (this.dropdownOptionValue)
+  //       this.fiterProductByDropdown(this.dropdownOptionValue);
+  //   }
+  //   this.loadingService.loading = false;
+  //   console.log('Filtering product list..', this.productFullList);
+  //   //this.loadProductsLazy({ first: 0, rows: this.rowsToShow * 2 });
+  // }
+  // nowFilterProduct(input: string, backendProductDto: Product[]): Product[] {
+  //   let filtered: Product[] = [];
+  //   // for (let i = 0; i < backendProductDto.length; i++) {
+  //   // let p = backendProductDto[i];
+  //   // if (p.description.toLowerCase().includes(input.toLowerCase()) || p.productNo.includes(input)) {
+  //   //   filtered.push(p);
+  //   // }
+  //   // ); 
+  //   // }
+  //   filtered = backendProductDto.filter((p) => p.description.toLowerCase().includes(input.toLowerCase()) || p.productNo.includes(input))
+  //   return filtered;
+  // }
 
-  filterProducts(input: string) {
-    this.loadingService.loading = true;
-    if (input.length > 0)
-      this.productFullList = this.nowFilterProduct(input, this.backendProductDto)
-    else {
-      this.getProductDetails();
-      if (this.dropdownOptionValue)
-        this.fiterProductByDropdown(this.dropdownOptionValue);
-    }
 
-    this.loadingService.loading = false;
-    console.log('Filtering product list..', this.productFullList);
-
-    this.loadProductsLazy({ first: 0, rows: this.rowsToShow * 2 });
-  }
-
-  nowFilterProduct(input: string, backendProductDto: Product[]): Product[] {
-
-    let filtered: Product[] = [];
-    // for (let i = 0; i < backendProductDto.length; i++) {
-    // let p = backendProductDto[i];
-    // if (p.description.toLowerCase().includes(input.toLowerCase()) || p.productNo.includes(input)) {
-    //   filtered.push(p);
-    // }
-
-    // ); 
-    // }
-    filtered = backendProductDto.filter((p) => p.description.toLowerCase().includes(input.toLowerCase()) || p.productNo.includes(input))
-    return filtered;
-  }
   fiterProductByDropdown(obj: number) {
     if (obj)
       this.dropdownOptionValue = obj;
     console.log(obj);
     if (obj == -1) {
       this.productFullList = this.backendProductDto;
-      this.loadProductsLazy({ first: 0, rows: this.rowsToShow * 2 });
+      //this.loadProductsLazy({ first: 0, rows: this.rowsToShow * 2 });
       return;
     }
     if (this.selectedProductDropdownOption === 'Brand') {
@@ -160,7 +149,7 @@ export class ProductTableComponent implements OnInit {
 
 
     // console.log('Product full list here', this.productFullList);
-    this.loadProductsLazy({ first: 0, rows: this.rowsToShow * 2 });
+   // this.loadProductsLazy({ first: 0, rows: this.rowsToShow * 2 });
   }
   onProductDropdownChoose(): void {
     console.log(this.selectedProductDropdownOption);
@@ -204,7 +193,7 @@ export class ProductTableComponent implements OnInit {
     else {
       this.listOfProductOption = null;
       this.productFullList = this.backendProductDto;
-      this.loadProductsLazy({ first: 0, rows: this.rowsToShow * 2 });
+      //this.loadProductsLazy({ first: 0, rows: this.rowsToShow * 2 });
     }
   }
 
@@ -396,8 +385,6 @@ export class ProductTableComponent implements OnInit {
     productInventoryObj.tier2 = this.productInventoryList[0].tier2;
     productInventoryObj.tier3 = this.productInventoryList[0].tier3;
 
-
-
     productInventoryObj.cost = this.cost;
     //productInventoryObj.retail = this.productInventoryList[0].retail;
     productInventoryObj.quantity = this.quantity;
@@ -462,7 +449,7 @@ export class ProductTableComponent implements OnInit {
           let index = this.productViewList.findIndex((el) => el.productId == product.productId);
           if (index > -1) {
             this.productViewList[index].quantity = backendResponse.totalQuantity;
-            this.productFullList[index].cost = backendResponse.cost;
+            this.productViewList[index].cost = backendResponse.cost;
             console.log('total qty', backendResponse.totalQuantity);
 
             this.productViewList = this.productViewList.slice();

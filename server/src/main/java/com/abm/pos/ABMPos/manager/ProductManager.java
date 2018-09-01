@@ -49,6 +49,9 @@ public class ProductManager{
     private ProductImageRepository productImageRepository;
 
     @Autowired
+    private TransactionLineItemRepository transactionLineItemRepository;
+
+    @Autowired
     private Utility utility;
 
 
@@ -118,7 +121,16 @@ public class ProductManager{
             // Here I have to use product id to update the product, cause this will handle scenario where product no is updating.
              productDao1 = productRepository.findOne(productDao.getProductId());
 
-             if(productDao1 != null){
+             // I have to do this logic first, cause i need old and new product no so i can update it.
+             if(null != productDao1) {
+
+                 // This mean user has change the product_no, so i have to change the product no in transaction line item table.
+                 // TODO Need to figure out some batter way to do it.
+                 // TODO : Also need write same logic for product image table and Product Inventory table.
+                 if (!productDao1.getProductNo().equals(productDao.getProductNo())) {
+                     transactionLineItemRepository.updateProductNo(productDao.getProductNo(), productDao1.getProductNo(), productDao1.getProductId());
+                     productInventoryRepository.updateProductNo(productDao.getProductNo(),productDao1.getProductNo(), productDao1.getProductId());
+                 }
                  productDao1 = productRepository.save(productDao);
                  // Update retail price just in case if user has changes.
                  productInventoryRepository.updateProductRetailPrice(productDao.getTier1(), productDao.getTier2(), productDao.getTier3(),productDao.getProductNo());
@@ -203,7 +215,9 @@ public class ProductManager{
             productInventoryRepository.updateProductRetailPrice(productVariantDao.getTier1(),productVariantDao.getTier2(),productVariantDao.getTier3(), productVariantDao.getProductNo());
         }
         else {
-                ProductVariantDao p = productVariantRepository.save(productVariantDao);
+
+            ProductVariantDao p = productVariantRepository.save(productVariantDao);
+
 
             // Here I need to add inventory details as soon as product variant added.
             // In case of edit do not add inventory.
@@ -232,6 +246,23 @@ public class ProductManager{
                 productImageDao.setProductNo(productVariantDao.getProductNo());
                 productImageRepository.save(productImageDao);
             }
+            // this means user has update the product no.
+            // I have to update inventory table
+            // Line item table
+            // TODO product image table
+            if(null != productVariantDao
+                    && null != productVariantDao.getOldProductNo()
+                    && !productVariantDao.getOldProductNo().equals(productVariantDao.getProductNo())
+                    && null != productVariantDao.getOperationType()
+                    && productVariantDao.getOperationType().equalsIgnoreCase("Edit"))
+            {
+                transactionLineItemRepository.updateProductNo(productVariantDao.getProductNo(), productVariantDao.getOldProductNo(), productVariantDao.getProductId());
+                productInventoryRepository.updateProductNo(productVariantDao.getProductNo(), productVariantDao.getOldProductNo(), productVariantDao.getProductId());
+
+            }
+
+
+
         }
         return productVariantDao;
     }
@@ -407,12 +438,79 @@ public class ProductManager{
     }
 
 
-    public List<ProductDao> getProductForProductTable() {
+
+
+
+
+    public List<ProductDao> getProductForProductTable(String searchValue) {
+
+        System.out.println("Search"+searchValue);
+        List<ProductDao> productDaoList = new ArrayList<>();
+
+        if(null != searchValue && searchValue.length() > 0 && !searchValue.equalsIgnoreCase("undefined")) {
+
+
+            List<Object[]> withoutVariant = productRepository.getAllActiveProductWithoutVariantForProductPage(searchValue);
+            List<Object[]> withVariant = productRepository.getAllActiveProductWithVariantProductPage(searchValue);
+
+            if (null != withoutVariant) {
+
+                for (Object[] j : withoutVariant) {
+
+                    ProductDao productDao = new ProductDao();
+
+                    productDao.setProductId(Integer.parseInt(j[0].toString()));
+                    productDao.setProductNo(j[1].toString());
+                    productDao.setDescription(j[2].toString());
+                    productDao.setTax(Boolean.parseBoolean(j[3].toString()));
+                    productDao.setVendorId((j[4].toString()));
+                    productDao.setVariant(false);
+                    productDao.setTier1(Double.parseDouble(j[5].toString()));
+                    productDao.setTier2(Double.parseDouble(j[6].toString()));
+                    productDao.setTier3(Double.parseDouble(j[7].toString()));
+                    productDao.setQuantity(Integer.parseInt(j[8].toString()));
+
+                    productDaoList.add(productDao);
+                }
+            }
+            if (null != withVariant) {
+
+                for (Object[] j : withVariant) {
+
+                    ProductDao productDao = new ProductDao();
+
+                    productDao.setProductId(Integer.parseInt(j[0].toString()));
+                    productDao.setProductNo(j[1].toString());
+                    productDao.setDescription(j[2].toString());
+                    productDao.setTax(Boolean.parseBoolean(j[3].toString()));
+                    productDao.setVendorId((j[4].toString()));
+                    productDao.setVariant(true);
+
+                    // No need to set this here, please dont get confuse with this.
+//                productDao.setTier1(Double.parseDouble(j[5].toString()));
+//                productDao.setTier2(Double.parseDouble(j[6].toString()));
+//                productDao.setTier3(Double.parseDouble(j[7].toString()));
+                    productDao.setQuantity(Integer.parseInt(j[8].toString()));
+
+                    productDaoList.add(productDao);
+                }
+            }
+        }
+        else {
+            productDaoList = null;
+        }
+
+        return productDaoList;
+    }
+
+
+    public List<ProductDao> getProductForSalePage() {
 
         List<ProductDao> productDaoList = new ArrayList<>();
 
-        List<Object[]> withoutVariant = productRepository.getAllActiveProductWithoutVariant();
-        List<Object[]> withVariant = productRepository.getAllActiveProductWithVariant();
+
+        List<Object[]> withoutVariant = productRepository.getAllActiveProductWithoutVariantForSalePage();
+        List<Object[]> withVariant = productRepository.getAllActiveProductWithVariantForSalePage();
 
         if (null != withoutVariant) {
 
@@ -424,15 +522,17 @@ public class ProductManager{
                 productDao.setProductNo(j[1].toString());
                 productDao.setDescription(j[2].toString());
                 productDao.setTax(Boolean.parseBoolean(j[3].toString()));
+                productDao.setVendorId((j[4].toString()));
                 productDao.setVariant(false);
-                productDao.setTier1(Double.parseDouble(j[4].toString()));
-                productDao.setTier2(Double.parseDouble(j[5].toString()));
-                productDao.setTier3(Double.parseDouble(j[6].toString()));
-                productDao.setQuantity(Integer.parseInt(j[7].toString()));
+                productDao.setTier1(Double.parseDouble(j[5].toString()));
+                productDao.setTier2(Double.parseDouble(j[6].toString()));
+                productDao.setTier3(Double.parseDouble(j[7].toString()));
+                productDao.setQuantity(Integer.parseInt(j[8].toString()));
 
                 productDaoList.add(productDao);
             }
         }
+
         if (null != withVariant) {
 
             for (Object[] j : withVariant) {
@@ -443,17 +543,21 @@ public class ProductManager{
                 productDao.setProductNo(j[1].toString());
                 productDao.setDescription(j[2].toString());
                 productDao.setTax(Boolean.parseBoolean(j[3].toString()));
+                productDao.setVendorId((j[4].toString()));
                 productDao.setVariant(true);
-//                productDao.setTier1(Double.parseDouble(j[4].toString()));
-//                productDao.setTier2(Double.parseDouble(j[5].toString()));
-//                productDao.setTier3(Double.parseDouble(j[6].toString()));
-                productDao.setQuantity(Integer.parseInt(j[4].toString()));
+
+                // No need to set this here, please dont get confuse with this.
+//                productDao.setTier1(Double.parseDouble(j[5].toString()));
+//                productDao.setTier2(Double.parseDouble(j[6].toString()));
+//                productDao.setTier3(Double.parseDouble(j[7].toString()));
+                productDao.setQuantity(Integer.parseInt(j[8].toString()));
 
                 productDaoList.add(productDao);
             }
         }
 
         return productDaoList;
+
     }
 
     public String deleteProductInventory(ProductInventoryDao productInventoryDao) {

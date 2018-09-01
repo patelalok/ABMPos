@@ -25,4 +25,8 @@ public interface ProductInventoryRepository extends JpaRepository<ProductInvento
     @Modifying
     @Query("UPDATE ProductInventoryDao SET tier1 = ?1, tier2 = ?2, tier3 = ?3 WHERE productNo = ?4")
     void updateProductRetailPrice(double tier1,double tier2,double tier3, String productNo);
+
+    @Modifying
+    @Query("UPDATE ProductInventoryDao p SET p.productNo = ?1 where p.productNo = ?2 and p.productId = ?3")
+    void updateProductNo(String newProductNo, String oldProductNo, int productId);
 }

@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.repository.query.Param;
 
 import javax.transaction.Transactional;
 import java.util.List;
@@ -102,26 +103,62 @@ public interface ProductRepository extends JpaRepository<ProductDao, Integer> {
     List<ProductDao> findAllByVendorId(String s);
 
 
-    // always keep the inner join dont think of left outer join, cause that will create problem.
-    @Query(value = "SELECT p.product_id,\n" +
-            "p.product_no,\n" +
-            "p.description,\n" +
-            "p.tax,\n" +
-            "i.tier1,\n" +
-            "i.tier2, \n" +
-            "i.tier3,\n" +
-            "sum(i.quantity) from product p\n" +
-            "inner join product_inventory i\n" +
-            "on p.product_no = i.product_no\n" +
-            "Where p.variant = 0 AND p.active = 1\n" +
-            "group by p.product_id, p.product_no,p.description, p.tax,i.tier1, i.tier2, i.tier3 ", nativeQuery = true)
-    List<Object[]> getAllActiveProductWithoutVariant();
 
-    @Query(value = "SELECT p.product_id, p.product_no,p.description, p.tax,sum(i.quantity)\n" +
-            "from product p\n" +
-            "inner join product_inventory i\n" +
-            "on p.product_id = i.product_id\n" +
-            "Where p.variant = 1 AND p.active = 1\n" +
-            "group by p.product_id, p.product_no,p.description, p.tax " , nativeQuery = true)
-    List<Object[]> getAllActiveProductWithVariant();
+ // always keep the inner join dont think of left outer join, cause that will create problem.
+ @Query(value = "SELECT p.product_id,p.product_no,p.description,p.tax,p.vendor_id,i.tier1,i.tier2,i.tier3,\n" +
+         "sum(i.quantity) quantity from product p\n" +
+         "inner join product_inventory i\n" +
+         "on p.product_no = i.product_no\n" +
+         "Where p.variant = 0 AND p.active = 1\n" +
+         "and (p.description LIKE CONCAT('%',:searchValue,'%') OR p.product_no = :searchValue)\n" +
+         "group by p.product_id, p.product_no,p.description, p.tax,p.vendor_id,i.tier1, i.tier2, i.tier3\n" +
+         "order by quantity asc", nativeQuery = true)
+ List<Object[]> getAllActiveProductWithoutVariantForProductPage(@Param("searchValue") String searchValue);
+
+ @Query(value = "SELECT p.product_id,p.product_no,p.description,p.tax,p.vendor_id,i.tier1,i.tier2,i.tier3,sum(i.quantity) quantity \n" +
+         "from product p\n" +
+         "inner join product_inventory i\n" +
+         "on p.product_no = i.product_no\n" +
+         "Where p.variant = 1 AND p.active = 1\n" +
+         "and (p.description LIKE CONCAT('%',:searchValue,'%') OR p.product_no = :searchValue)\n" +
+         "group by p.product_id, p.product_no,p.description, p.tax,p.vendor_id,i.tier1, i.tier2, i.tier3\n" +
+         "order by quantity asc" , nativeQuery = true)
+ List<Object[]> getAllActiveProductWithVariantProductPage(@Param("searchValue") String searchValue);
+
+
+ //always keep the inner join dont think of left outer join, cause that will create problem.
+ @Query(value = "SELECT p.product_id,\n" +
+         "p.product_no,\n" +
+         "p.description,\n" +
+         "p.tax," +
+         "p.vendor_id,\n" +
+         "i.tier1,\n" +
+         "i.tier2, \n" +
+         "i.tier3,\n" +
+         "sum(i.quantity) quantity from product p\n" +
+         "inner join product_inventory i\n" +
+         "on p.product_no = i.product_no\n" +
+         "Where p.variant = 0 AND p.active = 1\n" +
+         "group by p.product_id, p.product_no,p.description, p.tax,p.vendor_id,i.tier1, i.tier2, i.tier3 " +
+         "order by p.description asc", nativeQuery = true)
+ List<Object[]> getAllActiveProductWithoutVariantForSalePage();
+
+ @Query(value = "SELECT \n" +
+         "p.product_id,\n" +
+         "p.product_no,\n" +
+         "p.description,\n" +
+         "p.tax,\n" +
+         "p.vendor_id,\n" +
+         "i.tier1,\n" +
+         "i.tier2,\n" +
+         "i.tier3,\n" +
+         "sum(i.quantity) quantity from product p\n" +
+         "inner join product_inventory i\n" +
+         "on p.product_no = i.product_no\n" +
+         "Where p.variant = 1 AND p.active = 1\n" +
+         "group by p.product_id, p.product_no,p.description, p.tax,p.vendor_id,i.tier1, i.tier2, i.tier3 \n" +
+         "order by p.description asc" , nativeQuery = true)
+ List<Object[]> getAllActiveProductWithVariantForSalePage();
+
+
 }

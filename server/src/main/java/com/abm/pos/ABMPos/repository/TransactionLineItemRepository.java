@@ -3,6 +3,7 @@ package com.abm.pos.ABMPos.repository;
 import com.abm.pos.ABMPos.dao.ProductDao;
 import com.abm.pos.ABMPos.dao.TransactionLineItemDao;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 
 import javax.transaction.Transactional;
@@ -35,6 +36,7 @@ public interface TransactionLineItemRepository extends JpaRepository<Transaction
             "AND (t.status = 'Complete' || t.status = 'Return' || t.status = 'Pending')", nativeQuery = true)
     List<Object[]> getProductHistory(String productNo,String startDate, String endDate);
 
-
-
+    @Modifying
+    @Query("UPDATE TransactionLineItemDao l SET l.productNo = ?1 where l.productNo = ?2 and l.productId = ?3")
+    void updateProductNo(String newProductNo, String oldProductNo, int productId);
 }
