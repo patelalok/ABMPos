@@ -1,24 +1,12 @@
 package com.abm.pos.ABMPos.manager;
 
 import com.abm.pos.ABMPos.dao.*;
-import com.abm.pos.ABMPos.dto.VariantInventoryDto;
 import com.abm.pos.ABMPos.repository.*;
-import com.abm.pos.ABMPos.util.TimeIntervalDto;
-import com.abm.pos.ABMPos.util.Utility;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.CachePut;
-import org.springframework.cache.annotation.Cacheable;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Component;
 
-import javax.jws.Oneway;
-import javax.validation.ConstraintViolationException;
-import java.sql.SQLException;
-import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Stream;
 
 /**
  * Created by apatel2 on 5/16/17.
@@ -53,6 +41,9 @@ public class ProductManager{
 
     @Autowired
     private PurchaseOrderRepository purchaseOrderRepository;
+
+    @Autowired
+    private TransactionLineItemRepository transactionLineItemRepository;
 
 
     public ProductDao addProduct(ProductDao productDao)
@@ -112,22 +103,22 @@ public class ProductManager{
         else if((null != productDao && productDao.getOperationType().equalsIgnoreCase("Edit")))
         {
             // Here I have to use product id to update the product, cause this will handle scenario where product no is updating.
-             productDao1 = productRepository.findOne(productDao.getProductId());
+            productDao1 = productRepository.findOne(productDao.getProductId());
 
-            //Here, I have to update the product No in Inventory table also, cause if user has update the the product no,
-//            It must updated to inventory table otherwise it will create problem and product wont show up on ui.
-            // I can not do at database level cause in case of variant, product no wont be in product table.so i have to do it here.
-            // I MUST HAVE TO DO IT HERE CAUSE FOR SOME REASON IF I AM DOING AFTER PRODUCT UPDATE, PRODUCTDAO1 OBJECT IS CHNAGEING AND UPDATING WIHT NEW VALUE OF PRODUCT NO SO ITS HARD FORM ME TO UPDATE INVENTORY TABLE FOR THE PRODUCT NO
-             if(null != productDao1 && !productDao.getProductNo().equalsIgnoreCase(productDao1.getProductNo())){
-                 productInventoryRepository.updateProductNo(productDao.getProductNo(), productDao1.getProductNo(), productDao.getProductId());
-             }
+            // I have to do this logic first, cause i need old and new product no so i can update it.
+            if(null != productDao1) {
 
-             if(productDao1 != null){
-                 productDao1 = productRepository.save(productDao);
-
-                 // Update retail price just in case if user has changes.
-                 productInventoryRepository.updateProductRetailPrice(productDao.getTier1(), productDao.getTier2(), productDao.getTier3(),productDao.getProductNo());
-             }
+                // This mean user has change the product_no, so i have to change the product no in transaction line item table.
+                // TODO Need to figure out some batter way to do it.
+                // TODO : Also need write same logic for product image table and Product Inventory table.
+                if (!productDao1.getProductNo().equals(productDao.getProductNo())) {
+                    transactionLineItemRepository.updateProductNo(productDao.getProductNo(), productDao1.getProductNo(), productDao1.getProductId());
+                    productInventoryRepository.updateProductNo(productDao.getProductNo(),productDao1.getProductNo(), productDao1.getProductId());
+                }
+                productDao1 = productRepository.save(productDao);
+                // Update retail price just in case if user has changes.
+                productInventoryRepository.updateProductRetailPrice(productDao.getTier1(), productDao.getTier2(), productDao.getTier3(),productDao.getProductNo());
+            }
         }
 
         // This condition provides the functionality for user to update description from the product table directly.
@@ -211,12 +202,17 @@ public class ProductManager{
         else {
 
             ProductVariantDao p = productVariantRepository.save(productVariantDao);
+
+
             // Here I need to add inventory details as soon as product variant added.
-            if (null != p) {
+            // In case of edit do not add inventory.
+            if (null != p
+                    && null != productVariantDao
+                    && null != productVariantDao.getOperationType()
+                    && productVariantDao.getOperationType().equalsIgnoreCase("Add")) {
 
                 ProductInventoryDao productInventoryDao = new ProductInventoryDao();
 
-                assert productVariantDao != null;
                 productInventoryDao.setProductId(productVariantDao.getProductId());
                 productInventoryDao.setProductNo(productVariantDao.getProductNo());
                 productInventoryDao.setCost(productVariantDao.getCost());
@@ -231,10 +227,23 @@ public class ProductManager{
                 productInventoryRepository.save(productInventoryDao);
 
                 // Here I need to add Entry in Image Table as soon as product variant added.
-
                 ProductImageDao productImageDao = new ProductImageDao();
                 productImageDao.setProductNo(productVariantDao.getProductNo());
                 productImageRepository.save(productImageDao);
+            }
+            // this means user has update the product no.
+            // I have to update inventory table
+            // Line item table
+            // TODO product image table
+            if(null != productVariantDao
+                    && null != productVariantDao.getOldProductNo()
+                    && !productVariantDao.getOldProductNo().equals(productVariantDao.getProductNo())
+                    && null != productVariantDao.getOperationType()
+                    && productVariantDao.getOperationType().equalsIgnoreCase("Edit"))
+            {
+                transactionLineItemRepository.updateProductNo(productVariantDao.getProductNo(), productVariantDao.getOldProductNo(), productVariantDao.getProductId());
+                productInventoryRepository.updateProductNo(productVariantDao.getProductNo(), productVariantDao.getOldProductNo(), productVariantDao.getProductId());
+
             }
         }
         return productVariantDao;

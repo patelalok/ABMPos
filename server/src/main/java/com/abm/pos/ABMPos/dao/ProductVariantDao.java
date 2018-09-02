@@ -10,9 +10,12 @@ import javax.persistence.*;
 @Table(name = "product_variant")
 public class ProductVariantDao {
 
-    private int productId;
 
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private int productVariantId;
+
+    private int productId;
     private String productNo;
     private String variant1;
     private String value1;
@@ -26,6 +29,9 @@ public class ProductVariantDao {
 
     @Transient
     private String description;
+
+    @Transient
+    private String oldProductNo;
 
     @Transient
     private double tier1;
@@ -47,6 +53,14 @@ public class ProductVariantDao {
     private int quantity;
     @Transient
     private int minQuantity;
+
+    public int getProductVariantId() {
+        return productVariantId;
+    }
+
+    public void setProductVariantId(int productVariantId) {
+        this.productVariantId = productVariantId;
+    }
 
     public int getProductId() {
         return productId;
@@ -206,5 +220,13 @@ public class ProductVariantDao {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public String getOldProductNo() {
+        return oldProductNo;
+    }
+
+    public void setOldProductNo(String oldProductNo) {
+        this.oldProductNo = oldProductNo;
     }
 }
