@@ -429,7 +429,7 @@ public class ProductManager{
 
 
             List<Object[]> withoutVariant = productRepository.getAllActiveProductWithoutVariantForProductPage(searchValue);
-            List<Object[]> withVariant = productRepository.getAllActiveProductWithoutVariantForProductPage(searchValue);
+            List<Object[]> withVariant = productRepository.getAllActiveProductWithVariantProductPage(searchValue);
 
             if (null != withoutVariant) {
 
