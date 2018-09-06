@@ -78,7 +78,7 @@ public interface TransactionRepository extends JpaRepository<TransactionDao, Int
             "            if(type = 'Cash', sum(amount),0) as cash, \n" +
             "            if(type = 'Credit', sum(amount),0) as credit,\n" +
             "            if(type = 'Check', sum(amount),0) as check_amount,\n" +
-            "            if(type = 'StoreCredit', sum(amount),0) as store_credit \n" +
+            "            if(type = 'Store Credit', sum(amount),0) as store_credit \n" +
             "            from transaction_payment \n" +
             "            where date between ?1  AND ?2\n" +
             "            AND (status = 'Complete' OR status = 'Return' OR status = 'Pending')\n" +

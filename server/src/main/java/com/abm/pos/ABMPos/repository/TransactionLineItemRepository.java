@@ -39,4 +39,12 @@ public interface TransactionLineItemRepository extends JpaRepository<Transaction
     @Modifying
     @Query("UPDATE TransactionLineItemDao l SET l.productNo = ?1 where l.productNo = ?2 and l.productId = ?3")
     void updateProductNo(String newProductNo, String oldProductNo, int productId);
+
+    @Query(value = "select COALESCE(SUM(l.retail_with_discount * l.sale_quantity), 0) retailWithDis,COALESCE(SUM(l.cost * l.sale_quantity),0) cost\n" +
+            "from transaction t\n" +
+            "inner join transaction_line_item l \n" +
+            "on l.transaction_com_id = t.transaction_com_id\n" +
+            "where l.date between ?1  AND ?2\n" +
+            "AND (l.status = 'Complete' OR l.status = 'Return' OR l.status = 'Pending')", nativeQuery = true)
+    List<Object[]> getTotalRetailAndCostForProfitPercentage(String startDate, String endDate);
 }

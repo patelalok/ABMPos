@@ -42,6 +42,9 @@ public class CloseRegisterDao {
     private double shipping;
 
     @Transient
+    private double profitPercentage;
+
+    @Transient
     private double totalDueBalance;
 
     @Transient
@@ -343,5 +346,13 @@ public class CloseRegisterDao {
 
     public void setShipping(double shipping) {
         this.shipping = shipping;
+    }
+
+    public double getProfitPercentage() {
+        return profitPercentage;
+    }
+
+    public void setProfitPercentage(double profitPercentage) {
+        this.profitPercentage = profitPercentage;
     }
 }

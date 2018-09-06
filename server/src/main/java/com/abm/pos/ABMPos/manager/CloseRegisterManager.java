@@ -5,10 +5,7 @@ import com.abm.pos.ABMPos.dao.PaymentDao;
 import com.abm.pos.ABMPos.dao.StoreSetupDao;
 import com.abm.pos.ABMPos.dao.TransactionDao;
 import com.abm.pos.ABMPos.dto.PaymentSummaryDto;
-import com.abm.pos.ABMPos.repository.CloseRegisterRepository;
-import com.abm.pos.ABMPos.repository.PaymentRepository;
-import com.abm.pos.ABMPos.repository.StoreSetupRepository;
-import com.abm.pos.ABMPos.repository.TransactionRepository;
+import com.abm.pos.ABMPos.repository.*;
 import com.abm.pos.ABMPos.util.TimeIntervalDto;
 import com.abm.pos.ABMPos.util.Utility;
 import com.itextpdf.text.Document;
@@ -48,6 +45,9 @@ public class CloseRegisterManager {
 
     @Autowired
     private TransactionRepository transactionRepository;
+
+    @Autowired
+    private TransactionLineItemRepository transactionLineItemRepository;
 
     @Autowired
     private Utility utility;
@@ -148,6 +148,26 @@ public class CloseRegisterManager {
             if(null != transactionDueAmount && null != transactionDueAmount.get(0)){
                 closeRegisterDao.setTotalDueBalance(transactionDueAmount.get(0));
             }
+
+            // get Profit percentage:
+        List<Object[]> costAndRetail = transactionLineItemRepository.getTotalRetailAndCostForProfitPercentage(startDate,endDate);
+        if (null != costAndRetail) {
+            for (Object[] j : costAndRetail) {
+
+                double totalRetail = Double.parseDouble(j[0].toString());
+                double totalCost = Double.parseDouble(j[1].toString());
+                double profitPer = (totalRetail - totalCost)/totalRetail;
+
+                closeRegisterDao.setProfitPercentage(Double.parseDouble(new DecimalFormat("##.##").format(profitPer)));
+            }
+        }
+
+
+
+
+
+
+
 
             return closeRegisterDao;
         }
@@ -325,7 +345,9 @@ public class CloseRegisterManager {
 
             createHeadingsAlokTest(cb,205,730,"Close Register Report");
             createHeadings(cb,20,685,"Date:");
-            createHeadings(cb,470,685,"GP:");
+            if(null !=closeRegisterDao) {
+                createHeadings(cb, 470, 685, "Profit Per:" + new DecimalFormat("##.##").format(closeRegisterDao.getProfitPercentage()) + "%");
+            }
             DateFormat f = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             Date sd = null;
             Date ed = null;
