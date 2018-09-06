@@ -199,6 +199,7 @@ export class SaleComponent implements OnInit {
     if (productObj.saleQuantity <= 0 || productObj.saleQuantity == undefined) {
       productObj.saleQuantity = 1;
     }
+    console.log('line item before')
           for (let lineItem of this.transactionLineItemDaoList) {
           if (productObj.productNo == lineItem.productNo) {
             // This flag helps to determin whether to add new product or just update the quantity
@@ -361,9 +362,11 @@ export class SaleComponent implements OnInit {
     console.log("index", index);
     if (index > -1) {
       this.transactionLineItemDaoList.splice(index, 1);
-      this.transactionLineItemDaoList = this.transactionLineItemDaoList.slice();
-      this.setTransactionDtoList();
+      this.persit.clearProducts();
       this.persit.setProducts(this.transactionLineItemDaoList);
+      this.setTransactionDtoList();
+      this.transactionLineItemDaoList = this.transactionLineItemDaoList.slice();
+
     }
   }
 
@@ -433,6 +436,8 @@ export class SaleComponent implements OnInit {
   }
 
   calculateDiscount(value: any) {
+
+    console.log('discount value', this.discountType);
     if (this.discountType == 'By Amount') {
       this.totalTransactionDiscount = value;
     }
@@ -445,12 +450,12 @@ export class SaleComponent implements OnInit {
         lineItem.retailWithDiscount = parseFloat((lineItem.retailWithDiscount).toFixed(2));
         lineItem.totalProductPrice = lineItem.retailWithDiscount * lineItem.saleQuantity;
       });
-
-      //this.totalTransactionDiscount = parseFloat(((this.transactionDtoList.totalAmount * value) / 100).toFixed(2));
+      this.totalTransactionDiscount = parseFloat(((this.transactionDtoList.totalAmount * value) / 100).toFixed(2));
     }
     this.setTransactionDtoList();
 
-          this.totalTransactionDiscount = parseFloat(((this.transactionDtoList.totalAmount * value) / 100).toFixed(2));
+
+    
 
   }
 
@@ -1074,6 +1079,7 @@ export class SaleComponent implements OnInit {
       this.setTransactionDtoList();
       this.paymentDao = [];
       this.paymentDaoList = [];
+      this.discountValue = 0;
 
 
       // Need set it null cause its showing in next transaction also.
