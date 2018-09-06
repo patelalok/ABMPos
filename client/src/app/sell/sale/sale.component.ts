@@ -168,6 +168,8 @@ export class SaleComponent implements OnInit {
 
 
   public addTransactionLineItem(productObj: any) {
+
+    console.log('line item at the time of add TRansation', this.transactionLineItemDaoList);
     console.log('inside the add lineItem method', productObj);
 
     // FIRST NEED TO CHECK CUSTOMER IS SELECTED OR NOT.
@@ -199,7 +201,7 @@ export class SaleComponent implements OnInit {
     if (productObj.saleQuantity <= 0 || productObj.saleQuantity == undefined) {
       productObj.saleQuantity = 1;
     }
-    console.log('line item before')
+    console.log('line item before', this.transactionLineItemDaoList);
           for (let lineItem of this.transactionLineItemDaoList) {
           if (productObj.productNo == lineItem.productNo) {
             // This flag helps to determin whether to add new product or just update the quantity
@@ -361,11 +363,13 @@ export class SaleComponent implements OnInit {
     let index = this.transactionLineItemDaoList.indexOf(this.selectedProduct, 0);
     console.log("index", index);
     if (index > -1) {
+      // Very important to do it here, otherwise this will cache the old quantuty.
+      this.transactionLineItemDaoList[index].saleQuantity = 1;
       this.transactionLineItemDaoList.splice(index, 1);
-      this.persit.clearProducts();
+      console.log('lineItem after delete', this.transactionLineItemDaoList);
+      this.transactionLineItemDaoList = this.transactionLineItemDaoList.slice();
       this.persit.setProducts(this.transactionLineItemDaoList);
       this.setTransactionDtoList();
-      this.transactionLineItemDaoList = this.transactionLineItemDaoList.slice();
 
     }
   }
