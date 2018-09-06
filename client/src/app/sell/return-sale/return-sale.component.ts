@@ -121,11 +121,11 @@ export class ReturnSaleComponent implements OnInit, AfterViewInit {
 
     this.productPopupVariantList = [];
 
-    console.log('test return',productForSearchBox );
+    console.log('test return', productForSearchBox);
 
-    if(productForSearchBox.variant){
-      this.productVariantList.forEach((variant)=>{
-        if(productForSearchBox.productId == variant.productId){
+    if (productForSearchBox.variant) {
+      this.productVariantList.forEach((variant) => {
+        if (productForSearchBox.productId == variant.productId) {
           this.productPopupVariantList.push(variant);
         }
         //this.productPopupVariantList = this.productPopupVariantList.slice();
@@ -133,12 +133,12 @@ export class ReturnSaleComponent implements OnInit, AfterViewInit {
       $('#productVariantPopup').modal('show');
       this.productPopupVariantList = this.productPopupVariantList.slice();
     }
-    else if(productForSearchBox != null) {
+    else if (productForSearchBox != null) {
       this.addTransactionLineItem(productForSearchBox);
     }
   }
 
-  onVariantSelect(event){
+  onVariantSelect(event) {
     console.log('variant Event', event.data);
     $('#productVariantPopup').modal('hide');
     //this.setFocusOnProductSearch();
@@ -207,7 +207,7 @@ export class ReturnSaleComponent implements OnInit, AfterViewInit {
       // }, 300)
     }
     else {
-      
+
       if (typeof value === 'string') {
         if (value !== '' && value !== undefined && value.indexOf('.') !== 0) {
           // if (value.match(/[a-z]/i)) {
@@ -273,26 +273,25 @@ export class ReturnSaleComponent implements OnInit, AfterViewInit {
 
   public addTransactionLineItem(productObj: Product): TransactionLineItemDaoList[] {
 
-    if(null!= this.selectedCustomer && this.selectedCustomer != undefined && this.selectedCustomer.tier > 0)
-    {
-        if(this.selectedCustomer.tier == 1){
-          productObj.retailWithDiscount = -productObj.tier1;
-          productObj.retail = -productObj.tier1;
-          productObj.cost = -productObj.cost;
+    if (null != this.selectedCustomer && this.selectedCustomer != undefined && this.selectedCustomer.tier > 0) {
+      if (this.selectedCustomer.tier == 1) {
+        productObj.retailWithDiscount = -productObj.tier1;
+        productObj.retail = -productObj.tier1;
+        productObj.cost = -productObj.cost;
 
-        }
-        else if(this.selectedCustomer.tier == 2){
-          productObj.retailWithDiscount = -productObj.tier2;
-          productObj.retail = -productObj.tier2;
-          productObj.cost = -productObj.cost;
+      }
+      else if (this.selectedCustomer.tier == 2) {
+        productObj.retailWithDiscount = -productObj.tier2;
+        productObj.retail = -productObj.tier2;
+        productObj.cost = -productObj.cost;
 
-        }
-        else if(this.selectedCustomer.tier == 3){
-          productObj.retailWithDiscount = -productObj.tier3;
-          productObj.retail = -productObj.tier3;
-          productObj.cost = -productObj.cost;
+      }
+      else if (this.selectedCustomer.tier == 3) {
+        productObj.retailWithDiscount = -productObj.tier3;
+        productObj.retail = -productObj.tier3;
+        productObj.cost = -productObj.cost;
 
-        }      
+      }
     }
     else {
       productObj.retailWithDiscount = -productObj.tier3;
@@ -357,20 +356,20 @@ export class ReturnSaleComponent implements OnInit, AfterViewInit {
   submitCustomer(a: any) {
 
     this.customerService.getCustomerDetailsByPhoneNo(a.phoneNo)
-    .subscribe((customer)=>{
-      this.selectedCustomer = customer;
-      if (this.selectedCustomer.type == 'Business') {
-        this.taxPercent = 0;
-      }
+      .subscribe((customer) => {
+        this.selectedCustomer = customer;
+        if (this.selectedCustomer.type == 'Business') {
+          this.taxPercent = 0;
+        }
 
-    this.sellService.getProductPriceByCustomer(this.selectedCustomer.phoneNo)
-    .subscribe((productPrice) => {
-      this.productPriceArryByCustomer = productPrice;
-    });
-  console.log('customer', this.selectedCustomer);
-    })
-    
-  }  
+        this.sellService.getProductPriceByCustomer(this.selectedCustomer.phoneNo)
+          .subscribe((productPrice) => {
+            this.productPriceArryByCustomer = productPrice;
+          });
+        console.log('customer', this.selectedCustomer);
+      })
+
+  }
 
   removeCustomerOnSale() {
     this.selectedCustomer = null;
@@ -392,6 +391,8 @@ export class ReturnSaleComponent implements OnInit, AfterViewInit {
     let index = this.transactionLineItemDaoList.indexOf(this.selectedProduct, 0);
     console.log("index", index);
     if (index > -1) {
+      // Very important to do it here, otherwise this will cache the old quantuty.
+      this.transactionLineItemDaoList[index].saleQuantity = 1;
       this.transactionLineItemDaoList.splice(index, 1);
       this.transactionLineItemDaoList = this.transactionLineItemDaoList.slice();
       this.setTransactionDtoList(this.transactionLineItemDaoList);
@@ -402,7 +403,7 @@ export class ReturnSaleComponent implements OnInit, AfterViewInit {
 
     let paymentDaoObj = new PaymentDao();
 
-     if (paymentType == 'Cash') {
+    if (paymentType == 'Cash') {
       this.paymentObjectForPaymentSellTable.push({ 'paymentType': 'Cash', 'paymentAmount': paymentAmount });
       paymentDaoObj.amount = paymentAmount;
       paymentDaoObj.type = 'Cash';
@@ -431,7 +432,7 @@ export class ReturnSaleComponent implements OnInit, AfterViewInit {
       this.paymentDaoList.push(paymentDaoObj);
       this.validatePaymentForReturn();
     }
-    
+
     // if (paymentType == 'Cash') {
     //   this.paymentDto.cash = paymentAmount;
     //   this.paymentObjectForPaymentSellTable.push({ 'paymentType': 'Cash', 'paymentAmount': paymentAmount })
@@ -483,7 +484,7 @@ export class ReturnSaleComponent implements OnInit, AfterViewInit {
       this.productVariantList = variant;
       //this.productVariantList = this.productVariantList.slice();
 
-      this.productVariantList.forEach((variant)=>{
+      this.productVariantList.forEach((variant) => {
         this.productVariantMap.set(variant.productNo, variant);
       });
       console.log('map object after get productProduct Variant', this.productVariantMap);
@@ -553,12 +554,12 @@ export class ReturnSaleComponent implements OnInit, AfterViewInit {
     else {
       this.taxPercent = this.storeDetails.tax;
     }
-    
+
     //this.setTransactionDtoList();
   }
 
 
-  returnSale(rma?:boolean) {
+  returnSale(rma?: boolean) {
 
     this.transactionDtoList.status = 'Return';
     this.transactionDtoList.date = moment(Date.now()).format('YYYY-MM-DD HH:mm:ss');
@@ -655,19 +656,19 @@ export class ReturnSaleComponent implements OnInit, AfterViewInit {
     let query = event.query;
     // this.customerService.getCustomerDetailsFromBackEnd()
     //   .subscribe((customers) => {
-        // console.log(products);
-        this.filteredCustomer = this.filterCustomer(query,this.customerDto);
-      // });
+    // console.log(products);
+    this.filteredCustomer = this.filterCustomer(query, this.customerDto);
+    // });
   }
 
   filterCustomer(query, customers: Customer[]): Customer[] {
     let filtered: Customer[] = [];
     for (let i = 0; i < customers.length; i++) {
       let cust = customers[i];
-      if(cust != undefined && cust.companyName != null && cust.companyName != undefined)
-      if (cust.name.toLowerCase().includes(query.toLowerCase()) || cust.companyName.toLowerCase().includes(query.toLowerCase()) || cust.phoneNo.includes(query)) {
-        filtered.push(cust);
-      }
+      if (cust != undefined && cust.companyName != null && cust.companyName != undefined)
+        if (cust.name.toLowerCase().includes(query.toLowerCase()) || cust.companyName.toLowerCase().includes(query.toLowerCase()) || cust.phoneNo.includes(query)) {
+          filtered.push(cust);
+        }
     }
     return filtered;
 
@@ -679,8 +680,8 @@ export class ReturnSaleComponent implements OnInit, AfterViewInit {
       this.productList = product;
       // this.productList = this.productList.slice();
 
-      if(null != this.productList){
-        this.productList.forEach((p)=>{
+      if (null != this.productList) {
+        this.productList.forEach((p) => {
           this.productMap.set(p.productNo, p);
         });
       }
@@ -692,16 +693,16 @@ export class ReturnSaleComponent implements OnInit, AfterViewInit {
 
     this.customerService.getCustomerDetails();
     this._subscriptionCustomer = this.customerService.customerListChange
-    .subscribe((cust)=>{
-      this.customerDto = cust;
-      this.customerDto = this.customerDto.slice();
-    });
+      .subscribe((cust) => {
+        this.customerDto = cust;
+        this.customerDto = this.customerDto.slice();
+      });
   }
   ngOnDestroy() {
     //prevent memory leak when component destroyed
-     this._subscriptionCustomer.unsubscribe();
+    this._subscriptionCustomer.unsubscribe();
     //  this._subscriptionProduct.unsubscribe();
-   }
+  }
 
 }
 
