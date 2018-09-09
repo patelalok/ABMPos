@@ -174,7 +174,7 @@ public class CloseRegisterManager {
 
     private PaymentDao getSumOfPendingTransaction(String startDate, String endDate) {
 
-        //List<Object[]> result = paymentRepository.sumOfPendingPayments(startDate, endDate);
+//        List<Object[]> result = paymentRepository.sumOfPendingPayments(startDate, endDate);
         PaymentDao paymentDao = new PaymentDao();
 
 //        for(Object [] j : result)
