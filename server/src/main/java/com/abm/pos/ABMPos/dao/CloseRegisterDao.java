@@ -59,6 +59,9 @@ public class CloseRegisterDao {
     @Transient
     private double checkFromPendingInvoice;
 
+    @Transient
+    private  double storeCreditFromPendingInvoice;
+
 
     public int getId() {
         return id;
@@ -354,5 +357,13 @@ public class CloseRegisterDao {
 
     public void setProfitPercentage(double profitPercentage) {
         this.profitPercentage = profitPercentage;
+    }
+
+    public double getStoreCreditFromPendingInvoice() {
+        return storeCreditFromPendingInvoice;
+    }
+
+    public void setStoreCreditFromPendingInvoice(double storeCreditFromPendingInvoice) {
+        this.storeCreditFromPendingInvoice = storeCreditFromPendingInvoice;
     }
 }

@@ -92,7 +92,7 @@ public interface TransactionRepository extends JpaRepository<TransactionDao, Int
             "if(type = 'Cash', sum(amount),0) as cash, \n" +
             "if(type = 'Credit', sum(amount),0) as credit,\n" +
             "if(type = 'Check', sum(amount),0) as check_amount,\n" +
-            "if(type = 'StoreCredit', sum(amount),0) as store_credit \n" +
+            "if(type = 'Store Credit', sum(amount),0) as store_credit \n" +
             "from transaction_payment \n" +
             "where date between ?1 and ?2 \n" +
             "AND (status = 'Complete' OR status = 'Return' OR status = 'Pending')\n" +
@@ -104,12 +104,12 @@ public interface TransactionRepository extends JpaRepository<TransactionDao, Int
             "max(cash) cash, \n" +
             "max(credit) credit, \n" +
             "max(check_amount) check_amount, \n" +
-            "max(store_credit) store_credit \n" +
+            "max(Store Credit) store_credit \n" +
             "from (select date(date) AS dates,\n" +
             "if(type = 'Cash', sum(amount),0) as cash, \n" +
             "if(type = 'Credit', sum(amount),0) as credit,\n" +
             "if(type = 'Check', sum(amount),0) as check_amount,\n" +
-            "if(type = 'StoreCredit', sum(amount),0) as store_credit\n" +
+            "if(type = 'Store Credit', sum(amount),0) as store_credit\n" +
             "from transaction_payment\n" +
             "where date BETWEEN ?1 AND ?2\n" +
             "AND (status = 'Complete' OR status = 'Return' OR status = 'Pending')\n" +
@@ -123,7 +123,7 @@ public interface TransactionRepository extends JpaRepository<TransactionDao, Int
             "if(type = 'Cash', sum(amount),0) as cash, \n" +
             "if(type = 'Credit', sum(amount),0) as credit,\n" +
             "if(type = 'Check', sum(amount),0) as check_amount,\n" +
-            "if(type = 'StoreCredit', sum(amount),0) as store_credit \n" +
+            "if(type = 'Store Credit', sum(amount),0) as store_credit \n" +
             "from transaction_payment \n" +
             "where date between ?1 and ?2 \n" +
             "AND (status = 'Complete' OR status = 'Return' OR status = 'Pending')\n" +
