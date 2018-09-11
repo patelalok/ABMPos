@@ -1204,7 +1204,7 @@ export class Product {
 }
 
 export class ProductVariant {
-  productVariantId?:string;
+  productVariantId?:number;
   productId: number;
   productNo: string;
   oldProductNo?:string;
@@ -1257,10 +1257,10 @@ export class ProductVariant {
 }
 
 export interface ProductVariantForm {
-  productVariantId?:string;
+  productVariantId?: number,
+  oldProductNo: string,
   productId: number;
   productNo: string;
-  oldProductNo?:string;
   cost?: number;
   retail?: number;
   tier1?: number;

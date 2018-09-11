@@ -324,6 +324,8 @@ export class EditProductComponent implements OnInit {
     console.log('formValues at all', formValues.operationType);
 
     let productVariant: ProductVariant = {
+      productVariantId: formValues.productVariantId,
+      oldProductNo: formValues.oldProductNo,
       productId: this.currentProduct.productId,
       productNo: formValues.productNo,
       cost: formValues.cost,

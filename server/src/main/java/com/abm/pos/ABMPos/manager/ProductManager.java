@@ -191,7 +191,6 @@ public class ProductManager{
         }
         return productDao;
     }
-
     public ProductVariantDao addProductVariant(ProductVariantDao productVariantDao) {
 
         // This Logic to only update product tier retail price.

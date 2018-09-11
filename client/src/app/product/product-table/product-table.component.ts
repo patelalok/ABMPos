@@ -470,7 +470,7 @@ export class ProductTableComponent implements OnInit {
           let index = this.productViewList.findIndex((el) => el.productId == product.productId);
           if (index > -1) {
             this.productViewList[index].quantity = backendResponse.totalQuantity;
-            this.productFullList[index].cost = backendResponse.cost;
+            this.productViewList[index].cost = backendResponse.cost;
             console.log('total qty', backendResponse.totalQuantity);
 
             this.productViewList = this.productViewList.slice();
@@ -483,7 +483,7 @@ export class ProductTableComponent implements OnInit {
           console.log(JSON.stringify(error.json()));
         });
 
-    this.hideProductModal();
+   //this.hideProductModal();
   }
   updateProductVariantRetailTierPrice(event) {
     this.productService.updateRetailTierPrice(event.data)
