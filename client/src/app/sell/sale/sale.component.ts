@@ -934,7 +934,7 @@ export class SaleComponent implements OnInit {
       .subscribe((transaction: TransactionDtoList) => {
         console.log('transaction after park', transaction);
         this.transactionDtoList.transactionComId = transaction.transactionComId;
-        this.transactionDtoList.originalDate = transaction.date;
+        this.transactionDtoList.originalDate = moment(Date.now()).format('YYYY-MM-DD HH:mm:ss');
         this.shippingAmount = transaction.shipping;
         this.transactionDtoList.parkSale = transaction.parkSale;
         phoneNo = transaction.customerPhoneno;
@@ -948,6 +948,7 @@ export class SaleComponent implements OnInit {
         if (transaction && transaction.transactionLineItemDaoList) {
           transaction.transactionLineItemDaoList.forEach((lineItem) => {
             lineItem.transactionLineItemId = 0;
+            lineItem.date = moment(Date.now()).format('YYYY-MM-DD HH:mm:ss');
           });
 
           this.persit.setProducts(transaction.transactionLineItemDaoList);
