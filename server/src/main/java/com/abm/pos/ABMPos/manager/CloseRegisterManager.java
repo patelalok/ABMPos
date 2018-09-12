@@ -83,7 +83,6 @@ public class CloseRegisterManager {
 
             // Getting the sum of all payment methods from payment table.
             PaymentSummaryDto paymentSummaryDto = getSumOfAllPayments(startDate, endDate);
-
             if(null != paymentSummaryDto)
             {
                 closeRegisterDao.setReportCash(paymentSummaryDto.getCash());
@@ -94,7 +93,6 @@ public class CloseRegisterManager {
 
             // Now need get transaction details from transaction table.
             TransactionDao transactionDao = getSumOfAllTransactionDetails(startDate, endDate);
-
             if(null != transactionDao)
             {
                 closeRegisterDao.setReportTotalAmount(transactionDao.getTotalAmount());
@@ -106,7 +104,6 @@ public class CloseRegisterManager {
 
             // Here i need to check if there is any data from user, this happens when user close the register more then 2 times or
             // User is trying to get details for previous days.
-
             List<Object[]> result = closeRegisterRepository.getCloseRegisterDetailsByDate(startDate,endDate);
 
             for(Object [] j : result)
@@ -121,27 +118,8 @@ public class CloseRegisterManager {
             }
         }
 
-//            if(null != closeRegisterDao1)
-//            {
-//                closeRegisterDao.setCloseCash(closeRegisterDao1.getCloseCash());
-//                closeRegisterDao.setCloseCredit(closeRegisterDao1.getCloseCredit());
-//                closeRegisterDao.setCloseDebit(closeRegisterDao1.getCloseDebit());
-//                closeRegisterDao.setCloseCheck(closeRegisterDao1.getCloseCheck());
-//                closeRegisterDao.setId(closeRegisterDao1.getId());
-//
-//            }
-
-
         // getting sum of payment made for previous invoice or pending invoice.
-
-            //PaymentDao  paymentDaoPending  = getSumOfPendingTransaction(startDate, endDate, closeRegisterDao);
-//            if(null != paymentDaoPending)
-//            {
-//               // closeRegisterDao.setCashFromPendingInvoice(paymentDaoPending.getCash());
-//              //  closeRegisterDao.setCreditFromPendingInvoice(paymentDaoPending.getCredit());
-//               // closeRegisterDao.setDebitFromPendingInvoice(paymentDaoPending.getDebit());
-//               // closeRegisterDao.setCheckFromPendingInvoice(paymentDaoPending.getCheckAmount());
-//            }
+           getSumOfPendingTransaction(startDate, endDate, closeRegisterDao);
 
             // This logic will help to get only transaction balance for start and end date.
             List<Double> transactionDueAmount = transactionRepository.getTransactionDueAmount(startDate, endDate);
@@ -162,36 +140,50 @@ public class CloseRegisterManager {
             }
         }
 
-
-
-
-
-
-
-
             return closeRegisterDao;
         }
 
     private void getSumOfPendingTransaction(String startDate, String endDate, CloseRegisterDao closeRegisterDao) {
 
         List<Object[]> result = paymentRepository.sumOfPendingPayments(startDate, endDate);
+        List<PaymentSummaryDto> paymentSummaryDtoList = new ArrayList<>();
 
-        for(Object [] j : result)
-        {
-            if(j[0] != null) {
-                for (int i = 0; i <= result.size(); i++) {
-                    closeRegisterDao.setCashFromPendingInvoice((Double.parseDouble(j[0].toString())));
-                    closeRegisterDao.setCreditFromPendingInvoice((Double.parseDouble(j[1].toString())));
-                    closeRegisterDao.setCheckFromPendingInvoice((Double.parseDouble(j[2].toString())));
-                    closeRegisterDao.setStoreCreditFromPendingInvoice((Double.parseDouble(j[3].toString())));
+        double totalCash = 0;
+        double totalCredit = 0;
+        double totalCheck = 0;
+        double totalStoreCredit = 0;
 
 
-                }
+        // Here, I am getting all payment information by date, since its more then one row i have to add them together to show at one row.
+        if (null != result) {
+            for (Object[] j : result) {
+                PaymentSummaryDto paymentSummaryDto = new PaymentSummaryDto();
+
+//              paymentSummaryDto.setName(j[0].toString());
+                paymentSummaryDto.setCash(Double.parseDouble(j[1].toString()));
+                paymentSummaryDto.setCredit(Double.parseDouble(j[2].toString()));
+                paymentSummaryDto.setCheck(Double.parseDouble(j[3].toString()));
+                paymentSummaryDto.setStoreCredit(Double.parseDouble(j[4].toString()));
+
+                paymentSummaryDtoList.add(paymentSummaryDto);
+
             }
         }
 
-       // return paymentDao;
+        // After this i will get final sum of the payment amount which i am gonna show as close register pending amounts
+            for (PaymentSummaryDto payment : paymentSummaryDtoList) {
 
+                totalCash = +totalCash + payment.getCash();
+                totalCredit = +totalCredit + payment.getCredit();
+                totalCheck = +totalCheck + payment.getCheck();
+                totalStoreCredit = +totalStoreCredit + payment.getStoreCredit();
+            }
+
+            // This is final amount where i am setting in main close register response.
+            closeRegisterDao.setCashFromPendingInvoice((Double.parseDouble(new DecimalFormat("##.##").format(totalCash))));
+            closeRegisterDao.setCreditFromPendingInvoice((Double.parseDouble(new DecimalFormat("##.##").format(totalCredit))));
+            closeRegisterDao.setCheckFromPendingInvoice((Double.parseDouble(new DecimalFormat("##.##").format(totalCheck))));
+            closeRegisterDao.setStoreCreditFromPendingInvoice((Double.parseDouble(new DecimalFormat("##.##").format(totalStoreCredit))));
     }
 
     private TransactionDao getSumOfAllTransactionDetails(String startDate, String endDate) {
@@ -394,9 +386,9 @@ public class CloseRegisterManager {
             try {
                 createContent(cb, 30, 600, "Cash", PdfContentByte.ALIGN_LEFT);
                 createContent(cb, 30, 570, "Credit", PdfContentByte.ALIGN_LEFT);
-                createContent(cb, 30, 540, "Debit", PdfContentByte.ALIGN_LEFT);
-                createContent(cb, 30, 510, "Check", PdfContentByte.ALIGN_LEFT);
-                createContent(cb, 30, 480, "Store Credit", PdfContentByte.ALIGN_LEFT);
+                createContent(cb, 30, 540, "Check", PdfContentByte.ALIGN_LEFT);
+                createContent(cb, 30, 510, "Store Credit", PdfContentByte.ALIGN_LEFT);
+//                createContent(cb, 30, 480, "Store Credit", PdfContentByte.ALIGN_LEFT);
 
                 //For Cash
                 createContent(cb, 140, 600, "$" + Double.toString(closeRegisterDao.getCloseCash()), PdfContentByte.ALIGN_LEFT);
@@ -412,23 +404,23 @@ public class CloseRegisterManager {
                 createContent(cb, 490, 570, "$" + Double.toString(closeRegisterDao.getCreditFromPendingInvoice()), PdfContentByte.ALIGN_LEFT);
 
 //           // For Debit
-                createContent(cb, 140, 540, "$" + Double.toString(closeRegisterDao.getCloseDebit()), PdfContentByte.ALIGN_LEFT);
-                createContent(cb, 250, 540, "$" + Double.toString(closeRegisterDao.getReportDebit()), PdfContentByte.ALIGN_LEFT);
-                createContent(cb, 370, 540, "$" + Double.toString(closeRegisterDao.getDifferenceDebit()), PdfContentByte.ALIGN_LEFT);
-                createContent(cb, 490, 540, "$" + Double.toString(closeRegisterDao.getDebitFromPendingInvoice()), PdfContentByte.ALIGN_LEFT);
+//                createContent(cb, 140, 540, "$" + Double.toString(closeRegisterDao.getCloseDebit()), PdfContentByte.ALIGN_LEFT);
+//                createContent(cb, 250, 540, "$" + Double.toString(closeRegisterDao.getReportDebit()), PdfContentByte.ALIGN_LEFT);
+//                createContent(cb, 370, 540, "$" + Double.toString(closeRegisterDao.getDifferenceDebit()), PdfContentByte.ALIGN_LEFT);
+//                createContent(cb, 490, 540, "$" + Double.toString(closeRegisterDao.getDebitFromPendingInvoice()), PdfContentByte.ALIGN_LEFT);
 
 
 //            //For Check
-                createContent(cb, 140, 510, "$" + Double.toString(closeRegisterDao.getCloseCheck()), PdfContentByte.ALIGN_LEFT);
-                createContent(cb, 250, 510, "$" + Double.toString(closeRegisterDao.getReportCheck()), PdfContentByte.ALIGN_LEFT);
-                createContent(cb, 370, 510, "$" + Double.toString(closeRegisterDao.getDifferenceCheck()), PdfContentByte.ALIGN_LEFT);
-                createContent(cb, 490, 510, "$" + Double.toString(closeRegisterDao.getCheckFromPendingInvoice()), PdfContentByte.ALIGN_LEFT);
+                createContent(cb, 140, 540, "$" + Double.toString(closeRegisterDao.getCloseCheck()), PdfContentByte.ALIGN_LEFT);
+                createContent(cb, 250, 540, "$" + Double.toString(closeRegisterDao.getReportCheck()), PdfContentByte.ALIGN_LEFT);
+                createContent(cb, 370, 540, "$" + Double.toString(closeRegisterDao.getDifferenceCheck()), PdfContentByte.ALIGN_LEFT);
+                createContent(cb, 490, 540, "$" + Double.toString(closeRegisterDao.getCheckFromPendingInvoice()), PdfContentByte.ALIGN_LEFT);
 
                 //For Store credit
-                createContent(cb, 140, 480, "$ 0.0", PdfContentByte.ALIGN_LEFT);
-                createContent(cb, 250, 480, "$" + Double.toString(closeRegisterDao.getStoreCredit()), PdfContentByte.ALIGN_LEFT);
-                createContent(cb, 370, 480, "$ 0.0", PdfContentByte.ALIGN_LEFT);
-                createContent(cb, 490, 480, "$ 0.0", PdfContentByte.ALIGN_LEFT);
+                createContent(cb, 140, 510, "$ 0.0", PdfContentByte.ALIGN_LEFT);
+                createContent(cb, 250, 510, "$" + Double.toString(closeRegisterDao.getStoreCredit()), PdfContentByte.ALIGN_LEFT);
+                createContent(cb, 370, 510, "$ 0.0", PdfContentByte.ALIGN_LEFT);
+                createContent(cb, 490, 510, "$ 0.0", PdfContentByte.ALIGN_LEFT);
 
 
 
@@ -448,23 +440,25 @@ public class CloseRegisterManager {
 //            }
 
 
-                createHeadings(cb, 30, 400, "Actual Daily Total");
-                createHeadings(cb, 200, 400, "Total From User");
-                createHeadings(cb, 340, 400, "Total From System");
-                createHeadings(cb, 480, 400, "Total Difference");
+                createHeadings(cb, 30, 400, "Total From User");
+                createHeadings(cb, 200, 400, "Total From System");
+                createHeadings(cb, 340, 400, "Total Difference");
+                createHeadings(cb, 480, 400, "Actual Daily Total");
 
 //            //This just for now need to replace with the real values from service call.
                 createContent(cb, 30, 370, "$" + Double.toString(closeRegisterDao.getCloseTotalAmount()), PdfContentByte.ALIGN_LEFT);
-                createContent(cb, 200, 370, "$" + Double.toString(closeRegisterDao.getCloseTotalAmount()), PdfContentByte.ALIGN_LEFT);
-                createContent(cb, 340, 370, "$" + Double.toString(closeRegisterDao.getReportTotalAmount()), PdfContentByte.ALIGN_LEFT);
-                createContent(cb, 480, 370, "$" + Double.toString(closeRegisterDao.getDifferenceTotal()), PdfContentByte.ALIGN_LEFT);
+                createContent(cb, 200, 370, "$" + Double.toString(closeRegisterDao.getReportTotalAmount()), PdfContentByte.ALIGN_LEFT);
+                createContent(cb, 340, 370, "$" + Double.toString(closeRegisterDao.getReportTotalAmount() - closeRegisterDao.getCloseTotalAmount()), PdfContentByte.ALIGN_LEFT);
+                createContent(cb, 480, 370, "$" + Double.toString(closeRegisterDao.getReportTotalAmount()), PdfContentByte.ALIGN_LEFT);
 
                 createHeadings(cb, 30, 330, "Net Sales");
                 createHeadings(cb, 200, 330, "Tax");
                 createHeadings(cb, 340, 330, "Discount");
                 createHeadings(cb, 480, 330, "Gross Sales");
 //
-//            //Net Sales = Total From System - Tax + Sum of all Paid outs because that is part of the sale
+                // Gross Sale = totalAmount - Tax
+//            //Net Sales = gross sale - discount
+
 
                 // - closeRegisterDao.getTotalTax() + paidOutDtos.get(0).getPaidOutAmount1() + paidOutDtos.get(0).getPaidOutAmount2() + paidOutDtos.get(0).getPaidOutAmount3())
 //
@@ -477,15 +471,15 @@ public class CloseRegisterManager {
                 createContent(cb, 480, 300, "$" + Double.toString(closeRegisterDao.getReportTotalAmount()), PdfContentByte.ALIGN_LEFT);
 
                 createContent(cb, 30, 260, "OnAccount", PdfContentByte.ALIGN_LEFT);
-                createContent(cb, 200, 260, "Commission", PdfContentByte.ALIGN_LEFT);
-                createContent(cb, 340, 260, "Bank Deposit", PdfContentByte.ALIGN_LEFT);
-                createContent(cb, 480, 260, "Cash In Hand", PdfContentByte.ALIGN_LEFT);
+//                createContent(cb, 200, 260, "Commission", PdfContentByte.ALIGN_LEFT);
+//                createContent(cb, 340, 260, "Bank Deposit", PdfContentByte.ALIGN_LEFT);
+//                createContent(cb, 480, 260, "Cash In Hand", PdfContentByte.ALIGN_LEFT);
 
 //            //This just for now need to replace with the real values from service call.
                 createContent(cb, 30, 230, "$" + Double.toString(closeRegisterDao.getTotalDueBalance()), PdfContentByte.ALIGN_LEFT);
-                createContent(cb, 200, 230, "$" + Double.toString(0.00), PdfContentByte.ALIGN_LEFT);
-                createContent(cb, 340, 230, "$" + Double.toString(closeRegisterDao.getBankDeposit()), PdfContentByte.ALIGN_LEFT);
-                createContent(cb, 480, 230, "$" + Double.toString(0.00), PdfContentByte.ALIGN_LEFT);
+//                createContent(cb, 200, 230, "$" + Double.toString(0.00), PdfContentByte.ALIGN_LEFT);
+//                createContent(cb, 340, 230, "$" + Double.toString(closeRegisterDao.getBankDeposit()), PdfContentByte.ALIGN_LEFT);
+//                createContent(cb, 480, 230, "$" + Double.toString(0.00), PdfContentByte.ALIGN_LEFT);
             }
             catch (Exception ex){
                 ex.printStackTrace();
