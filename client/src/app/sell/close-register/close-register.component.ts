@@ -141,8 +141,10 @@ export class CloseRegisterComponent implements OnInit {
       this.closeRegisterForm.get('debitFromPendingInvoice').setValue(this.closeRegisterDto.debitFromPendingInvoice);
       this.closeRegisterForm.get('checkFromPendingInvoice').setValue(this.closeRegisterDto.checkFromPendingInvoice);
 
-      let pendingInvoiceTotal = +this.closeRegisterDto.cashFromPendingInvoice +this.closeRegisterDto.creditFromPendingInvoice 
-                                +this.closeRegisterDto.debitFromPendingInvoice +this.closeRegisterDto.checkFromPendingInvoice;
+      let pendingInvoiceTotal = +this.closeRegisterDto.cashFromPendingInvoice
+      +this.closeRegisterDto.creditFromPendingInvoice
+      +this.closeRegisterDto.checkFromPendingInvoice
+      +this.closeRegisterDto.storeCreditFromPendingInvoice;
 
       this.closeRegisterForm.get('pendingInvoiceTotal').setValue(pendingInvoiceTotal);
       this.closeRegisterForm.get('totalDueBalance').setValue(this.closeRegisterDto.totalDueBalance);
@@ -246,6 +248,7 @@ export class CloseRegisterDto {
   creditFromPendingInvoice: number;
   debitFromPendingInvoice: number;
   checkFromPendingInvoice: number;
+  storeCreditFromPendingInvoice: number;
   totalDueBalance: number;
   shipping: number;
   profitPercentage:number;
