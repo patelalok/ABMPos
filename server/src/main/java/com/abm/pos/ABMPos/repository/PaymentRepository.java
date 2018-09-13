@@ -47,18 +47,18 @@ public interface PaymentRepository extends JpaRepository<PaymentDao, Integer> {
     List<Object[]> getPaymentHistory(String startDate, String endDate);
 
     @Query(value = "select temp.dates, max(cash) cash, max(credit) credit, max(check_amount) check_amount, max(store_credit) store_credit from\n" +
-            "(select date(p.date) AS dates,  \n" +
-            "if(type = 'Cash', sum(p.amount),0) as cash, \n" +
-            "if(type = 'Credit', sum(p.amount),0) as credit,\n" +
-            "if(type = 'Check', sum(p.amount),0) as check_amount,\n" +
-            "if(type = 'Store Credit', sum(p.amount),0) as store_credit \n" +
-            "from transaction_payment p\n" +
-            "inner join transaction t on t.transaction_com_id = p.transaction_com_id\n" +
-            "where p.date between ?1  AND ?2\n" +
-            "AND (t.status = 'Complete' OR t.status = 'Return' OR t.status = 'Pending')\n" +
-            "AND (p.status = 'Complete' OR p.status = 'Return' OR p.status = 'Pending')\n" +
-            "AND t.date < p.date\n" +
-            "group by dates,type) temp \n" +
-            "group by temp.dates", nativeQuery = true)
+            "            (select date(p.date) AS dates,\n" +
+            "            if(type = 'Cash', sum(p.amount),0) as cash,\n" +
+            "            if(type = 'Credit', sum(p.amount),0) as credit,\n" +
+            "            if(type = 'Check', sum(p.amount),0) as check_amount,\n" +
+            "            if(type = 'Store Credit', sum(p.amount),0) as store_credit\n" +
+            "            from transaction_payment p\n" +
+            "            inner join transaction t on t.transaction_com_id = p.transaction_com_id\n" +
+            "            where p.date between ?1  AND ?2 \n" +
+            "            AND date(t.date) != date(p.date)\n" +
+            "            AND (t.status = 'Complete' OR t.status = 'Return' OR t.status = 'Pending')\n" +
+            "            AND (p.status = 'Complete' OR p.status = 'Return' OR p.status = 'Pending')\n" +
+            "            group by dates,type) temp\n" +
+            "            group by temp.dates", nativeQuery = true)
     List<Object[]> sumOfPendingPayments(String startDate, String endDate);
 }
