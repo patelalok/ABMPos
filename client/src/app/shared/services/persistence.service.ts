@@ -6,7 +6,7 @@ export class PersistenceService {
   private storeDetails: any;
   private customerDetails: any;
   private productInventory: any;
-  // private customerProductPrice: any;
+  private customerProductPrice: any;
   constructor() { }
 
   print(obj){
@@ -65,14 +65,14 @@ export class PersistenceService {
     localStorage.removeItem('productInventoryDetails');
   }
 
-  // setCustomerProductPriceForSale(obj: any){
-  //   localStorage.setItem('customerProductPrice', JSON.stringify(obj));
-  // }
+  setCustomerProductPriceForSale(obj: any){
+    localStorage.setItem('customerProductPrice', JSON.stringify(obj));
+  }
 
-  // getCustomerProductPriceForSale(): any{
-  //   this.customerProductPrice = JSON.parse(localStorage.getItem('customerProductPrice'));
-  //   return this.clearProductInventory;
-  // }
+  getCustomerProductPriceForSale(): any{
+    this.customerProductPrice = JSON.parse(localStorage.getItem('customerProductPrice'));
+    return this.clearProductInventory;
+  }
 
   clearCustomerPriceForSale(){
     localStorage.removeItem('customerProductPrice');

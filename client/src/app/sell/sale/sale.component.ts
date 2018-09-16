@@ -140,9 +140,9 @@ export class SaleComponent implements OnInit {
     //this.setFocusOnProductSearch();
 
     // This will help to get customer product price, cause its cusotmer is selected then definetly the price is stored in local storage.
-    // if (this.selectedCustomer) {
-    //   // this.productPriceArryByCustomer = this.persit.getCustomerProductPriceForSale();
-    // }
+    if (this.selectedCustomer) {
+      this.productPriceArryByCustomer = this.persit.getCustomerProductPriceForSale();
+    }
 
     this.transactionLineItemDaoList = this.persit.getProducts() || [];
     // this will show transaction data on right side on refresh or on load of the page
@@ -171,24 +171,36 @@ export class SaleComponent implements OnInit {
 
     console.log('line item at the time of add TRansation', this.transactionLineItemDaoList);
     console.log('inside the add lineItem method', productObj);
+    let hasSavedPrice: boolean = false;
 
-    // FIRST NEED TO CHECK CUSTOMER IS SELECTED OR NOT.
-    // THEN NEED TO CHECK HIS TIER AND WITH TIER, I NEED TO SET RETAIL PRICE FOR THE PERTICULAR PRODUCT.
 
-    if (null != this.selectedCustomer && this.selectedCustomer != undefined && this.selectedCustomer.tier > 0) {
-
-      if (this.selectedCustomer.tier == 1) {
-        productObj.retailWithDiscount = productObj.tier1;
-        productObj.retail = productObj.tier1;
+    // Price by customer logic.
+    if (null != this.selectedCustomer && this.selectedCustomer != undefined) {
+      if (this.productPriceArryByCustomer && null != this.productPriceArryByCustomer && this.productPriceArryByCustomer.length > 0) {
+        this.productPriceArryByCustomer.forEach((product) => {
+          // here product[1] is the product no coming from back end, i am sending only 2 values prodcut no and retail.  like this--->["23424234234", 12.99]
+          if (product[0] == productObj.productNo) {
+            productObj.retailWithDiscount = product[1];
+            productObj.retail = product[1];
+            hasSavedPrice = true;
+          }
+        })
       }
-      else if (this.selectedCustomer.tier == 2) {
-        productObj.retailWithDiscount = productObj.tier2;
-        productObj.retail = productObj.tier2;
-      }
-      // Dont be smart, please keep this logic.
-      else if (this.selectedCustomer.tier == 3) {
-        productObj.retailWithDiscount = productObj.tier3;
-        productObj.retail = productObj.tier3;
+
+      // This where customer price is not saved for product
+      if (!hasSavedPrice) {
+        if (this.selectedCustomer.tier == 1) {
+          productObj.retailWithDiscount = productObj.tier1;
+          productObj.retail = productObj.tier1;
+        }
+        else if (this.selectedCustomer.tier == 2) {
+          productObj.retailWithDiscount = productObj.tier2;
+          productObj.retail = productObj.tier2;
+        }
+        else if (this.selectedCustomer.tier == 3) {
+          productObj.retailWithDiscount = productObj.tier3;
+          productObj.retail = productObj.tier3;
+        }
       }
     }
     else {
@@ -196,52 +208,53 @@ export class SaleComponent implements OnInit {
       productObj.retail = productObj.tier3;
     }
 
+
     console.log('product price', productObj);
     // this will help me to set default quantity by for each product.
     if (productObj.saleQuantity <= 0 || productObj.saleQuantity == undefined) {
       productObj.saleQuantity = 1;
     }
     console.log('line item before', this.transactionLineItemDaoList);
-          for (let lineItem of this.transactionLineItemDaoList) {
-          if (productObj.productNo == lineItem.productNo) {
-            // This flag helps to determin whether to add new product or just update the quantity
-            this.isProductExistsInSellList = true;
-            lineItem.saleQuantity = +lineItem.saleQuantity + 1;
-            lineItem.quantityUpdated = true;
-  
-            lineItem.totalProductPrice = parseFloat((lineItem.retailWithDiscount * lineItem.saleQuantity).toFixed(2));
-            lineItem.taxAmountOnProduct = (lineItem.retailWithDiscount * this.taxPercent) / 100;
-            this.product = null;
-            this.productForSearchBox = null;
-            this.setTransactionDtoList()
-            this.persit.setProducts(this.transactionLineItemDaoList);
-  
-            setTimeout(() => {
-              lineItem.quantityUpdated = false;
-              this.persit.setProducts(this.transactionLineItemDaoList);
-              this.transactionLineItemDaoList = this.transactionLineItemDaoList.slice();
-            }, 400);
+    for (let lineItem of this.transactionLineItemDaoList) {
+      if (productObj.productNo == lineItem.productNo) {
+        // This flag helps to determin whether to add new product or just update the quantity
+        this.isProductExistsInSellList = true;
+        lineItem.saleQuantity = +lineItem.saleQuantity + 1;
+        lineItem.quantityUpdated = true;
 
-            break;
-
-          }
-          // Do not try to be smart please keep this logic, Never touch here
-          else {
-            // This flag helps to determin whether to add new product or just update the quantity
-            this.isProductExistsInSellList = false;
-          }
-        }
-        if (!this.isProductExistsInSellList) {
-        productObj.totalProductPrice = productObj.retailWithDiscount * productObj.saleQuantity;
-        productObj.taxAmountOnProduct = parseFloat(((productObj.retailWithDiscount * this.taxPercent) / 100).toFixed(2));
-        this.transactionLineItemDaoList.push(productObj);
+        lineItem.totalProductPrice = parseFloat((lineItem.retailWithDiscount * lineItem.saleQuantity).toFixed(2));
+        lineItem.taxAmountOnProduct = (lineItem.retailWithDiscount * this.taxPercent) / 100;
         this.product = null;
-        this.productForSearchBox = null
-        this.transactionLineItemDaoList[this.transactionLineItemDaoList.length - 1].retailWithDiscount = productObj.retailWithDiscount;
-        this.transactionLineItemDaoList = this.transactionLineItemDaoList.slice();
+        this.productForSearchBox = null;
         this.setTransactionDtoList()
         this.persit.setProducts(this.transactionLineItemDaoList);
+
+        setTimeout(() => {
+          lineItem.quantityUpdated = false;
+          this.persit.setProducts(this.transactionLineItemDaoList);
+          this.transactionLineItemDaoList = this.transactionLineItemDaoList.slice();
+        }, 400);
+
+        break;
+
       }
+      // Do not try to be smart please keep this logic, Never touch here
+      else {
+        // This flag helps to determin whether to add new product or just update the quantity
+        this.isProductExistsInSellList = false;
+      }
+    }
+    if (!this.isProductExistsInSellList) {
+      productObj.totalProductPrice = productObj.retailWithDiscount * productObj.saleQuantity;
+      productObj.taxAmountOnProduct = parseFloat(((productObj.retailWithDiscount * this.taxPercent) / 100).toFixed(2));
+      this.transactionLineItemDaoList.push(productObj);
+      this.product = null;
+      this.productForSearchBox = null
+      this.transactionLineItemDaoList[this.transactionLineItemDaoList.length - 1].retailWithDiscount = productObj.retailWithDiscount;
+      this.transactionLineItemDaoList = this.transactionLineItemDaoList.slice();
+      this.setTransactionDtoList()
+      this.persit.setProducts(this.transactionLineItemDaoList);
+    }
 
     // NEVER Delete this very important logic
     // for now just commenting this logic to fix the issue with screen going blank.
@@ -318,7 +331,7 @@ export class SaleComponent implements OnInit {
       // }, 300)
     }
     else {
-      
+
       if (typeof value === 'string') {
         if (value !== '' && value !== undefined && value.indexOf('.') !== 0) {
           // if (value.match(/[a-z]/i)) {
@@ -408,7 +421,7 @@ export class SaleComponent implements OnInit {
     this.setTransactionDtoList()
     this.persit.setProducts(this.transactionLineItemDaoList);
 
-    
+
 
     //THIS IS OLD P-TABLE WORKING CODE DONT REMOVE THIS PLEASE.
 
@@ -459,7 +472,7 @@ export class SaleComponent implements OnInit {
     this.setTransactionDtoList();
 
 
-    
+
 
   }
 
@@ -534,11 +547,11 @@ export class SaleComponent implements OnInit {
 
         this.persit.setCustomerDetailsForSale(this.selectedCustomer);
 
-        // this.sellService.getProductPriceByCustomer(this.selectedCustomer.phoneNo)
-        //   .subscribe((productPrice) => {
-        //     this.productPriceArryByCustomer = productPrice;
-        //     // this.persit.setCustomerProductPriceForSale(this.productPriceArryByCustomer);
-        //   });
+        this.sellService.getProductPriceByCustomer(this.selectedCustomer.phoneNo)
+          .subscribe((productPrice) => {
+            this.productPriceArryByCustomer = productPrice;
+            this.persit.setCustomerProductPriceForSale(this.productPriceArryByCustomer);
+          });
 
         this.setTransactionDtoList();
       })
@@ -1276,8 +1289,8 @@ export class SaleComponent implements OnInit {
       this.productList = product;
       // this.productList = this.productList.slice();
 
-      if(null != this.productList){
-        this.productList.forEach((p)=>{
+      if (null != this.productList) {
+        this.productList.forEach((p) => {
           this.productMap.set(p.productNo, p);
         });
       }
@@ -1294,7 +1307,7 @@ export class SaleComponent implements OnInit {
       this.productVariantList = variant;
       //this.productVariantList = this.productVariantList.slice();
 
-      this.productVariantList.forEach((variant)=>{
+      this.productVariantList.forEach((variant) => {
         this.productVariantMap.set(variant.productNo, variant);
       });
       console.log('map object after get productProduct Variant', this.productVariantMap);
@@ -1373,18 +1386,18 @@ export class Product {
   operationType?: string;
   color?: string;
   memory?: string;
-  newProduct?:boolean;
-  onSale?:boolean;
-  featured?:boolean;
+  newProduct?: boolean;
+  onSale?: boolean;
+  featured?: boolean;
 
 }
 
 export class ProductVariant {
-  productVariantId?:number;
-  id?:number;
+  productVariantId?: number;
+  id?: number;
   productId: number;
   productNo: string;
-  oldProductNo?:string
+  oldProductNo?: string
   cost?: number;
   retail?: number;
   tier1?: number;
@@ -1433,10 +1446,10 @@ export class ProductVariant {
 }
 
 export interface ProductVariantForm {
-  productVariantId?:number;
+  productVariantId?: number;
   productId: number;
   productNo: string;
-  oldProductNo?:string;
+  oldProductNo?: string;
   cost?: number;
   retail?: number;
   tier1?: number;
@@ -1512,7 +1525,7 @@ export class TransactionLineItemDaoList {
   imeiNo?: any;
   quantityUpdated?: boolean;
   description: string;
-  username?:string;
+  username?: string;
   customerFirstLastName?: string;
 
 }
