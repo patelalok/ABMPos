@@ -287,7 +287,15 @@ public class ProductManager{
         // If no then we can in active the product and delete the entry in product inventory table.
 
         List<ProductInventoryDao> productInventoryDaoList = new ArrayList<>();
-        productInventoryDaoList = productInventoryRepository.findAllByProductId(productDao.getProductId());
+
+        // In case of variant need to get inventory by product id, cause we do not want to delete the product with out checking all inventory for all variants.
+        if(productDao.isVariant()) {
+            productInventoryDaoList = productInventoryRepository.findAllByProductId(productDao.getProductId());
+        }
+        // in case of not variant we can just user id and product no and check the inventory for just specific id and no.
+        else {
+            productInventoryDaoList = productInventoryRepository.findAllByProductIdAndProductNo(productDao.getProductId(), productDao.getProductNo());
+        }
 
         for(ProductInventoryDao productInventoryDao: productInventoryDaoList)
         {

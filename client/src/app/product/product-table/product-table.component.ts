@@ -209,6 +209,8 @@ export class ProductTableComponent implements OnInit {
 
   deleteProduct() {
 
+    console.log('delete product for selete', this.selectedProductForDelete);
+
     this.productService.deleteProduct(this.selectedProductForDelete)
       .subscribe((data) => {
         console.log('data', data);
@@ -229,10 +231,10 @@ export class ProductTableComponent implements OnInit {
             console.log(JSON.stringify(error.json()));
           }
         });
-    let index = this.backendProductDto.findIndex((el) => el.productNo == this.selectedProductForDelete.productNo);
-    this.backendProductDto.splice(index, 1);
+    let index = this.productViewList.findIndex((el) => el.productNo == this.selectedProductForDelete.productNo);
+    this.productViewList.splice(index, 1);
     // TODO need to fix this, why new prodcut is not loading after delete.
-    this.productViewList = this.backendProductDto.slice();
+    this.productViewList = this.productViewList.slice();
     // this.getProductDetails();
   }
 
