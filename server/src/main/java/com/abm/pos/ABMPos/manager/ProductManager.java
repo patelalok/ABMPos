@@ -55,6 +55,8 @@ public class ProductManager{
     private Utility utility;
 
 
+
+
     //public static final String KEY = "products";
 
 
@@ -63,12 +65,9 @@ public class ProductManager{
     {
         ProductDao productDao1 = new ProductDao();
 
-
-
         // I need to do this, cause that is the only way to add the inventory into inventory table, if i wont do it then user can not sale this product.
         if(null != productDao && productDao.getOperationType().equalsIgnoreCase("Add"))
         {
-
             try {
                 // First I need to add the product then i need to inventory details
                 productDao1 = productRepository.save(productDao);
@@ -87,6 +86,12 @@ public class ProductManager{
                 productInventoryDao.setQuantity(productDao.getQuantity());
 
                 productInventoryRepository.save(productInventoryDao);
+
+                // Now I need to add Entry in product_image table with product no, so user can add the image for that product.
+                ProductImageDao productImageDao = new ProductImageDao();
+                productImageDao.setProductNo(productDao.getProductNo());
+                productImageRepository.save(productImageDao);
+
 
             }
 
@@ -110,8 +115,6 @@ public class ProductManager{
                     productInventoryRepository.save(productInventoryDao);
             }
 
-
-
             // Need to add mark up logic, for now let it be.
 //            productInventoryDao.setMarkup(productDao);
         }
@@ -126,17 +129,16 @@ public class ProductManager{
 
                  // This mean user has change the product_no, so i have to change the product no in transaction line item table.
                  // TODO Need to figure out some batter way to do it.
-                 // TODO : Also need write same logic for product image table and Product Inventory table.
                  if (!productDao1.getProductNo().equals(productDao.getProductNo())) {
                      transactionLineItemRepository.updateProductNo(productDao.getProductNo(), productDao1.getProductNo(), productDao1.getProductId());
                      productInventoryRepository.updateProductNo(productDao.getProductNo(),productDao1.getProductNo(), productDao1.getProductId());
+                     productImageRepository.updateProductNo(productDao.getProductNo(), productDao1.getProductNo());
                  }
                  productDao1 = productRepository.save(productDao);
                  // Update retail price just in case if user has changes.
                  productInventoryRepository.updateProductRetailPrice(productDao.getTier1(), productDao.getTier2(), productDao.getTier3(),productDao.getProductNo());
              }
         }
-
         // This condition provides the functionality for user to update description from the product table directly.
         else if(null != productDao && productDao.getOperationType().equalsIgnoreCase("Description Update"))
         {
@@ -249,7 +251,6 @@ public class ProductManager{
             // this means user has update the product no.
             // I have to update inventory table
             // Line item table
-            // TODO product image table
             if(null != productVariantDao
                     && null != productVariantDao.getOldProductNo()
                     && !productVariantDao.getOldProductNo().equals(productVariantDao.getProductNo())
@@ -258,6 +259,7 @@ public class ProductManager{
             {
                 transactionLineItemRepository.updateProductNo(productVariantDao.getProductNo(), productVariantDao.getOldProductNo(), productVariantDao.getProductId());
                 productInventoryRepository.updateProductNo(productVariantDao.getProductNo(), productVariantDao.getOldProductNo(), productVariantDao.getProductId());
+                productImageRepository.updateProductNo(productVariantDao.getProductNo(), productVariantDao.getOldProductNo());
 
             }
         }
