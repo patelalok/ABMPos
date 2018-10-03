@@ -500,6 +500,9 @@ export class EditProductComponent implements OnInit {
     productInventoryObj.productId = this.currentProduct.productId;
     productInventoryObj.productNo = this.productInventoryList[0].productNo;
     productInventoryObj.cost = this.cost;
+    productInventoryObj.tier1 = this.currentProduct.tier1;
+    productInventoryObj.tier2 = this.currentProduct.tier2;
+    productInventoryObj.tier3 = this.currentProduct.tier3;
     //productInventoryObj.retail = this.productInventoryList[0].retail;
     productInventoryObj.quantity = this.quantity;
     productInventoryObj.createdTimestamp = moment(Date.now()).format('YYYY-MM-DD HH:mm:ss');
