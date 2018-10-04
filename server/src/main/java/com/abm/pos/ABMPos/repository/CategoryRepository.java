@@ -30,17 +30,43 @@ public interface CategoryRepository extends JpaRepository<CategoryDao, Integer>{
             "group by c.name", nativeQuery = true)
     List<Object[]> getInventoryByCategory();
 
-    @Query(value = "SELECT distinct c.name, \n" +
-            "SUM(l.sale_quantity) quantity, \n" +
-            "SUM(l.cost * l.sale_quantity) cost, \n" +
+    @Query(value = "SELECT distinct\n" +
+            "c.name,\n" +
+            "SUM(l.sale_quantity) quantity,\n" +
+            "SUM(l.cost * l.sale_quantity) cost,\n" +
             "SUM(l.retail_with_discount * l.sale_quantity) retail,\n" +
             "SUM(l.discount) discount,\n" +
             "SUM((l.retail_with_discount * l.sale_quantity) - (l.cost * l.sale_quantity)) profit\n" +
-            "FROM product p \n" +
-            "INNER Join category c on p.category_id = c.category_id \n" +
-            "INNER join transaction_line_item l on l.product_no = p.product_no \n" +
-            "WHERE l.date BETWEEN ?1 AND ?2 \n" +
-            " AND (l.status = 'Complete' OR l.status = 'Return' OR l.status = 'Pending') " +
-            "GROUP BY c.name", nativeQuery = true)
+            "FROM product p , category c , transaction_line_item l\n" +
+            "where p.category_id = c.category_id\n" +
+            "and l.product_no = p.product_no\n" +
+            "and l.date BETWEEN ?1  AND ?2\n" +
+            "AND (l.status = 'Complete' OR l.status = 'Return' OR l.status = 'Pending')\n" +
+            "GROUP BY c.name\n" +
+            "\n" +
+            "union\n" +
+            "\n" +
+            "SELECT distinct\n" +
+            "c.name,\n" +
+            "SUM(l.sale_quantity) quantity,\n" +
+            "SUM(l.cost * l.sale_quantity) cost,\n" +
+            "SUM(l.retail_with_discount * l.sale_quantity) retail,\n" +
+            "SUM(l.discount) discount,\n" +
+            "SUM((l.retail_with_discount * l.sale_quantity) - (l.cost * l.sale_quantity)) profit\n" +
+            "FROM\n" +
+            "product p , category c , transaction_line_item l , product_variant v\n" +
+            "where\n" +
+            "v.product_no != p.product_no\n" +
+            "and\n" +
+            "l.product_no = v.product_no\n" +
+            "and\n" +
+            "v.product_id = p.product_id\n" +
+            "and\n" +
+            "p.category_id = c.category_id\n" +
+            "and\n" +
+            "l.date BETWEEN ?1  AND ?2\n" +
+            "AND\n" +
+            "(l.status = 'Complete' OR l.status = 'Return' OR l.status = 'Pending')\n" +
+            "GROUP BY c.name\n", nativeQuery = true)
     List<Object[]> getSalesReportByCategory(String startDate, String endDate);
 }
