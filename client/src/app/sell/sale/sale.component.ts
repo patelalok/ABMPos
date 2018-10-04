@@ -362,7 +362,7 @@ export class SaleComponent implements OnInit {
     setTimeout(() => {
       this.product = null;
       this.productForSearchBox = null;
-    }, 400);
+    }, 500);
   }
 
   setProductForDelete(product: Product) {

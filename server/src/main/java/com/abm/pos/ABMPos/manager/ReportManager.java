@@ -441,6 +441,58 @@ public class ReportManager {
 
     }
 
+
+    private List<SalesDto> setDataForCategoryReportBySales(List<Object[]> result) {
+
+        List<SalesDto> salesDtoList = new ArrayList<>();
+
+        double totalCost = 0;
+        double totalRetail = 0;
+        int totalQuantity = 0;
+        double totalProfit = 0;
+        double totalDiscount = 0;
+        // double totalMarkup = 0;
+
+        if (null != result) {
+            for (Object[] j : result) {
+                SalesDto salesDto = new SalesDto();
+
+                salesDto.setName(j[0].toString());
+                salesDto.setQuantity(Integer.parseInt(j[1].toString()));
+                salesDto.setCost(Double.parseDouble(j[2].toString()));
+                salesDto.setRetail(Double.parseDouble(j[3].toString()));
+                salesDto.setDiscount(Double.parseDouble(j[4].toString()));
+                salesDto.setProfit(Double.parseDouble(j[5].toString()));
+
+                salesDtoList.add(salesDto);
+            }
+
+            for (SalesDto sales : salesDtoList) {
+                totalCost = +totalCost + sales.getCost();
+                totalRetail = +totalRetail + sales.getRetail();
+                totalQuantity = +totalQuantity + sales.getQuantity();
+                totalProfit = +totalProfit + sales.getProfit();
+                totalDiscount = +totalDiscount + sales.getDiscount();
+            }
+
+            SalesDto salesDto = new SalesDto();
+
+            salesDto.setName("TOTAL");
+            salesDto.setCost(Double.parseDouble(df.format(totalCost)));
+            salesDto.setRetail(Double.parseDouble(df.format(totalRetail)));
+            salesDto.setQuantity(totalQuantity);
+            salesDto.setProfit(Double.parseDouble(df.format(totalProfit)));
+            salesDto.setDiscount(Double.parseDouble(df.format(totalDiscount)));
+
+            salesDtoList.add(salesDto);
+
+        }
+
+        return salesDtoList;
+
+    }
+
+
     public List<SalesDto> getTop50SellingItem(String productReportType, String startDate, String endDate) {
         //TimeIntervalDto timeIntervalDto;
 
