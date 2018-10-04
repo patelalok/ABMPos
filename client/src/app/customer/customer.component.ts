@@ -79,7 +79,8 @@ export class CustomerComponent implements OnInit {
       // 'gender': [''],
       'city': [''],
       'state': [''],
-      'customerNote':['']
+      'customerNote':[''],
+      'password': ['']
     }
   );
 
@@ -114,6 +115,7 @@ export class CustomerComponent implements OnInit {
     this.customerForm.get('state').setValue(this.selectedCustomer.state);
     this.customerForm.get('zipCode').setValue(this.selectedCustomer.zipCode);
     this.customerForm.get('customerNote').setValue(this.selectedCustomer.customerNote);
+    this.customerForm.get('password').setValue(this.selectedCustomer.password);
   }
 
   
