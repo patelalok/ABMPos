@@ -94,7 +94,7 @@ export class ReturnSaleComponent implements OnInit, AfterViewInit {
   ) {
     this.getProductDetails();
     this.getAllProductVariant();
-    // this.getCustomerDetails();
+    this.getCustomerDetails();
 
   }
 
@@ -203,26 +203,39 @@ export class ReturnSaleComponent implements OnInit, AfterViewInit {
 
   public addTransactionLineItem(productObj: Product): TransactionLineItemDaoList[] {
 
-    if(null!= this.selectedCustomer && this.selectedCustomer != undefined && this.selectedCustomer.tier > 0)
-    {
-        if(this.selectedCustomer.tier == 1){
+    let hasSavedPrice: boolean = false;
+    // Price by customer logic.
+    if (null != this.selectedCustomer && this.selectedCustomer != undefined) {
+      if (this.productPriceArryByCustomer && null != this.productPriceArryByCustomer && this.productPriceArryByCustomer.length > 0) {
+        this.productPriceArryByCustomer.forEach((product) => {
+          // here product[1] is the product no coming from back end, i am sending only 2 values prodcut no and retail.  like this--->["23424234234", 12.99]
+          if (product[0] == productObj.productNo) {
+            productObj.retailWithDiscount = -product[1];
+            productObj.retail = -product[1];
+            productObj.cost = -productObj.cost;
+            hasSavedPrice = true;
+          }
+        })
+      }
+
+      // This where customer price is not saved for product
+      if (!hasSavedPrice) {
+        if (this.selectedCustomer.tier == 1) {
           productObj.retailWithDiscount = -productObj.tier1;
           productObj.retail = -productObj.tier1;
           productObj.cost = -productObj.cost;
-
         }
-        else if(this.selectedCustomer.tier == 2){
+        else if (this.selectedCustomer.tier == 2) {
           productObj.retailWithDiscount = -productObj.tier2;
           productObj.retail = -productObj.tier2;
           productObj.cost = -productObj.cost;
-
         }
-        else if(this.selectedCustomer.tier == 3){
+        else if (this.selectedCustomer.tier == 3) {
           productObj.retailWithDiscount = -productObj.tier3;
           productObj.retail = -productObj.tier3;
           productObj.cost = -productObj.cost;
-
-        }      
+        }
+      }
     }
     else {
       productObj.retailWithDiscount = -productObj.tier3;
@@ -230,6 +243,7 @@ export class ReturnSaleComponent implements OnInit, AfterViewInit {
       productObj.cost = -productObj.cost;
 
     }
+  
     // // This will help to add retailWithDiscount first time when user add the first line item
     // if (productObj.retailWithDiscount >= 0) {
     //   productObj.cost = -productObj.cost;
@@ -252,7 +266,7 @@ export class ReturnSaleComponent implements OnInit, AfterViewInit {
     //this.persit.setProducts(this.transactionLineItemDaoList);
     return this.transactionLineItemDaoList;
   }
-
+  
   setTransactionDtoList(lineItem: TransactionLineItemDaoList[]) {
     console.log('line item in settransaction', lineItem);
     let totalQuantity: number = 0;
@@ -295,10 +309,10 @@ export class ReturnSaleComponent implements OnInit, AfterViewInit {
       }
 
       // Commeting for now.
-    // this.sellService.getProductPriceByCustomer(this.selectedCustomer.phoneNo)
-    // .subscribe((productPrice) => {
-    //   this.productPriceArryByCustomer = productPrice;
-    // });
+    this.sellService.getProductPriceByCustomer(this.selectedCustomer.phoneNo)
+    .subscribe((productPrice) => {
+      this.productPriceArryByCustomer = productPrice;
+    });
     });
     
   }

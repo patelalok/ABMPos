@@ -168,38 +168,53 @@ export class SaleComponent implements OnInit {
 
 
   public addTransactionLineItem(productObj: any) {
+
+    console.log('line item at the time of add TRansation', this.transactionLineItemDaoList);
     console.log('inside the add lineItem method', productObj);
+    let hasSavedPrice: boolean = false;
 
-    // FIRST NEED TO CHECK CUSTOMER IS SELECTED OR NOT.
-    // THEN NEED TO CHECK HIS TIER AND WITH TIER, I NEED TO SET RETAIL PRICE FOR THE PERTICULAR PRODUCT.
 
-    if (null != this.selectedCustomer && this.selectedCustomer != undefined && this.selectedCustomer.tier > 0) {
-
-      productObj.retail = productObj.tier3;
-
-      if (this.selectedCustomer.tier == 1) {
-        productObj.retailWithDiscount = productObj.tier1;
-      }
-      else if (this.selectedCustomer.tier == 2) {
-        productObj.retailWithDiscount = productObj.tier2;
-      }
-      // Dont be smart, please keep this logic.
-      else if (this.selectedCustomer.tier == 3) {
-        productObj.retailWithDiscount = productObj.tier3;
+    // Price by customer logic.
+    if (null != this.selectedCustomer && this.selectedCustomer != undefined) {
+      if (this.productPriceArryByCustomer && null != this.productPriceArryByCustomer && this.productPriceArryByCustomer.length > 0) {
+        this.productPriceArryByCustomer.forEach((product) => {
+          // here product[1] is the product no coming from back end, i am sending only 2 values prodcut no and retail.  like this--->["23424234234", 12.99]
+          if (product[0] == productObj.productNo) {
+            productObj.retailWithDiscount = product[1];
+            productObj.retail = product[1];
+            hasSavedPrice = true;
+          }
+        })
       }
 
+      // This where customer price is not saved for product
+      if (!hasSavedPrice) {
+        if (this.selectedCustomer.tier == 1) {
+          productObj.retailWithDiscount = productObj.tier1;
+          productObj.retail = productObj.tier1;
+        }
+        else if (this.selectedCustomer.tier == 2) {
+          productObj.retailWithDiscount = productObj.tier2;
+          productObj.retail = productObj.tier2;
+        }
+        else if (this.selectedCustomer.tier == 3) {
+          productObj.retailWithDiscount = productObj.tier3;
+          productObj.retail = productObj.tier3;
+        }
+      }
     }
     else {
       productObj.retailWithDiscount = productObj.tier3;
       productObj.retail = productObj.tier3;
-
     }
+
 
     console.log('product price', productObj);
     // this will help me to set default quantity by for each product.
     if (productObj.saleQuantity <= 0 || productObj.saleQuantity == undefined) {
       productObj.saleQuantity = 1;
     }
+    console.log('line item before', this.transactionLineItemDaoList);
     for (let lineItem of this.transactionLineItemDaoList) {
       if (productObj.productNo == lineItem.productNo) {
         // This flag helps to determin whether to add new product or just update the quantity
@@ -218,7 +233,7 @@ export class SaleComponent implements OnInit {
           lineItem.quantityUpdated = false;
           this.persit.setProducts(this.transactionLineItemDaoList);
           this.transactionLineItemDaoList = this.transactionLineItemDaoList.slice();
-        }, 1500);
+        }, 1000);
 
         break;
 
@@ -246,8 +261,9 @@ export class SaleComponent implements OnInit {
     $(`lineitem${productObj.productNo}`).ready(function () {
       document.getElementById(`lineitem${productObj.productNo}`).scrollIntoView();
     });
-  }
 
+
+  }
   // This method helps to set focus on search box when user come on sell page.
   setFocusOnProductSearch() {
     $('#productsearch > span > input').focus();
@@ -524,11 +540,11 @@ export class SaleComponent implements OnInit {
 
         this.persit.setCustomerDetailsForSale(this.selectedCustomer);
 
-        // this.sellService.getProductPriceByCustomer(this.selectedCustomer.phoneNo)
-        //   .subscribe((productPrice) => {
-        //     this.productPriceArryByCustomer = productPrice;
-        //     // this.persit.setCustomerProductPriceForSale(this.productPriceArryByCustomer);
-        //   });
+        this.sellService.getProductPriceByCustomer(this.selectedCustomer.phoneNo)
+          .subscribe((productPrice) => {
+            this.productPriceArryByCustomer = productPrice;
+            this.persit.setCustomerProductPriceForSale(this.productPriceArryByCustomer);
+          });
 
         this.setTransactionDtoList();
       });
@@ -809,7 +825,7 @@ export class SaleComponent implements OnInit {
       // This means user has given line item discount.
       if (lineItem.retailWithDiscount < lineItem.retail) {
         lineItem.discount = (lineItem.retail - lineItem.retailWithDiscount) * lineItem.saleQuantity;
-        totalLineItemDiscount = +lineItem.discount +totalLineItemDiscount;
+        totalLineItemDiscount = +lineItem.discount + totalLineItemDiscount;
       }
     }
     this.transactionDtoList.totalDiscount = +this.totalTransactionDiscount + totalLineItemDiscount;
@@ -1205,10 +1221,10 @@ export class Product {
 }
 
 export class ProductVariant {
-  productVariantId?:number;
+  productVariantId?: number;
   productId: number;
   productNo: string;
-  oldProductNo?:string;
+  oldProductNo?: string;
   cost?: number;
   retail?: number;
   tier1?: number;

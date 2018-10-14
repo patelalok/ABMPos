@@ -194,27 +194,25 @@ public class TransactionsManager {
 
                 // Here I am handling the logic for the customer price lock where customers price will be saved after every transactions. No matter how is the retail price.
                 // Here is the problem though, on return i need to manage this logic on ui, otherwise customer get profited when he does the return.
+                if (null != transactionDao.getCustomerPhoneno() && transactionDao.getCustomerPhoneno().length() > 9 && null != transactionDao.getTransactionLineItemDaoList()) {
+                for (TransactionLineItemDao lineItem : transactionDao.getTransactionLineItemDaoList()) {
 
-                //Do
-//            if (null != transactionDao.getCustomerPhoneno() && transactionDao.getCustomerPhoneno().length() > 9 && null != transactionDao.getTransactionLineItemDaoList()) {
-//                for (TransactionLineItemDao lineItem : transactionDao.getTransactionLineItemDaoList()) {
-//
-//                    CustomerProductPrice customerProductPrice = new CustomerProductPrice();
-//                    CustomerProductPricePK customerProductPricePK = new CustomerProductPricePK();
-//
-//                    customerProductPricePK.setPhoneNo(transactionDao.getCustomerPhoneno());
-//                    customerProductPricePK.setProductNo(lineItem.getProductNo());
-//
-//                    // Need to do retail with discount, because that is discounted price for customer
-//                    customerProductPrice.setRetail(lineItem.getRetailWithDiscount());
-//                    customerProductPrice.setCost(lineItem.getCost());
-//                    customerProductPrice.setLastUpdatedTimestamp(transactionDao.getDate());
-//
-//                    customerProductPrice.setCustomerProductPricePK(customerProductPricePK);
-//
-//                    customerProductPriceRepository.save(customerProductPrice);
-//                }
-//            }
+                    CustomerProductPrice customerProductPrice = new CustomerProductPrice();
+                    CustomerProductPricePK customerProductPricePK = new CustomerProductPricePK();
+
+                    customerProductPricePK.setPhoneNo(transactionDao.getCustomerPhoneno());
+                    customerProductPricePK.setProductNo(lineItem.getProductNo());
+
+                    // Need to do retail with discount, because that is discounted price for customer
+                    customerProductPrice.setRetail(lineItem.getRetailWithDiscount());
+                    customerProductPrice.setCost(lineItem.getCost());
+                    customerProductPrice.setLastUpdatedTimestamp(transactionDao.getDate());
+
+                    customerProductPrice.setCustomerProductPricePK(customerProductPricePK);
+
+                    customerProductPriceRepository.save(customerProductPrice);
+                }
+            }
             } else if (transactionDao.getStatus().equalsIgnoreCase("Return") || transactionDao.getStatus().equalsIgnoreCase("Void")) {
 
                 ProductInventoryDao productInventoryDao = new ProductInventoryDao();
