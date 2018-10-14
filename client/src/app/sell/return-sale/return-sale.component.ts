@@ -562,7 +562,8 @@ export class ReturnSaleComponent implements OnInit, AfterViewInit {
 
 
   returnSale(rma?:boolean) {
-
+    
+    this.disableCompleteSaleButton = true;
     this.transactionDtoList.status = 'Return';
     this.transactionDtoList.date = moment(Date.now()).format('YYYY-MM-DD HH:mm:ss');
     // setting customer details
