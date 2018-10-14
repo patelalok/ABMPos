@@ -114,6 +114,8 @@ export class SaleComponent implements OnInit {
 
   }
   ngOnInit() {
+    // this.getProductDetails();
+    // this.getAllProductVariant();
 
     // this.items = [
     //   { name: 'Return', icon: 'fa fa-reply-all fa-x', link: '/return' },

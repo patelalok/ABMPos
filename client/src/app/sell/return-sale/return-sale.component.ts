@@ -74,6 +74,9 @@ export class ReturnSaleComponent implements OnInit, AfterViewInit {
   popupHeader: string;
   popupMessage: string;
 
+  productMap = new Map();
+  productVariantMap = new Map();
+
   // _subscriptionCustomer: any;
   _subscriptionProductVariant: any;
   _subscriptionProduct: any;
@@ -105,9 +108,6 @@ export class ReturnSaleComponent implements OnInit, AfterViewInit {
         this.storeDetails = data;
         this.taxPercent = this.storeDetails.tax;
       });
-
-    this.getProductDetails();
-    this.getAllProductVariant();
     this.getCustomerDetails();
   }
 
@@ -145,30 +145,71 @@ export class ReturnSaleComponent implements OnInit, AfterViewInit {
   }
 
   submitProduct(value: any) {
-
-    if (typeof value === 'string') {
-      // this is the senario where user is adding new product to Sell
-      if (this.product != null && this.product.length > 0) {
-        // this.addTransactionLineItem(this.product[0]);
+      let productFound: boolean = false;
+  
+      if (value && value.length > 7 && (value.match(/[0-9]/i))) {
+        console.log('This mean user has scan the barcode no', value);
+  
+        let product = this.productMap.get(value);
+        if (product != undefined) {
+          productFound = true;
+          this.timeOut();
+          this.addTransactionLineItem(product);
+        }
+  
+        console.log('before variant check', productFound)
+        if (!productFound) {
+          let product = this.productVariantMap.get(value);
+          if (product != undefined) {
+            productFound = true;
+            this.timeOut();
+            this.addTransactionLineItem(product);
+          }
+        }
+  
+        if (productFound == false) {
+          alert("Sorry Can Not Find The Product!!!");
+          this.productForSearchBox = null;
+        }
+  
+        // setTimeout(() => {
+        //   this.product = null;
+        //   this.productForSearchBox = null;
+        // }, 300)
       }
-      else if (value !== '' && value !== undefined && value.indexOf('.') !== 0) {
-        if (value.match(/[a-z]/i))
-          console.log('contains only charcters');
-
-        // this mean this is decimal value so it will change the retail price of the product
-        if (value.match(/[0-9]/i) && value.indexOf('.') > 0)
-          this.updateProductPrice(value);
-
-        // this mean this is integer value so it will change the quantity of the product
-        // Also i need to change length of the value cause i need to add product by product no
-        // So here i am assuming quantity is not gonna be more then 5, so anything more then 5 just add to product grid.
-        else if (value.match(/[0-9]/i) && value.length < 5)
-          this.updateProductQuantity(value);
+      else {
+  
+        if (typeof value === 'string') {
+          if (value !== '' && value !== undefined && value.indexOf('.') !== 0) {
+            // if (value.match(/[a-z]/i)) {
+            //   // Not sure wt it is doing
+            // }
+            if (value.match(/[0-9]/i) && value.indexOf('.') > 0)
+              this.updateProductPrice(value);
+  
+            // So here i am assuming quantity is not gonna be more then 5, so anything more then 5 just add to product grid.
+            else if (value.match(/[0-9]/i) && value.length < 5)
+              this.updateProductQuantity(value);
+          }
+        }
+        else if (value != null && value != undefined && !value.variant) {
+          // if (!value.variant)
+          console.log('oops coming for lineitem');
+          this.addTransactionLineItem(value);
+        }
       }
+  
+      // setTimeout(() => {
+      //   this.product = null;
+      //   this.productForSearchBox = null; 
+      // }, 300)
     }
-    else if (value != null) {
-      this.addTransactionLineItem(value);
-    }
+  
+  timeOut() {
+    setTimeout(() => {
+      this.product = null;
+      this.productForSearchBox = null;
+    }, 500);
   }
 
   updateProductQuantity(value: any) {
@@ -418,26 +459,40 @@ export class ReturnSaleComponent implements OnInit, AfterViewInit {
   }
 
   getProductDetails() {
+    let no = 1
+    console.log('no', no++);
+
     this.productService.getProductDetails();
     this._subscriptionProduct = this.productService.productListChange.subscribe((product) => {
       this.productList = product;
       // this.productList = this.productList.slice();
 
-      // if(null != this.product) {
-      //   this.product.forEach((p)=>{
-      //     this.productMap.set(p.productNo, p);
-      //   });
-      // }
-      // console.log('map object after get product', this.productMap);
+      if (null != this.productList) {
+        this.productList.forEach((p) => {
+          this.productMap.set(p.productNo, p);
+        });
+      }
+      console.log('map object after get product', this.productMap);
     });
   }
 
-  getAllProductVariant(){
+  getAllProductVariant() {
+    // this.productService.getAllProductVariantFromBackEnd()
+    //   .subscribe((variant) => {
+    //     this.productVariantList = variant;
+    //   })
     this.productService.getAllProductVariant();
-    this._subscriptionProductVariant = this.productService.productVariantListChange.subscribe((variant)=>{
+    this._subscriptionProductVariant = this.productService.productVariantListChange.subscribe((variant) => {
       this.productVariantList = variant;
-      this.productPopupVariantList = this.productPopupVariantList.slice();
-    })
+      //this.productVariantList = this.productVariantList.slice();
+
+      this.productVariantList.forEach((variant) => {
+        this.productVariantMap.set(variant.productNo, variant);
+      });
+      console.log('map object after get productProduct Variant', this.productVariantMap);
+
+    });
+
   }
   //This methode will completly remove the all transaction line item and transaction details.
   disgardCompleteSale() {
@@ -564,33 +619,21 @@ export class ReturnSaleComponent implements OnInit, AfterViewInit {
     this.popupMessage = 'Are You Sure You Want To Delete Product?';
   }
 
-
   filterProducts(event) {
-    // if(!event){
-    //   this.product = null; 
-
-    //   return;
-    // }
     let query = event.query;
-    // this.productService.getProductDetails()
-    // if(!query){
-    //   this.product = null; 
-
-    //   return;
-    // }
-    //   .subscribe((products) => {
-    // console.log(products);
-    this.product = this.filterProduct(query, this.productList);
-    // });
+    this.productService.getProductDetailsForSalePage()
+      .subscribe((products: Product[]) => {
+        // console.log(products);
+        this.product = this.filterProduct(query, products);
+      });
   }
+
 
   filterProduct(query, products: Product[]): Product[] {
     let filtered: Product[] = [];
     for (let i = 0; i < products.length; i++) {
       let p = products[i];
-      // if (p.description.toLowerCase().includes(query.toLowerCase()) || p.productNo.includes(query)) {
-      if (p.description.toLowerCase().includes(query.toLowerCase())) {
-
+      if (p.description.toLowerCase().includes(query.toLowerCase()) || p.productNo.includes(query)) {
         filtered.push(p);
       }
     }
