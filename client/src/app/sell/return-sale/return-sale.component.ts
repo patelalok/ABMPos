@@ -209,7 +209,7 @@ export class ReturnSaleComponent implements OnInit, AfterViewInit {
     setTimeout(() => {
       this.product = null;
       this.productForSearchBox = null;
-    }, 500);
+    }, 1000);
   }
 
   updateProductQuantity(value: any) {
@@ -562,7 +562,7 @@ export class ReturnSaleComponent implements OnInit, AfterViewInit {
 
 
   returnSale(rma?:boolean) {
-    
+
     this.disableCompleteSaleButton = true;
     this.transactionDtoList.status = 'Return';
     this.transactionDtoList.date = moment(Date.now()).format('YYYY-MM-DD HH:mm:ss');

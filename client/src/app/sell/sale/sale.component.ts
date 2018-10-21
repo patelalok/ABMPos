@@ -829,6 +829,9 @@ export class SaleComponent implements OnInit {
         lineItem.discount = (lineItem.retail - lineItem.retailWithDiscount) * lineItem.saleQuantity;
         totalLineItemDiscount = +lineItem.discount + totalLineItemDiscount;
       }
+      else {
+        lineItem.retail = lineItem.retailWithDiscount;
+      }
     }
     this.transactionDtoList.totalDiscount = +this.totalTransactionDiscount + totalLineItemDiscount;
     // I am doing this to show subtotal without line item discount, so in invoice customer wont get confuse.
