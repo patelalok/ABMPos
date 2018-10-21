@@ -55,13 +55,13 @@ public class TransactionController {
     public void getThermalReceipt(@RequestParam int receiptNo) throws DocumentException, ParseException {
 
         System.out.println("coming for thermal print");
-        transactionManager.printTransaction(receiptNo);
+        //transactionManager.printTransaction(receiptNo);
     }
 
     @RequestMapping(value = "/openCashDrawer", method = RequestMethod.GET)
     public void openCashDrawer() {
         System.out.println("coming to open open cash drawer");
-        transactionManager.openCashDrawer();
+       // transactionManager.openCashDrawer();
     }
     @RequestMapping(value = "/getTransaction", method = RequestMethod.GET, produces = "application/json")
     public List<TransactionDao> getTransaction()
