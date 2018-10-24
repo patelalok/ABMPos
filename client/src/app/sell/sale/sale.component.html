@@ -2,7 +2,7 @@
     <div class="col-md-8">
         <mat-card>
             <div class="row">
-                <div class="align-self-center col-md-7" style="max-height: 500px !important;">
+                <div class="align-self-center col-md-12" style="max-height: 500px !important;">
                     <!-- <p-autoComplete id="productsearch" [(ngModel)]="productForSearchBox" class="full-width m-1" [suggestions]="product" placeholder="Please Enter Service Name" (onFocus)="print($event)" (onBlur)="print($event)" (completeMethod)="filterProducts($event)" name="test"
                         [minLength]="3" (keyup.enter)="submitProduct(productForSearchBox)" field="description">
                         <ng-template>
@@ -20,8 +20,7 @@
                     </ng-template>
                   </p-autoComplete>
                 </div>
-                <div class="col-md-5 d-flex justify-content-end">
-                    <!-- Buttons go here  -->
+                <!-- <div class="col-md-5 d-flex justify-content-end">
                     <button (click)="this.parkSale()" class="bg-primary text-white action-button m-1" mat-raised-button [disabled]="this.disablePaymentButtonOnSale">
                             <span>
                                 <i class="fa fa-history">
@@ -43,7 +42,7 @@
                                 </i>
                             </span>
                         </button>
-                </div>
+                </div> -->
             </div>
         </mat-card>
 
@@ -81,7 +80,7 @@
     <div class="col-md-4">
         <mat-card style="overflow-y: auto;">
             <!-- Customer Details -->
-            <div *ngIf="showCustomerSearchBox" class="input-group customer-Header-textBox">
+            <!-- <div *ngIf="showCustomerSearchBox" class="input-group customer-Header-textBox">
                 <span class="input-group-addon" id="basic-addon1">
                             <i class="fa fa-user-plus" aria-hidden="true"></i>
                  </span>
@@ -96,7 +95,7 @@
                     </ng-template>
 
                 </p-autoComplete>
-            </div>
+            </div> -->
 
             <div *ngIf="!showCustomerSearchBox" class="input-group customer-Header-without-textBox">
                 <span class="input-group-addon" id="basic-addon1">
@@ -111,7 +110,7 @@
             </div>
 
 
-            <br>
+            <!-- <br> -->
             <!-- Product Table -->
             <p-dataTable [value]="this.transactionLineItemDaoList" scrollable="true" [responsive]="true" scrollHeight="250px" [editable]="true" (onEditComplete)="updateLineItemDetails($event)">
                 <!-- <p-header>Product Sale Table</p-header> -->

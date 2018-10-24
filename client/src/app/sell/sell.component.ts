@@ -111,9 +111,9 @@ items: MenuItem[];
     //   this.router.navigate(['/sell/sale']);
 
     this.items = [
-      { name: 'Return', icon: 'fa fa-reply-all fa-x ', link: '/sell/return' },
-      { name: 'Close Register', icon: 'fa fa-window-close-o fa-x', link: '/sell/close-register' },
-      { name: 'Close Shift', icon: 'fa fa-times fa-x', link: '/sell/close-shift' },
+      // { name: 'Return', icon: 'fa fa-reply-all fa-x ', link: '/sell/return' },
+      // { name: 'Close Register', icon: 'fa fa-window-close-o fa-x', link: '/sell/close-register' },
+      // { name: 'Close Shift', icon: 'fa fa-times fa-x', link: '/sell/close-shift' },
     ];
     // this.toastr.success("Sell component initiated", "Nice!");
     this.storeSetupService.getStoreDetails().
