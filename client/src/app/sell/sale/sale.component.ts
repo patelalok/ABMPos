@@ -183,7 +183,7 @@ export class SaleComponent implements OnInit {
           // here product[1] is the product no coming from back end, i am sending only 2 values prodcut no and retail.  like this--->["23424234234", 12.99]
           if (product[0] == productObj.productNo) {
             productObj.retailWithDiscount = product[1];
-            productObj.retail = product[1];
+            productObj.retail = productObj.tier3;
             hasSavedPrice = true;
           }
         })
@@ -193,11 +193,11 @@ export class SaleComponent implements OnInit {
       if (!hasSavedPrice) {
         if (this.selectedCustomer.tier == 1) {
           productObj.retailWithDiscount = productObj.tier1;
-          productObj.retail = productObj.tier1;
+          productObj.retail = productObj.tier3;
         }
         else if (this.selectedCustomer.tier == 2) {
           productObj.retailWithDiscount = productObj.tier2;
-          productObj.retail = productObj.tier2;
+          productObj.retail = productObj.tier3;
         }
         else if (this.selectedCustomer.tier == 3) {
           productObj.retailWithDiscount = productObj.tier3;
