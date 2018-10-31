@@ -51,6 +51,7 @@ export class ProductTableComponent implements OnInit {
   productInventoryList: ProductInventory[] = [];
   productForRetailTierPopup: Product[] = [];
   selectedProductForTierRetailUpdate = new Product();
+  selectedProductToAddInventory: Product;
 
   dateDto = new DateDto();
   totalSaleQuantity: number = 0;
@@ -344,6 +345,10 @@ export class ProductTableComponent implements OnInit {
   // This method helps to set the perticualr product inventory details to show on popup when user click on the cost price.
   setProductInventoryForSelectedProduct(product: Product, isCost: boolean) {
 
+    // this logic fix the problem with, no data in inventory and user not able to add inventory.
+    this.selectedProductToAddInventory = product;
+    console.log('inventory', this.selectedProductToAddInventory);
+
     // First need to get real inventory details from the db, cause when you add inventory and if you dont do this call, it wont show you,
     // Newly added inventory details.
     // I NEED TO DO THIS CALL IN BOTH IF USER CLICK ON COST OR RETAIL DOES NOT MATTER.
@@ -393,16 +398,16 @@ export class ProductTableComponent implements OnInit {
   }
   addProductInventory() {
 
-    console.log('inventory lost', this.productInventoryList[0]);
-
     let productInventoryObj: ProductInventory = new ProductInventory();
 
-    productInventoryObj.productNo = this.productInventoryList[0].productNo;
-    productInventoryObj.productId = this.productInventoryList[0].productId;
 
-    productInventoryObj.tier1 = this.productInventoryList[0].tier1;
-    productInventoryObj.tier2 = this.productInventoryList[0].tier2;
-    productInventoryObj.tier3 = this.productInventoryList[0].tier3;
+
+    productInventoryObj.productNo = this.selectedProductToAddInventory.productNo
+    productInventoryObj.productId = this.selectedProductToAddInventory.productId;
+
+    productInventoryObj.tier1 = this.selectedProductToAddInventory.tier1;
+    productInventoryObj.tier2 = this.selectedProductToAddInventory.tier2;
+    productInventoryObj.tier3 = this.selectedProductToAddInventory.tier3;
 
 
 
@@ -422,10 +427,12 @@ export class ProductTableComponent implements OnInit {
           let index = this.productViewList.findIndex((el) => el.productId == productInventoryObj.productId);
           console.log('index', index);
           console.log('back res', backendResponse);
+          console.log('back res', this.productViewList);
+
 
           if (index > -1) {
             this.productViewList[index].quantity = backendResponse.totalQuantity;
-            this.productFullList[index].cost = backendResponse.cost;
+            this.productViewList[index].cost = backendResponse.cost;
             console.log('total qty', backendResponse.totalQuantity);
 
             this.productViewList = this.productViewList.slice();
