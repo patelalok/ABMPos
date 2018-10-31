@@ -57,8 +57,8 @@ export class LoginComponent implements OnInit {
     if (!environment.production) {
 
       this.loginForm.setValue(<Login>{
-        username: 'alok@alok.com',
-        password: 'alok'
+        username: 'shweta@gmail.com',
+        password: 'shweta'
       });
 
       // this.loginForm.setValue(<Login>{
