@@ -39,6 +39,10 @@ export class SaleComponent implements OnInit {
   productPriceArryByCustomer: Array<any[]>;
   productVariantList: ProductVariant[] = [];
   productPopupVariantList: ProductVariant[] = [];
+  selectedProductToAddInventory: Product;
+  productInventoryList: ProductInventory[] = [];
+
+
 
   customerDto: Customer[];
   selectedCustomer: Customer;
@@ -446,6 +450,42 @@ export class SaleComponent implements OnInit {
       this.popoverStyle = null;
     else
       this.popoverStyle = this.sanitizer.bypassSecurityTrustStyle(`position: absolute; transform: translate3d(${x - 271.86 - 10}px, ${y - 74.5}px, 0px); top: 0px; left: 0px; will-change: transform;`);
+  }
+
+
+  // This method helps to set the perticualr product inventory details to show on popup when user click on the cost price.
+  setProductInventoryForSelectedProduct(productNo:string, productId: number, isCost: boolean) {
+
+    // this logic fix the problem with, no data in inventory and user not able to add inventory.
+    console.log('inventory', productNo);
+
+    // First need to get real inventory details from the db, cause when you add inventory and if you dont do this call, it wont show you,
+    // Newly added inventory details.
+    // I NEED TO DO THIS CALL IN BOTH IF USER CLICK ON COST OR RETAIL DOES NOT MATTER.
+    this.productService.getProductInventoryByProduct(productId, productNo)
+      .subscribe((inventory: ProductInventory[]) => {
+        this.productInventoryList = inventory;
+
+        this.productInventoryList.forEach((inventory) => {
+          inventory.time = moment(inventory.createdTimestamp).format('hh:mm A');
+          inventory.date = moment(inventory.createdTimestamp).format('MM-DD-YYYY');
+          inventory.productNo = productNo;
+          this.productInventoryList = this.productInventoryList.slice();
+
+        })
+      });
+
+      // this logic helps when there is no data in inventory table.
+      if (this.productInventoryList.length == 0 || this.productInventoryList == undefined || null == this.productInventoryList) {
+        let inventoryObj = new ProductInventory();
+
+        inventoryObj.productNo = productNo;
+        inventoryObj.productId = productId;
+        this.productInventoryList.push(inventoryObj);
+
+        $('#productInventory').modal('show');
+        this.productInventoryList = this.productInventoryList.slice();
+      }
   }
 
   setDiscountType(discountType: any) {
