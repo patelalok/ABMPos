@@ -471,21 +471,9 @@ export class SaleComponent implements OnInit {
           inventory.date = moment(inventory.createdTimestamp).format('MM-DD-YYYY');
           inventory.productNo = productNo;
           this.productInventoryList = this.productInventoryList.slice();
-
+          $('#productInventory').modal('show');
         })
       });
-
-      // this logic helps when there is no data in inventory table.
-      if (this.productInventoryList.length == 0 || this.productInventoryList == undefined || null == this.productInventoryList) {
-        let inventoryObj = new ProductInventory();
-
-        inventoryObj.productNo = productNo;
-        inventoryObj.productId = productId;
-        this.productInventoryList.push(inventoryObj);
-
-        $('#productInventory').modal('show');
-        this.productInventoryList = this.productInventoryList.slice();
-      }
   }
 
   setDiscountType(discountType: any) {
