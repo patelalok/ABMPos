@@ -734,6 +734,7 @@ export class SaleComponent implements OnInit {
     console.log("inside the pending payment logic");
     this.transactionDtoList = transaction;
     this.transactionLineItemDaoList = transaction.transactionLineItemDaoList;
+    this.shippingAmount = transaction.shipping;
     this.setTransactionDtoList();
 
     //this.setTransactionDtoList();
@@ -947,8 +948,6 @@ export class SaleComponent implements OnInit {
       this.shippingAmount = 0.00;
       this.totalTransactionDiscount = 0;
       this.persit.clearShippingAmount();
-      this.shippingAmount = 0.00;
-
       this.setTransactionDtoList();
       this.paymentDao = [];
       this.paymentDaoList = [];
