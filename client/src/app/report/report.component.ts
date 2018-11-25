@@ -17,7 +17,7 @@ export class ReportComponent implements OnInit {
       this.router.navigate(['/report/inventory']);
 
     this.items = [
-      { name: 'Inventory', icon: 'fa fa-tags fa-x', link: '/report/inventory' },
+      // { name: 'Inventory', icon: 'fa fa-tags fa-x', link: '/report/inventory' },
       { name: 'Sales', icon: 'fa fa-line-chart fa-x', link: '/report/sales'  },
       // { name: 'Profit & Loss', icon: 'fa fa-pie-chart fa-x', link: '/report/profit-loss' },
       // { name: 'Expense', icon: 'fa fa-money fa-x', link: '/product/vendor' },
