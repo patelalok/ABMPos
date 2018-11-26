@@ -40,7 +40,7 @@ public class EmailSender {
             System.out.println("Send email '{}' to: {}" + subject + to);
             return new EmailStatus(to, subject, text).success();
         } catch (Exception e) {
-            System.out.println(String.format("Problem with sending email to: {}, error message: {}", to, e.getMessage()));
+            System.out.println(String.format("Problem with sending email to: {}, error message: {}",e.getMessage()));
             return new EmailStatus(to, subject, text).error(e.getMessage());
         }
     }
