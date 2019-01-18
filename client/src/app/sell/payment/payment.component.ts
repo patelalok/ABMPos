@@ -161,7 +161,7 @@ export class PaymentComponent implements OnInit {
 
   // TODO- NEED TO REMOVE THIS HARD CODED DATE
   getOpenInvoiceByCustomer() {
-    this.reportService.getOpneInvoiceDetailsByCustomer('2018-01-01 00:00:00', '2018-12-31 23:59:59', this.selectedCustomer.phoneNo)
+    this.reportService.getOpneInvoiceDetailsByCustomer('2018-01-01 00:00:00', '2019-12-31 23:59:59', this.selectedCustomer.phoneNo)
       .subscribe((opneInvoice) => {
 
         opneInvoice.forEach((invoice) => {
