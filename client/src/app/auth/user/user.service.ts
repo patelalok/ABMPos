@@ -100,20 +100,16 @@ export class UserService {
         this.fetching.next(false);
         this.fetching.complete();
         this.fetching = null;
-        
-        console.log("Here is the session ", this.session);
-      }
+              }
       );
   }
   userLogin(login: Login): void {
     this.fetching = new Subject();
     this.session = null;
-    console.log("Authentication user...", login);
     this.loginHttpRequest(login)
       .subscribe(
       (session: User) => {
         if(session){
-          console.log("aokj", session);
           this.session = session;
           if(this.session.name && this.session.name.length > 1) {
             this._isAuthenticated.next(true);
@@ -121,9 +117,7 @@ export class UserService {
           else {
             this._isAuthenticated.next(false);
           }
-          console.log("aokj 324234", session);
           this.storeUserCredentials(session);
-          console.log("Here is the session ", this.session);
         }
         else{
           this._isAuthenticated.next(false);
@@ -210,7 +204,6 @@ export class UserService {
 
         if(dto && dto.username)
         {
-          console.log('inside if', new User(dto))
           return new User(dto);
         }
 
@@ -222,7 +215,6 @@ export class UserService {
   }
 
   storeUserCredentials(login: any){
-    console.log('************', login);
     login = {
       ...login,
       createdAt : (new Date()).toISOString(),
