@@ -37,26 +37,27 @@ export class UserService {
       // console.log("Session present.");
       authState = true;
     }
-    else {
-      if (!this.fetching) {
-        // console.log("Not fetching..", this.fetching, this.session);
-        authState = false;
-      }
-      else
-        authState =
-          await this.fetching.asObservable()
-            .map((data) => {
-              // console.log("Fetching, just finished with", data);
-              if (this.session)
-                return true;
-              else
-                return false;
-            })
-            .toPromise();
-    }
+    // else {
+    //   if (!this.fetching) {
+    //     // console.log("Not fetching..", this.fetching, this.session);
+    //     authState = false;
+    //   }
+    //   else
+    //     authState =
+    //       await this.fetching.asObservable()
+    //         .map((data) => {
+    //           // console.log("Fetching, just finished with", data);
+    //           if (this.session)
+    //             return true;
+    //           else
+    //             return false;
+    //         })
+    //         .toPromise();
+    // }
     return authState;
   }
   checkUserSession() {
+    console.log('+++++++++++++caling checkUserSession');
     this.fetching = new Subject();
     this.session = null;
     console.log("Checking user session...")
@@ -71,10 +72,18 @@ export class UserService {
         // this.electionService.getAllElections()
         // .subscribe((list) => {
           
-          console.log("Checking if session valid...");
+          console.log("Checking if session valid...",session);
           if(session){
             this.session = session;
-            this._isAuthenticated.next(true);
+
+            console.log("Checking if session valid session...", this.session);
+            if(this.session.name && this.session.name.length > 1) {
+              this._isAuthenticated.next(true);
+            }
+            else {
+              this._isAuthenticated.next(false);
+            }
+            
           }
           else{
             this._isAuthenticated.next(false);
@@ -99,14 +108,21 @@ export class UserService {
   userLogin(login: Login): void {
     this.fetching = new Subject();
     this.session = null;
-    console.log("Authentication user...")
+    console.log("Authentication user...", login);
     this.loginHttpRequest(login)
       .subscribe(
       (session: User) => {
         if(session){
-          this.storeUserCredentials(login);
+          console.log("aokj", session);
           this.session = session;
-          this._isAuthenticated.next(true);
+          if(this.session.name && this.session.name.length > 1) {
+            this._isAuthenticated.next(true);
+          }
+          else {
+            this._isAuthenticated.next(false);
+          }
+          console.log("aokj 324234", session);
+          this.storeUserCredentials(session);
           console.log("Here is the session ", this.session);
         }
         else{
@@ -133,8 +149,8 @@ export class UserService {
     this.session = null;   
     this.removeStoredUserCredentials();
 
-    location.reload();
-    // console.log("Authentication user...")
+    // location.reload();
+    this.router.navigate(['/login']);    // console.log("Authentication user...")
     // this.logoutHttpRequest()
     //   .subscribe(
     //   (session) => {
@@ -183,7 +199,7 @@ export class UserService {
   }
 
   private checkSessionHttpRequest(): Observable<User> {
-    let login: Login = this.getStoredUserCerdentials() || {username: null, password: null};
+    let login: Login = this.getStoredUserCerdentials() || {username: null, password: null, role: ''};
     let url = this.url + `/validateEmployeeForClockIn?username=${login.username}&password=${login.password}`;
     // let body = new FormData();
     // body.append('emailAddress', login.username);
@@ -193,7 +209,10 @@ export class UserService {
       .map((dto: UserDTO) => {
 
         if(dto && dto.username)
+        {
+          console.log('inside if', new User(dto))
           return new User(dto);
+        }
 
         else 
           return null; 
@@ -202,10 +221,12 @@ export class UserService {
       // .map((response) => new Session(response))
   }
 
-  storeUserCredentials(login: Login){
+  storeUserCredentials(login: any){
+    console.log('************', login);
     login = {
       ...login,
-      createdAt : (new Date()).toISOString()
+      createdAt : (new Date()).toISOString(),
+      role: this.session.role,
     };
 
     localStorage.setItem('poslogin', JSON.stringify(login));
@@ -232,7 +253,7 @@ export class UserService {
       // console.log('Removing login.. ', loginStr); 
       // localStorage.removeItem('poslogin');
     }
-      return {username: null, password: null}
+      return {username: null, password: null, role: ''}
   }
   removeStoredUserCredentials(){
     localStorage.removeItem('poslogin');
@@ -322,12 +343,14 @@ export class User{
   name: string; 
   phoneNumber: string; 
   emailAddress: string;
+  role: string;
 
 
   constructor(dto: UserDTO){
     this.name = dto.name;
     this.phoneNumber = dto.phoneNo; 
     this.emailAddress = dto.email; 
+    this.role = dto.role;
   }
 }
 interface UserDTO{

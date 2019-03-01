@@ -29,7 +29,7 @@ const routes: Routes = [
   { 
     path: 'sell', 
     component:  SellComponent,
-    canActivate: [AuthGuard],
+    // canActivate: [AuthGuard],
     children: [
       { path: '', redirectTo: 'sale', pathMatch: 'prefix'},
       { path: 'close-shift', component:  CloseRegisterComponent},
@@ -38,11 +38,11 @@ const routes: Routes = [
       { path: 'sale', component:  SaleComponent}
     ]
   },
-  { path: 'employee', component: EmployeeComponent},
-  { path: 'dashboard', component: DashboardComponent},
+  { path: 'employee', component: EmployeeComponent, canActivate: [AuthGuard],},
+  { path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard],},
   
   { path: 'clockIn/:username', component: ClockinComponent},
-  { path: 'expense', component: ExpenseComponent},
+  { path: 'expense', component: ExpenseComponent, canActivate: [AuthGuard],},
   { 
     path: 'sales-history', 
     component: SalesHistoryComponent, 

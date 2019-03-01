@@ -13,10 +13,11 @@ import { environment } from '../../../environments/environment';
 export class LoginComponent implements OnInit {
   loading: boolean = false;
   loginForm: FormGroup;
-  error: boolean = false; 
+  error: boolean = false;
   login: Login = {
     username: '',
-    password: ''
+    password: '',
+    role: ''
   };
   formErrors = {
     username: '',
@@ -91,7 +92,8 @@ export class LoginComponent implements OnInit {
     this.loading = true;
     this.userService.userLogin({
       username: this.loginForm.get('username').value,
-      password: this.loginForm.get('password').value
+      password: this.loginForm.get('password').value,
+      role: ''
     });
 
 
@@ -100,12 +102,19 @@ export class LoginComponent implements OnInit {
   setupAutenticatedListener() {
     let navigateUrl = this.route.snapshot.paramMap.get('redirectTo');
     this.userService.isAuthenticated().subscribe((isAuth) => {
+      console.log('setupAutenticatedListener @!#@@$@#$@#', isAuth);
       this.loading = false;
       if (isAuth) {
         if (navigateUrl && navigateUrl != "null") {
           this.router.navigateByUrl(navigateUrl);
           // this.router.navigate(['filer']);
         }
+        else {
+          this.router.navigateByUrl('/sell/sale');
+        }
+      }
+      else {
+        this.router.navigateByUrl('/login');
       }
     },
       (err) => {

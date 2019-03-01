@@ -5,11 +5,13 @@ import { InventoryComponent } from 'app/report/inventory/inventory.component';
 import { SalesComponent } from 'app/report/sales/sales.component';
 import { ProfitLossComponent } from 'app/report/profit-loss/profit-loss.component';
 import { CustomerReportComponent } from './customer-report/customer-report.component';
+import { AuthGuard } from '../auth/auth.guard';
 
 const routes: Routes = [
     {
       path: 'report',
       component:  ReportComponent,
+      canActivate: [AuthGuard],
       children: [
         { path: 'inventory', component:  InventoryComponent },
         { path: 'sales', component:  SalesComponent },
