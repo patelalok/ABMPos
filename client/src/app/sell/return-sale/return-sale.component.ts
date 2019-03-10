@@ -409,7 +409,7 @@ export class ReturnSaleComponent implements OnInit, AfterViewInit {
     this.transactionDtoList.note = this.transactionNotes
     this.transactionDtoList.rma = rma;
     // To do need to fix this hardcoded value for username
-    this.transactionDtoList.username = 'alok@alok.com';
+    this.transactionDtoList.username = 'manager@manager.com';
     this.transactionDtoList.transactionLineItemDaoList = this.transactionLineItemDaoList;
     // NOW MAKING SERVICE CALL TO ADD TRANSACTION AND LINE ITEM DETAILS AND WILL ADD LINE ITEM DETAILS ONLY IF ADD TRANASACTION CALL IS SUCCESS !!!
     this.sellService.addTransactionDetails(this.transactionDtoList)

@@ -941,7 +941,7 @@ items: MenuItem[];
     this.transactionDtoList.note = this.transactionNotes
 
     // To do need to fix this hardcoded value for username
-    this.transactionDtoList.username = 'alok@alok.com';
+    this.transactionDtoList.username = 'manager@manager.com';
     this.transactionDtoList.transactionLineItemDaoList = this.transactionLineItemDaoList;
 
 

@@ -44,9 +44,8 @@ const routes: Routes = [
   { path: 'clockIn/:username', component: ClockinComponent},
   { path: 'expense', component: ExpenseComponent, canActivate: [AuthGuard],},
   { 
-    path: 'sales-history', 
-    component: SalesHistoryComponent, 
-    canActivate: [AuthGuard],
+    path: 'sales-history',
+    component: SalesHistoryComponent,
   },
   { path: 'setting', component: StoresetupComponent},
   // { path: 'aaaaa', component:  CustomerPaymentHistoryComponent}

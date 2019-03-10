@@ -194,7 +194,7 @@ export class CustomerComponent implements OnInit {
     this.addStoreCreditObject.createdTimestamp = moment(Date.now()).format('YYYY-MM-DD HH:mm:ss');
     this.addStoreCreditObject.customerPhoneno = this.selectedCustomerForStoreCredit.phoneNo;
     // TODO - need to fix this when work on user module.
-    this.addStoreCreditObject.employeeName = 'alok@alok.com';
+    this.addStoreCreditObject.employeeName = 'manager@manager.com';
 
     this.customerService.addStoreCredit(this.addStoreCreditObject);
   }

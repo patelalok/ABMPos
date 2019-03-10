@@ -800,7 +800,7 @@ export class SaleComponent implements OnInit, AfterViewInit {
     this.transactionDtoList.note = this.transactionNotes
 
     // To do need to fix this hardcoded value for username
-    this.transactionDtoList.username = 'alok@alok.com';
+    this.transactionDtoList.username = 'manager@manager.com';
     this.transactionDtoList.transactionLineItemDaoList = this.transactionLineItemDaoList;
 
         // THIS means customer has over paid, this happens mostly in cash of when customer pay by cash.
