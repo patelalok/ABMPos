@@ -47,7 +47,9 @@ public class EmployeeManager {
 
     public List<ClockInDao> getClockIn(String username, String startDate, String endDate) {
 
-        return clockInRepository.findAllByUsernameAndClockIn(username, startDate, endDate);
+        List<ClockInDao> clockInDaos = clockInRepository.findByUsernameAndClockIn(username, startDate, endDate);
+
+        return clockInDaos;
     }
 
 
@@ -69,6 +71,6 @@ public class EmployeeManager {
 
     public List<ClockInDao> getAllClockIn(String username, String startDate, String endDate) {
 
-        return clockInRepository.findByUsernameAndClockIn(username, startDate, endDate);
+        return clockInRepository.findAllByUsernameAndClockIn(username, startDate, endDate);
     }
 }
